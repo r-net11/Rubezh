@@ -6,16 +6,10 @@
 	<Fragment>
 
 		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.AutorunComponent" Guid="9A2B92E7-1B10-42F6-9BFA-51320E20D082">
-				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="StrazhService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
-				</RegistryKey>
-			</Component>
-
 			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
-				<File Id="Server.StrazhService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.exe.manifest" Name="StrazhService.exe.manifest" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
@@ -26,8 +20,6 @@
 				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
-				<File Id="Server.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-				<File Id="Server.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />

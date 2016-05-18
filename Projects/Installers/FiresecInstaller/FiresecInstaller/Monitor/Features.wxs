@@ -8,7 +8,6 @@
 			<ComponentRef Id="Monitor.Files.ru" />
 			<ComponentRef Id="Monitor.DB" />
 			<ComponentRef Id="Monitor.Integrate" />
-			<ComponentRef Id="Monitor.Hasp" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
 			<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />

@@ -62,7 +62,7 @@ namespace StrazhService.WS
 				}
 				catch (Exception e)
 				{
-					Logger.Error("Ошибка запуска Windows-службы 'StrazhService'", e);
+					Logger.Error(e, "Ошибка запуска Windows-службы 'StrazhService'");
 				}
 			}
 		}

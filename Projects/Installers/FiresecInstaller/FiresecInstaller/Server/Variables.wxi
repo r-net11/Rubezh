@@ -2,8 +2,8 @@
 <Include>
 	<?define ServerName="Сервер приложений A.C.Tech" ?>
 	<?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
-	<?define Server.TargetFileName="StrazhService.exe"?>
-	<?define Server.TargetPath="..\..\..\..\..\FiresecService\bin\Release\StrazhService.exe"?>
+	<?define Server.TargetFileName="StrazhService.Monitor.exe"?>
+	<?define Server.TargetPath="..\..\..\..\..\FiresecService\bin\Release\StrazhService.Monitor.exe"?>
 	<?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
 	<?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>
 </Include>

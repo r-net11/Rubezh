@@ -98,7 +98,6 @@
   <ItemGroup>
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
-    <Content Include="Data\OPC.ico" />
     <Content Include="Data\ServerLogo.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
@@ -109,7 +108,6 @@
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />
@@ -122,14 +120,6 @@
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecWindowsService\FiresecWindowsService\FiresecNTService.csproj">
-      <Name>FiresecNTService</Name>
-      <Project>{c4a49223-5e98-45dd-814c-cfc03a1f7d15}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\CustomAction\CustomAction.csproj">
       <Name>CustomAction</Name>
       <Project>{db0996cd-bc6b-4783-a61f-25fd1e88e824}</Project>

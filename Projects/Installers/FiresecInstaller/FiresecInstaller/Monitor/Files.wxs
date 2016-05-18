@@ -69,8 +69,6 @@
 
 				<File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-				<File Id="Monitor.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Common.TargetDir)" />
@@ -247,12 +245,6 @@
 				<File Id="Monitor.Desintegrate.reg" Name="Desintegrate.reg" Source="Data\Shell\" />
 				<File Id="Monitor.Integrate_x64.reg" Name="Integrate x64.reg" Source="Data\Shell\" />
 				<File Id="Monitor.Integrate_x32.reg" Name="Integrate x32.reg" Source="Data\Shell\" />
-			</Component>
-		</DirectoryRef>
-
-		<DirectoryRef Id="SystemFolder">
-			<Component Id="Monitor.Hasp" Guid="F1E5C7D0-D39F-4206-9209-3237AAB579F1">
-				<File Id="Monitor.hasp_windows_83702.dll" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 	</Fragment>

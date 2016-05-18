@@ -26,7 +26,7 @@ namespace StrazhService.Monitor.Service
 			menuItem2.Click += onClose;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-			_notifyIcon.Text = "Сервер приложений";
+			_notifyIcon.Text = "Монитор сервера";
 		}
 
 		public static void Stop()

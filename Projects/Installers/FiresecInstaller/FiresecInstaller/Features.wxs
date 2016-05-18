@@ -9,11 +9,6 @@
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
 
-      <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
-        Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
-        <Condition Level="0">INSTALL_HASP</Condition>
-      </Feature>
-
       <Feature Id="SKD.Features" Title="A.C.Tech" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы оборудования A.C.Tech">
         <Condition Level="1">INSTALL_STRAZH</Condition>
         <ComponentRef Id="Administrator.STRAZH_MODULE" />

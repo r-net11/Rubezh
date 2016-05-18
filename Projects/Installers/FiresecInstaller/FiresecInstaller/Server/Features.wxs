@@ -12,7 +12,6 @@
 			<ComponentRef Id="Server.AppData.EmptyLocation" />
 			<ComponentRef Id="Server.SKD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
-			<ComponentRef Id="Server.AutorunComponent" />
 			<ComponentRef Id="AppData.ServerLocation.Sounds" />
 			<ComponentRef Id="AppData.Manual_Admin.pdf" />
 			<ComponentRef Id="AppData.Manual_User.pdf" />
@@ -20,9 +19,6 @@
 
 			<ComponentRef Id="Server.VIDEO_MODULE_DLL" />
 
-			<!--<ComponentRef Id="FiresecNTServiceComponent" />
-			<ComponentRef Id="RemoveNTServiceComponent" />-->
-			
 			<!-- Включаем файл AppServerSettings.xml в состав инсталлятора -->
 			<ComponentRef Id="AppData.AppServerSettings.xml" />
 		</Feature>
