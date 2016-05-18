@@ -1,9 +1,11 @@
-﻿using Infrastructure.Common;
+﻿using Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Plans.ViewModels
 {
@@ -97,6 +99,9 @@ namespace Infrastructure.Plans.ViewModels
 					{
 						var designerItem = DesignerCanvas.CreateElement(elementBase);
 						list.Add(designerItem);
+						var bufferElement = this.clipboard.Buffer.FirstOrDefault(x => x.UID == elementBase.UID);
+						if (bufferElement != null)
+							this.clipboard.Buffer.Remove(bufferElement);
 					}
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
 					break;
@@ -134,6 +139,10 @@ namespace Infrastructure.Plans.ViewModels
 					break;
 				case ActionType.Removed:
 					DesignerCanvas.RemoveDesignerItems(historyItem.ElementsBefore);
+					if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
+					{
+						this.clipboard.Buffer.AddRange(historyItem.ElementsBefore);
+					}
 					break;
 			}
 			DesignerCanvas.DeselectAll();

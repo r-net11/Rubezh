@@ -87,7 +87,7 @@ namespace Infrastructure.Plans.ViewModels
 					DesignerCanvas.DesignerChanged();
 					if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
 						this.clipboard.Clear();
-					this.clipboard.SourceAction = ClipboardSourceAction.Copy;
+					this.clipboard.SourceAction = ClipboardSourceAction.None;
 				}
 		}
 
