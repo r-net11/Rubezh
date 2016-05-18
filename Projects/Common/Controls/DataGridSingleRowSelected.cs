@@ -37,15 +37,14 @@ namespace Controls
 			}
 		}
 
-		private static void ContainerStatusChanged(DataGrid dataGrid, ItemContainerGenerator generator)
+		static void ContainerStatusChanged(DataGrid dataGrid, ItemContainerGenerator generator)
 		{
 			if (generator != null && generator.Status == GeneratorStatus.ContainersGenerated && dataGrid.SelectedItems.Count == 1)
 			{
 				var row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItems[0]);
 				if (row != null)
 				{
-					//var cell = dataGrid.GetCell(row, 0);
-					var cell = DataGridHelper.GetCell(dataGrid, 0, 0);
+					var cell = DataGridHelper.GetCell(dataGrid, row.GetIndex(), 1);
 					if (cell != null)
 					{
 						SelectCellMethod.Invoke(dataGrid, new object[] { cell, false, false, false });
@@ -54,6 +53,6 @@ namespace Controls
 			}
 		}
 
-		private static readonly MethodInfo SelectCellMethod = typeof(DataGrid).GetMethod("HandleSelectionForCellInput", BindingFlags.Instance | BindingFlags.NonPublic);
+		static readonly MethodInfo SelectCellMethod = typeof(DataGrid).GetMethod("HandleSelectionForCellInput", BindingFlags.Instance | BindingFlags.NonPublic);
 	}
 }
