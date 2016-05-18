@@ -321,6 +321,17 @@ namespace RubezhAPI.GK
 					if (door.ResetDevice != null)
 						door.ResetDevice.LinkToDescriptor(door.ResetDelay);
 				}
+				else if (door.DoorType == GKDoorType.Barrier)
+				{
+					if (door.LockDelay != null)
+						door.LockDelay.LinkToDescriptor(door);
+					if (door.LockDelayExit != null)
+						door.LockDelayExit.LinkToDescriptor(door);
+					if (door.LockDevice != null)
+						door.LockDevice.LinkToDescriptor(door.LockDelay);
+					if (door.LockDeviceExit != null)
+						door.LockDeviceExit.LinkToDescriptor(door.LockDelayExit);
+				}
 				else
 				{
 					if (door.LockDevice != null)

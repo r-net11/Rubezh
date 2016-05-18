@@ -213,7 +213,10 @@ namespace GKImitator.ViewModels
 							{
 								if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
 								{
-									TurnOffNow();
+									if (GKBase is GKDoor)
+										TurnOff();
+									else
+										TurnOffNow();
 								}
 								if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 								{

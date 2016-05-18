@@ -2,12 +2,12 @@
 
 namespace GKProcessor
 {
-	public class DoorDelayDescriptor : DelayDescriptor
+	public class TurnstileDelayDescriptor : DelayDescriptor
 	{
 		GKDoor Door { get; set; }
 		GKDoorDelayType DoorDelayType { get; set; }
 
-		public DoorDelayDescriptor(GKDoor door, GKDelay delay, GKDoorDelayType doorDelayType)
+		public TurnstileDelayDescriptor(GKDoor door, GKDelay delay, GKDoorDelayType doorDelayType)
 			: base(delay)
 		{
 			Door = door;
@@ -31,7 +31,7 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x101);
 			SetAddress(0);
-            SetPropertiesBytes();
+			SetPropertiesBytes();
 		}
 
 		public override void BuildFormula()

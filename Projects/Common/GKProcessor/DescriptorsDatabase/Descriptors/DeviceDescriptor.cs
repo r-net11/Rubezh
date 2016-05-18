@@ -106,7 +106,7 @@ namespace GKProcessor
 				Formula.AddPutBit(GKStateBit.Reset, Device);
 			}
 
-			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Turnstile)
+			if (Device.Door != null && (Device.Door.DoorType == GKDoorType.Turnstile || Device.Door.DoorType == GKDoorType.Barrier))
 			{
 				if (Device.UID == Device.Door.LockDeviceUID)
 				{
@@ -157,28 +157,6 @@ namespace GKProcessor
 						Formula.AddGetBit(GKStateBit.Off, Device.Door);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
-						break;
-
-					case GKDoorType.Barrier:
-						if (Device.Door.LockDeviceUID == Device.UID)
-						{
-							Formula.AddGetBit(GKStateBit.On, Device.Door);
-							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-							Formula.AddGetBit(GKStateBit.Off, Device.Door);
-							Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
-						}
-						else
-						{
-							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice);
-							Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit);
-							Formula.Add(FormulaOperationType.OR);
-							Formula.Add(FormulaOperationType.COM);
-							Formula.AddGetBit(GKStateBit.Off, Device.Door);
-							Formula.Add(FormulaOperationType.AND);
-							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-							Formula.AddGetBit(GKStateBit.On, Device.Door);
-							Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
-						}
 						break;
 
 					default:
