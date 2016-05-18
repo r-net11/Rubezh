@@ -146,6 +146,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
