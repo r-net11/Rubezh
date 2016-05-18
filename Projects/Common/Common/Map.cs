@@ -21,6 +21,11 @@ namespace Common
 			return _map != null ? _map.FirstOrDefault(x => x.UID == guid) : default(T);
 		}
 
+		public List<T> GetAll()
+		{
+			return _map;
+		}
+
 		public void BuildSafe(IEnumerable<T> items = null)
 		{
 			if (items == null && Builder != null)

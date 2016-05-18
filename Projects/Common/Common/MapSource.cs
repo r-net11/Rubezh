@@ -1,5 +1,4 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Common
@@ -37,6 +36,12 @@ namespace Common
 			where T : IIdentity
 		{
 			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetItem(uid) : default(T);
+		}
+
+		public List<T> GetAll<T>()
+			where T : IIdentity
+		{
+			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetAll() : new List<T>();
 		}
 	}
 }
