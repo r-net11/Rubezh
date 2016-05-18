@@ -20,11 +20,9 @@ namespace Infrastructure.Plans.ViewModels
 
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementsAdded);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementsRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementsChanged);
 
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsAdded);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 
 			ResetHistory();
 		}
@@ -65,9 +63,7 @@ namespace Infrastructure.Plans.ViewModels
 				AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
 			}
 		}
-		private void OnElementsChanged(List<ElementBase> elementsBefore)
-		{
-		}
+
 		public List<ElementBase> AddHistoryItem(List<ElementBase> elementsBefore)
 		{
 			var elementsAfter = DesignerCanvas.CloneElements(DesignerCanvas.SelectedItems);
