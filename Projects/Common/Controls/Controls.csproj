@@ -214,10 +214,12 @@
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
     <Compile Include="IVSSContract.cs" />
+    <Compile Include="MathHelper.cs" />
     <Compile Include="PDF\PageEventHelper.cs" />
     <Compile Include="PDF\PDFDocument.cs" />
     <Compile Include="PDF\PDFHelper.cs" />
     <Compile Include="PDF\PDFStyle.cs" />
+    <Compile Include="TimePicker.cs" />
     <Compile Include="UIBehavior.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -246,9 +248,6 @@
     </Compile>
     <Compile Include="SpinnerCogs.xaml.cs">
       <DependentUpon>SpinnerCogs.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TimePicker.xaml.cs">
-      <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="VisualHelper.cs" />
     <Compile Include="XamlHelper.cs" />
@@ -426,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ToggleButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -511,10 +514,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\TreeViewStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
