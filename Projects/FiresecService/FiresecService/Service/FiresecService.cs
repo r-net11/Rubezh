@@ -90,7 +90,10 @@ namespace FiresecService.Service
 
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
+			{
+				Logger.Info(string.Format("Вход пользователя в систему: GUID='{0}' Тип='{1}' Пользователь='{2}'", clientCredentials.ClientUID, clientCredentials.ClientType, clientCredentials.FriendlyUserName));
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
+			}
 
 			return operationResult;
 		}
@@ -142,8 +145,10 @@ namespace FiresecService.Service
 				}
 				clientInfo.IsDisconnecting = true;
 				clientInfo.WaitEvent.Set();
-				if (clientInfo.ClientCredentials != null)
+				var clientCredentials = clientInfo.ClientCredentials;
+				if (clientCredentials != null)
 				{
+					Logger.Info(string.Format("Выход пользователя из системы: GUID='{0}' Тип='{1}' Пользователь='{2}'", clientCredentials.ClientUID, clientCredentials.ClientType, clientCredentials.FriendlyUserName));
 					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
 				}
 			}

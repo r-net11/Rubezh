@@ -42,11 +42,10 @@ namespace StrazhService.WS
 				try
 				{
 					var service = new StrazhWindowsService();
-					var servicesToRun = new ServiceBase[] { service };
 
 					if (Environment.UserInteractive)
 					{
-						Console.OutputEncoding = Encoding.UTF8;
+						//Console.OutputEncoding = Encoding.UTF8;
 
 						Console.CancelKeyPress += (x, y) => service.Stop();
 						service.DoStart();
@@ -57,6 +56,7 @@ namespace StrazhService.WS
 					}
 					else
 					{
+						var servicesToRun = new ServiceBase[] { service };
 						ServiceBase.Run(servicesToRun);
 					}
 				}

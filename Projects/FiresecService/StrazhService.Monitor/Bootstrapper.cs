@@ -1,4 +1,6 @@
-﻿using Common;
+﻿using System.Threading.Tasks;
+using Common;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using KeyGenerator;
@@ -7,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using StrazhAPI.Models;
 using StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor
@@ -46,6 +49,18 @@ namespace StrazhService.Monitor
 					//TODO
 				};
 
+				// Регистрируемся на Сервере в качестве Клиента
+				Task.Factory.StartNew(() =>
+				{
+					Logger.Info("Попытка регистрации на Сервере в качестве Клиента");
+					while (!string.IsNullOrEmpty(FiresecManager.Connect(ClientType.ServiceMonitor, string.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName), null, null)))
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+						Logger.Info("Очередная попытка регистрации на Сервере в качестве Клиента");
+					}
+					Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
+
+				});
 			}
 			catch (Exception e)
 			{
@@ -74,6 +89,9 @@ namespace StrazhService.Monitor
 
 		public static void Close()
 		{
+			// Разрегистрируемся на Сервере
+			FiresecManager.Disconnect();
+			
 			if (_windowThread != null)
 			{
 				_windowThread.Interrupt();

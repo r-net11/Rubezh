@@ -26,6 +26,9 @@ namespace FiresecService.Service
 
 		private bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
 		{
+			if (clientCredentials.ClientType == ClientType.ServiceMonitor)
+				return true;
+
 			if (CheckHostIps(clientCredentials, "localhost"))
 				return true;
 			if (CheckHostIps(clientCredentials, "127.0.0.1"))
@@ -70,18 +73,17 @@ namespace FiresecService.Service
 
 		private bool CheckLogin(ClientCredentials clientCredentials)
 		{
-			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			if (clientCredentials.ClientType == ClientType.ServiceMonitor)
 			{
-				if (user == null)
-				{
-					return false;
-				}
-				if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
-				{
-					return false;
-				}
+				clientCredentials.FriendlyUserName = "Монитор сервера";
+				return true;
 			}
 
+			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			if (user == null)
+				return false;
+			if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
+				return false;
 			SetUserFullName(clientCredentials);
 			return true;
 		}

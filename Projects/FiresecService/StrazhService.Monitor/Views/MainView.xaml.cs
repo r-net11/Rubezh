@@ -42,17 +42,14 @@ namespace StrazhService.Monitor.Views
 
 		private void OnClose(object sender, EventArgs e)
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?"))
-			{
-				_window.Close();
-				NotifyIconService.Stop();
-				Bootstrapper.Close();
-			}
+			_window.Close();
+			NotifyIconService.Stop();
+			Bootstrapper.Close();
 		}
 
 		private void Window_StateChanged(object sender, EventArgs e)
 		{
-			Window window = (Window)sender;
+			var window = (Window)sender;
 			switch (window.WindowState)
 			{
 				case WindowState.Minimized:

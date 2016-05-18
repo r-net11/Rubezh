@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Infrastructure.Common
 {
-	static class AppServerServices
+	public static class AppServerServices
 	{
 		public const string ServiceName = "StrazhService";
 		public const string ReportServiceName = "ReportStrazhService";

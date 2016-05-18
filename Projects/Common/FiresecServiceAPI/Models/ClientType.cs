@@ -10,13 +10,7 @@ namespace StrazhAPI.Models
 		[Description("Оперативная задача")]
 		Monitor,
 
-		[Description("Itv")]
-		Itv,
-
-		[Description("Ассад")]
-		Assad,
-
-		[Description("Другой")]
-		Other
+		[Description("Монитор сервера")]
+		ServiceMonitor
 	}
 }
