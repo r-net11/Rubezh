@@ -64,13 +64,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MenuViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ModalDialogs\AddZoneDialogViewModel.cs" />
+    <Compile Include="ViewModels\ModalDialogs\SettingsDialogViewModel.cs" />
     <Compile Include="ViewModels\ZonesOPCViewModel.cs" />
     <Compile Include="Views\MenuViewModel.xaml.cs">
       <DependentUpon>MenuViewModel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
+    <Compile Include="Views\ModalDialogs\AddZoneDialogView.xaml.cs">
+      <DependentUpon>AddZoneDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModalDialogs\SettingsDialogView.xaml.cs">
+      <DependentUpon>SettingsDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesOPCView.xaml.cs">
       <DependentUpon>ZonesOPCView.xaml</DependentUpon>
@@ -117,7 +121,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsView.xaml">
+    <Page Include="Views\ModalDialogs\AddZoneDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ModalDialogs\SettingsDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

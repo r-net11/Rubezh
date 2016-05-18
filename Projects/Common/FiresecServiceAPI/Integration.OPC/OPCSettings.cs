@@ -9,15 +9,19 @@ namespace StrazhAPI.Integration.OPC
 		public bool IsActive { get; set; }
 
 		[DataMember]
-		public string IPAddress { get; set; }
+		public int HTTPClientPort { get; set; }
 
 		[DataMember]
-		public int Port { get; set; }
+		public string OPCAddress { get; set; }
+
+		[DataMember]
+		public int OPCPort { get; set; }
 
 		public OPCSettings()
 		{
-			IPAddress = "localhost";
-			Port = 8088;
+			OPCAddress = "localhost";
+			OPCPort = 8087;
+			HTTPClientPort = 8096;
 			IsActive = true;
 		}
 	}

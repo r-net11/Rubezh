@@ -27,27 +27,40 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private string _ipAddress;
-		public string IPAddress
+		private string _opcAddress;
+		public string OPCAddress
 		{
-			get { return _ipAddress; }
+			get { return _opcAddress; }
 			set
 			{
-				if (string.Equals(_ipAddress, value)) return;
-				_ipAddress = value;
-				OnPropertyChanged(() => IPAddress);
+				if (string.Equals(_opcAddress, value)) return;
+				_opcAddress = value;
+				OnPropertyChanged(() => OPCAddress);
 			}
 		}
 
-		private int _port;
-		public int Port
+		private int _opcPort;
+		public int OPCPort
 		{
-			get { return _port; }
+			get { return _opcPort; }
 			set
 			{
-				if (_port == value) return;
-				_port = value;
-				OnPropertyChanged(() => Port);
+				if (_opcPort == value) return;
+				_opcPort = value;
+				OnPropertyChanged(() => OPCPort);
+			}
+		}
+
+		private int _httpClientPort;
+
+		public int HTTPClientPort
+		{
+			get { return _httpClientPort; }
+			set
+			{
+				if (_httpClientPort == value) return;
+				_httpClientPort = value;
+				OnPropertyChanged(() => HTTPClientPort);
 			}
 		}
 
@@ -56,8 +69,9 @@ namespace Integration.OPC.Models
 			if (settings == null) return;
 
 			IsActive = settings.IsActive;
-			IPAddress = settings.IPAddress;
-			Port = settings.Port;
+			OPCAddress = settings.OPCAddress;
+			OPCPort = settings.OPCPort;
+			HTTPClientPort = settings.HTTPClientPort;
 		}
 
 		private string _currentError;
@@ -81,12 +95,12 @@ namespace Integration.OPC.Models
 				var result = string.Empty;
 				columnName = columnName ?? string.Empty;
 
-				if (columnName == string.Empty || columnName == "Port")
+				if (columnName == string.Empty || columnName == "OPCPort" || columnName == "HTTPClientPort")
 				{
-					if (Port < default(int))
+					if ((OPCPort < default(int)) || (HTTPClientPort < default(int)))
 						result = "Значение порта не может быть отрицательным.";
 
-					if (Port == default(int))
+					if ((OPCPort == default(int)) || (HTTPClientPort == default(int)))
 						result = "Значение порта не может быть равным нулю.";
 				}
 
@@ -99,9 +113,10 @@ namespace Integration.OPC.Models
 		{
 			return new StrazhAPI.Integration.OPC.OPCSettings
 			{
-				IPAddress = IPAddress,
+				OPCAddress = OPCAddress,
 				IsActive = IsActive,
-				Port = Port
+				OPCPort = OPCPort,
+				HTTPClientPort = HTTPClientPort
 			};
 		}
 	}

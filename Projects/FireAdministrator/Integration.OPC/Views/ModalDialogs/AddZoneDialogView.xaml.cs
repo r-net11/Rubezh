@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Integration.OPC.Views
+namespace Integration.OPC.Views.ModalDialogs
 {
 	/// <summary>
-	/// Interaction logic for SettingsView.xaml
+	/// Interaction logic for AddZoneDialogView.xaml
 	/// </summary>
-	public partial class SettingsView : UserControl
+	public partial class AddZoneDialogView : UserControl
 	{
-		public SettingsView()
+		public AddZoneDialogView()
 		{
 			InitializeComponent();
 		}
