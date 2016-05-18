@@ -1,9 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Common;
+using Infrastructure.Common.Windows;
 using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
@@ -37,37 +39,40 @@ namespace VideoModule.Views
 
 		private void StartPlaying()
 		{
-#if DEBUG
-			Logger.Info("CameraDetilsView.StartPlaying()");
-#endif
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
 
-			try
+
+			Task.Factory.StartNew(() =>
 			{
-				IPEndPoint ipEndPoint;
-				int vendorId;
-				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				try
 				{
-					videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
-					Logger.Info("Источник данных для видео ячейки открыт.");
-					videoCellControl.MediaPlayer.Play();
-					Logger.Info("Видео ячейка начала проигрывание");
+					IPEndPoint ipEndPoint;
+					int vendorId;
+					Logger.Info(string.Format("Камера '{0}'. Попытка начать трансляцию.", viewModel.Camera.Name));
+					while (!viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+					{
+						Thread.Sleep(30000);
+						Logger.Info(string.Format("Камера '{0}'. Очередная попытка начать трансляцию.", viewModel.Camera.Name));
+					}
+					ApplicationService.Invoke(() =>
+					{
+						Logger.Info(string.Format("Камера '{0}'. Реквизиты для начала трансляции получены. Адрес='{1}', Издатель='{2}'", viewModel.Camera.Name, ipEndPoint, vendorId));
+						videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+						Logger.Info(string.Format("Камера '{0}'. Старт трансляции.", viewModel.Camera.Name));
+						videoCellControl.MediaPlayer.Play();
+					});
 				}
-#if DEBUG
-				else
+				catch (Exception e)
 				{
-					Logger.Info("Ошибка при получении от видео источника ip-адреса для трансляции");
+					Logger.Error(e, string.Format("Камера '{0}'. Исключительная ситуация при попытке трансляции.", viewModel.Camera.Name));
+					ApplicationService.Invoke(() =>
+					{
+						videoCellControl.ShowReconnectButton = true;
+					});
 				}
-#endif
-			}
-			catch (Exception e)
-			{
-				Logger.Info("Ошибка перазапуска видео ячейки");
-				Logger.Error(e);
-				videoCellControl.ShowReconnectButton = true;
-			}
+			});
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Common;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
@@ -42,22 +45,35 @@ namespace VideoModule.Views
 			if (viewModel == null)
 				return;
 
-			try
+			Task.Factory.StartNew(() =>
 			{
-				IPEndPoint ipEndPoint;
-				int vendorId;
-				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+				try
 				{
-					var ms = MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId);
-					videoCellControl.MediaPlayer.Open(ms);
-					videoCellControl.MediaPlayer.Play();
+					IPEndPoint ipEndPoint;
+					int vendorId;
+					Logger.Info(string.Format("Камера '{0}'. Попытка начать трансляцию.", viewModel.Camera.Name));
+					while (!viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+					{
+						Thread.Sleep(30000);
+						Logger.Info(string.Format("Камера '{0}'. Очередная попытка начать трансляцию.", viewModel.Camera.Name));
+					}
+					ApplicationService.Invoke(() =>
+					{
+						Logger.Info(string.Format("Камера '{0}'. Реквизиты для начала трансляции получены. Адрес='{1}', Издатель='{2}'", viewModel.Camera.Name, ipEndPoint, vendorId));
+						videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+						Logger.Info(string.Format("Камера '{0}'. Старт трансляции.", viewModel.Camera.Name));
+						videoCellControl.MediaPlayer.Play();
+					});
 				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e);
-				videoCellControl.ShowReconnectButton = true;
-			}
+				catch (Exception e)
+				{
+					Logger.Error(e, string.Format("Камера '{0}'. Исключительная ситуация при попытке трансляции.", viewModel.Camera.Name));
+					ApplicationService.Invoke(() =>
+					{
+						videoCellControl.ShowReconnectButton = true;
+					});
+				}
+			});
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)

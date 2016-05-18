@@ -50,7 +50,7 @@ namespace RviClient.UI
 #if DEBUG
 				Logger.Info("Ошибка получения потока воспроизведения");
 #endif
-				ShowReconnectButton = true;
+				RaiseReconnectEvent();
 			};
 
 			MediaPlayer.MediaOpened += (sender, args) =>
@@ -64,14 +64,20 @@ namespace RviClient.UI
 			// Выполняем обработчик нажатия на клавижу "Перезапустить"
 			reconnectButton.Click += (sender, args) =>
 			{
-				if (ReconnectEvent != null)
-				{
-#if DEBUG
-					Logger.Info("Попытка перезапустить видео ячейку");
-#endif
-					ReconnectEvent(null, EventArgs.Empty);
-				}
+				ShowReconnectButton = false;
+				RaiseReconnectEvent();
 			};
+		}
+
+		private void RaiseReconnectEvent()
+		{
+			if (ReconnectEvent != null)
+			{
+#if DEBUG
+				Logger.Info("Попытка перезапустить видео ячейку");
+#endif
+				ReconnectEvent(null, EventArgs.Empty);
+			}
 		}
 
 		#region <Реализация интерфейса IDisposable>
