@@ -37,7 +37,7 @@ namespace RubezhService
 			ClientType = clientCredentials.ClientType.ToDescription();
 			UID = clientCredentials.ClientUID;
 			FriendlyUserName = clientCredentials.FriendlyUserName;
-			IpAddress = clientCredentials.ClientIpAddressAndPort;
+			IpAddress = clientCredentials.ClientIpAddress;
 			if (IpAddress.StartsWith("127.0.0.1"))
 				IpAddress = "localhost";
 		}

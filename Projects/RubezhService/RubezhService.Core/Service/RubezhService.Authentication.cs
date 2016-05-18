@@ -21,7 +21,7 @@ namespace RubezhService.Service
 			}
 			if (!CheckRemoteAccessPermissions(clientCredentials, user))
 			{
-				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.Login + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort);
+				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.Login + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddress);
 			}
 			if (!CheckUserPermissions(clientCredentials, user))
 			{

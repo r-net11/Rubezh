@@ -40,15 +40,17 @@ namespace RubezhService.Service
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
-			clientCredentials.ClientIpAddress = "127.0.0.1";
-			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
 			try
 			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains("Via"))
+				{
+					var uri = OperationContext.Current.IncomingMessageProperties["Via"] as Uri;
+					clientCredentials.ClientIpAddress = uri.Host;
+				}
 				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
 				{
 					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
 					clientCredentials.ClientIpAddress = endpoint.Address;
-					clientCredentials.ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
 				}
 			}
 			catch (Exception e)

@@ -1,10 +1,11 @@
 ﻿using Common;
 using Infrastructure.Common.License;
 using RubezhAPI;
-using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 
 namespace RubezhClient
 {
@@ -22,7 +23,8 @@ namespace RubezhClient
 					Login = login,
 					Password = password,
 					ClientType = clientType,
-					ClientUID = RubezhServiceFactory.UID
+					ClientUID = RubezhServiceFactory.UID,
+					ClientIpAddress = GetIpAddress()
 				};
 
 				string error = null;
@@ -46,6 +48,21 @@ namespace RubezhClient
 				Logger.Error(e, "ClientManager.Connect");
 				return e.Message;
 			}
+		}
+
+		static string GetIpAddress()
+		{
+			var ipHostEntry = Dns.GetHostEntry(Dns.GetHostName());
+
+			if (ipHostEntry != null)
+				foreach (var ipAddress in ipHostEntry.AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork))
+				{
+					var address = ipAddress.ToString();
+					if (!string.IsNullOrEmpty(address) && address != "0.0.0.0")
+						return address;
+				}
+
+			return "127.0.0.1";
 		}
 
 		public static string GetLicense()
