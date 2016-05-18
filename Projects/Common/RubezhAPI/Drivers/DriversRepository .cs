@@ -81,6 +81,7 @@ namespace RubezhAPI
 			AddDriverToKau(RSR2_HeatDetectorEridan_Helper.Create());
 			AddDriverToKau(RSR2_HandDetectorEridan_Helper.Create());
 			AddDriverToKau(RSR2_IOLIT_Helper.Create());
+			AddDriverToKau(RSR2_IS_Helper.Create());
 			AddDriverToKau(RSR2_MRK_Helper.Create());
 			AddDriverToKau(RSR2_Button_Helper.Create());
 			AddDriverToKau(RSR2_ZOV_Helper.Create());

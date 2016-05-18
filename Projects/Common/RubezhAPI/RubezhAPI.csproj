@@ -185,6 +185,7 @@
     <Compile Include="Drivers\RK\RK_OPZ_Helper.cs" />
     <Compile Include="Drivers\RK\RK_RM_Helper.cs" />
     <Compile Include="Drivers\RK\RK_SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_IS_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABPC_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABShS_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABShS_Helper.cs" />
