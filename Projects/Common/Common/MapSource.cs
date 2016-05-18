@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 
 namespace Common
@@ -27,10 +28,6 @@ namespace Common
 				((Map<T>)_sourceMap[typeof(T)]).BuildSafe(items);
 		}
 
-		public void BuildAll()
-		{
-			_sourceMap.ForEach(pair => ((IMap)pair.Value).Build());
-		}
 		public void BuildAllSafe()
 		{
 			_sourceMap.ForEach(pair => ((IMap)pair.Value).BuildSafe());
