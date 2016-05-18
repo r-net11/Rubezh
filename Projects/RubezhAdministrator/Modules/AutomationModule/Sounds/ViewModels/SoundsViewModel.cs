@@ -95,7 +95,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsNowPlaying == false)
 			{
-				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), BeeperType.None, false);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), false);
 				IsNowPlaying = false;
 			}
 			else

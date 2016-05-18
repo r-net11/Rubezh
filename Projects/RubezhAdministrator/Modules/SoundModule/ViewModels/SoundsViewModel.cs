@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
 using RubezhClient;
+using RubezhAPI;
+using System;
 
 namespace SoundsModule.ViewModels
 {
@@ -25,26 +27,25 @@ namespace SoundsModule.ViewModels
 		{
 			IsNowPlaying = false;
 
+			//ClientManager.SystemConfiguration.Sounds = new List<Sound>();
 			Sounds = new SortableObservableCollection<SoundViewModel>();
-			var stateClasses = new List<XStateClass>();
+			var stateClasses = new List<Tuple<XStateClass,SoundType>>();
 
-			stateClasses.Add(XStateClass.Fire1);
-			stateClasses.Add(XStateClass.Fire2);
-			stateClasses.Add(XStateClass.AutoOff);
-			stateClasses.Add(XStateClass.Failure);
-			stateClasses.Add(XStateClass.Ignore);
-			stateClasses.Add(XStateClass.TurningOff);
-			stateClasses.Add(XStateClass.TurningOn);
-			stateClasses.Add(XStateClass.Attention);
-			stateClasses.Add(XStateClass.ConnectionLost);
-			stateClasses.Add(XStateClass.Off);
-			stateClasses.Add(XStateClass.On);
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Fire1, SoundType.Fire1));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Fire2, SoundType.Fire2));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Attention, SoundType.Attention));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Fire1, SoundType.Alarm));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Failure, SoundType.Failure));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Off, SoundType.Off));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.TurningOn, SoundType.TurningOn));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.TurningOff, SoundType.TurningOff));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.AutoOff, SoundType.AutoOff));
 
 			foreach (var stateClass in stateClasses)
 			{
-				var newSound = new Sound() { StateClass = stateClass };
+				var newSound = new Sound() { StateClass = stateClass.Item1, Type = stateClass.Item2 };
 
-				var sound = ClientManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
+				var sound = ClientManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.Type == stateClass.Item2);
 				if (sound == null)
 					ClientManager.SystemConfiguration.Sounds.Add(newSound);
 				else
@@ -97,8 +98,7 @@ namespace SoundsModule.ViewModels
 		bool CanPlaySound()
 		{
 			return ((IsNowPlaying) || (SelectedSound != null &&
-					((string.IsNullOrEmpty(SelectedSound.SoundName) == false) ||
-					SelectedSound.BeeperType != BeeperType.None)));
+					((string.IsNullOrEmpty(SelectedSound.SoundName) == false))));
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }
@@ -106,7 +106,7 @@ namespace SoundsModule.ViewModels
 		{
 			if (IsNowPlaying == false)
 			{
-				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName), SelectedSound.BeeperType, SelectedSound.IsContinious);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName), SelectedSound.IsContinious);
 				IsNowPlaying = SelectedSound.IsContinious;
 			}
 			else

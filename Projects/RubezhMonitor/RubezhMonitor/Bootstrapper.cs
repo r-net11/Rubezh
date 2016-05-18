@@ -283,8 +283,7 @@ namespace RubezhMonitor
 						ApplicationService.Invoke(
 							() =>
 								AlarmPlayerHelper.Play(
-									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())),
-									BeeperType.None, false));
+									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), false));
 					break;
 				case AutomationCallbackType.Message:
 					var messageData = (MessageCallbackData)automationCallbackResult.Data;

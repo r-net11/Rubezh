@@ -267,6 +267,7 @@
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKPumpStation.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
+    <Compile Include="Models\System\SoundType.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />
     <Compile Include="Models\Video\RviStatus.cs" />
     <Compile Include="Models\Video\RviServer.cs" />
@@ -614,7 +615,6 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\Video\Camera.cs" />
     <Compile Include="Models\Plans\ElementRectangleSubPlan.cs" />

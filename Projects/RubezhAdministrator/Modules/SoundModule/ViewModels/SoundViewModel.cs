@@ -22,6 +22,10 @@ namespace SoundsModule.ViewModels
 		{
 			get { return Sound.StateClass; }
 		}
+		public SoundType SoundType
+		{
+			get { return Sound.Type; }
+		}
 
 		public string SoundName
 		{
@@ -30,17 +34,6 @@ namespace SoundsModule.ViewModels
 			{
 				Sound.SoundName = value;
 				OnPropertyChanged(() => SoundName);
-				ServiceFactory.SaveService.SoundsChanged = true;
-			}
-		}
-
-		public BeeperType BeeperType
-		{
-			get { return Sound.BeeperType; }
-			set
-			{
-				Sound.BeeperType = value;
-				OnPropertyChanged(() => BeeperType);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
 		}
@@ -67,12 +60,5 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		public List<BeeperType> AvailableSpeakers
-		{
-			get
-			{
-				return new List<BeeperType>(Enum.GetValues(typeof(BeeperType)).OfType<BeeperType>());
-			}
-		}
 	}
 }

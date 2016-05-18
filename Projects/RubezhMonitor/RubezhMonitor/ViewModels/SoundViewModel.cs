@@ -61,24 +61,52 @@ namespace RubezhMonitor.ViewModels
 				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
 					var hasStateClass = false;
-					foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
+					if (sound.Type == SoundType.Alarm)
 					{
-						if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
+						if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
 						{
-							if (device.State.StateClass == sound.StateClass)
-							{
-								hasStateClass = true;
-								break;
-							}
+							hasStateClass = true;
 						}
 					}
-					if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+					else
 					{
-						hasStateClass = true;
-					}
-					if (GKManager.Directions.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-					{
-						hasStateClass = true;
+						if (sound.StateClass == XStateClass.Failure || sound.StateClass == XStateClass.Off || sound.StateClass == XStateClass.AutoOff)
+						{
+							foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
+							{
+								if (device.State.StateClass == sound.StateClass)
+								{
+									hasStateClass = true;
+									break;
+								}
+							}
+						}
+
+						if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+						{
+							hasStateClass = true;
+						}
+
+						if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+						{
+							hasStateClass = true;
+						}
+
+						if (GKManager.Directions.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+						{
+							hasStateClass = true;
+						}
+
+						if (GKManager.PumpStations.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+						{
+							hasStateClass = true;
+						}
+
+						if (GKManager.MPTs.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+						{
+							hasStateClass = true;
+						}
+
 					}
 
 					if (hasStateClass)
@@ -89,11 +117,12 @@ namespace RubezhMonitor.ViewModels
 							minSound = sound;
 						}
 					}
+
 				}
 			}
 			if (minSound != null)
 			{
-				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+				AlarmPlayerHelper.Play(RubezhClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.IsContinious);
 			}
 			else
 			{

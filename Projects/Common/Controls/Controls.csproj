@@ -148,6 +148,7 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\XSoundTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
     <Compile Include="DataGridHelper.cs" />
     <Compile Include="DataGridSingleRowSelected.cs" />
@@ -157,7 +158,6 @@
     </Compile>
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
-    <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

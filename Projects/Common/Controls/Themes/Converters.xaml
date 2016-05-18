@@ -10,7 +10,6 @@
 	<Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
-	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:BoolToResizeModeConverter x:Key="BoolToResizeModeConverter" />
@@ -28,6 +27,7 @@
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
+	<Converters:XSoundTypeToStringConverter x:Key="XSoundTypeToStringConverter" />
 	<Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
