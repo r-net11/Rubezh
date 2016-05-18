@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common;
 using Infrastructure.Common;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 using RubezhAPI.Models;
 using RubezhClient;
 

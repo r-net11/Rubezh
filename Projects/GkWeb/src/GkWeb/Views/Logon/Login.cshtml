@@ -28,18 +28,17 @@
 </head>
 <body>
 	<div class="container">
-		<form asp-controller="Logon" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-signin" role="form">
+		<form asp-controller="Logon" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-signin">
 			<h2 class="form-signin-heading">Вход</h2>
 			<label asp-for="User" class="sr-only"></label>
 			<input asp-for="User" class="form-control" required autofocus placeholder="Логин" />
 			<label asp-for="Password" class="sr-only"></label>
 			<input asp-for="Password" class="form-control" placeholder="Пароль" required />
 			<button type="submit" class="btn btn-lg btn-primary btn-block">Войти</button>
-			<div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
 		</form>
 	</div>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	@*<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>*@
 	<script src="~/lib/tether/dist/js/tether.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="~/lib/staticlibs/ie10-viewport-bug-workaround.js"></script>

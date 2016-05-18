@@ -2,15 +2,19 @@
 
 using GkWeb.Hubs;
 using GkWeb.Services;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Cors;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 #endregion
 
@@ -20,14 +24,19 @@ namespace GkWeb
 	public class Startup
 	{
 		public Startup(IHostingEnvironment env) {
-			// Set up configuration sources.
 			var builder = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json")
-				.AddEnvironmentVariables();
+				.SetBasePath(env.ContentRootPath)
+				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+			if (env.IsDevelopment()) {
+			}
+
+			builder.AddEnvironmentVariables();
 			Configuration = builder.Build();
 		}
 
-		public IConfigurationRoot Configuration { get; set; }
+		public IConfigurationRoot Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
@@ -55,9 +64,9 @@ namespace GkWeb
 				options.Transports.KeepAlive = new System.TimeSpan(0, 0, 5);
 			});
 
-			services.AddInstance(new Bootstrapper());
+			services.AddSingleton(new Bootstrapper());
 			services.AddSingleton<ClientManager>();
-			services.AddInstance(RubezhClient.ClientManager.FiresecService);
+			services.AddSingleton(RubezhClient.ClientManager.FiresecService);
 			services.AddSingleton<GkHubProxy>();
 		}
 
@@ -74,35 +83,28 @@ namespace GkWeb
 				app.UseExceptionHandler("/Home/Error");
 			}
 
-			app.UseCors("AllowSpecificOrigin");			
+			app.UseCors("AllowSpecificOrigin");
 
 			app.UseWebSockets();
 
 			app.UseStaticFiles();
 
 			//Other configurations.
-			app.UseCookieAuthentication(
-				options => {
-					options.AuthenticationScheme = "Automatic";
-					options.LoginPath = new PathString("/Logon/Login");
-					options.AccessDeniedPath = new PathString("/signin/");
-					options.AutomaticAuthenticate = true;
-				});
+			var options = new CookieAuthenticationOptions();
+			options.AuthenticationScheme = "Automatic";
+			options.LoginPath = new PathString("/Logon/Login");
+			options.AccessDeniedPath = new PathString("/signin/");
+			options.AutomaticAuthenticate = true;
+			app.UseCookieAuthentication(options);
 
 			app.UseSignalR();
 
 			app.UseMvc(
-				routes => {
-					routes.MapRoute(
-						name: "api",
-						template: "api/{controller}/");
+				routes => {					
 					routes.MapRoute(
 						name: "default",
 						template: "{controller=Home}/{action=Index}/{id?}");
 				});
 		}
-
-		// Entry point for the application.
-		public static void Main(string[] args) => WebApplication.Run<Startup>(args);
 	}
 }

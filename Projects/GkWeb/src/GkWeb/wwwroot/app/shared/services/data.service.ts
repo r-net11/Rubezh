@@ -18,8 +18,8 @@ export class DataService
 		return this.http.get('logon/GetUserName').map(res => res.text());
 	}
 
-	//getPlansList(): Array<PlanInfo>
-	//{
-	//	return this.http.get('api/plans').map((res) => { return res.json. });
-	//}
+	getPlansList(): any
+	{
+		return this.http.get('api/plans').map((res) => { return res.json();});
+	}
 }

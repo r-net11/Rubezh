@@ -1,4 +1,4 @@
-System.register(['./nav.component'], function(exports_1, context_1) {
+System.register(['./nav.component', './connection-indicator.component', './user-identity.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function exportStar_1(m) {
@@ -12,6 +12,12 @@ System.register(['./nav.component'], function(exports_1, context_1) {
         setters:[
             function (nav_component_1_1) {
                 exportStar_1(nav_component_1_1);
+            },
+            function (connection_indicator_component_1_1) {
+                exportStar_1(connection_indicator_component_1_1);
+            },
+            function (user_identity_component_1_1) {
+                exportStar_1(user_identity_component_1_1);
             }],
         execute: function() {
         }

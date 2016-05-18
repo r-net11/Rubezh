@@ -41,10 +41,9 @@ System.register(['@angular/core', '@angular/router', '../../shared/services/inde
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.Routes([]), 
-                    __metadata('design:paramtypes', [router_1.Router, (typeof (_a = typeof index_1.DataService !== 'undefined' && index_1.DataService) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [router_1.Router, index_1.DataService])
                 ], PlansComponent);
                 return PlansComponent;
-                var _a;
             }());
             exports_1("PlansComponent", PlansComponent);
         }

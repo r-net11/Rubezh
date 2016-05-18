@@ -1,0 +1,131 @@
+{
+  "version": 2,
+  "exports": {
+    "Common/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/Common.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/NLog.2.0.1.2/NLog.dll": {},
+        "bin/Debug/Common.dll": {}
+      }
+    },
+    "Controls/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/Controls.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/AvalonDock/Bin/Version2.0/Xceed.Wpf.AvalonDock/Xceed.Wpf.AvalonDock.dll": {},
+        "../../../3rdParty/ExtendedWPFToolkit_Binaries/Xceed.Wpf.Toolkit.dll": {},
+        "../../../3rdParty/WPF Toolkit/WPFToolkit.Extended.dll": {},
+        "../../../3rdParty/WPF Toolkit/v3.5.50211.1/System.Windows.Controls.Input.Toolkit.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.pdfa.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.xtra.dll": {},
+        "bin/Debug/Controls.dll": {}
+      }
+    },
+    "GKProcessor/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/GKProcessor.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.Prism.dll": {},
+        "../../GkWeb/packages/System.Data.SqlServerCe_unofficial.4.0.8482.1/lib/net20/System.Data.SqlServerCe.dll": {},
+        "bin/Debug/GKProcessor.dll": {}
+      }
+    },
+    "Infrastructure.Common/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/Infrastructure.Common.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/DotNetZipLib-DevKit-v1.9/Ionic.Zip.dll": {},
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.Prism.dll": {},
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.ServiceLocation.dll": {},
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.Unity.dll": {},
+        "../../../3rdParty/ProcessPrivileges_1.5.7.0_Release/ProcessPrivileges.dll": {},
+        "../../../3rdParty/RVIVSS/Entities.dll": {},
+        "../../../3rdParty/RVIVSS/GalaSoft.MvvmLight.WPF4.dll": {},
+        "../../../3rdParty/RVIVSS/SdkWrapper.dll": {},
+        "../../../3rdParty/codereason_reports_v0.5_alpha/Bin/CodeReason.Reports.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.pdfa.dll": {},
+        "../../../3rdParty/iTextSharp/itextsharp.xtra.dll": {},
+        "bin/Debug/Infrastructure.Common.dll": {}
+      }
+    },
+    "Infrustructure.Plans/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/Infrustructure.Plans.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.Prism.dll": {},
+        "bin/Debug/Infrustructure.Plans.dll": {}
+      }
+    },
+    "RubezhAPI/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/RubezhAPI.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/OPC/OpcClientSdk40.dll": {},
+        "../../../3rdParty/RVIVSS/Entities.dll": {},
+        "bin/Debug/RubezhAPI.dll": {}
+      }
+    },
+    "RubezhClient/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/RubezhClient.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/DotNetZipLib-DevKit-v1.9/Ionic.Zip.dll": {},
+        "../../../3rdParty/OPC/OpcClientSdk40.dll": {},
+        "../../../3rdParty/PRISM/Desktop/Microsoft.Practices.Prism.dll": {},
+        "bin/Debug/RubezhClient.dll": {}
+      }
+    },
+    "RubezhDAL/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/RubezhDAL.dll": {}
+      },
+      "runtime": {
+        "../../../3rdParty/LinqKit.dll": {},
+        "../../FireAdministrator/packages/EntityFramework.6.1.3/lib/net40/EntityFramework.SqlServer.dll": {},
+        "../../FireAdministrator/packages/EntityFramework.6.1.3/lib/net40/EntityFramework.dll": {},
+        "../../FireAdministrator/packages/EntityFramework.BulkInsert-ef6.6.0.2.8/lib/Net40/EntityFramework.BulkInsert.dll": {},
+        "../../FireAdministrator/packages/EntityFramework.MappingAPI.6.0.0.7/lib/net40/EntityFramework.MappingAPI.dll": {},
+        "../../FiresecService/packages/Npgsql.2.2.7/lib/net40/Mono.Security.dll": {},
+        "../../FiresecService/packages/Npgsql.2.2.7/lib/net40/Npgsql.dll": {},
+        "../../FiresecService/packages/Npgsql.EntityFramework.2.2.7/lib/net40/Npgsql.EntityFramework.dll": {},
+        "bin/Debug/RubezhDAL.dll": {}
+      }
+    },
+    "RubezhLicense/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/RubezhLicense.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/RubezhLicense.dll": {}
+      }
+    }
+  }
+}

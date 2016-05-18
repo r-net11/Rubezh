@@ -19,5 +19,16 @@
     <DnxInvisibleContent Include=".bowerrc" />
     <DnxInvisibleContent Include="package.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj" />
+    <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj" />
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj" />
+    <ProjectReference Include="..\..\..\Common\RubezhAPI\RubezhAPI.csproj" />
+    <ProjectReference Include="..\..\..\Common\RubezhClient\RubezhClient.csproj" />
+    <ProjectReference Include="..\..\..\Common\RubezhDAL\RubezhDAL.csproj" />
+    <ProjectReference Include="..\..\..\Common\RubezhLicense\RubezhLicense.csproj" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

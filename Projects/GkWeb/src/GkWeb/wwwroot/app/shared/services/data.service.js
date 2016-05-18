@@ -29,6 +29,9 @@ System.register(["@angular/core", '@angular/http', 'rxjs/add/operator/map'], fun
                 DataService.prototype.getUserName = function () {
                     return this.http.get('logon/GetUserName').map(function (res) { return res.text(); });
                 };
+                DataService.prototype.getPlansList = function () {
+                    return this.http.get('api/plans').map(function (res) { return res.json(); });
+                };
                 DataService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])
