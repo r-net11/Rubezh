@@ -9,6 +9,7 @@ using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -57,29 +58,26 @@ namespace PlansModule.ViewModels
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.NotBoundedElements))
 				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
 				{
-					foreach (var element in BasePlanExtension.FindUnbinded<ElementRectangleSubPlan>(plan.ElementSubPlans))
-						yield return new PlanElementValidationError(new ElementError()
-						{
-							PlanUID = plan.UID,
-							Error = "Несвязанная ссылка на план",
-							Element = element,
-							IsCritical = false,
-							ImageSource = "/Controls;component/Images/CMap.png",
-						});
-					foreach (var element in BasePlanExtension.FindUnbinded<ElementPolygonSubPlan>(plan.ElementPolygonSubPlans))
-						yield return new PlanElementValidationError(new ElementError()
-						{
-							PlanUID = plan.UID,
-							Error = "Несвязанная ссылка на план",
-							Element = element,
-							IsCritical = false,
-							ImageSource = "/Controls;component/Images/CMap.png",
-						});
+					foreach (var element in BasePlanExtension.FindUnbinded(plan.ElementRectangleSubPlans))
+						yield return new PlanElementValidationError(CreateElementError(plan.UID, element));
+					foreach (var element in BasePlanExtension.FindUnbinded(plan.ElementPolygonSubPlans))
+						yield return new PlanElementValidationError(CreateElementError(plan.UID, element));
 				}
 
 			foreach (var planExtension in _planExtensions)
 				foreach (var error in planExtension.Validate())
 					yield return new PlanElementValidationError(error);
+		}
+		ElementError CreateElementError(Guid planUid, ElementBase element)
+		{
+			return new ElementError()
+			{
+				PlanUID = planUid,
+				Error = "Несвязанная ссылка на план",
+				Element = element,
+				IsCritical = false,
+				ImageSource = "/Controls;component/Images/CMap.png"
+			};
 		}
 
 		private List<TabItem> _tabPages;

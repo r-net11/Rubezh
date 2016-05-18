@@ -293,7 +293,7 @@ namespace RubezhClient
 						}
 					}
 
-					foreach (var subplan in plan.ElementSubPlans)
+					foreach (var subplan in plan.ElementRectangleSubPlans)
 						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
 					foreach (var subplan in plan.ElementPolygonSubPlans)
 						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);

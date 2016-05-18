@@ -38,7 +38,7 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementPolygonGKMPTs);
 			allElements.AddRange(plan.ElementPolygonGKDelays);
 			allElements.AddRange(plan.ElementPolygonGKPumpStations);
-			allElements.AddRange(plan.ElementSubPlans);
+			allElements.AddRange(plan.ElementRectangleSubPlans);
 			allElements.AddRange(plan.ElementPolygonSubPlans);
 			allElements.AddRange(plan.ElementTextBoxes);
 			allElements.AddRange(plan.ElementGKDoors);

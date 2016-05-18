@@ -17,11 +17,11 @@ namespace RubezhClient
 				foreach (var Plan in PlansConfiguration.AllPlans)
 				{
 					var keys = PlansConfiguration.AllPlans.Select(item => item.UID).ToList();
-					var elementSubPlans = new List<ElementRectangleSubPlan>();
-					foreach (var elementSubPlan in Plan.ElementSubPlans)
+					var elementRectangleSubPlans = new List<ElementRectangleSubPlan>();
+					foreach (var elementSubPlan in Plan.ElementRectangleSubPlans)
 						if (keys.Contains(elementSubPlan.PlanUID))
-							elementSubPlans.Add(elementSubPlan);
-					Plan.ElementSubPlans = elementSubPlans;
+							elementRectangleSubPlans.Add(elementSubPlan);
+					Plan.ElementRectangleSubPlans = elementRectangleSubPlans;
 
 					var elementPolygonSubPlans = new List<ElementPolygonSubPlan>();
 					foreach (var elementSubPlan in Plan.ElementPolygonSubPlans)

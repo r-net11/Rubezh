@@ -396,7 +396,7 @@ namespace PlansModule.ViewModels
 			{
 				base.OnShow();
 				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
-				DesignerCanvas.DeselectAll();
+					DesignerCanvas.DeselectAll();
 				ExtensionAttached();
 
 				if (DesignerCanvas.Toolbox != null)
@@ -417,7 +417,7 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var p in ClientManager.PlansConfiguration.AllPlans)
 			{
-				foreach (var subPlan in p.ElementSubPlans)
+				foreach (var subPlan in p.ElementRectangleSubPlans)
 					if (subPlan.PlanUID == plan.UID)
 						Helper.SetSubPlan(subPlan);
 				foreach (var subPlan in p.ElementPolygonSubPlans)

@@ -50,7 +50,7 @@ namespace PlansModule.Designer
 			else if (elementBase is ElementTextBox)
 				Plan.ElementTextBoxes.Add(elementBase as ElementTextBox);
 			else if (elementBase is ElementRectangleSubPlan)
-				Plan.ElementSubPlans.Add(elementBase as ElementRectangleSubPlan);
+				Plan.ElementRectangleSubPlans.Add(elementBase as ElementRectangleSubPlan);
 			else if (elementBase is ElementPolygonSubPlan)
 				Plan.ElementPolygonSubPlans.Add(elementBase as ElementPolygonSubPlan);
 			else
@@ -73,7 +73,7 @@ namespace PlansModule.Designer
 			else if (elementBase is ElementTextBox)
 				Plan.ElementTextBoxes.Remove(elementBase as ElementTextBox);
 			else if (elementBase is ElementRectangleSubPlan)
-				Plan.ElementSubPlans.Remove(elementBase as ElementRectangleSubPlan);
+				Plan.ElementRectangleSubPlans.Remove(elementBase as ElementRectangleSubPlan);
 			else if (elementBase is ElementPolygonSubPlan)
 				Plan.ElementPolygonSubPlans.Remove(elementBase as ElementPolygonSubPlan);
 			else
