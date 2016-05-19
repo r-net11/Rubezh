@@ -43,6 +43,12 @@ namespace Infrastructure.Plans
 			elementBaseRectangle.Top = point.Y;
 		}
 
+		static void SetCenterPosition(this ElementBaseRectangle elementBaseRectangle, Point point)
+		{
+			elementBaseRectangle.Left = point.X - elementBaseRectangle.Width / 2;
+			elementBaseRectangle.Top = point.Y - elementBaseRectangle.Height / 2;
+		}
+
 		public static Rect GetRectangle(this ElementBaseShape elementBaseShape)
 		{
 			double minLeft = double.MaxValue;
@@ -93,6 +99,17 @@ namespace Infrastructure.Plans
 			}));
 		}
 
+		static void SetCenterPosition(this ElementBaseShape elementBaseShape, Point point)
+		{
+			Rect rect = GetRectangle(elementBaseShape);
+			Vector shift = new Vector(point.X - rect.Width / 2 - rect.X, point.Y - rect.Height / 2 - rect.Y);
+			Application.Current.Dispatcher.Invoke((Action)(() =>
+			{
+				for (int i = 0; i < elementBaseShape.Points.Count; i++)
+					elementBaseShape.Points[i] = elementBaseShape.Points[i] + shift;
+			}));
+		}
+
 		public static Rect GetRectangle(this ElementBase elementBase)
 		{
 			if (elementBase is ElementBaseRectangle)
@@ -122,7 +139,7 @@ namespace Infrastructure.Plans
 				return GetCenterPosition((ElementBaseShape)elementBase);
 			if (elementBase is ElementBasePoint)
 				return GetPosition((ElementBasePoint)elementBase);
-			throw new ArgumentException("Метод GetPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");
+			throw new ArgumentException("Метод GetCenterPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");
 		}
 		public static void SetPosition(this ElementBase elementBase, Point point)
 		{
@@ -142,6 +159,26 @@ namespace Infrastructure.Plans
 				return;
 			}
 			throw new ArgumentException("Метод SetPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");
+		}
+
+		public static void SetCenterPosition(this ElementBase elementBase, Point point)
+		{
+			if (elementBase is ElementBaseRectangle)
+			{
+				SetCenterPosition((ElementBaseRectangle)elementBase, point);
+				return;
+			}
+			if (elementBase is ElementBaseShape)
+			{
+				SetCenterPosition((ElementBaseShape)elementBase, point);
+				return;
+			}
+			if (elementBase is ElementBasePoint)
+			{
+				SetCenterPosition((ElementBasePoint)elementBase, point);
+				return;
+			}
+			throw new ArgumentException("Метод SetCenterPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");
 		}
 	}
 }
