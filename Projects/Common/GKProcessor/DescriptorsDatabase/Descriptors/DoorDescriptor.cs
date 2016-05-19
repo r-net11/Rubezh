@@ -209,6 +209,13 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.AND);
+				if (Door.AntipassbackOn)
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 4);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+					Formula.Add(FormulaOperationType.PUTP);
+				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.AddGetBit(GKStateBit.TurningOff, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
@@ -225,17 +232,6 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, Door);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.AddPutBit(GKStateBit.Fire1, Door);
-				if (Door.AntipassbackOn)
-				{
-					Formula.AddGetBit(GKStateBit.On, Door);
-					Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
-					Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.Add(FormulaOperationType.AND);
-					Formula.Add(FormulaOperationType.BR, 1, 2);
-					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
-					Formula.Add(FormulaOperationType.PUTP);
-				}
 			}
 
 			if (Door.EnterDevice != null || Door.ExitDevice != null)
