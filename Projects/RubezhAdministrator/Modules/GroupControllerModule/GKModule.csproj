@@ -106,6 +106,7 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewTypedDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SimpleDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>

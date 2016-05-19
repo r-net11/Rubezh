@@ -980,12 +980,5 @@ namespace GKModule.ViewModels
 			return IsPmf;
 		}
 		public bool IsPmf { get { return Device.DriverType == GKDriverType.GKMirror; } }
-
-		public void UnsubscribeEvents()
-		{
-			Device.Changed -= OnChanged;
-			Device.PlanElementUIDsChanged -= UpdateVisualizationState;
-			Device.AUParametersChanged -= UpdateDeviceParameterMissmatch;
-		}
 	}
 }

@@ -24,8 +24,8 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<Grid>
-										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-										<TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
+										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+										<TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
 									</Grid>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -34,7 +34,7 @@
 						<GridViewColumn Width="150" Header="Адрес">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding PresentationAddress}" />
+									<TextBlock Text="{Binding Device.PresentationAddress}" />
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
@@ -44,7 +44,7 @@
 									<controls:EditorPresenter>
 										<controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
-												<TextBlock Text="{Binding Description}" />
+												<TextBlock Text="{Binding Device.Description}" />
 											</ControlTemplate>
 										</controls:EditorPresenter.ViewTemplate>
 										<controls:EditorPresenter.EditTemplate>

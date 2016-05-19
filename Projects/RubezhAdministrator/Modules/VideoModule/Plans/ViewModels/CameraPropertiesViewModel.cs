@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
-using System.Collections.Generic;
+using RubezhClient;
 using System.Collections.ObjectModel;
 using System.Linq;
 using VideoModule.ViewModels;
@@ -11,19 +11,37 @@ namespace VideoModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		ElementCamera _elementCamera;
-		CamerasViewModel _camerasViewModelForPlanExtension;
 		public CameraPropertiesViewModel(ElementCamera element)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = element;
 			Left = (int)(_elementCamera.Left * _sensivityFactor);
 			Top = (int)(_elementCamera.Top * _sensivityFactor);
-			_camerasViewModelForPlanExtension = new CamerasViewModel();
-			_camerasViewModelForPlanExtension.Initialize();
 
-			Cameras = _camerasViewModelForPlanExtension.Cameras;
-			SelectedCamera = _camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == element.CameraUID);
+			Initialize();
 			Rotation = element.Rotation;
+		}
+
+		void Initialize()
+		{
+			Cameras = new ObservableCollection<SimpleCameraViewModel>();
+			var servers = ClientManager.SystemConfiguration.RviServers;
+			foreach (var server in servers)
+			{
+				var serverViewModel = new SimpleCameraViewModel(server);
+				foreach (var device in server.RviDevices)
+				{
+					var deviceViewModel = new SimpleCameraViewModel(device);
+					foreach (var camera in device.Cameras)
+					{
+						var cameraViewModel = new SimpleCameraViewModel(camera);
+						deviceViewModel.AddChild(cameraViewModel);
+					}
+					serverViewModel.AddChild(deviceViewModel);
+				}
+				Cameras.Add(serverViewModel);
+				SelectedCamera = Cameras.FirstOrDefault();
+			}
 		}
 
 		int _left;
@@ -46,10 +64,10 @@ namespace VideoModule.Plans.ViewModels
 				OnPropertyChanged(() => Top);
 			}
 		}
-		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
+		public ObservableCollection<SimpleCameraViewModel> Cameras { get; private set; }
 
-		CameraViewModel _selectedCamera;
-		public CameraViewModel SelectedCamera
+		SimpleCameraViewModel _selectedCamera;
+		public SimpleCameraViewModel SelectedCamera
 		{
 			get { return _selectedCamera; }
 			set
@@ -88,20 +106,6 @@ namespace VideoModule.Plans.ViewModels
 			if (SelectedCamera.IsOnPlan && !SelectedCamera.Camera.AllowMultipleVizualization && SelectedCamera.Camera.UID != _elementCamera.CameraUID)
 				return false;
 			return true;
-		}
-
-		public override void OnClosed()
-		{
-			Unsubscribe(Cameras);
-			base.OnClosed();
-		}
-		void Unsubscribe(IEnumerable<CameraViewModel> cameras)
-		{
-			foreach (var camera in cameras)
-			{
-				camera.UnsubscribeEvents();
-				Unsubscribe(camera.Children);
-			}
 		}
 	}
 }

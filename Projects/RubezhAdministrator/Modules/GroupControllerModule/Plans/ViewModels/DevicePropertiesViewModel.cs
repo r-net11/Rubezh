@@ -4,7 +4,6 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GKModule.Plans.ViewModels
@@ -47,24 +46,24 @@ namespace GKModule.Plans.ViewModels
 				OnPropertyChanged(() => Top);
 			}
 		}
-		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
+		SimpleDeviceViewModel AddDeviceInternal(GKDevice device, SimpleDeviceViewModel parentDeviceViewModel)
 		{
-			var deviceViewModel = new DeviceViewModel(device);
+			var smallDeviceViewModel = new SimpleDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
+				parentDeviceViewModel.AddChild(smallDeviceViewModel);
 
 			foreach (var childDevice in device.Children)
-				AddDeviceInternal(childDevice, deviceViewModel);
+				AddDeviceInternal(childDevice, smallDeviceViewModel);
 			if (device.UID == _elementGKDevice.DeviceUID)
 			{
-				SelectedDevice = deviceViewModel;
+				SelectedDevice = smallDeviceViewModel;
 				CurrentDeviceUid = SelectedDevice.Device.UID;
 			}
-			return deviceViewModel;
+			return smallDeviceViewModel;
 		}
 
-		DeviceViewModel _rootDevice;
-		public DeviceViewModel RootDevice
+		SimpleDeviceViewModel _rootDevice;
+		public SimpleDeviceViewModel RootDevice
 		{
 			get { return _rootDevice; }
 			private set
@@ -74,13 +73,13 @@ namespace GKModule.Plans.ViewModels
 				OnPropertyChanged(() => RootDevices);
 			}
 		}
-		public DeviceViewModel[] RootDevices
+		public SimpleDeviceViewModel[] RootDevices
 		{
-			get { return new DeviceViewModel[] { RootDevice }; }
+			get { return new SimpleDeviceViewModel[] { RootDevice }; }
 		}
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		SimpleDeviceViewModel _selectedDevice;
+		public SimpleDeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -93,13 +92,13 @@ namespace GKModule.Plans.ViewModels
 		{
 			get
 			{
-				return SelectedDevice != null ? SelectedDevice.Description : "";
+				return SelectedDevice != null ? SelectedDevice.Device.Description : "";
 			}
 			set
 			{
 				if (SelectedDevice != null)
 				{
-					SelectedDevice.Description = value;
+					SelectedDevice.Device.Description = value;
 					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice.Device);
 					if (device != null)
 						device.Update();
@@ -118,7 +117,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool CanSave()
 		{
-			if (SelectedDevice != null && SelectedDevice.Driver.IsPlaceable)
+			if (SelectedDevice != null && SelectedDevice.Device.Driver.IsPlaceable)
 			{
 				if (SelectedDevice.Device.UID == CurrentDeviceUid)
 					return true;
@@ -126,20 +125,6 @@ namespace GKModule.Plans.ViewModels
 					return true;
 			}
 			return false;
-		}
-
-		public override void OnClosed()
-		{
-			Unsubscribe(RootDevices);
-			base.OnClosed();
-		}
-		void Unsubscribe(IEnumerable<DeviceViewModel> devices)
-		{
-			foreach (var device in devices)
-			{
-				device.UnsubscribeEvents();
-				Unsubscribe(device.Children);
-			}
 		}
 	}
 }
