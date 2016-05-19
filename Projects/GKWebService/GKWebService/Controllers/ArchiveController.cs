@@ -38,7 +38,7 @@ namespace GKWebService.Controllers
 
 		JsonResult GetJournalPage(RubezhAPI.Journal.JournalFilter journalFilter, int pageNo)
 		{
-			SafeFiresecService.CallbackOperationResultEvent += OnCallbackOperationResult;
+			SafeRubezhService.CallbackOperationResultEvent += OnCallbackOperationResult;
 			try
 			{
 				var result = ClientManager.FiresecService.BeginGetArchivePage(journalFilter, pageNo, User.Identity.Name);
@@ -52,7 +52,7 @@ namespace GKWebService.Controllers
 			}
 			finally
 			{
-				SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+				SafeRubezhService.CallbackOperationResultEvent -= OnCallbackOperationResult;
 			}
 			var list = _journalItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);

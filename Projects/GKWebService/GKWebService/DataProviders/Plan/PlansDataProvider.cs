@@ -241,7 +241,7 @@ namespace GKWebService.DataProviders.Plan
 
 		private PlansDataProvider()
 		{
-			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
+			SafeRubezhService.GKCallbackResultEvent += OnServiceCallback;
 		}
 
 		public static PlansDataProvider Instance

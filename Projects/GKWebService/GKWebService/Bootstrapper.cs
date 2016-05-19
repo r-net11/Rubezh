@@ -58,8 +58,8 @@ namespace GKWebService
 
 		private static void SubscribeOnServiceStateEvents()
 		{
-			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-			SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+			SafeRubezhService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
+			SafeRubezhService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
 		}
 
 		private static void SafeFiresecServiceOnConnectionAppeared()
@@ -83,13 +83,13 @@ namespace GKWebService
 			DescriptorsManager.Create();
 			InitializeStates();
 
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
-			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeRubezhService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeRubezhService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
 
-			SafeFiresecService.GKPropertyChangedEvent += GKPropertyChangedEvent;
+			SafeRubezhService.GKPropertyChangedEvent += GKPropertyChangedEvent;
 
 			ShowAllObjects();
 		}
@@ -101,7 +101,7 @@ namespace GKWebService
 
 		static void InitializeStates()
 		{
-			var gkStates = RubezhClient.ClientManager.FiresecService.GKGetStates();
+			var gkStates = RubezhClient.ClientManager.RubezhService.GKGetStates();
 			CopyGKStates(gkStates);
 			CopyDeviceMeasureParametersStates(gkStates);
 		}
