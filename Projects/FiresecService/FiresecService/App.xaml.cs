@@ -2,6 +2,8 @@
 using System.Windows.Threading;
 using Common;
 using FiresecService;
+using FiresecService.Service;
+using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using FiresecService.Views;
 using Infrastructure.Common;
@@ -36,10 +38,17 @@ namespace FiresecServiceRunner
 
 			var licenseService = new LicenseManager();
 
-			if (!licenseService.IsValidExistingKey())
+			if (licenseService.IsValidExistingKey())
 			{
-				//TODO:block connections
-				Logger.Error("License is not exist");
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseService;
+
+				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
+				// и уведомляем всех Клиентов
+				licenseService.LicenseChanged += () =>
+				{
+					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
+				};
 			}
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))

@@ -40,17 +40,6 @@ namespace FiresecService
 				_windowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
-				// Инициализируем валидатор конфигурации
-				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
-
-				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				// и уведомляем всех Клиентов
-				licenseManager.LicenseChanged += () =>
-				{
-					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
-				};
-
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();
