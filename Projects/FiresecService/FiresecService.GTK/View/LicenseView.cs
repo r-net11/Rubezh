@@ -203,19 +203,4 @@ public class LicenseView
 		}
 		FiresecLicenseProcessor.SetLicense(LicenseManager.TryLoad(AppDataFolderHelper.GetFile("FiresecService.license")));
 	}
-
-	public class LicenseTreeNode : TreeNode
-	{
-		public LicenseTreeNode(string licenseName, string status)
-		{
-			LicenseName = licenseName;
-			Status = status;
-		}
-
-		[TreeNodeValue(Column = 0)]
-		public string LicenseName;
-
-		[TreeNodeValue(Column = 1)]
-		public string Status;
-	}
 }

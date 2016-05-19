@@ -38,6 +38,7 @@ namespace FiresecService.Views
 			gkNode.AppendColumn("Адрес", new CellRendererText(), "text", 1);
 			gkNode.AppendColumn("Название", new CellRendererText(), "text", 2);
 			gkNode.AppendColumn("Прогресс", new CellRendererText(), "text", 3);
+			gkNode.NodeStore = new NodeStore(typeof(GKTreeNode));
 			logNode = new NodeView();
 			logNode.AppendColumn("Название", new CellRendererText(), "text", 0);
 			logNode.AppendColumn("Время", new CellRendererText(), "text", 1);
@@ -46,6 +47,7 @@ namespace FiresecService.Views
 			connectionNode.AppendColumn("Тип", new CellRendererText(), "text", 0);
 			connectionNode.AppendColumn("Адрес", new CellRendererText(), "text", 1);
 			connectionNode.AppendColumn("Пользователь", new CellRendererText(), "text", 2);
+			connectionNode.NodeStore = new NodeStore(typeof(ConnectionTreeNode));
 			pollingNode = new NodeView();
 			pollingNode.AppendColumn("Клиент", new CellRendererText(), "text", 0);
 			pollingNode.AppendColumn("Идентификатор", new CellRendererText(), "text", 1);
@@ -102,8 +104,9 @@ namespace FiresecService.Views
 				if (clientInfo != null)
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex; 
 				clientPoll.LastPollTime = now;
-				pollingNode.NodeStore = new NodeStore(typeof(PollingTreeNode));
+				pollingNode.NodeStore.Clear();
 				ClientPolls.ForEach(x => pollingNode.NodeStore.AddNode(new PollingTreeNode(x.Client, x.Uid.ToString(), x.FirstPollTime.ToString(), x.LastPollTime.ToString(), x.CallbackIndex.ToString())));
+				GC.Collect();
 				pollingNode.ShowAll();
 			});
 		}
@@ -119,8 +122,9 @@ namespace FiresecService.Views
 				}
 				if (GKLifecycles.Count > 20)
 					GKLifecycles.RemoveAt(20);
-				gkNode.NodeStore = new NodeStore(typeof(GKTreeNode));
+				gkNode.NodeStore.Clear();
 				GKLifecycles.ForEach(x => gkNode.NodeStore.AddNode(new GKTreeNode(x.Value.TimeOfDay.ToString(@"hh\:mm\:ss"), x.Key.Device.PresentationAddress, x.Key.Name, x.Key.Progress)));
+				GC.Collect();
 				gkNode.ShowAll();
 			});
 		}
@@ -164,16 +168,18 @@ namespace FiresecService.Views
 
 		void UpdateConnectionNode()
 		{
-			connectionNode.NodeStore = new NodeStore(typeof(ConnectionTreeNode));
+			connectionNode.NodeStore.Clear();
 			Clients.ForEach(x => connectionNode.NodeStore.AddNode(new ConnectionTreeNode(x.ClientType.ToDescription(),
 				x.ClientIpAddress.StartsWith("127.0.0.1") ? "localhost" : x.ClientIpAddress, x.FriendlyUserName)));
+			GC.Collect();
 			connectionNode.ShowAll();
 		}
 
 		void UpdateOperationNode()
 		{
-			operationNode.NodeStore = new NodeStore(typeof(OperationTreeNode));
+			operationNode.NodeStore.Clear();
 			ServerTasks.ForEach(x => operationNode.NodeStore.AddNode(new OperationTreeNode(x.Name)));
+			GC.Collect();
 			operationNode.ShowAll();
 		}
 
