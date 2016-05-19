@@ -45,14 +45,12 @@ namespace StrazhService.WS
 
 					if (Environment.UserInteractive)
 					{
-						//Console.OutputEncoding = Encoding.UTF8;
-
-						Console.CancelKeyPress += (x, y) => service.Stop();
+						Console.CancelKeyPress += (x, y) => service.DoStop();
 						service.DoStart();
-						Console.WriteLine("Служба запущена. Нажмите любую клавишу для остановки...");
-						Console.ReadKey();
-						service.DoStop();
-						Console.WriteLine("Служба остановлена.");
+						Console.WriteLine("Сервер запущен. Нажмите Ctrl+C для остановки...");
+						while (true)
+						{
+						}
 					}
 					else
 					{

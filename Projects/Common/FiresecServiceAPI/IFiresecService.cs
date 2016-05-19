@@ -129,5 +129,23 @@ namespace StrazhAPI
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		[OperationContract]
 		OperationResult<ShellType> GetUserShellType(string userName);
+
+		#region <Монитор сервера>
+
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<List<ClientCredentials>> GetClients();
+
+		#endregion </Монитор сервера>
+
+		/// <summary>
+		/// Посылает команду Клиенту на закрытие соединения с Сервером
+		/// </summary>
+		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
+		[OperationContract]
+		void SendDisconnectClientCommand(Guid clientUid);
 	}
 }

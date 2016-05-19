@@ -310,5 +310,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetUserShellType(userName), "GetUserShellType");
 		}
+
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		public OperationResult<List<ClientCredentials>> GetClients()
+		{
+			return SafeOperationCall(() => FiresecService.GetClients(), "GetClients");
+		}
 	}
 }

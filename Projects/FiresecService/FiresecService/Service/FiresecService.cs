@@ -382,5 +382,13 @@ namespace FiresecService.Service
 			}
 		}
 
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		public OperationResult<List<ClientCredentials>> GetClients()
+		{
+			return new OperationResult<List<ClientCredentials>>(ClientsManager.ClientInfos.Select(x => x.ClientCredentials).ToList());
+		}
 	}
 }

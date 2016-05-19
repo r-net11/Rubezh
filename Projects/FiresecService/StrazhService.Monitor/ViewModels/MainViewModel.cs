@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Common;
+using FiresecClient;
 using KeyGenerator;
 using KeyGenerator.Entities;
+using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -90,6 +93,40 @@ namespace StrazhService.Monitor.ViewModels
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			UpdateLicenseStatus();
 			ReleaseClientsCommand = new RelayCommand(OnReleaseClients, CanReleaseClients);
+
+			SafeFiresecService.NewJournalItemEvent -= SafeFiresecService_NewJournalItemEvent;
+			SafeFiresecService.NewJournalItemEvent += SafeFiresecService_NewJournalItemEvent;
+		}
+
+		private void SafeFiresecService_NewJournalItemEvent(JournalItem journalItem)
+		{
+			if (journalItem.JournalEventNameType != JournalEventNameType.Вход_пользователя_в_систему &&
+			    journalItem.JournalEventNameType != JournalEventNameType.Выход_пользователя_из_системы)
+				return;
+
+			UpdateClients();
+		}
+
+		private void UpdateClients()
+		{
+			Logger.Info("Обновляем список Клиентов Сервера");
+			var serverClients = ClientsManager.GetServerClients();
+			_dispatcher.BeginInvoke((Action)(() =>
+			{
+				// Удаляем из списка Клиентов, которых уже нет
+				var removedClients = Clients.Where(vm => serverClients.All(sc => sc.ClientUID != vm.UID)).ToList();
+				foreach (var removedClient in removedClients)
+				{
+					RemoveClient(removedClient.UID);
+				}
+				
+				// Добавляем в список новых Клиентов
+				var addedClients = serverClients.Where(c => Clients.All(vm => vm.UID != c.ClientUID)).ToList();
+				foreach (var addedClient in addedClients)
+				{
+					AddClient(addedClient);
+				}
+			}));
 		}
 
 		private void UpdateLicenseStatus()
@@ -258,8 +295,8 @@ namespace StrazhService.Monitor.ViewModels
 			var clientsToDisconnect = Clients.Where(x => x.IsChecked).ToList();
 			foreach (var client in clientsToDisconnect)
 			{
-				// Посылаем Клиенту команду на разрыв соединения с Сервером
-				//FiresecServiceManager.SafeFiresecService.SendDisconnectClientCommand(client.ClientCredentials.ClientUID);
+				// Просим Сервер посылать Клиенту команду на разрыв соединения
+				FiresecManager.FiresecService.SendDisconnectClientCommand(client.ClientCredentials.ClientUID);
 			}
 			foreach (var client in clientsToDisconnect)
 			{

@@ -60,6 +60,8 @@ namespace StrazhService.Monitor
 					}
 					Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
 
+					FiresecManager.StartPoll();
+					Logger.Info("Начат прием сообщений от Сервера");
 				});
 			}
 			catch (Exception e)
@@ -89,7 +91,7 @@ namespace StrazhService.Monitor
 
 		public static void Close()
 		{
-			// Разрегистрируемся на Сервере
+			Logger.Info("Разрегистрируемся на Сервере и прекращаем прием сообщений от Сервера ");
 			FiresecManager.Disconnect();
 			
 			if (_windowThread != null)

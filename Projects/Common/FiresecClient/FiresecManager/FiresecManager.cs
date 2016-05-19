@@ -26,7 +26,7 @@ namespace FiresecClient
 				};
 
 				string error = null;
-				for (int i = 0; i < 3; i++)
+				for (var i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
 					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);

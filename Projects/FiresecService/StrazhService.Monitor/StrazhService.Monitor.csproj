@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ClientsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
