@@ -1,31 +1,40 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
+import { HTTP_PROVIDERS }    from '@angular/http';
 
 import { DataService } from '../../shared/services/index';
+import { PlanInfo  } from './+models/planInfo.model';
 
 @Component({
-	selector: 'gk-plans',
+	selector: 'gk-plans-list',
 	templateUrl: 'app/components/+plans/plans-list.component.html',
-	styleUrls: ['app/components/+plans/plans-list.component.html.css'],
-	directives: [ROUTER_DIRECTIVES]
+	styleUrls: ['app/components/+plans/plans-list.component.css'],
+	directives: [ROUTER_DIRECTIVES],
+	providers: [HTTP_PROVIDERS, DataService]
 })
 @Routes([
-	//{ path: '/hello-world', component: HelloWorldComponent },
-	//{ path: '/tasks', component: TasksComponent }
 ])
-export class PlansComponent implements OnInit
+export class PlansListComponent implements OnInit
 {
+	errorMessage: string;
+	plans: Array<PlanInfo>;
+
 	constructor(
 		private router: Router, private dataService: DataService)
 	{
-
+		this.load();
+		
 	}
 
-	loadPlanList()
+	load()
 	{
+		this.dataService.getPlansList().subscribe(
+			plans => this.plans = plans,
+			error => this.errorMessage = <any>error);
 	}
 
 	ngOnInit()
 	{
+		
 	}
 }

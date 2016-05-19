@@ -49,37 +49,37 @@
 		}
 	},
 	"frameworks": {
-					"net461": {
-						"dependencies": {
-																									"Common": {
-																										"target": "project"
-																									},
-																									"Controls": {
-																										"target": "project"
-																									},
-																									"GKProcessor": {
-																										"target": "project"
-																									},
-																									"Infrastructure.Common": {
-																										"target": "project"
-																									},
-																									"Infrustructure.Plans": {
-																										"target": "project"
-																									},
-																									"RubezhAPI": {
-																										"target": "project"
-																									},
-																									"RubezhClient": {
-																										"target": "project"
-																									},
-																									"RubezhDAL": {
-																										"target": "project"
-																									},
-																									"RubezhLicense": {
-																										"target": "project"
-																									}
-						}
-					}
+		"net461": {
+			"dependencies": {
+				"Common": {
+					"target": "project"
+				},
+				"Controls": {
+					"target": "project"
+				},
+				"GKProcessor": {
+					"target": "project"
+				},
+				"Infrastructure.Common": {
+					"target": "project"
+				},
+				"Infrustructure.Plans": {
+					"target": "project"
+				},
+				"RubezhAPI": {
+					"target": "project"
+				},
+				"RubezhClient": {
+					"target": "project"
+				},
+				"RubezhDAL": {
+					"target": "project"
+				},
+				"RubezhLicense": {
+					"target": "project"
+				}
+			}
+		}
 	},
 	"buildOptions": {
 		"emitEntryPoint": true,

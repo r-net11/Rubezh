@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', '../../shared/services/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '@angular/http', '../../shared/services/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['@angular/core', '@angular/router', '../../shared/services/inde
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, index_1;
-    var PlansComponent;
+    var core_1, router_1, http_1, index_1;
+    var PlansListComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -20,32 +20,39 @@ System.register(['@angular/core', '@angular/router', '../../shared/services/inde
             function (router_1_1) {
                 router_1 = router_1_1;
             },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
             function (index_1_1) {
                 index_1 = index_1_1;
             }],
         execute: function() {
-            PlansComponent = (function () {
-                function PlansComponent(router, dataService) {
+            PlansListComponent = (function () {
+                function PlansListComponent(router, dataService) {
                     this.router = router;
                     this.dataService = dataService;
+                    this.load();
                 }
-                PlansComponent.prototype.loadPlanList = function () {
+                PlansListComponent.prototype.load = function () {
+                    var _this = this;
+                    this.dataService.getPlansList().subscribe(function (plans) { return _this.plans = plans; }, function (error) { return _this.errorMessage = error; });
                 };
-                PlansComponent.prototype.ngOnInit = function () {
+                PlansListComponent.prototype.ngOnInit = function () {
                 };
-                PlansComponent = __decorate([
+                PlansListComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-plans',
+                        selector: 'gk-plans-list',
                         templateUrl: 'app/components/+plans/plans-list.component.html',
-                        styleUrls: ['app/components/+plans/plans-list.component.html.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES]
+                        styleUrls: ['app/components/+plans/plans-list.component.css'],
+                        directives: [router_1.ROUTER_DIRECTIVES],
+                        providers: [http_1.HTTP_PROVIDERS, index_1.DataService]
                     }),
                     router_1.Routes([]), 
                     __metadata('design:paramtypes', [router_1.Router, index_1.DataService])
-                ], PlansComponent);
-                return PlansComponent;
+                ], PlansListComponent);
+                return PlansListComponent;
             }());
-            exports_1("PlansComponent", PlansComponent);
+            exports_1("PlansListComponent", PlansListComponent);
         }
     }
 });

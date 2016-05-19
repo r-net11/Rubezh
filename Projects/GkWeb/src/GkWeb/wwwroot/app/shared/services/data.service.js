@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/http', 'rxjs/add/operator/map'], function(exports_1, context_1) {
+System.register(["@angular/core", '@angular/http', 'rxjs/Observable', 'rxjs/add/operator/map', 'rxjs/add/operator/catch'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", '@angular/http', 'rxjs/add/operator/map'], fun
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, Observable_1;
     var DataService;
     return {
         setters:[
@@ -20,7 +20,11 @@ System.register(["@angular/core", '@angular/http', 'rxjs/add/operator/map'], fun
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (_1) {}],
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
+            },
+            function (_1) {},
+            function (_2) {}],
         execute: function() {
             DataService = (function () {
                 function DataService(http) {
@@ -30,7 +34,20 @@ System.register(["@angular/core", '@angular/http', 'rxjs/add/operator/map'], fun
                     return this.http.get('logon/GetUserName').map(function (res) { return res.text(); });
                 };
                 DataService.prototype.getPlansList = function () {
-                    return this.http.get('api/plans').map(function (res) { return res.json(); });
+                    return this.http.get('api/plans')
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
+                DataService.prototype.extractData = function (res) {
+                    var body = res.json();
+                    return body || {};
+                };
+                DataService.prototype.handleError = function (error) {
+                    // In a real world app, we might use a remote logging infrastructure
+                    // We'd also dig deeper into the error to get a better message
+                    var errMsg = error.message || error.statusText || 'Server error';
+                    console.error(errMsg); // log to console instead
+                    return Observable_1.Observable.throw(errMsg);
                 };
                 DataService = __decorate([
                     core_1.Injectable(), 
