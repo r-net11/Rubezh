@@ -54,8 +54,15 @@ namespace PlansModule.ViewModels
 			{
 				if (e.Element is IElementSubPlan)
 				{
-					e.DesignerItem = new DesignerItemSubPlan(e.Element);
-					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
+					switch (e.Element.Type)
+					{
+						case ElementType.Rectangle:
+							e.DesignerItem = new DesignerItemRectangleSubPlan(e.Element);
+							break;
+						case ElementType.Polygon:
+							e.DesignerItem = new DesignerItemPolygonSubPlan(e.Element);
+							break;
+					}
 				}
 			});
 

@@ -138,7 +138,8 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Designer\DesignerItems\DesignerItemSubPlan.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemPolygonSubPlan.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemRectangleSubPlan.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />
     <Compile Include="Designer\InstrumentAdorners\SubPlanPolygonAdorner.cs" />
