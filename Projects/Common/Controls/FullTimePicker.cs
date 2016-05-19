@@ -14,7 +14,7 @@ namespace Controls
 	TemplatePart(Name = "PART_Seconds", Type = typeof(TextBox)),
 	TemplatePart(Name = "PART_IncreaseTime", Type = typeof(ButtonBase)),
 	TemplatePart(Name = "PART_DecrementTime", Type = typeof(ButtonBase))]
-	public class TimePicker : Control
+	public class FullTimePicker : Control
 	{
 		int HourMaxValue = 23;
 		int MinuteMaxValue = 59;
@@ -44,10 +44,10 @@ namespace Controls
 		/// Gets or sets the minimum time selected
 		/// </summary>
 		public static readonly DependencyProperty MinTimeProperty =
-			DependencyProperty.Register("MinTime", typeof(TimeSpan), typeof(TimePicker), new UIPropertyMetadata(TimeSpan.MinValue,
+			DependencyProperty.Register("MinTime", typeof(TimeSpan), typeof(FullTimePicker), new UIPropertyMetadata(TimeSpan.MinValue,
 				delegate (DependencyObject sender, DependencyPropertyChangedEventArgs e)
 				{
-					TimePicker picker = (TimePicker)sender;
+					FullTimePicker picker = (FullTimePicker)sender;
 					picker.HourMinValue = picker.MinTime.Hours;
 					picker.MinuteMinValue = picker.MinTime.Minutes;
 					picker.SecondMinValue = picker.MinTime.Seconds;
@@ -67,10 +67,10 @@ namespace Controls
 		/// Gets or sets the maximum time that can be selected
 		/// </summary>
 		public static readonly DependencyProperty MaxTimeProperty =
-			DependencyProperty.Register("MaxTime", typeof(TimeSpan), typeof(TimePicker), new UIPropertyMetadata(TimeSpan.MaxValue,
+			DependencyProperty.Register("MaxTime", typeof(TimeSpan), typeof(FullTimePicker), new UIPropertyMetadata(TimeSpan.MaxValue,
 				delegate (DependencyObject sender, DependencyPropertyChangedEventArgs e)
 				{
-					TimePicker picker = (TimePicker)sender;
+					FullTimePicker picker = (FullTimePicker)sender;
 					picker.HourMaxValue = picker.MaxTime.Hours;
 					picker.MinuteMaxValue = picker.MaxTime.Minutes;
 					picker.SecondMaxValue = picker.MaxTime.Seconds;
@@ -92,13 +92,13 @@ namespace Controls
 		/// </summary>
 		public static readonly DependencyProperty SelectedTimeProperty =
 			DependencyProperty.Register("SelectedTime", typeof(TimeSpan),
-			typeof(TimePicker), new UIPropertyMetadata(new TimeSpan(0, 0, 0), SelectedTimePropertyChanged,
+			typeof(FullTimePicker), new UIPropertyMetadata(new TimeSpan(0, 0, 0), SelectedTimePropertyChanged,
 				ForceValidSelectedTime));
 
 		//make sure tha the proper time is set
 		private static object ForceValidSelectedTime(DependencyObject sender, object value)
 		{
-			TimePicker picker = (TimePicker)sender;
+			FullTimePicker picker = (FullTimePicker)sender;
 			TimeSpan time = (TimeSpan)value;
 			if (time < picker.MinTime)
 				return picker.MinTime;
@@ -110,7 +110,7 @@ namespace Controls
 		private static void SelectedTimePropertyChanged(DependencyObject sender,
 			DependencyPropertyChangedEventArgs e)
 		{
-			TimePicker timePicker = (TimePicker)sender;
+			FullTimePicker timePicker = (FullTimePicker)sender;
 			TimeSpan newTime = (TimeSpan)e.NewValue;
 			TimeSpan oldTime = (TimeSpan)e.OldValue;
 
@@ -145,10 +145,10 @@ namespace Controls
 		/// Backing store for the selected hour
 		/// </summary>
 		public static readonly DependencyProperty SelectedHourProperty =
-			DependencyProperty.Register("SelectedHour", typeof(int), typeof(TimePicker), new UIPropertyMetadata(0,
+			DependencyProperty.Register("SelectedHour", typeof(int), typeof(FullTimePicker), new UIPropertyMetadata(0,
 				delegate (DependencyObject sender, DependencyPropertyChangedEventArgs e)
 				{
-					TimePicker timePicker = (TimePicker)sender;
+					FullTimePicker timePicker = (FullTimePicker)sender;
 
 					//validate the hour set
 					int hour = MathUtil.ValidateNumber(timePicker.SelectedHour,
@@ -174,10 +174,10 @@ namespace Controls
 		/// Backing store for the selected minsutes
 		/// </summary>
 		public static readonly DependencyProperty SelectedMinuteProperty =
-			DependencyProperty.Register("SelectedMinute", typeof(int), typeof(TimePicker), new UIPropertyMetadata(0,
+			DependencyProperty.Register("SelectedMinute", typeof(int), typeof(FullTimePicker), new UIPropertyMetadata(0,
 				delegate (DependencyObject sender, DependencyPropertyChangedEventArgs e)
 				{
-					TimePicker timePicker = (TimePicker)sender;
+					FullTimePicker timePicker = (FullTimePicker)sender;
 
 					//validate the minute set
 					int min = MathUtil.ValidateNumber(timePicker.SelectedMinute,
@@ -203,10 +203,10 @@ namespace Controls
 		/// Backing store for the selected second
 		/// </summary>
 		public static readonly DependencyProperty SelectedSecondProperty =
-			DependencyProperty.Register("SelectedSecond", typeof(int), typeof(TimePicker), new UIPropertyMetadata(0,
+			DependencyProperty.Register("SelectedSecond", typeof(int), typeof(FullTimePicker), new UIPropertyMetadata(0,
 				delegate (DependencyObject sender, DependencyPropertyChangedEventArgs e)
 				{
-					TimePicker timePicker = (TimePicker)sender;
+					FullTimePicker timePicker = (FullTimePicker)sender;
 
 					//validate the minute set
 					int sec = MathUtil.ValidateNumber(timePicker.SelectedSecond,
@@ -227,7 +227,7 @@ namespace Controls
 		/// 
 		/// </summary>
 		public static readonly RoutedEvent SelectedTimeChangedEvent = EventManager.RegisterRoutedEvent("SelectedTimeChanged",
-			RoutingStrategy.Bubble, typeof(TimeSelectedChangedEventHandler), typeof(TimePicker));
+			RoutingStrategy.Bubble, typeof(TimeSelectedChangedEventHandler), typeof(FullTimePicker));
 
 		public event TimeSelectedChangedEventHandler SelectedTimeChanged
 		{
@@ -240,7 +240,7 @@ namespace Controls
 		/// <summary>
 		/// Default constructor
 		/// </summary>
-		public TimePicker()
+		public FullTimePicker()
 		{
 			SelectedTime = DateTime.Now.TimeOfDay;
 		}
@@ -248,10 +248,10 @@ namespace Controls
 		/// <summary>
 		/// Static constructor
 		/// </summary>
-		static TimePicker()
+		static FullTimePicker()
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(
-				typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)
+				typeof(FullTimePicker), new FrameworkPropertyMetadata(typeof(FullTimePicker)
 					));
 		}
 
@@ -524,7 +524,7 @@ namespace Controls
 		}
 
 		//sets the selectedTime with the selectedhour, selectedminute and selectedsecond
-		private static void SetNewTime(TimePicker timePicker)
+		private static void SetNewTime(FullTimePicker timePicker)
 		{
 			if (!timePicker.isUpdatingTime)
 			{
@@ -592,3 +592,58 @@ namespace Controls
 	}
 	#endregion
 }
+	/// <summary>
+	/// Helper class that contains methods that execute mathematical operations
+	/// </summary>
+	public static class MathUtil
+	{
+		/// <summary>
+		/// Validates the string passed by parsing it as int and checking if it is inside the bounds specified 
+		/// then the resulting int will be incremented/decremented
+		/// </summary>
+		/// <param name="num">The string to parse as int and increment/decrement</param>
+		/// <param name="minValue">The min value for the bound checking</param>
+		/// <param name="maxVal">The max value for the bounds checking</param>
+		/// <param name="increment">Pass true to increment and false to decrement</param>
+		/// <returns>Returns the new number incremented or decremeneted</returns>
+		public static int IncrementDecrementNumber(string num, int minValue, int maxVal, bool increment)
+		{
+			int newNum = ValidateNumber(num, minValue, maxVal);
+			if (increment)
+				newNum = Math.Min(newNum + 1, maxVal);
+			else
+				newNum = Math.Max(newNum - 1, 0);
+			return newNum;
+		}
+
+		/// <summary>
+		/// Parses the number and makes sure that it is within the bounds specified
+		/// </summary>
+		/// <param name="newNum">The string to parse and validate</param>
+		/// <param name="minValue">The min value for the bound checking</param>
+		/// <param name="maxValue">The max value for the bound checking</param>
+		/// <returns>Returns the int that was constructed from the string + bound checking</returns>
+		public static int ValidateNumber(string newNum, int minValue, int maxValue)
+		{
+			int num;
+			if (!int.TryParse(newNum, out num))
+				return 0;
+
+			return ValidateNumber(num, minValue, maxValue);
+		}
+
+		/// <summary>
+		/// makes sure that the number is within the bounds specified
+		/// </summary>
+		/// <param name="newNum">The number to validate</param>
+		/// <param name="minValue">The min value for the bound checking</param>
+		/// <param name="maxValue">The max value for the bound checking</param>
+		/// <returns>Returns the int that was constructed from the string + bound checking</returns>
+		public static int ValidateNumber(int newNum, int minValue, int maxValue)
+		{
+			newNum = Math.Max(newNum, minValue);
+			newNum = Math.Min(newNum, maxValue);
+
+			return newNum;
+		}
+	}
