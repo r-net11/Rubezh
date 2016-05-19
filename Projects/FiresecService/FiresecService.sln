@@ -56,9 +56,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licensing.Model", "..\Licen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateKeyApplication.Common", "..\GenerateKeyApplication.Common\GenerateKeyApplication.Common.csproj", "{9CC9E430-243F-4F66-9051-65A91BBDDC22}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationServices", "IntegrationServices", "{260E0272-0B58-40EB-9FBD-B16DF1E36214}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{260E0272-0B58-40EB-9FBD-B16DF1E36214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecIntegrationClient", "FiresecIntegrationClient\FiresecIntegrationClient.csproj", "{EA766E25-87B2-40E4-A155-638ECAF25B38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCIntegrationClient", "FiresecIntegrationClient\OPCIntegrationClient.csproj", "{EA766E25-87B2-40E4-A155-638ECAF25B38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.Service", "Integration.Service\Integration.Service.csproj", "{B5DCA126-F996-4A80-B395-F4FD42576981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -367,6 +369,20 @@ Global
 		{EA766E25-87B2-40E4-A155-638ECAF25B38}.Release|Win32.ActiveCfg = Release|Any CPU
 		{EA766E25-87B2-40E4-A155-638ECAF25B38}.Release|x64.ActiveCfg = Release|Any CPU
 		{EA766E25-87B2-40E4-A155-638ECAF25B38}.Release|x86.ActiveCfg = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|x64.ActiveCfg = Release|Any CPU
+		{B5DCA126-F996-4A80-B395-F4FD42576981}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -391,5 +407,6 @@ Global
 		{B5D11993-2A32-40F7-BFB9-333B7348062E} = {FEB8691D-0B92-4C55-9806-BF549630261A}
 		{9CC9E430-243F-4F66-9051-65A91BBDDC22} = {FEB8691D-0B92-4C55-9806-BF549630261A}
 		{EA766E25-87B2-40E4-A155-638ECAF25B38} = {260E0272-0B58-40EB-9FBD-B16DF1E36214}
+		{B5DCA126-F996-4A80-B395-F4FD42576981} = {260E0272-0B58-40EB-9FBD-B16DF1E36214}
 	EndGlobalSection
 EndGlobal

@@ -2,24 +2,26 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using Common;
+using System.Threading;
 
-namespace OPCIntegrationClient
+namespace Integration.Service.OPCIntegration
 {
 	internal sealed class HttpClient
 	{
 		private readonly HttpListener _httpListener;
 		public const string IPAddress = @"http://127.0.0.1:8098/";
+		public const string HttpServerAddress = @"http://127.0.0.1:8097/";
+		public readonly WebResponseInfo PingSuccess;
 
 		public HttpClient()
 		{
-			//if (!HttpListener.IsSupported)
-			//{
-			//	Logger.Error("HTTPListener is not support in that operating system.");
-			//	throw new PlatformNotSupportedException("HTTPListener");
-			//}
 			_httpListener = new HttpListener();
 			_httpListener.Prefixes.Add(IPAddress);
+			PingSuccess = new WebResponseInfo
+			{
+				Body = "Pong",
+				StatusCode = HttpStatusCode.OK
+			};
 		}
 
 		public void Start()
@@ -43,10 +45,18 @@ namespace OPCIntegrationClient
 
 		public void ListenerCallback(IAsyncResult result)
 		{
-			var context = _httpListener.EndGetContext(result);
-			var info = Read(context.Request);
+			try
+			{
+				var context = _httpListener.EndGetContext(result);
+				var info = Read(context.Request);
 
-			CreateResponse(context.Response, info.ToString());
+				CreateResponse(context.Response, info.ToString());
+			}
+			catch (ObjectDisposedException)
+			{
+				//Not doing anything with the exception. HttpListener.Stop() method can throw this exception.
+			}
+
 		}
 
 		public WebRequestInfo Read(HttpListenerRequest request)

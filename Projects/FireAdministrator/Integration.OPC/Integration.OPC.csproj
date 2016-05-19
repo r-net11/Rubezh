@@ -95,6 +95,10 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>StrazhAPI</Name>

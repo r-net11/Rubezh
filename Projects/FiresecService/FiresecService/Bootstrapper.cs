@@ -6,6 +6,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using Integration.Service;
 using KeyGenerator;
 using System;
 using System.Diagnostics;
@@ -51,6 +52,8 @@ namespace FiresecService
 					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
 				};
 
+				var integrationService = new IntegrationFacade();
+
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();
@@ -58,7 +61,7 @@ namespace FiresecService
 				UILogger.Log("Открытие хоста");
 				try
 				{
-					FiresecServiceManager.Open(licenseManager);
+					FiresecServiceManager.Open(licenseManager, integrationService);
 				}
 				catch (Exception)
 				{

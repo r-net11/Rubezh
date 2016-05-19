@@ -6,7 +6,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
 		<Views:MainView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:RubezhClientViewModel}">
-		<Views:RubezhClientView />
-	</DataTemplate>
 </ResourceDictionary>

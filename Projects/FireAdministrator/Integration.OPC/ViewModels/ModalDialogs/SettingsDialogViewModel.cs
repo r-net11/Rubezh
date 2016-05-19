@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
@@ -23,18 +24,17 @@ namespace Integration.OPC.ViewModels
 
 		public void OnPing()
 		{
-			//TODO: Ping connection with httpIntegrationClient
-			if (!_isActiveNow)
-				MessageBoxService.ShowWarning(Resources.MessagePingWithNotActiveServerContent);
-
-			if (true)
+			if (_isActiveNow)
 			{
-				MessageBoxService.ShowExtended(Resources.MessagePingSuccessfulContent);
+				var result = FiresecManager.FiresecService.PingOPCServer();
+
+				if (result.Result)
+					MessageBoxService.ShowExtended(Resources.MessagePingSuccessfulContent);
+				else
+					MessageBoxService.ShowWarning(Resources.MessagePingTimeoutContent);
 			}
 			else
-			{
-				MessageBoxService.ShowWarning(Resources.MessagePingTimeoutContent);
-			}
+				MessageBoxService.ShowWarning(Resources.MessagePingWithNotActiveServerContent);
 		}
 
 		protected override bool CanSave()

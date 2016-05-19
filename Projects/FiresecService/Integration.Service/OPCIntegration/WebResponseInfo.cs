@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OPCIntegrationClient
+namespace Integration.Service.OPCIntegration
 {
 	public class WebResponseInfo
 	{
@@ -23,6 +23,22 @@ namespace OPCIntegrationClient
 			sb.AppendLine(string.Format("ContentType {0} ContentEncoding {1} ContentLenght {2}", ContentType, ContentEncoding, ContentLenght));
 			sb.AppendLine(string.Format("Body {0}", Body));
 			return sb.ToString();
+		}
+
+		public static bool operator ==(WebResponseInfo a, WebResponseInfo b)
+		{
+			if (ReferenceEquals(a, b))
+				return true;
+
+			if (((object) a == null) || ((object) b == null))
+				return false;
+
+			return string.Equals(a.Body, b.Body) && a.StatusCode == b.StatusCode;
+		}
+
+		public static bool operator !=(WebResponseInfo a, WebResponseInfo b)
+		{
+			return !(a == b);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Common;
 using FireAdministrator.ViewModels;
+using Infrastructure.Common.Services;
 using StrazhAPI;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -27,7 +28,7 @@ namespace FireAdministrator
 				new UiElementsVisibilityService(),
 				new ConfigurationElementsAvailabilityService());
 			var assembly = GetType().Assembly;
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin())
 			{
