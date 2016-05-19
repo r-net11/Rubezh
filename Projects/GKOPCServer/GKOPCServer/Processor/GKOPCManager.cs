@@ -356,8 +356,8 @@ namespace GKOPCServer
 			OPCDAServer.RegisterServer(
 				srvGuid,
 				"Rubezh",
-				"GKFiresecOPC",
-				"Rubezh.GKFiresecOPC",
+				"GKRubezhOPC",
+				"Rubezh.GKRubezhOPC",
 				"1.0");
 		}
 
@@ -372,7 +372,7 @@ namespace GKOPCServer
 			{
 				case Commands.SetAutomaticMode:
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(gkBase);
+						ClientManager.RubezhService.GKSetAutomaticRegime(gkBase);
 						break;
 					}
 				case Commands.SetManualMode:
@@ -380,43 +380,43 @@ namespace GKOPCServer
 						if (gkBase is GKZone) // Для охранной зоны данная команда запрещена
 							break;
 
-						ClientManager.FiresecService.GKSetManualRegime(gkBase);
+						ClientManager.RubezhService.GKSetManualRegime(gkBase);
 						break;
 					}
 				case Commands.SetDisabledMode:
 					{
 
-						ClientManager.FiresecService.GKSetIgnoreRegime(gkBase);
+						ClientManager.RubezhService.GKSetIgnoreRegime(gkBase);
 						break;
 					}
 				case Commands.TurnOff:
 					{
-						ClientManager.FiresecService.GKTurnOff(gkBase);
+						ClientManager.RubezhService.GKTurnOff(gkBase);
 						break;
 					}
 				case Commands.TurnOn:
 					{
-						ClientManager.FiresecService.GKTurnOn(gkBase);
+						ClientManager.RubezhService.GKTurnOn(gkBase);
 						break;
 					}
 				case Commands.TurnOnNow:
 					{
-						ClientManager.FiresecService.GKTurnOnNow(gkBase);
+						ClientManager.RubezhService.GKTurnOnNow(gkBase);
 						break;
 					}
 				case Commands.TurnOffNow:
 					{
-						ClientManager.FiresecService.GKTurnOffNow(gkBase);
+						ClientManager.RubezhService.GKTurnOffNow(gkBase);
 						break;
 					}
 				case Commands.Stop:
 					{
-						ClientManager.FiresecService.GKStop(gkBase);
+						ClientManager.RubezhService.GKStop(gkBase);
 						break;
 					}
 				case Commands.Reset:
 					{
-						ClientManager.FiresecService.GKReset(gkBase);
+						ClientManager.RubezhService.GKReset(gkBase);
 						break;
 					}
 			}

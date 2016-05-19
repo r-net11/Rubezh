@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.SKD.ReportFilters
@@ -25,17 +26,14 @@ namespace RubezhAPI.SKD.ReportFilters
 				periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
 				periodFilter.PeriodType = ReportPeriodType.Arbitrary;
 			}
-			UserUID = Guid.Empty;
 		}
 
 		[DataMember]
 		public string Name { get; set; }
 		[DataMember]
-		public string User { get; set; }
-		[DataMember]
 		public DateTime Timestamp { get; set; }
 		[DataMember]
-		public Guid UserUID { get; set; }
+		public User User { get; set; }
 
 		[DataMember]
 		public string SortColumn { get; set; }

@@ -1,0 +1,101 @@
+<UserControl x:Class="GKModule.Views.ZonesSelectationView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:controls="clr-namespace:Controls;assembly=Controls"
+			 MinHeight="400" MinWidth="600">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="50" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<DataGrid x:Name="dataGrid1"
+					  Grid.Column="0"
+					  ItemsSource="{Binding TargetZones}"
+					  SelectedItem="{Binding SelectedTargetZone}"
+					  CanUserSortColumns="True"
+					  VirtualizingStackPanel.IsVirtualizing="True"
+					  VirtualizingStackPanel.VirtualizationMode="Standard"
+					  SelectionMode="Extended">
+				<DataGrid.Resources>
+					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+						<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+									  MouseAction="LeftDoubleClick"
+									  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+					</InputBindingCollection>
+				</DataGrid.Resources>
+				<DataGrid.ItemContainerStyle>
+					<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+						<Setter Property="controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					</Style>
+				</DataGrid.ItemContainerStyle>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="№" SortMemberPath="No" Width="Auto" CanUserResize="False">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" Width="*" />
+					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
+				</DataGrid.Columns>
+			</DataGrid>
+			<StackPanel Grid.Column="1" Margin="2">
+				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="left" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="right" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+				<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="leftLeft" />
+				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="rightRight" />
+			</StackPanel>
+			<DataGrid x:Name="dataGrid2"
+					  Grid.Column="2"
+					  ItemsSource="{Binding SourceZones}"
+					  SelectedItem="{Binding SelectedSourceZone}"
+					  CanUserSortColumns="True"
+					  VirtualizingStackPanel.IsVirtualizing="True"
+					  VirtualizingStackPanel.VirtualizationMode="Standard"
+					  SelectionMode="Extended">
+				<DataGrid.Resources>
+					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+						<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+									  MouseAction="LeftDoubleClick"
+									  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+					</InputBindingCollection>
+				</DataGrid.Resources>
+				<DataGrid.ItemContainerStyle>
+					<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+						<Setter Property="controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					</Style>
+				</DataGrid.ItemContainerStyle>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="№" SortMemberPath="No" Width="Auto" CanUserResize="False">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding Name}" Header="Зоны" Width="*" />
+					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+		<Button Grid.Row="1" Content="Создать новую зону" 
+				Command="{Binding CreateNewCommand}"
+				Visibility="{Binding CanCreateNew, Converter={StaticResource BoolToVisibilityConverter}}"
+				HorizontalAlignment="Left"
+				Width="230"
+				Margin="2" />
+	</Grid>
+</UserControl>

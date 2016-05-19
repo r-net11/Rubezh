@@ -121,13 +121,22 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 			return ImageBrush != null;
 		}
 
-		bool ValidateImage()
-		{
-			return new FileInfo(_sourceName).Length > 0;
-		}
 
 		public void Save()
 		{
+			if (isWasDelete)
+			{
+				if (_imageSource.HasValue)
+					ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
+				if (_svgImageSource.HasValue)
+					ServiceFactoryBase.ContentService.RemoveContent(_svgImageSource.Value);
+				if (!_newImage)
+				{
+					_imageSource = null;
+					_sourceName = null;
+				}
+			}
+
 			if (_newImage)
 				using (new WaitWrapper())
 				{
@@ -151,19 +160,6 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 			else
 			{
 				_element.BackgroundSVGImageSource = null;
-			}
-
-			if (isWasDelete)
-			{
-				if (_imageSource.HasValue)
-					ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
-				if (_svgImageSource.HasValue)
-					ServiceFactoryBase.ContentService.RemoveContent(_svgImageSource.Value);
-				if (!_newImage)
-				{
-					_imageSource = null;
-					_sourceName = null;
-				}
 			}
 
 			_element.BackgroundImageSource = _imageSource;

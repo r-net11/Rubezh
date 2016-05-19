@@ -1,4 +1,5 @@
 ﻿using Controls.Converters;
+using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		public List<string> TextAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
 		ElementBaseRectangle ElementBaseRectangle { get; set; }
-		public bool CanEditPosition { get; private set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
 
 		public TextBlockPropertiesViewModel(IElementTextBlock element)
@@ -22,12 +22,8 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 			Title = "Свойства фигуры: Надпись";
 			ElementTextBlock = element;
 			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
-			if (CanEditPosition)
-			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
-			}
+			Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+			Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
 
 			CopyProperties();
 
@@ -71,6 +67,9 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this.ElementTextBlock, this);
 			StrokeThickness = ElementTextBlock.BorderThickness;
+			BackgroundColor = ElementTextBlock.BackgroundColor.ToWindowsColor();
+			BorderColor = ElementTextBlock.BorderColor.ToWindowsColor();
+			ForegroundColor = ElementTextBlock.ForegroundColor.ToWindowsColor();
 		}
 
 		private string _text;

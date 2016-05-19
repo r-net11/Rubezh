@@ -370,7 +370,17 @@ namespace RubezhAPI.GK
 		}
 
 		[XmlIgnore]
-		public List<Guid> PlanElementUIDs { get; set; }
+		List<Guid> _planElementUIDs;
+		public List<Guid> PlanElementUIDs
+		{
+			get
+			{
+				if (_planElementUIDs == null)
+					_planElementUIDs = new List<Guid>();
+				return _planElementUIDs;
+			}
+			set { _planElementUIDs = value; }
+		}
 		public void OnPlanElementUIDsChanged()
 		{
 			if (PlanElementUIDsChanged != null)

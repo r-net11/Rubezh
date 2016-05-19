@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="Infrastructure.Client.Startup.Views.StartupHeaderView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Button Height="30" Width="30" 
-			Background="{DynamicResource Settings}"
-			Command="{Binding Content.SettingsCommand}"
-			Focusable="False"
-			Style="{StaticResource ToolBarButtonStyle}" />
-</UserControl>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
+	 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<?include Variables.wxi?>
+	<Fragment>
+
+		<DirectoryRef Id="SERVERLOCATION">
+			<Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+					<RegistryValue KeyPath="yes" Name="RubezhService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
+				</RegistryKey>
+			</Component>
+
+			<Component Id="Server.Files" Guid="DF63AD3D-F414-49A1-86A5-79D635310E8D">
+				<File Id="Server.RubezhService.exe"											Name="$(var.Server.TargetFileName)"					Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.RubezhService.exe.config"									Name="RubezhService.exe.config"						Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhService.exe.manifest"								Name="RubezhService.exe.manifest"					Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhService.Core.dll"									Name="RubezhService.Core.dll"						Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhService.Report.dll"									Name="RubezhService.Report.dll"						Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Common.dll"												Name="Common.dll"									Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Infrastructure.Common.dll"									Name="Infrastructure.Common.dll"					Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Infrastructure.Common.Windows.dll"							Name="Infrastructure.Common.Windows.dll"	Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Infrastructure.Plans.dll"									Name="Infrastructure.Plans.dll"						Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Infrastructure.Automation.dll"								Name="Infrastructure.Automation.dll"				Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Controls.dll"												Name="Controls.dll"									Source="$(var.Common.TargetDir)" />
+				<File Id="Server.RubezhAPI.dll"												Name="RubezhAPI.dll"								Source="$(var.Common.TargetDir)" />
+				<File Id="Server.GKProcessor.dll"											Name="GKProcessor.dll"								Source="$(var.Common.TargetDir)" />
+				<File Id="Server.RviClient.dll"												Name="RviClient.dll"								Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhDAL.dll"												Name="RubezhDAL.dll"								Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RubezhLicense.dll"											Name="RubezhLicense.dll"							Source="$(var.Server.TargetDir)" />
+
+				<File Id="Server.EntityFramework.dll"										Name="EntityFramework.dll"							Source="$(var.Server.TargetDir)" />
+				<File Id="Server.EntityFramework.SqlServer.dll"								Name="EntityFramework.SqlServer.dll"				Source="$(var.Server.TargetDir)" />
+				<File Id="Server.EntityFramework.BulkInsert.dll"							Name="EntityFramework.BulkInsert.dll"				Source="$(var.Server.TargetDir)" />
+				<File Id="Server.EntityFramework.MappingAPI.dll"							Name="EntityFramework.MappingAPI.dll"				Source="$(var.Server.TargetDir)" />
+
+				<File Id="Server.Npgsql.dll"												Name="Npgsql.dll"									Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Npgsql.EntityFramework.dll"								Name="Npgsql.EntityFramework.dll"					Source="$(var.Server.TargetDir)" />
+
+				<File Id="Server.Mono.Security.dll"											Name="Mono.Security.dll"							Source="$(var.Server.TargetDir)" />
+
+				<File Id="Server.Ionic.Zip.dll"												Name="Ionic.Zip.dll"								Source="..\..\..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\" />
+				<File Id="Server.itextsharp.dll"											Name="itextsharp.dll"								Source="..\..\..\..\..\..\3rdParty\iTextSharp\" />
+				<File Id="Server.Microsoft.Practices.Prism.dll"								Name="Microsoft.Practices.Prism.dll"				Source="..\..\..\..\..\..\3rdParty\PRISM\Desktop\" />
+				<File Id="Server.WPFToolkit.Extended.dll"									Name="WPFToolkit.Extended.dll"						Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\" />
+				<File Id="Server.WPFToolkit.dll"											Name="WPFToolkit.dll"								Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\" />
+				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll"					Name="System.Windows.Controls.Input.Toolkit.dll"	Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\" />
+				<File Id="Server.Xceed.Wpf.AvalonDock.dll"									Name="Xceed.Wpf.AvalonDock.dll"						Source="..\..\..\..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\" />
+				<File Id="Server.Xceed.Wpf.Toolkit.dll"										Name="Xceed.Wpf.Toolkit.dll"						Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
+
+				<File Id="Server.NLog.dll"													Name="NLog.dll"										Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
+
+				<File Id="Server.DevExpress.Data.v15.1.dll"									Name="DevExpress.Data.v15.1.dll"					Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+				<File Id="Server.DevExpress.Printing.v15.1.Core.dll"						Name="DevExpress.Printing.v15.1.Core.dll"			Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+				<File Id="Server.DevExpress.Xpf.Printing.v15.1.Service.dll"					Name="DevExpress.Xpf.Printing.v15.1.Service.dll"	Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+				<File Id="Server.DevExpress.XtraReports.v15.1.dll"							Name="DevExpress.XtraReports.v15.1.dll"				Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+				<File Id="Server.DevExpress.XtraReports.v15.1.Service.dll"					Name="DevExpress.XtraReports.v15.1.Service.dll"		Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+				<File Id="Server.DevExpress.Xpo.v15.1.dll"									Name="DevExpress.Xpo.v15.1.dll"						Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+
+				<File Id="Server.OpcClientSdk40.dll"										Name="OpcClientSdk40.dll"							Source="..\..\..\..\..\..\3rdParty\OPC\" />
+				<File Id="Server.Technosoftware.Logging40.dll"								Name="Technosoftware.Logging40.dll"					Source="..\..\..\..\..\..\3rdParty\OPC\" />
+
+				<File Id="Server.Microsoft.Windows.Shell.dll"								Name="Microsoft.Windows.Shell.dll"					Source="..\..\..\..\..\..\3rdParty\Microsoft.Windows.Shell.dll" />
+			</Component>
+
+			<Component Id="Server.VIDEO_MODULE" Guid="7d458de8-d0d7-478f-b0d5-e2c512469922">
+				<File Id="Server.API.dll"													Name="API.dll"										Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
+				<File Id="Server.Entities.dll"												Name="Entities.dll"									Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
+				<File Id="Server.GalaSoft.MvvmLight.WPF4.dll"								Name="GalaSoft.MvvmLight.WPF4.dll"					Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
+				<File Id="Server.RVI_VSS.Utils.dll"											Name="RVI_VSS.Utils.dll"							Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
+				<File Id="Server.SdkWrapper.dll"											Name="SdkWrapper.dll"								Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
+			</Component>
+
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppData.ServerLocation">
+			<Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
+				<Component Id="AppData.ServerLocation.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
+					<File Id="AppData.ServerLocation.Sound1.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
+					<File Id="AppData.ServerLocation.Sound2.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
+					<File Id="AppData.ServerLocation.Sound3.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
+					<File Id="AppData.ServerLocation.Sound4.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound4.wav" />
+					<File Id="AppData.ServerLocation.Sound5.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound5.wav" />
+					<File Id="AppData.ServerLocation.Sound6.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound6.wav" />
+					<File Id="AppData.ServerLocation.Sound7.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound7.wav" />
+					<File Id="AppData.ServerLocation.Sound8.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound8.wav" />
+					<File Id="AppData.ServerLocation.Sound9.wav"							Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound9.wav" />
+				</Component>
+			</Directory>
+
+			<Directory Id="AppData.ServerConfigLocation" Name="Config">
+				<Component Id="AppData.ServerLocation.Config" Guid="F4D3C200-5934-467c-B3E6-35C9C9D01F29" Permanent='yes' NeverOverwrite='yes'>
+					<File Id="Server.GKDeviceConfiguration.xml"								Name="GKDeviceConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
+					<File Id="Server.LayoutsConfiguration.xml"								Name="LayoutsConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
+					<File Id="Server.PlansConfiguration.xml"								Name="PlansConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
+					<File Id="Server.SystemConfiguration.xml"								Name="SystemConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
+					<File Id="Server.ZipConfigurationItemsCollection.xml"					Name="ZipConfigurationItemsCollection.xml"			Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
+				</Component>
+				<Component Id="AppData.ServerLocation.Config.Library" Guid="6D518E5C-6420-43DA-BDE3-5FDE7AB30F24">
+					<File Id="Server.GKDeviceLibraryConfiguration.xml"						Name="GKDeviceLibraryConfiguration.xml"				Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
+				</Component>
+			</Directory>
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppData.ServerLocation">
+			<Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494" Permanent='yes' NeverOverwrite='yes'>
+				<File Id="Server.SecurityConfiguration.xml"								Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppData.EmptyLocation">
+			<Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
+				<File Id="Server.AppData.EmptyLocation.GKDeviceConfiguration.xml"			Name="GKDeviceConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.GKDeviceLibraryConfiguration.xml"	Name="GKDeviceLibraryConfiguration.xml"				Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.LayoutsConfiguration.xml"			Name="LayoutsConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.PlansConfiguration.xml"				Name="PlansConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.SecurityConfiguration.xml"			Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.SystemConfiguration.xml"				Name="SystemConfiguration.xml"						Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
+				<File Id="Server.AppData.EmptyLocation.ZipConfigurationItemsCollection.xml"	Name="ZipConfigurationItemsCollection.xml"			Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppData.RubezhLocation">
+			<Component Id="AppData.RubezhLocation.Permissions" Guid="28D9EA15-1142-48EE-BB4D-DBAC0683D222">
+				<CreateFolder>
+					<util:PermissionEx User="Users" GenericAll="yes" />
+				</CreateFolder>
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppData.RubezhLocation">
+			<Component Id="AppData.Manual.pdf">
+				<File Id="Server.Manual.pdf"												Name="Manual.pdf"									Source="..\..\..\..\..\Deploy\Manual\" />
+			</Component>
+		</DirectoryRef>
+
+	</Fragment>
+</Wix>

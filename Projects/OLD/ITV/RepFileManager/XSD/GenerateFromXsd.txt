@@ -1,1 +1,0 @@
-"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\xsd.exe" -c -l:c# -n:ItvIntergation.Ngi  "D:/Projects/Projects/ITV/RepFileManager/XSD/ngi.xsd" /out:"D:/Projects/Projects/ITV/RepFileManager/XSD/" /fields

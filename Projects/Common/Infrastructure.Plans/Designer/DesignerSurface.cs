@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Common;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Common;
 
 namespace Infrastructure.Plans.Designer
 {
@@ -38,10 +38,8 @@ namespace Infrastructure.Plans.Designer
 			{
 				Children.Add(visual.WPFControl);
 			}
-			else
-			{
-				_visuals.Add(visual);
-			}
+
+			_visuals.Add(visual);
 			_isZIndexValid = false;
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
@@ -55,6 +53,7 @@ namespace Infrastructure.Plans.Designer
 			if (_visualItemOver != null)
 				_visualItemOver.SetIsMouseOver(false, new Point());
 			_visuals.Clear();
+			Children.Clear();
 		}
 		internal void UpdateZIndex()
 		{
@@ -179,7 +178,7 @@ namespace Infrastructure.Plans.Designer
 				var thickness = Border == null ? 0 : Border.Thickness;
 				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
 				foreach (var item in _visuals)
-				//if (item.IsVisibleLayout)
+					//if (item.IsVisibleLayout)
 					item.Render(dc);
 				_designerCanvas.RenderForeground(dc);
 			}

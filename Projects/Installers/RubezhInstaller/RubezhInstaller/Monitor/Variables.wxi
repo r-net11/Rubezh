@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+	<?define MonitorName					="Оперативная задача Глобал" ?>
+	<?define MonitorDescription				="Запускает оперативную задача Глобал" ?>
+	<?define LayoutMonitorName				="Оперативная задача Глобал с макетами" ?>
+	<?define LayoutMonitorDescription		="Запускает оперативную задачу Глобал с макетами" ?>
+	<?define Monitor.TargetDir				="..\..\..\..\..\RubezhMonitor\bin\Release\"?>
+	<?define Monitor.TargetFileName			="RubezhMonitor.exe"?>
+	<?define LayoutMonitor.TargetFileName	="RubezhMonitor.Layout.exe"?>
+	<?define Monitor.TargetPath				="..\..\..\..\..\RubezhMonitor\bin\Release\RubezhMonitor.exe"?>
+	<?define Monitor.RVIVSS.TargetDir		="..\..\..\..\..\..\3rdParty\RVIVSS\"?>
+	<?define Monitor.RVIVSS.Dll.TargetDir	="..\..\..\..\..\..\3rdParty\RVIVSS\Dll\"?>
+	<?define Server.TargetDir				="..\..\..\..\..\RubezhService\bin\Release\"?>
+	<?define Common.TargetDir				="..\..\..\..\..\RubezhAdministrator\bin\Release\"?>
+	<?define Monitor.DevExpress.TargetDir	="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\"?>
+</Include>

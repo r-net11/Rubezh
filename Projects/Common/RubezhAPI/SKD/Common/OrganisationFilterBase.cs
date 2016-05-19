@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -11,7 +12,7 @@ namespace RubezhAPI.SKD
 		public List<Guid> OrganisationUIDs { get; set; }
 
 		[DataMember]
-		public Guid UserUID { get; set; }
+		public User User { get; set; }
 
 		public OrganisationFilterBase()
 			: base()

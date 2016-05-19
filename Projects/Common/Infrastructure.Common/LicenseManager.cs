@@ -19,8 +19,8 @@ namespace Infrastructure.Common.License
 			}
 		}
 
-		static FiresecLicenseInfo _currentLicenseInfo = new FiresecLicenseInfo();
-		public static FiresecLicenseInfo CurrentLicenseInfo
+		static RubezhLicenseInfo _currentLicenseInfo = new RubezhLicenseInfo();
+		public static RubezhLicenseInfo CurrentLicenseInfo
 		{
 			get { return _currentLicenseInfo; }
 			set
@@ -35,26 +35,26 @@ namespace Infrastructure.Common.License
 			}
 		}
 
-		public static FiresecLicenseInfo PreviousLicenseInfo { get; private set; }
+		public static RubezhLicenseInfo PreviousLicenseInfo { get; private set; }
 
-		static RubezhLicenseManager<FiresecLicenseInfo> _manager = new RubezhLicenseManager<FiresecLicenseInfo>();
+		static RubezhLicenseManager<RubezhLicenseInfo> _manager = new RubezhLicenseManager<RubezhLicenseInfo>();
 
-		public static FiresecLicenseInfo TryLoad(string path)
+		public static RubezhLicenseInfo TryLoad(string path)
 		{
 			return _manager.TryLoad(path, InitialKey);
 		}
 
-		public static FiresecLicenseInfo TryLoad(string path, InitialKey key)
+		public static RubezhLicenseInfo TryLoad(string path, InitialKey key)
 		{
 			return _manager.TryLoad(path, key);
 		}
 
-		public static bool TrySave(string path, FiresecLicenseInfo licenseInfo)
+		public static bool TrySave(string path, RubezhLicenseInfo licenseInfo)
 		{
 			return _manager.TrySave(path, licenseInfo, InitialKey);
 		}
 
-		public static bool TrySave(string path, FiresecLicenseInfo licenseInfo, InitialKey key)
+		public static bool TrySave(string path, RubezhLicenseInfo licenseInfo, InitialKey key)
 		{
 			return _manager.TrySave(path, licenseInfo, key);
 		}

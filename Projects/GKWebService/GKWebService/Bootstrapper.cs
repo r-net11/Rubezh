@@ -78,8 +78,6 @@ namespace GKWebService
 		static void InitializeGK()
 		{
 			RubezhClient.ClientManager.GetConfiguration("GKWEB/Configuration");
-
-			//GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();

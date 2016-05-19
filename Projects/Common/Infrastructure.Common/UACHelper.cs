@@ -8,6 +8,9 @@ namespace Infrastructure.Common
 		{
 			get
 			{
+#if DEBUG
+				return true;
+#endif
 				var windowsIdentity = WindowsIdentity.GetCurrent();
 				var windowsPrincipal = new WindowsPrincipal(windowsIdentity);
 				return windowsPrincipal.IsInRole(WindowsBuiltInRole.Administrator);

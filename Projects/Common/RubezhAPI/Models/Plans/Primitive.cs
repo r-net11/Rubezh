@@ -11,6 +11,7 @@
 		SubPlan,
 		TextBlock,
 		TextBox,
+		Procedure,
 		NotPrimitive
 	}
 }

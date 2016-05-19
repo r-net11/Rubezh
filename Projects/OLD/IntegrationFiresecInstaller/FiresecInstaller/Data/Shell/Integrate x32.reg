@@ -1,9 +1,0 @@
-Windows Registry Editor Version 5.00
-
-;По умолчанию explorer.exe
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
-"Shell"="%ProgramFiles%\Rubezh\FireMonitor\FireMonitor.exe"
-
-;Чтобы снять отключени нужно удалить данный ключик.
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
-"DisableTaskMgr"=dword:00000001

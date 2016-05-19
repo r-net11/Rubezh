@@ -185,6 +185,7 @@
     <Compile Include="Drivers\RK\RK_OPZ_Helper.cs" />
     <Compile Include="Drivers\RK\RK_RM_Helper.cs" />
     <Compile Include="Drivers\RK\RK_SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_IS_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABPC_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABShS_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABShS_Helper.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="Hierarchy\HierarchicalItem.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
-    <Compile Include="License\FiresecLicenseInfo.cs" />
+    <Compile Include="License\RubezhLicenseInfo.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
     <Compile Include="License\LicenseMode.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKPumpStation.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
+    <Compile Include="Models\System\SoundType.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />
     <Compile Include="Models\Video\RviStatus.cs" />
     <Compile Include="Models\Video\RviServer.cs" />
@@ -374,13 +376,13 @@
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
     <Compile Include="Journal\JournalSubsystemType.cs" />
-    <Compile Include="IFiresecServiceAutomation.cs" />
-    <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
+    <Compile Include="IRubezhServiceAutomation.cs" />
+    <Compile Include="IRubezhServiceSKD.TimeTrack.cs" />
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />
-    <Compile Include="IFiresecServiceSKD.cs" />
+    <Compile Include="IRubezhServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
-    <Compile Include="IFiresecService.cs" />
+    <Compile Include="IRubezhService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
     <Compile Include="Models\Automation\FindObjectCondition.cs" />
     <Compile Include="Models\Automation\JoinOperator.cs" />
@@ -614,7 +616,6 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\Video\Camera.cs" />
     <Compile Include="Models\Plans\ElementRectangleSubPlan.cs" />

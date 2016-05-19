@@ -229,6 +229,7 @@ namespace Infrastructure.Plans
 			{
 				var element = designerItem.Element;
 				elementBase.Copy(element);
+				designerItem.UpdateElementProperties();
 				designerItem.ResetElement(element);
 			}
 			else
@@ -247,14 +248,13 @@ namespace Infrastructure.Plans
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("CloneElements");
-			_initialElements = new List<ElementBase>();
+			var elements = new List<ElementBase>();
 			foreach (var designerItem in designerItems)
 			{
 				designerItem.UpdateElementProperties();
-				_initialElements.Add(designerItem.Element.Clone());
+				elements.Add(designerItem.Element.Clone());
 			}
-			return _initialElements;
+			return elements;
 		}
 
 		public override void Update()
@@ -278,7 +278,6 @@ namespace Infrastructure.Plans
 		}
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("BeginChange");
 			_initialElements = CloneElements(designerItems);
 		}
 		public override void BeginChange()
@@ -287,7 +286,6 @@ namespace Infrastructure.Plans
 		}
 		public override void EndChange()
 		{
-			//Debug.WriteLine("EndChange");
 			var after = PlanDesignerViewModel.AddHistoryItem(_initialElements);
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(after);
 			foreach (var designerItem in SelectedItems)

@@ -15,7 +15,7 @@ namespace Infrastructure.Plans.Designer
 	public abstract class CommonDesignerCanvas : Decorator
 	{
 		private Dictionary<Guid, CommonDesignerItem> _map;
-		protected DesignerSurface DesignerSurface { get; private set; }
+		public DesignerSurface DesignerSurface { get; private set; }
 		protected Guid SelectedUID { get; private set; }
 		public PainterCache PainterCache { get; private set; }
 		public IGridLineController GridLineController { get; protected set; }
@@ -128,6 +128,10 @@ namespace Infrastructure.Plans.Designer
 			}
 		}
 
+		public IEnumerable<CommonDesignerItem> CommonDesignerItems
+		{
+			get { return DesignerSurface == null ? Enumerable.Empty<DesignerItem>() : DesignerSurface.Items.OfType<CommonDesignerItem>(); } 
+		}
 		public IEnumerable<DesignerItem> Items
 		{
 			get { return DesignerSurface == null ? Enumerable.Empty<DesignerItem>() : DesignerSurface.Items.OfType<DesignerItem>(); }

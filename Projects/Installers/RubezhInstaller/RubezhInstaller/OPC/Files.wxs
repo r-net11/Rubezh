@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<?include Variables.wxi?>
+	<Fragment>
+		<DirectoryRef Id="GKOPCLOCATION">
+			<Component Id="OPC.AutorunComponent" Guid="BD75A4AB-4E5D-49CF-811A-F51464E87174">
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+					<RegistryValue KeyPath="yes" Name="GKOPCServer" Type="string" Value="[GKOPCLOCATION]GKOPCServer.exe" />
+				</RegistryKey>
+			</Component>
+
+			<Component Id="OPC.Files" Guid="880A52E6-F239-4977-BF95-0659BCA08034">
+				<File Id="OPC.GKOPCServer.exe"							Name="GKOPCServer.exe"						Source="$(var.OPC.TargetDir)" KeyPath="yes" />
+				<File Id="OPC.GKOPCServer.exe.config"					Name="GKOPCServer.exe.config"				Source="$(var.OPC.TargetDir)" />
+				<File Id="OPC.GKOPCServer.exe.manifest"					Name="GKOPCServer.exe.manifest"				Source="$(var.OPC.TargetDir)" />
+				<File Id="OPC.Infrastructure.Common.dll"				Name="Infrastructure.Common.dll"			Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Infrastructure.Common.Windows.dll"		Name="Infrastructure.Common.Windows.dll"	Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Infrastructure.Plans.dll"					Name="Infrastructure.Plans.dll"				Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Common.dll"								Name="Common.dll"							Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.GKProcessor.dll"							Name="GKProcessor.dll"						Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Controls.dll"								Name="Controls.dll"							Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.RubezhAPI.dll"							Name="RubezhAPI.dll"						Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.RubezhClient.dll"							Name="RubezhClient.dll"						Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Ionic.Zip.dll"							Name="Ionic.Zip.dll"						Source="..\..\..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\" />
+				<File Id="OPC.Xceed.Wpf.Toolkit.dll"					Name="Xceed.Wpf.Toolkit.dll"				Source="..\..\..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\" />
+				<File Id="OPC.WPFToolkit.Extended.dll"					Name="WPFToolkit.Extended.dll"				Source="..\..\..\..\..\..\3rdParty\WPF Toolkit\" />
+				<File Id="OPC.gbda_clr.dll"								Name="gbda_clr.dll"							Source="..\..\..\..\..\..\3rdParty\OPC\Graybox\" />
+				<File Id="OPC.gbda3w.dll"								Name="gbda3w.dll"							Source="..\..\..\..\..\..\3rdParty\OPC\Graybox\" />
+				<File Id="OPC.ControlsMicrosoft.Practices.Prism.dll"	Name="Microsoft.Practices.Prism.dll"		Source="..\..\..\..\..\..\3rdParty\PRISM\Desktop\" />
+
+				<File Id="OPC.NLog.dll"									Name="NLog.dll"								Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

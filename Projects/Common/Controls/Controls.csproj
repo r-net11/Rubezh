@@ -131,7 +131,6 @@
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
-    <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToRotationConverter.cs" />
     <Compile Include="Converters\BoolToResizeModeConverter.cs" />
     <Compile Include="Converters\BoolToYesNoConverter.cs" />
@@ -149,6 +148,8 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\SoundTypeToStringConverter.cs" />
+    <Compile Include="Converters\ProcedureContextTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
     <Compile Include="DataGridHelper.cs" />
     <Compile Include="DataGridSingleRowSelected.cs" />
@@ -158,7 +159,6 @@
     </Compile>
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
-    <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
@@ -219,6 +219,7 @@
     <Compile Include="PDF\PDFDocument.cs" />
     <Compile Include="PDF\PDFHelper.cs" />
     <Compile Include="PDF\PDFStyle.cs" />
+    <Compile Include="FullTimePicker.cs" />
     <Compile Include="UIBehavior.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -426,6 +427,10 @@
     <Page Include="Themes\SeparatorStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ToggleButtonStyle.xaml">
       <SubType>Designer</SubType>
@@ -2761,6 +2766,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\GreyCamera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_IS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ProcedureYellowInverted.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

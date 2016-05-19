@@ -11,12 +11,12 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-			RegistrySettingsHelper.SetString("FiresecServerPath", path);
+			RegistrySettingsHelper.SetString("RubezhServerPath", path);
 		}
 
 		public static string GetLocation()
 		{
-			var value = RegistrySettingsHelper.GetString("FiresecServerPath");
+			var value = RegistrySettingsHelper.GetString("RubezhServerPath");
 			if (value != null)
 			{
 				if (File.Exists((string)value))
@@ -27,12 +27,12 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-			RegistrySettingsHelper.SetInt("FiresecService.State", (int)fsServerState);
+			RegistrySettingsHelper.SetInt("RubezhService.State", (int)fsServerState);
 		}
 
 		public static FSServerState GetStatus()
 		{
-			var value = RegistrySettingsHelper.GetInt("FiresecService.State");
+			var value = RegistrySettingsHelper.GetInt("RubezhService.State");
 			try
 			{
 				return (FSServerState)value;
@@ -60,8 +60,8 @@ namespace Infrastructure.Common
 
 		public static bool Load()
 		{
-			Process[] processes = Process.GetProcessesByName("FiresecService");
-			Process[] processesVsHost = Process.GetProcessesByName("FiresecService.vshost");
+			Process[] processes = Process.GetProcessesByName("RubezhService");
+			Process[] processesVsHost = Process.GetProcessesByName("RubezhService.vshost");
 			var isRunning = false;
 			foreach (var process in processes)
 			{
@@ -97,7 +97,7 @@ namespace Infrastructure.Common
 
 		static bool Start()
 		{
-			var fileName = @"..\FiresecService\FiresecService.exe";
+			var fileName = @"..\RubezhService\RubezhService.exe";
 			if (!File.Exists(fileName))
 			{
 				fileName = GetLocation();
