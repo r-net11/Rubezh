@@ -267,6 +267,7 @@
     <Content Include="App\services\authService.js" />
     <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\journalService.js" />
+    <Content Include="App\services\signalrSoundsService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDeviceParametersService.js" />
     <Content Include="App\services\signalrConfigService.js" />
@@ -611,8 +612,6 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
-    <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js" />
     <Content Include="App\services\signalrJournalService.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -623,6 +622,8 @@
     <Content Include="Content\archive.less" />
     <Content Include="Content\tab.less" />
     <Content Include="Content\favicon\manifest.json" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\d3\d3.js" />
@@ -687,7 +688,6 @@
       <DependentUpon>main.css</DependentUpon>
     </Content>
     <Content Include="Content\SaveCancelPopup.less" />
-    <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\d3\LICENSE" />
     <Content Include="Scripts\angular-ui-tree\bootstrap-theme.css.map" />
     <Content Include="Scripts\angular-ui-tree\bootstrap-theme.min.css.map" />
@@ -704,9 +704,10 @@
     <Content Include="Content\pumpStations.less" />
     <Content Include="Content\mpts.less" />
     <Content Include="Content\doorInfo.less" />
-    <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="GKWebService.wpp.targets" />
     <None Include="Properties\PublishProfiles\Rubezh.pubxml" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -778,6 +779,7 @@
     <Compile Include="DataProviders\GuardZones\GuardZonesHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
+    <Compile Include="DataProviders\Sounds\SoundsUpdaterHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
     <Compile Include="Models\Device\ViewModels\DeviceExecutableCommand.cs" />
     <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
@@ -843,6 +845,7 @@
     <Compile Include="Models\SKD\Positions\PositionViewModel.cs" />
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
+    <Compile Include="Models\Sound\Sound.cs" />
     <Compile Include="Utils\ErrorHandlerAttribute.cs" />
     <Compile Include="Models\Plan\PlanElement\PlanElement.cs" />
     <Compile Include="Utils\InternalConverter.cs" />

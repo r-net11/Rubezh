@@ -18,6 +18,7 @@ using GKWebService.DataProviders.Devices;
 using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.PumpStations;
 using GKWebService.DataProviders.DoorsHub;
+using GKWebService.DataProviders.Sounds;
 
 namespace GKWebService
 {
@@ -78,7 +79,7 @@ namespace GKWebService
 		{
 			RubezhClient.ClientManager.GetConfiguration("GKWEB/Configuration");
 
-			GKDriversCreator.Create();
+			//GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
@@ -114,6 +115,11 @@ namespace GKWebService
 			if (AlarmsUpdaterHub.Instance != null)
 			{
 				AlarmsUpdaterHub.Instance.BroadcastAlarms();
+			}
+
+			if (SoundsUpdaterHub.Instance != null)
+			{
+				SoundsUpdaterHub.Instance.BroadcastSounds();
 			}
 		}
 

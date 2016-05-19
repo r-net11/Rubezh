@@ -45,7 +45,7 @@
 			    </div>
 				<div class="icons" ng-controller="mainIconsCtrl">
 					<div class="icon RAlarm_main_5_Info"></div>
-					<div class="icon mute" ng-class="{off: isSound}" ng-click="isSound = !isSound"></div>
+					<div class="icon mute" ng-class="{off: isSound}" ng-click="soundClick()"></div>
 					<div class="icon connect on"></div>
 					<div class="icon change-user on" ng-click="logOut()"></div>
 					<div class="icon activation on"></div>
@@ -103,6 +103,7 @@
 	<script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
 	<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
 	<script src="~/Scripts/angular-signalr-hub.js"></script>
+	<script src="~/Scripts/angular-cookies.min.js"></script>
 	<script src="~/Scripts/d3/d3.min.js"></script>
 	<script src="~/Scripts/d3tip.js"></script>
 	<script src="~/Scripts/ui-grid.min.js"></script>
@@ -129,6 +130,7 @@
 
     <script src="~/App/services/broadcastService.js"></script>
 	<script src="~/App/services/signalrAlarmsService.js"></script>
+	<script src="~/App/services/signalrSoundsService.js"></script>
 	<script src="~/App/services/signalrService.js"></script>
 	<script src="~/App/services/signalrDeviceParametersService.js"></script>
 	<script src="~/App/services/signalrDelaysService.js"></script>
