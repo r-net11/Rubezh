@@ -39,7 +39,7 @@ namespace KeyGenerator
 			return _userKeyGenerator.GenerateUID();
 		}
 
-		public bool CanConnect() //TODO: Implement this method if need it
+		public bool CanConnect()
 		{
 			return IsValidLicense();
 		}
@@ -48,7 +48,7 @@ namespace KeyGenerator
 		{
 			if (!IsValidLicense()) return false;
 
-			switch (type) //TODO: Implement Photoverification module
+			switch (type)
 			{
 				case ModuleType.SKD:
 					return CurrentLicense.IsEnabledURV;
@@ -63,7 +63,10 @@ namespace KeyGenerator
 
 		public bool CanAddCard(int currentCount)
 		{
-			return currentCount < CurrentLicense.TotalUsers || CurrentLicense.IsUnlimitedUsers;
+			if(IsValidLicense())
+				return currentCount < CurrentLicense.TotalUsers || CurrentLicense.IsUnlimitedUsers;
+
+			return false;
 		}
 
 		public bool LoadLicenseFromFile(string pathToLicense)
@@ -92,8 +95,6 @@ namespace KeyGenerator
 		private bool VerifyProductKey(string key)
 		{
 			ParseLicense(key, GetCertificationContent());
-
-			if (CurrentLicense == null || CurrentLicense.UID != GetUserKey()) return false;
 
 			return IsValidLicense();
 		}
@@ -153,7 +154,7 @@ namespace KeyGenerator
 
 					//Deserialize license
 					CurrentLicense = new Entities.LicenseEntity(Serializer.Deserialize<LicenseEntity>(licXML)); //TODO: can replace LicenseEntity to factory method if need it
-					LicenseStatus = LicenseStatus.Valid;
+					SetStatusForLicense();
 				}
 				else
 					LicenseStatus = LicenseStatus.Invalid;
@@ -162,6 +163,17 @@ namespace KeyGenerator
 			{
 				LicenseStatus = LicenseStatus.Cracked;
 			}
+		}
+
+		private void SetStatusForLicense()
+		{
+			if (CurrentLicense != null && CurrentLicense.UID != GetUserKey())
+			{
+				CurrentLicense = null;
+				LicenseStatus = LicenseStatus.Invalid;
+			}
+			else
+				LicenseStatus = LicenseStatus.Valid;
 		}
 
 		private static bool VerifyXml(XmlDocument doc, AsymmetricAlgorithm key)

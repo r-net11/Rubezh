@@ -21,27 +21,24 @@ namespace FireAdministrator
 			base.OnStartup(e);
 			try
 			{
-				string fileName;
-				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+				ApplicationService.Closing += ApplicationService_Closing;
 				ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
 				bool trace = false;
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 				_bootstrapper = new Bootstrapper();
-				//using (new DoubleLaunchLocker(SignalId, WaitId))
-					_bootstrapper.Initialize();
-				if (Application.Current != null && e.Args != null && e.Args.Length > 0)
+				_bootstrapper.Initialize();
+
+				if (Current != null && e.Args.Length > 0)
 				{
-					fileName = e.Args[0];
-					FileConfigurationHelper.LoadFromFile(fileName);
+					FileConfigurationHelper.LoadFromFile(e.Args[0]);
 				}
 			}
 			catch (StartupCancellationException)
 			{
 				ApplicationService.ShutDown();
-				return;
 			}
 			finally
 			{

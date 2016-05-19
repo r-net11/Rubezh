@@ -328,7 +328,7 @@ namespace FiresecService.Service
 				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
 
 			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
-			
+
 			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
@@ -353,6 +353,9 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<LicenseData> GetLicenseData()
 		{
+			if(!_licenseManager.IsValidExistingKey())
+				return new OperationResult<LicenseData>();
+
 			return new OperationResult<LicenseData>(new LicenseData
 			{
 				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
