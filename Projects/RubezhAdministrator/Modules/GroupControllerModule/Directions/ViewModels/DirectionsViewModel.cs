@@ -9,7 +9,6 @@ using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -275,20 +274,13 @@ namespace GKModule.ViewModels
 
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementDirection = GetElementDirection(element);
+			var elementDirection = element as IElementDirection;
 			if (elementDirection != null)
 			{
 				_lockSelection = true;
 				Select(elementDirection.DirectionUID);
 				_lockSelection = false;
 			}
-		}
-		private IElementDirection GetElementDirection(ElementBase element)
-		{
-			IElementDirection elementDirection = element as ElementRectangleGKDirection;
-			if (elementDirection == null)
-				elementDirection = element as ElementPolygonGKDirection;
-			return elementDirection;
 		}
 		public override void OnShow()
 		{

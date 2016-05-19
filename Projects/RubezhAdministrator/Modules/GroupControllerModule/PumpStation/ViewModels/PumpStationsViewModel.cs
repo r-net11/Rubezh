@@ -9,7 +9,6 @@ using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -303,7 +302,7 @@ namespace GKModule.ViewModels
 
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementPumpStation = GetElementPumpStation(element);
+			var elementPumpStation = element as IElementPumpStation;
 			if (elementPumpStation != null)
 			{
 				_lockSelection = true;
@@ -311,13 +310,7 @@ namespace GKModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private IElementPumpStation GetElementPumpStation(ElementBase element)
-		{
-			IElementPumpStation elementPumpStation = element as ElementRectangleGKPumpStation;
-			if (elementPumpStation == null)
-				elementPumpStation = element as ElementPolygonGKPumpStation;
-			return elementPumpStation;
-		}
+
 		public override void OnShow()
 		{
 			base.OnShow();

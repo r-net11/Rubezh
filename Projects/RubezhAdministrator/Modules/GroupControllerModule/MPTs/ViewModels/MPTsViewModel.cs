@@ -9,7 +9,6 @@ using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -272,20 +271,13 @@ namespace GKModule.ViewModels
 
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementMPT = GetElementMPT(element);
+			var elementMPT = element as IElementMPT;
 			if (elementMPT != null)
 			{
 				_lockSelection = true;
 				Select(elementMPT.MPTUID);
 				_lockSelection = false;
 			}
-		}
-		private IElementMPT GetElementMPT(ElementBase element)
-		{
-			IElementMPT elementMPT = element as ElementRectangleGKMPT;
-			if (elementMPT == null)
-				elementMPT = element as ElementPolygonGKMPT;
-			return elementMPT;
 		}
 	}
 }

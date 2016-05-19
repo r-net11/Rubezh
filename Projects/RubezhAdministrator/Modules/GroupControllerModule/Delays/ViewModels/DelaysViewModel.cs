@@ -9,7 +9,6 @@ using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -294,20 +293,13 @@ namespace GKModule.ViewModels
 
 		void OnElementSelected(ElementBase element)
 		{
-			var elementDelay = GetElementGKDelay(element);
+			var elementDelay = element as IElementDelay;
 			if (elementDelay != null)
 			{
 				_lockSelection = true;
 				Select(elementDelay.DelayUID);
 				_lockSelection = false;
 			}
-		}
-		IElementDelay GetElementGKDelay(ElementBase element)
-		{
-			IElementDelay elementDelay = element as ElementRectangleGKDelay;
-			if (elementDelay == null)
-				elementDelay = element as ElementPolygonGKDelay;
-			return elementDelay;
 		}
 	}
 }

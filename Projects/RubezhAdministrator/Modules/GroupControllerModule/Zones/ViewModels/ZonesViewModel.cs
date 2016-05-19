@@ -9,7 +9,6 @@ using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -253,20 +252,13 @@ namespace GKModule.ViewModels
 
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementZone = GetElementGKZone(element);
+			var elementZone = element as IElementZone;
 			if (elementZone != null)
 			{
 				_lockSelection = true;
 				Select(elementZone.ZoneUID);
 				_lockSelection = false;
 			}
-		}
-		private IElementZone GetElementGKZone(ElementBase element)
-		{
-			IElementZone elementZone = element as ElementRectangleGKZone;
-			if (elementZone == null)
-				elementZone = element as ElementPolygonGKZone;
-			return elementZone;
 		}
 	}
 }
