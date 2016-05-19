@@ -176,6 +176,7 @@ namespace GKModule.ViewModels
 			if (createGKDoorEventArg.GKDoor != null)
 			{
 				SourceDoors.Add(createGKDoorEventArg.GKDoor);
+				SelectedSourceDoor = SourceDoors.FirstOrDefault(x => x == createGKDoorEventArg.GKDoor);
 			}
 		}
 

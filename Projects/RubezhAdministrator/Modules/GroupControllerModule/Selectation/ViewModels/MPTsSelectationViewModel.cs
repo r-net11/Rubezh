@@ -162,6 +162,7 @@ namespace GKModule.ViewModels
 			if (createGKMPTEventArg.MPT != null)
 			{
 				SourceMPTs.Add(createGKMPTEventArg.MPT);
+				SelectedSourceMPT = SourceMPTs.FirstOrDefault(x => x == createGKMPTEventArg.MPT);
 			}
 		}
 

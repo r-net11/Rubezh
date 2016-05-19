@@ -171,6 +171,7 @@ namespace GKModule.ViewModels
 			if (createGKPumpStationventArg.PumpStation != null)
 			{
 				SourcePumpStations.Add(createGKPumpStationventArg.PumpStation);
+				SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault(x => x == createGKPumpStationventArg.PumpStation);
 			}
 		}
 		public bool CanAddAll()

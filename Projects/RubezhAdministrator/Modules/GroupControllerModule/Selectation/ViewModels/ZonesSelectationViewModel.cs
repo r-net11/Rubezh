@@ -163,6 +163,7 @@ namespace GKModule.ViewModels
 			if (createZoneEventArg.Zone != null)
 			{
 				SourceZones.Add(createZoneEventArg.Zone);
+				SelectedSourceZone = SourceZones.FirstOrDefault(x => x == createZoneEventArg.Zone);
 			}
 		}
 

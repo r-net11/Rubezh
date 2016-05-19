@@ -160,6 +160,7 @@ namespace GKModule.ViewModels
 			if (createGKDelayEventArg.Delay != null)
 			{
 				SourceDelays.Add(createGKDelayEventArg.Delay);
+				SelectedSourceDelay = SourceDelays.FirstOrDefault(x => x == createGKDelayEventArg.Delay);
 			}
 		}
 

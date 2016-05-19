@@ -171,6 +171,7 @@ namespace GKModule.ViewModels
 			if (createGKDirectionEventArg.Direction != null)
 			{
 				SourceDirections.Add(createGKDirectionEventArg.Direction);
+				SelectedSourceDirection = SourceDirections.FirstOrDefault(x => x == createGKDirectionEventArg.Direction);
 			}
 		}
 
