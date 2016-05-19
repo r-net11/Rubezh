@@ -63,7 +63,12 @@ namespace AutomationModule.ViewModels
 
 		public ContextType ContextType
 		{
-			get { return Procedure.ContextType; } 
+			get { return Procedure.ContextType; }
+			set 
+			{
+				Procedure.ContextType = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
 		}
 
 		public string Description
@@ -83,6 +88,7 @@ namespace AutomationModule.ViewModels
 				StepsViewModel.SelectedStep.UpdateContent();
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => IsActive);
+			OnPropertyChanged(() => ContextType);
 		}
 
 		public RelayCommand ShowStepsCommand { get; private set; }
