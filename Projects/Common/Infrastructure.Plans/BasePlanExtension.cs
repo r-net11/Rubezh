@@ -106,18 +106,23 @@ namespace Infrastructuret.Plans
 		public void RewriteItem<TItem>(IElementReference element, TItem item)
 			where TItem : IPlanPresentable
 		{
-			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
+			if (item != null)
 			{
-				item.PlanElementUIDs.Add(element.UID);
-				item.OnPlanElementUIDsChanged();
+				if (!item.PlanElementUIDs.Contains(element.UID))
+				{
+					item.PlanElementUIDs.Add(element.UID);
+					item.OnPlanElementUIDsChanged();
+				}
+				var allItems = Cache.GetAll<TItem>();
+				foreach (var entity in allItems.Where(x => x.UID != item.UID && x.PlanElementUIDs.Contains(element.UID)))
+				{
+					entity.PlanElementUIDs.Remove(element.UID);
+					entity.OnPlanElementUIDsChanged();
+				}
+				element.ItemUID = item.UID;
 			}
-			element.ItemUID = item == null ? Guid.Empty : item.UID;
-			var allItems = Cache.GetAll<TItem>();
-			foreach (var entity in allItems.Where(x => x.UID != item.UID && x.PlanElementUIDs.Contains(element.UID)))
-			{
-				entity.PlanElementUIDs.Remove(element.UID);
-				entity.OnPlanElementUIDsChanged();
-			}
+			else
+				element.ItemUID = Guid.Empty;
 			UpdateElementProperties<TItem>(element, item);
 		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
