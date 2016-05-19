@@ -61,17 +61,23 @@ namespace RubezhMonitor.ViewModels
 				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
 					var hasStateClass = false;
-					if (sound.Type == SoundType.Alarm)
+					switch (sound.Type)
 					{
-						if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-					}
-					else
-					{
-						if (sound.StateClass == XStateClass.Failure || sound.StateClass == XStateClass.Off || sound.StateClass == XStateClass.AutoOff)
-						{
+						case SoundType.Alarm:
+							if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+							{
+								hasStateClass = true;
+							}
+							break;
+						case SoundType.Fire1:
+						case SoundType.Fire2:
+						case SoundType.Attention:
+							if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+							{
+								hasStateClass = true;
+							}
+							break;
+						case SoundType.Failure:
 							foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
 							{
 								if (device.State.StateClass == sound.StateClass)
@@ -80,33 +86,43 @@ namespace RubezhMonitor.ViewModels
 									break;
 								}
 							}
-						}
-
-						if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-
-						if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-
-						if (GKManager.Directions.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-
-						if (GKManager.PumpStations.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-
-						if (GKManager.MPTs.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
-						{
-							hasStateClass = true;
-						}
-
+							break;
+						case SoundType.Off:
+							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
+							foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
+							{
+								if (device.State.StateClass == sound.StateClass)
+								{
+									hasStateClass = true;
+									break;
+								}
+							}
+							if (GKManager.Zones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+							{
+								hasStateClass = true;
+							}
+							if (GKManager.GuardZones.Any(x => x.State != null && x.State.StateClass == sound.StateClass))
+							{
+								hasStateClass = true;
+							}
+							break;
+						case SoundType.TurningOn:
+							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
+							break;
+						case SoundType.TurningOff:
+							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
+							break;
+						case SoundType.AutoOff:
+							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
+							foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
+							{
+								if (device.State.StateClass == sound.StateClass)
+								{
+									hasStateClass = true;
+									break;
+								}
+							}
+							break;
 					}
 
 					if (hasStateClass)
@@ -117,7 +133,6 @@ namespace RubezhMonitor.ViewModels
 							minSound = sound;
 						}
 					}
-
 				}
 			}
 			if (minSound != null)
@@ -128,6 +143,15 @@ namespace RubezhMonitor.ViewModels
 			{
 				AlarmPlayerHelper.Stop();
 			}
+		}
+
+		bool CheckStatusMptNsNpt(XStateClass stateClass)
+		{
+			if ((GKManager.MPTs.Any(x => x.State != null && x.State.StateClass == stateClass)) ||
+			(GKManager.PumpStations.Any(x => x.State != null && x.State.StateClass == stateClass)) ||
+			(GKManager.Directions.Any(x => x.State != null && x.State.StateClass == stateClass)))
+				return true;
+			return false;
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }

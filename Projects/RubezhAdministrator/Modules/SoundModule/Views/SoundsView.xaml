@@ -16,7 +16,7 @@
 	<DataGrid ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False" CanUserSortColumns="True">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
-				SortMemberPath="StateClass"
+				SortMemberPath="SoundType"
 				Header="Состояние"
 				Width="*">
 				<DataGridTemplateColumn.CellTemplate>

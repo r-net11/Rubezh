@@ -52,10 +52,10 @@ namespace SoundsModule.ViewModels
 				Sounds.Add(new SoundViewModel(newSound));
 			}
 
-			Sounds.Sort(x => EnumHelper.GetEnumDescription(x.StateClass));
+			Sounds.Sort(x => EnumHelper.GetEnumDescription(x.SoundType));
 			SelectedSound = Sounds.FirstOrDefault();
 
-			if (ClientManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.StateClass == x.StateClass)) > 0)
+			if (ClientManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.SoundType == x.Type)) > 0)
 				ServiceFactory.SaveService.SoundsChanged = true;
 		}
 
