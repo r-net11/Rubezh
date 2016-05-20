@@ -147,5 +147,11 @@ namespace StrazhAPI
 		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
 		[OperationContract]
 		void SendDisconnectClientCommand(Guid clientUid);
+
+		/// <summary>
+		/// Монитор Сервера уведомляет Сервер о смене лицензии
+		/// </summary>
+		[OperationContract]
+		void NotifyLicenseChanged();
 	}
 }

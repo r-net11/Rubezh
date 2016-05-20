@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using FiresecClient;
+using StrazhAPI;
 using StrazhAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -50,6 +51,11 @@ namespace StrazhService.Monitor.ViewModels
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
 			}
+		}
+
+		public bool CanCheck
+		{
+			get { return UID != FiresecServiceFactory.UID; }
 		}
 	}
 }

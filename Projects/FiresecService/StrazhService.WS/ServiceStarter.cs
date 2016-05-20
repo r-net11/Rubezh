@@ -12,7 +12,7 @@ namespace StrazhService.WS
 	{
 		public void Start()
 		{
-			Logger.Info("Запуск ядра");
+			Logger.Info("Запуск сервера");
 
 			// Актуализация схемы БД
 			try
@@ -39,12 +39,10 @@ namespace StrazhService.WS
 				Logger.Info("Инициализируем валидатор конфигурации");
 				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
 
-				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				// и уведомляем всех Клиентов
+				// При смене лицензии Сервера уведомляем его об этом
 				licenseManager.LicenseChanged += () =>
 				{
 					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
 				};
 
 				Logger.Info("Загрузка конфигурации");
@@ -77,7 +75,7 @@ namespace StrazhService.WS
 
 		public void Stop()
 		{
-			Logger.Info("Остановка ядра");
+			Logger.Info("Остановка сервера");
 			ProcedureRunner.Terminate();
 			Environment.Exit(1);
 		}

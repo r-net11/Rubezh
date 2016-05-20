@@ -294,7 +294,7 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
-		/// Посылает Клиентам уведомление о смене лицензии на Сервере
+		/// Монитор Сервера уведомляет Сервер о смене лицензии
 		/// </summary>
 		public void NotifyLicenseChanged()
 		{
