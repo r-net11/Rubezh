@@ -10,7 +10,7 @@ namespace Infrastructure.Plans
 		public static IEnumerable<ElementBase> Enumerate(Plan plan)
 		{
 			return EnumeratePrimitives(plan)
-				.Union(plan.ElementSubPlans)
+				.Union(plan.ElementRectangleSubPlans)
 				.Union(plan.ElementPolygonSubPlans);
 		}
 

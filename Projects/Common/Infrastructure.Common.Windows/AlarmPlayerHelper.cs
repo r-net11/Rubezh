@@ -48,22 +48,6 @@ namespace Infrastructure.Common
 			_isBeepThreadStopping = true;
 		}
 
-		static void PlayPCSpeaker(BeeperType beeperType, bool isContinious)
-		{
-			if (beeperType != BeeperType.None)
-			{
-				_beepFrequency = (int)beeperType;
-				_isContinious = isContinious;
-
-				_isBeepThreadStopping = false;
-				if (_beepThread == null)
-				{
-					_beepThread = new Thread(PlayBeep);
-					_beepThread.Name = "PC Speaker";
-					_beepThread.Start();
-				}
-			}
-		}
 
 		static void PlaySound(string filePath, bool isContinious)
 		{
@@ -96,12 +80,11 @@ namespace Infrastructure.Common
 			}
 		}
 
-		public static void Play(string filePath, BeeperType speakertype, bool isContinious)
+		public static void Play(string filePath, bool isContinious)
 		{
 			try
 			{
 				PlaySound(filePath, isContinious);
-				PlayPCSpeaker(speakertype, isContinious);
 			}
 			catch(Exception e)
 			{

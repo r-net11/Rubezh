@@ -104,7 +104,6 @@
     <Compile Include="Extentions\StretchExtentions.cs" />
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\CommonDesignerItem.cs" />
-    <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerSurface.cs" />
     <Compile Include="Designer\GridLine.cs" />
     <Compile Include="Designer\IGridLineController.cs" />
@@ -160,6 +159,7 @@
     <Compile Include="Painters\PolygonSubPlanPainter.cs" />
     <Compile Include="Painters\PolygonZonePainter.cs" />
     <Compile Include="Painters\PolylinePainter.cs" />
+    <Compile Include="Painters\ProcedurePainter.cs" />
     <Compile Include="Painters\RectanglePainter.cs" />
     <Compile Include="Painters\RectangleZonePainter.cs" />
     <Compile Include="Painters\SubPlanPainter.cs" />

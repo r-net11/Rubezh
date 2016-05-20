@@ -11,7 +11,7 @@ namespace GKWebService.DataProviders.SKD
     {
         public static IEnumerable<Organisation> Get(OrganisationFilter filter)
         {
-            var result = ClientManager.FiresecService.GetOrganisations(filter);
+            var result = ClientManager.RubezhService.GetOrganisations(filter);
             return Common.ThrowErrorIfExists(result);
         }
 
@@ -22,7 +22,7 @@ namespace GKWebService.DataProviders.SKD
 
         public static bool Save(OrganisationDetails organisation, bool isNew)
         {
-            var result = ClientManager.FiresecService.SaveOrganisation(organisation, isNew);
+            var result = ClientManager.RubezhService.SaveOrganisation(organisation, isNew);
             return Common.ThrowErrorIfExists(result);
         }
 
@@ -32,7 +32,7 @@ namespace GKWebService.DataProviders.SKD
                 return null;
             var filter = new OrganisationFilter();
             filter.UIDs.Add((Guid)uid);
-            var operationResult = ClientManager.FiresecService.GetOrganisations(filter);
+            var operationResult = ClientManager.RubezhService.GetOrganisations(filter);
             var result = Common.ThrowErrorIfExists(operationResult);
             if (result != null)
                 return result.FirstOrDefault();
@@ -41,25 +41,25 @@ namespace GKWebService.DataProviders.SKD
 
         public static OrganisationDetails GetDetails(Guid uid)
         {
-            var result = ClientManager.FiresecService.GetOrganisationDetails(uid);
+            var result = ClientManager.RubezhService.GetOrganisationDetails(uid);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool AddDoor(Organisation organisation, Guid doorUID)
         {
-            var result = ClientManager.FiresecService.AddOrganisationDoor(organisation, doorUID);
+            var result = ClientManager.RubezhService.AddOrganisationDoor(organisation, doorUID);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool RemoveDoor(Organisation organisation, Guid doorUID)
         {
-            var result = ClientManager.FiresecService.RemoveOrganisationDoor(organisation, doorUID);
+            var result = ClientManager.RubezhService.RemoveOrganisationDoor(organisation, doorUID);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool SaveUsers(Organisation organisation)
         {
-            var result = ClientManager.FiresecService.SaveOrganisationUsers(organisation);
+            var result = ClientManager.RubezhService.SaveOrganisationUsers(organisation);
             return Common.ThrowErrorIfExists(result);
         }
 
@@ -75,31 +75,31 @@ namespace GKWebService.DataProviders.SKD
 
         public static bool MarkDeleted(Guid uid, string name)
         {
-            var result = ClientManager.FiresecService.MarkDeletedOrganisation(uid, name);
+            var result = ClientManager.RubezhService.MarkDeletedOrganisation(uid, name);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool Restore(Guid uid, string name)
         {
-            var operationResult = ClientManager.FiresecService.RestoreOrganisation(uid, name);
+            var operationResult = ClientManager.RubezhService.RestoreOrganisation(uid, name);
             return Common.ThrowErrorIfExists(operationResult);
         }
 
         public static bool SaveChief(Guid uid, Guid? chiefUID, string name)
         {
-            var result = ClientManager.FiresecService.SaveOrganisationChief(uid, chiefUID, name);
+            var result = ClientManager.RubezhService.SaveOrganisationChief(uid, chiefUID, name);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool SaveHRChief(Guid uid, Guid? chiefUID, string name)
         {
-            var result = ClientManager.FiresecService.SaveOrganisationHRChief(uid, chiefUID, name);
+            var result = ClientManager.RubezhService.SaveOrganisationHRChief(uid, chiefUID, name);
             return Common.ThrowErrorIfExists(result);
         }
 
         public static bool IsAnyItems(Guid uid)
         {
-            var operationResult = ClientManager.FiresecService.IsAnyOrganisationItems(uid);
+            var operationResult = ClientManager.RubezhService.IsAnyOrganisationItems(uid);
             return Common.ThrowErrorIfExists(operationResult);
         }
     }

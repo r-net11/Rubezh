@@ -107,7 +107,6 @@
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
     <Compile Include="Watcher\Watcher.Journal.cs" />
     <Compile Include="Watcher\Watcher.Measure.cs" />
-    <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
     <Compile Include="Watcher\Watcher.Main.cs" />

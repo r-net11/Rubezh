@@ -12,7 +12,7 @@ namespace Controls
 
 			if (rowContainer != null)
 			{
-				DataGridCellsPresenter presenter = GetVisualChild<DataGridCellsPresenter>(rowContainer);
+				DataGridCellsPresenter presenter = VisualHelper.FindVisualChild<DataGridCellsPresenter>(rowContainer);
 
 				// try to get the cell but it may possibly be virtualized
 				DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
@@ -37,26 +37,6 @@ namespace Controls
 				row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(index);
 			}
 			return row;
-		}
-
-		static T GetVisualChild<T>(Visual parent) where T : Visual
-		{
-			T child = default(T);
-			int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-			for (int i = 0; i < numVisuals; i++)
-			{
-				Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
-				child = v as T;
-				if (child == null)
-				{
-					child = GetVisualChild<T>(v);
-				}
-				if (child != null)
-				{
-					break;
-				}
-			}
-			return child;
 		}
 	}
 }

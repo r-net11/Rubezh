@@ -87,7 +87,6 @@ namespace Infrastructure.Plans.ViewModels
 					DesignerCanvas.DesignerChanged();
 					if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
 						this.clipboard.Clear();
-					this.clipboard.SourceAction = ClipboardSourceAction.Copy;
 				}
 		}
 
@@ -108,7 +107,7 @@ namespace Infrastructure.Plans.ViewModels
 				if (!this.DesignerCanvas.Toolbox.IsEnabled)
 					return false;
 			}
-			return this.clipboard.Buffer.Where(x => AllowPaste(x)).Count() > 0;
+			return this.clipboard.Buffer.Count > 0 && this.clipboard.Buffer.All(x => AllowPaste(x));
 		}
 
 		void OnRemoveElements(List<ElementBase> elements)

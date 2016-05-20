@@ -52,7 +52,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetAutomaticRegime(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -65,7 +65,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetManualRegime(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -78,7 +78,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetIgnoreRegime(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -91,7 +91,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKTurnOn(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -104,7 +104,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKTurnOnNow(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -117,7 +117,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKTurnOff(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -130,7 +130,7 @@ namespace GKWebService.Controllers
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOffNow(guardZone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKTurnOffNow(guardZone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -143,7 +143,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKReset(mpt, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKReset(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();

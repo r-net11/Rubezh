@@ -1,1 +1,0 @@
-/home/dmitry/Rubezh/Projects.tmp/Common/RubezhLicense/obj/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs

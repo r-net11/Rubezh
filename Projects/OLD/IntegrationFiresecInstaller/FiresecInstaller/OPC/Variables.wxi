@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define OPCName="OPC-Сервер FireSec-2" ?>
-  <?define OPC.TargetDir="..\..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Release\"?>
-  <?define OPC.TargetFileName="FiresecOPCServer.exe"?>
-  <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-</Include>

@@ -18,6 +18,7 @@ using GKWebService.DataProviders.Devices;
 using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.PumpStations;
 using GKWebService.DataProviders.DoorsHub;
+using GKWebService.DataProviders.Sounds;
 
 namespace GKWebService
 {
@@ -57,17 +58,17 @@ namespace GKWebService
 
 		private static void SubscribeOnServiceStateEvents()
 		{
-			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-			SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+			SafeRubezhService.ConfigurationChangedEvent += SafeRubezhServiceOnConfigurationChangedEvent;
+			SafeRubezhService.OnConnectionAppeared += SafeRubezhServiceOnConnectionAppeared;
 		}
 
-		private static void SafeFiresecServiceOnConnectionAppeared()
+		private static void SafeRubezhServiceOnConnectionAppeared()
 		{
 			//InitServer();
 			//PlansUpdater.Instance.
 		}
 
-		private static void SafeFiresecServiceOnConfigurationChangedEvent()
+		private static void SafeRubezhServiceOnConfigurationChangedEvent()
 		{
 			InitServer();
 			if (ConfigHub.Instance != null) 
@@ -82,13 +83,13 @@ namespace GKWebService
 			DescriptorsManager.Create();
 			InitializeStates();
 
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
-			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeRubezhService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeRubezhService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
 
-			SafeFiresecService.GKPropertyChangedEvent += GKPropertyChangedEvent;
+			SafeRubezhService.GKPropertyChangedEvent += GKPropertyChangedEvent;
 
 			ShowAllObjects();
 		}
@@ -100,7 +101,7 @@ namespace GKWebService
 
 		static void InitializeStates()
 		{
-			var gkStates = RubezhClient.ClientManager.FiresecService.GKGetStates();
+			var gkStates = RubezhClient.ClientManager.RubezhService.GKGetStates();
 			CopyGKStates(gkStates);
 			CopyDeviceMeasureParametersStates(gkStates);
 		}
@@ -112,6 +113,11 @@ namespace GKWebService
 			if (AlarmsUpdaterHub.Instance != null)
 			{
 				AlarmsUpdaterHub.Instance.BroadcastAlarms();
+			}
+
+			if (SoundsUpdaterHub.Instance != null)
+			{
+				SoundsUpdaterHub.Instance.BroadcastSounds();
 			}
 		}
 

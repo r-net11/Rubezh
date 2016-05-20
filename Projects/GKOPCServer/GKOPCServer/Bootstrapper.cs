@@ -116,8 +116,8 @@ namespace GKOPCServer
 			UILogger.Log("Получение состояний объектов");
 			InitializeStates();
 
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeRubezhService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
 			ClientManager.StartPoll();
 			return result;
@@ -125,7 +125,7 @@ namespace GKOPCServer
 
 		static void InitializeStates()
 		{
-			var gkStates = ClientManager.FiresecService.GKGetStates();
+			var gkStates = ClientManager.RubezhService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 

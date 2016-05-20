@@ -103,9 +103,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ProcessPrivileges, Version=1.5.7.0, Culture=neutral, PublicKeyToken=fa3ff549c00ac058, processorArchitecture=MSIL">
-      <HintPath>..\..\..\3rdParty\ProcessPrivileges_1.5.7.0_Release\ProcessPrivileges.dll</HintPath>
-    </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="SdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -214,7 +211,6 @@
     <Compile Include="Services\Resources\ResourceService.cs" />
     <Compile Include="Services\Ribbon\IRibbonService.cs" />
     <Compile Include="Services\Ribbon\RibbonService.cs" />
-    <Compile Include="SeviceRightsHelper.cs" />
     <Compile Include="ShellIntegrationHelper.cs" />
     <Compile Include="TreeList\IItemComparer.cs" />
     <Compile Include="TreeList\ITreeList.cs" />

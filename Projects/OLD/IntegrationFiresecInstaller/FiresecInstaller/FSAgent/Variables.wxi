@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define FSAgentName="Агент FireSec-2" ?>
-  <?define FSAgent.TargetDir="..\..\..\..\..\FSAgent\FSAgentServer\bin\Release\"?>
-  <?define FSAgent.TargetFileName="FSAgentServer.exe"?>
-  <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-</Include>

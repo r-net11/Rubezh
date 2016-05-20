@@ -29,7 +29,7 @@ namespace Infrastructure.Client
 			ViewPartViewModel = viewPartViewModel;
 			Arg = arg;
 			if (subscribe)
-				Subscribe();
+				ServiceFactoryBase.Events.GetEvent<T>().Subscribe(ShowViewPart);
 
 			if (permission.HasValue)
 				IsVisible = ClientManager.CheckPermission(permission.Value);
@@ -39,15 +39,7 @@ namespace Infrastructure.Client
 		{
 			ServiceFactoryBase.Events.GetEvent<T>().Publish(Arg);
 		}
-		public void Execute(W arg)
-		{
-			ServiceFactoryBase.Events.GetEvent<T>().Publish(arg);
-		}
 
-		void Subscribe()
-		{
-			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(ShowViewPart);
-		}
 		public virtual void ShowViewPart(W arg)
 		{
 			IsSelected = true;
@@ -74,10 +66,6 @@ namespace Infrastructure.Client
 		where T : CompositePresentationEvent<ShowOnPlanArgs<W>>, new()
 	{
 		public NavigationItemEx(ViewPartViewModel viewPartViewModel, string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null, W arg = default(W), bool subscribe = true)
-			: base(viewPartViewModel, title, icon, childs, permission, arg, subscribe)
-		{
-		}
-		public NavigationItemEx(ViewPartViewModel viewPartViewModel, string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null, ShowOnPlanArgs<W> arg = default(ShowOnPlanArgs<W>), bool subscribe = true)
 			: base(viewPartViewModel, title, icon, childs, permission, arg, subscribe)
 		{
 		}

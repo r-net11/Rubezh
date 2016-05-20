@@ -131,47 +131,44 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ExportHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\GKScheduleHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\PassCardTemplateHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\NightSettingsHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\PassJournalHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ScheduleZoneHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ScheduleHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ScheduleDayIntervalHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ScheduleSchemeHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\HolidayHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\DayIntervalPartHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\DepartmentHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\AccessTemplateHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\DayIntervalHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\DocumentTypeHelper.cs" />
+    <Compile Include="RubezhManager\RubezhManager.Zip.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\CardHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\Common.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\ExportHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\GKScheduleHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\PassCardTemplateHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\NightSettingsHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\PassJournalHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\ScheduleHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\ScheduleSchemeHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\HolidayHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\DepartmentHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\EmployeeHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\AccessTemplateHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\DayIntervalHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\OrganisationHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\PositionHelper.cs" />
+    <Compile Include="RubezhManager\SKDHelpers\DocumentTypeHelper.cs" />
     <Compile Include="Imitator\ImitatorManager.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
     <Compile Include="Imitator\ImitatorServiceFactory.cs" />
-    <Compile Include="Service\ISafeFiresecService.cs" />
-    <Compile Include="Service\SafeFiresecService.Rvi.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
-    <Compile Include="Service\SafeFiresecService.GK.cs" />
+    <Compile Include="Service\ISafeRubezhService.cs" />
+    <Compile Include="Service\SafeRubezhService.Rvi.cs" />
+    <Compile Include="Service\SafeRubezhService.SKD.TimeInterval.cs" />
+    <Compile Include="Service\SafeRubezhService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
-    <Compile Include="FiresecManager\FiresecManager.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Plans.cs" />
-    <Compile Include="Service\FiresecServiceFactory.cs" />
+    <Compile Include="RubezhManager\RubezhManager.Configuration.cs" />
+    <Compile Include="RubezhManager\RubezhManager.cs" />
+    <Compile Include="RubezhManager\RubezhManager.Plans.cs" />
+    <Compile Include="Service\RubezhServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\SafeFiresecService.cs" />
-    <Compile Include="Service\SafeFiresecService.Operations.cs" />
-    <Compile Include="Service\SafeFiresecService.Poll.cs" />
-    <Compile Include="Service\SafeFiresecService.Threading.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.cs" />
-    <Compile Include="Service\SafeFiresecService.Automation.cs" />
+    <Compile Include="Service\SafeRubezhService.cs" />
+    <Compile Include="Service\SafeRubezhService.Operations.cs" />
+    <Compile Include="Service\SafeRubezhService.Poll.cs" />
+    <Compile Include="Service\SafeRubezhService.Threading.cs" />
+    <Compile Include="Service\SafeRubezhService.SKD.cs" />
+    <Compile Include="Service\SafeRubezhService.Automation.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -224,7 +221,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FiresecManager\app.config" />
+    <None Include="RubezhManager\app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

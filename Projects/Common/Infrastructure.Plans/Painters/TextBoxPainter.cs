@@ -3,6 +3,9 @@ using RubezhAPI.Plans.Elements;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using System.Linq;
+using System.Windows.Controls;
+using Controls.Converters;
 
 namespace Infrastructure.Plans.Painters
 {
@@ -106,6 +109,30 @@ namespace Infrastructure.Plans.Painters
 				_scaleTransform = null;
 				_clipGeometry = new RectangleGeometry();
 			}
+
+			var item = DesignerCanvas.CommonDesignerItems.FirstOrDefault(p => p.Element.UID == Element.UID);
+
+			if (item != null && item.WPFControl != null && item.WPFControl is TextBox)
+			{
+				var colorConverter = new ColorToSystemColorConverter();
+				var wpfControl = item.WPFControl as TextBox;
+
+				wpfControl.Background = new SolidColorBrush((Color)colorConverter.Convert(
+					elementText.BackgroundColor, elementText.BackgroundColor.GetType(), null, null));
+				wpfControl.BorderBrush = new SolidColorBrush((Color)colorConverter.Convert(
+					elementText.BorderColor, elementText.BorderColor.GetType(), null, null));
+				wpfControl.BorderThickness = new Thickness(elementText.BorderThickness);
+				wpfControl.Foreground = new SolidColorBrush((Color)colorConverter.Convert(
+					elementText.ForegroundColor, elementText.ForegroundColor.GetType(), null, null));
+				wpfControl.FontSize = elementText.FontSize;
+				wpfControl.FontFamily = new FontFamily(elementText.FontFamilyName);
+				wpfControl.TextAlignment = (TextAlignment)elementText.TextAlignment;
+				wpfControl.TextWrapping = elementText.WordWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
+				wpfControl.VerticalAlignment = (VerticalAlignment)elementText.VerticalAlignment;
+				//wpfControl.FontStretch = FontStretches.Condensed;
+				//TODO: elementText.Stretch
+			}
+
 			base.Invalidate();
 		}
 	}

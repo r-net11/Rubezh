@@ -11,11 +11,11 @@ namespace GKWebService
 {
 	public class ClientManager
 	{
-		public static ISafeFiresecService FiresecService
+		public static ISafeRubezhService RubezhService
 		{
 			get
 			{
-				return RubezhClient.ClientManager.FiresecService;
+				return RubezhClient.ClientManager.RubezhService;
 			}
 		}
 

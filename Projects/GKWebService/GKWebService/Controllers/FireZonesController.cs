@@ -60,7 +60,7 @@ namespace GKWebService.Controllers
 			if (zone != null)
 			{
 				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Ignore);
-				ClientManager.FiresecService.GKSetIgnoreRegime(zone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetIgnoreRegime(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -75,7 +75,7 @@ namespace GKWebService.Controllers
 			if (zone != null)
 			{
 				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.ResetIgnore);
-				ClientManager.FiresecService.GKSetAutomaticRegime(zone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetAutomaticRegime(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -89,7 +89,7 @@ namespace GKWebService.Controllers
 			if (zone != null)
 			{
 				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Reset);
-				ClientManager.FiresecService.GKReset(zone, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKReset(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();

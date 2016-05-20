@@ -1,8 +1,6 @@
 ﻿using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RubezhAPI
 {
@@ -17,7 +15,7 @@ namespace RubezhAPI
 			PumpStations.Add(pumpStation);
 		}
 
-		public static void SetPumpStationStartLogic (GKPumpStation pumpStation, GKLogic newLogic )
+		public static void SetPumpStationStartLogic(GKPumpStation pumpStation, GKLogic newLogic)
 		{
 			pumpStation.StartLogic = newLogic;
 			pumpStation.ChangedLogic();
@@ -53,6 +51,8 @@ namespace RubezhAPI
 				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
+
+			pumpStation.OnChanged();
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace RubezhAPI
 
 		public static void ChangePumpDevices(GKPumpStation pumpStation, List<GKDevice> devices)
 		{
-			pumpStation.NSDevices.ForEach(x => 
+			pumpStation.NSDevices.ForEach(x =>
 				{
 					if (!devices.Contains(x))
 					{

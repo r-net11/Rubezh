@@ -15,7 +15,7 @@ namespace Infrastructure.Common
 				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
 				if (registryKey != null)
 				{
-					registryKey.DeleteValue("FiresecService");
+					registryKey.DeleteValue("RubezhService");
 					registryKey.DeleteValue("FSAgentServer");
 					registryKey.DeleteValue("GKOPCServer");
 					registryKey.Close();
@@ -23,7 +23,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FireMonitor.Integrate 3");
+				Logger.Error(e, "RubezhMonitor.Integrate 3");
 			}
 
 			try
@@ -35,7 +35,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FireMonitor.Integrate 1");
+				Logger.Error(e, "RubezhMonitor.Integrate 1");
 			}
 			try
 			{
@@ -45,7 +45,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FireMonitor.Integrate 2");
+				Logger.Error(e, "RubezhMonitor.Integrate 2");
 			}
 
 			RegistryHelper.RegistryHelper.Integrate();
@@ -74,7 +74,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FireMonitor.Desintegrate");
+				Logger.Error(e, "RubezhMonitor.Desintegrate");
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace Infrastructure.Common
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "FireMonitor.IsIntegrated");
+					Logger.Error(e, "RubezhMonitor.IsIntegrated");
 					return false;
 				}
 			}

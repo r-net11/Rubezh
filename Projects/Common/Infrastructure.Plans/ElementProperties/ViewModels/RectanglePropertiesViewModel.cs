@@ -1,4 +1,5 @@
 ﻿using Controls.Converters;
+using Controls.Extentions;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
@@ -50,6 +51,8 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this.ElementRectangle, this);
 			StrokeThickness = ElementRectangle.BorderThickness;
+			BackgroundColor = ElementRectangle.BackgroundColor.ToWindowsColor();
+			BorderColor = ElementRectangle.BorderColor.ToWindowsColor();
 
 			PlanElementBindingItems = new List<PlanElementBindingItem>();
 			if (ElementRectangle.PlanElementBindingItems != null && ElementRectangle.PlanElementBindingItems.Count > 0)

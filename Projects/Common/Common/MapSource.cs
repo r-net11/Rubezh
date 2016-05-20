@@ -27,19 +27,26 @@ namespace Common
 				((Map<T>)_sourceMap[typeof(T)]).BuildSafe(items);
 		}
 
-		public void BuildAll()
-		{
-			_sourceMap.ForEach(pair => ((IMap)pair.Value).Build());
-		}
 		public void BuildAllSafe()
 		{
 			_sourceMap.ForEach(pair => ((IMap)pair.Value).BuildSafe());
+		}
+
+		public void BuildAll()
+		{
+			_sourceMap.ForEach(pair => ((IMap)pair.Value).Build());
 		}
 
 		public T Get<T>(Guid uid)
 			where T : IIdentity
 		{
 			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetItem(uid) : default(T);
+		}
+
+		public List<T> GetAll<T>()
+			where T : IIdentity
+		{
+			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetAll() : new List<T>();
 		}
 	}
 }

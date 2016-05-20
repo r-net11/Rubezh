@@ -11,7 +11,7 @@ namespace Infrastructure.Common.BalloonTrayTip
 		static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
 		static Brush ForegroundColor = Brushes.Black;
 
-		public static void ShowFromFiresec(string text)
+		public static void ShowFromRubezh(string text)
 		{
 			Show("Глобал", text);
 		}

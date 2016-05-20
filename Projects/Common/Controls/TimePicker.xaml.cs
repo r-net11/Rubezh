@@ -13,10 +13,10 @@ namespace Controls
 		static readonly int HoursMin = 0;
 		static readonly int MinutesMin = 0;
 
-		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), 
+		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(FullTimePicker), 
 			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
-		public static readonly DependencyProperty IsFullDayProperty = DependencyProperty.Register("IsFullDay", typeof(Boolean), typeof(TimePicker));
+		public static readonly DependencyProperty IsFullDayProperty = DependencyProperty.Register("IsFullDay", typeof(Boolean), typeof(FullTimePicker));
 
 		static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{

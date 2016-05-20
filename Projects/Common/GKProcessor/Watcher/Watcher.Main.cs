@@ -288,7 +288,7 @@ namespace GKProcessor
 					if (IsHashFailure != hashResult.Item1)
 					{
 						GKCallbackResult = new GKCallbackResult();
-						IsHashFailure = result;
+						IsHashFailure = hashResult.Item1;
 						if (IsHashFailure)
 							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
 						else
@@ -449,15 +449,6 @@ namespace GKProcessor
 				catch (Exception e)
 				{
 					Logger.Error(e, "Watcher.OnRunThread PingJournal");
-				}
-
-				try
-				{
-					PingNextState();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Watcher.OnRunThread PingNextState");
 				}
 
 				try

@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="PlansModule.Views.PlanTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls" xmlns:LacalConverters="clr-namespace:PlansModule.Converters" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	<UserControl.Resources>
+		<LacalConverters:XStateClassToPlanColorConverter x:Key="XStateClassToPlanColorConverter" />
+	</UserControl.Resources>
+
+	<tree:TreeList Source="{Binding Plans}" SelectedTreeNode="{Binding SelectedPlan}">
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Header="Название">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel VerticalAlignment="Center" Orientation="Horizontal" Background="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToPlanColorConverter}}">
+								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2 0" />
+								<Image Name="Image" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2 0" />
+								<TextBlock VerticalAlignment="Center" Text="{Binding Plan.Caption}" ToolTip="{Binding NamedStateClass.Name}" />
+							</StackPanel>
+							<DataTemplate.Triggers>
+								<DataTrigger Binding="{Binding IsFolder}" Value="True">
+									<Setter Property="Image.Source" Value="/Controls;component/Images/CFolder.png" TargetName="Image" />
+								</DataTrigger>
+							</DataTemplate.Triggers>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
+</UserControl>

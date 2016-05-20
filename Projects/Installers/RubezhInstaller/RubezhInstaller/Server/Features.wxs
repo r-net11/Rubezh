@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="hidden"
+					ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="Server.Files" />
+			<ComponentRef Id="AppData.ServerLocation.Config" />
+			<ComponentRef Id="AppData.ServerLocation.SecurityConfiguration" />
+			<ComponentRef Id="AppData.ServerLocation.Config.Library" />
+			<ComponentRef Id="Server.AppData.EmptyLocation" />
+			<ComponentRef Id="Server.VIDEO_MODULE" />
+			<ComponentRef Id="Server.ProgramsMenuShortcut" />
+			<ComponentRef Id="Server.AutorunComponent" />
+			<ComponentRef Id="AppData.ServerLocation.Sounds" />
+			<ComponentRef Id="AppData.Manual.pdf" />
+			<ComponentRef Id="AppData.RubezhLocation.Permissions" />
+		</Feature>
+	</Fragment>
+</Wix>

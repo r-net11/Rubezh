@@ -38,10 +38,10 @@ namespace GKWebService.Controllers
 
 		JsonResult GetJournalPage(RubezhAPI.Journal.JournalFilter journalFilter, int pageNo)
 		{
-			SafeFiresecService.CallbackOperationResultEvent += OnCallbackOperationResult;
+			SafeRubezhService.CallbackOperationResultEvent += OnCallbackOperationResult;
 			try
 			{
-				var result = ClientManager.FiresecService.BeginGetArchivePage(journalFilter, pageNo, User.Identity.Name);
+				var result = ClientManager.RubezhService.BeginGetArchivePage(journalFilter, pageNo, User.Identity.Name);
 				if (!result.HasError)
 				{
 					if (!_autoResetEvent.WaitOne(TimeSpan.FromSeconds(10)))
@@ -52,7 +52,7 @@ namespace GKWebService.Controllers
 			}
 			finally
 			{
-				SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+				SafeRubezhService.CallbackOperationResultEvent -= OnCallbackOperationResult;
 			}
 			var list = _journalItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);
@@ -62,7 +62,7 @@ namespace GKWebService.Controllers
 		public JsonResult GetMaxPage(GKWebService.Models.JournalFilter filter)
 		{
 			var journalFilter = JournalController.CreateApiFilter(filter, useDateTime: true);
-			var countResult = ClientManager.FiresecService.GetArchiveCount(journalFilter);
+			var countResult = ClientManager.RubezhService.GetArchiveCount(journalFilter);
 			var result = (!countResult.HasError ? countResult.Result : 1) / journalFilter.PageSize + 1;
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}

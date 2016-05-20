@@ -78,8 +78,8 @@ namespace Infrastructuret.Plans
 		{
 			var elementReference = designerItem.Element as IElementReference;
 			var item = GetItem<TItem>(elementReference.ItemUID);
-			LinkElementToItem<TItem>(elementReference, item);
-			UpdateDesignerItemProperties<TItem>(designerItem, item);
+			RewriteItem(elementReference, item);
+			UpdateDesignerItemProperties(designerItem, item);
 		}
 		public TItem GetItem<TItem>(Guid itemUid)
 			where TItem : IPlanPresentable
@@ -91,18 +91,7 @@ namespace Infrastructuret.Plans
 			where TItem : IPlanPresentable
 		{
 			var item = GetItem<TItem>(element.ItemUID);
-			LinkElementToItem(element, item);
-		}
-		void LinkElementToItem<TItem>(IElementReference element, TItem item)
-			where TItem : IPlanPresentable
-		{
-			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
-			{
-				item.PlanElementUIDs.Add(element.UID);
-				item.OnPlanElementUIDsChanged();
-			}
-			element.ItemUID = item == null ? Guid.Empty : item.UID;
-			UpdateElementProperties<TItem>(element, item);
+			RewriteItem(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
 			where TItem : IPlanPresentable
@@ -117,8 +106,24 @@ namespace Infrastructuret.Plans
 		public void RewriteItem<TItem>(IElementReference element, TItem item)
 			where TItem : IPlanPresentable
 		{
-			ResetItem<TItem>(element);
-			LinkElementToItem(element, item);
+			if (item != null)
+			{
+				if (!item.PlanElementUIDs.Contains(element.UID))
+				{
+					item.PlanElementUIDs.Add(element.UID);
+					item.OnPlanElementUIDsChanged();
+				}
+				var allItems = Cache.GetAll<TItem>();
+				foreach (var entity in allItems.Where(x => x.UID != item.UID && x.PlanElementUIDs.Contains(element.UID)))
+				{
+					entity.PlanElementUIDs.Remove(element.UID);
+					entity.OnPlanElementUIDsChanged();
+				}
+				element.ItemUID = item.UID;
+			}
+			else
+				element.ItemUID = Guid.Empty;
+			UpdateElementProperties<TItem>(element, item);
 		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 			where TItem : IPlanPresentable

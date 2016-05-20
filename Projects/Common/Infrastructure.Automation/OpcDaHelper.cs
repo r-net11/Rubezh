@@ -10,6 +10,7 @@ namespace Infrastructure.Automation
 	{
 		static object _locker = new object();
 		static List<OpcDaTagConcept> _tags = new List<OpcDaTagConcept>();
+		public static IList<OpcDaTagConcept> Tags { get { return _tags; } }
 		static List<OpcDaTagFilter> _opcDaTagFilters = new List<OpcDaTagFilter>();
 
 		public static OpcDaTagFilter[] TagsFilters { get { return _opcDaTagFilters.ToArray(); } }
@@ -43,6 +44,20 @@ namespace Infrastructure.Automation
 						inTag.SetValue(tag.Value);
 				}
 				_tags = inTags;
+			}
+		}
+
+		public static void UpdateOpcDaTagFilters()
+		{
+			lock (_locker)
+			{
+				_opcDaTagFilters.Clear();
+
+				foreach (var filter in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+				{
+					_opcDaTagFilters.Add(new OpcDaTagFilter(filter.UID, filter.Name, filter.Description,
+						filter.TagUID, filter.Hysteresis, filter.ValueType));
+				}
 			}
 		}
 

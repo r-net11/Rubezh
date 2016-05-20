@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define ManagementConsoleName="Консоль управления ОПС FireSec-2" ?>
-  <?define ManagementConsole.TargetDir="..\..\..\..\..\ManagementConsole\ManagementConsole\bin\Release\"?>
-  <?define ManagementConsole.TargetFileName="ManagementConsole.exe"?>
-  <?define ManagementConsole.TargetPath="..\..\..\..\..\ManagementConsole\ManagementConsole\bin\Release\ManagementConsole.exe"?>
-  <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-</Include>
