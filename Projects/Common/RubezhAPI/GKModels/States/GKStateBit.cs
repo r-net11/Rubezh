@@ -90,8 +90,5 @@ namespace RubezhAPI.GK
 
 		[DescriptionAttribute("Нет")]
 		No = 32,
-
-		[DescriptionAttribute("Включить 2")]
-		TurnOn2_InManual = 33
 	}
 }

@@ -200,6 +200,14 @@ namespace RubezhAPI
 				list.Add(stringBuilder);
 			}
 
+			if (logic.On2ClausesGroup.ClauseGroups.Count > 0 || logic.On2ClausesGroup.GetObjects().Count > 0)
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("Условие включения 2: ");
+				stringBuilder.Append(GetPresentationLogic(logic.On2ClausesGroup));
+				list.Add(stringBuilder);
+			}
+
 			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.GetObjects().Count > 0)
 			{
 				StringBuilder stringBuilder = new StringBuilder();

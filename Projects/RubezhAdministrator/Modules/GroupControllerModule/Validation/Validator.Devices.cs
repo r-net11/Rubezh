@@ -48,7 +48,7 @@ namespace GKModule.Validation
 				ValidateGuardDevice(device);
 				ValidateDeviceIfInMPTAndDoor(device);
 				if (device.DriverType == GKDriverType.RSR2_CardReader)
-				ValidateWiegand(device);
+					ValidateWiegand(device);
 				ValidateFirefightingZonesMirror(device);
 				ValidateFireZonesMirror(device);
 				ValidateGuardZonesMirror(device);

@@ -10,31 +10,31 @@ namespace GKWebService.DataProviders.SKD
 	{
 		public static bool Save(Department department, bool isNew)
 		{
-			var result = ClientManager.FiresecService.SaveDepartment(department, isNew);
+			var result = ClientManager.RubezhService.SaveDepartment(department, isNew);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static bool MarkDeleted(ShortDepartment item)
 		{
-			var result = ClientManager.FiresecService.MarkDeletedDepartment(item);
+			var result = ClientManager.RubezhService.MarkDeletedDepartment(item);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static bool Restore(ShortDepartment item)
 		{
-			var result = ClientManager.FiresecService.RestoreDepartment(item);
+			var result = ClientManager.RubezhService.RestoreDepartment(item);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static IEnumerable<ShortDepartment> Get(DepartmentFilter filter)
 		{
-			var result = ClientManager.FiresecService.GetDepartmentList(filter);
+			var result = ClientManager.RubezhService.GetDepartmentList(filter);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static IEnumerable<ShortDepartment> GetByOrganisation(Guid organisationUID)
 		{
-			var result = ClientManager.FiresecService.GetDepartmentList(new DepartmentFilter
+			var result = ClientManager.RubezhService.GetDepartmentList(new DepartmentFilter
 				{
 					OrganisationUIDs = new List<Guid> { organisationUID },
 				});
@@ -50,7 +50,7 @@ namespace GKWebService.DataProviders.SKD
 		{
 			if (uid == null)
 				return null;
-			var result = ClientManager.FiresecService.GetDepartmentDetails(uid.Value);
+			var result = ClientManager.RubezhService.GetDepartmentDetails(uid.Value);
 			return Common.ThrowErrorIfExists(result);
 		}
 
@@ -61,7 +61,7 @@ namespace GKWebService.DataProviders.SKD
 
 		public static bool SaveChief(Guid uid, Guid? chiefUID, string name)
 		{
-			var result = ClientManager.FiresecService.SaveDepartmentChief(uid, chiefUID, name);
+			var result = ClientManager.RubezhService.SaveDepartmentChief(uid, chiefUID, name);
 			return Common.ThrowErrorIfExists(result);
 		}
 
@@ -69,19 +69,19 @@ namespace GKWebService.DataProviders.SKD
 		{
 			var filter = new DepartmentFilter();
 			filter.UIDs.Add(uid);
-			var operationResult = ClientManager.FiresecService.GetDepartmentList(filter);
+			var operationResult = ClientManager.RubezhService.GetDepartmentList(filter);
 			return Common.ThrowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
 		public static IEnumerable<Guid> GetChildEmployeeUIDs(Guid uid)
 		{
-			var operationResult = ClientManager.FiresecService.GetChildEmployeeUIDs(uid);
+			var operationResult = ClientManager.RubezhService.GetChildEmployeeUIDs(uid);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static IEnumerable<Guid> GetParentEmployeeUIDs(Guid uid)
 		{
-			var operationResult = ClientManager.FiresecService.GetParentEmployeeUIDs(uid);
+			var operationResult = ClientManager.RubezhService.GetParentEmployeeUIDs(uid);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 	}

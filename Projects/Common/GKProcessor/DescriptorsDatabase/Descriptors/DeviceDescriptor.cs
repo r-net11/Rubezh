@@ -45,17 +45,63 @@ namespace GKProcessor
 
 			if (Device.Driver.HasLogic)
 			{
-				if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
+				var hasOn1 = Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0;
+				var hasOn2 = Device.Logic.On2ClausesGroup.Clauses.Count + Device.Logic.On2ClausesGroup.ClauseGroups.Count > 0;
+				if (hasOn1 && ! hasOn2)
 				{
 					Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.AddPutBit(31, Device);
+					Formula.AddPutBit(30, Device);
+					Formula.AddPutBit(29, Device);
+					Formula.AddPutBit(28, Device);
+					Formula.AddPutBit(27, Device);
 					if (Device.Logic.UseOffCounterLogic)
-					{
 						Formula.AddStandardTurning(Device);
-					}
 					else
-					{
 						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-					}
+				}
+				if (!hasOn1 && hasOn2)
+				{
+					Formula.AddClauseFormula(Device.Logic.On2ClausesGroup);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+					Formula.AddPutBit(31, Device);
+					Formula.AddPutBit(30, Device);
+					Formula.AddPutBit(29, Device);
+					Formula.AddPutBit(28, Device);
+					Formula.AddPutBit(27, Device);
+					if (Device.Logic.UseOffCounterLogic)
+						Formula.AddStandardTurning(Device);
+					else
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+				}
+				if (hasOn1 && hasOn2)
+				{
+					Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
+					Formula.AddClauseFormula(Device.Logic.On2ClausesGroup);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(31, Device);
+					Formula.AddPutBit(30, Device);
+					Formula.AddPutBit(29, Device);
+					Formula.AddPutBit(28, Device);
+					Formula.AddPutBit(27, Device);
+					Formula.Add(FormulaOperationType.OR);
+					if (Device.Logic.UseOffCounterLogic)
+						Formula.AddStandardTurning(Device);
+					else
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				}
 				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.GetObjects().Count > 0)
 				{

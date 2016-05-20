@@ -9,32 +9,32 @@ namespace GKWebService.DataProviders.SKD
 	{
 		public static IEnumerable<SKDCard> Get(CardFilter filter)
 		{
-			var result = ClientManager.FiresecService.GetCards(filter);
+			var result = ClientManager.RubezhService.GetCards(filter);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static IEnumerable<SKDCard> GetByEmployee(Guid uid)
 		{
-			var result = ClientManager.FiresecService.GetEmployeeCards(uid);
+			var result = ClientManager.RubezhService.GetEmployeeCards(uid);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static SKDCard GetSingle(Guid uid)
 		{
-			var result = ClientManager.FiresecService.GetSingleCard(uid);
+			var result = ClientManager.RubezhService.GetSingleCard(uid);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static bool Add(SKDCard card, string employeeName)
 		{
-			var result = ClientManager.FiresecService.AddCard(card, employeeName);
+			var result = ClientManager.RubezhService.AddCard(card, employeeName);
 			Common.ThrowErrorIfExists(result);
 			return result.Result;
 		}
 
 		public static bool Edit(SKDCard card, string employeeName)
 		{
-			var result = ClientManager.FiresecService.EditCard(card, employeeName);
+			var result = ClientManager.RubezhService.EditCard(card, employeeName);
 			Common.ThrowErrorIfExists(result);
 			return result.Result;
 		}
@@ -43,7 +43,7 @@ namespace GKWebService.DataProviders.SKD
 		{
 			var filter = new CardFilter();
 			filter.DeactivationType = LogicalDeletationType.Deleted;
-			var result = ClientManager.FiresecService.GetCards(filter);
+			var result = ClientManager.RubezhService.GetCards(filter);
 			return Common.ThrowErrorIfExists(result);
 		}
 
@@ -51,32 +51,32 @@ namespace GKWebService.DataProviders.SKD
 		{
 			var filter = new CardFilter();
 			filter.EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUID }, IsAllPersonTypes = true };
-			var result = ClientManager.FiresecService.GetCards(filter);
+			var result = ClientManager.RubezhService.GetCards(filter);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static bool DeleteFromEmployee(SKDCard card, string employeeName, string reason)
 		{
-			var result = ClientManager.FiresecService.DeleteCardFromEmployee(card, employeeName, reason);
+			var result = ClientManager.RubezhService.DeleteCardFromEmployee(card, employeeName, reason);
 			Common.ThrowErrorIfExists(result);
 			return result.Result;
 		}
 
 		public static bool SaveTemplate(SKDCard card)
 		{
-			var operationResult = ClientManager.FiresecService.SaveCardTemplate(card);
+			var operationResult = ClientManager.RubezhService.SaveCardTemplate(card);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static bool Delete(SKDCard card)
 		{
-			var result = ClientManager.FiresecService.DeletedCard(card);
+			var result = ClientManager.RubezhService.DeletedCard(card);
 			return Common.ThrowErrorIfExists(result);
 		}
 
 		public static DateTime? GetMinDate()
 		{
-			var result = ClientManager.FiresecService.GetCardsMinDate();
+			var result = ClientManager.RubezhService.GetCardsMinDate();
 			return Common.ThrowErrorIfExists(result);
 		}
 	}
