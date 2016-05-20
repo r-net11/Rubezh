@@ -10,7 +10,7 @@ namespace GKWebService.DataProviders.SKD
 	{
 		public static bool Save(Position position, bool isNew)
 		{
-			var operationResult = ClientManager.FiresecService.SavePosition(position, isNew);
+			var operationResult = ClientManager.RubezhService.SavePosition(position, isNew);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
@@ -26,13 +26,13 @@ namespace GKWebService.DataProviders.SKD
 
 		public static bool MarkDeleted(Guid uid, string name)
 		{
-			var operationResult = ClientManager.FiresecService.MarkDeletedPosition(uid, name);
+			var operationResult = ClientManager.RubezhService.MarkDeletedPosition(uid, name);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = ClientManager.FiresecService.RestorePosition(uid, name);
+			var operationResult = ClientManager.RubezhService.RestorePosition(uid, name);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
@@ -40,13 +40,13 @@ namespace GKWebService.DataProviders.SKD
 		{
 			if (uid == null)
 				return null;
-			var operationResult = ClientManager.FiresecService.GetPositionDetails(uid.Value);
+			var operationResult = ClientManager.RubezhService.GetPositionDetails(uid.Value);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static IEnumerable<ShortPosition> GetByOrganisation(Guid organisationUID)
 		{
-			var result = ClientManager.FiresecService.GetPositionList(new PositionFilter
+			var result = ClientManager.RubezhService.GetPositionList(new PositionFilter
 			{
 				OrganisationUIDs = new List<System.Guid> { organisationUID }
 			});
@@ -55,7 +55,7 @@ namespace GKWebService.DataProviders.SKD
 
 		public static IEnumerable<ShortPosition> Get(PositionFilter filter)
 		{
-			var operationResult = ClientManager.FiresecService.GetPositionList(filter);
+			var operationResult = ClientManager.RubezhService.GetPositionList(filter);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
@@ -68,13 +68,13 @@ namespace GKWebService.DataProviders.SKD
 		{
 			var filter = new PositionFilter();
 			filter.UIDs.Add(uid);
-			var operationResult = ClientManager.FiresecService.GetPositionList(filter);
+			var operationResult = ClientManager.RubezhService.GetPositionList(filter);
 			return Common.ThrowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
 		public static List<Guid> GetEmployeeUIDs(Guid uid)
 		{
-			var operationResult = ClientManager.FiresecService.GetPositionEmployees(uid);
+			var operationResult = ClientManager.RubezhService.GetPositionEmployees(uid);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 	}

@@ -11,7 +11,7 @@ namespace GKWebService
 {
 	public class ClientManager
 	{
-		public static ISafeRubezhService FiresecService
+		public static ISafeRubezhService RubezhService
 		{
 			get
 			{

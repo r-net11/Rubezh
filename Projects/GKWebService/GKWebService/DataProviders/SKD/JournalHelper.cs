@@ -11,7 +11,7 @@ namespace GKWebService.DataProviders.SKD
 	{
 		public static IEnumerable<JournalItem> Get(JournalFilter filter)
 		{
-			var result = ClientManager.FiresecService.GetFilteredJournalItems(filter);
+			var result = ClientManager.RubezhService.GetFilteredJournalItems(filter);
 			return Common.ThrowErrorIfExists(result);
 		}
 	}

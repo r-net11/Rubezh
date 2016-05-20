@@ -285,25 +285,25 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 				{
-					ClientManager.FiresecService.GKResetFire1(zone);
+					ClientManager.RubezhService.GKResetFire1(zone);
 				}
 				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
 				{
-					ClientManager.FiresecService.GKResetFire2(zone);
+					ClientManager.RubezhService.GKResetFire2(zone);
 				}
 			}
 			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (guardZone.State.StateClasses.Contains(XStateClass.Fire1))
 				{
-					ClientManager.FiresecService.GKReset(guardZone);
+					ClientManager.RubezhService.GKReset(guardZone);
 				}
 			}
 			foreach (var door in GKManager.Doors)
 			{
 				if (door.State.StateClasses.Contains(XStateClass.Fire1))
 				{
-					ClientManager.FiresecService.GKReset(door);
+					ClientManager.RubezhService.GKReset(door);
 				}
 			}
 		}
@@ -317,7 +317,7 @@ namespace GKWebService.Models.GK.Alarms
 
 				if (device.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(device);
+					ClientManager.RubezhService.GKSetAutomaticRegime(device);
 				}
 			}
 
@@ -325,7 +325,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (zone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(zone);
+					ClientManager.RubezhService.GKSetAutomaticRegime(zone);
 				}
 			}
 
@@ -333,7 +333,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (guardZones.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(guardZones);
+					ClientManager.RubezhService.GKSetAutomaticRegime(guardZones);
 				}
 			}
 
@@ -341,7 +341,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (door.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(door);
+					ClientManager.RubezhService.GKSetAutomaticRegime(door);
 				}
 			}
 
@@ -349,7 +349,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (direction.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+					ClientManager.RubezhService.GKSetAutomaticRegime(direction);
 				}
 			}
 
@@ -357,7 +357,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (pumpStation.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
+					ClientManager.RubezhService.GKSetAutomaticRegime(pumpStation);
 				}
 			}
 
@@ -365,7 +365,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (mpt.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+					ClientManager.RubezhService.GKSetAutomaticRegime(mpt);
 				}
 			}
 
@@ -373,7 +373,7 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				if (delay.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
 				{
-					ClientManager.FiresecService.GKSetAutomaticRegime(delay);
+					ClientManager.RubezhService.GKSetAutomaticRegime(delay);
 				}
 			}
 		}

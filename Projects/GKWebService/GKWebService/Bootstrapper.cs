@@ -58,17 +58,17 @@ namespace GKWebService
 
 		private static void SubscribeOnServiceStateEvents()
 		{
-			SafeRubezhService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-			SafeRubezhService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+			SafeRubezhService.ConfigurationChangedEvent += SafeRubezhServiceOnConfigurationChangedEvent;
+			SafeRubezhService.OnConnectionAppeared += SafeRubezhServiceOnConnectionAppeared;
 		}
 
-		private static void SafeFiresecServiceOnConnectionAppeared()
+		private static void SafeRubezhServiceOnConnectionAppeared()
 		{
 			//InitServer();
 			//PlansUpdater.Instance.
 		}
 
-		private static void SafeFiresecServiceOnConfigurationChangedEvent()
+		private static void SafeRubezhServiceOnConfigurationChangedEvent()
 		{
 			InitServer();
 			if (ConfigHub.Instance != null) 
