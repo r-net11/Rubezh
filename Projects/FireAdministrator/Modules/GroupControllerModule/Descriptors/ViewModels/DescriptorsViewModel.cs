@@ -86,45 +86,42 @@ namespace GKModule.ViewModels
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
 				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
-				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputDescriptors)
-				{
-					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
-					if (inputDescriptor != null)
+					foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputDescriptors)
 					{
-						var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
-						if (inputDescriptorViewModel != null)
-							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
-						else
+						var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
+						if (inputDescriptor != null)
 						{
-							descriptorViewModel.IsFormulaInvalid = true;
-							MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
+							if (inputDescriptorViewModel != null)
+								descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
+							else
+							{
+								descriptorViewModel.IsFormulaInvalid = true;
+								MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+							}
 						}
 					}
-				}
 			}
 
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
 				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
-				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputDescriptors)
-				{
-					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
-					if (outputDescriptor != null)
+					foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputDescriptors)
 					{
-						var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
-						if (outputDescriptorViewModel == null)
+						var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
+						if (outputDescriptor != null)
 						{
-						}
-						if (outputDescriptorViewModel != null)
-							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
-						else
-						{
-							descriptorViewModel.IsFormulaInvalid = true;
-							MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
+							if (outputDescriptorViewModel != null)
+								descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
+							else
+							{
+								descriptorViewModel.IsFormulaInvalid = true;
+								MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+							}
 						}
 					}
-				}
 			}
 
 			foreach (var descriptorViewModel in Descriptors)

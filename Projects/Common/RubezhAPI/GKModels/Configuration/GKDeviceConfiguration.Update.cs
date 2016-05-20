@@ -140,6 +140,7 @@ namespace RubezhAPI.GK
 		public void InvalidateOneLogic(GKBase gkBase, GKLogic logic)
 		{
 			logic.OnClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OnClausesGroup);
+			logic.On2ClausesGroup = InvalidateOneClauseGroup(gkBase, logic.On2ClausesGroup);
 			logic.OffClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OffClausesGroup);
 			logic.StopClausesGroup = InvalidateOneClauseGroup(gkBase, logic.StopClausesGroup);
 			logic.OnNowClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OnNowClausesGroup);

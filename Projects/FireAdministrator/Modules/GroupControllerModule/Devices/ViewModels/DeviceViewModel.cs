@@ -613,10 +613,10 @@ namespace GKModule.ViewModels
 		void OnShowLogic()
 		{
 			var hasOnNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
-			var hasOn2NowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOn2_InManual);
+			var hasOn2Clause = Device.DriverType == GKDriverType.RSR2_OPKS;
 			var hasOffNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
 			var hasStopClause = Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
-			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, hasOnNowClause, hasOffNowClause, hasStopClause, true, hasOn2NowClause);
+			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, hasOnNowClause, hasOffNowClause, hasStopClause, true, hasOn2Clause);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetDeviceLogic(Device, logicViewModel.GetModel());
