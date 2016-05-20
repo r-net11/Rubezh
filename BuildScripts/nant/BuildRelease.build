@@ -6,23 +6,23 @@
   </target>
   <target name="BuildAll">
     <delete dir="..\bin\GK" />
-    <msbuild project="..\..\Projects\FiresecService\FiresecService.sln">
+    <msbuild project="..\..\Projects\RubezhService\RubezhService.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\FireMonitor\FireMonitor.sln">
+    <msbuild project="..\..\Projects\RubezhMonitor\RubezhMonitor.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\FireAdministrator\FireAdministrator.sln">
+    <msbuild project="..\..\Projects\RubezhAdministrator\RubezhAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <msbuild project="..\..\Projects\GKOPCServer\GKOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
+    <msbuild project="..\..\Projects\Installers\RubezhInstaller\RubezhInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <copy todir="..\bin\GK\">
-      <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
+      <fileset basedir="..\..\Projects\Installers\RubezhInstaller\RubezhInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
     </copy>

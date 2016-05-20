@@ -13,9 +13,9 @@ namespace RubezhAPI.Models
 		public string SoundName { get; set; }
 
 		[DataMember]
-		public BeeperType BeeperType { get; set; }
+		public bool IsContinious { get; set; }
 
 		[DataMember]
-		public bool IsContinious { get; set; }
+		public SoundType Type{ get; set; }
 	}
 }

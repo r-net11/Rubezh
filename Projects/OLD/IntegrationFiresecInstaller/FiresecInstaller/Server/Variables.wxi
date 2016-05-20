@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define ServerName="Сервер приложений ОПС Firesec-2" ?>
-  <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
-  <?define Server.TargetFileName="FiresecService.exe"?>
-  <?define Server.TargetPath="..\..\..\..\..\FiresecService\bin\Release\FiresecService.exe"?>
-  <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-</Include>

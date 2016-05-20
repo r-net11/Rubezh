@@ -254,6 +254,9 @@ namespace RubezhAPI.GK
 		KD_KDTD = 109,
 		
 		[Description("ИОВ")]
-		RSR2_HandGuardDetector = 110
+		RSR2_HandGuardDetector = 110,
+
+		[Description("ИС")]
+		RSR2_IS = 111
 	}
 }

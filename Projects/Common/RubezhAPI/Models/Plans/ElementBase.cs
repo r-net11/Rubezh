@@ -72,11 +72,11 @@ namespace RubezhAPI.Plans.Elements
 
 		public Guid? BackgroundSVGImageSource { get; set; }
 
-		public ElementBase Clone()
+		public virtual ElementBase Clone()
 		{
 			Type type2create = this.GetType();
 			ElementBase newElement = (ElementBase)Activator.CreateInstance(type2create);
-			this.Copy(newElement);
+			Copy(this, newElement);
 			return newElement;
 		}
 

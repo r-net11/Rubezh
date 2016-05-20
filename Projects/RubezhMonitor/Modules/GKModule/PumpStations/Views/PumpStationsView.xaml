@@ -1,0 +1,166 @@
+<UserControl x:Class="GKModule.Views.PumpStationsView" 
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+			 xmlns:Views="clr-namespace:GKModule.Views"
+			 xmlns:Converters="clr-namespace:GKModule.Converters">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="100" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<DataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" CanUserSortColumns="True">
+				<DataGrid.InputBindings>
+					<MouseBinding Command="{Binding DataContext.SelectedPumpStation.ShowOnPlanOrPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+								  MouseAction="LeftDoubleClick" />
+				</DataGrid.InputBindings>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Width="Auto" SortMemberPath="PumpStation.No" Header="№" CanUserResize="False">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Rectangle Margin="1 0 0 0" Width="16" Height="16" Fill="{DynamicResource BPumpStation}" VerticalAlignment="Center" />
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PumpStation.No}" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Width="Auto" SortMemberPath="PumpStation.Name" MinWidth="250" Header="НС">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Margin="2 0" VerticalAlignment="Center"
+										   Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+									<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center">
+										<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<TextBlock Text="{Binding PumpStation.Name}" />
+										</Hyperlink>
+										<TextBlock.ContextMenu>
+											<ContextMenu>
+												<IconedMenuItem Text ="Показать на плане" Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" />
+												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+												<IconedMenuItem ImageSource="BSettings" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+											</ContextMenu>
+										</TextBlock.ContextMenu>
+									</TextBlock>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}"
+											Orientation="Horizontal"
+											TextBlock.FontWeight="Bold"
+											VerticalAlignment="Center">
+									<TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+									<TextBlock Text="сек" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Время тушения" Width="Auto" MinWidth="100">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
+									<TextBlock Text="{Binding State.HoldDelay}"
+											   Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}"
+											   VerticalAlignment="Center"
+											   Margin="2" />
+									<TextBlock Text="сек" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Width="*" Header="Примечание" MinWidth="100">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PumpStation.Description}" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+				<DataGrid.RowStyle>
+					<Style TargetType="{x:Type DataGridRow}">
+						<Setter Property="ToolTip">
+							<Setter.Value>
+								<StackPanel>
+									<Views:PumpStationToolTipView />
+								</StackPanel>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</DataGrid.RowStyle>
+			</DataGrid>
+			<DataGrid Grid.Column="1" ItemsSource="{Binding Pumps}" DataContext="{Binding SelectedPumpStation}" Margin="4 0 0 0">
+				<DataGrid.Resources>
+					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+						<MouseBinding Command="{Binding DataContext.SelectedPump.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+									  MouseAction="LeftDoubleClick" />
+					</InputBindingCollection>
+				</DataGrid.Resources>
+				<DataGrid.ItemContainerStyle>
+					<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+						<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					</Style>
+				</DataGrid.ItemContainerStyle>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Насосы" MinWidth="100" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Views:DeviceView Margin="2 0" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn MinWidth="25" Width="Auto" Header="Адрес">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Device.DottedPresentationAddress}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding PresentationNSLogic}" Header="Дополнительное условие включения" MinWidth="100" Width="*" />
+				</DataGrid.Columns>
+				<DataGrid.RowStyle>
+					<Style TargetType="{x:Type DataGridRow}">
+						<Setter Property="ToolTip">
+							<Setter.Value>
+								<StackPanel>
+									<TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
+									<Views:DeviceStateView />
+								</StackPanel>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</DataGrid.RowStyle>
+			</DataGrid>
+		</Grid>
+		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+				<StackPanel DataContext="{Binding SelectedPumpStation}" Margin="2">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
+						<TextBlock Text="{Binding StartPresentationName}" VerticalAlignment="Center" Margin="2" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для останова или запрета пуска" FontWeight="Bold" Width="250" Margin="5 2" />
+						<TextBlock Text="{Binding StopPresentationName}" VerticalAlignment="Center" Margin="2" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для отключения автоматики" FontWeight="Bold" Width="250" Margin="5 2" />
+						<TextBlock Text="{Binding AutomaticOffPresentationName}" VerticalAlignment="Center" Margin="2" />
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
+	</Grid>
+</UserControl>

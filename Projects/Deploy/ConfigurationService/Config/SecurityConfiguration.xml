@@ -87,10 +87,10 @@
         <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
         <string>Oper_SKD_TimeTrack_NightSettings_Edit</string>
       </PermissionStrings>
-      <RemoreAccess>
+      <RemoteAccess>
         <RemoteAccessType>RemoteAccessAllowed</RemoteAccessType>
         <HostNameOrAddressList />
-      </RemoreAccess>
+      </RemoteAccess>
     </User>
     <User>
       <UID>733fa93a-fafb-4a48-a030-0a373a4c6616</UID>
@@ -174,10 +174,10 @@
         <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
         <string>Oper_SKD_TimeTrack_NightSettings_Edit</string>
       </PermissionStrings>
-      <RemoreAccess>
+      <RemoteAccess>
         <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
         <HostNameOrAddressList />
-      </RemoreAccess>
+      </RemoteAccess>
     </User>
     <User>
       <UID>3aafca33-b452-4b29-bf49-0d3b3c1ac167</UID>
@@ -221,10 +221,10 @@
         <string>Oper_SKD_TimeTrack_Documents_Edit</string>
         <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
       </PermissionStrings>
-      <RemoreAccess>
+      <RemoteAccess>
         <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
         <HostNameOrAddressList />
-      </RemoreAccess>
+      </RemoteAccess>
     </User>
     <User>
       <UID>644cd7e2-21ae-4e0d-a12a-4955125102ae</UID>
@@ -234,10 +234,10 @@
       <PermissionStrings>
         <string>Oper_Login</string>
       </PermissionStrings>
-      <RemoreAccess>
+      <RemoteAccess>
         <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
         <HostNameOrAddressList />
-      </RemoreAccess>
+      </RemoteAccess>
     </User>
   </Users>
   <UserRoles>

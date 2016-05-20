@@ -15,7 +15,6 @@ namespace GKProcessor
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
 
 		public bool IsStopping { get; private set; }
-		public bool IsWritedConfingurationOutServer { get; private set; }
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
@@ -177,8 +176,6 @@ namespace GKProcessor
 					Monitor.Exit(CallbackResultLocker);
 
 					RunMonitoring();
-					if (IsWritedConfingurationOutServer)
-						break;
 
 					Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 					{
@@ -215,7 +212,6 @@ namespace GKProcessor
 			bool IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
-			IsWritedConfingurationOutServer = false;
 			IsHashFailure = false;
 
 			foreach (var descriptor in GkDatabase.Descriptors)
@@ -287,14 +283,12 @@ namespace GKProcessor
 
 				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Запрос хэша"))
 				{
-					var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
-					var gkFileReaderWriter = new GKFileReaderWriter();
-					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-					if (IsHashFailure != result)
+					var hashResult = GetHashResult();
+
+					if (IsHashFailure != hashResult.Item1)
 					{
 						GKCallbackResult = new GKCallbackResult();
-						IsHashFailure = result;
+						IsHashFailure = hashResult.Item1;
 						if (IsHashFailure)
 							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
 						else
@@ -311,7 +305,7 @@ namespace GKProcessor
 
 					if (IsHashFailure)
 					{
-						gkLifecycleManager.SetError(gkFileInfo == null ? "Ошибка" : "Не совпадает хэш");
+						gkLifecycleManager.SetError(hashResult.Item2 == null ? "Ошибка" : "Не совпадает хэш");
 						if (ReturnAfterWait(5000))
 							return false;
 						continue;
@@ -360,6 +354,14 @@ namespace GKProcessor
 
 				return true;
 			}
+		}
+
+		Tuple<bool, GKFileInfo> GetHashResult()
+		{
+			var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+			return Tuple.Create<bool, GKFileInfo>(!GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1), gkFileInfo);
 		}
 
 		void RunMonitoring()
@@ -447,15 +449,6 @@ namespace GKProcessor
 				catch (Exception e)
 				{
 					Logger.Error(e, "Watcher.OnRunThread PingJournal");
-				}
-
-				try
-				{
-					PingNextState();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Watcher.OnRunThread PingNextState");
 				}
 
 				try

@@ -1,9 +1,11 @@
-﻿using Infrastructure.Common;
+﻿using Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Plans.ViewModels
 {
@@ -20,11 +22,9 @@ namespace Infrastructure.Plans.ViewModels
 
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementsAdded);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementsRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementsChanged);
 
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsAdded);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 
 			ResetHistory();
 		}
@@ -65,9 +65,7 @@ namespace Infrastructure.Plans.ViewModels
 				AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
 			}
 		}
-		private void OnElementsChanged(List<ElementBase> elementsBefore)
-		{
-		}
+
 		public List<ElementBase> AddHistoryItem(List<ElementBase> elementsBefore)
 		{
 			var elementsAfter = DesignerCanvas.CloneElements(DesignerCanvas.SelectedItems);
@@ -101,6 +99,9 @@ namespace Infrastructure.Plans.ViewModels
 					{
 						var designerItem = DesignerCanvas.CreateElement(elementBase);
 						list.Add(designerItem);
+						var bufferElement = this.clipboard.Buffer.FirstOrDefault(x => x.UID == elementBase.UID);
+						if (bufferElement != null)
+							this.clipboard.Buffer.Remove(bufferElement);
 					}
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
 					break;
@@ -138,6 +139,10 @@ namespace Infrastructure.Plans.ViewModels
 					break;
 				case ActionType.Removed:
 					DesignerCanvas.RemoveDesignerItems(historyItem.ElementsBefore);
+					if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
+					{
+						this.clipboard.Buffer.AddRange(historyItem.ElementsBefore);
+					}
 					break;
 			}
 			DesignerCanvas.DeselectAll();

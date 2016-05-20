@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\..\RubezhService\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net40\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -45,26 +49,25 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\FiresecService\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
+	<Reference Include="EntityFramework">
+	  <HintPath>..\..\RubezhService\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+	</Reference>
     <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\FiresecService\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\RubezhService\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Security">
-      <HintPath>..\..\FiresecService\packages\Npgsql.2.2.7\lib\net40\Mono.Security.dll</HintPath>
+      <HintPath>..\..\RubezhService\packages\Npgsql.2.2.7\lib\net40\Mono.Security.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql">
-      <HintPath>..\..\FiresecService\packages\Npgsql.2.2.7\lib\net40\Npgsql.dll</HintPath>
+      <HintPath>..\..\RubezhService\packages\Npgsql.2.2.7\lib\net40\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql.EntityFramework">
-      <HintPath>..\..\FiresecService\packages\Npgsql.EntityFramework.2.2.7\lib\net40\Npgsql.EntityFramework.dll</HintPath>
+      <HintPath>..\..\RubezhService\packages\Npgsql.EntityFramework.2.2.7\lib\net40\Npgsql.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.MappingAPI">
-      <HintPath>..\..\FiresecService\packages\EntityFramework.MappingAPI.6.0.0.7\lib\net40\EntityFramework.MappingAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.BulkInsert">
-      <HintPath>..\..\FiresecService\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net40\EntityFramework.BulkInsert.dll</HintPath>
+      <HintPath>..\..\RubezhService\packages\EntityFramework.MappingAPI.6.0.0.7\lib\net40\EntityFramework.MappingAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

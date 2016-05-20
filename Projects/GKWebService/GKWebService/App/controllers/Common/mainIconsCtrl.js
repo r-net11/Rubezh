@@ -1,11 +1,23 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('mainIconsCtrl',
-        ['$scope', 'authService',
-        function ($scope, authService) {
+        ['$scope', 'authService', 'signalrSoundsService',
+	function ($scope, authService, signalrSoundsService) {
             $scope.logOut = function () {
-                authService.logOut();
+            	authService.logOut();
             };
+
+            $scope.isSound = signalrSoundsService.getIsSound();
+
+            signalrSoundsService.onSoundPlay(function () {
+            	signalrSoundsService.setIsSound(true);
+            	$scope.isSound = true;
+            });
+
+            $scope.soundClick = function () {
+            	signalrSoundsService.setIsSound(!$scope.isSound)
+            	$scope.isSound = !$scope.isSound;
+            }
         }]
     );
 }());

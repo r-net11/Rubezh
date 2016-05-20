@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="RubezhMonitor.Views.AutoActivationView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<StackPanel Orientation="Horizontal" Visibility="{Binding HasPermission, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Button Command="{Binding ChangeAutoActivationCommand}" Width="34" Height="34">
+			<Button.Style>
+				<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate>
+								<Border Name="border" 
+										Margin="2"
+										BorderThickness="1" 
+										CornerRadius="2" 
+										Padding="2" 
+										ToolTip="{TemplateBinding ToolTip}" 
+										ToolTipService.ShowOnDisabled="True">
+									<Rectangle Name="Image" Width="20" Height="20" />
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="UIElement.IsMouseOver" Value="True">
+										<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+										<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+									</Trigger>
+									<Trigger Property="Button.IsPressed" Value="True">
+										<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+									</Trigger>
+									<DataTrigger Binding="{Binding IsAutoActivation}" Value="True">
+										<DataTrigger.Setters>
+											<Setter TargetName="Image" Property="Opacity" Value="1" />
+											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource WindowNormal}" />
+											<Setter Property="Button.ToolTip" Value="Автоматическая активация ВКЛючена" />
+										</DataTrigger.Setters>
+									</DataTrigger>
+									<DataTrigger Binding="{Binding IsAutoActivation}" Value="False" >
+										<DataTrigger.Setters>
+											<Setter TargetName="Image" Property="Opacity" Value="0.5" />
+											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource WindowCross}" />
+											<Setter Property="Button.ToolTip" Value="Автоматическая активация ВЫКЛючена" />
+										</DataTrigger.Setters>
+									</DataTrigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Button.Style>
+		</Button>
+
+		<Button Command="{Binding ChangePlansAutoActivationCommand}" Margin="2, 0, 0, 0" Width="34" Height="34">
+			<Button.Style>
+				<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate>
+								<Border Name="border" 
+										Margin="2"
+										BorderThickness="1" 
+										CornerRadius="2" 
+										Padding="2" 
+										ToolTip="{TemplateBinding ToolTip}" 
+										ToolTipService.ShowOnDisabled="True">
+									<Rectangle Name="Image" Width="20" Height="20" />
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="UIElement.IsMouseOver" Value="True">
+										<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+										<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+									</Trigger>
+									<Trigger Property="Button.IsPressed" Value="True">
+										<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+									</Trigger>
+									<DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="True">
+										<DataTrigger.Setters>
+											<Setter TargetName="Image" Property="Opacity" Value="1" />
+											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource Map}" />
+											<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВКЛючена" />
+										</DataTrigger.Setters>
+									</DataTrigger>
+									<DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="False">
+										<Setter TargetName="Image" Property="Opacity" Value="0.5" />
+										<Setter TargetName="Image" Property="Fill" Value="{DynamicResource MapOff}" />
+										<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВЫКЛючена" />
+									</DataTrigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Button.Style>
+		</Button>
+	</StackPanel>
+</UserControl>

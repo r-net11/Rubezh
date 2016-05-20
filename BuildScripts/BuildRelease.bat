@@ -1,9 +1,9 @@
 @echo off
 
-nuget restore ..\Projects\FiresecService\FiresecService.sln
-nuget restore ..\Projects\FireAdministrator\FireAdministrator.sln
-nuget restore ..\Projects\FireMonitor\FireMonitor.sln
-nuget restore ..\Projects\FireMonitor\FireMonitor.sln
+nuget restore ..\Projects\RubezhService\RubezhService.sln
+nuget restore ..\Projects\RubezhAdministrator\RubezhAdministrator.sln
+nuget restore ..\Projects\RubezhMonitor\RubezhMonitor.sln
+nuget restore ..\Projects\GKOPCServer\GKOPCServer.sln
 
 set BuildFilesPath=%cd%
 set NAntPath=%cd%\..\3rdParty\NAnt\bin\NAnt.exe

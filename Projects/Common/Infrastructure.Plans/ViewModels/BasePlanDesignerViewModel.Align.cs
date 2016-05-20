@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
 using System;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 				{
 					Rect rect = item.Element.GetRectangle();
-					item.Element.SetPosition(new Point(root.Left + rect.Width / 2, rect.Top + rect.Height / 2));
+					item.Element.SetCenterPosition(new Point(root.Left + rect.Width / 2, rect.Top + rect.Height / 2));
 				});
 		}
 		public RelayCommand AlignHorizontalCenterCommand { get; private set; }
@@ -40,7 +39,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.SetPosition(new Point(root.Left + root.Width / 2, rect.Top + rect.Height / 2));
+				item.Element.SetCenterPosition(new Point(root.Left + root.Width / 2, rect.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignHorizontalRightCommand { get; private set; }
@@ -49,7 +48,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.SetPosition(new Point(root.Right - rect.Width / 2, rect.Top + rect.Height / 2));
+				item.Element.SetCenterPosition(new Point(root.Right - rect.Width / 2, rect.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalTopCommand { get; private set; }
@@ -58,7 +57,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Top + rect.Height / 2));
+				item.Element.SetCenterPosition(new Point(rect.Left + rect.Width / 2, root.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalCenterCommand { get; private set; }
@@ -67,7 +66,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Top + root.Height / 2));
+				item.Element.SetCenterPosition(new Point(rect.Left + rect.Width / 2, root.Top + root.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalBottomCommand { get; private set; }
@@ -76,7 +75,7 @@ namespace Infrastructure.Plans.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Bottom - rect.Height / 2));
+				item.Element.SetCenterPosition(new Point(rect.Left + rect.Width / 2, root.Bottom - rect.Height / 2));
 			});
 		}
 

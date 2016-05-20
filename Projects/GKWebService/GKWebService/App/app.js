@@ -18,7 +18,7 @@
 
 	angular.module('gkApp.directives', []);
 	angular.module('gkApp.controllers', ['ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.resizeColumns']);
-	angular.module('gkApp.services', ['SignalR']);
+	angular.module('gkApp.services', ['SignalR', 'ngCookies']);
 
 	app.config(function ($httpProvider) {
 	    $httpProvider.interceptors.push('authInterceptorService');

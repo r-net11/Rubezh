@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature Id="RubezhFeature" Title="$(var.ProductName)" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
+				 AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			<Condition Level="2">INSTALL_Rubezh</Condition>
+			<FeatureRef Id="Server.Features" />
+			<FeatureRef Id="Administrator.Features" />
+			<FeatureRef Id="Monitor.Features" />
+			<FeatureRef Id="OPC.Features" />
+
+			<Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для работы оборудования Рубеж Глобал">
+				<Condition Level="1">INSTALL_GK</Condition>
+				<ComponentRef Id="Administrator.GK_MODULE" />
+				<ComponentRef Id="Monitor.GK_MODULE" />
+			</Feature>
+			<Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для работы Видео">
+				<Condition Level="1">INSTALL_VIDEO</Condition>
+				<ComponentRef Id="Administrator.VIDEO_MODULE" />
+				<ComponentRef Id="Monitor.VIDEO_MODULE" />
+			</Feature>
+			<!--
+			<Feature Id="Postgres.Features" Title="СУБД Postgres" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит PostgreSQL" />
+			-->
+			
+			<ComponentRef Id="ProgramMenuDir.Additional" />
+			<ComponentRef Id="Administrator.PLANS_MODULE" />
+			<ComponentRef Id="Administrator.SOUNDS_MODULE" />
+			<ComponentRef Id="Administrator.SETTINGS_MODULE" />
+			<ComponentRef Id="Monitor.PLANS_MODULE" />
+			<ComponentRef Id="DesktopFolder" />
+			<ComponentRef Id="ProgramMenuDir" />
+			<ComponentRef Id="FscpAssociation" />
+		</Feature>
+	</Fragment>
+</Wix>

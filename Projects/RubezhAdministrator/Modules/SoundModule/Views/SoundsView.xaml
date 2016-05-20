@@ -1,0 +1,58 @@
+﻿<UserControl 
+	x:Class="SoundsModule.Views.SoundsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Converters="clr-namespace:SoundsModule.Converters"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<Converters:SoundToStringConverter x:Key="SoundToStringConverter" />
+		<Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+	</UserControl.Resources>
+
+	<DataGrid ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False" CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn
+				SortMemberPath="SoundType"
+				Header="Состояние"
+				Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Path=StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2 0" />
+							<TextBlock Text="{Binding Path=SoundType, Converter={StaticResource SoundTypeToStringConverter}}" Margin="2 0" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Звук" Width="1*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding SoundName, Converter={StaticResource SoundToStringConverter}}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+				<DataGridTemplateColumn.CellEditingTemplate>
+					<DataTemplate>
+						<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="{DynamicResource ForegroundColorDark}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellEditingTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Непрерывно" Width="1*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

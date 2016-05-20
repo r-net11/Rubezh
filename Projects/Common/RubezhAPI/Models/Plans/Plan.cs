@@ -20,8 +20,6 @@ namespace RubezhAPI.Models
 		{
 			UID = Guid.NewGuid();
 			Children = new List<Plan>();
-			ElementSubPlans = new List<ElementRectangleSubPlan>();
-			ElementPolygonSubPlans = new List<ElementPolygonSubPlan>();
 			Caption = "Новый план";
 			Width = 297;
 			Height = 210;
@@ -32,7 +30,7 @@ namespace RubezhAPI.Models
 
 		public void ClearElements()
 		{
-			ElementSubPlans = new List<ElementRectangleSubPlan>();
+			ElementRectangleSubPlans = new List<ElementRectangleSubPlan>();
 			ElementPolygonSubPlans = new List<ElementPolygonSubPlan>();
 			ElementRectangles = new List<ElementRectangle>();
 			ElementEllipses = new List<ElementEllipse>();
@@ -107,7 +105,7 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public List<ElementPolyline> ElementPolylines { get; set; }
 		[DataMember]
-		public List<ElementRectangleSubPlan> ElementSubPlans { get; set; }
+		public List<ElementRectangleSubPlan> ElementRectangleSubPlans { get; set; }
 		[DataMember()]
 		public List<ElementPolygonSubPlan> ElementPolygonSubPlans { get; set; }
 		[DataMember]
@@ -167,7 +165,7 @@ namespace RubezhAPI.Models
 				union.AddRange(this.ElementRectangleGKPumpStations);
 				union.AddRange(this.ElementPolygonGKPumpStations);
 				union.AddRange(ElementPolygonGKDelays);
-				union.AddRange(ElementSubPlans);
+				union.AddRange(ElementRectangleSubPlans);
 				union.AddRange(ElementPolygonSubPlans);
 				union.AddRange(ElementGKDevices);
 				return union;

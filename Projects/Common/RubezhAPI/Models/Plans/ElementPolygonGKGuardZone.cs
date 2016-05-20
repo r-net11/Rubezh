@@ -23,11 +23,6 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public ElementZoneType ElementZoneType { get; set; }
 
-		private void CopyZone(IElementZone element)
-		{
-			element.ZoneUID = ZoneUID;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]

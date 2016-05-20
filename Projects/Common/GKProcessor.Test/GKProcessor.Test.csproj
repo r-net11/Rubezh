@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FireAdministrator\Modules\GroupControllerModule\GKModule.csproj">
+    <ProjectReference Include="..\..\RubezhAdministrator\Modules\GroupControllerModule\GKModule.csproj">
       <Project>{75276eba-15d7-4f08-8239-3c40e6835cb6}</Project>
       <Name>GKModule</Name>
     </ProjectReference>

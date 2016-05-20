@@ -19,15 +19,15 @@ namespace RubezhAPI.Models
 		public Guid ClientUID { get; set; }
 
 		public string FriendlyUserName { get; set; }
+		[DataMember]
 		public string ClientIpAddress { get; set; }
-		public string ClientIpAddressAndPort { get; set; }
 
 		public string UniqueId
 		{
 			get
 			{
 				var result = ClientType.ToString() + "." + (ClientIpAddress == null ? "" : ClientIpAddress);
-                if (ClientType == ClientType.WebService)
+				if (ClientType == ClientType.WebService)
 				{
 					result = Login + "." + result;
 				}

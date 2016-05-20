@@ -12,18 +12,10 @@ namespace Infrastructure.Plans.ViewModels
 {
 	public class ElementsViewModel : BaseViewModel
 	{
-		//private bool _isSelectedEvent;
 		public ElementsViewModel(BaseDesignerCanvas designerCanvas)
 		{
-			//_isSelectedEvent = false;
-			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
-			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementAdded);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
-			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 			DesignerCanvas = designerCanvas;
 
@@ -43,13 +35,8 @@ namespace Infrastructure.Plans.ViewModels
 				_selectedElement = value;
 				var elementViewModel = SelectedElement as ElementViewModel;
 				if (elementViewModel != null && (DesignerCanvas.SelectedItems.Count() != 1 || !elementViewModel.DesignerItem.IsSelected))
-				//if (!_isSelectedEvent && _selectedElement != null && _selectedElement.ShowOnPlanCommand != null)
-				{
-					//_isSelectedEvent = true;
 					_selectedElement.ShowOnPlanCommand.Execute();
-					//_isSelectedEvent = false;
-				}
-				OnPropertyChanged("SelectedElement");
+				OnPropertyChanged(() => SelectedElement);
 			}
 		}
 
@@ -86,24 +73,19 @@ namespace Infrastructure.Plans.ViewModels
 			if (elementViewModel == null || elementViewModel.DesignerItem.Element.UID != elementUID)
 			{
 				elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
-				//if (elementViewModel != null)
-				//{
-				//	elementViewModel.ExpantToThis();
-				//	elementViewModel.IsSelected = true;
-				//}
 				SelectedElement = elementViewModel;
 			}
 		}
 
 		#endregion
 
-		private void UpdateHasChildren()
+		void UpdateHasChildren()
 		{
 			foreach (var group in Groups.Values)
 				group.OnPropertyChanged("HasChildren");
 		}
 
-		private void AddElement(ElementViewModel elementViewModel)
+		void AddElement(ElementViewModel elementViewModel)
 		{
 			ElementGroupViewModel parentElementViewModel = Groups.ContainsKey(elementViewModel.DesignerItem.Group) ? Groups[elementViewModel.DesignerItem.Group] : null;
 			if (parentElementViewModel == null)
@@ -113,7 +95,7 @@ namespace Infrastructure.Plans.ViewModels
 			AllElements.Add(elementViewModel);
 		}
 
-		private void OnElementAdded(List<ElementBase> elements)
+		void OnElementAdded(List<ElementBase> elements)
 		{
 			foreach (var elementBase in elements)
 			{
@@ -125,7 +107,7 @@ namespace Infrastructure.Plans.ViewModels
 				OnElementSelected(elements[elements.Count - 1]);
 			UpdateHasChildren();
 		}
-		private void OnElementRemoved(List<ElementBase> elements)
+		void OnElementRemoved(List<ElementBase> elements)
 		{
 			foreach (var elementBase in elements)
 			{
@@ -134,28 +116,18 @@ namespace Infrastructure.Plans.ViewModels
 				{
 					if ((element.Parent != null) && (element.Parent.Children != null))
 						element.Parent.RemoveChild(element);
-					//element.Parent = null;
 					Elements.Remove(element);
 					AllElements.Remove(element);
 				}
 			}
 			UpdateHasChildren();
 		}
-		private void OnElementChanged(List<ElementBase> elements)
+		void OnElementSelected(ElementBase element)
 		{
-
-		}
-		private void OnElementSelected(ElementBase element)
-		{
-			//if (!_isSelectedEvent)
-			{
-				//_isSelectedEvent = true;
-				Select(element.UID);
-				//_isSelectedEvent = false;
-			}
+			Select(element.UID);
 		}
 
-		private void CollapseChild(ElementBaseViewModel parentElementViewModel)
+		void CollapseChild(ElementBaseViewModel parentElementViewModel)
 		{
 			parentElementViewModel.IsExpanded = false;
 
@@ -164,7 +136,7 @@ namespace Infrastructure.Plans.ViewModels
 				CollapseChild(elementViewModel);
 			}
 		}
-		private void ExpandChild(ElementBaseViewModel parentElementViewModel)
+		void ExpandChild(ElementBaseViewModel parentElementViewModel)
 		{
 			parentElementViewModel.IsExpanded = true;
 			foreach (var elementViewModel in parentElementViewModel.Children)
