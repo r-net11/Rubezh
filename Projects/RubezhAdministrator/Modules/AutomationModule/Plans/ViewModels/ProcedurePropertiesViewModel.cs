@@ -1,4 +1,5 @@
 ﻿using AutomationModule.ViewModels;
+using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -10,18 +11,15 @@ namespace AutomationModule.Plans.ViewModels
 {
 	public class ProcedurePropertiesViewModel : TextBlockPropertiesViewModel
 	{
-		const int _sensivityFactor = 100;
 		private ElementProcedure _element;
 		ElementBaseRectangle ElementBaseRectangle { get; set; }
 
-		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel)
-			: base(element)
+		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel, CommonDesignerCanvas designerCanvas)
+			: base(element, designerCanvas)
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
 			ElementBaseRectangle = element as ElementBaseRectangle;
-			Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-			Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
 			Title = "Свойства фигуры: Процедура";
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
@@ -42,8 +40,6 @@ namespace AutomationModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			AutomationPlanExtension.Instance.RewriteItem(_element, SelectedProcedure.Procedure);
 			return base.Save();
 		}

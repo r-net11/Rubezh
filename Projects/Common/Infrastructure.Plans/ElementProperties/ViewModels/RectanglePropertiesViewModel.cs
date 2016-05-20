@@ -3,7 +3,9 @@ using Controls.Extentions;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
@@ -13,40 +15,20 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 {
 	public class RectanglePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
 		protected ElementRectangle ElementRectangle { get; private set; }
 
-		public RectanglePropertiesViewModel(ElementRectangle element)
+		public RectanglePropertiesViewModel(ElementRectangle element, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Прямоугольник";
 			ElementRectangle = element;
-			Left = (int)(ElementRectangle.Left * _sensivityFactor);
-			Top = (int)(ElementRectangle.Top * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(ElementRectangle);
 			BindStrokeThicknessCommand = new RelayCommand(OnBindStrokeThickness);
 			CopyProperties();
 		}
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
+
 		protected virtual void CopyProperties()
 		{
 			ElementBase.Copy(this.ElementRectangle, this);
@@ -132,10 +114,8 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			ElementRectangle.Left = (double)Left / _sensivityFactor;
-			ElementRectangle.Top = (double)Top / _sensivityFactor;
+			PositionSettingsViewModel.SavePosition();
 			ElementBase.Copy(this, this.ElementRectangle);
-
 			var colorConverter = new ColorToSystemColorConverter();
 			ElementRectangle.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
 			ElementRectangle.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);

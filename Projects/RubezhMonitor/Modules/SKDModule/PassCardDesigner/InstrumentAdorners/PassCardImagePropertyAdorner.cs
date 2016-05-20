@@ -23,7 +23,7 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 		{
 			var element = new ElementPassCardImageProperty() { BackgroundColor = Colors.Transparent, Left = left, Top = top };
 			element.OrganisationUID = _organisationUID;
-			var propertiesViewModel = new PassCardImagePropertyViewModel(element);
+			var propertiesViewModel = new PassCardImagePropertyViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

@@ -20,7 +20,7 @@ namespace AutomationModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementProcedure() { Left = left, Top = top };
-			var propertiesViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel);
+			var propertiesViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

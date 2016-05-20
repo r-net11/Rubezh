@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI;
 using RubezhAPI.SKD;
@@ -12,8 +13,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardImagePropertyViewModel : RectanglePropertiesViewModel
 	{
-		public PassCardImagePropertyViewModel(ElementPassCardImageProperty element)
-			: base(element)
+		public PassCardImagePropertyViewModel(ElementPassCardImageProperty element, CommonDesignerCanvas designerCanvas)
+			: base(element, designerCanvas)
 		{
 			Title = "Свойства фигуры: Графическое свойство";
 			PropertyTypes = new ObservableCollection<PassCardImagePropertyType>(Enum.GetValues(typeof(PassCardImagePropertyType)).Cast<PassCardImagePropertyType>());

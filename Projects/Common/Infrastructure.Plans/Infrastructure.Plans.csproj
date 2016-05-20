@@ -40,6 +40,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -189,6 +190,7 @@
     <Compile Include="ViewModels\InstrumentGroupViewModel.cs" />
     <Compile Include="ViewModels\InstrumentViewModel.cs" />
     <Compile Include="ViewModels\IPlanDesignerViewModel.cs" />
+    <Compile Include="ViewModels\PositionSettingsViewModel.cs" />
     <Compile Include="ViewModels\ToolboxViewModel.cs" />
     <Compile Include="Views\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
@@ -214,6 +216,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />
     <Compile Include="Events\FindElementEvent.cs" />
+    <Compile Include="Views\PositionSettingsView.xaml.cs">
+      <DependentUpon>PositionSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
@@ -303,6 +308,10 @@
     <Page Include="Views\PlanDesignerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PositionSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ToolboxResource.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -136,7 +136,7 @@ namespace VideoModule.Plans
 		{
 			ElementCamera element = e.Element as ElementCamera;
 			if (element != null)
-				e.PropertyViewModel = new CameraPropertiesViewModel(element);
+				e.PropertyViewModel = new CameraPropertiesViewModel(element, DesignerCanvas);
 		}
 	}
 }

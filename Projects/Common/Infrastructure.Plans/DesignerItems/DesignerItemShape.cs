@@ -25,9 +25,9 @@ namespace Infrastructure.Plans.DesignerItems
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
 			if (Element.IsExactly<ElementPolygon>())
-				return new PolygonPropertiesViewModel(Element as ElementPolygon);
+				return new PolygonPropertiesViewModel(Element as ElementPolygon, DesignerCanvas);
 			if (Element.IsExactly<ElementPolyline>())
-				return new PolylinePropertiesViewModel(Element as ElementPolyline);
+				return new PolylinePropertiesViewModel(Element as ElementPolyline, DesignerCanvas);
 			return base.CreatePropertiesViewModel();
 		}
 	}

@@ -25,13 +25,13 @@ namespace Infrastructure.Plans.DesignerItems
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
 			if (Element.IsExactly<ElementRectangle>())
-				return new RectanglePropertiesViewModel(Element as ElementRectangle);
+				return new RectanglePropertiesViewModel(Element as ElementRectangle, DesignerCanvas);
 			if (Element.IsExactly<ElementEllipse>())
-				return new EllipsePropertiesViewModel(Element as ElementEllipse);
+				return new EllipsePropertiesViewModel(Element as ElementEllipse, DesignerCanvas);
 			if (Element.IsExactly<ElementTextBlock>())
-				return new TextBlockPropertiesViewModel(Element as ElementTextBlock);
+				return new TextBlockPropertiesViewModel(Element as ElementTextBlock, DesignerCanvas);
 			if (Element.IsExactly<ElementTextBox>())
-				return new TextBoxPropertiesViewModel(Element as ElementTextBox);
+				return new TextBoxPropertiesViewModel(Element as ElementTextBox, DesignerCanvas);
 			return base.CreatePropertiesViewModel();
 		}
 	}

@@ -2,7 +2,8 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -14,42 +15,18 @@ namespace GKModule.Plans.ViewModels
 {
 	public class MPTPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		private IElementMPT IElementMPT;
-		ElementBase ElementBase { get; set; }
-		public MPTPropertiesViewModel(IElementMPT element)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public MPTPropertiesViewModel(IElementMPT element, CommonDesignerCanvas designerCanvas)
 		{
 			IElementMPT = element;
-			ElementBase = element as ElementBase;
-			var position = ElementBase.GetPosition();
-			Left = (int)(position.X * _sensivityFactor);
-			Top = (int)(position.Y * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: МПТ";
 			MPTs = new ObservableCollection<GKMPT>(GKManager.MPTs);
 			if (IElementMPT.MPTUID != Guid.Empty)
 				SelectedMPT = MPTs.FirstOrDefault(x => x.UID == IElementMPT.MPTUID);
-		}
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 		public ObservableCollection<GKMPT> MPTs { get; private set; }
 
@@ -88,7 +65,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			PositionSettingsViewModel.SavePosition();
 			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT);
 			return base.Save();
 		}

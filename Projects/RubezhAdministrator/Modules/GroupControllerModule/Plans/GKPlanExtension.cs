@@ -612,23 +612,23 @@ namespace GKModule.Plans
 		{
 			ElementGKDevice element = e.Element as ElementGKDevice;
 			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(element);
+				e.PropertyViewModel = new DevicePropertiesViewModel(element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
-				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element);
+				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
-				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element);
+				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
-				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element);
+				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
-				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element);
+				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
-				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element);
+				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, DesignerCanvas);
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
-				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
+				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element, DesignerCanvas);
 			else if (e.Element is ElementGKDoor)
-				e.PropertyViewModel = new GKDoorPropertiesViewModel((ElementGKDoor)e.Element);
+				e.PropertyViewModel = new GKDoorPropertiesViewModel((ElementGKDoor)e.Element, DesignerCanvas);
 		}
 
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)

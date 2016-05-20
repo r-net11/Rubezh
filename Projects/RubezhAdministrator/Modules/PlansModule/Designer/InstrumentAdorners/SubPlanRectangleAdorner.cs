@@ -17,7 +17,7 @@ namespace PlansModule.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleSubPlan() { Left = left, Top = top };
-			var propertiesViewModel = new SubPlanPropertiesViewModel(element);
+			var propertiesViewModel = new SubPlanPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Plans.ElementProperties.ViewModels;
+﻿using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
@@ -11,8 +12,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTextPropertyViewModel : TextBlockPropertiesViewModel
 	{
-		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element)
-			: base(element)
+		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element, CommonDesignerCanvas designerCanvas)
+			: base(element, designerCanvas)
 		{
 			Title = "Свойства фигуры: Текстовое свойство";
 			PropertyTypes = new ObservableCollection<PassCardTextPropertyType>(Enum.GetValues(typeof(PassCardTextPropertyType)).Cast<PassCardTextPropertyType>());
