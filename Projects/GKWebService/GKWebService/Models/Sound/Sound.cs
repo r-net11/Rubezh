@@ -13,7 +13,7 @@ namespace GKWebService.Models.Sound
 
 		public string SoundName { get; set; }
 
-		public BeeperType BeeperType { get; set; }
+		//public BeeperType BeeperType { get; set; }
 
 		public bool IsContinious { get; set; }
 	}
