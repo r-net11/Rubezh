@@ -8,6 +8,7 @@
 		<DirectoryRef Id="SERVERLOCATION">
 			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
 				<File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.Monitor.exe.config" Name="StrazhService.Monitor.exe.config" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
@@ -17,6 +18,7 @@
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
