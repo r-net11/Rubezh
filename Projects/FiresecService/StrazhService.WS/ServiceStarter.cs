@@ -39,12 +39,6 @@ namespace StrazhService.WS
 				Logger.Info("Инициализируем валидатор конфигурации");
 				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
 
-				// При смене лицензии Сервера уведомляем его об этом
-				licenseManager.LicenseChanged += () =>
-				{
-					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-				};
-
 				Logger.Info("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
