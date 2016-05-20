@@ -9,6 +9,7 @@ using Application = Gtk.Application;
 using DateTime = System.DateTime;
 using RubezhAPI.License;
 using RubezhAPI.Models;
+using RubezhService.Service;
 
 namespace RubezhService.Views
 {
@@ -46,6 +47,7 @@ namespace RubezhService.Views
 			connectionNode.AppendColumn("Тип", new CellRendererText(), "text", 0);
 			connectionNode.AppendColumn("Адрес", new CellRendererText(), "text", 1);
 			connectionNode.AppendColumn("Пользователь", new CellRendererText(), "text", 2);
+			connectionNode.ButtonPressEvent += new ButtonPressEventHandler(OnItemButtonPressed);
 			pollingNode = new NodeView();
 			pollingNode.AppendColumn("Клиент", new CellRendererText(), "text", 0);
 			pollingNode.AppendColumn("Идентификатор", new CellRendererText(), "text", 1);
@@ -77,6 +79,32 @@ namespace RubezhService.Views
 			Current = this;
 		}
 
+		[GLib.ConnectBeforeAttribute]
+		protected void OnItemButtonPressed(object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3) /* right click */
+			{
+				Menu m = new Menu();
+				MenuItem deleteItem = new MenuItem("Разорвать соединение");
+				deleteItem.ButtonPressEvent += new ButtonPressEventHandler(OnDeleteItemButtonPressed);
+				m.Add(deleteItem);
+				m.ShowAll();
+				m.Popup();
+			}
+		}
+
+		void OnDeleteItemButtonPressed(object sender, ButtonPressEventArgs e)
+		{
+			ConnectionTreeNode node = (ConnectionTreeNode)connectionNode.NodeSelection.SelectedNode;
+			var md = new MessageDialog(null, DialogFlags.Modal, MessageType.Question, ButtonsType.OkCancel, string.Format("Вы действительно хотите отключить клиента ({0} / {1} / {2}) от сервера?", node.Type, node.Address, node.User));
+			if (md.Run() == (int) ResponseType.Ok)
+			{
+				ClientsManager.Remove(node.ClientUid);
+				connectionNode.NodeStore.RemoveNode(node);
+			}
+			md.Destroy();
+		}
+
 		void On_LicenseChanged()
 		{
 			MainWindow.Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
@@ -96,7 +124,7 @@ namespace RubezhService.Views
 				if (clientPoll == null)
 				{
 					clientPoll = new ClientPoll {Uid = uid, Client = client};
-                    clientPoll.FirstPollTime = DateTime.Now;
+					clientPoll.FirstPollTime = DateTime.Now;
 					ClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
@@ -166,7 +194,7 @@ namespace RubezhService.Views
 		{
 			connectionNode.NodeStore = new NodeStore(typeof(ConnectionTreeNode));
 			Clients.ForEach(x => connectionNode.NodeStore.AddNode(new ConnectionTreeNode(x.ClientType.ToDescription(),
-				x.ClientIpAddress.StartsWith("127.0.0.1") ? "localhost" : x.ClientIpAddress, x.FriendlyUserName)));
+				x.ClientIpAddress.StartsWith("127.0.0.1") ? "localhost" : x.ClientIpAddress, x.FriendlyUserName, x.ClientUID)));
 			connectionNode.ShowAll();
 		}
 
@@ -250,11 +278,12 @@ namespace RubezhService.Views
 
 	public class ConnectionTreeNode : TreeNode
 	{
-		public ConnectionTreeNode(string type, string address, string user)
+		public ConnectionTreeNode(string type, string address, string user, Guid clientUid)
 		{
 			Type = type;
 			Address = address;
 			User = user;
+			ClientUid = clientUid;
 		}
 
 		[TreeNodeValue(Column = 0)]
@@ -265,6 +294,8 @@ namespace RubezhService.Views
 
 		[TreeNodeValue(Column = 2)]
 		public string User;
+
+		public Guid ClientUid;
 	}
 
 	public class PollingTreeNode : TreeNode
