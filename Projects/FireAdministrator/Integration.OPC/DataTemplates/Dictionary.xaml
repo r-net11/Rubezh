@@ -13,4 +13,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
 		<Views:SettingsDialogView />
 	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:AddZoneDialogViewModel}">
+		<Views:AddZoneDialogView />
+	</DataTemplate>
 </ResourceDictionary>

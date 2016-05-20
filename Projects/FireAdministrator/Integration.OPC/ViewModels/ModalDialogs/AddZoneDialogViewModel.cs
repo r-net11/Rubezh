@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using Integration.OPC.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 
 namespace Integration.OPC.ViewModels
 {
-	class AddZoneDialogViewModel
+	public class AddZoneDialogViewModel : SaveCancelDialogViewModel
 	{
+		public ObservableCollection<OPCZone> Zones { get; private set; }
+
+		public AddZoneDialogViewModel(IEnumerable<OPCZone> zones)
+		{
+			Zones = new ObservableCollection<OPCZone>(zones);
+		}
 	}
 }

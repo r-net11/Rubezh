@@ -1,11 +1,71 @@
-﻿<UserControl x:Class="Integration.OPC.Views.ModalDialogs.AddZoneDialogView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<UserControl
+	x:Class="Integration.OPC.Views.AddZoneDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
+    mc:Ignorable="d"
+    Height="300"
+	Width="600">
+	<UserControl.Resources>
+		<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+	</UserControl.Resources>
     <Grid>
-            
+		<DataGrid ItemsSource="{Binding Zones, IsAsync=True}" CanUserSortColumns="True">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox
+								IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
+								IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="№" Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding No}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Наименование" Width="1.5*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding Name}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Назначение" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Примечание" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding Description}"
+								VerticalAlignment="Center"
+								Margin="5"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
     </Grid>
 </UserControl>

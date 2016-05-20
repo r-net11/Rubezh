@@ -38,11 +38,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\InputOPCZone.cs" />
     <Compile Include="IntegrationFacade.cs" />
     <Compile Include="IIntegrationService.cs" />
     <Compile Include="OPCIntegration\HttpClient.cs" />
+    <Compile Include="OPCIntegration\OPCIntegrationService.cs" />
+    <Compile Include="OPCIntegration\OPCZoneConverter.cs" />
     <Compile Include="OPCIntegration\WebRequestInfo.cs" />
     <Compile Include="OPCIntegration\WebResponseInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,7 +56,12 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\StrazhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>StrazhAPI</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

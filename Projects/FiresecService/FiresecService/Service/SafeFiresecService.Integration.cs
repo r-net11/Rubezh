@@ -1,5 +1,7 @@
-﻿using Common;
+﻿using System.Collections.Generic;
+using Common;
 using StrazhAPI;
+using StrazhAPI.Integration.OPC;
 
 namespace FiresecService.Service
 {
@@ -8,6 +10,11 @@ namespace FiresecService.Service
 		public OperationResult<bool> PingOPCServer()
 		{
 			return SafeContext.Execute(() => FiresecService.PingOPCServer());
+		}
+
+		public OperationResult<List<OPCZone>> GetOPCZones()
+		{
+			return SafeContext.Execute(() => FiresecService.GetOPCZones());
 		}
 	}
 }

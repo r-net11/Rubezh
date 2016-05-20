@@ -13,11 +13,6 @@ namespace OPCIntegrationClient
 
 		public HttpClient()
 		{
-			//if (!HttpListener.IsSupported)
-			//{
-			//	Logger.Error("HTTPListener is not support in that operating system.");
-			//	throw new PlatformNotSupportedException("HTTPListener");
-			//}
 			_httpListener = new HttpListener();
 			_httpListener.Prefixes.Add(IPAddress);
 		}
@@ -89,7 +84,7 @@ namespace OPCIntegrationClient
 			return info;
 		}
 
-		private void CreateResponse(HttpListenerResponse response, string body)
+		private static void CreateResponse(HttpListenerResponse response, string body)
 		{
 			response.StatusCode = (int) HttpStatusCode.OK;
 			response.StatusDescription = HttpStatusCode.OK.ToString();

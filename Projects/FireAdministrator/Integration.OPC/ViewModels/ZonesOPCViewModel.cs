@@ -1,43 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
+﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
-using Integration.OPC.Models;
 using Integration.OPC.Properties;
-using StrazhAPI.Enums;
-using StrazhAPI.Integration.OPC;
+using Microsoft.Practices.Prism;
 using StrazhAPI.SKD;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using OPCSettings = Integration.OPC.Models.OPCSettings;
+using OPCZone = Integration.OPC.Models.OPCZone;
 
 namespace Integration.OPC.ViewModels
 {
 	public class ZonesOPCViewModel : MenuViewPartViewModel
 	{
-		public void Initialize()
+		public void Initialize(IEnumerable<OPCZone> existingZones)
 		{
-			ZonesOPC = new List<OPCZone> //TODO: Was implemented for testing purposes.
-			{
-				new OPCZone
-				{
-					Name = "Архив",
-					No = 1,
-					Description = "Archive",
-					Type = OPCZoneType.Fire
-				},
-				new OPCZone
-				{
-					Name = "Архив22",
-					No = 2,
-					Description = "Archive",
-					Type = OPCZoneType.Guard
-				}
-			};
+			ZonesOPC = new ObservableCollection<OPCZone>(existingZones);
 			Menu = new MenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedZoneOPC != null);
@@ -45,7 +26,7 @@ namespace Integration.OPC.ViewModels
 			SettingsCommand = new RelayCommand(OnSettings);
 		}
 
-		public List<OPCZone> ZonesOPC { get; set; }
+		public ObservableCollection<OPCZone> ZonesOPC { get; set; }
 
 		private OPCZone _selectedZoneOPC;
 
@@ -67,7 +48,15 @@ namespace Integration.OPC.ViewModels
 
 		public void OnAdd()
 		{
-			//TODO: Add integration Zone
+			var zones = FiresecManager.FiresecService.GetOPCZones();
+			var addZoneDialog = new AddZoneDialogViewModel(zones.Result.Select(x => new OPCZone(x, ZonesOPC.Any(existingZone => existingZone.No == x.No))));
+
+			if (DialogService.ShowModalWindow(addZoneDialog))
+			{
+				ZonesOPC.AddRange(addZoneDialog.Zones.Where(x => x.IsChecked && x.IsEnabled));
+				SKDManager.SKDConfiguration.OPCZones.AddRange(addZoneDialog.Zones.Where(x => x.IsChecked && x.IsEnabled).Select(x => x.ToDTO()));
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 
 		public void OnDelete()

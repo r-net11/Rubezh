@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Integration.OPC.Views.ModalDialogs
+namespace Integration.OPC.Views
 {
 	/// <summary>
 	/// Interaction logic for AddZoneDialogView.xaml

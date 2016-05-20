@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using StrazhAPI;
+using StrazhAPI.Integration.OPC;
 
 namespace FiresecClient
 {
@@ -12,6 +13,11 @@ namespace FiresecClient
 		public OperationResult<bool> PingOPCServer()
 		{
 			return SafeContext.Execute(() => FiresecService.PingOPCServer());
+		}
+
+		public OperationResult<List<OPCZone>> GetOPCZones()
+		{
+			return SafeContext.Execute(() => FiresecService.GetOPCZones());
 		}
     }
 }

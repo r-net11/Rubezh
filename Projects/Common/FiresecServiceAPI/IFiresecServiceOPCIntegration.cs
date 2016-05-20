@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
+using StrazhAPI.Integration.OPC;
 
 namespace StrazhAPI
 {
@@ -7,5 +9,8 @@ namespace StrazhAPI
 	{
 		[OperationContract]
 		OperationResult<bool> PingOPCServer();
+
+		[OperationContract]
+		OperationResult<List<OPCZone>> GetOPCZones();
 	}
 }

@@ -1,4 +1,6 @@
-﻿using StrazhAPI;
+﻿using System.Collections.Generic;
+using StrazhAPI;
+using StrazhAPI.Integration.OPC;
 
 namespace FiresecService.Service
 {
@@ -11,5 +13,11 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(result);
 		}
 
+		public OperationResult<List<OPCZone>> GetOPCZones()
+		{
+			var result = _integrationService.GetOPCZones();
+
+			return new OperationResult<List<OPCZone>>(result);
+		}
 	}
 }

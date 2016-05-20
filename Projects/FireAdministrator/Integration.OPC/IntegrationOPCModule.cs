@@ -7,9 +7,11 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Integration.OPC.Models;
 using Integration.OPC.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Enums;
+using StrazhAPI.SKD;
 
 namespace Integration.OPC
 {
@@ -28,7 +30,7 @@ namespace Integration.OPC
 
 		public override void Initialize()
 		{
-			_integrationOPCViewModel.Initialize();
+			_integrationOPCViewModel.Initialize(SKDManager.SKDConfiguration.OPCZones.Select(x => new OPCZone(x)));
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()

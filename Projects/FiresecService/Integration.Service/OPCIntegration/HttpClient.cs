@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Common;
 
 namespace Integration.Service.OPCIntegration
 {
@@ -13,6 +14,9 @@ namespace Integration.Service.OPCIntegration
 		public const string HttpServerAddress = @"http://127.0.0.1:8097/";
 		public readonly WebResponseInfo PingSuccess;
 
+		private string _httpServerAddress;
+		private string _integrationServiceAddress;
+
 		public HttpClient()
 		{
 			_httpListener = new HttpListener();
@@ -22,6 +26,21 @@ namespace Integration.Service.OPCIntegration
 				Body = "Pong",
 				StatusCode = HttpStatusCode.OK
 			};
+		}
+
+		public HttpClient(string httpServerAddress, string integrationServiceAddress)
+		{
+			if (string.IsNullOrEmpty(httpServerAddress) || string.IsNullOrEmpty(integrationServiceAddress))
+			{
+				Logger.Info(httpServerAddress);
+				Logger.Info(integrationServiceAddress);
+				var e = new ArgumentNullException("Null argument in http client");
+				Logger.Error(e);
+				throw e;
+			}
+
+			_httpServerAddress = httpServerAddress;
+			_integrationServiceAddress = integrationServiceAddress;
 		}
 
 		public void Start()
@@ -91,7 +110,7 @@ namespace Integration.Service.OPCIntegration
 			};
 
 			using(var bodyStream = response.GetResponseStream())
-			using (var reader = new StreamReader(bodyStream, Encoding.UTF8))
+			using (var reader = new StreamReader(bodyStream, Encoding.GetEncoding(1251)))//Encoding.UTF8))
 			{
 				info.Body = reader.ReadToEnd();
 			}

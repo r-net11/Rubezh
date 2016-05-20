@@ -9,8 +9,10 @@ namespace StrazhAPI.Enums
 	public enum OPCZoneType
 	{
 		[Description("Пожарная")]
-		Fire,
+		Fire = 0,
 		[Description("Охранная")]
-		Guard
+		Guard = 1,
+		[Description("СКУД")]
+		ASC = 2
 	}
 }
