@@ -1,8 +1,6 @@
-﻿<p>Планы:</p>
-<ul>
+﻿<ul>
 	<li *ngFor="let plan of plans">
 		{{ plan.Name }}
+		<gk-plans-list [plans]="plan.NestedPlans" [isSubElement]="true"></gk-plans-list>
 	</li>
 </ul>
-<p>{{errorMessage}}</p>
-<router-outlet></router-outlet>

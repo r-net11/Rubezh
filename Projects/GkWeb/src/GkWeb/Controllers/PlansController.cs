@@ -21,7 +21,7 @@ namespace GkWeb.Controllers
 				|| RubezhClient.ClientManager.PlansConfiguration.Plans == null) {
 				return null;
 			}
-			return RubezhClient.ClientManager.PlansConfiguration.AllPlans.Select(GetPlanInfo).ToList();
+			return RubezhClient.ClientManager.PlansConfiguration.Plans.Where(p => p.Parent == null).Select(GetPlanInfo);
 		}
 
 		/// <summary>

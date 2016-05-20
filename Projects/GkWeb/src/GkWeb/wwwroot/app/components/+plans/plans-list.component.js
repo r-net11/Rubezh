@@ -31,20 +31,33 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../../sha
                 function PlansListComponent(router, dataService) {
                     this.router = router;
                     this.dataService = dataService;
-                    this.load();
                 }
                 PlansListComponent.prototype.load = function () {
                     var _this = this;
                     this.dataService.getPlansList().subscribe(function (plans) { return _this.plans = plans; }, function (error) { return _this.errorMessage = error; });
                 };
                 PlansListComponent.prototype.ngOnInit = function () {
+                    if (this.isSubElement !== null && this.isSubElement === true) {
+                        return;
+                    }
+                    else {
+                        this.load();
+                    }
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Array)
+                ], PlansListComponent.prototype, "plans", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], PlansListComponent.prototype, "isSubElement", void 0);
                 PlansListComponent = __decorate([
                     core_1.Component({
                         selector: 'gk-plans-list',
                         templateUrl: 'app/components/+plans/plans-list.component.html',
                         styleUrls: ['app/components/+plans/plans-list.component.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES],
+                        directives: [router_1.ROUTER_DIRECTIVES, PlansListComponent],
                         providers: [http_1.HTTP_PROVIDERS, index_1.DataService]
                     }),
                     router_1.Routes([]), 
