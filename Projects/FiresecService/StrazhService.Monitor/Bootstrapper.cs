@@ -43,13 +43,6 @@ namespace StrazhService.Monitor
 				_windowThread.Start(licenseManager);
 				_mainViewStartedEvent.WaitOne();
 
-				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				// и уведомляем всех Клиентов
-				licenseManager.LicenseChanged += () =>
-				{
-					//TODO
-				};
-
 				// Регистрируемся на Сервере в качестве Клиента
 				Task.Factory.StartNew(() =>
 				{
@@ -61,6 +54,10 @@ namespace StrazhService.Monitor
 					}
 					Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
 
+					// Изменяем статус состояния Сервера на "Запущен"
+					ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Started;
+
+					// Получаем лог загрузки Сервера
 					var getLogsOperationResult = FiresecManager.FiresecService.GetLogs();
 					if (!getLogsOperationResult.HasError)
 						ServiceRepository.Instance.Events.GetEvent<ServerLogsReceivedEvent>().Publish(getLogsOperationResult.Result);

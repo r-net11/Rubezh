@@ -10,6 +10,7 @@ namespace StrazhService.Monitor
 		private ServiceRepository()
 		{
 			Events = new EventAggregator();
+			ServiceStateHolder = new ServiceStateHolder();
 		}
 
 		public static ServiceRepository Instance
@@ -18,5 +19,7 @@ namespace StrazhService.Monitor
 		}
 
 		public IEventAggregator Events { get; private set; }
+
+		public IServiceStateHolder ServiceStateHolder { get; private set; }
 	}
 }

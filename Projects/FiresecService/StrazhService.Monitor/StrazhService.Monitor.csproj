@@ -69,8 +69,11 @@
     <Compile Include="App.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ClientsManager.cs" />
+    <Compile Include="Converters\ServiceStateToStringConverter.cs" />
+    <Compile Include="Converters\ServiceStateToColorNameConverter.cs" />
     <Compile Include="Converters\StringsToLastStringConverter.cs" />
     <Compile Include="Events\ServerLogsReceivedEvent.cs" />
+    <Compile Include="IServiceStateHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +88,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ServiceRepository.cs" />
+    <Compile Include="ServiceState.cs" />
+    <Compile Include="ServiceStateHolder.cs" />
     <Compile Include="ViewModels\AppServerSettingsViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DatabaseSettingsViewModel.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\ServiceControlViewModel.cs" />
+    <Compile Include="ViewModels\ServiceStateViewModel.cs" />
     <Compile Include="Views\AppServerSettingsView.xaml.cs">
       <DependentUpon>AppServerSettingsView.xaml</DependentUpon>
     </Compile>
@@ -107,6 +113,9 @@
     </Compile>
     <Compile Include="Views\ServiceControlView.xaml.cs">
       <DependentUpon>ServiceControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServiceStateView.xaml.cs">
+      <DependentUpon>ServiceStateView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,6 +152,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ServiceControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServiceStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

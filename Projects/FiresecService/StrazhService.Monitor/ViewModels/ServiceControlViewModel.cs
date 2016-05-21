@@ -33,6 +33,7 @@ namespace StrazhService.Monitor.ViewModels
 					Logger.Warn(string.Format("Служба '{0}' не была запущена за {1} сек.", ServiceName, ServiceWaitTimeout));
 				OnPropertyChanged(() => StartServiceCommand);
 				OnPropertyChanged(() => StopServiceCommand);
+				ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Starting;
 			}
 			catch (Exception e)
 			{
@@ -55,6 +56,7 @@ namespace StrazhService.Monitor.ViewModels
 					Logger.Warn(string.Format("Служба '{0}' не была остановлена за {1} сек.", ServiceName, ServiceWaitTimeout));
 				OnPropertyChanged(() => StartServiceCommand);
 				OnPropertyChanged(() => StopServiceCommand);
+				ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Stoped;
 			}
 			catch (Exception e)
 			{

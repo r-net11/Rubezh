@@ -29,6 +29,7 @@ namespace StrazhService.Monitor.ViewModels
 			AppServerSettingsViewModel = new AppServerSettingsViewModel();
 			DatabaseSettingsViewModel = new DatabaseSettingsViewModel();
 			LogsViewModel = new LogsViewModel();
+			ServiceStateViewModel = new ServiceStateViewModel();
 
 			_currentLicenseManager = currentLicenseManager;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
@@ -281,6 +282,12 @@ namespace StrazhService.Monitor.ViewModels
 		public LogsViewModel LogsViewModel { get; private set; }
 
 		#endregion </Лог>
+
+		#region <Индикатор состояния Сервера>
+
+		public ServiceStateViewModel ServiceStateViewModel { get; private set; }
+
+		#endregion </Индикатор состояния Сервера>
 
 		private readonly Dispatcher _dispatcher;
 

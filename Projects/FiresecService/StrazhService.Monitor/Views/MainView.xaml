@@ -28,13 +28,17 @@
 				Grid.Column="0"
 				DataContext="{Binding ServiceControlViewModel}" />
 			<TextBlock
-			Grid.Column="1"
-			Visibility="{Binding HasLicense, Converter={StaticResource InversedBoolToVisibilityConverter}}"
-			Text="Отсутствует лицензия"
-			Foreground="{DynamicResource ForegroundColorLight}"
-			HorizontalAlignment="Right"
-			VerticalAlignment="Center"
-			Margin="2"/>
+				Grid.Column="1"
+				Visibility="{Binding HasLicense, Converter={StaticResource InversedBoolToVisibilityConverter}}"
+				Text="Отсутствует лицензия"
+				Foreground="{DynamicResource ForegroundColorLight}"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Margin="2"/>
+			<views:ServiceStateView
+				Grid.Column="2"
+				DataContext="{Binding ServiceStateViewModel}"
+				Margin="5"/>
 		</Grid>
 		<TabControl Grid.Row="1" Background="{DynamicResource AlternativeBackgroundBrush}">
 			<TabItem Header="Соединения">
