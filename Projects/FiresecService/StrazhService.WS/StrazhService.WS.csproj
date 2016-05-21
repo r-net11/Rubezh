@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="ServiceInstallerUtility.cs" />
     <Compile Include="ServiceStarter.cs" />
+    <Compile Include="StrazhNotifier.cs" />
     <Compile Include="StrazhWindowsService.cs">
       <SubType>Component</SubType>
     </Compile>

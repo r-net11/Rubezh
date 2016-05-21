@@ -12,6 +12,8 @@ namespace StrazhService.WS
 	{
 		public void Start()
 		{
+			Notifier.SetNotifier(new StrazhNotifier());
+
 			Logger.Info("Запуск сервера");
 
 			// Актуализация схемы БД
@@ -40,24 +42,35 @@ namespace StrazhService.WS
 				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
 
 				Logger.Info("Загрузка конфигурации");
+				Notifier.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
 				Logger.Info("Открытие хоста");
+				Notifier.Log("Открытие хоста");
 				if (!FiresecServiceManager.Open(licenseManager))
 					Logger.Error("При открытии хоста обнаружена ошибка");
 
 				Logger.Info("Создание конфигурации СКД");
+				Notifier.Log("Создание конфигурации СКД");
 				SKDProcessor.Start();
 
 				Logger.Info("Запуск сервиса отчетов");
+				Notifier.Log("Запуск сервиса отчетов");
 				ReportServiceManager.Run();
 				Logger.Info("Сервис отчетов запущен" + ReportServiceManager.Address);
-				ReportServiceManager.Addresses.ForEach(Logger.Info);
+				Notifier.Log("Сервис отчетов запущен" + ReportServiceManager.Address);
+				foreach (var reportServiceAddress in ReportServiceManager.Addresses)
+				{
+					Logger.Info(reportServiceAddress);
+					Notifier.Log(reportServiceAddress);
+				}
 
 				Logger.Info("Запуск автоматизации");
+				Notifier.Log("Запуск автоматизации");
 				ScheduleRunner.Start();
 
 				Logger.Info("Готово");
+				Notifier.Log("Готово");
 				ProcedureRunner.RunOnServerRun();
 			}
 			catch (Exception e)

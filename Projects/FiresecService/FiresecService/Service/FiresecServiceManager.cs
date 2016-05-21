@@ -33,7 +33,7 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				Notifier.UILog("Ошибка при запуске хоста сервиса: " + e.Message);
+				Notifier.Log("Ошибка при запуске хоста сервиса: " + e.Message);
 				Notifier.BalloonShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
 				return false;
 			}
@@ -45,7 +45,7 @@ namespace FiresecService.Service
 			{
 				var netpipeAddress = AppServerConnectionManager.ServerNamedPipesUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
-				Notifier.UILog("Локальный адрес: " + netpipeAddress);
+				Notifier.Log("Локальный адрес: " + netpipeAddress);
 			}
 			catch (Exception e)
 			{
@@ -59,7 +59,7 @@ namespace FiresecService.Service
 			{
 				var remoteAddress = AppServerConnectionManager.ServerHttpUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
-				Notifier.UILog("Удаленный адрес: " + remoteAddress);
+				Notifier.Log("Удаленный адрес: " + remoteAddress);
 			}
 			catch (Exception e)
 			{
@@ -73,7 +73,7 @@ namespace FiresecService.Service
 			{
 				var remoteAddress = AppServerConnectionManager.ServerTcpUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
-				Notifier.UILog("Удаленный адрес: " + remoteAddress);
+				Notifier.Log("Удаленный адрес: " + remoteAddress);
 			}
 			catch (Exception e)
 			{

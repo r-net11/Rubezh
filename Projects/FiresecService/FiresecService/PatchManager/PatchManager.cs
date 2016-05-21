@@ -187,7 +187,7 @@ namespace FiresecService
 			Logger.Error(e, codePlace);
 
 			const string msg = "Не удалось подключиться к базе данных";
-			Notifier.UILog(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
+			Notifier.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
 			Notifier.BalloonShowFromServer(msg);
 		}
 
@@ -196,7 +196,7 @@ namespace FiresecService
 			Logger.Error(e, codePlace);
 
 			const string msg = "Возникла ошибка при работе с базой данных";
-			Notifier.UILog(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+			Notifier.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Notifier.BalloonShowFromServer(msg);
 		}
 

@@ -284,5 +284,14 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
 		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
+		}
 	}
 }

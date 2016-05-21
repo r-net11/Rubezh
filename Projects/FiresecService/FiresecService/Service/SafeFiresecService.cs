@@ -319,5 +319,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetClients(), "GetClients");
 		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
+		}
 	}
 }

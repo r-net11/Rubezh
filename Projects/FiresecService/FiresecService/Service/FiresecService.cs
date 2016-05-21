@@ -390,5 +390,14 @@ namespace FiresecService.Service
 		{
 			return new OperationResult<List<ClientCredentials>>(ClientsManager.ClientInfos.Select(x => x.ClientCredentials).ToList());
 		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return new OperationResult<string>(Notifier.GetLogs());
+		}
 	}
 }

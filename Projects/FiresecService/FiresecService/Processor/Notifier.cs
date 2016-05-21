@@ -13,15 +13,15 @@ namespace StrazhService
 			_notifier = notifier;
 		}
 
-		public static void OnApplicationClosing()
+		public static string GetLogs()
 		{
-			//GKProcessor.Stop();
+			return _notifier == null ? string.Empty : _notifier.Logs;
 		}
 
-		internal static void UILog(string message)
+		public static void Log(string message)
 		{
 			if (_notifier != null)
-				_notifier.UILog(message);
+				_notifier.Log(message);
 		}
 
 		internal static void BalloonShowFromServer(string text)

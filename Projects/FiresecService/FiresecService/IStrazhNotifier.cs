@@ -5,7 +5,8 @@ namespace StrazhService
 {
 	public interface IStrazhNotifier
 	{
-		void UILog(string message);
+		string Logs { get; }
+		void Log(string message);
 		void BalloonShowFromServer(string text);
 		void AddClient(ClientCredentials clientCredentials);
 		void RemoveClient(Guid uid);

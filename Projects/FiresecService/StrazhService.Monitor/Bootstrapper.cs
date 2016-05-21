@@ -10,6 +10,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using StrazhAPI.Models;
+using StrazhService.Monitor.Events;
 using StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor
@@ -59,6 +60,10 @@ namespace StrazhService.Monitor
 						Logger.Info("Очередная попытка регистрации на Сервере в качестве Клиента");
 					}
 					Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
+
+					var getLogsOperationResult = FiresecManager.FiresecService.GetLogs();
+					if (!getLogsOperationResult.HasError)
+						ServiceRepository.Instance.Events.GetEvent<ServerLogsReceivedEvent>().Publish(getLogsOperationResult.Result);
 
 					FiresecManager.StartPoll();
 					Logger.Info("Начат прием сообщений от Сервера");

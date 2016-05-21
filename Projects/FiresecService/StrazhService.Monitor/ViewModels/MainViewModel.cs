@@ -28,6 +28,7 @@ namespace StrazhService.Monitor.ViewModels
 			ServiceControlViewModel = new ServiceControlViewModel();
 			AppServerSettingsViewModel = new AppServerSettingsViewModel();
 			DatabaseSettingsViewModel = new DatabaseSettingsViewModel();
+			LogsViewModel = new LogsViewModel();
 
 			_currentLicenseManager = currentLicenseManager;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
@@ -274,38 +275,10 @@ namespace StrazhService.Monitor.ViewModels
 
 		#region <Лог>
 
-		public void AddLog(string message)
-		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				LastLog = message;
-				InfoLog += message + "\n";
-			}));
-		}
-
-		private string _lastLog;
-
-		public string LastLog
-		{
-			get { return _lastLog; }
-			set
-			{
-				_lastLog = value;
-				OnPropertyChanged(() => LastLog);
-			}
-		}
-
-		private string _infoLog;
-
-		public string InfoLog
-		{
-			get { return _infoLog; }
-			set
-			{
-				_infoLog = value;
-				OnPropertyChanged(() => InfoLog);
-			}
-		}
+		/// <summary>
+		/// Логи загрузки Сервера
+		/// </summary>
+		public LogsViewModel LogsViewModel { get; private set; }
 
 		#endregion </Лог>
 

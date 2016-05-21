@@ -153,5 +153,12 @@ namespace StrazhAPI
 		/// </summary>
 		[OperationContract]
 		void NotifyLicenseChanged();
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		[OperationContract]
+		OperationResult<string> GetLogs();
 	}
 }
