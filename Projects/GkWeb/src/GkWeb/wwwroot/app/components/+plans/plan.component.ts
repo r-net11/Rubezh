@@ -1,13 +1,13 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, Routes, RouteSegment } from '@angular/router';
-import { HTTP_PROVIDERS }    from '@angular/http';
+import { Router, Routes, RouteSegment } from '@angular/router';
+
+import { DataService } from '../../shared/services/index';
 
 @Component({
 	selector: '[gk-plan]',
 	templateUrl: 'app/components/+plans/plan.component.html',
 	styleUrls: ['app/components/+plans/plan.component.css'],
-	directives: [ROUTER_DIRECTIVES],
-	providers: [HTTP_PROVIDERS]
+	providers: [ DataService ]
 })
 @Routes([
 ])
@@ -16,7 +16,7 @@ export class PlanComponent implements OnInit
 	id: string;
 
 	constructor(
-		private router: Router)
+		private router: Router, private dataService: DataService)
 	{
 		
 	}
@@ -28,7 +28,9 @@ export class PlanComponent implements OnInit
 
 	load()
 	{
-		
+		//this.dataService.getPlansList().subscribe(
+		//	plans => this.plans = plans,
+		//	error => this.errorMessage = <any>error);
 	}
 
 	ngOnInit()

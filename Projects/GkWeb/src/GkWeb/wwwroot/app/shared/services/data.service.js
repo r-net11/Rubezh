@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/http', 'rxjs/Observable', 'rxjs/add/operator/map', 'rxjs/add/operator/catch'], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Observable", 'rxjs/add/operator/map', 'rxjs/add/operator/catch'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -31,21 +31,23 @@ System.register(["@angular/core", '@angular/http', 'rxjs/Observable', 'rxjs/add/
                     this.http = http;
                 }
                 DataService.prototype.getUserName = function () {
-                    return this.http.get('logon/GetUserName').map(function (res) { return res.text(); });
+                    return this.http.get("logon/GetUserName").map(function (res) { return res.text(); });
                 };
                 DataService.prototype.getPlansList = function () {
-                    return this.http.get('api/plans')
+                    return this.http.get("api/plans")
                         .map(this.extractData)
                         .catch(this.handleError);
+                };
+                DataService.prototype.getPlan = function (uid) {
                 };
                 DataService.prototype.extractData = function (res) {
                     var body = res.json();
                     return body || {};
                 };
                 DataService.prototype.handleError = function (error) {
-                    // In a real world app, we might use a remote logging infrastructure
-                    // We'd also dig deeper into the error to get a better message
-                    var errMsg = error.message || error.statusText || 'Server error';
+                    // in a real world app, we might use a remote logging infrastructure
+                    // we'd also dig deeper into the error to get a better message
+                    var errMsg = error.message || error.statusText || "Server error";
                     console.error(errMsg); // log to console instead
                     return Observable_1.Observable.throw(errMsg);
                 };

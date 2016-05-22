@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './plans-list.component', './plan.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '@angular/http', './plans-list.component', './plan.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', './plans-list.component', '
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, plans_list_component_1, plan_component_1;
+    var core_1, router_1, http_1, plans_list_component_1, plan_component_1;
     var PlansComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '@angular/router', './plans-list.component', '
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
             },
             function (plans_list_component_1_1) {
                 plans_list_component_1 = plans_list_component_1_1;
@@ -37,7 +40,8 @@ System.register(['@angular/core', '@angular/router', './plans-list.component', '
                     core_1.Component({
                         selector: '[gk-plans]',
                         templateUrl: 'app/components/+plans/plans.component.html',
-                        directives: [router_1.ROUTER_DIRECTIVES, plans_list_component_1.PlansListComponent]
+                        directives: [router_1.ROUTER_DIRECTIVES, plans_list_component_1.PlansListComponent],
+                        providers: [http_1.HTTP_PROVIDERS]
                     }),
                     router_1.Routes([
                         { path: '/:id', component: plan_component_1.PlanComponent }
