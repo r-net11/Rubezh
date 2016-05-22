@@ -36,7 +36,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../
                 };
                 UserIdentityComponent = __decorate([
                     core_1.Component({
-                        selector: 'nav-identity',
+                        selector: '[nav-identity]',
                         templateUrl: 'app/shared/nav/user-identity.component.html',
                         providers: [http_1.HTTP_PROVIDERS, data_service_1.DataService]
                     }), 

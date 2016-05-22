@@ -54,12 +54,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|Any CPU.ActiveCfg = AspCoreDev|Any CPU
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|Any CPU.Build.0 = AspCoreDev|Any CPU
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x64.ActiveCfg = AspCoreDev|Any CPU
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x64.Build.0 = AspCoreDev|Any CPU
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x86.ActiveCfg = AspCoreDev|Any CPU
-		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x86.Build.0 = AspCoreDev|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|Any CPU.ActiveCfg = Release|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|Any CPU.Build.0 = Release|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x64.ActiveCfg = Release|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x64.Build.0 = Release|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x86.ActiveCfg = Release|Any CPU
+		{A934D042-C112-459F-AF48-B5444E775FA3}.AspCoreDev|x86.Build.0 = Release|Any CPU
 		{A934D042-C112-459F-AF48-B5444E775FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A934D042-C112-459F-AF48-B5444E775FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A934D042-C112-459F-AF48-B5444E775FA3}.Debug|x64.ActiveCfg = Debug|Any CPU

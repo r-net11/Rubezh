@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', '@angular/http', '../../shared/services/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '@angular/http', '../../shared/services/index', './plan.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../../sha
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, http_1, index_1;
+    var core_1, router_1, http_1, index_1, plan_component_1;
     var PlansListComponent;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../../sha
             },
             function (index_1_1) {
                 index_1 = index_1_1;
+            },
+            function (plan_component_1_1) {
+                plan_component_1 = plan_component_1_1;
             }],
         execute: function() {
             PlansListComponent = (function () {
@@ -54,13 +57,15 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../../sha
                 ], PlansListComponent.prototype, "isSubElement", void 0);
                 PlansListComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-plans-list',
+                        selector: '[gk-plans-list]',
                         templateUrl: 'app/components/+plans/plans-list.component.html',
                         styleUrls: ['app/components/+plans/plans-list.component.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES, PlansListComponent],
+                        directives: [router_1.ROUTER_DIRECTIVES, PlansListComponent, plan_component_1.PlanComponent],
                         providers: [http_1.HTTP_PROVIDERS, index_1.DataService]
                     }),
-                    router_1.Routes([]), 
+                    router_1.Routes([
+                        { path: '/:id', component: plan_component_1.PlanComponent }
+                    ]), 
                     __metadata('design:paramtypes', [router_1.Router, index_1.DataService])
                 ], PlansListComponent);
                 return PlansListComponent;

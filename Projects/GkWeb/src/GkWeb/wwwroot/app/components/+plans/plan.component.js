@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './plans-list.component', './plan.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '@angular/http'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['@angular/core', '@angular/router', './plans-list.component', '
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, plans_list_component_1, plan_component_1;
-    var PlansComponent;
+    var core_1, router_1, http_1;
+    var PlanComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -20,34 +20,36 @@ System.register(['@angular/core', '@angular/router', './plans-list.component', '
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (plans_list_component_1_1) {
-                plans_list_component_1 = plans_list_component_1_1;
-            },
-            function (plan_component_1_1) {
-                plan_component_1 = plan_component_1_1;
+            function (http_1_1) {
+                http_1 = http_1_1;
             }],
         execute: function() {
-            PlansComponent = (function () {
-                function PlansComponent(_router) {
-                    this._router = _router;
+            PlanComponent = (function () {
+                function PlanComponent(router) {
+                    this.router = router;
                 }
-                PlansComponent.prototype.ngOnInit = function () {
+                PlanComponent.prototype.routerOnActivate = function (curr) {
+                    this.id = curr.getParam('id');
                 };
-                PlansComponent = __decorate([
+                PlanComponent.prototype.load = function () {
+                };
+                PlanComponent.prototype.ngOnInit = function () {
+                };
+                PlanComponent = __decorate([
                     core_1.Component({
-                        selector: '[gk-plans]',
-                        templateUrl: 'app/components/+plans/plans.component.html',
-                        directives: [router_1.ROUTER_DIRECTIVES, plans_list_component_1.PlansListComponent]
+                        selector: '[gk-plan]',
+                        templateUrl: 'app/components/+plans/plan.component.html',
+                        styleUrls: ['app/components/+plans/plan.component.css'],
+                        directives: [router_1.ROUTER_DIRECTIVES],
+                        providers: [http_1.HTTP_PROVIDERS]
                     }),
-                    router_1.Routes([
-                        { path: '/:id', component: plan_component_1.PlanComponent }
-                    ]), 
+                    router_1.Routes([]), 
                     __metadata('design:paramtypes', [router_1.Router])
-                ], PlansComponent);
-                return PlansComponent;
+                ], PlanComponent);
+                return PlanComponent;
             }());
-            exports_1("PlansComponent", PlansComponent);
+            exports_1("PlanComponent", PlanComponent);
         }
     }
 });
-//# sourceMappingURL=plans.component.js.map
+//# sourceMappingURL=plan.component.js.map

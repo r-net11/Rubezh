@@ -38,7 +38,7 @@ System.register(['@angular/core', '@angular/router', './shared/index', './compon
                 };
                 AppComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-app',
+                        selector: '[gk-app]',
                         templateUrl: 'app/app.component.html',
                         styleUrls: ['app/app.component.css'],
                         directives: [router_1.ROUTER_DIRECTIVES, index_1.NavComponent]

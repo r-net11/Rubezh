@@ -7,7 +7,7 @@ import "rxjs/add/operator/map";
 import { GkService } from "../services/index";
 
 @Component({
-	selector: "nav-connection",
+	selector: "[nav-connection]",
 	templateUrl: "app/shared/nav/connection-indicator.component.html",
 	styleUrls: ["app/shared/nav/connection-indicator.component.css"]
 })

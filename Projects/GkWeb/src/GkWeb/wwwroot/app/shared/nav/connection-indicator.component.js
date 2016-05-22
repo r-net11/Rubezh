@@ -63,7 +63,7 @@ System.register(["@angular/core", "rxjs/add/operator/map", "../services/index"],
                 };
                 ConnectionIndicatorComponent = __decorate([
                     core_1.Component({
-                        selector: "nav-connection",
+                        selector: "[nav-connection]",
                         templateUrl: "app/shared/nav/connection-indicator.component.html",
                         styleUrls: ["app/shared/nav/connection-indicator.component.css"]
                     }), 

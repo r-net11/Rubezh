@@ -5,7 +5,7 @@ import { UserIdentityComponent } from './user-identity.component';
 import { ConnectionIndicatorComponent } from './connection-indicator.component';
 
 @Component({
-	selector: 'gk-nav',
+	selector: '[gk-nav]',
 	templateUrl: 'app/shared/nav/nav.component.html',
 	directives: [ROUTER_DIRECTIVES, UserIdentityComponent, ConnectionIndicatorComponent]
 })

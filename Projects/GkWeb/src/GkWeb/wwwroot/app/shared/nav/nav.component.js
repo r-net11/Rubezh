@@ -35,7 +35,7 @@ System.register(['@angular/core', '@angular/router', './user-identity.component'
                 };
                 NavComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-nav',
+                        selector: '[gk-nav]',
                         templateUrl: 'app/shared/nav/nav.component.html',
                         directives: [router_1.ROUTER_DIRECTIVES, user_identity_component_1.UserIdentityComponent, connection_indicator_component_1.ConnectionIndicatorComponent]
                     }),

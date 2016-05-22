@@ -5,13 +5,13 @@ import { NavComponent, GkService } from './shared/index';
 import { PlansComponent } from './components/index';
 
 @Component({
-	selector: 'gk-app',
+	selector: '[gk-app]',
 	templateUrl: 'app/app.component.html',
 	styleUrls: ['app/app.component.css'],
 	directives: [ROUTER_DIRECTIVES, NavComponent]
 })
 @Routes([
-		{ path: '/plans', component: PlansComponent }
+		{ path: '/plans', component: PlansComponent }		
 		//{ path: '/hello-world', component: HelloWorldComponent },
 		//{ path: '/tasks', component: TasksComponent }
 ])

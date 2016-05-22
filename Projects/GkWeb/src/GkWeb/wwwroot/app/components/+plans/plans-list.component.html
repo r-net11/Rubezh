@@ -1,6 +1,11 @@
 ﻿<ul>
 	<li *ngFor="let plan of plans">
-		{{ plan.Name }}
-		<gk-plans-list [plans]="plan.NestedPlans" [isSubElement]="true"></gk-plans-list>
-	</li>
+		<div *ngIf="!plan.IsFolder">
+			<a [routerLink]="['/plans/' + plan.Uid]">{{ plan.Name }}</a>
+		</div>
+		<div *ngIf="plan.IsFolder">
+			{{ plan.Name }}
+		</div>
+		<div gk-plans-list [plans]="plan.NestedPlans" [isSubElement]="true"></div>
+</li>
 </ul>

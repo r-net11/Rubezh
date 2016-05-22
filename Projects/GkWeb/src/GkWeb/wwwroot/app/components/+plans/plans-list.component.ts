@@ -3,16 +3,18 @@ import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
 import { HTTP_PROVIDERS }    from '@angular/http';
 
 import { DataService } from '../../shared/services/index';
-import { PlanInfo  } from './+models/planInfo.model';
+import { PlanComponent  } from './plan.component';
+import { PlanInfo } from './+models/index';
 
 @Component({
-	selector: 'gk-plans-list',
+	selector: '[gk-plans-list]',
 	templateUrl: 'app/components/+plans/plans-list.component.html',
 	styleUrls: ['app/components/+plans/plans-list.component.css'],
-	directives: [ROUTER_DIRECTIVES, PlansListComponent],
+	directives: [ROUTER_DIRECTIVES, PlansListComponent, PlanComponent],
 	providers: [HTTP_PROVIDERS, DataService]
 })
-@Routes([
+	@Routes([
+		{ path: '/:id', component: PlanComponent }
 ])
 export class PlansListComponent implements OnInit
 {

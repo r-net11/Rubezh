@@ -1,4 +1,4 @@
-System.register(['./plans.component', './plans-list.component', './plan.component', './+models/planInfo.model', './+models/planElement.model'], function(exports_1, context_1) {
+System.register(['./planInfo.model', './planElement.model'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function exportStar_1(m) {
@@ -10,15 +10,6 @@ System.register(['./plans.component', './plans-list.component', './plan.componen
     }
     return {
         setters:[
-            function (plans_component_1_1) {
-                exportStar_1(plans_component_1_1);
-            },
-            function (plans_list_component_1_1) {
-                exportStar_1(plans_list_component_1_1);
-            },
-            function (plan_component_1_1) {
-                exportStar_1(plan_component_1_1);
-            },
             function (planInfo_model_1_1) {
                 exportStar_1(planInfo_model_1_1);
             },
