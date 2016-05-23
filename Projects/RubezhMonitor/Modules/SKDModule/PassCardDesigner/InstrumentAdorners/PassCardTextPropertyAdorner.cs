@@ -22,7 +22,7 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 		{
 			var element = new ElementPassCardTextProperty() { Left = left, Top = top };
 			element.OrganisationUID = _organisationUID;
-			var propertiesViewModel = new PassCardTextPropertyViewModel(element);
+			var propertiesViewModel = new PassCardTextPropertyViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

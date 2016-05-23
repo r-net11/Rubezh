@@ -16,7 +16,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleGKPumpStation() { Left = left, Top = top };
-			var propertiesViewModel = new PumpStationPropertiesViewModel(element);
+			var propertiesViewModel = new PumpStationPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

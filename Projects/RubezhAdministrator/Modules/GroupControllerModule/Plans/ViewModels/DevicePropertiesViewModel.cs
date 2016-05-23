@@ -1,8 +1,11 @@
 ﻿using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Linq;
 
@@ -10,42 +13,20 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		ElementGKDevice _elementGKDevice;
 		Guid CurrentDeviceUid { get; set; }
-
-		public DevicePropertiesViewModel(ElementGKDevice elementDevice)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public DevicePropertiesViewModel(ElementGKDevice elementDevice, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementGKDevice = elementDevice;
-			Left = (int)(_elementGKDevice.Left * _sensivityFactor);
-			Top = (int)(_elementGKDevice.Top * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(_elementGKDevice as ElementBase, designerCanvas);
 
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
 
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
 		SimpleDeviceViewModel AddDeviceInternal(GKDevice device, SimpleDeviceViewModel parentDeviceViewModel)
 		{
 			var smallDeviceViewModel = new SimpleDeviceViewModel(device);
@@ -109,8 +90,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			_elementGKDevice.Left = (double)Left / _sensivityFactor;
-			_elementGKDevice.Top = (double)Top / _sensivityFactor;
+			PositionSettingsViewModel.SavePosition();
 			GKPlanExtension.Instance.RewriteItem(_elementGKDevice, SelectedDevice.Device);
 			return base.Save();
 		}

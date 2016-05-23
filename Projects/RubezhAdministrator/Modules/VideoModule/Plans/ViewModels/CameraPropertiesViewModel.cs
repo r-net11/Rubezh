@@ -1,5 +1,8 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,14 +12,13 @@ namespace VideoModule.Plans.ViewModels
 {
 	public class CameraPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		ElementCamera _elementCamera;
-		public CameraPropertiesViewModel(ElementCamera element)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public CameraPropertiesViewModel(ElementCamera element, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = element;
-			Left = (int)(_elementCamera.Left * _sensivityFactor);
-			Top = (int)(_elementCamera.Top * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 
 			Initialize();
 			Rotation = element.Rotation;
@@ -41,27 +43,6 @@ namespace VideoModule.Plans.ViewModels
 				}
 				Cameras.Add(serverViewModel);
 				SelectedCamera = Cameras.FirstOrDefault();
-			}
-		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
 			}
 		}
 		public ObservableCollection<SimpleCameraViewModel> Cameras { get; private set; }
@@ -90,8 +71,7 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			_elementCamera.Left = (double)Left / _sensivityFactor;
-			_elementCamera.Top = (double)Top / _sensivityFactor;
+			PositionSettingsViewModel.SavePosition();
 			PlanExtension.Instance.RewriteItem(_elementCamera, SelectedCamera.Camera);
 			_elementCamera.Rotation = Rotation;
 			return base.Save();

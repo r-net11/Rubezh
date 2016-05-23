@@ -17,7 +17,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleGKDelay() { Left = left, Top = top };
-			var propertiesViewModel = new DelayPropertiesViewModel(element);
+			var propertiesViewModel = new DelayPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

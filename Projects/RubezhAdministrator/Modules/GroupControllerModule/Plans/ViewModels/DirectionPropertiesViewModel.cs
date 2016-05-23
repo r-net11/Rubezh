@@ -2,7 +2,8 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -14,16 +15,12 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		IElementDirection IElementDirection;
-		ElementBase ElementBase { get; set; }
-		public DirectionPropertiesViewModel(IElementDirection element)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public DirectionPropertiesViewModel(IElementDirection element, CommonDesignerCanvas designerCanvas)
 		{
 			IElementDirection = element;
-			ElementBase = element as ElementBase;
-			var position = ElementBase.GetPosition();
-			Left = (int)(position.X * _sensivityFactor);
-			Top = (int)(position.Y * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -34,27 +31,6 @@ namespace GKModule.Plans.ViewModels
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
-		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 
 		public ObservableCollection<GKDirection> Directions { get; private set; }
@@ -118,7 +94,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
-			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			PositionSettingsViewModel.SavePosition();
 			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection);
 			return base.Save();
 		}

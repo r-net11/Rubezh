@@ -5,7 +5,7 @@
 			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
 			 xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 xmlns:Views ="clr-namespace:Infrastructure.Plans.Views;assembly=Infrastructure.Plans"
 			 MinWidth="600" MinHeight="400">
 	<TabControl>
 		<TabItem Header="Основные">
@@ -48,23 +48,13 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Настройки">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<ExtToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
-
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
-			</Grid>
-		</TabItem>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Views:PositionSettingsView DataContext="{Binding PositionSettingsViewModel}" Grid.Row="0" />
+            </Grid>
+        </TabItem>
 	</TabControl>
 </UserControl>

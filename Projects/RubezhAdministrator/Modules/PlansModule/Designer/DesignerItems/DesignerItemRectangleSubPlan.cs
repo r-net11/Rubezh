@@ -16,7 +16,7 @@ namespace PlansModule.Designer.DesignerItems
 		}
 		protected override Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
-			return new SubPlanPropertiesViewModel((IElementSubPlan)Element);
+			return new SubPlanPropertiesViewModel((IElementSubPlan)Element, DesignerCanvas);
 
 		}
 		public override void UpdateElementProperties()

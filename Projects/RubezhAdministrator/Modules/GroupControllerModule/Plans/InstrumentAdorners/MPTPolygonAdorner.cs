@@ -27,7 +27,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
 			var element = new ElementPolygonGKMPT() { Points = points };
-			var propertiesViewModel = new MPTPropertiesViewModel(element);
+			var propertiesViewModel = new MPTPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
