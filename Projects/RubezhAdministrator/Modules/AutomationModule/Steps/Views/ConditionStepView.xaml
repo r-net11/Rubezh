@@ -10,19 +10,28 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" Grid.Row="0">
-			<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
-			<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColorLight}" Command="{Binding ChangeJoinOperatorCommand}"
-						   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-				<ToolBarButton.ToolTip>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условия объединены по" VerticalAlignment="Center" />
-						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-					</StackPanel>
-				</ToolBarButton.ToolTip>
-				<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-			</ToolBarButton>
-		</StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Условия поиска " HorizontalAlignment="Right" VerticalAlignment="Center" 
+                       Style="{DynamicResource TextBlockDetailsStyle}" 
+                       Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}" />
+            <StackPanel Orientation="Horizontal" 
+                        Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
+                <Button HorizontalAlignment="Left" Command="{Binding AddCommand}" ToolTip="Добавить условие" Height="32" Width="32">
+                    <Rectangle Fill="{DynamicResource Add}" Width="16" Height="16" />
+                </Button>
+                <Button Height="32" Width="70" Command="{Binding ChangeJoinOperatorCommand}" Foreground="{DynamicResource ForegroundColorLight}"
+					Visibility="{Binding IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+					Opacity="1">
+                    <Button.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Условия объединены по " VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button.ToolTip>
+                    <TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 			<ItemsControl ItemsSource="{Binding Conditions}">
 				<ItemsControl.ItemTemplate>
