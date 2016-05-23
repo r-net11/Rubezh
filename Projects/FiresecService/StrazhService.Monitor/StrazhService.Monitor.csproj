@@ -74,6 +74,7 @@
     <Compile Include="Converters\StringsToLastStringConverter.cs" />
     <Compile Include="Events\ServerLogsReceivedEvent.cs" />
     <Compile Include="IServiceStateHolder.cs" />
+    <Compile Include="IWindowsServiceStatusMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,6 +118,7 @@
     <Compile Include="Views\ServiceStateView.xaml.cs">
       <DependentUpon>ServiceStateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowsServiceStatusMonitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

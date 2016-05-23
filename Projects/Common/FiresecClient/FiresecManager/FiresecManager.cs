@@ -43,7 +43,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.Connect");
+				Logger.Error(e, "Исключение при вызове FiresecManager.Connect");
 				return e.Message;
 			}
 		}

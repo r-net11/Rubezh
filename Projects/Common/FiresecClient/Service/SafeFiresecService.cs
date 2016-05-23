@@ -192,7 +192,7 @@ namespace FiresecClient
 				//catch (SecurityNegotiationException) { }
 				catch (Exception e)
 				{
-					Logger.Error("Исключение при вызове FiresecClient.Connect " + e.GetType().Name.ToString());
+					Logger.Error(e, "Исключение при вызове FiresecService.Connect ");
 				}
 				return OperationResult<bool>.FromError("Не удается соединиться с сервером " + _serverAddress, false);
 			}, "Connect");

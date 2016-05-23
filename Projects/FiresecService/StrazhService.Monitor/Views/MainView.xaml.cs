@@ -44,7 +44,7 @@ namespace StrazhService.Monitor.Views
 		{
 			_window.Close();
 			NotifyIconService.Stop();
-			Bootstrapper.Close();
+			Bootstrapper.Instance.Close();
 		}
 
 		private void Window_StateChanged(object sender, EventArgs e)

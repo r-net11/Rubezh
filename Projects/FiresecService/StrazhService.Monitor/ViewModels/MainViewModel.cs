@@ -45,6 +45,21 @@ namespace StrazhService.Monitor.ViewModels
 
 			SafeFiresecService.NewJournalItemEvent -= SafeFiresecService_NewJournalItemEvent;
 			SafeFiresecService.NewJournalItemEvent += SafeFiresecService_NewJournalItemEvent;
+
+			ServiceRepository.Instance.ServiceStateHolder.ServiceStateChanged -= ServiceStateHolderOnServiceStateChanged;
+			ServiceRepository.Instance.ServiceStateHolder.ServiceStateChanged += ServiceStateHolderOnServiceStateChanged;
+		}
+
+		private void ServiceStateHolderOnServiceStateChanged(ServiceState serviceState)
+		{
+			if (serviceState == ServiceState.Stoped)
+				_dispatcher.BeginInvoke((Action) (() =>
+				{
+					// Очистка соединений
+					Clients.Clear();
+					// Очистка лога загрузки Сервера
+					LogsViewModel.Log = string.Empty;
+				}));
 		}
 
 		#region <Управление службой>

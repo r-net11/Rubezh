@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.ServiceProcess;
+using System.Threading.Tasks;
 using Common;
 using FiresecClient;
 using Infrastructure.Common;
@@ -15,13 +17,27 @@ using StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor
 {
-	public static class Bootstrapper
+	public sealed class Bootstrapper
 	{
-		private static Thread _windowThread;
-		private static MainViewModel _mainViewModel;
-		private static readonly AutoResetEvent _mainViewStartedEvent = new AutoResetEvent(false);
+		private static readonly Lazy<Bootstrapper> _instance = new Lazy<Bootstrapper>(() => new Bootstrapper());
 
-		public static void Run(ILicenseManager licenseManager)
+		public static Bootstrapper Instance
+		{
+			get { return _instance.Value; }
+		}
+
+		private Thread _windowThread;
+		private MainViewModel _mainViewModel;
+		private readonly AutoResetEvent _mainViewStartedEvent = new AutoResetEvent(false);
+		private CancellationTokenSource _connectToServiceCancellationTokenSource;
+
+		private Bootstrapper()
+		{
+			_mainViewStartedEvent = new AutoResetEvent(false);
+			_connectToServiceCancellationTokenSource = new CancellationTokenSource();
+		}
+
+		public void Run(ILicenseManager licenseManager)
 		{
 			if (licenseManager == null)
 				throw new ArgumentNullException("licenseManager");
@@ -43,28 +59,15 @@ namespace StrazhService.Monitor
 				_windowThread.Start(licenseManager);
 				_mainViewStartedEvent.WaitOne();
 
-				// Регистрируемся на Сервере в качестве Клиента
-				Task.Factory.StartNew(() =>
+				var localSerices = ServiceController.GetServices();
+				if (localSerices.Any(x => x.ServiceName == "StrazhService"))
 				{
-					Logger.Info("Попытка регистрации на Сервере в качестве Клиента");
-					while (!string.IsNullOrEmpty(FiresecManager.Connect(ClientType.ServiceMonitor, string.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName), null, null)))
-					{
-						Thread.Sleep(TimeSpan.FromSeconds(1));
-						Logger.Info("Очередная попытка регистрации на Сервере в качестве Клиента");
-					}
-					Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
+					ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged -= WindowsServiceStatusMonitorOnStatusChanged;
+					ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitorOnStatusChanged;
 
-					// Изменяем статус состояния Сервера на "Запущен"
-					ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Started;
-
-					// Получаем лог загрузки Сервера
-					var getLogsOperationResult = FiresecManager.FiresecService.GetLogs();
-					if (!getLogsOperationResult.HasError)
-						ServiceRepository.Instance.Events.GetEvent<ServerLogsReceivedEvent>().Publish(getLogsOperationResult.Result);
-
-					FiresecManager.StartPoll();
-					Logger.Info("Начат прием сообщений от Сервера");
-				});
+					ServiceRepository.Instance.WindowsServiceStatusMonitor.Start();
+				}
+				
 			}
 			catch (Exception e)
 			{
@@ -73,7 +76,65 @@ namespace StrazhService.Monitor
 			}
 		}
 
-		private static void OnWorkThread(object o)
+		private void WindowsServiceStatusMonitorOnStatusChanged(ServiceControllerStatus status)
+		{
+			switch (status)
+			{
+				case ServiceControllerStatus.Running:
+					// Изменяем статус состояния Сервера на "Запускается"
+					ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Starting;
+					// Пытаемся зарегистрироваться на Сервере в качестве Клиента
+					StartConnectToServiceTask();
+					break;
+				case ServiceControllerStatus.Stopped:
+					// Прерываем задачу регистрации на Сервере в качестве Клиента, если она еще не закончилась
+					StopConnectToServerTask();
+					// Изменяем статус состояния Сервера на "Остановлен"
+					ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Stoped;
+
+					if (FiresecManager.FiresecService != null)
+						FiresecManager.FiresecService.StopPoll();
+					break;
+			}
+		}
+
+		private void StartConnectToServiceTask()
+		{
+			_connectToServiceCancellationTokenSource = new CancellationTokenSource();
+			// Регистрируемся на Сервере в качестве Клиента
+			Task.Factory.StartNew(() => ConnectToServiceTask(_connectToServiceCancellationTokenSource.Token), _connectToServiceCancellationTokenSource.Token);
+		}
+
+		private void StopConnectToServerTask()
+		{
+			if (_connectToServiceCancellationTokenSource != null)
+				_connectToServiceCancellationTokenSource.Cancel();
+		}
+
+		private void ConnectToServiceTask(CancellationToken cancellationToken)
+		{
+			Logger.Info("Попытка регистрации на Сервере в качестве Клиента");
+			while (!string.IsNullOrEmpty(FiresecManager.Connect(ClientType.ServiceMonitor, string.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName), null, null)))
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+				cancellationToken.ThrowIfCancellationRequested();
+				Logger.Info("Очередная попытка регистрации на Сервере в качестве Клиента");
+			}
+			Logger.Info("Зарегистрировались на Сервере в качестве Клиента");
+
+			// Изменяем статус состояния Сервера на "Запущен"
+			ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Started;
+
+			// Получаем лог загрузки Сервера
+			var getLogsOperationResult = FiresecManager.FiresecService.GetLogs();
+			if (!getLogsOperationResult.HasError)
+				ServiceRepository.Instance.Events.GetEvent<ServerLogsReceivedEvent>().Publish(getLogsOperationResult.Result);
+
+			FiresecManager.StartPoll();
+			Logger.Info("Начат прием сообщений от Сервера");
+		}
+
+		private void OnWorkThread(object o)
 		{
 			var license = o as ILicenseManager;
 			if (license == null) return;
@@ -91,8 +152,10 @@ namespace StrazhService.Monitor
 			System.Windows.Threading.Dispatcher.Run();
 		}
 
-		public static void Close()
+		public void Close()
 		{
+			ServiceRepository.Instance.WindowsServiceStatusMonitor.Stop();
+
 			Logger.Info("Разрегистрируемся на Сервере и прекращаем прием сообщений от Сервера ");
 			FiresecManager.Disconnect();
 			

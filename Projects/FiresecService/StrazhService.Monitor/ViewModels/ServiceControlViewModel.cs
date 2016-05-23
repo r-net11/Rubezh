@@ -19,7 +19,7 @@ namespace StrazhService.Monitor.ViewModels
 
 			StartServiceCommand = new RelayCommand(OnStartService, CanStartService);
 			StopServiceCommand = new RelayCommand(OnStopService, CanStopService);
-			RestartServiceCommand = new RelayCommand(OnRestartService);
+			RestartServiceCommand = new RelayCommand(OnRestartService, CanRestartService);
 		}
 
 		public RelayCommand StartServiceCommand { get; private set; }
@@ -33,7 +33,6 @@ namespace StrazhService.Monitor.ViewModels
 					Logger.Warn(string.Format("Служба '{0}' не была запущена за {1} сек.", ServiceName, ServiceWaitTimeout));
 				OnPropertyChanged(() => StartServiceCommand);
 				OnPropertyChanged(() => StopServiceCommand);
-				ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Starting;
 			}
 			catch (Exception e)
 			{
@@ -42,7 +41,8 @@ namespace StrazhService.Monitor.ViewModels
 		}
 		private bool CanStartService()
 		{
-			return _serviceController.Status == ServiceControllerStatus.Stopped;
+			return ServiceRepository.Instance.WindowsServiceStatusMonitor.IsStarted
+				&& ServiceRepository.Instance.WindowsServiceStatusMonitor.Status == ServiceControllerStatus.Stopped;
 		}
 
 		public RelayCommand StopServiceCommand { get; private set; }
@@ -56,7 +56,6 @@ namespace StrazhService.Monitor.ViewModels
 					Logger.Warn(string.Format("Служба '{0}' не была остановлена за {1} сек.", ServiceName, ServiceWaitTimeout));
 				OnPropertyChanged(() => StartServiceCommand);
 				OnPropertyChanged(() => StopServiceCommand);
-				ServiceRepository.Instance.ServiceStateHolder.State = ServiceState.Stoped;
 			}
 			catch (Exception e)
 			{
@@ -65,7 +64,8 @@ namespace StrazhService.Monitor.ViewModels
 		}
 		private bool CanStopService()
 		{
-			return _serviceController.Status == ServiceControllerStatus.Running;
+			return ServiceRepository.Instance.WindowsServiceStatusMonitor.IsStarted
+				&& ServiceRepository.Instance.WindowsServiceStatusMonitor.Status == ServiceControllerStatus.Running;
 		}
 
 		public RelayCommand RestartServiceCommand { get; private set; }
@@ -92,6 +92,12 @@ namespace StrazhService.Monitor.ViewModels
 			{
 				Logger.Error(e, string.Format("Ошибка перезапуска службы '{0}'", ServiceName));
 			}
+		}
+
+		private bool CanRestartService()
+		{
+			return ServiceRepository.Instance.WindowsServiceStatusMonitor.IsStarted
+				&& ServiceRepository.Instance.WindowsServiceStatusMonitor.Status == ServiceControllerStatus.Running;
 		}
 	}
 }

@@ -35,14 +35,14 @@ namespace StrazhService.Monitor
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
 				AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-				Bootstrapper.Run(licenseService);
+				Bootstrapper.Instance.Run(licenseService);
 			}
 		}
 
 		private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-			Bootstrapper.Close();
+			Bootstrapper.Instance.Close();
 			Current.MainWindow.Close();
 			Current.Shutdown();
 		}

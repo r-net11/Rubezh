@@ -12,8 +12,8 @@ namespace StrazhService.Monitor.Converters
 			if (value == null)
 				return null;
 			var strings = (string) value;
-			var lastString = strings.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Last();
-			return lastString;
+			var splitedStrings = strings.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+			return splitedStrings.Any() ? splitedStrings.Last() : null;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
