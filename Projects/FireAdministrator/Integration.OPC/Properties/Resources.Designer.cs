@@ -95,5 +95,14 @@ namespace Integration.OPC.Properties {
                 return ResourceManager.GetString("MessageRemoveOPCZoneContent", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свойства зоны ОПС: {0}.
+        /// </summary>
+        internal static string TitlePropertiesDialog {
+            get {
+                return ResourceManager.GetString("TitlePropertiesDialog", resourceCulture);
+            }
+        }
     }
 }

@@ -63,8 +63,6 @@ namespace Integration.OPC.ViewModels
 		{
 			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
 
-			//TODO: Replace this comment by remove from server command. If remove result is True than go next.
-
 			ZonesOPC.Remove(SelectedZoneOPC);
 			SelectedZoneOPC = ZonesOPC.FirstOrDefault();
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -72,7 +70,8 @@ namespace Integration.OPC.ViewModels
 
 		public void OnEdit()
 		{
-			//TODO: Edit selected integration Zone
+			var propertiesViewModel = new PropertiesDialogViewModel(SelectedZoneOPC);
+			DialogService.ShowModalWindow(propertiesViewModel);
 		}
 
 		public void OnSettings()

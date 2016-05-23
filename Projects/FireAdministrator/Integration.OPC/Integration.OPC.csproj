@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModalDialogs\AddZoneDialogViewModel.cs" />
+    <Compile Include="ViewModels\ModalDialogs\PropertiesDialogViewModel.cs" />
     <Compile Include="ViewModels\ModalDialogs\SettingsDialogViewModel.cs" />
     <Compile Include="ViewModels\ZonesOPCViewModel.cs" />
     <Compile Include="Views\MenuViewModel.xaml.cs">
@@ -73,6 +74,9 @@
     </Compile>
     <Compile Include="Views\ModalDialogs\AddZoneDialogView.xaml.cs">
       <DependentUpon>AddZoneDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModalDialogs\PropertiesDialogView.xaml.cs">
+      <DependentUpon>PropertiesDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModalDialogs\SettingsDialogView.xaml.cs">
       <DependentUpon>SettingsDialogView.xaml</DependentUpon>
@@ -127,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModalDialogs\AddZoneDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ModalDialogs\PropertiesDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

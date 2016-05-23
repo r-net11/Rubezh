@@ -133,4 +133,8 @@
     <value>Вы действительно хотите удалить зону ОПС {0}?</value>
     <comment>Сообщение, выводимое при удалении ОПС зоны. В качестве параметра - название удаляемой зоны.</comment>
   </data>
+  <data name="TitlePropertiesDialog" xml:space="preserve">
+    <value>Свойства зоны ОПС: {0}</value>
+    <comment>Заголовок окна свойств зоны ОПС</comment>
+  </data>
 </root>

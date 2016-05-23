@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Common.Windows.ViewModels
+﻿using System.Windows.Media.Converters;
+
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class SaveCancelDialogViewModel : DialogViewModel
 	{
@@ -15,6 +17,19 @@
 			}
 		}
 
+		private bool _isCancelVisible;
+
+		public bool IsCancelVisible
+		{
+			get { return _isCancelVisible; }
+			set
+			{
+				if (_isCancelVisible == value) return;
+				_isCancelVisible = value;
+				OnPropertyChanged(() => IsCancelVisible);
+			}
+		}
+
 		public RelayCommand SaveCommand { get; protected set; }
 
 		public RelayCommand CancelCommand { get; protected set; }
@@ -22,6 +37,7 @@
 		public SaveCancelDialogViewModel()
 		{
 			AllowSave = true;
+			IsCancelVisible = true;
 			SaveCaption = "ОК";
 			CancelCaption = "Отмена";
 			SaveCommand = new RelayCommand(OnSave, CanSave);

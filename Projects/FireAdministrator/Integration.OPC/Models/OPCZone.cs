@@ -5,15 +5,53 @@ namespace Integration.OPC.Models
 {
 	public class OPCZone : BaseViewModel
 	{
-
-		#region Fields
-		private readonly int?  _autoSet;
-		private readonly int?  _delay;
-		private readonly GuardZoneType? _guardZoneType;
-		private readonly bool? _isSkippedTypeEnabled;
-		#endregion
-
 		#region Properties
+
+		private bool? _isSkippedTypeEnabled;
+
+		public bool? IsSkippedTypeEnabled
+		{
+			get { return _isSkippedTypeEnabled; }
+			set
+			{
+				_isSkippedTypeEnabled = value;
+				OnPropertyChanged(() => IsSkippedTypeEnabled);
+			}
+		}
+
+		private int? _delay;
+		public int? Delay
+		{
+			get { return _delay; }
+			set
+			{
+				_delay = value;
+				OnPropertyChanged(() => Delay);
+			}
+		}
+
+		private int? _autoset;
+		public int? AutoSet
+		{
+			get { return _autoset; }
+			set
+			{
+				_autoset = value;
+				OnPropertyChanged(() => AutoSet);
+			}
+		}
+
+		private GuardZoneType? _guardZoneType;
+
+		public GuardZoneType? GuardZoneType
+		{
+			get { return _guardZoneType; }
+			set
+			{
+				_guardZoneType = value;
+				OnPropertyChanged(() => GuardZoneType);
+			}
+		}
 		private int _no;
 
 		public int No
@@ -91,11 +129,10 @@ namespace Integration.OPC.Models
 		{
 			if (zone == null) return;
 
-			_autoSet = zone.AutoSet;
-			_delay = zone.Delay;
-			_guardZoneType = zone.GuardZoneType;
-			_isSkippedTypeEnabled = zone.IsSkippedTypeEnabled;
-
+			AutoSet = zone.AutoSet;
+			Delay = zone.Delay;
+			GuardZoneType = zone.GuardZoneType;
+			IsSkippedTypeEnabled = zone.IsSkippedTypeEnabled;
 			No = zone.No;
 			Name = zone.Name;
 			if (zone.Type != null)
@@ -109,11 +146,10 @@ namespace Integration.OPC.Models
 		{
 			if (zone == null) return;
 
-			_autoSet = zone.AutoSet;
-			_delay = zone.Delay;
-			_guardZoneType = zone.GuardZoneType;
-			_isSkippedTypeEnabled = zone.IsSkippedTypeEnabled;
-
+			AutoSet = zone.AutoSet;
+			Delay = zone.Delay;
+			GuardZoneType = zone.GuardZoneType;
+			IsSkippedTypeEnabled = zone.IsSkippedTypeEnabled;
 			No = zone.No;
 			Name = zone.Name;
 			if (zone.Type != null)
@@ -125,11 +161,11 @@ namespace Integration.OPC.Models
 		{
 			return new StrazhAPI.Integration.OPC.OPCZone
 			{
-				AutoSet = _autoSet,
-				Delay = _delay,
+				AutoSet = AutoSet,
+				Delay = Delay,
 				Description = Description,
-				GuardZoneType = _guardZoneType,
-				IsSkippedTypeEnabled = _isSkippedTypeEnabled,
+				GuardZoneType = GuardZoneType,
+				IsSkippedTypeEnabled = IsSkippedTypeEnabled,
 				Name = Name,
 				No = No,
 				Type = Type
