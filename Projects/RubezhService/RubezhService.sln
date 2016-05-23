@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhService.Console", "Ru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhService.GTK", "RubezhService.GTK\RubezhService.GTK.csproj", "{ED3A8953-8B21-4C0F-BCFD-79A7D5B05AFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhService.Web", "RubezhService.Web\RubezhService.Web.csproj", "{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -307,6 +309,26 @@ Global
 		{ED3A8953-8B21-4C0F-BCFD-79A7D5B05AFD}.Release|Win32.ActiveCfg = Release|Any CPU
 		{ED3A8953-8B21-4C0F-BCFD-79A7D5B05AFD}.Release|x64.ActiveCfg = Release|Any CPU
 		{ED3A8953-8B21-4C0F-BCFD-79A7D5B05AFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|Win32.Build.0 = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|x64.Build.0 = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|Win32.Build.0 = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|x64.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|x64.Build.0 = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2EDBECA-47FD-46FE-B3CE-48D7F03B863E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

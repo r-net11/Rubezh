@@ -1,0 +1,30 @@
+﻿@model IEnumerable<RubezhService.Models.PollingItem>
+
+@{
+    ViewBag.CurrentTab = "Polling";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Клиент</th>
+            <th>Идентификатор</th>
+            <th>Первый полинг</th>
+            <th>Последний полинг</th>
+            <th>Индекс</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var polling in Model)
+        {
+            <tr>
+                <td>@polling.ClientType / @polling.IpAddress / @polling.UserName</td>
+                <td>@polling.UID</td>
+                <td>@polling.FirstPollTime</td>
+                <td>@polling.LastPollTime</td>
+                <td>@polling.CallbackIndex</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

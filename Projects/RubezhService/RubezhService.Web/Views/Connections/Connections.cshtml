@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RubezhService.Models.Connection>
+
+@{
+    ViewBag.CurrentTab = "Connections";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Тип</th>
+            <th>Адрес</th>
+            <th>Пользователь</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var connection in Model)
+        {
+            <tr>
+                <td>@connection.ClientType</td>
+                <td>@connection.IpAddress</td>
+                <td>@connection.FriendlyUserName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

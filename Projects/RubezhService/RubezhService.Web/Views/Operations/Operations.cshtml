@@ -1,0 +1,22 @@
+﻿@model IEnumerable<RubezhService.Models.Operation>
+
+@{
+    ViewBag.CurrentTab = "Operation";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operation in Model)
+        {
+            <tr>
+                <td>@operation.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
