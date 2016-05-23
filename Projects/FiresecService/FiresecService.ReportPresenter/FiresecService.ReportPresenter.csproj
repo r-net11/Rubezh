@@ -30,9 +30,67 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Charts.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Data.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.DataAccess.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Office.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.PivotGrid.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Printing.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.RichEdit.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Sparkline.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v15.1.Service, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpf.Printing.v15.1.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.Xpo.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraCharts.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraGauges.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraReports.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Service, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 15.1\DevExpress.XtraReports.v15.1.Service.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,10 +101,116 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportDataClient.cs" />
+    <Compile Include="Templates\BaseReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\BaseReport.Designer.cs">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\CardsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\CardsReport.Designer.cs">
+      <DependentUpon>CardsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DepartmentsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DepartmentsReport.Designer.cs">
+      <DependentUpon>DepartmentsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DevicesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DevicesReport.Designer.cs">
+      <DependentUpon>DevicesReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DisciplineReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DisciplineReport.Designer.cs">
+      <DependentUpon>DisciplineReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DocumentsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DocumentsReport.Designer.cs">
+      <DependentUpon>DocumentsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DoorsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\DoorsReport.Designer.cs">
+      <DependentUpon>DoorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeAccessReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeAccessReport.Designer.cs">
+      <DependentUpon>EmployeeAccessReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeDoorsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeDoorsReport.Designer.cs">
+      <DependentUpon>EmployeeDoorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeReport.Designer.cs">
+      <DependentUpon>EmployeeReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeRootReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeRootReport.Designer.cs">
+      <DependentUpon>EmployeeRootReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EmptyReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmptyReport.Designer.cs">
+      <DependentUpon>EmptyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\EventsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EventsReport.Designer.cs">
+      <DependentUpon>EventsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\PositionsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\PositionsReport.Designer.cs">
+      <DependentUpon>PositionsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\ReflectionReport .cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\ReflectionReport .Designer.cs">
+      <DependentUpon>ReflectionReport .cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\SchedulesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\SchedulesReport.Designer.cs">
+      <DependentUpon>SchedulesReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\WorkingTimeReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\WorkingTimeReport.Designer.cs">
+      <DependentUpon>WorkingTimeReport.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Templates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
@@ -56,10 +220,79 @@
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>RubezhAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
+      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
+      <Name>RubezhDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5d7e0293-7ca6-4123-85b6-5eb38cc4ce8c}</Project>
       <Name>FiresecService.Report</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\BaseReport.resx">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\CardsReport.resx">
+      <DependentUpon>CardsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DepartmentsReport.resx">
+      <DependentUpon>DepartmentsReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DevicesReport.resx">
+      <DependentUpon>DevicesReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DisciplineReport.resx">
+      <DependentUpon>DisciplineReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DocumentsReport.resx">
+      <DependentUpon>DocumentsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\DoorsReport.resx">
+      <DependentUpon>DoorsReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeAccessReport.resx">
+      <DependentUpon>EmployeeAccessReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeDoorsReport.resx">
+      <DependentUpon>EmployeeDoorsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeReport.resx">
+      <DependentUpon>EmployeeReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeRootReport.resx">
+      <DependentUpon>EmployeeRootReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EmptyReport.resx">
+      <DependentUpon>EmptyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\EventsReport.resx">
+      <DependentUpon>EventsReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\PositionsReport.resx">
+      <DependentUpon>PositionsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\ReflectionReport .resx">
+      <DependentUpon>ReflectionReport .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\SchedulesReport.resx">
+      <DependentUpon>SchedulesReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\WorkingTimeReport.resx">
+      <DependentUpon>WorkingTimeReport.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
