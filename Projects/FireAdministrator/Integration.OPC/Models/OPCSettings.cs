@@ -51,16 +51,16 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private int _httpClientPort;
+		private int _integrationPort;
 
-		public int HTTPClientPort
+		public int IntegrationPort
 		{
-			get { return _httpClientPort; }
+			get { return _integrationPort; }
 			set
 			{
-				if (_httpClientPort == value) return;
-				_httpClientPort = value;
-				OnPropertyChanged(() => HTTPClientPort);
+				if (_integrationPort == value) return;
+				_integrationPort = value;
+				OnPropertyChanged(() => IntegrationPort);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace Integration.OPC.Models
 			IsActive = settings.IsActive;
 			OPCAddress = settings.OPCAddress;
 			OPCPort = settings.OPCPort;
-			HTTPClientPort = settings.HTTPClientPort;
+			IntegrationPort = settings.IntegrationPort;
 		}
 
 		private string _currentError;
@@ -97,11 +97,16 @@ namespace Integration.OPC.Models
 
 				if (columnName == string.Empty || columnName == "OPCPort" || columnName == "HTTPClientPort")
 				{
-					if ((OPCPort < default(int)) || (HTTPClientPort < default(int)))
+					if ((OPCPort < default(int)) || (IntegrationPort < default(int)))
 						result = "Значение порта не может быть отрицательным.";
 
-					if ((OPCPort == default(int)) || (HTTPClientPort == default(int)))
+					if ((OPCPort == default(int)) || (IntegrationPort == default(int)))
 						result = "Значение порта не может быть равным нулю.";
+				}
+				if (columnName == string.Empty || columnName == "OPCAddress")
+				{
+					if (string.IsNullOrEmpty(OPCAddress))
+						result = "Значение IP-адреса не может быть пустым.";
 				}
 
 				CurrentError = result;
@@ -116,7 +121,7 @@ namespace Integration.OPC.Models
 				OPCAddress = OPCAddress,
 				IsActive = IsActive,
 				OPCPort = OPCPort,
-				HTTPClientPort = HTTPClientPort
+				IntegrationPort = IntegrationPort
 			};
 		}
 	}

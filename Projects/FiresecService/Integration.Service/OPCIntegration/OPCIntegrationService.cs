@@ -17,30 +17,27 @@ namespace Integration.Service.OPCIntegration
 {
 	public sealed class OPCIntegrationService
 	{
-		private const int DefaultTimeoutMilliseconds = 15000;
+
 		private HttpClient _httpClient;
 
 		public OPCIntegrationService()
 		{
-			_httpClient = new HttpClient();
+			if (HttpListener.IsSupported) return;
+
+			Logger.Error("Http listener is not support on this platform.");
+			throw new NotSupportedException("Http listener");
 		}
 
 		/// <summary>
 		/// Запускает интеграционный сервис для интеграции с ОПС.
 		/// </summary>
 		/// <returns>true - если запуск успешен.</returns>
-		public bool StartOPCIntegrationService()
+		public bool StartOPCIntegrationService(OPCSettings settings)
 		{
-			if (!HttpListener.IsSupported)
-			{
-				Logger.Error("HTTPListener is not support in that operating system.");
-				return false;
-			}
-
 			try
 			{
-				//_httpClient = new HttpClient(SKDManager.SKDConfiguration.OPCSettings, SKDManager.SKDConfiguration.OPCSettings.OPCAddress);
-				//Task.Factory.StartNew(_httpClient.Start);
+				_httpClient = new HttpClient();
+				Task.Factory.StartNew(() => _httpClient.Start(settings));
 			}
 			catch (Exception e)
 			{
@@ -60,7 +57,7 @@ namespace Integration.Service.OPCIntegration
 			WebResponseInfo info;
 			try
 			{
-				var webRequest = CreateWebRequest("Ping");
+				var webRequest = _httpClient.CreateWebRequest("Ping");
 				using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
 				{
 					info = _httpClient.Read(webResponse);
@@ -75,33 +72,13 @@ namespace Integration.Service.OPCIntegration
 			return info == _httpClient.PingSuccess;
 		}
 
-		private static WebRequest CreateWebRequest(string body)
-		{
-			var webRequest = WebRequest.Create(HttpClient.HttpServerAddress);
-			webRequest.Method = "POST";
-			webRequest.ContentType = "text/xml";
-			webRequest.Credentials = CredentialCache.DefaultCredentials;
-			SetRequestBody(webRequest, body);
-
-			return webRequest;
-		}
-
-		private static void SetRequestBody(WebRequest webRequest, string body)
-		{
-			var buffer = Encoding.UTF8.GetBytes(body);
-			webRequest.ContentLength = buffer.Length;
-			webRequest.Timeout = DefaultTimeoutMilliseconds;
-
-			using (var requestStream = webRequest.GetRequestStream())
-				requestStream.Write(buffer, 0, buffer.Length);
-		}
 
 		public List<OPCZone> GetOPCZones()
 		{
 			WebResponseInfo info;
 			try
 			{
-				var webRequest = CreateWebRequest("Config");
+				var webRequest = _httpClient.CreateWebRequest("Config");
 				using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
 				{
 					info = _httpClient.Read(webResponse);
@@ -114,7 +91,8 @@ namespace Integration.Service.OPCIntegration
 			}
 
 			var xmlDoc = new XmlDocument();
-			xmlDoc.LoadXml(info.Body);
+
+			xmlDoc.LoadXml(info.Body); //TODO: Handle XmlException
 
 			var xPath = "config/zone";
 			var nodes = xmlDoc.SelectNodes(xPath);
@@ -174,6 +152,15 @@ namespace Integration.Service.OPCIntegration
 			}
 
 			return new List<OPCZone>(opcZones);
+		}
+
+		public bool StopOPCIntegrationService()
+		{
+			if (_httpClient == null)
+				return false;
+
+			_httpClient.Stop();
+			return true;
 		}
 	}
 }

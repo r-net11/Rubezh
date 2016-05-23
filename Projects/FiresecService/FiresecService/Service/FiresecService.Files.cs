@@ -99,6 +99,7 @@ namespace FiresecService.Service
 			SKDProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();
+			_integrationService.SetNewConfig();
 		}
 
 		private static void CreateZipConfigFromFiles(string configFileName, string configDirectory)

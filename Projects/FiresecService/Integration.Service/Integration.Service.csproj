@@ -60,6 +60,10 @@
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>StrazhAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

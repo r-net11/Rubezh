@@ -98,7 +98,7 @@
 			<xctk:IntegerUpDown
 				Grid.Column="1"
 				Grid.Row="2"
-				Value="{Binding Settings.HTTPClientPort, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+				Value="{Binding Settings.IntegrationPort, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
 				VerticalAlignment="Center"
 				Minimum="0"
 				Validation.ErrorTemplate="{x:Null}"

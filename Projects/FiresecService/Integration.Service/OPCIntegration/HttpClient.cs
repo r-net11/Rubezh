@@ -4,23 +4,24 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using Common;
+using Infrastructure.Common;
+using StrazhAPI.Integration.OPC;
 
 namespace Integration.Service.OPCIntegration
 {
 	internal sealed class HttpClient
 	{
-		private readonly HttpListener _httpListener;
-		public const string IPAddress = @"http://127.0.0.1:8098/";
+		private const int DefaultTimeoutMilliseconds = 15000;
+		private HttpListener _httpListener;
+		public const string IPAddress = @"http://127.0.0.1:8096/";
 		public const string HttpServerAddress = @"http://127.0.0.1:8097/";
 		public readonly WebResponseInfo PingSuccess;
 
-		private string _httpServerAddress;
-		private string _integrationServiceAddress;
+		private string _integrationAddress;
+		private string _opcAddress;
 
 		public HttpClient()
 		{
-			_httpListener = new HttpListener();
-			_httpListener.Prefixes.Add(IPAddress);
 			PingSuccess = new WebResponseInfo
 			{
 				Body = "Pong",
@@ -28,23 +29,19 @@ namespace Integration.Service.OPCIntegration
 			};
 		}
 
-		public HttpClient(string httpServerAddress, string integrationServiceAddress)
+		public void Start(OPCSettings settings)
 		{
-			if (string.IsNullOrEmpty(httpServerAddress) || string.IsNullOrEmpty(integrationServiceAddress))
-			{
-				Logger.Info(httpServerAddress);
-				Logger.Info(integrationServiceAddress);
-				var e = new ArgumentNullException("Null argument in http client");
-				Logger.Error(e);
-				throw e;
-			}
+			if (settings == null)
+				throw new ArgumentException("OPC settings is null.");
 
-			_httpServerAddress = httpServerAddress;
-			_integrationServiceAddress = integrationServiceAddress;
-		}
+			_integrationAddress = @"http://" + ConnectionSettingsManager.RemoteAddress + ":" + settings.IntegrationPort + "/";
+			_opcAddress = @"http://"
+						+ (NetworkHelper.IsLocalAddress(settings.OPCAddress) ? NetworkHelper.LocalhostIp : settings.OPCAddress)
+						+ ":" + settings.OPCPort + "/";
 
-		public void Start()
-		{
+			_httpListener = new HttpListener();
+			_httpListener.Prefixes.Add(_integrationAddress);
+
 			_httpListener.Start();
 
 			while (_httpListener.IsListening)
@@ -53,7 +50,8 @@ namespace Integration.Service.OPCIntegration
 
 		public void Stop()
 		{
-			_httpListener.Stop();
+			if(_httpListener != null)
+				_httpListener.Stop();
 		}
 
 		public void ProcessRequest()
@@ -66,10 +64,14 @@ namespace Integration.Service.OPCIntegration
 		{
 			try
 			{
-				var context = _httpListener.EndGetContext(result);
-				var info = Read(context.Request);
+				var listener = result.AsyncState as HttpListener;
+				if (listener != null && listener.IsListening)
+				{
+					var context = _httpListener.EndGetContext(result);
+					var info = Read(context.Request);
 
-				CreateResponse(context.Response, info.ToString());
+					CreateResponse(context.Response, info.ToString());
+				}
 			}
 			catch (ObjectDisposedException)
 			{
@@ -126,6 +128,35 @@ namespace Integration.Service.OPCIntegration
 			response.ContentLength64 = buffer.Length;
 			response.OutputStream.Write(buffer, 0, buffer.Length);
 			response.OutputStream.Close();
+		}
+
+		public WebRequest CreateWebRequest(string body)
+		{
+			var webRequest = WebRequest.Create(_opcAddress); //_opcAddress
+			webRequest.Method = "POST";
+			webRequest.ContentType = "text/xml";
+			webRequest.Credentials = CredentialCache.DefaultCredentials;
+			SetRequestBody(webRequest, body);
+
+			return webRequest;
+		}
+
+		private static void SetRequestBody(WebRequest webRequest, string body)
+		{
+			var buffer = Encoding.UTF8.GetBytes(body);
+			webRequest.ContentLength = buffer.Length;
+			webRequest.Timeout = DefaultTimeoutMilliseconds;
+			Stream requestStream = null;
+			try
+			{
+				using (requestStream = webRequest.GetRequestStream())
+					requestStream.Write(buffer, 0, buffer.Length);
+			}
+			finally
+			{
+				if(requestStream != null)
+					requestStream.Dispose();
+			}
 		}
 	}
 }

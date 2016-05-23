@@ -8,5 +8,7 @@ namespace Integration.Service
 		bool PingOPCServer();
 
 		List<OPCZone> GetOPCZones();
+
+		void SetNewConfig();
 	}
 }

@@ -12,12 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
+using StrazhAPI.SKD;
 
 namespace Integration.Service
 {
 	public sealed class IntegrationFacade : IIntegrationService
 	{
-		private const int DefaultTimeoutMilliseconds = 15000;
+//		private const int DefaultTimeoutMilliseconds = 15000;
 		private OPCIntegrationService opcIntegrationService;
 	//	#region Singleton implementation
 		//private static volatile IntegrationFacade _instance;
@@ -26,7 +27,7 @@ namespace Integration.Service
 		public IntegrationFacade()
 		{
 			opcIntegrationService = new OPCIntegrationService();
-			if(!opcIntegrationService.StartOPCIntegrationService())
+			if(!opcIntegrationService.StartOPCIntegrationService(SKDManager.SKDConfiguration.OPCSettings))
 				throw new Exception("Can not start OPC integration service.");
 		}
 
@@ -57,41 +58,26 @@ namespace Integration.Service
 			return opcIntegrationService.GetOPCZones();
 		}
 
-		private static OPCZone GetOPCZoneType(string zoneType, OPCZone zone)
+		public void SetNewConfig()
 		{
-			OPCZoneType resulType;
-			if (!Enum.TryParse(zoneType, true, out resulType)) return null;
-			zone.Type = resulType;
-			return zone;
+			opcIntegrationService.StopOPCIntegrationService();
+			opcIntegrationService.StartOPCIntegrationService(SKDManager.SKDConfiguration.OPCSettings);
 		}
 
-		private static OPCZone GetGuardZoneType(string zoneType, OPCZone zone)
-		{
-			GuardZoneType resulType;
-			if (!Enum.TryParse(zoneType, true, out resulType)) return null;
-			zone.GuardZoneType = resulType;
-			return zone;
-		}
+		//private static OPCZone GetOPCZoneType(string zoneType, OPCZone zone)
+		//{
+		//	OPCZoneType resulType;
+		//	if (!Enum.TryParse(zoneType, true, out resulType)) return null;
+		//	zone.Type = resulType;
+		//	return zone;
+		//}
 
-		private static WebRequest CreateWebRequest(string body)
-		{
-			var webRequest = WebRequest.Create(HttpClient.HttpServerAddress);
-			webRequest.Method = "POST";
-			webRequest.ContentType = "text/xml";
-			webRequest.Credentials = CredentialCache.DefaultCredentials;
-			SetRequestBody(webRequest, body);
-
-			return webRequest;
-		}
-
-		private static void SetRequestBody(WebRequest webRequest, string body)
-		{
-			var buffer = Encoding.UTF8.GetBytes(body);
-			webRequest.ContentLength = buffer.Length;
-			webRequest.Timeout = DefaultTimeoutMilliseconds;
-
-			using (var requestStream = webRequest.GetRequestStream())
-				requestStream.Write(buffer, 0, buffer.Length);
-		}
+		//private static OPCZone GetGuardZoneType(string zoneType, OPCZone zone)
+		//{
+		//	GuardZoneType resulType;
+		//	if (!Enum.TryParse(zoneType, true, out resulType)) return null;
+		//	zone.GuardZoneType = resulType;
+		//	return zone;
+		//}
 	}
 }
