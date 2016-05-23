@@ -29,18 +29,18 @@ namespace GKModule.Plans.ViewModels
 
 		SimpleDeviceViewModel AddDeviceInternal(GKDevice device, SimpleDeviceViewModel parentDeviceViewModel)
 		{
-			var smallDeviceViewModel = new SimpleDeviceViewModel(device);
+			var simpleDeviceViewModel = new SimpleDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(smallDeviceViewModel);
+				parentDeviceViewModel.AddChild(simpleDeviceViewModel);
 
 			foreach (var childDevice in device.Children)
-				AddDeviceInternal(childDevice, smallDeviceViewModel);
+				AddDeviceInternal(childDevice, simpleDeviceViewModel);
 			if (device.UID == _elementGKDevice.DeviceUID)
 			{
-				SelectedDevice = smallDeviceViewModel;
+				SelectedDevice = simpleDeviceViewModel;
 				CurrentDeviceUid = SelectedDevice.Device.UID;
 			}
-			return smallDeviceViewModel;
+			return simpleDeviceViewModel;
 		}
 
 		SimpleDeviceViewModel _rootDevice;
