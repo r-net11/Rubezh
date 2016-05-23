@@ -18,7 +18,7 @@
              };
              $scope.canRemove = function () {
                  return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
-             };http://localhost:64726/../HR
+             };
              $scope.canEdit = function () {
                  return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
              };
@@ -51,8 +51,12 @@
                      }
                  });
 
-                 modalInstance.result.then(function () {
-                     departmentsService.reload();
+                 modalInstance.result.then(function (department) {
+                     if (isNew) {
+                         $scope.$parent.$broadcast('AddDepartmentEvent', department);
+                     } else {
+                         $scope.$parent.$broadcast('EditDepartmentEvent', department);
+                     }
                  });
              };
 

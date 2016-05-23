@@ -35,6 +35,8 @@ namespace GKWebService.Models
 
 		public EmployeeCardModel()
 		{
+			Doors = new List<AccessDoorModel>();
+			AvailableGKControllers = new List<GKControllerModel>();
 		}
 
 		public void Save()

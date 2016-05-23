@@ -68,7 +68,7 @@
                     organisation,
                     $scope.model.isOrganisationChief,
                     $scope.model.isOrganisationHRChief).then(function() {
-                        $uibModalInstance.close();
+                        $uibModalInstance.close($scope.employee);
                     });
             };
 

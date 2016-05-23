@@ -70,8 +70,12 @@
                      }
                  });
 
-                 modalInstance.result.then(function () {
-                     employeesService.reload();
+                 modalInstance.result.then(function (employee) {
+                     if (isNew) {
+                         $scope.$parent.$broadcast('AddEmployeeEvent', employee.UID);
+                     } else {
+                         $scope.$parent.$broadcast('EditEmployeeEvent', employee.UID);
+                     }
                  });
              };
 

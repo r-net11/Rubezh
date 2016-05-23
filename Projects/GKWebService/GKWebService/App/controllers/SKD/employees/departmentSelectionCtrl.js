@@ -3,7 +3,7 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('departmentSelectionCtrl',
-        ['$scope', '$http', '$uibModal', '$q', '$uibModalInstance', 'organisationUID', 'departmentUID', '$timeout', 'departmentsService',
+        ['$scope', '$http', '$uibModal', '$q', '$uibModalInstance', 'organisationUID', 'departmentUID', '$timeout', 'departmentsService', 
          function ($scope, $http, $uibModal, $q, $uibModalInstance, organisationUID, departmentUID, $timeout, departmentsService) {
              $scope.gridOptions = {
                  onRegisterApi: function (gridApi) {
@@ -82,18 +82,42 @@
                  });
 
                  modalInstance.result.then(function (department) {
-                     reloadTree().then(function() {
-                         for (var i = 0; i < $scope.departments.length; i++) {
-                             if ($scope.departments[i].UID === department.UID) {
-                                 $scope.gridApi.selection.selectRow($scope.departments[i]);
-                                 $scope.gridApi.core.scrollTo($scope.departments[i], $scope.gridOptions.columnDefs[0]);
-                                 break;
-                             }
-                         }
-                     });
                      $scope.$parent.$broadcast('AddDepartmentEvent', department);
                  });
              };
+
+             $scope.$on('AddDepartmentEvent', function (event, department) {
+                 var parentUID = department.ParentDepartmentUID;
+                 var parentIndex = -1;
+                 var parentLevel = -1;
+
+                 if (parentUID) {
+                     for (var i = 0; i < $scope.departments.length; i++) {
+                         if ($scope.departments[i].UID === parentUID) {
+                             parentLevel = $scope.departments[i].$$treeLevel;
+                             parentIndex = i;
+                             break;
+                         }
+                     }
+                 }
+
+                 var newDepartment = {
+                     UID: department.UID,
+                     ParentUID: parentUID,
+                     ParentDepartmentUID: department.ParentDepartmentUID,
+                     OrganisationUID: organisationUID,
+                     Name: department.Name,
+                     Description: department.Description,
+                     Model: { ChiefUID: department.ChiefUID },
+                     $$treeLevel: parentLevel + 1
+                 };
+
+                 $scope.departments.splice(parentIndex + 1, 0, newDepartment);
+                 $timeout(function () {
+                     $scope.gridApi.selection.selectRow(newDepartment);
+                     $scope.gridApi.core.scrollTo(newDepartment, $scope.gridOptions.columnDefs[0]);
+                 })
+             });
 
              $scope.clear = function () {
                  $uibModalInstance.close(null);

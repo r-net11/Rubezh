@@ -48,8 +48,12 @@
                      }
                  });
 
-                 modalInstance.result.then(function () {
-                     accessTemplatesService.reload();
+                 modalInstance.result.then(function (accessTemplate) {
+                     if (isNew) {
+                         $scope.$parent.$broadcast('AddAccessTemplateEvent', accessTemplate);
+                     } else {
+                         $scope.$parent.$broadcast('EditAccessTemplateEvent', accessTemplate);
+                     }
                  });
              };
 

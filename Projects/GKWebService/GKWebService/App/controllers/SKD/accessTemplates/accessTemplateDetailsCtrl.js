@@ -21,8 +21,8 @@
 
             $scope.save = function () {
                 accessTemplatesService.saveAccessTemplate($scope.model, $scope.isNew).then(function () {
-                        $uibModalInstance.close();
-                    });
+                    $uibModalInstance.close($scope.accessTemplate);
+                });
             };
 
             $scope.cancel = function () {

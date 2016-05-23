@@ -22,7 +22,8 @@
             }
 
             $scope.save = function () {
-                departmentsService.saveDepartment($scope.model, $scope.isNew).then(function() {
+                departmentsService.saveDepartment($scope.model, $scope.isNew).then(function () {
+                    $scope.department.ParentDepartmentUID = $scope.model.SelectedDepartment ? $scope.model.SelectedDepartment.UID : "";
                     $uibModalInstance.close($scope.department);
                 });
             };
@@ -49,8 +50,7 @@
 
                 modalInstance.result.then(function (department) {
                     if (department) {
-                        $scope.model.SelectedDepartment.UID = department.UID;
-                        $scope.model.SelectedDepartment.Name = department.Name;
+                        $scope.model.SelectedDepartment = { UID: department.UID, Name: department.Name };
                     } else {
                         $scope.model.SelectedDepartment = null;
                     }
