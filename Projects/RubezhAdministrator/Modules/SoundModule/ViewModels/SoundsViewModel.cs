@@ -36,7 +36,7 @@ namespace SoundsModule.ViewModels
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Failure, SoundType.Failure));
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Off, SoundType.Off));
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.TurningOn, SoundType.TurningOn));
-			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.TurningOff, SoundType.TurningOff));
+			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.TurningOff, SoundType.StopStart));
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.AutoOff, SoundType.AutoOff));
 
 			foreach (var stateClass in stateClasses)

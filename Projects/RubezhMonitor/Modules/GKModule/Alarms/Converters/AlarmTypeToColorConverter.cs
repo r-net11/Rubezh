@@ -40,6 +40,9 @@ namespace GKModule.Converters
 				case GKAlarmType.AutoOff:
 					return "Yellow";
 
+				case GKAlarmType.StopStart:
+					return "Orange";
+
 				default:
 					return "Transparent";
 			}
