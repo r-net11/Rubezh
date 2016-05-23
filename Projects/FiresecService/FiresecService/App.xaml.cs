@@ -40,16 +40,18 @@ namespace FiresecServiceRunner
 
 			if (licenseService.IsValidExistingKey())
 			{
-				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseService;
-
-				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				// и уведомляем всех Клиентов
-				licenseService.LicenseChanged += () =>
-				{
-					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
-				};
+				Logger.Error("License file is not exists");
 			}
+
+			ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseService;
+
+			// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
+			// и уведомляем всех Клиентов
+			licenseService.LicenseChanged += () =>
+			{
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+				FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
+			};
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
