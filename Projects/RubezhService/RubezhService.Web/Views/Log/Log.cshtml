@@ -15,7 +15,7 @@
         @foreach (var log in Model)
         {
             <tr>
-                <td>@log.Message</td>
+                <td><font color="@(log.IsError ? "FF0000" : "000000")">@log.Message</font></td>
                 <td>@log.DateTime</td>
             </tr>
         }
