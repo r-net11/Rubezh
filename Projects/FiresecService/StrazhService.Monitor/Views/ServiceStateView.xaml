@@ -14,6 +14,7 @@
 	</UserControl.Resources>
 	<Path
 		Stroke="White"
+		StrokeThickness="2"
 		Fill="{Binding ServiceState, Converter={StaticResource ServiceStateToColorNameConverter}}"
 		Stretch="Uniform"
 		Width="20"
