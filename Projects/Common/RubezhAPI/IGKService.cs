@@ -118,6 +118,9 @@ namespace RubezhAPI
 		void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
+		void SendOn2OPKS(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
+
+		[OperationContract]
 		void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID);
 
 		[OperationContract]

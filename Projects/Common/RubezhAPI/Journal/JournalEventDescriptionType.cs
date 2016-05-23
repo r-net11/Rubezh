@@ -28,6 +28,9 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Включить", JournalEventNameType.Команда_оператора)]
 		Включить = 7,
 
+		[EventDescriptionAttribute("Включить-2", JournalEventNameType.Команда_оператора)]
+		Включить2 = 544,
+
 		[EventDescriptionAttribute("Включить немедленно в автоматическом режиме", JournalEventNameType.Команда_оператора)]
 		Включить_немедленно_в_автоматическом_режиме = 8,
 

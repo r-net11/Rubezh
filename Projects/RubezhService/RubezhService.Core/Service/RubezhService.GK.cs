@@ -401,6 +401,15 @@ namespace RubezhService.Service
 			}
 		}
 
+		public void SendOn2OPKS(Guid clientUID, string userName, Guid uid, GKBaseObjectType objectType)
+		{
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
+			{
+				GKProcessorManager.SendOn2OPKS(gkBase, GetUserName(clientUID, userName));
+			}
+		}
+
 		GKBase GetGKBase(Guid uid, GKBaseObjectType objectType)
 		{
 			switch (objectType)

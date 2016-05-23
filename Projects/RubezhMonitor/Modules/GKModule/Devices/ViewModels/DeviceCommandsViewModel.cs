@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+			On2Command = new RelayCommand(OnOn2);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
@@ -147,6 +148,15 @@ namespace GKModule.ViewModels
 		bool CanReset()
 		{
 			return DeviceState.StateClasses.Contains(XStateClass.Fire2) || DeviceState.StateClasses.Contains(XStateClass.Fire1);
+		}
+
+		public RelayCommand On2Command { get; private set; }
+		void OnOn2()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				ClientManager.RubezhService.SendOn2OPKS(Device);
+			}
 		}
 	}
 }

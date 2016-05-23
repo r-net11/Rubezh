@@ -390,6 +390,16 @@ namespace RubezhClient
 			}, "GKStop");
 		}
 
+		public void SendOn2OPKS(GKBase gkBase, string userName = null)
+		{
+			SafeOperationCall(() =>
+			{
+				var rubezhService = RubezhServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (rubezhService as IDisposable)
+					rubezhService.SendOn2OPKS(RubezhServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
+			}, "SendOn2OPKS");
+		}
+
 		public void GKStartMeasureMonitoring(GKDevice device)
 		{
 			SafeOperationCall(() =>

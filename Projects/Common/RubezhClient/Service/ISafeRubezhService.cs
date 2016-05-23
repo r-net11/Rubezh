@@ -144,6 +144,7 @@ namespace RubezhClient
 		void GKTurnOffNowGlobalPimsInAutomatic();
 		void GKTurnOffNowInAutomatic(GKBase gkBase);
 		void GKTurnOn(GKBase gkBase, string userName = null);
+		void SendOn2OPKS(GKBase gkBase, string userName = null);
 		void GKTurnOnInAutomatic(GKBase gkBase);
 		void GKTurnOnNow(GKBase gkBase, string userName = null);
 		void GKTurnOnNowInAutomatic(GKBase gkBase);
