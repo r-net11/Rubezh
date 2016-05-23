@@ -16,7 +16,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleGKZone() { Left = left, Top = top };
-			var propertiesViewModel = new ZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

@@ -2,7 +2,8 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -14,16 +15,12 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DelayPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		IElementDelay IElementDelay;
-		ElementBase ElementBase { get; set; }
-		public DelayPropertiesViewModel(IElementDelay element)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public DelayPropertiesViewModel(IElementDelay element, CommonDesignerCanvas designerCanvas)
 		{
 			IElementDelay = element;
-			ElementBase = element as ElementBase;
-			var position = ElementBase.GetPosition();
-			Left = (int)(position.X * _sensivityFactor);
-			Top = (int)(position.Y * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -36,27 +33,6 @@ namespace GKModule.Plans.ViewModels
 				SelectedDelay = Delays
 					.Where(delay => delay.UID == element.DelayUID)
 					.FirstOrDefault();
-		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 		private void OnCreate()
 		{
@@ -121,7 +97,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
-			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			PositionSettingsViewModel.SavePosition();
 			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay);
 			return base.Save();
 		}

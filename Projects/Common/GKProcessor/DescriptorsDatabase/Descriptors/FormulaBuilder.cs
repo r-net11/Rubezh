@@ -81,6 +81,11 @@ namespace GKProcessor
 			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase);
 		}
 
+		public void AddPutBit(byte stateBit, GKBase gkBase)
+		{
+			AddWithGKBase(FormulaOperationType.PUTBIT, stateBit, gkBase);
+		}
+
 		public void AddPutWord(bool isHiword, GKBase gkBase)
 		{
 			AddWithGKBase(FormulaOperationType.PUTWORD, (byte)(isHiword ? 1 : 0), gkBase);

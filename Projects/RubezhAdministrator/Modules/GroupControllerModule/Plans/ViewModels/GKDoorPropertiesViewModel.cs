@@ -2,9 +2,12 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,41 +16,19 @@ namespace GKModule.Plans.ViewModels
 {
 	public class GKDoorPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		ElementGKDoor _elementGKDoor;
-		public GKDoorPropertiesViewModel(ElementGKDoor elementGKDoor)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public GKDoorPropertiesViewModel(ElementGKDoor elementGKDoor, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Точка доступа";
 			_elementGKDoor = elementGKDoor;
-			Left = (int)(_elementGKDoor.Left * _sensivityFactor);
-			Top = (int)(_elementGKDoor.Top * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(_elementGKDoor as ElementBase, designerCanvas);
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			GKDoors = new ObservableCollection<GKDoor>(GKManager.Doors);
 			if (elementGKDoor.DoorUID != Guid.Empty)
 				SelectedGKDoor = GKDoors.FirstOrDefault(door => door.UID == elementGKDoor.DoorUID);
 
-		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 
 		public ObservableCollection<GKDoor> GKDoors { get; private set; }
@@ -89,8 +70,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			_elementGKDoor.Left = (double)Left / _sensivityFactor;
-			_elementGKDoor.Top = (double)Top / _sensivityFactor;
+			PositionSettingsViewModel.SavePosition();
 			GKPlanExtension.Instance.RewriteItem(_elementGKDoor, SelectedGKDoor);
 			return base.Save();
 		}

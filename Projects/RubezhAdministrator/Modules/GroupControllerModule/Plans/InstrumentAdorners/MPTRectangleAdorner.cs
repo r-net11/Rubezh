@@ -16,7 +16,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleGKMPT() { Left = left, Top = top };
-			var propertiesViewModel = new MPTPropertiesViewModel(element);
+			var propertiesViewModel = new MPTPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

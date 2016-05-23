@@ -1,6 +1,8 @@
 ﻿using Controls.Converters;
 using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -9,21 +11,18 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 {
 	public class TextBlockPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		private const int MaxFontSize = 1000;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
 
-		public TextBlockPropertiesViewModel(IElementTextBlock element)
+		public TextBlockPropertiesViewModel(IElementTextBlock element, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Надпись";
 			ElementTextBlock = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-			Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 
 			CopyProperties();
 
@@ -42,26 +41,6 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 				"По середине",
 				"По нижнему краю",
 			};
-		}
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 		protected virtual void CopyProperties()
 		{
@@ -242,8 +221,7 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			PositionSettingsViewModel.SavePosition();
 			ElementBase.Copy(this, this.ElementTextBlock);
 			var colorConverter = new ColorToSystemColorConverter();
 			ElementTextBlock.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);

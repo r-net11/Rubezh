@@ -153,8 +153,6 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => LocalVariables);
 				OnPropertyChanged(() => GlobalVariables);
-				if (UpdateContentHandler != null)
-					UpdateContentHandler();
 			}
 		}
 
@@ -176,12 +174,6 @@ namespace AutomationModule.ViewModels
 			if (enumTypes == null)
 				enumTypes = AutomationHelper.GetEnumList<EnumType>();
 			ExplicitTypes = ProcedureHelper.BuildExplicitTypes(explicitTypes, enumTypes, objectTypes);
-
-			if (ExplicitTypes.Count == 1)
-			{
-				ExplicitType = ExplicitTypes[0].ExplicitType;
-				ExplicitValue.UpdateObjectHandler();
-			}
 
 			var variables = AutomationHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
 			if (isList != null)

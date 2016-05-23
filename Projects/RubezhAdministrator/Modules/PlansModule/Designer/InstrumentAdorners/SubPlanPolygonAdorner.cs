@@ -29,7 +29,7 @@ namespace PlansModule.InstrumentAdorners
 		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
 			var element = new ElementPolygonSubPlan { Points = points };
-			var propertiesViewModel = new SubPlanPropertiesViewModel(element);
+			var propertiesViewModel = new SubPlanPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

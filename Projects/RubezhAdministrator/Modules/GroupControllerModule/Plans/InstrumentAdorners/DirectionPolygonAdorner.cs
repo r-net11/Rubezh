@@ -29,7 +29,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
 			var element = new ElementPolygonGKDirection { Points = points };
-			var propertiesViewModel = new DirectionPropertiesViewModel(element);
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

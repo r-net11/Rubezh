@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Infrastructure.Plans.ElementProperties.Views.PolylinePropertiesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+			 xmlns:Views ="clr-namespace:Infrastructure.Plans.Views"
 			 MinHeight="400" MinWidth="400">
 	<TabControl Background="{DynamicResource BackgroundBrush}">
 		<TabItem Header="Основные">
@@ -33,19 +33,9 @@
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<ExtToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
-
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
+				<Views:PositionSettingsView DataContext="{Binding PositionSettingsViewModel}" Grid.Row="0" />
 			</Grid>
 		</TabItem>
 	</TabControl>

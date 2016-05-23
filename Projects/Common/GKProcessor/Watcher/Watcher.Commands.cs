@@ -22,13 +22,32 @@ namespace GKProcessor
 			if (gkBase.GkDatabaseParent != null)
 			{
 				WatcherManager.Send(new Action<SendResult>(sendResult =>
+				{
+					if (sendResult.HasError)
 					{
-						if (sendResult.HasError)
-						{
-							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, gkBase, null);
-						}
-					}),
-					gkBase.GkDatabaseParent, 3, 13, 0, bytes);
+						GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, gkBase, null);
+					}
+				}),
+				gkBase.GkDatabaseParent, 3, 13, 0, bytes);
+			}
+		}
+
+		public static void SendOn2OPKS(GKBase gkBase)
+		{
+			var bytes = new List<byte>();
+			var databaseNo = gkBase.GKDescriptorNo;
+			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
+			bytes.Add(0x80 + (byte)GKStateBit.TurnOn_InManual);
+			bytes.Add(1);
+			if (gkBase.GkDatabaseParent != null)
+			{
+				WatcherManager.Send(new Action<SendResult>(sendResult =>
+				{
+					if (sendResult.HasError)
+					{
+						GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, "Включить-2", gkBase, null);
+					}
+				}), gkBase.GkDatabaseParent, 4, 13, 0, bytes);
 			}
 		}
 

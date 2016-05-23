@@ -10,7 +10,7 @@ namespace GKWebService.DataProviders.SKD
 	{
 		public static bool Save(Employee employee, bool isNew)
 		{
-			var operationResult = ClientManager.FiresecService.SaveEmployee(employee, isNew);
+			var operationResult = ClientManager.RubezhService.SaveEmployee(employee, isNew);
             return Common.ThrowErrorIfExists(operationResult);
         }
 
@@ -26,19 +26,19 @@ namespace GKWebService.DataProviders.SKD
 
 		public static bool MarkDeleted(Guid uid, string name, bool isEmployee)
 		{
-			var operationResult = ClientManager.FiresecService.MarkDeletedEmployee(uid, name, isEmployee);
+			var operationResult = ClientManager.RubezhService.MarkDeletedEmployee(uid, name, isEmployee);
             return Common.ThrowErrorIfExists(operationResult);
         }
 
         public static bool Restore(Guid uid, string name, bool isEmployee)
 		{
-			var operationResult = ClientManager.FiresecService.RestoreEmployee(uid, name, isEmployee);
+			var operationResult = ClientManager.RubezhService.RestoreEmployee(uid, name, isEmployee);
             return Common.ThrowErrorIfExists(operationResult);
         }
 
         public static IEnumerable<ShortEmployee> Get(EmployeeFilter filter)
 		{
-			var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+			var operationResult = ClientManager.RubezhService.GetEmployeeList(filter);
             return Common.ThrowErrorIfExists(operationResult);
         }
 
@@ -47,7 +47,7 @@ namespace GKWebService.DataProviders.SKD
 			if (uid == null)
 				return null;
 			var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { uid.Value }, IsAllPersonTypes = true };
-			var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
+			var operationResult = ClientManager.RubezhService.GetEmployeeList(filter);
 			var result = Common.ThrowErrorIfExists(operationResult);
 			return result != null ? result.FirstOrDefault() : null;
 		}
@@ -56,19 +56,19 @@ namespace GKWebService.DataProviders.SKD
 		{
 			if (uid == null)
 				return null;
-			var operationResult = ClientManager.FiresecService.GetEmployeeDetails(uid.Value);
+			var operationResult = ClientManager.RubezhService.GetEmployeeDetails(uid.Value);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static TimeTrackResult GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var operationResult = ClientManager.FiresecService.GetTimeTracks(filter, startDate, endDate);
+			var operationResult = ClientManager.RubezhService.GetTimeTracks(filter, startDate, endDate);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static IEnumerable<ShortEmployee> GetShortByOrganisation(Guid organisationUID)
 		{
-			var operationResult = ClientManager.FiresecService.GetEmployeeList(new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUID } });
+			var operationResult = ClientManager.RubezhService.GetEmployeeList(new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUID } });
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
@@ -85,13 +85,13 @@ namespace GKWebService.DataProviders.SKD
 
 		public static bool SetDepartment(Guid employeeUID, Guid? departmentUID, string name)
 		{
-			var operationResult = ClientManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
+			var operationResult = ClientManager.RubezhService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 
 		public static bool SetPosition(Guid employeeUID, Guid? positionUID, string name)
 		{
-			var operationResult = ClientManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
+			var operationResult = ClientManager.RubezhService.SaveEmployeePosition(employeeUID, positionUID, name);
 			return Common.ThrowErrorIfExists(operationResult);
 		}
 

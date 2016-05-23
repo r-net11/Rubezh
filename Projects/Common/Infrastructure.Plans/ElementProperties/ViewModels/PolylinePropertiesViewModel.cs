@@ -1,6 +1,8 @@
 ﻿using Controls.Converters;
 using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
@@ -9,39 +11,15 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 {
 	public class PolylinePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		const int _sensivityFactor = 100;
 		ElementPolyline _elementPolyline;
-		public PolylinePropertiesViewModel(ElementPolyline element)
+		public PositionSettingsViewModel PositionSettingsViewModel { get; private set; }
+		public PolylinePropertiesViewModel(ElementPolyline element, CommonDesignerCanvas designerCanvas)
 		{
 			Title = "Свойства фигуры: Линия";
 			_elementPolyline = element;
-			var position = element.GetPosition();
-			Left = (int)(position.X * _sensivityFactor);
-			Top = (int)(position.Y * _sensivityFactor);
+			PositionSettingsViewModel = new PositionSettingsViewModel(element as ElementBase, designerCanvas);
 			CopyProperties();
 		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
-
 		void CopyProperties()
 		{
 			ElementBase.Copy(this._elementPolyline, this);
@@ -95,9 +73,9 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
+			PositionSettingsViewModel.SavePosition();
 			ElementBase.Copy(this, this._elementPolyline);
 			var colorConverter = new ColorToSystemColorConverter();
-			_elementPolyline.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			_elementPolyline.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
 			_elementPolyline.BorderThickness = StrokeThickness;
 			return base.Save();

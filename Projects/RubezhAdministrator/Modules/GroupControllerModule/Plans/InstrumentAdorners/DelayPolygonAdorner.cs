@@ -27,7 +27,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
 			var element = new ElementPolygonGKDelay { Points = points };
-			var propertiesViewModel = new DelayPropertiesViewModel(element);
+			var propertiesViewModel = new DelayPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

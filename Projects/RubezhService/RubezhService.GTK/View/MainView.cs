@@ -9,6 +9,7 @@ using Application = Gtk.Application;
 using DateTime = System.DateTime;
 using RubezhAPI.License;
 using RubezhAPI.Models;
+using RubezhService.Service;
 
 namespace RubezhService.Views
 {
@@ -34,27 +35,28 @@ namespace RubezhService.Views
 
 			MainWindow.DeleteEvent += Window_Delete;
 			gkNode = new NodeView();
-			gkNode.AppendColumn("Время", new CellRendererText(), "text", 0);
-			gkNode.AppendColumn("Адрес", new CellRendererText(), "text", 1);
-			gkNode.AppendColumn("Название", new CellRendererText(), "text", 2);
-			gkNode.AppendColumn("Прогресс", new CellRendererText(), "text", 3);
+			gkNode.AppendColumn("Время", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 0);
+			gkNode.AppendColumn("Адрес", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 1);
+			gkNode.AppendColumn("Название", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 2);
+			gkNode.AppendColumn("Прогресс", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 3);
 			logNode = new NodeView();
-			logNode.AppendColumn("Название", new CellRendererText(), "text", 0);
-			logNode.AppendColumn("Время", new CellRendererText(), "text", 1);
+			logNode.AppendColumn("Название", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 0);
+			logNode.AppendColumn("Время", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 1);
 			logNode.NodeStore = new NodeStore(typeof(LogTreeNode));
 			connectionNode = new NodeView();
-			connectionNode.AppendColumn("Тип", new CellRendererText(), "text", 0);
-			connectionNode.AppendColumn("Адрес", new CellRendererText(), "text", 1);
-			connectionNode.AppendColumn("Пользователь", new CellRendererText(), "text", 2);
+			connectionNode.AppendColumn("Тип", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 0);
+			connectionNode.AppendColumn("Адрес", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 1);
+			connectionNode.AppendColumn("Пользователь", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 2);
+			connectionNode.ButtonPressEvent += new ButtonPressEventHandler(OnItemButtonPressed);
 			pollingNode = new NodeView();
-			pollingNode.AppendColumn("Клиент", new CellRendererText(), "text", 0);
-			pollingNode.AppendColumn("Идентификатор", new CellRendererText(), "text", 1);
-			pollingNode.AppendColumn("Первый поллинг", new CellRendererText(), "text", 2);
-			pollingNode.AppendColumn("Последний поллинг", new CellRendererText(), "text", 3);
-			pollingNode.AppendColumn("Индекс", new CellRendererText(), "text", 4);
+			pollingNode.AppendColumn("Клиент", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 0);
+			pollingNode.AppendColumn("Идентификатор", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 1);
+			pollingNode.AppendColumn("Первый поллинг", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 2);
+			pollingNode.AppendColumn("Последний поллинг", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 3);
+			pollingNode.AppendColumn("Индекс", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 4);
 			pollingNode.NodeStore = new NodeStore(typeof(PollingTreeNode));
 			operationNode = new NodeView();
-			operationNode.AppendColumn("Название", new CellRendererText(), "text", 0);
+			operationNode.AppendColumn("Название", new CellRendererText { MaxWidthChars = 80, Height = 20 }, "text", 0);
 			operationNode.NodeStore = new NodeStore(typeof(OperationTreeNode));
 			Notebook notepadControl = new Notebook();
 			notepadControl.AppendPage(connectionNode, new Label("Соединения"));
@@ -65,7 +67,7 @@ namespace RubezhService.Views
 			notepadControl.AppendPage(operationNode, new Label("Операции"));
 			notepadControl.AppendPage(new LicenseView().Create(), new Label("Лицензирование"));
 			MainWindow.Add(notepadControl);
-			MainWindow.SetDefaultSize(500, 500);
+			MainWindow.SetDefaultSize(700, 500);
 			MainWindow.ShowAll();
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			LicenseManager.LicenseChanged += On_LicenseChanged;
@@ -75,6 +77,32 @@ namespace RubezhService.Views
 			ClientPolls = new List<ClientPoll>();
 			ServerTasks = new List<ServerTask>();
 			Current = this;
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnItemButtonPressed(object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3) /* right click */
+			{
+				Menu m = new Menu();
+				MenuItem deleteItem = new MenuItem("Разорвать соединение");
+				deleteItem.ButtonPressEvent += new ButtonPressEventHandler(OnDeleteItemButtonPressed);
+				m.Add(deleteItem);
+				m.ShowAll();
+				m.Popup();
+			}
+		}
+
+		void OnDeleteItemButtonPressed(object sender, ButtonPressEventArgs e)
+		{
+			ConnectionTreeNode node = (ConnectionTreeNode)connectionNode.NodeSelection.SelectedNode;
+			var md = new MessageDialog(null, DialogFlags.Modal, MessageType.Question, ButtonsType.OkCancel, string.Format("Вы действительно хотите отключить клиента ({0} / {1} / {2}) от сервера?", node.Type, node.Address, node.User));
+			if (md.Run() == (int) ResponseType.Ok)
+			{
+				ClientsManager.Remove(node.ClientUid);
+				connectionNode.NodeStore.RemoveNode(node);
+			}
+			md.Destroy();
 		}
 
 		void On_LicenseChanged()
@@ -96,7 +124,7 @@ namespace RubezhService.Views
 				if (clientPoll == null)
 				{
 					clientPoll = new ClientPoll {Uid = uid, Client = client};
-                    clientPoll.FirstPollTime = DateTime.Now;
+					clientPoll.FirstPollTime = DateTime.Now;
 					ClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
@@ -166,7 +194,7 @@ namespace RubezhService.Views
 		{
 			connectionNode.NodeStore = new NodeStore(typeof(ConnectionTreeNode));
 			Clients.ForEach(x => connectionNode.NodeStore.AddNode(new ConnectionTreeNode(x.ClientType.ToDescription(),
-				x.ClientIpAddress.StartsWith("127.0.0.1") ? "localhost" : x.ClientIpAddress, x.FriendlyUserName)));
+				x.ClientIpAddress.StartsWith("127.0.0.1") ? "localhost" : x.ClientIpAddress, x.FriendlyUserName, x.ClientUID)));
 			connectionNode.ShowAll();
 		}
 
@@ -250,11 +278,12 @@ namespace RubezhService.Views
 
 	public class ConnectionTreeNode : TreeNode
 	{
-		public ConnectionTreeNode(string type, string address, string user)
+		public ConnectionTreeNode(string type, string address, string user, Guid clientUid)
 		{
 			Type = type;
 			Address = address;
 			User = user;
+			ClientUid = clientUid;
 		}
 
 		[TreeNodeValue(Column = 0)]
@@ -265,6 +294,8 @@ namespace RubezhService.Views
 
 		[TreeNodeValue(Column = 2)]
 		public string User;
+
+		public Guid ClientUid;
 	}
 
 	public class PollingTreeNode : TreeNode

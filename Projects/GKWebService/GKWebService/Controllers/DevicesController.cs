@@ -38,7 +38,7 @@ namespace GKWebService.Controllers
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(device, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetAutomaticRegime(device, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -50,7 +50,7 @@ namespace GKWebService.Controllers
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(device, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetIgnoreRegime(device, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -62,7 +62,7 @@ namespace GKWebService.Controllers
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKReset(device, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKReset(device, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -74,7 +74,7 @@ namespace GKWebService.Controllers
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(device, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKSetManualRegime(device, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -86,7 +86,7 @@ namespace GKWebService.Controllers
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == UID);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKExecuteDeviceCommand(device, commandName, ClientManager.CurrentUser.Name);
+				ClientManager.RubezhService.GKExecuteDeviceCommand(device, commandName, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}

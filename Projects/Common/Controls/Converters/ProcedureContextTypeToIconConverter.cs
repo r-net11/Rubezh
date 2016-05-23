@@ -15,9 +15,9 @@ namespace Controls.Converters
 			switch ((ContextType)value)
 			{
 				case ContextType.Client:
-					return "/Controls;component/Images/ProcedureYellowInverted.png";
+					return "/Controls;component/Images/Procedure_client.png";
 				case ContextType.Server:
-					return "/Controls;component/Images/ProcedureYellow.png";
+					return "/Controls;component/Images/Procedure_server.png";
 			}
 			return "/Controls;component/Images/Blank.png";
 		}

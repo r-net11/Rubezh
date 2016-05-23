@@ -87,6 +87,7 @@
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
+							<Button Content="Включить-2" Command="{Binding On2Command}" Visibility="{Binding Device.DriverType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDriverType.RSR2_OPKS}}" Width="200" Height="50" Margin="2" />
 							<Button Content="Сбросить" Command="{Binding ResetCommand}" Visibility="{Binding Device.DriverType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDriverType.KD_KDTD}}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 					</Grid>

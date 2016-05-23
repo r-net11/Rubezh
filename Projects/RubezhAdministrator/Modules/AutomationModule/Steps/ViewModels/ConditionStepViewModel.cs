@@ -160,7 +160,6 @@ namespace AutomationModule.ViewModels
 				ConditionTypes = new ObservableCollection<ConditionType>(AutomationHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
 				OnPropertyChanged(() => ConditionTypes);
 				Argument1.ExplicitType = value;
-				Argument2.ExplicitType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedExplicitType);
 			}
@@ -170,7 +169,6 @@ namespace AutomationModule.ViewModels
 		{
 			SelectedEnumType = Argument1.EnumType;
 			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
-			Argument1.ExplicitType = SelectedExplicitType;
 			Argument1.EnumType = SelectedEnumType;
 			UpdateArgument2();
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();

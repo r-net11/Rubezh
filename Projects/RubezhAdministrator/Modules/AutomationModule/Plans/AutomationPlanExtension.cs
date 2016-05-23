@@ -138,7 +138,7 @@ namespace AutomationModule.Plans
 		{
 			ElementProcedure element = e.Element as ElementProcedure;
 			if (element != null)
-				e.PropertyViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel);
+				e.PropertyViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel, DesignerCanvas);
 		}
 
 		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)

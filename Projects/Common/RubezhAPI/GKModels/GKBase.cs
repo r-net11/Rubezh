@@ -149,6 +149,7 @@ namespace RubezhAPI.GK
 			if (device != null)
 			{
 				LinkLogic(device, device.Logic.OnClausesGroup);
+				LinkLogic(device, device.Logic.On2ClausesGroup);
 				if (!device.Logic.UseOffCounterLogic)
 					LinkLogic(device, device.Logic.OffClausesGroup);
 				LinkLogic(device, device.Logic.OnNowClausesGroup);

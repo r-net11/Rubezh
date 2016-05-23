@@ -109,8 +109,22 @@ namespace RubezhMonitor.ViewModels
 						case SoundType.TurningOn:
 							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
 							break;
-						case SoundType.TurningOff:
-							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);
+						case SoundType.StopStart:
+							if ((GKManager.MPTs.Any(x => x.State != null && x.State.StateClass != XStateClass.On && x.State.StateClass != XStateClass.Off && x.State.StateClass != XStateClass.TurningOff 
+							&& x.State.StateClass != XStateClass.TurningOn)))
+							{
+								hasStateClass = true;
+							}
+							if ((GKManager.PumpStations.Any(x => x.State != null && x.State.StateClass != XStateClass.On && x.State.StateClass != XStateClass.Off && x.State.StateClass != XStateClass.TurningOff
+							&& x.State.StateClass != XStateClass.TurningOn)))
+							{
+								hasStateClass = true;
+							}
+							if ((GKManager.Directions.Any(x => x.State != null && x.State.StateClass != XStateClass.On && x.State.StateClass != XStateClass.Off && x.State.StateClass != XStateClass.TurningOff
+							&& x.State.StateClass != XStateClass.TurningOn)))
+							{
+								hasStateClass = true;
+							}
 							break;
 						case SoundType.AutoOff:
 							hasStateClass = CheckStatusMptNsNpt(sound.StateClass);

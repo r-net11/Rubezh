@@ -1,0 +1,28 @@
+﻿@model IEnumerable<RubezhService.Models.GKLifecycleItem>
+
+@{
+    ViewBag.CurrentTab = "GK";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Время</th>
+            <th>Адрес</th>
+            <th>Название</th>
+            <th>Прогресс</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var gk in Model)
+        {
+            <tr>
+                <td>@gk.DateTime</td>
+                <td>@gk.Address</td>
+                <td>@gk.GKLifecycleInfo.Name</td>
+                <td>@gk.GKLifecycleInfo.Progress</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

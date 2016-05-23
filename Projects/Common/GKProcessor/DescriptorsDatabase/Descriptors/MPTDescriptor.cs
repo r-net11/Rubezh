@@ -17,7 +17,6 @@ namespace GKProcessor
 			GlobalPim = globalPim;
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
-			MPT.Hold = 10;
 			MPT.DelayRegime = DelayRegime.On;
 		}
 

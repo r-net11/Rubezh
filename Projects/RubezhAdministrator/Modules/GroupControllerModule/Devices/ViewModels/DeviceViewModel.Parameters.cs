@@ -197,7 +197,7 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			if (CompareLocalWithRemoteHashes())
+			if (CompareLocalWithRemoteHashes(DevicesViewModel.Current.SelectedDevice.Device))
 			{
 				var device = new List<GKDevice> { Device };
 				if (Validate(device))
@@ -214,7 +214,7 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
 		{
-			if (CompareLocalWithRemoteHashes())
+			if (CompareLocalWithRemoteHashes(DevicesViewModel.Current.SelectedDevice.Device))
 			{
 				var devices = GetRealChildren();
 				if (Validate(devices))
@@ -310,7 +310,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		bool Validate(IEnumerable<GKDevice> devices)
+		public static bool Validate(IEnumerable<GKDevice> devices)
 		{
 			foreach (var device in devices)
 			{
@@ -358,7 +358,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			if (CompareLocalWithRemoteHashes())
+			if (CompareLocalWithRemoteHashes(DevicesViewModel.Current.SelectedDevice.Device))
 			{
 				LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
 				ReadDevices(new List<GKDevice> { Device });
@@ -374,7 +374,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadAllCommand { get; private set; }
 		void OnReadAll()
 		{
-			if (CompareLocalWithRemoteHashes())
+			if (CompareLocalWithRemoteHashes(DevicesViewModel.Current.SelectedDevice.Device))
 			{
 				var devices = GetRealChildren();
 				LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
@@ -506,11 +506,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool CompareLocalWithRemoteHashes()
+		public static bool CompareLocalWithRemoteHashes(GKDevice device)
 		{
-			var gkParent = DevicesViewModel.Current.SelectedDevice.Device;
+			var gkParent = device;
 			if (gkParent.DriverType != GKDriverType.GK)
-				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;
+				gkParent = device.GKParent;
 
 			var result = ClientManager.RubezhService.GKGKHash(gkParent);
 			if (result.HasError)

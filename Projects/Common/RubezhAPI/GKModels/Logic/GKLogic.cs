@@ -27,16 +27,16 @@ namespace RubezhAPI.GK
 		public GKClauseGroup OnClausesGroup { get; set; }
 
 		/// <summary>
-		/// Группа условий для включения 2
-		/// </summary>
-		[DataMember]
-		public GKClauseGroup On2ClausesGroup { get; set; }
-
-		/// <summary>
 		/// Группа условий для выключения
 		/// </summary>
 		[DataMember]
 		public GKClauseGroup OffClausesGroup { get; set; }
+
+		/// <summary>
+		/// Группа условий для включения 2
+		/// </summary>
+		[DataMember]
+		public GKClauseGroup On2ClausesGroup { get; set; }
 
 		/// <summary>
 		/// Группа условий для включения немедленно

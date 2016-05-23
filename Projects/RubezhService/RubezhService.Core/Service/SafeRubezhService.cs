@@ -421,6 +421,11 @@ namespace RubezhService.Service
 			SafeOperationCall(clientUID, () => { RubezhService.GKStop(clientUID, userName, uid, objectType); }, "GKStop");
 		}
 
+		public void SendOn2OPKS(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
+		{
+			SafeOperationCall(clientUID, () => { RubezhService.SendOn2OPKS(clientUID, userName, uid, objectType); }, "GKStop");
+		}
+
 		public void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID)
 		{
 			SafeOperationCall(clientUID, () => { RubezhService.GKStartMeasureMonitoring(clientUID, deviceUID); }, "GKStartMeasureMonitoring");

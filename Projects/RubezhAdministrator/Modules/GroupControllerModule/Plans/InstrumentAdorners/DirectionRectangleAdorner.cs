@@ -17,7 +17,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
 			var element = new ElementRectangleGKDirection() { Left = left, Top = top };
-			var propertiesViewModel = new DirectionPropertiesViewModel(element);
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, DesignerCanvas);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

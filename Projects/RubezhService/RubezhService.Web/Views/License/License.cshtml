@@ -1,0 +1,46 @@
+﻿@model RubezhAPI.License.RubezhLicenseInfo
+
+@{
+    ViewBag.CurrentTab = "License";
+}
+
+<div>
+    Статус лицензии: @Model.LicenseMode
+</div>
+<div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>GLOBAL Удаленное рабочее место (количество):</td>
+                <td>@Model.RemoteClientsCount</td>
+            </tr>
+            <tr>
+                <td>GLOBAL Пожаротушение:</td>
+                <td>@Model.HasFirefighting</td>
+            </tr>
+            <tr>
+                <td>GLOBAL Охрана:</td>
+                <td>@Model.HasGuard</td>
+            </tr>
+            <tr>
+                <td>GLOBAL Доступ:</td>
+                <td>@Model.HasSKD</td>
+            </tr>
+            <tr>
+                <td>GLOBAL Видео:</td>
+                <td>@Model.HasVideo</td>
+            </tr>
+            <tr>
+                <td>GLOBAL OPC Сервер:</td>
+                <td>@Model.HasOpcServer</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    Ключ: @ViewBag.InitialKey
+</div>
+<div class="btn btn-block btn-default btn-primary">
+    Загрузить лицензию
+</div>
+

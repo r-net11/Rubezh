@@ -492,6 +492,12 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, "", gkBase, userName);
 		}
 
+		public static void SendOn2OPKS(GKBase gkBase, string userName)
+		{
+			Watcher.SendOn2OPKS(gkBase);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить2, "", gkBase, userName);
+		}
+
 		public static void GKStartMeasureMonitoring(GKDevice device)
 		{
 			if (device == null || device.KAUParent == null || device.KAUParent.GkDatabaseParent == null)

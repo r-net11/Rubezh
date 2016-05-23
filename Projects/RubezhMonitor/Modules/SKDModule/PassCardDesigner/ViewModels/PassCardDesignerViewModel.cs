@@ -87,13 +87,13 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				var elementPassCardImageProperty = (ElementPassCardImageProperty)e.Element;
 				elementPassCardImageProperty.OrganisationUID = PassCardTemplate.OrganisationUID;
-				e.PropertyViewModel = new PassCardImagePropertyViewModel(elementPassCardImageProperty);
+				e.PropertyViewModel = new PassCardImagePropertyViewModel(elementPassCardImageProperty, DesignerCanvas);
 			}
 			else if (e.Element is ElementPassCardTextProperty)
 			{
 				var elementPassCardTextProperty = (ElementPassCardTextProperty)e.Element;
 				elementPassCardTextProperty.OrganisationUID = PassCardTemplate.OrganisationUID;
-				e.PropertyViewModel = new PassCardTextPropertyViewModel(elementPassCardTextProperty);
+				e.PropertyViewModel = new PassCardTextPropertyViewModel(elementPassCardTextProperty, DesignerCanvas);
 			}
 		}
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
