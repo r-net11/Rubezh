@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FiresecService.Views
+namespace Integration.OPC.Views
 {
 	/// <summary>
-	/// Interaction logic for RubezhClientView.xaml
+	/// Interaction logic for PropertiesDialogView.xaml
 	/// </summary>
-	public partial class RubezhClientView : UserControl
+	public partial class PropertiesDialogView : UserControl
 	{
-		public RubezhClientView()
+		public PropertiesDialogView()
 		{
 			InitializeComponent();
 		}

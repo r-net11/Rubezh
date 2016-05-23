@@ -1,5 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:FiresecService.ViewModels" xmlns:Views="clr-namespace:FiresecService.Views">
-
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ViewModels="clr-namespace:FiresecService.ViewModels"
+	xmlns:Views="clr-namespace:FiresecService.Views">
 	<DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
 		<Views:MainView />
 	</DataTemplate>

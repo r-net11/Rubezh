@@ -18,8 +18,8 @@ namespace StrazhDeviceSDK
 
 		public static void OnStatesChanged(SKDStates skdStates)
 		{
-			if (Processor.StatesChangedEvent != null)
-				Processor.StatesChangedEvent(skdStates);
+			if (StatesChangedEvent != null)
+				StatesChangedEvent(skdStates);
 		}
 
 		public static event Action<JournalItem> NewJournalItem;
@@ -66,7 +66,7 @@ namespace StrazhDeviceSDK
 
 		public static void Stop()
 		{
-			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
+			Wrapper.NewSearchDevice -= OnNewSearchDevice;
 
 			if (DeviceProcessors != null)
 				foreach (var deviceProcessor in DeviceProcessors)

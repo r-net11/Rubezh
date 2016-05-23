@@ -19,8 +19,6 @@ namespace SettingsModule.ViewModels
 
 		public AppServerViewModel AppServerViewModel { get; private set; }
 
-	//	public ModulesViewModel ModulesViewModel { get; private set; }
-
 		public GloobalSettingsViewModel()
 		{
 			Title = "Параметры";
@@ -34,7 +32,6 @@ namespace SettingsModule.ViewModels
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 
 			AppServerViewModel = new AppServerViewModel();
-	//		ModulesViewModel = new ModulesViewModel();
 
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 		}
@@ -184,9 +181,7 @@ namespace SettingsModule.ViewModels
 				GlobalSettingsHelper.Reset();
 				AppServerSettingsHelper.Reset();
 				AppServerViewModel = new AppServerViewModel();
-			//	ModulesViewModel = new ModulesViewModel();
 				OnPropertyChanged(() => AppServerViewModel);
-			//	OnPropertyChanged(() => ModulesViewModel);
 				OnPropertyChanged(() => GlobalSettings);
 			}
 		}
@@ -218,7 +213,6 @@ namespace SettingsModule.ViewModels
 		{
 			AppServerViewModel.Save();
 			AppServerSettingsHelper.Save();
-		//	ModulesViewModel.Save();
 			GlobalSettingsHelper.Save();
 			return true;
 		}

@@ -154,6 +154,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Enums\GuardZoneType.cs" />
     <Compile Include="Enums\LicenseStatus.cs" />
     <Compile Include="Automation\Enums\AccessState.cs" />
     <Compile Include="Enums\ModuleType.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Automation\Enums\ConnectionStatus.cs" />
     <Compile Include="Automation\Enums\DoorStatus.cs" />
     <Compile Include="Automation\Enums\EmailSecureProtocol.cs" />
+    <Compile Include="Enums\OPCZoneType.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />
@@ -168,6 +170,8 @@
     <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
+    <Compile Include="Integration.OPC\OPCSettings.cs" />
+    <Compile Include="Integration.OPC\OPCZone.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalErrorCode.cs" />
@@ -504,6 +508,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Include="IFiresecServiceOPCIntegration.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

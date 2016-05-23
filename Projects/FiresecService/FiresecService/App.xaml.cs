@@ -59,6 +59,7 @@ namespace FiresecServiceRunner
 				AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
 				try
 				{
+					
 					Bootstrapper.Run(licenseService);
 				}
 				catch (Exception ex)

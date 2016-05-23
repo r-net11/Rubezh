@@ -3,7 +3,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace StrazhAPI.GK
+namespace StrazhAPI
 {
 	/// <summary>
 	/// Базовый класс всех моделей
