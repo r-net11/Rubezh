@@ -71,29 +71,9 @@ namespace StrazhService.Monitor.ViewModels
 		public RelayCommand RestartServiceCommand { get; private set; }
 		private void OnRestartService()
 		{
-			try
-			{
-				if (_serviceController.Status == ServiceControllerStatus.Running)
-					_serviceController.Stop();
-				_serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(ServiceWaitTimeout));
-				if (_serviceController.Status != ServiceControllerStatus.Stopped)
-					Logger.Warn(string.Format("В процессе перезапуска служба '{0}' не была остановлена за {1} сек.", ServiceName, ServiceWaitTimeout));
-				else
-				{
-					_serviceController.Start();
-					_serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(ServiceWaitTimeout));
-					if (_serviceController.Status != ServiceControllerStatus.Running)
-						Logger.Warn(string.Format("В процессе перезапуска служба '{0}' не была запущена за {1} сек.", ServiceName, ServiceWaitTimeout));
-				}
-				OnPropertyChanged(() => StartServiceCommand);
-				OnPropertyChanged(() => StopServiceCommand);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, string.Format("Ошибка перезапуска службы '{0}'", ServiceName));
-			}
+			OnStopService();
+			OnStartService();
 		}
-
 		private bool CanRestartService()
 		{
 			return ServiceRepository.Instance.WindowsServiceStatusMonitor.IsStarted

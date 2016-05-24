@@ -53,6 +53,9 @@ namespace StrazhService.Monitor
 		private void ForegroundWork(CancellationToken cancellationToken)
 		{
 			Status = _serviceController.Status;
+			Logger.Info(string.Format("Cтатус службы '{0}' изменился на '{1}'", serviceName, Status));
+			RaiseStatusChanged(Status);
+
 			while (true)
 			{
 				_serviceController.Refresh();
