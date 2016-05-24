@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ViewModels="clr-namespace:Integration.OPC.ViewModels"
+	xmlns:Views="clr-namespace:Integration.OPC.Views">
+	<DataTemplate DataType="{x:Type ViewModels:OPCZonesViewModel}">
+		<Views:OPCZonesView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
+		<Views:PropertiesView />
+	</DataTemplate>
+</ResourceDictionary>

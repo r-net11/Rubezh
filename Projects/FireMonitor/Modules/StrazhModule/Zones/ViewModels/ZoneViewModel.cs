@@ -1,13 +1,10 @@
-﻿using System;
-using StrazhAPI.GK;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
-using FiresecClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using StrazhAPI.SKD;
 using StrazhModule.Zones;
 
 namespace StrazhModule.ViewModels
@@ -20,8 +17,8 @@ namespace StrazhModule.ViewModels
 		public ZoneViewModel(SKDZone zone)
 		{
 			Zone = zone;
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -63,11 +60,11 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs
 			{
 				SKDZone = Zone
 			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactoryBase.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

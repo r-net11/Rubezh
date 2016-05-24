@@ -1,0 +1,111 @@
+﻿<UserControl
+	x:Class="Integration.OPC.Views.OPCZonesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+	d:DesignWidth="300"
+	x:Name="ZonesWindow">
+	<UserControl.Resources>
+		<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter"/>
+		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<ContextMenu x:Key="RowMenu" DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+			<IconedMenuItem x:Name="Guard" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}" Text="Снять с охраны" Command="{Binding GuardOffCommand}" />
+			<IconedMenuItem Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}" Text="Поставить на охрану" Command="{Binding GuardOnCommand}" />
+			<Separator Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.IsSeparatorEnabled, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+			<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+			<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+			<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+		</ContextMenu>
+		<Style
+			x:Key="ContextMenuRowStyle"
+			TargetType="{x:Type DataGridRow}"
+			BasedOn="{StaticResource {x:Type DataGridRow}}">
+			<Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+		</Style>
+	</UserControl.Resources>
+    <DataGrid
+		ItemsSource="{Binding ZonesOPC, IsAsync=True}"
+		SelectedItem="{Binding SelectedZoneOPC}"
+		RowStyle="{StaticResource ContextMenuRowStyle}"
+		CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn
+				Header="№"
+				Width="Auto"
+				SortMemberPath="No"
+				CanUserResize="False"
+				CanUserReorder="False">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image
+								Source="/Controls;component/Images/Zone.png"
+								VerticalAlignment="Center"
+								Margin="5 0" />
+							<TextBlock
+								Margin="5 0"
+								VerticalAlignment="Center"
+								Text="{Binding No}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn
+				Header="Наименование"
+				Width="*"
+				SortMemberPath="Name">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image
+								Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}"
+								Width="16"
+								Height="16"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+							<TextBlock
+								VerticalAlignment="Center"
+								Margin="5 0">
+								<Hyperlink
+									Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ShowPropertiesCommand}"
+									Style="{StaticResource HyperlinkStyle2}">
+									<TextBlock Text="{Binding Name}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn
+				Header="Назначение"
+				Width="*"
+				SortMemberPath="Type">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
+							VerticalAlignment="Center"
+							Margin="5 0"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn
+				Header="Примечание"
+				Width="*"
+				SortMemberPath="Description">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Description}"
+							VerticalAlignment="Center"
+							Margin="5 0"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

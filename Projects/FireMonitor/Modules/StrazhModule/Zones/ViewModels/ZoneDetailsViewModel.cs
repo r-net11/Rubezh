@@ -2,13 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using StrazhAPI.GK;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
@@ -37,8 +35,8 @@ namespace StrazhModule.ViewModels
 
 			Zone = zone;
 			Title = Zone.Name;
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			InitializePlans();
 		}
 

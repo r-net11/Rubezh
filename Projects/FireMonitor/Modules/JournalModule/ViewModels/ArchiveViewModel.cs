@@ -76,9 +76,12 @@ namespace JournalModule.ViewModels
 
 		public void Sort(ShowArchiveEventArgs showArchiveEventArgs)
 		{
-			ArchiveFilter = new ArchiveFilter();
-			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
-			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+			ArchiveFilter = new ArchiveFilter
+			{
+				PageSize = ClientSettings.ArchiveDefaultState.PageSize,
+				StartDate = DateTime.Now.AddDays(-7)
+			};
+
 			ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
 			ClientSettings.ArchiveDefaultState.Count = 7;
 
@@ -88,6 +91,8 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDZone.UID);
 			if (showArchiveEventArgs.SKDDoor != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDoor.UID);
+			if(showArchiveEventArgs.OPCZone != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.OPCZone.UID);
 
 			Update();
 		}

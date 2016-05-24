@@ -19,5 +19,17 @@ namespace FiresecService.Service
 
 			return new OperationResult<List<OPCZone>>(result);
 		}
+
+		public OperationResult SetGuard(int no)
+		{
+			_integrationService.SetGuard(no);
+			return new OperationResult();
+		}
+
+		public OperationResult UnsetGuard(int no)
+		{
+			_integrationService.UnsetGuard(no);
+			return new OperationResult();
+		}
 	}
 }

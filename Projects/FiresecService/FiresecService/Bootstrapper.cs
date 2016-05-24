@@ -41,8 +41,6 @@ namespace FiresecService
 				_windowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
-				var integrationService = new IntegrationFacade();
-
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();
@@ -50,6 +48,7 @@ namespace FiresecService
 				UILogger.Log("Открытие хоста");
 				try
 				{
+					var integrationService = new IntegrationFacade();
 					FiresecServiceManager.Open(licenseManager, integrationService);
 				}
 				catch (Exception)

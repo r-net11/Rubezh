@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using StrazhAPI.Integration.OPC;
+using StrazhAPI.Models;
 
 namespace Integration.Service
 {
@@ -10,5 +11,9 @@ namespace Integration.Service
 		List<OPCZone> GetOPCZones();
 
 		void SetNewConfig();
+
+		void SetGuard(int no);
+
+		void UnsetGuard(int no);
 	}
 }

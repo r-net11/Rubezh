@@ -17,7 +17,10 @@ namespace Integration.Service.OPCIntegration
 {
 	public sealed class OPCIntegrationService
 	{
-
+		private const string SetGuardCommand = "Zone:Guard:Set:{0}";
+		private const string UnsetGuardCommand = "Zone:Guard:Unset:{0}";
+		private const string GetConfigCommand = "Config";
+		private const string PingCommand = "Ping";
 		private HttpClient _httpClient;
 
 		public OPCIntegrationService()
@@ -57,11 +60,7 @@ namespace Integration.Service.OPCIntegration
 			WebResponseInfo info;
 			try
 			{
-				var webRequest = _httpClient.CreateWebRequest("Ping");
-				using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
-				{
-					info = _httpClient.Read(webResponse);
-				}
+				info = SendRequestToOPCServer(PingCommand);
 			}
 			catch (WebException e)
 			{
@@ -78,11 +77,7 @@ namespace Integration.Service.OPCIntegration
 			WebResponseInfo info;
 			try
 			{
-				var webRequest = _httpClient.CreateWebRequest("Config");
-				using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
-				{
-					info = _httpClient.Read(webResponse);
-				}
+				info = SendRequestToOPCServer(GetConfigCommand);
 			}
 			catch (WebException e)
 			{
@@ -92,9 +87,17 @@ namespace Integration.Service.OPCIntegration
 
 			var xmlDoc = new XmlDocument();
 
-			xmlDoc.LoadXml(info.Body); //TODO: Handle XmlException
+			try
+			{
+				xmlDoc.LoadXml(info.Body);
+			}
+			catch (XmlException e)
+			{
+				Logger.Error(e);
+				return new List<OPCZone>();
+			}
 
-			var xPath = "config/zone";
+			const string xPath = "config/zone";
 			var nodes = xmlDoc.SelectNodes(xPath);
 
 			var inputZones = new List<zone>();
@@ -117,7 +120,6 @@ namespace Integration.Service.OPCIntegration
 				var guardZoneType = inputZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
 				var isSkippedTypeEnabled = inputZone.param.FirstOrDefault(x => x.name == "IsSkippedTypeEnabled");
 				var zoneType = inputZone.param.FirstOrDefault(x => x.name == "ZoneType");
-				//GuardZoneType = guardZoneType != null ? (GuardZoneType?) Enum.Parse(typeof (GuardZoneType?), guardZoneType.value) : null,
 
 				var zone = new OPCZone
 				{
@@ -126,7 +128,6 @@ namespace Integration.Service.OPCIntegration
 					Description = inputZone.desc,
 					AutoSet = autoset != null ? Convert.ToInt32(autoset.value) : (int?)null,
 					Delay = delay != null ? Convert.ToInt32(delay.value) : (int?)null,
-					//	GuardZoneType = guardZoneType != null ? (GuardZoneType?) Enum.Parse(typeof (GuardZoneType?), guardZoneType.value) : null,
 					IsSkippedTypeEnabled = isSkippedTypeEnabled != null ? Convert.ToBoolean(isSkippedTypeEnabled) : (bool?)null
 				};
 
@@ -151,7 +152,7 @@ namespace Integration.Service.OPCIntegration
 				opcZones.Add(zone);
 			}
 
-			return new List<OPCZone>(opcZones);
+			return new List<OPCZone>(opcZones.Where(x => x.Type != OPCZoneType.ASC));
 		}
 
 		public bool StopOPCIntegrationService()
@@ -161,6 +162,43 @@ namespace Integration.Service.OPCIntegration
 
 			_httpClient.Stop();
 			return true;
+		}
+
+		public void SetGuard(int no)
+		{
+			try
+			{
+				SendRequestToOPCServer(string.Format(SetGuardCommand, no));
+			}
+			catch (WebException e)
+			{
+				Logger.Info(e.ToString());
+			}
+		}
+
+		public void UnsetGuard(int no)
+		{
+			try
+			{
+				SendRequestToOPCServer(string.Format(UnsetGuardCommand, no));
+			}
+			catch (WebException e)
+			{
+				Logger.Info(e.ToString());
+			}
+		}
+
+		private WebResponseInfo SendRequestToOPCServer(string message)
+		{
+			WebResponseInfo info;
+
+			var webRequest = _httpClient.CreateWebRequest(message);
+			using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
+			{
+				info = _httpClient.Read(webResponse);
+			}
+
+			return info;
 		}
 	}
 }

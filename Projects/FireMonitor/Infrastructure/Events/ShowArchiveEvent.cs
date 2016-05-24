@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
+using StrazhAPI.Integration.OPC;
 using StrazhAPI.SKD;
-using StrazhAPI.GK;
 
 namespace Infrastructure.Events
 {
@@ -13,5 +13,6 @@ namespace Infrastructure.Events
 		public SKDDevice SKDDevice { get; set; }
 		public SKDZone SKDZone { get; set; }
 		public SKDDoor SKDDoor { get; set; }
+		public OPCZone OPCZone { get; set; }
 	}
 }

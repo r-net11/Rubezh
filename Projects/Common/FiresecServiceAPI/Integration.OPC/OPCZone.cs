@@ -1,5 +1,7 @@
-﻿using StrazhAPI.Enums;
+﻿using System.Xml.Serialization;
+using StrazhAPI.Enums;
 using System.Runtime.Serialization;
+using StrazhAPI.SKD;
 
 namespace StrazhAPI.Integration.OPC
 {
@@ -20,5 +22,8 @@ namespace StrazhAPI.Integration.OPC
 
 		[DataMember]
 		public int? AutoSet { get; set; }
+
+		[XmlIgnore]
+		public SKDZoneState State { get; set; }
 	}
 }

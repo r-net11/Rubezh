@@ -13,54 +13,52 @@
 			<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-    <Grid>
-		<DataGrid
-			ItemsSource="{Binding ZonesOPC, IsAsync=True}"
-			SelectedItem="{Binding SelectedZoneOPC}"
-			CanUserSortColumns="True">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn
-					Header="№"
-					Width="Auto"
-					CanUserResize="False"
-					SortMemberPath="No">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-								<TextBlock Text="{Binding No}" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Наименование" Width="2*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock
-								Text="{Binding Name}"
-								Margin="5 0"/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Назначение" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock
-								Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
-								Margin="5 0"/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock
-								Text="{Binding Description}"
-								Margin="5 0"/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-    </Grid>
+	<DataGrid
+		ItemsSource="{Binding ZonesOPC, IsAsync=True}"
+		SelectedItem="{Binding SelectedZoneOPC}"
+		CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn
+				Header="№"
+				Width="Auto"
+				CanUserResize="False"
+				SortMemberPath="No">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+							<TextBlock Text="{Binding No}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Наименование" Width="2*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Name}"
+							Margin="5 0"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Назначение" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
+							Margin="5 0"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Примечание" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Description}"
+							Margin="5 0"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>
