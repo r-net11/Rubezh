@@ -45,12 +45,22 @@ namespace StrazhService.WS
 
 					if (Environment.UserInteractive)
 					{
+						Console.WriteLine("Служба Сервера A.C.Tech");
+						Console.WriteLine();
+						Console.WriteLine("StrazhService [/i | /u]");
+						Console.WriteLine();
+						Console.WriteLine("/i\tУстановка Сервера A.C.Tech в системе в качестве службы");
+						Console.WriteLine("/u\tУдаление Сервера A.C.Tech из списка служб системы");
+						Console.WriteLine();
+
+#if DEBUG
 						Console.CancelKeyPress += (x, y) => service.DoStop();
 						service.DoStart();
 						Console.WriteLine("Сервер запущен. Нажмите Ctrl+C для остановки...");
 						while (true)
 						{
 						}
+#endif
 					}
 					else
 					{
