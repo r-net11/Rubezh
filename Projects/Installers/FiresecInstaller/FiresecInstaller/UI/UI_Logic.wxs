@@ -40,8 +40,9 @@
 			<Publish Dialog="ModulesDialog" Control="Back" Event="NewDialog" Value="DestinationFolderDialog">1</Publish>
 			<Publish Dialog="ModulesDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
-			<Publish Dialog="ShortcutsDialog" Control="Next" Event="DoAction" Value="ReadAppServerSettings" Order="1">1</Publish>
-			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="SQLLoginDialog" Order="2">1</Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="DoAction" Value="ReadAppServerSettings" Order="1"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="SQLLoginDialog" Order="2"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog"><![CDATA[&Server.Features <> 3]]></Publish>
 			<Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="ModulesDialog">1</Publish>
 			<Publish Dialog="ShortcutsDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
@@ -50,7 +51,8 @@
 			<Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
 			<Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
-			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="SQLLoginDialog">1</Publish>
+			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="SQLLoginDialog"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog"><![CDATA[&Server.Features <> 3]]></Publish>
 
 			<Publish Dialog="SetupProgressDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
