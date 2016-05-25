@@ -3,7 +3,7 @@
 	<?include Variables.wxi?>
 	<Fragment>
 		<Feature
-			Id="FiresecFeature"
+			Id="StrazhFeature"
 			Title="$(var.ProductName)"
 			Display="expand"
 			ConfigurableDirectory="INSTALLLOCATION"

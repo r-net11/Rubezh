@@ -89,7 +89,7 @@
 			</Directory>
 		</Directory>
 
-		<FeatureRef Id="FiresecFeature" />
+		<FeatureRef Id="StrazhFeature" />
 
 		<InstallExecuteSequence>
 			<Custom Action="CloseApplications" Sequence="1" />
