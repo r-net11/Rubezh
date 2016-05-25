@@ -93,6 +93,7 @@
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="34B6DA90-EDF2-481B-8A4B-81925C3F14EF">

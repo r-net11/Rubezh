@@ -58,6 +58,8 @@
 				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.OPCIntegrationClient.dll" Name="OPCIntegrationClient.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
