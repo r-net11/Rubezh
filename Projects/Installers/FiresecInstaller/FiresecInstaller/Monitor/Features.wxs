@@ -2,20 +2,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Установка приложения Оперативная задача" Level="1" Display="hidden"
+		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Программа установит компоненты для запуска на рабочем месте оператора" Level="1" Display="expand"
 						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
-			<ComponentRef Id="Monitor.Files.ru" />
 			<ComponentRef Id="Monitor.DB" />
+			<ComponentRef Id="Monitor.PLANS_MODULE" />
+			<ComponentRef Id="Monitor.STRAZH_MODULE" />
+			<ComponentRef Id="Monitor.VIDEO_MODULE" />
+			<ComponentRef Id="Monitor.Revisor" />
+			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
+			<ComponentRef Id="Monitor.Files.dll" />
+			<ComponentRef Id="Monitor.Files.ru" />
 			<ComponentRef Id="Monitor.Integrate" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
 			<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
 			<ComponentRef Id="Monitor.DesktopLayoutShortcut" />
-			<ComponentRef Id="Monitor.Revisor" />
-		
-			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
-			<ComponentRef Id="Monitor.Files.dll" />
 		</Feature>
 	</Fragment>
 </Wix>

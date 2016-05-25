@@ -121,9 +121,6 @@
 				<File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
-		</DirectoryRef>
-
-		<DirectoryRef Id="MONITORLOCATION">
 			<Component Id="Monitor.VIDEO_MODULE_DLL" Guid="143E0D61-BA70-4766-92C9-5DD5A9021E6C">
 				<File Id="Monitor.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
@@ -137,6 +134,7 @@
 				<File Id="Monitor.RviVssDec.exe" Name="RviVssDec.exe" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
 			</Component>
+			
 		</DirectoryRef>
 
 

@@ -18,6 +18,8 @@
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
@@ -79,11 +81,6 @@
 				<File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 			</Component>
 
-			<Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
-				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
-				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
-			</Component>
-
 			<!-- Dahua SDK -->
 			<Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
 				<File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
@@ -98,6 +95,14 @@
 				<File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
+			<Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
+				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+			</Component>
+			
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">
@@ -130,16 +135,6 @@
 					<File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 				</Component>
 			</Directory>-->
-		</DirectoryRef>
-
-		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
-				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.EmptyLocation">
