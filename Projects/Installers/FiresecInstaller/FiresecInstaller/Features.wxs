@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?include Variables.wxi?>
-  <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
-        AllowAdvertise="no" Absent="allow" InstallDefault="local">
-      <FeatureRef Id="Server.Features" />
-      <FeatureRef Id="Administrator.Features" />
-      <FeatureRef Id="Monitor.Features" />
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature
+			Id="FiresecFeature"
+			Title="$(var.ProductName)"
+			Display="expand"
+			ConfigurableDirectory="INSTALLLOCATION"
+			AllowAdvertise="no"
+			Absent="allow"
+			InstallDefault="local">
+			
+			<FeatureRef Id="Server.Features" />
+			<FeatureRef Id="Administrator.Features" />
+			<FeatureRef Id="Monitor.Features" />
+			<FeatureRef Id="Monitor.Layout.Features" />
 
-      <ComponentRef Id="ProgramMenuDir.Additional" />
-      <ComponentRef Id="DesktopFolder" />
-      <ComponentRef Id="ProgramMenuDir" />
-      <ComponentRef Id="FscpAssociation" />
-    </Feature>
-  </Fragment>
+			<ComponentRef Id="ProgramMenuDir.Additional" />
+			<ComponentRef Id="DesktopFolder" />
+			<ComponentRef Id="ProgramMenuDir" />
+			<ComponentRef Id="FscpAssociation" />
+		</Feature>
+	</Fragment>
 </Wix>

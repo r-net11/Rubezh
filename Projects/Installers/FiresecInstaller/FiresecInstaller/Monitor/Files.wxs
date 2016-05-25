@@ -23,10 +23,6 @@
 				<File Id="Monitor.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.StrazhMonitor.Layout.exe" Name="StrazhMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
-
 				<File Id="Monitor.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
@@ -91,6 +87,12 @@
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
+			</Component>
+
+			<Component Id="Monitor.Layout.Files" Guid="6E2D6946-0C75-4D03-99C4-15626279F0F1">
+				<File Id="Monitor.StrazhMonitor.Layout.exe" Name="StrazhMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+				<File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="34B6DA90-EDF2-481B-8A4B-81925C3F14EF">
