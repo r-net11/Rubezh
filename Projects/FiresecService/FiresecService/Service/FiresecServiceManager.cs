@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using System;
 using System.ServiceModel;
+using Integration.Service;
 using KeyGenerator;
 
 namespace FiresecService.Service
@@ -14,13 +15,13 @@ namespace FiresecService.Service
 		private static ServiceHost ServiceHost;
 		public static SafeFiresecService SafeFiresecService;
 
-		public static bool Open(ILicenseManager licenseManager)
+		public static bool Open(ILicenseManager licenseManager, IIntegrationService integrationService)
 		{
 			try
 			{
 				Close();
 
-				SafeFiresecService = new SafeFiresecService(licenseManager);
+				SafeFiresecService = new SafeFiresecService(licenseManager, integrationService);
 				ServiceHost = new ServiceHost(SafeFiresecService);
 
 				if (AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections && UACHelper.IsAdministrator)

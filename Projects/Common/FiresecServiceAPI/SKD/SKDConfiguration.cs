@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using StrazhAPI.Integration.OPC;
 
 namespace StrazhAPI.SKD
 {
@@ -12,6 +13,8 @@ namespace StrazhAPI.SKD
 			Devices = new List<SKDDevice>();
 			Zones = new List<SKDZone>();
 			Doors = new List<SKDDoor>();
+			OPCZones = new List<OPCZone>();
+			OPCSettings = new OPCSettings();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 		}
 
@@ -25,7 +28,13 @@ namespace StrazhAPI.SKD
 		public List<SKDZone> Zones { get; set; }
 
 		[DataMember]
+		public List<OPCZone> OPCZones { get; set; }
+
+		[DataMember]
 		public List<SKDDoor> Doors { get; set; }
+
+		[DataMember]
+		public OPCSettings OPCSettings { get; set; }
 
 		[DataMember]
 		public TimeIntervalsConfiguration TimeIntervalsConfiguration { get; set; }

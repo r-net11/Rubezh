@@ -62,7 +62,7 @@ namespace FiresecService
 
 		public static void Stop()
 		{
-			StrazhDeviceSDK.Processor.Stop();
+			Processor.Stop();
 		}
 
 		private static void OnNewJournalItem(JournalItem journalItem)
@@ -142,7 +142,7 @@ namespace FiresecService
 
 		static void OnNewSearchDevice(SKDDeviceSearchInfo skdDeviceSearchInfo)
 		{
-			FiresecService.Service.FiresecService.NotifyNewSearchDevices(new List<SKDDeviceSearchInfo>() { skdDeviceSearchInfo });
+			Service.FiresecService.NotifyNewSearchDevices(new List<SKDDeviceSearchInfo> { skdDeviceSearchInfo });
 		}
 
 		static void OnSKDStates(SKDStates skdStates)
@@ -200,10 +200,6 @@ namespace FiresecService
 						door.State.StateClass = door.State.StateClasses.Min();
 						if (!skdStates.DoorStates.Contains(door.State))
 							skdStates.DoorStates.Add(door.State);
-						else
-						{
-							// TODO: Вроде ничего больше не нужно делать
-						}
 					}
 				}
 			}
@@ -281,9 +277,9 @@ namespace FiresecService
 			return skdStates;
 		}
 
-		private static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
+		private static void OnSKDProgressCallbackEvent(SKDProgressCallback skdProgressCallback)
 		{
-			FiresecService.Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
+			Service.FiresecService.NotifySKDProgress(skdProgressCallback);
 		}
 
 		private static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
@@ -301,16 +297,16 @@ namespace FiresecService
 						var cardWriter = new CardWriter();
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
 						{
-							cardWriter = StrazhDeviceSDK.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
 						{
-							cardWriter = StrazhDeviceSDK.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
-							cardWriter = StrazhDeviceSDK.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+							Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 						{
-							cardWriter = StrazhDeviceSDK.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction) pendingCard.Action == PendingCardAction.ResetRepeatEnter)
 						{

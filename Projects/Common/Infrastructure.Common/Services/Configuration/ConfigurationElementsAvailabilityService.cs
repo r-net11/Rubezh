@@ -41,7 +41,7 @@ namespace Infrastructure.Common.Services.Configuration
 		}
 
 		/// <summary>
-		/// Расчитывает доступность элементов в конфигарации на основе данных лицензии
+		/// Расчитывает доступность элементов в конфигурации на основе данных лицензии
 		/// </summary>
 		private void UpdateElementsAvailability()
 		{

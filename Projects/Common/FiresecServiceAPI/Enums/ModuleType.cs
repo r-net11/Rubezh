@@ -38,9 +38,8 @@ namespace StrazhAPI.Enums
         Plans,
 
 		//[Description("Права доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Security")]
-        Security,
-        
+		[LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Security")]
+		Security,
 		//[Description("Настройки")]
         [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Settings")]
         Settings,
@@ -76,5 +75,8 @@ namespace StrazhAPI.Enums
 		//[Description("Монитор")]
         [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Monitor")]
         Monitor,
+
+		[Description("Зоны ОПС")]
+		IntegrationOPC
 	}
 }

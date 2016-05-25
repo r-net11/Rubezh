@@ -6,6 +6,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using Integration.Service;
 using KeyGenerator;
 using System;
 using System.Diagnostics;
@@ -40,16 +41,7 @@ namespace FiresecService
 				_windowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
-				// Инициализируем валидатор конфигурации
-				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
-
-				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				// и уведомляем всех Клиентов
-				licenseManager.LicenseChanged += () =>
-				{
-					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
-				};
+				var integrationService = new IntegrationFacade();
 
 				//UILogger.Log("Загрузка конфигурации");
                 //UILogger.Log((string)Application.Current.FindResource("lang_LoadConfiguration"));
@@ -62,7 +54,7 @@ namespace FiresecService
 
 				try
 				{
-					FiresecServiceManager.Open(licenseManager);
+					FiresecServiceManager.Open(licenseManager, integrationService);
 				}
 				catch (Exception)
 				{

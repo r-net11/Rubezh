@@ -1,4 +1,5 @@
 ﻿using Common;
+using Integration.Service;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
@@ -20,9 +21,9 @@ namespace FiresecService.Service
 	{
 		public FiresecService FiresecService { get; set; }
 
-		public SafeFiresecService(ILicenseManager licenseManager)
+		public SafeFiresecService(ILicenseManager licenseManager, IIntegrationService integrationService)
 		{
-			FiresecService = new FiresecService(licenseManager);
+			FiresecService = new FiresecService(licenseManager, integrationService);
 		}
 
 		public void BeginOperation(string operationName)

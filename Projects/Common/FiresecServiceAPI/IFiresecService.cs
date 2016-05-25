@@ -9,7 +9,7 @@ using StrazhAPI.Models;
 namespace StrazhAPI
 {
 	[ServiceContract]
-	public interface IFiresecService : IFiresecServiceSKD
+	public interface IFiresecService : IFiresecServiceSKD, IFiresecServiceOPCIntegration
 	{
 		#region Service
 

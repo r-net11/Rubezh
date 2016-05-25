@@ -38,9 +38,6 @@
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
-			<TabItem Header='ОПС "Рубеж"'>
-				<views:RubezhClientView />
-			</TabItem>
 			<TabItem Header="Лог">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<TextBox HorizontalContentAlignment="Left" VerticalContentAlignment="Top" AcceptsReturn="True" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding InfoLog}" TextWrapping="WrapWithOverflow" />

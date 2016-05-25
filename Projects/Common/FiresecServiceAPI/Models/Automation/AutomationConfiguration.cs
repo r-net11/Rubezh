@@ -28,39 +28,45 @@ namespace StrazhAPI.Automation
 
 		public void UpdateConfiguration()
 		{
-			foreach (var procedure in Procedures)
+			if (Procedures != null)
 			{
-				foreach (var step in procedure.Steps)
+				foreach (var procedure in Procedures)
 				{
-					InvalidateStep(step, procedure);
+					foreach (var step in procedure.Steps)
+					{
+						InvalidateStep(step, procedure);
+					}
 				}
 			}
 
-			foreach (var schedule in AutomationSchedules)
+			if (AutomationSchedules != null && Procedures != null)
 			{
-				var tempScheduleProcedures = new List<ScheduleProcedure>();
-
-				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				foreach (var schedule in AutomationSchedules)
 				{
-					var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-					if (procedure != null)
+					var tempScheduleProcedures = new List<ScheduleProcedure>();
+
+					foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 					{
-						var tempArguments = new List<Argument>();
-						var i = 0;
-						foreach (var variable in procedure.Arguments)
+						var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+						if (procedure != null)
 						{
-							Argument argument;
-							if (scheduleProcedure.Arguments.Count <= i)
-								argument = InitializeArgumemt(variable);
-							else
-								argument = CheckSignature(scheduleProcedure.Arguments[i], variable)
-											? scheduleProcedure.Arguments[i]
-											: InitializeArgumemt(variable);
-							tempArguments.Add(argument);
-							i++;
+							var tempArguments = new List<Argument>();
+							var i = 0;
+							foreach (var variable in procedure.Arguments)
+							{
+								Argument argument;
+								if (scheduleProcedure.Arguments.Count <= i)
+									argument = InitializeArgumemt(variable);
+								else
+									argument = CheckSignature(scheduleProcedure.Arguments[i], variable)
+										? scheduleProcedure.Arguments[i]
+										: InitializeArgumemt(variable);
+								tempArguments.Add(argument);
+								i++;
+							}
+							scheduleProcedure.Arguments = new List<Argument>(tempArguments);
+							tempScheduleProcedures.Add(scheduleProcedure);
 						}
-						scheduleProcedure.Arguments = new List<Argument>(tempArguments);
-						tempScheduleProcedures.Add(scheduleProcedure);
 					}
 				}
 			}

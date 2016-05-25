@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Linq;
+using Integration.Service;
 using StrazhDeviceSDK;
 using Common;
 using StrazhAPI;
@@ -24,13 +25,17 @@ namespace FiresecService.Service
 	public partial class FiresecService : IFiresecService
 	{
 		private readonly ILicenseManager _licenseManager;
+		private readonly IIntegrationService _integrationService;
 
-		public FiresecService(ILicenseManager licenseManager)
+		public FiresecService(ILicenseManager licenseManager, IIntegrationService integrationService)
 		{
 			if(licenseManager == null)
-				throw new ArgumentException("License Manager");
+				throw new ArgumentNullException("License Manager");
+			if(integrationService == null)
+				throw new ArgumentNullException("IntegrationService");
 
 			_licenseManager = licenseManager;
+			_integrationService = integrationService;
 
 			// Записываем состояние лицензии в журнал системы при запуске сервера
 			AddJournalMessage(_licenseManager.IsValidExistingKey() ? JournalEventNameType.Лицензия_обнаружена : JournalEventNameType.Отсутствует_лицензия, null);
@@ -327,7 +332,7 @@ namespace FiresecService.Service
 				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
 
 			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
-			
+
 			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
@@ -352,6 +357,9 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<LicenseData> GetLicenseData()
 		{
+			if(!_licenseManager.IsValidExistingKey())
+				return new OperationResult<LicenseData>();
+
 			return new OperationResult<LicenseData>(new LicenseData
 			{
 				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
