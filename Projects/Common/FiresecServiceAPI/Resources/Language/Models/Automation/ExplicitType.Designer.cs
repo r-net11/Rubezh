@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation {
+namespace StrazhAPI.Resources.Language.Models.Automation {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExplicitType {
+    public class ExplicitType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.ExplicitType", typeof(ExplicitType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.ExplicitType", typeof(ExplicitType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Логическое.
         /// </summary>
-        internal static string Boolean {
+        public static string Boolean {
             get {
                 return ResourceManager.GetString("Boolean", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Дата и время .
         /// </summary>
-        internal static string DateTime {
+        public static string DateTime {
             get {
                 return ResourceManager.GetString("DateTime", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Перечисление.
         /// </summary>
-        internal static string Enum {
+        public static string Enum {
             get {
                 return ResourceManager.GetString("Enum", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Целое.
         /// </summary>
-        internal static string Integer {
+        public static string Integer {
             get {
                 return ResourceManager.GetString("Integer", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Объектная ссылка.
         /// </summary>
-        internal static string Object {
+        public static string Object {
             get {
                 return ResourceManager.GetString("Object", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Строка.
         /// </summary>
-        internal static string String {
+        public static string String {
             get {
                 return ResourceManager.GetString("String", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Время.
         /// </summary>
-        internal static string Time {
+        public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
             }

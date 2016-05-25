@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Security {
+namespace StrazhAPI.Resources.Language.Security {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Security {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class RemoteAccessType {
+    public class RemoteAccessType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Security {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Security.RemoteAccessType", typeof(RemoteAccessType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Security.RemoteAccessType", typeof(RemoteAccessType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Security {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Разрешен с любых компьютеров.
         /// </summary>
-        internal static string RemoteAccessAllowed {
+        public static string RemoteAccessAllowed {
             get {
                 return ResourceManager.GetString("RemoteAccessAllowed", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Запрещен.
         /// </summary>
-        internal static string RemoteAccessBanned {
+        public static string RemoteAccessBanned {
             get {
                 return ResourceManager.GetString("RemoteAccessBanned", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Разрешен только с указанных компьютеров.
         /// </summary>
-        internal static string SelectivelyAllowed {
+        public static string SelectivelyAllowed {
             get {
                 return ResourceManager.GetString("SelectivelyAllowed", resourceCulture);
             }

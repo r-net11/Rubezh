@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
+namespace StrazhAPI.Resources.Language.SKD.DeviceTimeIntervals {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TimeIntervalsConfiguration {
+    public class TimeIntervalsConfiguration {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration", typeof(TimeIntervalsConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration", typeof(TimeIntervalsConfiguration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to День России.
         /// </summary>
-        internal static string Holidays_12June {
+        public static string Holidays_12June {
             get {
                 return ResourceManager.GetString("Holidays_12June", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to День советской армии и военно-морского флота.
         /// </summary>
-        internal static string Holidays_23February {
+        public static string Holidays_23February {
             get {
                 return ResourceManager.GetString("Holidays_23February", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to Новый год.
         /// </summary>
-        internal static string Holidays_31December {
+        public static string Holidays_31December {
             get {
                 return ResourceManager.GetString("Holidays_31December", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to День примерения.
         /// </summary>
-        internal static string Holidays_4November {
+        public static string Holidays_4November {
             get {
                 return ResourceManager.GetString("Holidays_4November", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to Международный женский день.
         /// </summary>
-        internal static string Holidays_8March {
+        public static string Holidays_8March {
             get {
                 return ResourceManager.GetString("Holidays_8March", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to День победы.
         /// </summary>
-        internal static string Holidays_9May {
+        public static string Holidays_9May {
             get {
                 return ResourceManager.GetString("Holidays_9May", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to Рождество.
         /// </summary>
-        internal static string Holidays_Christmas {
+        public static string Holidays_Christmas {
             get {
                 return ResourceManager.GetString("Holidays_Christmas", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to Новогодние каникулы.
         /// </summary>
-        internal static string Holidays_NewYear {
+        public static string Holidays_NewYear {
             get {
                 return ResourceManager.GetString("Holidays_NewYear", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to &lt;Всегда&gt;.
         /// </summary>
-        internal static string PredefinedIntervalNameAlways {
+        public static string PredefinedIntervalNameAlways {
             get {
                 return ResourceManager.GetString("PredefinedIntervalNameAlways", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to &lt;Карта&gt;.
         /// </summary>
-        internal static string PredefinedIntervalNameCard {
+        public static string PredefinedIntervalNameCard {
             get {
                 return ResourceManager.GetString("PredefinedIntervalNameCard", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to &lt;Карта и пароль&gt;.
         /// </summary>
-        internal static string PredefinedIntervalNameCardAndPassword {
+        public static string PredefinedIntervalNameCardAndPassword {
             get {
                 return ResourceManager.GetString("PredefinedIntervalNameCardAndPassword", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to &lt;Никогда&gt;.
         /// </summary>
-        internal static string PredefinedIntervalNameNever {
+        public static string PredefinedIntervalNameNever {
             get {
                 return ResourceManager.GetString("PredefinedIntervalNameNever", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.SKD.DeviceTimeIntervals {
         /// <summary>
         ///   Looks up a localized string similar to &lt;Пароль замка&gt;.
         /// </summary>
-        internal static string PredefinedIntervalNamePassword {
+        public static string PredefinedIntervalNamePassword {
             get {
                 return ResourceManager.GetString("PredefinedIntervalNamePassword", resourceCulture);
             }

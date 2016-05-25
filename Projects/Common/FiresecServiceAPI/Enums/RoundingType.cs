@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using LocalizationConveters;
+using StrazhAPI.Properties;
 
 namespace StrazhAPI.Enums
 {

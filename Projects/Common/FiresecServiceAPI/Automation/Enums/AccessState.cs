@@ -20,7 +20,7 @@ namespace StrazhAPI.Automation.Enums
 		/// </summary>
 		//[Description("Режим НОРМА")]
         [LocalizedDescription(typeof(Resources.Language.Automation.Enums.AccessState), "Normal")]
-        Normal = FiresecAPI.SKD.AccessState.Normal,
+        Normal = StrazhAPI.SKD.AccessState.Normal,
 		
 		/// <summary>
 		/// Режим ЗАКРЫТО

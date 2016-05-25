@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI"
 	xmlns:Views="clr-namespace:AutomationModule.Views"
-	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">>
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="500" />

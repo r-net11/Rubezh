@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Card {
+namespace StrazhAPI.Resources.Language.SKD.Card {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PendingCardAction {
+    public class PendingCardAction {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Card.PendingCardAction", typeof(PendingCardAction).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Card.PendingCardAction", typeof(PendingCardAction).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Суточные графики.
         /// </summary>
-        internal static string SlideDay {
+        public static string SlideDay {
             get {
                 return ResourceManager.GetString("SlideDay", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Скользящие понедельные графики.
         /// </summary>
-        internal static string SlideWeekly {
+        public static string SlideWeekly {
             get {
                 return ResourceManager.GetString("SlideWeekly", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Дневные графики.
         /// </summary>
-        internal static string Time {
+        public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Недельные графики.
         /// </summary>
-        internal static string Weekly {
+        public static string Weekly {
             get {
                 return ResourceManager.GetString("Weekly", resourceCulture);
             }

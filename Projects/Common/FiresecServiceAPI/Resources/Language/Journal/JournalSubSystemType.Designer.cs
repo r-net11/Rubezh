@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Journal {
+namespace StrazhAPI.Resources.Language.Journal {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Journal {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class JournalSubSystemType {
+    public class JournalSubSystemType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Journal.JournalSubSystemType", typeof(JournalSubSystemType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Journal.JournalSubSystemType", typeof(JournalSubSystemType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Страж.
         /// </summary>
-        internal static string SKD {
+        public static string SKD {
             get {
                 return ResourceManager.GetString("SKD", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Система.
         /// </summary>
-        internal static string System {
+        public static string System {
             get {
                 return ResourceManager.GetString("System", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Видео.
         /// </summary>
-        internal static string Video {
+        public static string Video {
             get {
                 return ResourceManager.GetString("Video", resourceCulture);
             }

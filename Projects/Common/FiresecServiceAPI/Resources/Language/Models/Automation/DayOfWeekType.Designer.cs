@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation {
+namespace StrazhAPI.Resources.Language.Models.Automation {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DayOfWeekType {
+    public class DayOfWeekType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.DayOfWeekType", typeof(DayOfWeekType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.DayOfWeekType", typeof(DayOfWeekType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Любой.
         /// </summary>
-        internal static string Any {
+        public static string Any {
             get {
                 return ResourceManager.GetString("Any", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Пятница.
         /// </summary>
-        internal static string Friday {
+        public static string Friday {
             get {
                 return ResourceManager.GetString("Friday", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Понедельник.
         /// </summary>
-        internal static string Monday {
+        public static string Monday {
             get {
                 return ResourceManager.GetString("Monday", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Суббота.
         /// </summary>
-        internal static string Saturday {
+        public static string Saturday {
             get {
                 return ResourceManager.GetString("Saturday", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Воскресенье.
         /// </summary>
-        internal static string Sunday {
+        public static string Sunday {
             get {
                 return ResourceManager.GetString("Sunday", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Четверг.
         /// </summary>
-        internal static string Thursday {
+        public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Вторник.
         /// </summary>
-        internal static string Tuesday {
+        public static string Tuesday {
             get {
                 return ResourceManager.GetString("Tuesday", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Среда.
         /// </summary>
-        internal static string Wednesday {
+        public static string Wednesday {
             get {
                 return ResourceManager.GetString("Wednesday", resourceCulture);
             }

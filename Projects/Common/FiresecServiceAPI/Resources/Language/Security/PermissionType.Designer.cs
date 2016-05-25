@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Security {
+namespace StrazhAPI.Resources.Language.Security {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Security {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PermissionType {
+    public class PermissionType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Security {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Security.PermissionType", typeof(PermissionType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Security.PermissionType", typeof(PermissionType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Security {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Администратор.
         /// </summary>
-        internal static string Adm_All {
+        public static string Adm_All {
             get {
                 return ResourceManager.GetString("Adm_All", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Изменение ПО в устройствах.
         /// </summary>
-        internal static string Adm_ChangeDevicesSoft {
+        public static string Adm_ChangeDevicesSoft {
             get {
                 return ResourceManager.GetString("Adm_ChangeDevicesSoft", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление правами пользователей.
         /// </summary>
-        internal static string Adm_Security {
+        public static string Adm_Security {
             get {
                 return ResourceManager.GetString("Adm_Security", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Применение конфигурации.
         /// </summary>
-        internal static string Adm_SetNewConfig {
+        public static string Adm_SetNewConfig {
             get {
                 return ResourceManager.GetString("Adm_SetNewConfig", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр конфигурации&quot;.
         /// </summary>
-        internal static string Adm_ViewConfig {
+        public static string Adm_ViewConfig {
             get {
                 return ResourceManager.GetString("Adm_ViewConfig", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Запись конфигурации в устройства.
         /// </summary>
-        internal static string Adm_WriteDeviceConfig {
+        public static string Adm_WriteDeviceConfig {
             get {
                 return ResourceManager.GetString("Adm_WriteDeviceConfig", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Все.
         /// </summary>
-        internal static string All {
+        public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to ОЗ.
         /// </summary>
-        internal static string Oper_All {
+        public static string Oper_All {
             get {
                 return ResourceManager.GetString("Oper_All", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Настройка отображения архива&quot;.
         /// </summary>
-        internal static string Oper_Archive_Settings {
+        public static string Oper_Archive_Settings {
             get {
                 return ResourceManager.GetString("Oper_Archive_Settings", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр архива.
         /// </summary>
-        internal static string Oper_Archive_View {
+        public static string Oper_Archive_View {
             get {
                 return ResourceManager.GetString("Oper_Archive_View", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление интерфейсом.
         /// </summary>
-        internal static string Oper_ChangeView {
+        public static string Oper_ChangeView {
             get {
                 return ResourceManager.GetString("Oper_ChangeView", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление устройствами, зонами.
         /// </summary>
-        internal static string Oper_ControlDevices {
+        public static string Oper_ControlDevices {
             get {
                 return ResourceManager.GetString("Oper_ControlDevices", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление графиками СКД.
         /// </summary>
-        internal static string Oper_GKSchedules {
+        public static string Oper_GKSchedules {
             get {
                 return ResourceManager.GetString("Oper_GKSchedules", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр журнала.
         /// </summary>
-        internal static string Oper_Journal_View {
+        public static string Oper_Journal_View {
             get {
                 return ResourceManager.GetString("Oper_Journal_View", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Вход.
         /// </summary>
-        internal static string Oper_Login {
+        public static string Oper_Login {
             get {
                 return ResourceManager.GetString("Oper_Login", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Выход.
         /// </summary>
-        internal static string Oper_Logout {
+        public static string Oper_Logout {
             get {
                 return ResourceManager.GetString("Oper_Logout", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Выход без пароля.
         /// </summary>
-        internal static string Oper_LogoutWithoutPassword {
+        public static string Oper_LogoutWithoutPassword {
             get {
                 return ResourceManager.GetString("Oper_LogoutWithoutPassword", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Разрешить не подтверждать команды паролем.
         /// </summary>
-        internal static string Oper_MayNotConfirmCommands {
+        public static string Oper_MayNotConfirmCommands {
             get {
                 return ResourceManager.GetString("Oper_MayNotConfirmCommands", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Не требуется подтверждение тревог.
         /// </summary>
-        internal static string Oper_NoAlarmConfirm {
+        public static string Oper_NoAlarmConfirm {
             get {
                 return ResourceManager.GetString("Oper_NoAlarmConfirm", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Сведения о пропусках.
         /// </summary>
-        internal static string Oper_Reports_Cards {
+        public static string Oper_Reports_Cards {
             get {
                 return ResourceManager.GetString("Oper_Reports_Cards", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Список подразделений организации.
         /// </summary>
-        internal static string Oper_Reports_Departments {
+        public static string Oper_Reports_Departments {
             get {
                 return ResourceManager.GetString("Oper_Reports_Departments", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Дисциплинарный отчет.
         /// </summary>
-        internal static string Oper_Reports_Discipline {
+        public static string Oper_Reports_Discipline {
             get {
                 return ResourceManager.GetString("Oper_Reports_Discipline", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по оправдательным документам.
         /// </summary>
-        internal static string Oper_Reports_Documents {
+        public static string Oper_Reports_Documents {
             get {
                 return ResourceManager.GetString("Oper_Reports_Documents", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Список точек доступа.
         /// </summary>
-        internal static string Oper_Reports_Doors {
+        public static string Oper_Reports_Doors {
             get {
                 return ResourceManager.GetString("Oper_Reports_Doors", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Справка о сотруднике/посетителе.
         /// </summary>
-        internal static string Oper_Reports_Employee {
+        public static string Oper_Reports_Employee {
             get {
                 return ResourceManager.GetString("Oper_Reports_Employee", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Маршрут сотрудника/посетителя.
         /// </summary>
-        internal static string Oper_Reports_EmployeeRoot {
+        public static string Oper_Reports_EmployeeRoot {
             get {
                 return ResourceManager.GetString("Oper_Reports_EmployeeRoot", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Доступ в зоны сотрудников/посетителей.
         /// </summary>
-        internal static string Oper_Reports_Employees_Access {
+        public static string Oper_Reports_Employees_Access {
             get {
                 return ResourceManager.GetString("Oper_Reports_Employees_Access", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Права доступа сотрудников/посетителей.
         /// </summary>
-        internal static string Oper_Reports_Employees_Rights {
+        public static string Oper_Reports_Employees_Rights {
             get {
                 return ResourceManager.GetString("Oper_Reports_Employees_Rights", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Местонахождение сотрудников/посетителей.
         /// </summary>
-        internal static string Oper_Reports_EmployeeZone {
+        public static string Oper_Reports_EmployeeZone {
             get {
                 return ResourceManager.GetString("Oper_Reports_EmployeeZone", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по событиям системы контроля доступа.
         /// </summary>
-        internal static string Oper_Reports_Events {
+        public static string Oper_Reports_Events {
             get {
                 return ResourceManager.GetString("Oper_Reports_Events", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Список должностей организации.
         /// </summary>
-        internal static string Oper_Reports_Positions {
+        public static string Oper_Reports_Positions {
             get {
                 return ResourceManager.GetString("Oper_Reports_Positions", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по графикам работ.
         /// </summary>
-        internal static string Oper_Reports_Schedules {
+        public static string Oper_Reports_Schedules {
             get {
                 return ResourceManager.GetString("Oper_Reports_Schedules", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Табель учета рабочего времени (форма Т-13).
         /// </summary>
-        internal static string Oper_Reports_T13 {
+        public static string Oper_Reports_T13 {
             get {
                 return ResourceManager.GetString("Oper_Reports_T13", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Справка по отработанному времени.
         /// </summary>
-        internal static string Oper_Reports_WorkTime {
+        public static string Oper_Reports_WorkTime {
             get {
                 return ResourceManager.GetString("Oper_Reports_WorkTime", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to СКД.
         /// </summary>
-        internal static string Oper_SKD {
+        public static string Oper_SKD {
             get {
                 return ResourceManager.GetString("Oper_SKD", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление шаблонов доступа.
         /// </summary>
-        internal static string Oper_SKD_AccessTemplates_Etit {
+        public static string Oper_SKD_AccessTemplates_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_AccessTemplates_Etit", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр шаблонов доступа.
         /// </summary>
-        internal static string Oper_SKD_AccessTemplates_View {
+        public static string Oper_SKD_AccessTemplates_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_AccessTemplates_View", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление дополнительных колонок.
         /// </summary>
-        internal static string Oper_SKD_AdditionalColumns_Etit {
+        public static string Oper_SKD_AdditionalColumns_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_AdditionalColumns_Etit", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр списка дополнительных колонок.
         /// </summary>
-        internal static string Oper_SKD_AdditionalColumns_View {
+        public static string Oper_SKD_AdditionalColumns_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_AdditionalColumns_View", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Архивирование, восстановление пропусков.
         /// </summary>
-        internal static string Oper_SKD_Cards_Etit {
+        public static string Oper_SKD_Cards_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Cards_Etit", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Сброс флага запрета повторного прохода.
         /// </summary>
-        internal static string Oper_SKD_Cards_ResetRepeatEnter {
+        public static string Oper_SKD_Cards_ResetRepeatEnter {
             get {
                 return ResourceManager.GetString("Oper_SKD_Cards_ResetRepeatEnter", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр пропусков.
         /// </summary>
-        internal static string Oper_SKD_Cards_View {
+        public static string Oper_SKD_Cards_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Cards_View", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Добавление сотрудника в подразделение, удаление сотрудника из подразделения.
         /// </summary>
-        internal static string Oper_SKD_Departments_Employees {
+        public static string Oper_SKD_Departments_Employees {
             get {
                 return ResourceManager.GetString("Oper_SKD_Departments_Employees", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление подразделения.
         /// </summary>
-        internal static string Oper_SKD_Departments_Etit {
+        public static string Oper_SKD_Departments_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Departments_Etit", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр подразделений.
         /// </summary>
-        internal static string Oper_SKD_Departments_View {
+        public static string Oper_SKD_Departments_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Departments_View", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление сотрудника.
         /// </summary>
-        internal static string Oper_SKD_Employees_Edit {
+        public static string Oper_SKD_Employees_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Employees_Edit", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр сотрудников.
         /// </summary>
-        internal static string Oper_SKD_Employees_View {
+        public static string Oper_SKD_Employees_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Employees_View", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление посетителя.
         /// </summary>
-        internal static string Oper_SKD_Guests_Edit {
+        public static string Oper_SKD_Guests_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Guests_Edit", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр посетителей.
         /// </summary>
-        internal static string Oper_SKD_Guests_View {
+        public static string Oper_SKD_Guests_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Guests_View", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Привязка точек доступа к организации, открепление точек доступа от организации.
         /// </summary>
-        internal static string Oper_SKD_Organisations_Doors {
+        public static string Oper_SKD_Organisations_Doors {
             get {
                 return ResourceManager.GetString("Oper_SKD_Organisations_Doors", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление организации.
         /// </summary>
-        internal static string Oper_SKD_Organisations_Edit {
+        public static string Oper_SKD_Organisations_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Organisations_Edit", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Привязка пользователей к организации, открепление пользователей от организации.
         /// </summary>
-        internal static string Oper_SKD_Organisations_Users {
+        public static string Oper_SKD_Organisations_Users {
             get {
                 return ResourceManager.GetString("Oper_SKD_Organisations_Users", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр организаций.
         /// </summary>
-        internal static string Oper_SKD_Organisations_View {
+        public static string Oper_SKD_Organisations_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Organisations_View", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление шаблонов пропусков.
         /// </summary>
-        internal static string Oper_SKD_PassCards_Etit {
+        public static string Oper_SKD_PassCards_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_PassCards_Etit", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр шаблонов пропусков.
         /// </summary>
-        internal static string Oper_SKD_PassCards_View {
+        public static string Oper_SKD_PassCards_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_PassCards_View", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление должности.
         /// </summary>
-        internal static string Oper_SKD_Positions_Etit {
+        public static string Oper_SKD_Positions_Etit {
             get {
                 return ResourceManager.GetString("Oper_SKD_Positions_Etit", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотра должностей.
         /// </summary>
-        internal static string Oper_SKD_Positions_View {
+        public static string Oper_SKD_Positions_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_Positions_View", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление дневных графиков.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_DaySchedules_Edit {
+        public static string Oper_SKD_TimeTrack_DaySchedules_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_DaySchedules_Edit", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр дневных графиков.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_DaySchedules_View {
+        public static string Oper_SKD_TimeTrack_DaySchedules_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_DaySchedules_View", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, удаление, оправдательных документов.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Documents_Edit {
+        public static string Oper_SKD_TimeTrack_Documents_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Documents_Edit", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Ведение справочника видов оправдательных документов.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_DocumentTypes_Edit {
+        public static string Oper_SKD_TimeTrack_DocumentTypes_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_DocumentTypes_Edit", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Добавление, редактирование, архивирование, восстановление сокращённых дней.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Holidays_Edit {
+        public static string Oper_SKD_TimeTrack_Holidays_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Holidays_Edit", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр сокращённых дней.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Holidays_View {
+        public static string Oper_SKD_TimeTrack_Holidays_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Holidays_View", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Ручное редактирование графика проходов.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Parts_Edit {
+        public static string Oper_SKD_TimeTrack_Parts_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Parts_Edit", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр журнала учета рабочего времени.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Report_View {
+        public static string Oper_SKD_TimeTrack_Report_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Report_View", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление графиков работ.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Schedules_Edit {
+        public static string Oper_SKD_TimeTrack_Schedules_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Schedules_Edit", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр графиков работ.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_Schedules_View {
+        public static string Oper_SKD_TimeTrack_Schedules_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_Schedules_View", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Создание, редактирование, архивирование, восстановление графиков.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_ScheduleSchemes_Edit {
+        public static string Oper_SKD_TimeTrack_ScheduleSchemes_Edit {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_ScheduleSchemes_Edit", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр графиков.
         /// </summary>
-        internal static string Oper_SKD_TimeTrack_ScheduleSchemes_View {
+        public static string Oper_SKD_TimeTrack_ScheduleSchemes_View {
             get {
                 return ResourceManager.GetString("Oper_SKD_TimeTrack_ScheduleSchemes_View", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление замками.
         /// </summary>
-        internal static string Oper_Strazh_Devices_Control {
+        public static string Oper_Strazh_Devices_Control {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Devices_Control", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр устройств.
         /// </summary>
-        internal static string Oper_Strazh_Devices_View {
+        public static string Oper_Strazh_Devices_View {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Devices_View", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление замками.
         /// </summary>
-        internal static string Oper_Strazh_Doors_Control {
+        public static string Oper_Strazh_Doors_Control {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Doors_Control", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр точек доступа.
         /// </summary>
-        internal static string Oper_Strazh_Doors_View {
+        public static string Oper_Strazh_Doors_View {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Doors_View", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Управление замками.
         /// </summary>
-        internal static string Oper_Strazh_Zones_Control {
+        public static string Oper_Strazh_Zones_Control {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Zones_Control", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace FiresecAPI.Resources.Language.Security {
         /// <summary>
         ///   Looks up a localized string similar to Просмотр зон.
         /// </summary>
-        internal static string Oper_Strazh_Zones_View {
+        public static string Oper_Strazh_Zones_View {
             get {
                 return ResourceManager.GetString("Oper_Strazh_Zones_View", resourceCulture);
             }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Journal {
+namespace StrazhAPI.Resources.Language.Journal {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Journal {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class JournalObjectType {
+    public class JournalObjectType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Journal.JournalObjectType", typeof(JournalObjectType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Journal.JournalObjectType", typeof(JournalObjectType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Нет.
         /// </summary>
-        internal static string None {
+        public static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Устройства Страж.
         /// </summary>
-        internal static string SKDDevice {
+        public static string SKDDevice {
             get {
                 return ResourceManager.GetString("SKDDevice", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Точки доступа Страж.
         /// </summary>
-        internal static string SKDDoor {
+        public static string SKDDoor {
             get {
                 return ResourceManager.GetString("SKDDoor", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Зоны Страж.
         /// </summary>
-        internal static string SKDZone {
+        public static string SKDZone {
             get {
                 return ResourceManager.GetString("SKDZone", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Видеоустройства.
         /// </summary>
-        internal static string VideoDevice {
+        public static string VideoDevice {
             get {
                 return ResourceManager.GetString("VideoDevice", resourceCulture);
             }

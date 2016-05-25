@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Device {
+namespace StrazhAPI.Resources.Language.SKD.Device {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SKDDoorConfiguration {
+    public class SKDDoorConfiguration {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Device.SKDDoorConfiguration", typeof(SKDDoorConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Device.SKDDoorConfiguration", typeof(SKDDoorConfiguration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Карта.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_CARD {
+        public static string CFG_DOOR_OPEN_METHOD_CARD {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_CARD", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Карта и отпечаток пальца.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT {
+        public static string CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Сначала карта.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_CARD_FIRST {
+        public static string CFG_DOOR_OPEN_METHOD_CARD_FIRST {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_CARD_FIRST", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Только отпечаток пальца.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY {
+        public static string CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Multiplayer Unlock.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_MULTI_PERSON {
+        public static string CFG_DOOR_OPEN_METHOD_MULTI_PERSON {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_MULTI_PERSON", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Сначала пароль.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_PWD_FIRST {
+        public static string CFG_DOOR_OPEN_METHOD_PWD_FIRST {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_PWD_FIRST", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Только пароль.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_PWD_ONLY {
+        public static string CFG_DOOR_OPEN_METHOD_PWD_ONLY {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_PWD_ONLY", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Пароль или карта.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_PWD_OR_CARD {
+        public static string CFG_DOOR_OPEN_METHOD_PWD_OR_CARD {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_PWD_OR_CARD", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Пароль или карта или отпечаток пальца.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT {
+        public static string CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to График замка.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_SECTION {
+        public static string CFG_DOOR_OPEN_METHOD_SECTION {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_SECTION", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Не известно.
         /// </summary>
-        internal static string CFG_DOOR_OPEN_METHOD_UNKNOWN {
+        public static string CFG_DOOR_OPEN_METHOD_UNKNOWN {
             get {
                 return ResourceManager.GetString("CFG_DOOR_OPEN_METHOD_UNKNOWN", resourceCulture);
             }

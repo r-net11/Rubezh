@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Device {
+namespace StrazhAPI.Resources.Language.SKD.Device {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SKDInterlockConfiguration {
+    public class SKDInterlockConfiguration {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Device.SKDInterlockConfiguration", typeof(SKDInterlockConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Device.SKDInterlockConfiguration", typeof(SKDInterlockConfiguration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 1+2.
         /// </summary>
-        internal static string L1L2 {
+        public static string L1L2 {
             get {
                 return ResourceManager.GetString("L1L2", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 1+2+3.
         /// </summary>
-        internal static string L1L2L3 {
+        public static string L1L2L3 {
             get {
                 return ResourceManager.GetString("L1L2L3", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 1+2+3+4.
         /// </summary>
-        internal static string L1L2L3L4 {
+        public static string L1L2L3L4 {
             get {
                 return ResourceManager.GetString("L1L2L3L4", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 1+3 и 2+4.
         /// </summary>
-        internal static string L1L3_L2L4 {
+        public static string L1L3_L2L4 {
             get {
                 return ResourceManager.GetString("L1L3_L2L4", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 1+4 и 2+3.
         /// </summary>
-        internal static string L1L4_L2L3 {
+        public static string L1L4_L2L3 {
             get {
                 return ResourceManager.GetString("L1L4_L2L3", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 2+3+4&quot;.
         /// </summary>
-        internal static string L2L3L4 {
+        public static string L2L3L4 {
             get {
                 return ResourceManager.GetString("L2L3L4", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         /// <summary>
         ///   Looks up a localized string similar to Замок 3+4.
         /// </summary>
-        internal static string L3L4 {
+        public static string L3L4 {
             get {
                 return ResourceManager.GetString("L3L4", resourceCulture);
             }

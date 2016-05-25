@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
+namespace StrazhAPI.Resources.Language.SKD.TimeTrack.Enums {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class HolidayType {
+    public class HolidayType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.TimeTrack.Enums.HolidayType", typeof(HolidayType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.TimeTrack.Enums.HolidayType", typeof(HolidayType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Предпраздничный день.
         /// </summary>
-        internal static string BeforeHoliday {
+        public static string BeforeHoliday {
             get {
                 return ResourceManager.GetString("BeforeHoliday", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Праздник.
         /// </summary>
-        internal static string Holiday {
+        public static string Holiday {
             get {
                 return ResourceManager.GetString("Holiday", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Рабочий выходной.
         /// </summary>
-        internal static string WorkingHoliday {
+        public static string WorkingHoliday {
             get {
                 return ResourceManager.GetString("WorkingHoliday", resourceCulture);
             }

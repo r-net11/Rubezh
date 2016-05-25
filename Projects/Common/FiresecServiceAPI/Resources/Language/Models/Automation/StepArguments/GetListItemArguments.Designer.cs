@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
+namespace StrazhAPI.Resources.Language.Models.Automation.StepArguments {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GetListItemArguments {
+    public class GetListItemArguments {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,11 +36,11 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.StepArguments.GetListItemArgument" +
-                            "s", typeof(GetListItemArguments).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.StepArguments.GetListItemArguments" +
+                            "", typeof(GetListItemArguments).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +52,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +64,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to По индексу.
         /// </summary>
-        internal static string ByIndex {
+        public static string ByIndex {
             get {
                 return ResourceManager.GetString("ByIndex", resourceCulture);
             }
@@ -73,7 +73,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Первый.
         /// </summary>
-        internal static string First {
+        public static string First {
             get {
                 return ResourceManager.GetString("First", resourceCulture);
             }
@@ -82,7 +82,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Последний.
         /// </summary>
-        internal static string Last {
+        public static string Last {
             get {
                 return ResourceManager.GetString("Last", resourceCulture);
             }

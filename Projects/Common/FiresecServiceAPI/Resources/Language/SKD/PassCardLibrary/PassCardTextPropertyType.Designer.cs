@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
+namespace StrazhAPI.Resources.Language.SKD.PassCardLibrary {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PassCardTextPropertyType {
+    public class PassCardTextPropertyType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType", typeof(PassCardTextPropertyType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType", typeof(PassCardTextPropertyType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Дополнительно.
         /// </summary>
-        internal static string Additional {
+        public static string Additional {
             get {
                 return ResourceManager.GetString("Additional", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Дата рождения.
         /// </summary>
-        internal static string Birthday {
+        public static string Birthday {
             get {
                 return ResourceManager.GetString("Birthday", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Номер карты.
         /// </summary>
-        internal static string CardNumber {
+        public static string CardNumber {
             get {
                 return ResourceManager.GetString("CardNumber", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Подразделение.
         /// </summary>
-        internal static string Department {
+        public static string Department {
             get {
                 return ResourceManager.GetString("Department", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Конец срока дейстия.
         /// </summary>
-        internal static string EndDate {
+        public static string EndDate {
             get {
                 return ResourceManager.GetString("EndDate", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Имя.
         /// </summary>
-        internal static string FirstName {
+        public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Фамилия.
         /// </summary>
-        internal static string LastName {
+        public static string LastName {
             get {
                 return ResourceManager.GetString("LastName", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Организация.
         /// </summary>
-        internal static string Organisation {
+        public static string Organisation {
             get {
                 return ResourceManager.GetString("Organisation", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Должность.
         /// </summary>
-        internal static string Position {
+        public static string Position {
             get {
                 return ResourceManager.GetString("Position", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Отчество.
         /// </summary>
-        internal static string SecondName {
+        public static string SecondName {
             get {
                 return ResourceManager.GetString("SecondName", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.SKD.PassCardLibrary {
         /// <summary>
         ///   Looks up a localized string similar to Начало срока дейстия.
         /// </summary>
-        internal static string StartDate {
+        public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
             }

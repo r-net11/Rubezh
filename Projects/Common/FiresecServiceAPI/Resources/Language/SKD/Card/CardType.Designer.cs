@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Card {
+namespace StrazhAPI.Resources.Language.SKD.Card {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CardType {
+    public class CardType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Card.CardType", typeof(CardType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Card.CardType", typeof(CardType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Заблокирован.
         /// </summary>
-        internal static string Blocked {
+        public static string Blocked {
             get {
                 return ResourceManager.GetString("Blocked", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Постоянный.
         /// </summary>
-        internal static string Constant {
+        public static string Constant {
             get {
                 return ResourceManager.GetString("Constant", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Принуждение.
         /// </summary>
-        internal static string Duress {
+        public static string Duress {
             get {
                 return ResourceManager.GetString("Duress", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Разовый.
         /// </summary>
-        internal static string OneTime {
+        public static string OneTime {
             get {
                 return ResourceManager.GetString("OneTime", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.Card {
         /// <summary>
         ///   Looks up a localized string similar to Временный.
         /// </summary>
-        internal static string Temporary {
+        public static string Temporary {
             get {
                 return ResourceManager.GetString("Temporary", resourceCulture);
             }

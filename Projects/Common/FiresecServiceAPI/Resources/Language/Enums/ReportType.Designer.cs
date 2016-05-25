@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Enums {
+namespace StrazhAPI.Resources.Language.Enums {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Enums {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ReportType {
+    public class ReportType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Enums {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Enums.ReportType", typeof(ReportType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Enums.ReportType", typeof(ReportType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Сведения о пропусках.
         /// </summary>
-        internal static string CardsReport {
+        public static string CardsReport {
             get {
                 return ResourceManager.GetString("CardsReport", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Список подразделений организаций.
         /// </summary>
-        internal static string DepartmentsReport {
+        public static string DepartmentsReport {
             get {
                 return ResourceManager.GetString("DepartmentsReport", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Дисциплинарный отчет.
         /// </summary>
-        internal static string DisciplineReport {
+        public static string DisciplineReport {
             get {
                 return ResourceManager.GetString("DisciplineReport", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по оправдательным документам.
         /// </summary>
-        internal static string DocumentsReport {
+        public static string DocumentsReport {
             get {
                 return ResourceManager.GetString("DocumentsReport", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Список точек доступа.
         /// </summary>
-        internal static string DoorsReport {
+        public static string DoorsReport {
             get {
                 return ResourceManager.GetString("DoorsReport", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Доступ в зоны сотрудников / посетителей.
         /// </summary>
-        internal static string EmployeeAccessReport {
+        public static string EmployeeAccessReport {
             get {
                 return ResourceManager.GetString("EmployeeAccessReport", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Права доступа сотрудников / посетителей.
         /// </summary>
-        internal static string EmployeeDoorsReport {
+        public static string EmployeeDoorsReport {
             get {
                 return ResourceManager.GetString("EmployeeDoorsReport", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Справка о сотруднике / посетителе.
         /// </summary>
-        internal static string EmployeeReport {
+        public static string EmployeeReport {
             get {
                 return ResourceManager.GetString("EmployeeReport", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Маршрут сотрудника / посетителя.
         /// </summary>
-        internal static string EmployeeRootReport {
+        public static string EmployeeRootReport {
             get {
                 return ResourceManager.GetString("EmployeeRootReport", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Местонахождение сотрудников / посетителей.
         /// </summary>
-        internal static string EmployeeZonesReport {
+        public static string EmployeeZonesReport {
             get {
                 return ResourceManager.GetString("EmployeeZonesReport", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по событиям системы контроля доступа.
         /// </summary>
-        internal static string EventsReport {
+        public static string EventsReport {
             get {
                 return ResourceManager.GetString("EventsReport", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Список должностей организации.
         /// </summary>
-        internal static string PositionsReport {
+        public static string PositionsReport {
             get {
                 return ResourceManager.GetString("PositionsReport", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отчет по графикам работы.
         /// </summary>
-        internal static string SchedulesReport {
+        public static string SchedulesReport {
             get {
                 return ResourceManager.GetString("SchedulesReport", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Справка по отработанному времени.
         /// </summary>
-        internal static string WorkingTimeReport {
+        public static string WorkingTimeReport {
             get {
                 return ResourceManager.GetString("WorkingTimeReport", resourceCulture);
             }

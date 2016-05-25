@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Settings {
+namespace StrazhAPI.Resources.Language.SKD.Settings {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ValidationErrorType {
+    public class ValidationErrorType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Settings.ValidationErrorType", typeof(ValidationErrorType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Settings.ValidationErrorType", typeof(ValidationErrorType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         /// <summary>
         ///   Looks up a localized string similar to Отсутствует логика срабатывания исполнительного устройства.
         /// </summary>
-        internal static string DeviceHaveNoLogic {
+        public static string DeviceHaveNoLogic {
             get {
                 return ResourceManager.GetString("DeviceHaveNoLogic", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         /// <summary>
         ///   Looks up a localized string similar to Устройство не подключено к зоне.
         /// </summary>
-        internal static string DeviceNotConnected {
+        public static string DeviceNotConnected {
             get {
                 return ResourceManager.GetString("DeviceNotConnected", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         /// <summary>
         ///   Looks up a localized string similar to Несвязанные элементы плана.
         /// </summary>
-        internal static string NotBoundedElements {
+        public static string NotBoundedElements {
             get {
                 return ResourceManager.GetString("NotBoundedElements", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.Settings {
         /// <summary>
         ///   Looks up a localized string similar to Количество подключенных к зоне датчиков.
         /// </summary>
-        internal static string ZoneSensorQuantity {
+        public static string ZoneSensorQuantity {
             get {
                 return ResourceManager.GetString("ZoneSensorQuantity", resourceCulture);
             }

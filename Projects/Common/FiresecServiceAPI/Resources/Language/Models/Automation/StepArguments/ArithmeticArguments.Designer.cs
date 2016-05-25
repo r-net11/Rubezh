@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
+namespace StrazhAPI.Resources.Language.Models.Automation.StepArguments {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ArithmeticArguments {
+    public class ArithmeticArguments {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,11 +36,10 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.StepArguments.ArithmeticArguments" +
-                            "", typeof(ArithmeticArguments).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.StepArguments.ArithmeticArguments", typeof(ArithmeticArguments).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Сложение.
         /// </summary>
-        internal static string Add {
+        public static string Add {
             get {
                 return ResourceManager.GetString("Add", resourceCulture);
             }
@@ -73,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to И.
         /// </summary>
-        internal static string And {
+        public static string And {
             get {
                 return ResourceManager.GetString("And", resourceCulture);
             }
@@ -82,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to дней.
         /// </summary>
-        internal static string Day {
+        public static string Day {
             get {
                 return ResourceManager.GetString("Day", resourceCulture);
             }
@@ -91,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Деление.
         /// </summary>
-        internal static string Div {
+        public static string Div {
             get {
                 return ResourceManager.GetString("Div", resourceCulture);
             }
@@ -100,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to часов.
         /// </summary>
-        internal static string Hour {
+        public static string Hour {
             get {
                 return ResourceManager.GetString("Hour", resourceCulture);
             }
@@ -109,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to минут.
         /// </summary>
-        internal static string Min {
+        public static string Min {
             get {
                 return ResourceManager.GetString("Min", resourceCulture);
             }
@@ -118,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Умножение.
         /// </summary>
-        internal static string Multi {
+        public static string Multi {
             get {
                 return ResourceManager.GetString("Multi", resourceCulture);
             }
@@ -127,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Или.
         /// </summary>
-        internal static string Or {
+        public static string Or {
             get {
                 return ResourceManager.GetString("Or", resourceCulture);
             }
@@ -136,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to секунд.
         /// </summary>
-        internal static string Sec {
+        public static string Sec {
             get {
                 return ResourceManager.GetString("Sec", resourceCulture);
             }
@@ -145,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Вычитание.
         /// </summary>
-        internal static string Sub {
+        public static string Sub {
             get {
                 return ResourceManager.GetString("Sub", resourceCulture);
             }

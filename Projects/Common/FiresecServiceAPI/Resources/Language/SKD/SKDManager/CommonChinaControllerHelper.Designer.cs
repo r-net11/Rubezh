@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.SKDManager {
+namespace StrazhAPI.Resources.Language.SKD.SKDManager {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CommonChinaControllerHelper {
+    public class CommonChinaControllerHelper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.SKDManager.CommonChinaControllerHelper", typeof(CommonChinaControllerHelper).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.SKDManager.CommonChinaControllerHelper", typeof(CommonChinaControllerHelper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Адрес.
         /// </summary>
-        internal static string AddressProperty_Caption {
+        public static string AddressProperty_Caption {
             get {
                 return ResourceManager.GetString("AddressProperty_Caption", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
-        internal static string AddressProperty_Name {
+        public static string AddressProperty_Name {
             get {
                 return ResourceManager.GetString("AddressProperty_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to 192.168.0.2.
         /// </summary>
-        internal static string AddressProperty_StringDefault {
+        public static string AddressProperty_StringDefault {
             get {
                 return ResourceManager.GetString("AddressProperty_StringDefault", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Шлюз по умолчанию.
         /// </summary>
-        internal static string GatewayProperty_Caption {
+        public static string GatewayProperty_Caption {
             get {
                 return ResourceManager.GetString("GatewayProperty_Caption", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Gateway.
         /// </summary>
-        internal static string GatewayProperty_Name {
+        public static string GatewayProperty_Name {
             get {
                 return ResourceManager.GetString("GatewayProperty_Name", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to 192.168.0.1.
         /// </summary>
-        internal static string GatewayProperty_StringDefault {
+        public static string GatewayProperty_StringDefault {
             get {
                 return ResourceManager.GetString("GatewayProperty_StringDefault", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Логин.
         /// </summary>
-        internal static string LoginProperty_Caption {
+        public static string LoginProperty_Caption {
             get {
                 return ResourceManager.GetString("LoginProperty_Caption", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        internal static string LoginProperty_Name {
+        public static string LoginProperty_Name {
             get {
                 return ResourceManager.GetString("LoginProperty_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to admin.
         /// </summary>
-        internal static string LoginProperty_StringDefault {
+        public static string LoginProperty_StringDefault {
             get {
                 return ResourceManager.GetString("LoginProperty_StringDefault", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Маска подсети.
         /// </summary>
-        internal static string MaskProperty_Caption {
+        public static string MaskProperty_Caption {
             get {
                 return ResourceManager.GetString("MaskProperty_Caption", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Mask.
         /// </summary>
-        internal static string MaskProperty_Name {
+        public static string MaskProperty_Name {
             get {
                 return ResourceManager.GetString("MaskProperty_Name", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to 255.255.255.0.
         /// </summary>
-        internal static string MaskProperty_StringDefault {
+        public static string MaskProperty_StringDefault {
             get {
                 return ResourceManager.GetString("MaskProperty_StringDefault", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Пароль.
         /// </summary>
-        internal static string PasswordProperty_Caption {
+        public static string PasswordProperty_Caption {
             get {
                 return ResourceManager.GetString("PasswordProperty_Caption", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        internal static string PasswordProperty_Name {
+        public static string PasswordProperty_Name {
             get {
                 return ResourceManager.GetString("PasswordProperty_Name", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to 123456.
         /// </summary>
-        internal static string PasswordProperty_StringDefault {
+        public static string PasswordProperty_StringDefault {
             get {
                 return ResourceManager.GetString("PasswordProperty_StringDefault", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Порт.
         /// </summary>
-        internal static string PortProperty_Caption {
+        public static string PortProperty_Caption {
             get {
                 return ResourceManager.GetString("PortProperty_Caption", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace FiresecAPI.Resources.Language.SKD.SKDManager {
         /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
-        internal static string PortProperty_Name {
+        public static string PortProperty_Name {
             get {
                 return ResourceManager.GetString("PortProperty_Name", resourceCulture);
             }

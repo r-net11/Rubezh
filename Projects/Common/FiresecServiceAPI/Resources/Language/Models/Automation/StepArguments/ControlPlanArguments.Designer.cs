@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
+namespace StrazhAPI.Resources.Language.Models.Automation.StepArguments {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ControlPlanArguments {
+    public class ControlPlanArguments {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,11 +36,11 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.StepArguments.ControlPlanArgument" +
-                            "s", typeof(ControlPlanArguments).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.StepArguments.ControlPlanArguments" +
+                            "", typeof(ControlPlanArguments).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +52,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +64,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Цвет фона.
         /// </summary>
-        internal static string BackColor {
+        public static string BackColor {
             get {
                 return ResourceManager.GetString("BackColor", resourceCulture);
             }
@@ -73,7 +73,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Толщина границы.
         /// </summary>
-        internal static string BorderThickness {
+        public static string BorderThickness {
             get {
                 return ResourceManager.GetString("BorderThickness", resourceCulture);
             }
@@ -82,7 +82,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Цвет.
         /// </summary>
-        internal static string Color {
+        public static string Color {
             get {
                 return ResourceManager.GetString("Color", resourceCulture);
             }
@@ -91,7 +91,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Жирный.
         /// </summary>
-        internal static string FontBold {
+        public static string FontBold {
             get {
                 return ResourceManager.GetString("FontBold", resourceCulture);
             }
@@ -100,7 +100,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Курсив.
         /// </summary>
-        internal static string FontItalic {
+        public static string FontItalic {
             get {
                 return ResourceManager.GetString("FontItalic", resourceCulture);
             }
@@ -109,7 +109,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Размер текста.
         /// </summary>
-        internal static string FontSize {
+        public static string FontSize {
             get {
                 return ResourceManager.GetString("FontSize", resourceCulture);
             }
@@ -118,7 +118,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Цвет текста.
         /// </summary>
-        internal static string ForegroundColor {
+        public static string ForegroundColor {
             get {
                 return ResourceManager.GetString("ForegroundColor", resourceCulture);
             }
@@ -127,7 +127,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Высота.
         /// </summary>
-        internal static string Height {
+        public static string Height {
             get {
                 return ResourceManager.GetString("Height", resourceCulture);
             }
@@ -136,7 +136,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Отступ слева.
         /// </summary>
-        internal static string Left {
+        public static string Left {
             get {
                 return ResourceManager.GetString("Left", resourceCulture);
             }
@@ -145,7 +145,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Растягивать.
         /// </summary>
-        internal static string Stretch {
+        public static string Stretch {
             get {
                 return ResourceManager.GetString("Stretch", resourceCulture);
             }
@@ -154,7 +154,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Текст.
         /// </summary>
-        internal static string Text {
+        public static string Text {
             get {
                 return ResourceManager.GetString("Text", resourceCulture);
             }
@@ -163,7 +163,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Отступ сверху.
         /// </summary>
-        internal static string Top {
+        public static string Top {
             get {
                 return ResourceManager.GetString("Top", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Ширина.
         /// </summary>
-        internal static string Width {
+        public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
             }
@@ -181,7 +181,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation.StepArguments {
         /// <summary>
         ///   Looks up a localized string similar to Переносить.
         /// </summary>
-        internal static string WordWrap {
+        public static string WordWrap {
             get {
                 return ResourceManager.GetString("WordWrap", resourceCulture);
             }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.Device {
+namespace StrazhAPI.Resources.Language.SKD.Device {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.Device.SKDDeviceSearchInfo", typeof(SKDDeviceSearchInfo).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.Device.SKDDeviceSearchInfo", typeof(SKDDeviceSearchInfo).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

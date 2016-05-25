@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Models.Automation {
+namespace StrazhAPI.Resources.Language.Models.Automation {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EnumType {
+    public class EnumType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Models.Automation.EnumType", typeof(EnumType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Models.Automation.EnumType", typeof(EnumType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Режим доступа.
         /// </summary>
-        internal static string AccessState {
+        public static string AccessState {
             get {
                 return ResourceManager.GetString("AccessState", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Статус по взлому.
         /// </summary>
-        internal static string BreakInStatus {
+        public static string BreakInStatus {
             get {
                 return ResourceManager.GetString("BreakInStatus", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Тип пропуска.
         /// </summary>
-        internal static string CardType {
+        public static string CardType {
             get {
                 return ResourceManager.GetString("CardType", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Цвет.
         /// </summary>
-        internal static string ColorType {
+        public static string ColorType {
             get {
                 return ResourceManager.GetString("ColorType", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Статус соединения.
         /// </summary>
-        internal static string ConnectionStatus {
+        public static string ConnectionStatus {
             get {
                 return ResourceManager.GetString("ConnectionStatus", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Статус двери.
         /// </summary>
-        internal static string DoorStatus {
+        public static string DoorStatus {
             get {
                 return ResourceManager.GetString("DoorStatus", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Тип устройства.
         /// </summary>
-        internal static string DriverType {
+        public static string DriverType {
             get {
                 return ResourceManager.GetString("DriverType", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Уточнение.
         /// </summary>
-        internal static string JournalEventDescriptionType {
+        public static string JournalEventDescriptionType {
             get {
                 return ResourceManager.GetString("JournalEventDescriptionType", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Название события.
         /// </summary>
-        internal static string JournalEventNameType {
+        public static string JournalEventNameType {
             get {
                 return ResourceManager.GetString("JournalEventNameType", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Тип объекта.
         /// </summary>
-        internal static string JournalObjectType {
+        public static string JournalObjectType {
             get {
                 return ResourceManager.GetString("JournalObjectType", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Права пользователя.
         /// </summary>
-        internal static string PermissionType {
+        public static string PermissionType {
             get {
                 return ResourceManager.GetString("PermissionType", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.Models.Automation {
         /// <summary>
         ///   Looks up a localized string similar to Состояние.
         /// </summary>
-        internal static string StateType {
+        public static string StateType {
             get {
                 return ResourceManager.GetString("StateType", resourceCulture);
             }

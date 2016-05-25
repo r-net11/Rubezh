@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Journal {
+namespace StrazhAPI.Resources.Language.Journal {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Journal {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class JournalErrorCode {
+    public class JournalErrorCode {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Journal.JournalErrorCode", typeof(JournalErrorCode).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Journal.JournalErrorCode", typeof(JournalErrorCode).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Открыта другая дверь шлюза.
         /// </summary>
-        internal static string AbInterlockStatus {
+        public static string AbInterlockStatus {
             get {
                 return ResourceManager.GetString("AbInterlockStatus", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Повторный проход в зону.
         /// </summary>
-        internal static string AntipassBack {
+        public static string AntipassBack {
             get {
                 return ResourceManager.GetString("AntipassBack", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Неверный пароль пропуска.
         /// </summary>
-        internal static string CardCorrectInputPasswordError {
+        public static string CardCorrectInputPasswordError {
             get {
                 return ResourceManager.GetString("CardCorrectInputPasswordError", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Пропуск заблокирован.
         /// </summary>
-        internal static string CardLostOrCancelled {
+        public static string CardLostOrCancelled {
             get {
                 return ResourceManager.GetString("CardLostOrCancelled", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to &quot;Замок в состоянии &apos;Взлом&apos;.
         /// </summary>
-        internal static string DeviceIsUnderIntrusionAlam {
+        public static string DeviceIsUnderIntrusionAlam {
             get {
                 return ResourceManager.GetString("DeviceIsUnderIntrusionAlam", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Замок в режиме &apos;Закрыто&apos;.
         /// </summary>
-        internal static string DoorNcStatus {
+        public static string DoorNcStatus {
             get {
                 return ResourceManager.GetString("DoorNcStatus", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Настройки замка не поддерживает пропуск &apos;Принуждение&apos;.
         /// </summary>
-        internal static string IntimidationAlarmNotOn {
+        public static string IntimidationAlarmNotOn {
             get {
                 return ResourceManager.GetString("IntimidationAlarmNotOn", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Нет ошибки.
         /// </summary>
-        internal static string None {
+        public static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Нет прав доступа.
         /// </summary>
-        internal static string NoRight {
+        public static string NoRight {
             get {
                 return ResourceManager.GetString("NoRight", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Нарушение графика доступа.
         /// </summary>
-        internal static string PeriodError {
+        public static string PeriodError {
             get {
                 return ResourceManager.GetString("PeriodError", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Неверный идентификатор.
         /// </summary>
-        internal static string Unauthorized {
+        public static string Unauthorized {
             get {
                 return ResourceManager.GetString("Unauthorized", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Неверный метод открытия замка.
         /// </summary>
-        internal static string UnlockModeError {
+        public static string UnlockModeError {
             get {
                 return ResourceManager.GetString("UnlockModeError", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Срок действия пропуска истек или не наступил.
         /// </summary>
-        internal static string ValidityError {
+        public static string ValidityError {
             get {
                 return ResourceManager.GetString("ValidityError", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FiresecAPI.Resources.Language.Journal {
         /// <summary>
         ///   Looks up a localized string similar to Ожидание подтверждения прохода.
         /// </summary>
-        internal static string VerificationPassedControlNotAuthorized {
+        public static string VerificationPassedControlNotAuthorized {
             get {
                 return ResourceManager.GetString("VerificationPassedControlNotAuthorized", resourceCulture);
             }

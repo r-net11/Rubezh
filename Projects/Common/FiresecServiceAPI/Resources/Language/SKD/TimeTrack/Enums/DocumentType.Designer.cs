@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
+namespace StrazhAPI.Resources.Language.SKD.TimeTrack.Enums {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DocumentType {
+    public class DocumentType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.SKD.TimeTrack.Enums.DocumentType", typeof(DocumentType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.SKD.TimeTrack.Enums.DocumentType", typeof(DocumentType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отсутствие по неуважительной причине.
         /// </summary>
-        internal static string Absence {
+        public static string Absence {
             get {
                 return ResourceManager.GetString("Absence", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отсутствие по уважительной причине.
         /// </summary>
-        internal static string AbsenceReasonable {
+        public static string AbsenceReasonable {
             get {
                 return ResourceManager.GetString("AbsenceReasonable", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Переработка.
         /// </summary>
-        internal static string Overtime {
+        public static string Overtime {
             get {
                 return ResourceManager.GetString("Overtime", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.SKD.TimeTrack.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Присутствие.
         /// </summary>
-        internal static string Presence {
+        public static string Presence {
             get {
                 return ResourceManager.GetString("Presence", resourceCulture);
             }

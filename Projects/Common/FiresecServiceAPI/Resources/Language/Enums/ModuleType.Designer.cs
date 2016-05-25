@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecAPI.Resources.Language.Enums {
+namespace StrazhAPI.Resources.Language.Enums {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace FiresecAPI.Resources.Language.Enums {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ModuleType {
+    public class ModuleType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace FiresecAPI.Resources.Language.Enums {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecAPI.Resources.Language.Enums.ModuleType", typeof(ModuleType).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhAPI.Resources.Language.Enums.ModuleType", typeof(ModuleType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Администратор.
         /// </summary>
-        internal static string Administrator {
+        public static string Administrator {
             get {
                 return ResourceManager.GetString("Administrator", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Состояния.
         /// </summary>
-        internal static string Alarm {
+        public static string Alarm {
             get {
                 return ResourceManager.GetString("Alarm", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Автоматизация.
         /// </summary>
-        internal static string Automation {
+        public static string Automation {
             get {
                 return ResourceManager.GetString("Automation", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Устройства, Зоны&quot;.
         /// </summary>
-        internal static string Devices {
+        public static string Devices {
             get {
                 return ResourceManager.GetString("Devices", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Фильтры журнала событий.
         /// </summary>
-        internal static string Filters {
+        public static string Filters {
             get {
                 return ResourceManager.GetString("Filters", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Журнал событий и Архив.
         /// </summary>
-        internal static string Journal {
+        public static string Journal {
             get {
                 return ResourceManager.GetString("Journal", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Конфигуратор макетов ОЗ.
         /// </summary>
-        internal static string Layout {
+        public static string Layout {
             get {
                 return ResourceManager.GetString("Layout", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Библиотека устройств.
         /// </summary>
-        internal static string Library {
+        public static string Library {
             get {
                 return ResourceManager.GetString("Library", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Монитор.
         /// </summary>
-        internal static string Monitor {
+        public static string Monitor {
             get {
                 return ResourceManager.GetString("Monitor", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Уведомления.
         /// </summary>
-        internal static string Notification {
+        public static string Notification {
             get {
                 return ResourceManager.GetString("Notification", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Графические планы.
         /// </summary>
-        internal static string Plans {
+        public static string Plans {
             get {
                 return ResourceManager.GetString("Plans", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Отчёты.
         /// </summary>
-        internal static string Reports {
+        public static string Reports {
             get {
                 return ResourceManager.GetString("Reports", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Права доступа.
         /// </summary>
-        internal static string Security {
+        public static string Security {
             get {
                 return ResourceManager.GetString("Security", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Настройки.
         /// </summary>
-        internal static string Settings {
+        public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to СКД.
         /// </summary>
-        internal static string SKD {
+        public static string SKD {
             get {
                 return ResourceManager.GetString("SKD", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Звуки.
         /// </summary>
-        internal static string Sounds {
+        public static string Sounds {
             get {
                 return ResourceManager.GetString("Sounds", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Страж.
         /// </summary>
-        internal static string Strazh {
+        public static string Strazh {
             get {
                 return ResourceManager.GetString("Strazh", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace FiresecAPI.Resources.Language.Enums {
         /// <summary>
         ///   Looks up a localized string similar to Видео.
         /// </summary>
-        internal static string Video {
+        public static string Video {
             get {
                 return ResourceManager.GetString("Video", resourceCulture);
             }
