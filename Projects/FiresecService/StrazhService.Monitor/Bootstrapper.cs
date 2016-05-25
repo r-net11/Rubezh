@@ -59,15 +59,11 @@ namespace StrazhService.Monitor
 				_windowThread.Start(licenseManager);
 				_mainViewStartedEvent.WaitOne();
 
-				var localSerices = ServiceController.GetServices();
-				if (localSerices.Any(x => x.ServiceName == "StrazhService"))
-				{
-					ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged -= WindowsServiceStatusMonitorOnStatusChanged;
-					ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitorOnStatusChanged;
+				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged -= WindowsServiceStatusMonitorOnStatusChanged;
+				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitorOnStatusChanged;
 
-					ServiceRepository.Instance.WindowsServiceStatusMonitor.Start();
-				}
-				
+				if (!ServiceRepository.Instance.WindowsServiceStatusMonitor.Start())
+					MessageBoxService.ShowWarning("Служба \"Сервер приложений A.C.Tech\" не обнаружена.\nДля управления службой установите ее и перезапустите монитор сервера");
 			}
 			catch (Exception e)
 			{
@@ -154,9 +150,10 @@ namespace StrazhService.Monitor
 
 		public void Close()
 		{
+			// Останавливаем слежение за Windows-службой "StrazhService"
 			ServiceRepository.Instance.WindowsServiceStatusMonitor.Stop();
 
-			Logger.Info("Разрегистрируемся на Сервере и прекращаем прием сообщений от Сервера ");
+			// Разрегистрируемся на Сервере и прекращаем прием сообщений от него
 			FiresecManager.Disconnect();
 			
 			if (_windowThread != null)
@@ -165,11 +162,6 @@ namespace StrazhService.Monitor
 				_windowThread = null;
 			}
 			Environment.Exit(1);
-
-#if DEBUG
-			return;
-#endif
-			Process.GetCurrentProcess().Kill();
 		}
 	}
 }

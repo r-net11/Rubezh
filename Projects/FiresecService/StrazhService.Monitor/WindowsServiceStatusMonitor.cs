@@ -30,20 +30,26 @@ namespace StrazhService.Monitor
 
 		public bool Start()
 		{
-			_cancellationTokenSource = new CancellationTokenSource();
-
 			var localServices = ServiceController.GetServices();
 			if (localServices.All(x => x.ServiceName != serviceName))
+			{
+				Logger.Info(string.Format("Служба '{0}' не обнаружена", serviceName));
 				return IsStarted;
-			
+			}
+
+			Logger.Info(string.Format("Служба '{0}' обнаружена", serviceName));
 			IsStarted = true;
 			Logger.Info(string.Format("Начинаем слежение за службой '{0}'", serviceName));
+			_cancellationTokenSource = new CancellationTokenSource();
 			Task.Factory.StartNew(() => ForegroundWork(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
 			return IsStarted;
 		}
 
 		public void Stop()
 		{
+			if (_cancellationTokenSource == null)
+				return;
+
 			Logger.Info(string.Format("Останавливаем слежение за статусом службы '{0}'", serviceName));
 			_cancellationTokenSource.Cancel();
 		}
