@@ -154,6 +154,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Automation\Enums\FiresecCommandType.cs" />
     <Compile Include="Enums\GuardZoneType.cs" />
     <Compile Include="Enums\LicenseStatus.cs" />
     <Compile Include="Automation\Enums\AccessState.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Integration.OPC\OPCSettings.cs" />
     <Compile Include="Integration.OPC\OPCZone.cs" />
+    <Compile Include="Integration.OPC\Script.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalErrorCode.cs" />
@@ -188,6 +190,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ExecuteFireSecScriptArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GenerateGuidArguments.cs" />

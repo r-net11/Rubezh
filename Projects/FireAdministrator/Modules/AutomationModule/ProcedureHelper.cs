@@ -378,6 +378,8 @@ namespace AutomationModule
 				case ProcedureStepType.ControlSKDZone:
 				case ProcedureStepType.ControlSKDDevice:
 				case ProcedureStepType.ControlDoor:
+				case ProcedureStepType.SendOPCScript:
+				case ProcedureStepType.ExecuteFiresecScript:
 					return "/Controls;component/StepIcons/Control.png";
 				case ProcedureStepType.ExportReport:
 				case ProcedureStepType.ExportOrganisationList:

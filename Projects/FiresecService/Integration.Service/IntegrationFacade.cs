@@ -1,4 +1,5 @@
 ﻿using Integration.Service.OPCIntegration;
+using StrazhAPI.Automation.Enums;
 using StrazhAPI.Integration.OPC;
 using StrazhAPI.SKD;
 using System;
@@ -41,6 +42,16 @@ namespace Integration.Service
 		public void UnsetGuard(int no)
 		{
 			_opcIntegrationService.UnsetGuard(no);
+		}
+
+		public List<Script> GetFiresecScripts()
+		{
+			return _opcIntegrationService.GetFiresecScripts();
+		}
+
+		public bool ExecuteFiresecScript(Script script, FiresecCommandType type)
+		{
+			return _opcIntegrationService.ExecuteFiresecScript(script, type);
 		}
 	}
 }

@@ -4,6 +4,7 @@ using Common;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
+using StrazhAPI.Integration.OPC;
 using StrazhAPI.Models.Automation;
 
 namespace FiresecClient
@@ -36,6 +37,11 @@ namespace FiresecClient
 		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
 		{
 			return SafeContext.Execute(() => FiresecService.GetInitialGlobalVariables());
+		}
+
+		public OperationResult<List<Script>> GetFiresecScripts()
+		{
+			return SafeContext.Execute(() => FiresecService.GetFiresecScripts());
 		}
 	}
 }

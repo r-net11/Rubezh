@@ -167,6 +167,12 @@ namespace StrazhAPI.Automation
 		GetDoorProperty,
 
 		[Description("Получение свойства зоны СКД")]
-		GetSkdZoneProperty
+		GetSkdZoneProperty,
+
+		[Description("Вызов сценария FireSec")]
+		ExecuteFiresecScript,
+
+		[Description("Отправить команду")]
+		SendOPCScript
 	}
 }

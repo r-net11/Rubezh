@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.Windows.Media;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
+using StrazhAPI.Integration.OPC;
 using StrazhAPI.Models.Automation;
 
 namespace StrazhAPI
@@ -40,5 +41,8 @@ namespace StrazhAPI
 
 		[OperationContract]
 		OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables);
+
+		[OperationContract]
+		OperationResult<List<Script>> GetFiresecScripts();
 	}
 }

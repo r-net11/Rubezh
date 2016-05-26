@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using StrazhAPI;
+using StrazhAPI.Automation.Enums;
 using StrazhAPI.Integration.OPC;
 
 namespace FiresecService.Service
@@ -30,6 +31,11 @@ namespace FiresecService.Service
 		{
 			_integrationService.UnsetGuard(no);
 			return new OperationResult();
+		}
+
+		public OperationResult<bool> ExecuteFiresecScript(Script script, FiresecCommandType type)
+		{
+			return new OperationResult<bool>(_integrationService.ExecuteFiresecScript(script, type));
 		}
 	}
 }

@@ -59,16 +59,13 @@ namespace FiresecService
 			Task.Factory.StartNew(() => RunInThread(arguments))
 				.ContinueWith(t =>
 				{
-					//FiresecServiceManager.SafeFiresecService.SaveGlobalVariables(AllVariables);
 					FiresecServiceManager.SafeFiresecService.SaveEditedGlobalVariables(AllVariables.OfType<GlobalVariable>());
-				}
-				);
+				});
 		}
 
 		public void Start()
 		{
 			StartTime = DateTime.Now;
-			//Thread.Start();
 		}
 
 		private bool _isTimeOut;
@@ -374,9 +371,11 @@ namespace FiresecService
 				case ProcedureStepType.RviAlarm:
 					RviAlarm(procedureStep);
 					break;
+
 				case ProcedureStepType.ExportReport:
 					ExportReport(procedureStep);
 					break;
+
 				case ProcedureStepType.GetDateTimeNow:
 					GetDateTimeNowStep(procedureStep);
 					break;
@@ -394,6 +393,10 @@ namespace FiresecService
 				// Получение свойства зоны СКД
 				case ProcedureStepType.GetSkdZoneProperty:
 					GetSkdZoneProperty(procedureStep);
+					break;
+
+				case ProcedureStepType.ExecuteFiresecScript:
+					ExecuteFiresecScript(procedureStep);
 					break;
 			}
 			return Result.Normal;

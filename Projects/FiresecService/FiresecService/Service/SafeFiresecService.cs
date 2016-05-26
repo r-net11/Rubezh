@@ -4,6 +4,7 @@ using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
 using StrazhAPI.Enums;
+using StrazhAPI.Integration.OPC;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using System;
@@ -224,6 +225,11 @@ namespace FiresecService.Service
 		public OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables()
 		{
 			return SafeOperationCall(() => FiresecService.GetCurrentGlobalVariables(), "GetCurrentGlobalVariables");
+		}
+
+		public OperationResult<List<Script>> GetFiresecScripts()
+		{
+			return SafeOperationCall(() => FiresecService.GetFiresecScripts(), "GetFiresecScripts");
 		}
 
 		public OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables)

@@ -1353,5 +1353,11 @@ namespace FiresecService
 
 			return null;
 		}
+
+		private static void ExecuteFiresecScript(ProcedureStep step)
+		{
+			if (step != null && step.ExecuteFireSecScriptArguments != null)
+				FiresecServiceManager.SafeFiresecService.ExecuteFiresecScript(step.ExecuteFireSecScriptArguments.CurrentScript, step.ExecuteFireSecScriptArguments.CommandType);
+		}
 	}
 }

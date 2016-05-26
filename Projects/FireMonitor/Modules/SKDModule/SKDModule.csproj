@@ -427,9 +427,6 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrack.cs" />
-    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\BisyIndicator.xaml.cs">
-      <DependentUpon>BisyIndicator.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ForceClosingQuestionDialogWindowView.xaml.cs">
       <DependentUpon>ForceClosingQuestionDialogWindowView.xaml</DependentUpon>
     </Compile>
@@ -913,10 +910,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\BisyIndicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -70,6 +70,24 @@ namespace AutomationModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора сценария.
+        /// </summary>
+        internal static string PressToSelectOPCScenarioText {
+            get {
+                return ResourceManager.GetString("PressToSelectOPCScenarioText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
+        /// </summary>
+        internal static string ScenarioInfoText {
+            get {
+                return ResourceManager.GetString("ScenarioInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Переменная с таким именем уже существует..
         /// </summary>
         internal static string VariableExistError {

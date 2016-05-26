@@ -87,7 +87,7 @@ namespace FiresecService.Report.Export
 			return result + EnumHelper.GetEnumDescription(filter.ReportFormat).Replace("*", string.Empty);
 		}
 
-		private void ExportReport(XtraReport report, ReportFormatEnum reportFormat, string path)
+		private static void ExportReport(XtraReport report, ReportFormatEnum reportFormat, string path)
 		{
 			try
 			{

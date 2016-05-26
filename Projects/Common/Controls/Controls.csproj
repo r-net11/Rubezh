@@ -146,6 +146,9 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\XStateClassToSKDStringConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
+    <Compile Include="CustomControls\BisyIndicator.xaml.cs">
+      <DependentUpon>BisyIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FeaturedComboBox.cs" />
     <Compile Include="FeaturedComboboxItem.cs" />
     <Compile Include="IsDeletedTextBlock.xaml.cs">
@@ -294,6 +297,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CustomControls\BisyIndicator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="IsDeletedTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
