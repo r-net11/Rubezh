@@ -4,12 +4,10 @@ using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using StrazhModule.Events;
-using StrazhModule.Plans.Designer;
 using StrazhModule.ViewModels;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace StrazhModule.Plans.ViewModels
 {

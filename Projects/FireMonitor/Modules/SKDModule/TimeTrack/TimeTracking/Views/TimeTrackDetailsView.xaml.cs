@@ -8,8 +8,8 @@ using System.Windows.Shapes;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using SKDModule.ViewModels;
-using SKDModule.Converters;
-using FiresecClient;
+using WindowsColor = System.Windows.Media.Color;
+using WindowsColors = System.Windows.Media.Colors;
 
 namespace SKDModule.Views
 {
@@ -26,7 +26,7 @@ namespace SKDModule.Views
 			public double Delta { get; set; }
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
-			public Color Color { get; set; }
+			public WindowsColor Color { get; set; }
 			public TimeTrackType TimeTrackType { get; set; }
 		}
 
@@ -177,7 +177,7 @@ namespace SKDModule.Views
 						{
 							ToolTip = timePart.Tooltip,
 							Fill = GetRectangleColorFromType(timePart.TimeTrackType),
-							Stroke = new SolidColorBrush(Colors.Black)
+							Stroke = new SolidColorBrush(WindowsColors.Black)
 						};
 						Grid.SetRow(rectangle, 0);
 						Grid.SetColumn(rectangle, i);
@@ -196,7 +196,7 @@ namespace SKDModule.Views
 				var timeTextBlock = new TextBlock
 				{
 					Text = i.ToString(),
-					Foreground = new SolidColorBrush(Colors.Black),
+					Foreground = new SolidColorBrush(WindowsColors.Black),
 					HorizontalAlignment = HorizontalAlignment.Center
 				};
 				Grid.SetRow(timeTextBlock, 0);
@@ -211,49 +211,49 @@ namespace SKDModule.Views
 			switch (timeTrackType)
 			{
 				case TimeTrackType.None:
-					return new SolidColorBrush(Colors.Gray);
+					return new SolidColorBrush(WindowsColors.Gray);
 
 				case TimeTrackType.Balance:
-					return new SolidColorBrush(Colors.Gray);
+					return new SolidColorBrush(WindowsColors.Gray);
 
 				case TimeTrackType.Presence:
-					return new SolidColorBrush(Colors.Green);
+					return new SolidColorBrush(WindowsColors.Green);
 
 				case TimeTrackType.Absence:
-					return new SolidColorBrush(Colors.Red);
+					return new SolidColorBrush(WindowsColors.Red);
 
 				case TimeTrackType.Late:
-					return new SolidColorBrush(Colors.SkyBlue);
+					return new SolidColorBrush(WindowsColors.SkyBlue);
 
 				case TimeTrackType.EarlyLeave:
-					return new SolidColorBrush(Colors.LightBlue);
+					return new SolidColorBrush(WindowsColors.LightBlue);
 
 				case TimeTrackType.Overtime:
-					return new SolidColorBrush(Colors.Yellow);
+					return new SolidColorBrush(WindowsColors.Yellow);
 
 				case TimeTrackType.Night:
-					return new SolidColorBrush(Colors.YellowGreen);
+					return new SolidColorBrush(WindowsColors.YellowGreen);
 
 				case TimeTrackType.DayOff:
-					return new SolidColorBrush(Colors.LightGray);
+					return new SolidColorBrush(WindowsColors.LightGray);
 
 				case TimeTrackType.Holiday:
-					return new SolidColorBrush(Colors.DarkGray);
+					return new SolidColorBrush(WindowsColors.DarkGray);
 
 				case TimeTrackType.DocumentOvertime:
-					return new SolidColorBrush(Colors.LightYellow);
+					return new SolidColorBrush(WindowsColors.LightYellow);
 
 				case TimeTrackType.DocumentPresence:
-					return new SolidColorBrush(Colors.LightGreen);
+					return new SolidColorBrush(WindowsColors.LightGreen);
 
 				case TimeTrackType.DocumentAbsence:
-					return new SolidColorBrush(Colors.IndianRed);
+					return new SolidColorBrush(WindowsColors.IndianRed);
 
 				case TimeTrackType.DocumentAbsenceReasonable:
-					return new SolidColorBrush(Colors.LightPink);
+					return new SolidColorBrush(WindowsColors.LightPink);
 			}
 
-			return new SolidColorBrush(Colors.Green);
+			return new SolidColorBrush(WindowsColors.Green);
 		}
 	}
 }

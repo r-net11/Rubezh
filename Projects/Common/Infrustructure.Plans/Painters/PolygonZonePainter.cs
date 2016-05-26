@@ -1,5 +1,5 @@
 ﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters

@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="StrazhService.Monitor.Views.ServiceStateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:converters="clr-namespace:StrazhService.Monitor.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<converters:ServiceStateToColorNameConverter x:Key="ServiceStateToColorNameConverter"/>
+			<converters:ServiceStateToStringConverter x:Key="ServiceStateToStringConverter"/>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Path
+		Stroke="White"
+		StrokeThickness="2"
+		Fill="{Binding ServiceState, Converter={StaticResource ServiceStateToColorNameConverter}}"
+		Stretch="Uniform"
+		Width="20"
+		Height="20"
+		ToolTip="{Binding ServiceState, Converter={StaticResource ServiceStateToStringConverter}}">
+		<Path.Data>
+			<EllipseGeometry RadiusX="25" RadiusY="25" Center="25,25"/>
+		</Path.Data>
+	</Path>
+</UserControl>

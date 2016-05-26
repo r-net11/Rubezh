@@ -1,11 +1,10 @@
 ﻿using StrazhAPI.Models;
-using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using AutomationModule.ViewModels;
 using StrazhAPI.Automation;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using AutomationModule.Plans.ViewModels;
 
 namespace AutomationModule.Plans.InstrumentAdorners

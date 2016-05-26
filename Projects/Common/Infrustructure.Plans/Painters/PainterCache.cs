@@ -1,11 +1,16 @@
 ﻿using Common;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans;
+using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = StrazhAPI.Color;
+using Colors = StrazhAPI.Colors;
+using WindowsColor = System.Windows.Media.Color;
+using WindowsColors = System.Windows.Media.Colors;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -36,13 +41,13 @@ namespace Infrustructure.Plans.Painters
 			UseTransparentImage = true;
 			try
 			{
-				TransparentBrush = new SolidColorBrush(Colors.Transparent);
+				TransparentBrush = new SolidColorBrush(WindowsColors.Transparent);
 				TransparentBrush.Freeze();
-				BlackBrush = new SolidColorBrush(Colors.Black);
+				BlackBrush = new SolidColorBrush(WindowsColors.Black);
 				BlackBrush.Freeze();
-				WhiteBrush = new SolidColorBrush(Colors.White);
+				WhiteBrush = new SolidColorBrush(WindowsColors.White);
 				WhiteBrush.Freeze();
-				GridLineBrush = new SolidColorBrush(Colors.Orange);
+				GridLineBrush = new SolidColorBrush(WindowsColors.Orange);
 				GridLineBrush.Freeze();
 			}
 			catch (Exception e)
@@ -78,7 +83,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (!_brushes.ContainsKey(color))
 			{
-				var brush = new SolidColorBrush(color);
+				var brush = new SolidColorBrush(color.ToWindowsColor());
 				brush.Freeze();
 				_brushes.Add(color, brush);
 			}
@@ -119,13 +124,21 @@ namespace Infrustructure.Plans.Painters
 			{
 				case ResourceType.Drawing:
 					var drawing = _drawingFactory(guid);
-					drawing.Freeze();
-					brush = new DrawingBrush(drawing);
+					if (drawing != null)
+					{
+						drawing.Freeze();
+						brush = new DrawingBrush(drawing);
+					}
+					else
+						brush = new SolidColorBrush(WindowsColor.FromRgb(255, 255, 255));
 					break;
 
 				case ResourceType.Visual:
 					var visual = _visualFactory(guid);
-					brush = new VisualBrush(visual);
+					if (visual != null)
+						brush = new VisualBrush(visual);
+					else
+						brush = new SolidColorBrush(WindowsColor.FromRgb(255, 255, 255));
 					break;
 
 				case ResourceType.Image:

@@ -8,7 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Microsoft.Win32;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels

@@ -1,9 +1,9 @@
 ﻿using StrazhAPI.Models;
-using FiresecService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using StrazhService;
 
 namespace FiresecService.Service
 {
@@ -29,7 +29,7 @@ namespace FiresecService.Service
 			clientInfo.ClientCredentials = clientCredentials;
 			ClientInfos.Add(clientInfo);
 
-			MainViewModel.Current.AddClient(clientCredentials);
+			Notifier.AddClient(clientCredentials);
 			return result;
 		}
 
@@ -37,7 +37,7 @@ namespace FiresecService.Service
 		{
 			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
 			ClientInfos.Remove(clientInfo);
-			MainViewModel.Current.RemoveClient(uid);
+			Notifier.RemoveClient(uid);
 		}
 
 		public static ClientInfo GetClientInfo(Guid uid)

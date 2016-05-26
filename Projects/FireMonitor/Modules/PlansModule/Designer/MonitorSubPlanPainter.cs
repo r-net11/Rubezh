@@ -5,11 +5,13 @@ using System.Windows.Media;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
 using Infrastructure;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
+using Color = StrazhAPI.Color;
+using Colors = StrazhAPI.Colors;
 
 namespace PlansModule.Designer
 {

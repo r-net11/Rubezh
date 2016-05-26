@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
-using Infrustructure.Plans.Devices;
+using StrazhAPI.Plans.Devices;
 
 namespace DeviceControls
 {

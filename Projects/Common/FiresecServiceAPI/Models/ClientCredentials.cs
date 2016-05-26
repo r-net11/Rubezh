@@ -18,17 +18,20 @@ namespace StrazhAPI.Models
 		[DataMember]
 		public Guid ClientUID { get; set; }
 
+		[DataMember]
 		public string FriendlyUserName { get; set; }
 
+		[DataMember]
 		public string ClientIpAddress { get; set; }
 
+		[DataMember]
 		public string ClientIpAddressAndPort { get; set; }
 
 		public string UniqueId
 		{
 			get
 			{
-				return ClientType.ToString() + "." + (ClientIpAddress == null ? "" : ClientIpAddress);
+				return string.Format("{0}.{1}", ClientType, ClientIpAddress ?? "");
 			}
 		}
 	}

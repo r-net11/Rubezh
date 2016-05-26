@@ -25,7 +25,6 @@
 							<EventTrigger RoutedEvent="DockPanel.MouseEnter">
 								<BeginStoryboard>
 									<Storyboard>
-										<!--  Цвет взят из StrazhTheme.xaml => PressedBackgroundBrush  -->
 										<ColorAnimation
 											Duration="0:0:0.2"
 											Storyboard.TargetProperty="Background.Color"

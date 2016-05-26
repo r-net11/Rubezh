@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using StrazhAPI.Plans.Elements;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using System.Xml.Serialization;
@@ -84,7 +84,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.TextBlock; }
+			get { return StrazhAPI.Plans.Elements.Primitive.TextBlock; }
 		}
 
 		#endregion IPrimitive Members

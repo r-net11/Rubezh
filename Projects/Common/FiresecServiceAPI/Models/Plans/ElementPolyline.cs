@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using StrazhAPI.Plans.Elements;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.Polyline; }
+			get { return StrazhAPI.Plans.Elements.Primitive.Polyline; }
 		}
 
 		#endregion IPrimitive Members

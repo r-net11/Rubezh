@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using StrazhAPI;
+﻿using StrazhAPI;
 using StrazhAPI.SKD;
 using ReactiveUI;
 using SKDModule.Helpers;

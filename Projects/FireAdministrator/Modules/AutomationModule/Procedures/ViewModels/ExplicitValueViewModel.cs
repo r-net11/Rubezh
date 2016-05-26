@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Windows.Media;
+using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;

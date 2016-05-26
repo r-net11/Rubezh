@@ -1,4 +1,7 @@
-﻿using StrazhAPI;
+﻿using System.Threading.Tasks;
+using Common;
+using FiresecService.Service.Validators;
+using StrazhAPI;
 using StrazhAPI.AutomationCallback;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
@@ -108,13 +111,33 @@ namespace FiresecService.Service
 		public void SendDisconnectClientCommand(Guid clientUid)
 		{
 			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
+			
+			// После посылки Клиенту команды на разрыв соединения ждем 2 секунды и сами имитируем вызов от имени Клиента на разрыв соединения,
+			// т.к. "мертвый" Клиент этого не сделает
+			Task.Factory.StartNew(() =>
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(2));
+				Disconnect(clientUid);
+			});
 		}
 
 		/// <summary>
-		/// Посылает подключенным в данный момент Клиентам уведомление о смене лицензии на Сервере
+		/// Монитор Сервера уведомляет Сервер о смене лицензии
 		/// </summary>
 		public void NotifyLicenseChanged()
 		{
+			Logger.Info("Получено сообщение об изменении лицензии");
+			// Сервер обновляет лицензию у себя
+			if (!_licenseManager.IsValidExistingKey())
+				Logger.Warn("Отсутствует лицензия");
+			else
+				Logger.Info("Лицензия проверена");
+
+			Logger.Info("Инициализируем валидатор конфигурации");
+			ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+
+			Logger.Info("Уведомляем подключенных Клиентов об изменении лицензии");
+			// и уведомляет об это своих Клиентов
 			foreach (var clientInfo in ClientsManager.ClientInfos)
 			{
 				var callbackResult = new CallbackResult()

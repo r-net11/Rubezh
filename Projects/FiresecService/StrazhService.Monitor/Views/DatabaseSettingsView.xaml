@@ -1,0 +1,140 @@
+﻿<UserControl
+	x:Class="StrazhService.Monitor.Views.DatabaseSettingsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	mc:Ignorable="d" 
+	d:DesignHeight="300" d:DesignWidth="300">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Grid
+			Grid.Row="0"
+			Margin="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="IP-адрес сервера"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<TextBox
+				Grid.Row="0"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				Margin="2"
+				Text="{Binding DBServerAddress, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBlock
+				Grid.Row="1"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="Порт сервера"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<extToolkit:IntegerUpDown
+				Grid.Row="1"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				Margin="2"
+				Value="{Binding DBServerPort, UpdateSourceTrigger=PropertyChanged}"
+				Minimum="0"
+				Maximum="65535" />
+			<TextBlock
+				Grid.Row="2"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="Название экземпляра"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<TextBox
+				Grid.Row="2"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				Margin="2"
+				Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="Метод аутентификации"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<ComboBox
+				Grid.Row="3"
+				Grid.Column="1"
+				ItemsSource="{Binding AvailableSqlServerAuthenticationModes}"
+				SelectedItem="{Binding SqlServerAuthenticationMode}"
+				Margin="3"/>
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="Логин"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<TextBox
+				Grid.Row="4"
+				Grid.Column="1"
+				IsEnabled="{Binding UseSqlServerAuthentication}"
+				VerticalAlignment="Center"
+				Margin="2"
+				Text="{Binding DBUserID, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBlock
+				Grid.Row="5"
+				Grid.Column="0"
+				Margin="2"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Text="Пароль"
+				Foreground="{DynamicResource ForegroundColorLight}"/>
+			<TextBox
+				Grid.Row="5"
+				Grid.Column="1"
+				IsEnabled="{Binding UseSqlServerAuthentication}"
+				VerticalAlignment="Center"
+				Margin="2"
+				Text="{Binding DBUserPwd, UpdateSourceTrigger=PropertyChanged}" />
+		</Grid>
+		<Grid
+			Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button
+				Grid.Column="1"
+				Content="Проверка соединения"
+				Command="{Binding CheckSqlServerConnectionCommand}"
+				Width="150"
+				Margin="2"/>
+			<Button
+				Grid.Column="2"
+				Content="Применить"
+				Command="{Binding ApplyCommand}"
+				Width="100"
+				Margin="2"/>
+		</Grid>
+	</Grid>
+</UserControl>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Media;
+using StrazhAPI;
 using StrazhAPI.Models;
 using FiresecClient;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Painters;
 
 namespace PlansModule.Designer
@@ -35,8 +35,8 @@ namespace PlansModule.Designer
 		}
 		public static void SetSubPlan(ElementSubPlan element, Plan plan)
 		{
-			element.PlanUID = plan == null ? Guid.Empty : plan.UID;
-			element.Caption = plan == null ? string.Empty : plan.Caption;
+			element.PlanUID = (plan == null) ? Guid.Empty : plan.UID;
+			element.Caption = (plan == null) ? string.Empty : plan.Caption;
 			element.BackgroundColor = GetSubPlanColor(plan);
 		}
 		public static Color GetSubPlanColor(Plan plan)

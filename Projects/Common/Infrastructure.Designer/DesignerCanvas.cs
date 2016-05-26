@@ -11,7 +11,7 @@ using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Designer.DesignerItems;
 using Infrastructure.Designer.ViewModels;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 

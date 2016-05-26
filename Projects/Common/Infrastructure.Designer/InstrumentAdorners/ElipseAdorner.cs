@@ -14,7 +14,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 			return new Ellipse();
 		}
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override StrazhAPI.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			return new ElementEllipse();
 		}

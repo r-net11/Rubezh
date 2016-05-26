@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 using StrazhAPI.Models.Layouts;
 using StrazhAPI.Automation;
 using FiresecClient;
@@ -24,9 +25,9 @@ namespace AutomationModule.ViewModels
 			UseCustomStyle = properties.UseCustomStyle;
 			if (UseCustomStyle)
 			{
-				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
-				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
-				BorderBrush = new SolidColorBrush(properties.BorderColor);
+				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor.ToWindowsColor());
+				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor.ToWindowsColor());
+				BorderBrush = new SolidColorBrush(properties.BorderColor.ToWindowsColor());
 				BorderThickness = properties.BorderThickness;
 				FontSize = properties.FontSize;
 				FontStyle = properties.FontItalic ? FontStyles.Italic : FontStyles.Normal;

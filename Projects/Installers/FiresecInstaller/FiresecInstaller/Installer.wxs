@@ -42,13 +42,6 @@
 		<Property Id="INSTALLMODE" />
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
 
-		<Property Id="INSTALL_FIRESEC2" Secure="yes" />
-		<Property Id="INSTALL_HASP" Value="0" Secure="yes" />
-		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
-		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
-		<Property Id="INSTALL_STRAZH" Value="1" Secure="yes" />
-		<Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="SystemFolder"/>
 			<Directory Id="ProgramFilesFolder">
@@ -96,13 +89,12 @@
 			</Directory>
 		</Directory>
 
-		<FeatureRef Id="FiresecFeature" />
+		<FeatureRef Id="StrazhFeature" />
 
 		<InstallExecuteSequence>
 			<Custom Action="CloseApplications" Sequence="1" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
-			<Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">

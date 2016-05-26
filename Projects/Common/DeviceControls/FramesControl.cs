@@ -4,10 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using StrazhAPI.GK;
-using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using Infrustructure.Plans.Devices;
+using StrazhAPI.Plans.Devices;
 
 namespace DeviceControls
 {

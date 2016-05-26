@@ -4,7 +4,7 @@ using StrazhAPI.Automation;
 using StrazhAPI.Models;
 using FiresecClient;
 using System.Collections.Generic;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using StrazhAPI;

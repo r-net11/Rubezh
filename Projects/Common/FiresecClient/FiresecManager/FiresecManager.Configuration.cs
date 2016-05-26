@@ -1,10 +1,11 @@
 ﻿using Common;
+using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -219,11 +220,11 @@ namespace FiresecClient
 		private static void UpdateSKDZoneType(IElementZone elementZone, SKDZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementZone.BackgroundColor = (zone == null) ? Colors.Black : Colors.Green;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{
-			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementSubPlan.BackgroundColor = (plan == null) ? Colors.Black : Colors.Green;
 		}
 	}
 }

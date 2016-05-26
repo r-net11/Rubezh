@@ -1,7 +1,6 @@
 ﻿using System.Xml.Serialization;
 using System;
 using System.Runtime.Serialization;
-using System.Windows.Media;
 using StrazhAPI.Automation.Enums;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
