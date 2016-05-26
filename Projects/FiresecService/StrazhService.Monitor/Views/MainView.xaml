@@ -49,12 +49,12 @@
 					</Grid.RowDefinitions>
 					<DataGrid Grid.Row="0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Header="Идентификатор">
+							<DataGridTemplateColumn>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanCheck}" Margin="2 0 2 0" />
-											<TextBlock Text="{Binding UID}"/>
+											<!--<TextBlock Text="{Binding UID}"/>-->
 										</StackPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
