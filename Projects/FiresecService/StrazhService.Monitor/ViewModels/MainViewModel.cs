@@ -278,8 +278,11 @@ namespace StrazhService.Monitor.ViewModels
 			{
 				LicenseItems = GetLicenseDictionary(_currentLicenseManager.CurrentLicense);
 				UpdateLicenseStatus();
-				Logger.Info("Уведомляем Сервер об изменении лицензии");
-				FiresecManager.FiresecService.NotifyLicenseChanged();
+				if (FiresecManager.FiresecService != null)
+				{
+					Logger.Info("Уведомляем Сервер об изменении лицензии");
+					FiresecManager.FiresecService.NotifyLicenseChanged();
+				}
 			}
 			else
 				MessageBoxService.ShowError(
