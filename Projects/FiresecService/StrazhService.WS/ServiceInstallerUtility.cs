@@ -1,5 +1,7 @@
-﻿using System.Configuration.Install;
+﻿using System;
+using System.Configuration.Install;
 using System.Reflection;
+using Common;
 
 namespace StrazhService.WS
 {
@@ -13,8 +15,9 @@ namespace StrazhService.WS
 			{
 				ManagedInstallerClass.InstallHelper(new[] {exePath});
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ServiceInstallerUtility.Install");
 				return false;
 			}
 			return true;
@@ -26,8 +29,9 @@ namespace StrazhService.WS
 			{
 				ManagedInstallerClass.InstallHelper(new[] {"/u", exePath});
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ServiceInstallerUtility.Uninstall");
 				return false;
 			}
 			return true;

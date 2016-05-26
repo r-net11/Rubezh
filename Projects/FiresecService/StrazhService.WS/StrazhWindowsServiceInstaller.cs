@@ -9,23 +9,22 @@ using System.ServiceProcess;
 namespace StrazhService.WS
 {
 	[RunInstaller(true)]
-	public partial class StrazhWindowsServiceInstaller : System.Configuration.Install.Installer
+	public partial class StrazhWindowsServiceInstaller : Installer
 	{
-		ServiceInstaller serviceInstaller;
-		ServiceProcessInstaller processInstaller;
-
 		public StrazhWindowsServiceInstaller()
 		{
 			InitializeComponent();
 
-			serviceInstaller = new ServiceInstaller();
-			processInstaller = new ServiceProcessInstaller();
-
-			processInstaller.Account = ServiceAccount.LocalSystem;
-			serviceInstaller.StartType = ServiceStartMode.Manual;
-			serviceInstaller.ServiceName = "StrazhService";
-			Installers.Add(processInstaller);
-			Installers.Add(serviceInstaller);
+			Installers.Add(new ServiceProcessInstaller
+			{
+				Account = ServiceAccount.LocalSystem
+			});
+			Installers.Add(new ServiceInstaller
+			{
+				StartType = ServiceStartMode.Automatic,
+				ServiceName = "StrazhService",
+				Description = "Сервер A.C.Tech"
+			});
 		}
 	}
 }

@@ -17,23 +17,32 @@ namespace StrazhService.WS
 			if (args != null && args.Length == 1 && args[0].Length > 1
 				&& (args[0][0] == '-' || args[0][0] == '/'))
 			{
-				switch (args[0].Substring(1).ToLower())
+				var param = args[0].Substring(1).ToLower();
+				string msg;
+				switch (param)
 				{
 					case "install":
 					case "i":
 						if (!ServiceInstallerUtility.Install())
-							Logger.Error("Ошибка регистрации сервиса");
-							Console.WriteLine("Ошибка регистрации сервиса");
+						{
+							msg = "Ошибка регистрации сервиса";
+							Logger.Error(msg);
+							Console.WriteLine(msg);
+						}
 						break;
 					case "uninstall":
 					case "u":
 						if (!ServiceInstallerUtility.Uninstall())
-							Logger.Error("Ошибка деинсталляции сервиса");
-							Console.WriteLine("Ошибка деинсталляции сервиса");
+						{
+							msg = "Ошибка деинсталляции сервиса";
+							Logger.Error(msg);
+							Console.WriteLine(msg);
+						}
 						break;
 					default:
-						Logger.Error("Нераспознанный параметр");
-						Console.WriteLine("Нераспознанный параметр");
+						msg = string.Format("Нераспознанный параметр '{0}'", param);
+						Logger.Error(msg);
+						Console.WriteLine(msg);
 						break;
 				}
 			}
