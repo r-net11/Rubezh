@@ -4,6 +4,7 @@ using FiresecService;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.Service.Validators;
+using Integration.Service;
 using KeyGenerator;
 
 namespace StrazhService.WS
@@ -47,7 +48,7 @@ namespace StrazhService.WS
 
 				Logger.Info("Открытие хоста");
 				Notifier.Log("Открытие хоста");
-				if (!FiresecServiceManager.Open(licenseManager))
+				if (!FiresecServiceManager.Open(licenseManager, new IntegrationFacade()))
 					Logger.Error("При открытии хоста обнаружена ошибка");
 
 				Logger.Info("Создание конфигурации СКД");

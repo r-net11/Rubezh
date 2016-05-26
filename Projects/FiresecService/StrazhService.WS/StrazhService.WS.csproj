@@ -85,6 +85,10 @@
       <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
       <Name>StrazhService.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Integration.Service\Integration.Service.csproj">
+      <Project>{B5DCA126-F996-4A80-B395-F4FD42576981}</Project>
+      <Name>Integration.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyGenerator\KeyGenerator.csproj">
       <Project>{daab7f4f-33de-4a7d-b604-43233f8713e0}</Project>
       <Name>KeyGenerator</Name>
