@@ -32,5 +32,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute(() => FiresecService.ExecuteFiresecScript(script, type));
 		}
+
+		public OperationResult<List<Script>> GetFiresecScripts()
+		{
+			return SafeContext.Execute(() => FiresecService.GetFiresecScripts());
+		}
 	}
 }

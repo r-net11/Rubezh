@@ -1,11 +1,10 @@
-﻿using AutomationModule.Properties;
+﻿using System.Linq;
+using AutomationModule.Properties;
 using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -44,7 +43,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		private bool IsExist(IVariable variable)
+		private bool IsExist(Variable variable)
 		{
 			return Variables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
@@ -68,7 +67,7 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);
+				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

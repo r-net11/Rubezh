@@ -37,5 +37,10 @@ namespace FiresecService.Service
 		{
 			return new OperationResult<bool>(_integrationService.ExecuteFiresecScript(script, type));
 		}
+
+		public OperationResult<List<Script>> GetFiresecScripts()
+		{
+			return new OperationResult<List<Script>>(_integrationService.GetFiresecScripts());
+		}
 	}
 }

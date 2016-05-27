@@ -1,14 +1,10 @@
-﻿using System.Windows.Forms.VisualStyles;
-using StrazhAPI;
+﻿using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
-using StrazhAPI.Integration.OPC;
-using StrazhAPI.Models.Automation;
 using FiresecService.Automation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using StrazhDAL;
 
 namespace FiresecService.Service
 {
@@ -34,67 +30,6 @@ namespace FiresecService.Service
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
 			return ProcedurePropertyCache.GetProcedureProperties(layoutUID);
-		}
-
-		public OperationResult<bool> SaveGlobalVariable(GlobalVariable variable)
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.Save(variable);
-			}
-		}
-
-		public OperationResult<bool> ResetGlobalVariables()
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.ResetGlobalVariables();
-			}
-		}
-
-		public OperationResult<bool> SaveGlobalVariables(List<IVariable> variables)
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.Save(variables);
-			}
-		}
-
-		public OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable)
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.Remove(variable);
-			}
-		}
-
-		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.GetInitialGlobalVariables();
-			}
-		}
-
-		public OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables()
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.GetCurrentGlobalVariables();
-			}
-		}
-
-		public OperationResult<List<Script>> GetFiresecScripts()
-		{
-			return new OperationResult<List<Script>>(_integrationService.GetFiresecScripts());
-		}
-
-		public OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables)
-		{
-			using (var db = new SKDDatabaseService())
-			{
-				return db.GlobalVariablesTranslator.SaveEditedGlobalVariables(variables);
-			}
 		}
 	}
 }

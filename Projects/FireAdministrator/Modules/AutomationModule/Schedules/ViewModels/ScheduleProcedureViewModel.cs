@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -56,33 +55,33 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => Arguments);
 		}
 
-		private static bool CheckSignature(Argument argument, IVariable variable)
+		private static bool CheckSignature(Argument argument, Variable variable)
 		{
-			if (argument.ExplicitType != variable.VariableValue.ExplicitType)
+			if (argument.ExplicitType != variable.ExplicitType)
 				return false;
 			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
 				return true;
 			if (argument.ExplicitType != ExplicitType.Object)
-				return (argument.ObjectType == variable.VariableValue.ObjectType);
+				return (argument.ObjectType == variable.ObjectType);
 			if (argument.ExplicitType != ExplicitType.Enum)
-				return (argument.EnumType == variable.VariableValue.EnumType);
+				return (argument.EnumType == variable.EnumType);
 			return false;
 		}
 
-		private static Argument InitializeArgumemt(IVariable variable)
+		private static Argument InitializeArgumemt(Variable variable)
 		{
 			var argument = new Argument
 			{
 				VariableScope = VariableScope.GlobalVariable,
-				ExplicitType = variable.VariableValue.ExplicitType,
-				EnumType = variable.VariableValue.EnumType,
-				ObjectType = variable.VariableValue.ObjectType
+				ExplicitType = variable.ExplicitType,
+				EnumType = variable.EnumType,
+				ObjectType = variable.ObjectType
 			};
 
-			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
 
-			foreach (var explicitValue in variable.VariableValue.ExplicitValues)
+			foreach (var explicitValue in variable.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValue, newExplicitValue);
@@ -92,20 +91,19 @@ namespace AutomationModule.ViewModels
 			return argument;
 		}
 
-		List<IVariable> GetVariables(ArgumentViewModel argument)
+		List<Variable> GetVariables(ArgumentViewModel argument)
 		{
 			var allVariables = CallingProcedure != null
 				? ProcedureHelper.GetAllVariables(CallingProcedure)
-				: FiresecManager.FiresecService.GetInitialGlobalVariables().Result.ToList<IVariable>();
-			//	: new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get global variables from the server
+				: new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 
-			allVariables = allVariables.FindAll(x => x.VariableValue.ExplicitType == argument.ExplicitType);
+			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType);
 
 			if (argument.ExplicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.VariableValue.ObjectType == argument.ObjectType);
+				allVariables = allVariables.FindAll(x => x.ObjectType == argument.ObjectType);
 
 			if (argument.ExplicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.VariableValue.EnumType == argument.EnumType);
+				allVariables = allVariables.FindAll(x => x.EnumType == argument.EnumType);
 
 			return allVariables;
 		}

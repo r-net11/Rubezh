@@ -537,10 +537,9 @@ CREATE TABLE [dbo].[GlobalVariables]
 (
 [UID] UNIQUEIDENTIFIER NOT NULL,
 [Name] NVARCHAR(50) NOT NULL,
-[CurrentValueXML] NVARCHAR(MAX) NOT NULL,
-[InitialValueXML] NVARCHAR(MAX) NOT NULL,
-[IsSaveWhenRestart] bit NOT NULL,
-[IsReference] bit NOT NULL
+[Id] UNIQUEIDENTIFIER NOT NULL,
+[XMLContent] NVARCHAR(MAX) NOT NULL,
+[IsSaveWhenRestart] bit NOT NULL
 CONSTRAINT [PK_GlobalVariables] PRIMARY KEY CLUSTERED
 (
 	[UID] ASC
@@ -1036,8 +1035,6 @@ INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
 INSERT INTO Patches (Id) VALUES
 ('RemoveCredentialsStartDateField')
-INSERT INTO Patches (Id) VALUES
-('AddingGlobalVariablesTable')
 INSERT INTO Patches (Id) VALUES
 ('Table_AccessTemplateDeactivatingReader_Added')
 INSERT INTO [dbo].[Patches] (Id) VALUES

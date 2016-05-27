@@ -1,5 +1,4 @@
 ﻿using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 
@@ -42,17 +41,17 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => Arguments);
 		}
 
-		private static Argument InitializeArgumemt(IVariable variable)
+		private static Argument InitializeArgumemt(Variable variable)
 		{
 			var argument = new Argument
 			{
-				ExplicitType = variable.VariableValue.ExplicitType,
-				EnumType = variable.VariableValue.EnumType,
-				ObjectType = variable.VariableValue.ObjectType
+				ExplicitType = variable.ExplicitType,
+				EnumType = variable.EnumType,
+				ObjectType = variable.ObjectType
 			};
-			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValues in variable.VariableValue.ExplicitValues)
+			foreach (var explicitValues in variable.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValues, newExplicitValue);
