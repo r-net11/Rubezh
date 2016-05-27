@@ -155,6 +155,9 @@ namespace RubezhAPI.GK
 				LinkLogic(device, device.Logic.OnNowClausesGroup);
 				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
+				LinkICIndicatorLogic(device, device.Logic.RedIndicatorLogic);
+				LinkICIndicatorLogic(device, device.Logic.GreenIndicatorLogic);
+				LinkICIndicatorLogic(device, device.Logic.YellowIndicatorLogic);
 				if (device.IsInMPT)
 				{
 					var deviceMPTs = new List<GKMPT>(GKManager.DeviceConfiguration.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
@@ -386,6 +389,16 @@ namespace RubezhAPI.GK
 				{
 					LinkLogic(gkBase, group);
 				}
+			}
+		}
+
+		public void LinkICIndicatorLogic(GKBase gkBase, ICIndicatorLogic indicatorLogic)
+		{
+			LinkLogic(gkBase, indicatorLogic.Blink1ClausesGroup);
+			LinkLogic(gkBase, indicatorLogic.Blink3ClausesGroup);
+			if (!indicatorLogic.UseOffCounterLogic)
+			{
+				LinkLogic(gkBase, indicatorLogic.OffClausesGroup);
 			}
 		}
 

@@ -12,6 +12,7 @@ namespace GKModule.ViewModels
 		DescriptorsViewModel DescriptorsViewModel;
 		public FormulaOperation FormulaOperation { get; private set; }
 		public string FirstOperand { get; private set; }
+		public byte FirstOperandByte { get; private set; }
 		public string SecondOperand { get; private set; }
 		public bool IsBold { get; private set; }
 		public string StateIcon { get; private set; }
@@ -26,6 +27,7 @@ namespace GKModule.ViewModels
 			FormulaOperation = formulaOperation;
 			DescriptorsViewModel = descriptorsViewModel;
 			FirstOperand = FormulaOperation.FirstOperand.ToString();
+			FirstOperandByte = FormulaOperation.FirstOperand;
 			SecondOperand = FormulaOperation.SecondOperand.ToString();
 			Descriptor = descriptor;
 

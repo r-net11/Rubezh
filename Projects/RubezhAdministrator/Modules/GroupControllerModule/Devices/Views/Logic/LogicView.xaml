@@ -19,7 +19,116 @@
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
-		<TabItem Header="Условие выключения" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabItem Header="Красный индикатор" Visibility="{Binding IsIC, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem.Style>
+				<Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+					<Style.Triggers>
+						<MultiDataTrigger>
+							<MultiDataTrigger.Conditions>
+								<Condition Binding="{Binding IsIC}" Value="True" />
+							</MultiDataTrigger.Conditions>
+							<MultiDataTrigger.Setters>
+								<Setter Property="IsSelected" Value="True" />
+							</MultiDataTrigger.Setters>
+						</MultiDataTrigger>
+					</Style.Triggers>
+				</Style>
+			</TabItem.Style>
+			<TabControl DataContext="{Binding RedIndicatorLogic}">
+				<TabItem Header="Мигать 1 сек">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<StackPanel>
+							<Views:ClausesView DataContext="{Binding Blink1ClausesGroup}" />
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Мигать 3 сек">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<StackPanel>
+							<Views:ClausesView DataContext="{Binding Blink3ClausesGroup}" />
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Отключение">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+							<StackPanel>
+								<Grid IsEnabled="{Binding UseOffCounterLogic, Converter={StaticResource InverseBooleanConverter}}">
+									<Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+								</Grid>
+							</StackPanel>
+						</ScrollViewer>
+						<CheckBox Grid.Row="1" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding UseOffCounterLogic}"  Content="Использовать условие включения в качестве противоположного для условия отключения" />
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</TabItem>
+		<TabItem Header="Жёлтый индикатор" Visibility="{Binding IsIC, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabControl DataContext="{Binding YellowIndicatorLogic}">
+				<TabItem Header="Мигать 1 сек">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<StackPanel>
+							<Views:ClausesView DataContext="{Binding Blink1ClausesGroup}" />
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Отключение">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+							<StackPanel>
+								<Grid IsEnabled="{Binding UseOffCounterLogic, Converter={StaticResource InverseBooleanConverter}}">
+									<Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+								</Grid>
+							</StackPanel>
+						</ScrollViewer>
+						<CheckBox Grid.Row="1" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding UseOffCounterLogic}"  Content="Использовать условие включения в качестве противоположного для условия отключения" />
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</TabItem>
+		<TabItem Header="Зелёный индикатор" Visibility="{Binding IsIC, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabControl DataContext="{Binding GreenIndicatorLogic}">
+				<TabItem Header="Мигать 1 сек">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<StackPanel>
+							<Views:ClausesView DataContext="{Binding Blink1ClausesGroup}" />
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Мигать 3 сек">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<StackPanel>
+							<Views:ClausesView DataContext="{Binding Blink3ClausesGroup}" />
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Отключение">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+							<StackPanel>
+								<Grid IsEnabled="{Binding UseOffCounterLogic, Converter={StaticResource InverseBooleanConverter}}">
+									<Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+								</Grid>
+							</StackPanel>
+						</ScrollViewer>
+						<CheckBox Grid.Row="1" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding UseOffCounterLogic}"  Content="Использовать условие включения в качестве противоположного для условия отключения" />
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</TabItem>
+		<TabItem Header="Условие отключения" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TabItem.Style>
 				<Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
 					<Style.Triggers>

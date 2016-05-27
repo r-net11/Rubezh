@@ -101,6 +101,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\GkUsers\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ICIndicatorLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\MirrorViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />

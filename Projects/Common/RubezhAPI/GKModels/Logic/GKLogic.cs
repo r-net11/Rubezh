@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RubezhAPI.GK;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.GK
@@ -18,6 +19,9 @@ namespace RubezhAPI.GK
 			OffNowClausesGroup = new GKClauseGroup();
 			StopClausesGroup = new GKClauseGroup();
 			UseOffCounterLogic = true;
+			RedIndicatorLogic = new ICIndicatorLogic();
+			GreenIndicatorLogic = new ICIndicatorLogic();
+			YellowIndicatorLogic = new ICIndicatorLogic();
 		}
 
 		/// <summary>
@@ -62,6 +66,12 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public bool UseOffCounterLogic { get; set; }
 
+		#region IC
+		public ICIndicatorLogic RedIndicatorLogic { get; set; }
+		public ICIndicatorLogic GreenIndicatorLogic { get; set; }
+		public ICIndicatorLogic YellowIndicatorLogic { get; set; }
+		#endregion
+
 		public List<GKBase> GetObjects()
 		{
 			var result = new List<GKBase>();
@@ -72,6 +82,9 @@ namespace RubezhAPI.GK
 			result.AddRange(OnNowClausesGroup.GetObjects());
 			result.AddRange(OffNowClausesGroup.GetObjects());
 			result.AddRange(StopClausesGroup.GetObjects());
+			result.AddRange(RedIndicatorLogic.GetObjects());
+			result.AddRange(GreenIndicatorLogic.GetObjects());
+			result.AddRange(YellowIndicatorLogic.GetObjects());
 			return result;
 		}
 	}

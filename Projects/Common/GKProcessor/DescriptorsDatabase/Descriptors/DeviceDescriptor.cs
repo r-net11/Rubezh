@@ -45,8 +45,8 @@ namespace GKProcessor
 
 			if (Device.Driver.HasLogic)
 			{
-				var hasOn1 = Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0;
-				var hasOn2 = Device.Logic.On2ClausesGroup.Clauses.Count + Device.Logic.On2ClausesGroup.ClauseGroups.Count > 0;
+				var hasOn1 = Device.Logic.OnClausesGroup.IsNotEmpty();
+				var hasOn2 = Device.Logic.On2ClausesGroup.IsNotEmpty();
 				if (hasOn1 && ! hasOn2)
 				{
 					Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
@@ -103,26 +103,29 @@ namespace GKProcessor
 					else
 						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				}
-				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.GetObjects().Count > 0)
+				
+				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.IsNotEmpty())
 				{
 					Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
-				if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
+				if (Device.Logic.OnNowClausesGroup.IsNotEmpty())
 				{
 					Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup);
 					Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
 				}
-				if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
+				if (Device.Logic.OffNowClausesGroup.IsNotEmpty())
 				{
 					Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup);
 					Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
 				}
-				if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
+				if (Device.Logic.StopClausesGroup.IsNotEmpty())
 				{
 					Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
 					Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
 				}
+
+				SetICLogic();
 			}
 
 			if ((Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound || Device.DriverType == GKDriverType.RSR2_HandGuardDetector)
@@ -211,6 +214,148 @@ namespace GKProcessor
 						break;
 				}
 				Formula.Add(FormulaOperationType.END);
+			}
+		}
+
+		void SetICLogic()
+		{
+			byte blink1RedByte = 16;
+			byte blink3RedByte = 11;
+			byte offRedByte = 25;
+			var hasBlink1Red = Device.Logic.RedIndicatorLogic.Blink1ClausesGroup.IsNotEmpty();
+			var hasBlink3Red = Device.Logic.RedIndicatorLogic.Blink3ClausesGroup.IsNotEmpty();
+			if (hasBlink1Red && !hasBlink3Red)
+			{
+				Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink1ClausesGroup);
+				if (Device.Logic.RedIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink1RedByte, Device);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offRedByte, Device);
+				}
+				else
+					Formula.AddPutBit(blink1RedByte, Device);
+			}
+			if (!hasBlink1Red && hasBlink3Red)
+			{
+				Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink3ClausesGroup);
+				if (Device.Logic.RedIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink3RedByte, Device);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offRedByte, Device);
+				}
+				else
+					Formula.AddPutBit(blink3RedByte, Device);
+			}
+			if (hasBlink1Red && hasBlink3Red)
+			{
+				if (Device.Logic.RedIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink1ClausesGroup);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink1RedByte, Device);
+					Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink3ClausesGroup);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink3RedByte, Device);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offRedByte, Device);
+				}
+				else
+				{
+					Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink1ClausesGroup);
+					Formula.AddPutBit(blink1RedByte, Device);
+					Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.Blink3ClausesGroup);
+					Formula.AddPutBit(blink3RedByte, Device);
+				}
+			}
+			if (!Device.Logic.RedIndicatorLogic.UseOffCounterLogic && Device.Logic.RedIndicatorLogic.Blink1ClausesGroup.IsNotEmpty())
+			{
+				Formula.AddClauseFormula(Device.Logic.RedIndicatorLogic.OffClausesGroup);
+				Formula.AddPutBit(offRedByte, Device);
+			}
+
+			byte blink1GreenByte = 17;
+			byte blink3GreenByte = 13;
+			byte offGreenByte = 23;
+			var hasBlink1Green = Device.Logic.GreenIndicatorLogic.Blink1ClausesGroup.IsNotEmpty();
+			var hasBlink3Green = Device.Logic.GreenIndicatorLogic.Blink3ClausesGroup.IsNotEmpty();
+			if (hasBlink1Green && !hasBlink3Green)
+			{
+				Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink1ClausesGroup);
+				if (Device.Logic.GreenIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink1GreenByte, Device);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offGreenByte, Device);
+				}
+				else
+					Formula.AddPutBit(blink1GreenByte, Device);
+			}
+			if (!hasBlink1Green && hasBlink3Green)
+			{
+				Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink3ClausesGroup);
+				if (Device.Logic.GreenIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink3GreenByte, Device);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offGreenByte, Device);
+				}
+				else
+					Formula.AddPutBit(blink3GreenByte, Device);
+			}
+			if (hasBlink1Green && hasBlink3Green)
+			{
+				if (Device.Logic.GreenIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink1ClausesGroup);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink1GreenByte, Device);
+					Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink3ClausesGroup);
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blink3GreenByte, Device);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offGreenByte, Device);
+				}
+				else
+				{
+					Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink1ClausesGroup);
+					Formula.AddPutBit(blink1GreenByte, Device);
+					Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.Blink3ClausesGroup);
+					Formula.AddPutBit(blink3GreenByte, Device);
+				}
+			}
+			if (!Device.Logic.GreenIndicatorLogic.UseOffCounterLogic && Device.Logic.GreenIndicatorLogic.Blink1ClausesGroup.IsNotEmpty())
+			{
+				Formula.AddClauseFormula(Device.Logic.GreenIndicatorLogic.OffClausesGroup);
+				Formula.AddPutBit(offGreenByte, Device);
+			}
+
+			byte blinkYellowByte = 12;
+			byte offYellowByte = 15;
+			if (Device.Logic.YellowIndicatorLogic.Blink1ClausesGroup.IsNotEmpty())
+			{
+				Formula.AddClauseFormula(Device.Logic.YellowIndicatorLogic.Blink1ClausesGroup);
+				if (Device.Logic.YellowIndicatorLogic.UseOffCounterLogic)
+				{
+					Formula.Add(FormulaOperationType.DUP);
+					Formula.AddPutBit(blinkYellowByte, Device);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddPutBit(offYellowByte, Device);
+				}
+				else
+					Formula.AddPutBit(blinkYellowByte, Device);
+			}
+			if (!Device.Logic.YellowIndicatorLogic.UseOffCounterLogic && Device.Logic.YellowIndicatorLogic.OffClausesGroup.IsNotEmpty())
+			{
+				Formula.AddClauseFormula(Device.Logic.YellowIndicatorLogic.OffClausesGroup);
+				Formula.AddPutBit(offYellowByte, Device);
 			}
 		}
 

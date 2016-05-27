@@ -123,17 +123,11 @@ namespace RubezhAPI.GK
 		void Invalidation()
 		{
 			Devices.ForEach(x => x.Invalidate(this));
-
 			MPTs.ForEach(x => x.Invalidate(this));
-			
 			Doors.ForEach(x => x.Invalidate(this));
-
 			PumpStations.ForEach(x => x.Invalidate(this));
-
 			GuardZones.ForEach(x => x.Invalidate(this));
-
 			Delays.ForEach(x => x.Invalidate(this));
-
 			Directions.ForEach(x => x.Invalidate(this));
 		}
 
@@ -145,6 +139,9 @@ namespace RubezhAPI.GK
 			logic.StopClausesGroup = InvalidateOneClauseGroup(gkBase, logic.StopClausesGroup);
 			logic.OnNowClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OnNowClausesGroup);
 			logic.OffNowClausesGroup = InvalidateOneClauseGroup(gkBase, logic.OffNowClausesGroup);
+			InvalidateICIndicatorLogic(gkBase, logic.RedIndicatorLogic);
+			InvalidateICIndicatorLogic(gkBase, logic.GreenIndicatorLogic);
+			InvalidateICIndicatorLogic(gkBase, logic.YellowIndicatorLogic);
 		}
 
 	   public GKClauseGroup InvalidateOneClauseGroup(GKBase gkBase, GKClauseGroup clauseGroup)
@@ -467,6 +464,13 @@ namespace RubezhAPI.GK
 				device.Properties.Add(property);
 			}
 			property.Value = (ushort)value;
+		}
+
+		public void InvalidateICIndicatorLogic(GKBase gkBase, ICIndicatorLogic icIndicatorLogic)
+		{
+			icIndicatorLogic.Blink1ClausesGroup = InvalidateOneClauseGroup(gkBase, icIndicatorLogic.Blink1ClausesGroup);
+			icIndicatorLogic.Blink3ClausesGroup = InvalidateOneClauseGroup(gkBase, icIndicatorLogic.Blink3ClausesGroup);
+			icIndicatorLogic.OffClausesGroup = InvalidateOneClauseGroup(gkBase, icIndicatorLogic.OffClausesGroup);
 		}
 	}
 }

@@ -191,55 +191,45 @@ namespace RubezhAPI
 
 		public static string GetPresentationLogic(GKLogic logic)
 		{
-			List<StringBuilder> list = new List<StringBuilder>();
-			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие включения: ");
-				stringBuilder.Append(GetPresentationLogic(logic.OnClausesGroup));
-				list.Add(stringBuilder);
-			}
-
-			if (logic.On2ClausesGroup.ClauseGroups.Count > 0 || logic.On2ClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие включения 2: ");
-				stringBuilder.Append(GetPresentationLogic(logic.On2ClausesGroup));
-				list.Add(stringBuilder);
-			}
-
-			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие включения немедленно: ");
-				stringBuilder.Append(GetPresentationLogic(logic.OnNowClausesGroup));
-				list.Add(stringBuilder);
-			}
-
-			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие выключения: ");
-				stringBuilder.Append(GetPresentationLogic(logic.OffClausesGroup));
-				list.Add(stringBuilder);
-			}
-
-			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие выключения немедленно: ");
-				stringBuilder.Append(GetPresentationLogic(logic.OffNowClausesGroup));
-				list.Add(stringBuilder);
-			}
-
-			if (logic.StopClausesGroup.ClauseGroups.Count > 0 || logic.StopClausesGroup.GetObjects().Count > 0)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append("Условие остановки: ");
-				stringBuilder.Append(GetPresentationLogic(logic.StopClausesGroup));
-				list.Add(stringBuilder);
-			}
+			var list = new List<StringBuilder>();
+			AppendClauseGroupString(logic.OnClausesGroup, "Условие включения", list);
+			AppendClauseGroupString(logic.On2ClausesGroup, "Условие включения 2", list);
+			AppendClauseGroupString(logic.OnNowClausesGroup, "Условие включения немедленно", list);
+			AppendClauseGroupString(logic.OffClausesGroup, "Условие выключения", list);
+			AppendClauseGroupString(logic.OffNowClausesGroup, "Условие выключения немедленно", list);
+			AppendClauseGroupString(logic.StopClausesGroup, "Условие остановки", list);
+			AppendICIndicatorLogic(logic.RedIndicatorLogic, "Красный индикатор", list);
+			AppendICIndicatorLogic(logic.YellowIndicatorLogic, "Жёлтый индикатор", list);
+			AppendICIndicatorLogic(logic.GreenIndicatorLogic, "Зелёный индикатор", list);
 			return string.Join("\n", list);
+		}
+
+		static void AppendICIndicatorLogic(ICIndicatorLogic logic, string name, List<StringBuilder> list)
+		{
+			
+			var result = AppendClauseGroupString(logic.Blink1ClausesGroup, name +  ": Условие мерцания 1 сек", list);
+			var clauseName = "Условие мерцания 3 сек";
+			if (!result) 
+				clauseName = name + ": " + clauseName;
+			result = AppendClauseGroupString(logic.Blink3ClausesGroup, clauseName, list);
+			clauseName = "Условие отключения";
+			if (!result) 
+				clauseName = name + ": " + clauseName;
+			AppendClauseGroupString(logic.OffClausesGroup, clauseName, list);
+		}
+
+		static bool AppendClauseGroupString(GKClauseGroup gkClauseGroup, string name, List<StringBuilder> list)
+		{
+			if (gkClauseGroup.IsNotEmpty())
+			{
+				var stringBuilder = new StringBuilder();
+				stringBuilder.Append(name);
+				stringBuilder.Append(": ");
+				stringBuilder.Append(GetPresentationLogic(gkClauseGroup));
+				list.Add(stringBuilder);
+				return true;
+			}
+			return false;
 		}
 
 		public static string GetPresentationLogic(GKClauseGroup clauseGroup)

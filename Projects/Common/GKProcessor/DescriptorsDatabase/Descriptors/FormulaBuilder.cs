@@ -307,7 +307,8 @@ namespace GKProcessor
 
 		public bool CheckStackOverflow()
 		{
-			return !GetBranches().Any(x => x.StackValues.Count != 0 || x.IsError);
+			var branches = GetBranches();
+			return !branches.Any(x => x.StackValues.Count != 0 || x.IsError);;
 		}
 
 		public List<FormulaBranch> GetBranches()

@@ -40,7 +40,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
+			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.IsNotEmpty();
 			if (hasOpenRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup);
@@ -54,7 +54,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
-			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
+			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.IsNotEmpty();
 			if (hasCloseRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup);
@@ -68,7 +68,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
-			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
+			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.IsNotEmpty();
 			if (hasNormRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup);

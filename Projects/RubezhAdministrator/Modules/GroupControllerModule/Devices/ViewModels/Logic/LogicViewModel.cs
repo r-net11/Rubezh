@@ -19,8 +19,12 @@ namespace GKModule.ViewModels
 		public bool HasStopClause { get; private set; }
 		public bool HasOnNowClause { get; private set; }
 		public bool HasOffNowClause { get; private set; }
+		public bool IsIC { get; private set; }
+		public ICIndicatorLogicViewModel RedIndicatorLogic { get; private set; }
+		public ICIndicatorLogicViewModel GreenIndicatorLogic { get; private set; }
+		public ICIndicatorLogicViewModel YellowIndicatorLogic { get; private set; } 
 
-		public LogicViewModel(GKBase gkBase, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false, bool hasOnClause = true, bool hasOn2Clause = false)
+		public LogicViewModel(GKBase gkBase, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false, bool hasOnClause = true, bool hasOn2Clause = false, bool isIC = false)
 		{
 			if (gkBase != null)
 				Title = "Настройка логики " + gkBase.PresentationName;
@@ -37,7 +41,10 @@ namespace GKModule.ViewModels
 			OffClausesGroup = new ClauseGroupViewModel(gkBase, logic.OffClausesGroup);
 			OnNowClausesGroup = new ClauseGroupViewModel(gkBase, logic.OnNowClausesGroup);
 			OffNowClausesGroup = new ClauseGroupViewModel(gkBase, logic.OffNowClausesGroup);
-			StopClausesGroup = new ClauseGroupViewModel(gkBase, logic.StopClausesGroup);	
+			StopClausesGroup = new ClauseGroupViewModel(gkBase, logic.StopClausesGroup);
+			RedIndicatorLogic = new ICIndicatorLogicViewModel(gkBase, logic.RedIndicatorLogic);
+			GreenIndicatorLogic = new ICIndicatorLogicViewModel(gkBase, logic.GreenIndicatorLogic);
+			YellowIndicatorLogic = new ICIndicatorLogicViewModel(gkBase, logic.YellowIndicatorLogic);
 			UseOffCounterLogic = logic.UseOffCounterLogic;
 
 			HasOnClause = hasOnClause;
@@ -46,6 +53,7 @@ namespace GKModule.ViewModels
 			HasOffNowClause = hasOffNowClause;
 			HasStopClause = hasStopClause;
 			HasOn2Clause = hasOn2Clause;
+			IsIC = isIC;
 		}
 
 		bool _useOffCounterLogic;
@@ -74,6 +82,9 @@ namespace GKModule.ViewModels
 			logic.OffNowClausesGroup = OffNowClausesGroup.GetClauseGroup();
 			logic.StopClausesGroup = StopClausesGroup.GetClauseGroup();
 			logic.UseOffCounterLogic = UseOffCounterLogic;
+			logic.RedIndicatorLogic = RedIndicatorLogic.GetModel();
+			logic.GreenIndicatorLogic = GreenIndicatorLogic.GetModel();
+			logic.YellowIndicatorLogic = YellowIndicatorLogic.GetModel();
 			return logic;
 		}
 	}

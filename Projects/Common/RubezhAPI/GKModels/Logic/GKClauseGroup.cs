@@ -34,6 +34,8 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public ClauseJounOperationType ClauseJounOperationType { get; set; }
 
+		public bool IsNotEmpty() { return ClauseGroups.Count + GetObjects().Count > 0; }
+
 		public GKClauseGroup Clone()
 		{
 			var result = new GKClauseGroup();
