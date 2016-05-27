@@ -31,10 +31,13 @@ namespace RubezhAPI.GK
 		[DescriptionAttribute("Автоматика отключена")]
 		AutoOff = 7,
 
+		[DescriptionAttribute("Останов пуска")]
+		StopStart = 8,
+
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 8,
+		Service = 9,
 
 		[DescriptionAttribute("Включается/Включено")]
-		Turning = 9
+		Turning = 10
 	}
 }

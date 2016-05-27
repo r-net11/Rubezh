@@ -26,7 +26,7 @@ namespace RubezhAPI.Models
 		TurningOn = 6,
 
 		[DescriptionAttribute("Останов пуска")]
-		TurningOff = 7,
+		StopStart = 7,
 
 		[DescriptionAttribute("Автоматика отключена")]
 		AutoOff = 8,

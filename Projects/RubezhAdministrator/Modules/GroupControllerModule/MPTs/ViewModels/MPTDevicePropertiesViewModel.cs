@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadPropertiesCommand { get; private set; }
 		void OnReadProperties()
 		{
-			if (!CompareLocalWithRemoteHashes())
+			if (!DeviceViewModel.CompareLocalWithRemoteHashes(Device))
 				return;
 
 			var result = ClientManager.RubezhService.GKGetSingleParameter(Device);
@@ -69,9 +69,9 @@ namespace GKModule.ViewModels
 		void OnWriteProperties()
 		{
 			DescriptorsManager.Create();
-			if (!CompareLocalWithRemoteHashes())
+			if (!DeviceViewModel.CompareLocalWithRemoteHashes(Device))
 				return;
-			if (Validate(Device))
+			if (DeviceViewModel.Validate(new List<GKDevice>() { Device }))
 			{
 				DescriptorsManager.Create();
 
@@ -90,66 +90,6 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool Validate(GKDevice device)
-		{
-			foreach (var property in device.Properties)
-			{
-				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (IsPropertyValid(property, driverProperty))
-				{
-					string message;
-					if (driverProperty.Multiplier != 0)
-					{
-						message = "Устройство " + device.PresentationName +
-							"\nЗначение параметра\n" +
-							driverProperty.Caption +
-							"\nдолжно быть в диапазоне от " + (driverProperty.Min / driverProperty.Multiplier).ToString() +
-							" до " + (driverProperty.Max / driverProperty.Multiplier).ToString();
-					}
-					else
-					{
-						message = "Устройство " + device.PresentationName +
-							"\nЗначение параметра\n" +
-							driverProperty.Caption +
-							"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() +
-							" до " + driverProperty.Max.ToString();
-					}
-					MessageBoxService.Show(message);
-					return false;
-				}
-			}
-			return true;
-		}
-		static bool IsPropertyValid(GKProperty property, GKDriverProperty driverProperty)
-		{
-			int value;
-			return
-					driverProperty != null &&
-					driverProperty.IsAUParameter &&
-					driverProperty.DriverPropertyType == GKDriverPropertyTypeEnum.IntType &&
-					(!int.TryParse(Convert.ToString(property.Value), out value) ||
-					(value < driverProperty.Min || value > driverProperty.Max));
-		}
-		bool CompareLocalWithRemoteHashes()
-		{
-			var gkParent = Device.GKParent;
-
-			var result = ClientManager.RubezhService.GKGKHash(gkParent);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowError(result.Error + ". Операция запрещена");
-				return false;
-			}
-
-			GKManager.DeviceConfiguration.PrepareDescriptors();
-			var localHash = GKFileInfo.CreateHash1(gkParent);
-			var remoteHash = result.Result;
-			if (GKFileInfo.CompareHashes(localHash, remoteHash))
-				return true;
-			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
-			return false;
-		}
-
 		bool CanReadWrite()
 		{
 			return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0;

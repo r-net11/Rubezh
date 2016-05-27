@@ -54,7 +54,7 @@ namespace Infrastructure.Automation
 			if (target == null)
 				return;
 
-			target.Value = value;
+    	    target.Value = value;
 
 			if (ContextType == ContextType.Server && target.IsGlobal && target.ContextType == ContextType.Server)
 				SendCallback(new AutomationCallbackResult

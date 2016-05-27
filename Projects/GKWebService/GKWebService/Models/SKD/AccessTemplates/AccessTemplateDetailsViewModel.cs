@@ -17,6 +17,7 @@ namespace GKWebService.Models.SKD.AccessTemplates
 
         public AccessTemplateDetailsViewModel()
         {
+			Doors = new List<AccessDoorModel>();
         }
 
         public void Initialize(Guid organisationId, Guid? id)

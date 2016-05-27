@@ -51,8 +51,12 @@
                      }
                  });
 
-                 modalInstance.result.then(function () {
-                     positionsService.reload();
+                 modalInstance.result.then(function (position) {
+                     if (isNew) {
+                         $scope.$parent.$broadcast('AddPositionEvent', position);
+                     } else {
+                         $scope.$parent.$broadcast('EditPositionEvent', position);
+                     }
                  });
              };
 
@@ -71,12 +75,18 @@
                              if (dialogService.showConfirm("Существуют привязанные к должности сотрудники. Продолжить?")) {
                                 positionsService.markDeleted($scope.selectedPosition.UID, $scope.selectedPosition.Name).then(function () {
                                     positionsService.reload();
+                                    angular.forEach(employeeUIDs, function (UID) {
+                                        $scope.$parent.$broadcast('EditEmployeeEvent', UID);
+                                    });
                                 });
                             }
                         } else {
                              positionsService.markDeleted($scope.selectedPosition.UID, $scope.selectedPosition.Name).then(function () {
                                 positionsService.reload();
-                            });
+                                angular.forEach(employeeUIDs, function (UID) {
+                                    $scope.$parent.$broadcast('EditEmployeeEvent', UID);
+                                });
+                             });
                         }
                     });
                  }
@@ -86,6 +96,11 @@
                  $scope.restoreElement("должность", positionsService.positions, $scope.selectedPosition).then(function () {
                      positionsService.restore($scope.selectedPosition).then(function () {
                          positionsService.reload();
+                         positionsService.getChildEmployeeUIDs($scope.selectedPosition.UID).then(function (employeeUIDs) {
+                             angular.forEach(employeeUIDs, function (UID) {
+                                 $scope.$parent.$broadcast('EditEmployeeEvent', UID);
+                             });
+                         });
                      });
                  });
              };

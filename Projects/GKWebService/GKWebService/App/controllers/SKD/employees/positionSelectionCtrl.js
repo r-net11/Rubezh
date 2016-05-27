@@ -61,6 +61,9 @@
                          },
                          isNew: function () {
                              return true;
+                         },
+                         positions: function () {
+                             return $scope.positions;
                          }
                      }
                  });

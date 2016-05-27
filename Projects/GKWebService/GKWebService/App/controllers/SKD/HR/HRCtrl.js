@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
-        ['$scope', '$uibModal', '$timeout', '$filter', '$q', 'authData', 'employeesService', 'dateFilter', 'dialogService',
-        function ($scope, $uibModal, $timeout, $filter, $q, authData, employeesService, dateFilter, dialogService) {
+        ['$scope', '$uibModal', '$timeout', '$filter', '$q', '$window', 'authData', 'employeesService', 'dateFilter', 'dialogService',
+        function ($scope, $uibModal, $timeout, $filter, $q, $window, authData, employeesService, dateFilter, dialogService) {
             $scope.authData = authData;
 
             $scope.canEmployeesView = function () {
@@ -185,6 +185,7 @@
 
                 if (dialogService.showConfirm("Вы уверены, что хотите восстановить " + elementName + "?")) {
                     var items = elements;
+                    var equalItemFound = false;
                     for (var i = 0; i < items.length; i++) {
                         var item = items[i];
                         if (item.Name === selectedElement.Name &&
@@ -193,12 +194,18 @@
                             !item.IsOrganisation &&
                             !item.IsDeleted) {
                             $window.alert("Существует неудалённый элемент с таким именем");
-                            deferred.reject();
-                        }
+                            equalItemFound = true;
+                            break;
+                        } 
                     }
+                    if (equalItemFound) {
+                        deferred.reject();
+                    } else {
+                        deferred.resolve();
+                    }
+                } else {
+                    deferred.reject();
                 }
-
-                deferred.resolve();
 
                 return deferred.promise;
             };

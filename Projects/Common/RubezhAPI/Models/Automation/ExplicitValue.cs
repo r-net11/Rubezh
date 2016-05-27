@@ -201,11 +201,17 @@ namespace RubezhAPI.Automation
 
 			set
 			{
-				if (value == null) return;
+                if (value == null && ExplicitType == ExplicitType.Object && IsList == false)
+                {
+                    UidValue = Guid.Empty;
+                    return;
+                }
 
-				if (value is IList)
+                if (value == null) return;
+
+                if (value is IList)
 				{
-					if (value is List<int>)
+                    if (value is List<int>)
 					{
 						IntValueList = (List<int>)value;
 						IsList = true;

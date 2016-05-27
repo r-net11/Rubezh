@@ -52,6 +52,10 @@ namespace GKModule.Converters
 					alarmName = "Alarm_main_7_Auto";
 					break;
 
+				case GKAlarmType.StopStart:
+					alarmName = "Close";
+					break;
+
 				default:
 					alarmName = "Alarm_main_3_Failure";
 					break;

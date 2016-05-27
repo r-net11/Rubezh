@@ -10,6 +10,6 @@
         <div class="HrToolbar" id="PhotoSelectionToolbar">
             <div class="icon close" title="Очитстить фото" ng-click="removeClick(photoData)"></div>
             <div class="icon load" title="Загрузить фото из файла" ng-click="openClick(photoData)"></div>
-            <input type="file" id="OpenPhoto" file-change="loadPhoto()" ng-hide="true" />
+            <input type="file" id="OpenPhoto" accept="image/*" file-change="loadPhoto()" ng-hide="true" />
         </div>
     </div>

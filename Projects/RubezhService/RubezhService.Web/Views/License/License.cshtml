@@ -4,9 +4,10 @@
     ViewBag.CurrentTab = "License";
 }
 
-<div>
-    Статус лицензии: @Model.LicenseMode
-</div>
+<p>
+    <label>Статус лицензии:</label>
+    @Model.LicenseMode.ToDescription()
+</p>
 <div>
     <table class="table">
         <tbody>
@@ -16,31 +17,32 @@
             </tr>
             <tr>
                 <td>GLOBAL Пожаротушение:</td>
-                <td>@Model.HasFirefighting</td>
+                <td>@Model.HasFirefighting.ToYesNo()</td>
             </tr>
             <tr>
                 <td>GLOBAL Охрана:</td>
-                <td>@Model.HasGuard</td>
+                <td>@Model.HasGuard.ToYesNo()</td>
             </tr>
             <tr>
                 <td>GLOBAL Доступ:</td>
-                <td>@Model.HasSKD</td>
+                <td>@Model.HasSKD.ToYesNo()</td>
             </tr>
             <tr>
                 <td>GLOBAL Видео:</td>
-                <td>@Model.HasVideo</td>
+                <td>@Model.HasVideo.ToYesNo()</td>
             </tr>
             <tr>
                 <td>GLOBAL OPC Сервер:</td>
-                <td>@Model.HasOpcServer</td>
+                <td>@Model.HasOpcServer.ToYesNo()</td>
             </tr>
         </tbody>
     </table>
 </div>
 <div>
-    Ключ: @ViewBag.InitialKey
-</div>
-<div class="btn btn-block btn-default btn-primary">
-    Загрузить лицензию
+    <label>Ключ:</label>
+    @ViewBag.InitialKey
+    <div class="btn btn-block btn-default btn-primary">
+        Загрузить лицензию
+    </div>
 </div>
 

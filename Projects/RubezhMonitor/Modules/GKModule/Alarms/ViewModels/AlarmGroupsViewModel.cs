@@ -34,6 +34,7 @@ namespace GKModule.ViewModels
 			AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.AutoOff));
 			AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.Service));
 			AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.Turning));
+			AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.StopStart));
 		}
 
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }

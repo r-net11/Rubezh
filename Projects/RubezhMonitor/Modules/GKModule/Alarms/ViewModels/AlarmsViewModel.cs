@@ -193,6 +193,12 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(GKAlarmType.AutoOff, direction));
 				}
+
+				if (!direction.State.StateClasses.Contains(XStateClass.Off) && !direction.State.StateClasses.Contains(XStateClass.On) &&
+				!direction.State.StateClasses.Contains(XStateClass.TurningOn) && !direction.State.StateClasses.Contains(XStateClass.TurningOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.StopStart, direction));
+				}
 			}
 
 			foreach (var pumpStation in GKManager.PumpStations)
@@ -215,6 +221,11 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(GKAlarmType.AutoOff, pumpStation));
 				}
+				if (!pumpStation.State.StateClasses.Contains(XStateClass.Off) && !pumpStation.State.StateClasses.Contains(XStateClass.On) &&
+				!pumpStation.State.StateClasses.Contains(XStateClass.TurningOn) && !pumpStation.State.StateClasses.Contains(XStateClass.TurningOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.StopStart, pumpStation));
+				}
 			}
 
 			foreach (var mpt in GKManager.MPTs)
@@ -236,6 +247,11 @@ namespace GKModule.ViewModels
 				if (mpt.State.StateClasses.Contains(XStateClass.AutoOff))
 				{
 					alarms.Add(new Alarm(GKAlarmType.AutoOff, mpt));
+				}
+				if (!mpt.State.StateClasses.Contains(XStateClass.Off) && !mpt.State.StateClasses.Contains(XStateClass.On) &&
+				!mpt.State.StateClasses.Contains(XStateClass.TurningOn) && !mpt.State.StateClasses.Contains(XStateClass.TurningOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.StopStart, mpt));
 				}
 			}
 
