@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Devices;
+using StrazhAPI.Plans.Devices;
 using Microsoft.Win32;
 using Infrastructure.Client.Converters;
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using StrazhAPI;
+﻿using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.Helpers;
-using FiresecService.Report.Templates;
 using StrazhDAL;
 using System.Collections.Generic;
 

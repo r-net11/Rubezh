@@ -2,7 +2,7 @@
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.ViewModels
 {

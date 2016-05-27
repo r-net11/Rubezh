@@ -21,7 +21,7 @@ namespace Infrastructure.Common
 
 		public abstract ModuleType ModuleType { get; }
 
-		public virtual int Order
+		public virtual int Order //TODO: Remove this field
 		{
 			get { return 10; }
 		}

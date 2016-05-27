@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Media;
+using StrazhAPI;
 using StrazhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Plans.Presenter
 		{
 			return Helper.Tooltip;
 		}
-		protected override Brush GetBrush()
+		protected override System.Windows.Media.Brush GetBrush()
 		{
 			return PainterCache.GetTransparentBrush(GetStateColor());
 		}

@@ -50,8 +50,9 @@ namespace FiresecService
 			}
 			else
 			{
-                MessageBox.Show(Resources.Language.Processor.ConfigurationCashHelper.ExtractAllConfigFiles_ConfigFileNotExist, Resources.Language.Processor.ConfigurationCashHelper.ExtractAllConfigFiles_ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
-				Application.Current.MainWindow.Close();
+				//MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+				//Application.Current.MainWindow.Close();
+				throw new FileNotFoundException(Resources.ConfigFileNotExist);
 			}
 		}
 
@@ -149,7 +150,7 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
-                Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
 			}
 			return null;
 		}

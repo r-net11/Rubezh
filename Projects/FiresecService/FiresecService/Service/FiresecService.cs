@@ -9,7 +9,6 @@ using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecService.Service.Validators;
-using FiresecService.ViewModels;
 using Infrastructure.Common;
 using KeyGenerator;
 using StrazhDAL;
@@ -17,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using StrazhService;
 
 namespace FiresecService.Service
 {
@@ -95,7 +95,10 @@ namespace FiresecService.Service
 
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
+			{
+				Logger.Info(string.Format("Вход пользователя в систему: GUID='{0}' Тип='{1}' Пользователь='{2}'", clientCredentials.ClientUID, clientCredentials.ClientType, clientCredentials.FriendlyUserName));
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
+			}
 
 			return operationResult;
 		}
@@ -120,7 +123,7 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
-			MainViewModel.Current.EditClient(uid, login);
+			Notifier.EditClient(uid, login);
 			AddJournalMessage(JournalEventNameType.Дежурство_сдал, null, JournalEventDescriptionType.NULL, oldUserName);
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);
@@ -147,8 +150,10 @@ namespace FiresecService.Service
 				}
 				clientInfo.IsDisconnecting = true;
 				clientInfo.WaitEvent.Set();
-				if (clientInfo.ClientCredentials != null)
+				var clientCredentials = clientInfo.ClientCredentials;
+				if (clientCredentials != null)
 				{
+					Logger.Info(string.Format("Выход пользователя из системы: GUID='{0}' Тип='{1}' Пользователь='{2}'", clientCredentials.ClientUID, clientCredentials.ClientType, clientCredentials.FriendlyUserName));
 					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
 				}
 			}
@@ -385,5 +390,22 @@ namespace FiresecService.Service
 			}
 		}
 
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		public OperationResult<List<ClientCredentials>> GetClients()
+		{
+			return new OperationResult<List<ClientCredentials>>(ClientsManager.ClientInfos.Select(x => x.ClientCredentials).ToList());
+		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return new OperationResult<string>(Notifier.GetLogs());
+		}
 	}
 }

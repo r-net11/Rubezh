@@ -6,27 +6,24 @@
 	<Fragment>
 
 		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.AutorunComponent" Guid="9A2B92E7-1B10-42F6-9BFA-51320E20D082">
-				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="StrazhService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
-				</RegistryKey>
-			</Component>
-
 			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
-				<File Id="Server.StrazhService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+				<File Id="Server.StrazhService.Monitor.exe.config" Name="StrazhService.Monitor.exe.config" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.exe.manifest" Name="StrazhService.exe.manifest" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
-				<File Id="Server.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-				<File Id="Server.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
@@ -58,6 +55,8 @@
 				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.OPCIntegrationClient.dll" Name="OPCIntegrationClient.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
@@ -84,11 +83,6 @@
 				<File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 			</Component>
 
-			<Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
-				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
-				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
-			</Component>
-
 			<!-- Dahua SDK -->
 			<Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
 				<File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
@@ -103,6 +97,14 @@
 				<File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
+			<Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
+				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
+				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+			</Component>
+			
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">
@@ -135,16 +137,6 @@
 					<File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 				</Component>
 			</Directory>-->
-		</DirectoryRef>
-
-		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
-				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.EmptyLocation">

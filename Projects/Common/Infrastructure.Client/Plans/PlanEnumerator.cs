@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using StrazhAPI.Models;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Client.Plans
 {

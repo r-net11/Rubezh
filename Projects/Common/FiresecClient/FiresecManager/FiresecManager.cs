@@ -26,7 +26,7 @@ namespace FiresecClient
 				};
 
 				string error = null;
-				for (int i = 0; i < 3; i++)
+				for (var i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
 					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
@@ -43,7 +43,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.Connect");
+				Logger.Error(e, "Исключение при вызове FiresecManager.Connect");
 				return e.Message;
 			}
 		}
@@ -94,7 +94,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.CheckPermission");
+				Logger.Error(e, "Исключение при FiresecManager.CheckPermission");
 				return false;
 			}
 		}
@@ -111,6 +111,7 @@ namespace FiresecClient
 					{
 						if (FiresecService != null)
 						{
+							Logger.Info("Разрегистрируемся на Сервере и прекращаем прием сообщений от него");
 							FiresecService.Dispose();
 						}
 					}
@@ -119,7 +120,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.Disconnect");
+				Logger.Error(e, "Исключение при вызове FiresecManager.Disconnect");
 			}
 		}
 
@@ -131,7 +132,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.StartPoll");
+				Logger.Error(e, "Исключение при вызове FiresecManager.StartPoll");
 			}
 		}
 
@@ -143,7 +144,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecManager.SafeOperationCall." + methodName);
+				Logger.Error(e, "Исключение при вызове FiresecManager.SafeOperationCall." + methodName);
 				return OperationResult<T>.FromError(e.Message);
 			}
 		}

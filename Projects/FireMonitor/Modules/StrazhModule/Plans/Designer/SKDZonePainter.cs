@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
+using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -8,7 +8,7 @@ using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Presenter;
 using StrazhModule.ViewModels;
 

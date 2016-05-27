@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
+using Infrustructure.Plans;
 using StrazhAPI.Automation;
 using FiresecClient;
 using StrazhAPI.Models.Layouts;
@@ -189,9 +190,9 @@ namespace AutomationModule.Layout.ViewModels
 			{
 				UseCustomStyle = properties.UseCustomStyle;
 				Text = properties.Text;
-				BackgroundColor = properties.BackgroundColor;
-				ForegroundColor = properties.ForegroundColor;
-				BorderColor = properties.BorderColor;
+				BackgroundColor = properties.BackgroundColor.ToWindowsColor();
+				ForegroundColor = properties.ForegroundColor.ToWindowsColor();
+				BorderColor = properties.BorderColor.ToWindowsColor();
 				BorderThickness = properties.BorderThickness;
 				FontSize = properties.FontSize;
 				FontItalic = properties.FontItalic;
@@ -213,9 +214,9 @@ namespace AutomationModule.Layout.ViewModels
 			{
 				properties.UseCustomStyle = UseCustomStyle;
 				properties.Text = Text;
-				properties.BackgroundColor = BackgroundColor;
-				properties.ForegroundColor = ForegroundColor;
-				properties.BorderColor = BorderColor;
+				properties.BackgroundColor = BackgroundColor.ToStruzhColor();
+				properties.ForegroundColor = ForegroundColor.ToStruzhColor();
+				properties.BorderColor = BorderColor.ToStruzhColor();
 				properties.BorderThickness = BorderThickness;
 				properties.FontSize = FontSize;
 				properties.FontBold = FontBold;

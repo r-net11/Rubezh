@@ -3,10 +3,10 @@
 // Управление общими сведениями о сборке осуществляется с помощью
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("StrazhService")]
+[assembly: AssemblyTitle("StrazhService.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("StrazhService")]
+[assembly: AssemblyProduct("StrazhService.Core")]
 
 //Чтобы начать построение локализованных приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj

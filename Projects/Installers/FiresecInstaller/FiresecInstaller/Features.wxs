@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?include Variables.wxi?>
-  <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
-        AllowAdvertise="no" Absent="allow" InstallDefault="local">
-      <Condition Level="2">INSTALL_FIRESEC2</Condition>
-      <FeatureRef Id="Server.Features" />
-      <FeatureRef Id="Administrator.Features" />
-      <FeatureRef Id="Monitor.Features" />
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature
+			Id="StrazhFeature"
+			Title="$(var.ProductName)"
+			Display="expand"
+			ConfigurableDirectory="INSTALLLOCATION"
+			AllowAdvertise="no"
+			Absent="allow"
+			InstallDefault="local">
+			
+			<FeatureRef Id="Server.Features" />
+			<FeatureRef Id="Administrator.Features" />
+			<FeatureRef Id="Monitor.Features" />
+			<FeatureRef Id="Monitor.Layout.Features" />
 
-      <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
-        Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
-        <Condition Level="0">INSTALL_HASP</Condition>
-      </Feature>
-
-      <Feature Id="SKD.Features" Title="A.C.Tech" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы оборудования A.C.Tech">
-        <Condition Level="1">INSTALL_STRAZH</Condition>
-        <ComponentRef Id="Administrator.STRAZH_MODULE" />
-        <ComponentRef Id="Monitor.STRAZH_MODULE" />
-      </Feature>
-      <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео">
-        <Condition Level="1">INSTALL_VIDEO</Condition>
-        <ComponentRef Id="Administrator.VIDEO_MODULE" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE" />
-      </Feature>
-
-      <ComponentRef Id="ProgramMenuDir.Additional" />
-      <ComponentRef Id="Administrator.PLANS_MODULE" />
-      <ComponentRef Id="Administrator.SOUNDS_MODULE" />
-      <ComponentRef Id="Administrator.SETTINGS_MODULE" />
-      <ComponentRef Id="Monitor.PLANS_MODULE" />
-      <ComponentRef Id="DesktopFolder" />
-      <ComponentRef Id="ProgramMenuDir" />
-      <ComponentRef Id="FscpAssociation" />
-    </Feature>
-  </Fragment>
+			<ComponentRef Id="ProgramMenuDir.Additional" />
+			<ComponentRef Id="DesktopFolder" />
+			<ComponentRef Id="ProgramMenuDir" />
+			<ComponentRef Id="FscpAssociation" />
+		</Feature>
+	</Fragment>
 </Wix>

@@ -312,10 +312,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\SKD\Create.sql" />
+    <EmbeddedResource Include="Scripts\SKD\Create.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\SKD\Patches.sql" />
+    <EmbeddedResource Include="Scripts\SKD\Patches.sql" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ActiveDs">
@@ -334,19 +334,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\Journal\Create.sql" />
+    <EmbeddedResource Include="Scripts\Journal\Create.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\Journal\Patches.sql" />
+    <EmbeddedResource Include="Scripts\Journal\Patches.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\PassJournal\Patches.sql" />
+    <EmbeddedResource Include="Scripts\PassJournal\Patches.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\PassJournal\Create.sql" />
+    <EmbeddedResource Include="Scripts\PassJournal\Create.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\SKD\DropIfExists.sql" />
+    <EmbeddedResource Include="Scripts\SKD\DropIfExists.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataAccess\Journal.dbml.layout">

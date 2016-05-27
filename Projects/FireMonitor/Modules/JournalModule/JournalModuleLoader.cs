@@ -1,38 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using StrazhAPI.Enums;
-using StrazhAPI.Journal;
-using StrazhAPI.Models.Layouts;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using JournalModule.ViewModels;
-using Infrastructure.Common.Reports;
 using JournalModule.Reports;
+using JournalModule.ViewModels;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
+using StrazhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JournalModule
 {
 	public class JournalModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		private NavigationItem _journalNavigationItem;
-		JournalViewModel JournalViewModel;
-		ArchiveViewModel ArchiveViewModel;
+		private JournalViewModel _journalViewModel;
+		private ArchiveViewModel _archiveViewModel;
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
-			JournalViewModel = new JournalViewModel();
-			ArchiveViewModel = new ArchiveViewModel();
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Unsubscribe(OnShowArchive);
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
+			ServiceFactoryBase.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
+			ServiceFactoryBase.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
+			_journalViewModel = new JournalViewModel();
+			_archiveViewModel = new ArchiveViewModel();
+			ServiceFactoryBase.Events.GetEvent<ShowArchiveEvent>().Unsubscribe(OnShowArchive);
+			ServiceFactoryBase.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
 		}
 
 		int _unreadJournalCount;
@@ -50,7 +50,7 @@ namespace JournalModule
 		void OnShowJournal(object obj)
 		{
 			UnreadJournalCount = 0;
-			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
+			_journalViewModel.SelectedJournal = _journalViewModel.JournalItems.FirstOrDefault();
 		}
 		void OnNewJournalItem(List<JournalItem> journalItems)
 		{
@@ -62,23 +62,23 @@ namespace JournalModule
 		{
 			if (showArchiveEventArgs != null)
 			{
-				ArchiveViewModel.Sort(showArchiveEventArgs);
+				_archiveViewModel.Sort(showArchiveEventArgs);
 			}
 		}
 
 		public override void Initialize()
 		{
-			JournalViewModel.Initialize();
-			ArchiveViewModel.Initialize();
+			_journalViewModel.Initialize();
+			_archiveViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, Resources.Language.JournalModuleLoader.Journal, "Book");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(_journalViewModel, Resources.Language.JournalModuleLoader.Journal, "Book");
 			UnreadJournalCount = 0;
-			return new List<NavigationItem>()
+			return new List<NavigationItem>
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, Resources.Language.JournalModuleLoader.Archive, "Archive")
+				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(_archiveViewModel, Resources.Language.JournalModuleLoader.Archive, "Archive")
 			};
 		}
 		public override ModuleType ModuleType
@@ -89,7 +89,7 @@ namespace JournalModule
 		#region IReportProviderModule Members
 		public IEnumerable<IReportProvider> GetReportProviders()
 		{
-			return new List<IReportProvider>()
+			return new List<IReportProvider>
 			{
 #if DEBUG
 				new JournalReport(),
@@ -100,41 +100,40 @@ namespace JournalModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
-			SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
+			SafeFiresecService.NewJournalItemEvent -= OnNewJournalItem;
+			SafeFiresecService.NewJournalItemEvent += OnNewJournalItem;
 
-			SafeFiresecService.GetFilteredArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredArchiveCompletedEvent -= OnGetFilteredArchiveCompletedEvent;
+			SafeFiresecService.GetFilteredArchiveCompletedEvent += OnGetFilteredArchiveCompletedEvent;
 
 			var journalFilter = new JournalFilter();
 			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
 			{
-				JournalViewModel.SetJournalItems(result.Result);
+				_journalViewModel.SetJournalItems(result.Result);
 			}
-			ArchiveViewModel.Update();
+			_archiveViewModel.Update();
 		}
 
-		void OnNewJournalItem(JournalItem journalItem)
+		static void OnNewJournalItem(JournalItem journalItem)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var journalItems = new List<JournalItem>();
-				journalItems.Add(journalItem);
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+				var journalItems = new List<JournalItem> {journalItem};
+				ServiceFactoryBase.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 			});
 		}
 
-		void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
+		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var archiveResult = new ArchiveResult()
+				var archiveResult = new ArchiveResult
 				{
 					ArchivePortionUID = archivePortionUID,
 					JournalItems = journalItems
 				};
-				ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(archiveResult);
+				ServiceFactoryBase.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(archiveResult);
 			});
 		}
 
@@ -142,12 +141,11 @@ namespace JournalModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, Resources.Language.JournalModuleLoader.Journal, "Book.png", (p) =>
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, Resources.Language.JournalModuleLoader.Journal, "Book.png", p =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
-				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
-				if(filter == null)
-					filter = new JournalFilter();
+				var filter = FiresecManager.SystemConfiguration.JournalFilters .FirstOrDefault(x => layoutPartJournalProperties != null && x.UID == layoutPartJournalProperties.ReferenceUID)
+					?? new JournalFilter();
 
 				var journalViewModel = new JournalViewModel(filter);
 				journalViewModel.Initialize();
@@ -159,7 +157,7 @@ namespace JournalModule
 
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, Resources.Language.JournalModuleLoader.Archive, "Archive.png", (p) => ArchiveViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, Resources.Language.JournalModuleLoader.Archive, "Archive.png", (p) => _archiveViewModel);
 		}
 
 		#endregion

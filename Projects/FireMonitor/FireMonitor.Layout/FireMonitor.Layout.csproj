@@ -180,6 +180,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FireMonitor\FireMonitor.csproj">
       <Project>{D1EA90C8-D176-442F-A5DD-8AB97B476821}</Project>
       <Name>FireMonitor</Name>

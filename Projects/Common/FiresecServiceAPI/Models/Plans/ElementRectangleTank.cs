@@ -1,5 +1,5 @@
-﻿using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
+﻿using StrazhAPI.Plans.Elements;
+using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -35,7 +35,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.RectangleZone; }
+			get { return StrazhAPI.Plans.Elements.Primitive.RectangleZone; }
 		}
 
 		#endregion IPrimitive Members

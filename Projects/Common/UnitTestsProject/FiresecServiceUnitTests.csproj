@@ -68,9 +68,9 @@
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
       <Name>FiresecService.Report</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\FiresecService\FiresecService\FiresecService.csproj">
+    <ProjectReference Include="..\..\FiresecService\FiresecService\StrazhService.Core.csproj">
       <Project>{903CA80D-886E-43AF-A631-BEB260F8F93D}</Project>
-      <Name>FiresecService</Name>
+      <Name>StrazhService.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>

@@ -295,7 +295,7 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
-		/// Посылает Клиентам уведомление о смене лицензии на Сервере
+		/// Монитор Сервера уведомляет Сервер о смене лицензии
 		/// </summary>
 		public void NotifyLicenseChanged()
 		{
@@ -310,6 +310,24 @@ namespace FiresecService.Service
 		public OperationResult<ShellType> GetUserShellType(string userName)
 		{
 			return SafeOperationCall(() => FiresecService.GetUserShellType(userName), "GetUserShellType");
+		}
+
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		public OperationResult<List<ClientCredentials>> GetClients()
+		{
+			return SafeOperationCall(() => FiresecService.GetClients(), "GetClients");
+		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
 	}
 }

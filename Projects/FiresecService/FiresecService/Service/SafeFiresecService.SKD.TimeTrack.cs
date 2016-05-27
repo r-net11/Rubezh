@@ -5,7 +5,6 @@ using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
-using Xceed.Wpf.Toolkit;
 
 namespace FiresecService.Service
 {

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -24,8 +25,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			if (PassCardTemplate == null) return;
 
-			BackgroundColor = PassCardTemplate.BackgroundColor;
-			BorderColor = PassCardTemplate.BorderColor;
+			BackgroundColor = PassCardTemplate.BackgroundColor.ToWindowsColor();
+			BorderColor = PassCardTemplate.BorderColor.ToWindowsColor();
 			BorderThickness = PassCardTemplate.BorderThickness;
 			Caption = PassCardTemplate.Caption;
 			Description = PassCardTemplate.Description;
@@ -121,9 +122,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			PassCardTemplate.Description = Description;
 			PassCardTemplate.Width = Width;
 			PassCardTemplate.Height = Height;
-			PassCardTemplate.BackgroundColor = BackgroundColor;
+			PassCardTemplate.BackgroundColor = BackgroundColor.ToStruzhColor();
 			PassCardTemplate.BorderThickness = BorderThickness;
-			PassCardTemplate.BorderColor = BorderColor;
+			PassCardTemplate.BorderColor = BorderColor.ToStruzhColor();
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

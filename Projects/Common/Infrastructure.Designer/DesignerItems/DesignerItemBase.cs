@@ -6,7 +6,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System.Windows.Input;
 using System.Collections.Generic;

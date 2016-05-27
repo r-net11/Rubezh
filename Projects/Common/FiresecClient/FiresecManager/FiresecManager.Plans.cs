@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace FiresecClient
 {

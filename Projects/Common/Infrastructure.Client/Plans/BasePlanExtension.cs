@@ -5,8 +5,8 @@ using Common;
 using StrazhAPI.Models;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.Plans.Interfaces;
 using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 

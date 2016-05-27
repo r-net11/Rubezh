@@ -11,7 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using StrazhModule.Doors;
 
 namespace StrazhModule.ViewModels

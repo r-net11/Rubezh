@@ -11,7 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels

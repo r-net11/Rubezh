@@ -134,6 +134,7 @@
     <Compile Include="BindingProxy.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
+    <Compile Include="Converters\ColorToSystemColorConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
@@ -1679,6 +1680,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\SelectNone.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ServiceRestart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ServiceStart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ServiceStop.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

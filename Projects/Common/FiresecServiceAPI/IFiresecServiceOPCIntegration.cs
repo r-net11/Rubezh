@@ -12,5 +12,11 @@ namespace StrazhAPI
 
 		[OperationContract]
 		OperationResult<List<OPCZone>> GetOPCZones();
+
+		[OperationContract]
+		OperationResult SetGuard(int no);
+
+		[OperationContract]
+		OperationResult UnsetGuard(int no);
 	}
 }

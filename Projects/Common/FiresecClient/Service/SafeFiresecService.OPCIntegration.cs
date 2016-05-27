@@ -19,5 +19,15 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.GetOPCZones());
 		}
+
+		public OperationResult SetGuard(int no)
+		{
+			return SafeContext.Execute(() => FiresecService.SetGuard(no));
+		}
+
+		public OperationResult UnsetGuard(int no)
+		{
+			return SafeContext.Execute(() => FiresecService.UnsetGuard(no));
+		}
     }
 }

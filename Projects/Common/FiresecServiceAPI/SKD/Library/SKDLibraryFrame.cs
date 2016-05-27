@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Devices;
+﻿using StrazhAPI.Plans.Devices;
 using System.Runtime.Serialization;
 
 namespace StrazhAPI.SKD

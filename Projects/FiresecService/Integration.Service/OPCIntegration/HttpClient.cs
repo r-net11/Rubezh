@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using StrazhAPI.Integration.OPC;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading;
-using Common;
-using Infrastructure.Common;
-using StrazhAPI.Integration.OPC;
 
 namespace Integration.Service.OPCIntegration
 {
@@ -13,8 +11,6 @@ namespace Integration.Service.OPCIntegration
 	{
 		private const int DefaultTimeoutMilliseconds = 15000;
 		private HttpListener _httpListener;
-		public const string IPAddress = @"http://127.0.0.1:8096/";
-		public const string HttpServerAddress = @"http://127.0.0.1:8097/";
 		public readonly WebResponseInfo PingSuccess;
 
 		private string _integrationAddress;
@@ -112,7 +108,7 @@ namespace Integration.Service.OPCIntegration
 			};
 
 			using(var bodyStream = response.GetResponseStream())
-			using (var reader = new StreamReader(bodyStream, Encoding.GetEncoding(1251)))//Encoding.UTF8))
+			using (var reader = new StreamReader(bodyStream, Encoding.GetEncoding(1251)))
 			{
 				info.Body = reader.ReadToEnd();
 			}
@@ -120,7 +116,7 @@ namespace Integration.Service.OPCIntegration
 			return info;
 		}
 
-		private void CreateResponse(HttpListenerResponse response, string body)
+		private static void CreateResponse(HttpListenerResponse response, string body)
 		{
 			response.StatusCode = (int) HttpStatusCode.OK;
 			response.StatusDescription = HttpStatusCode.OK.ToString();
@@ -132,7 +128,7 @@ namespace Integration.Service.OPCIntegration
 
 		public WebRequest CreateWebRequest(string body)
 		{
-			var webRequest = WebRequest.Create(_opcAddress); //_opcAddress
+			var webRequest = WebRequest.Create(_opcAddress);
 			webRequest.Method = "POST";
 			webRequest.ContentType = "text/xml";
 			webRequest.Credentials = CredentialCache.DefaultCredentials;

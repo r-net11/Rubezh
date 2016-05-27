@@ -4,7 +4,7 @@ using FiresecClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace PlansModule.Validation
 {

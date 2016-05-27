@@ -4,7 +4,7 @@ using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 
 namespace StrazhModule.ViewModels

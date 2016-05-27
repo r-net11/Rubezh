@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using Xceed.Wpf.AvalonDock;
@@ -50,8 +51,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				Manager.GridSplitterHeight = Layout.SplitterSize;
 				Manager.GridSplitterWidth = Layout.SplitterSize;
-				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
+				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor.ToWindowsColor());
+				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor.ToWindowsColor());
 				Manager.BorderThickness = new Thickness(Layout.BorderThickness);
 				if (_serializer != null && !string.IsNullOrEmpty(Layout.Content))
 					using (var tr = new StringReader(Layout.Content))

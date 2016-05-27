@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,10 +10,6 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using StrazhModule.Events;
-using StrazhModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace StrazhModule.ViewModels

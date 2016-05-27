@@ -1,7 +1,7 @@
-﻿using Infrustructure.Plans.Devices;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using StrazhAPI.GK;
+using StrazhAPI.Plans.Devices;
 
 namespace StrazhAPI.SKD
 {

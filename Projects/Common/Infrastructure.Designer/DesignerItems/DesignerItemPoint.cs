@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Infrastructure.Designer.Adorners;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.DesignerItems
 {

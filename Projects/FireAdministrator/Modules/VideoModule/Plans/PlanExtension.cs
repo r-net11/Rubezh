@@ -7,14 +7,13 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
 using VideoModule.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Interfaces;
 
 namespace VideoModule.Plans
 {

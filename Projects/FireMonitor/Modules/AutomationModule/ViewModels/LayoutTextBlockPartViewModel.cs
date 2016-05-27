@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.Automation;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
@@ -11,12 +12,12 @@ namespace AutomationModule.ViewModels
 	{
 		public LayoutTextBlockPartViewModel(LayoutPartTextProperties properties)
 		{
-			BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
+			BackgroundBrush = new SolidColorBrush(properties.BackgroundColor.ToWindowsColor());
 			FontStyle = properties.FontItalic ? FontStyles.Italic : FontStyles.Normal;
 			FontWeight = properties.FontBold ? FontWeights.Bold : FontWeights.Normal;
 			FontFamily = new FontFamily(properties.FontFamilyName);
 			FontSize = properties.FontSize;
-			ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
+			ForegroundBrush = new SolidColorBrush(properties.ForegroundColor.ToWindowsColor());
 			Text = properties.Text;
 			TextAlignment = (TextAlignment)properties.TextAlignment;
 			TextTrimming = properties.TextTrimming ? TextTrimming.CharacterEllipsis : TextTrimming.None;

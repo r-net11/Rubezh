@@ -5,6 +5,5 @@
 		<CustomAction Id="ReadAppServerSettings" BinaryKey="FiresecCADll" DllEntry="ReadAppServerSettings" Execute="immediate" Impersonate="yes" Return="check" />
 		<CustomAction Id="CheckSqlConnection" BinaryKey="FiresecCADll" DllEntry="CheckSqlConnection" Execute="immediate" Impersonate="yes" Return="check" />
 		<CustomAction Id="WriteAppServerSettings" BinaryKey="FiresecCADll" DllEntry="WriteAppServerSettings" Execute="immediate" Impersonate="yes" Return="ignore" />
-		<CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
 	</Fragment>
 </Wix>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Windows.Threading;
 using Common;
@@ -191,7 +192,7 @@ namespace FiresecClient
 				//catch (SecurityNegotiationException) { }
 				catch (Exception e)
 				{
-					Logger.Error("Исключение при вызове FiresecClient.Connect " + e.GetType().Name.ToString());
+					Logger.Error(e, "Исключение при вызове FiresecService.Connect ");
 				}
 				return OperationResult<bool>.FromError(string.Format(Resources.Language.Service.SafeFiresecService.FailedConnect,_serverAddress), false);
 			}, "Connect");
@@ -256,6 +257,41 @@ namespace FiresecClient
 		public OperationResult<ShellType> GetUserShellType(string userName)
 		{
 			return SafeOperationCall(() => FiresecService.GetUserShellType(userName), "GetUserShellType");
+		}
+
+		/// <summary>
+		/// Получает список Клиентов Сервера
+		/// </summary>
+		/// <returns></returns>
+		public OperationResult<List<ClientCredentials>> GetClients()
+		{
+			return SafeOperationCall(() => FiresecService.GetClients(), "GetClients");
+		}
+
+		/// <summary>
+		/// Посылает команду Клиенту на закрытие соединения с Сервером
+		/// </summary>
+		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
+		public void SendDisconnectClientCommand(Guid clientUid)
+		{
+			SafeOperationCall(() => FiresecService.SendDisconnectClientCommand(clientUid), "SendDisconnectClientCommand");
+		}
+
+		/// <summary>
+		/// Монитор Сервера уведомляет Сервер о смене лицензии
+		/// </summary>
+		public void NotifyLicenseChanged()
+		{
+			SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
+		}
+
+		/// <summary>
+		/// Получает логи загрузки Сервера
+		/// </summary>
+		/// <returns>Логи загрузки Сервера</returns>
+		public OperationResult<string> GetLogs()
+		{
+			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
 	}
 }

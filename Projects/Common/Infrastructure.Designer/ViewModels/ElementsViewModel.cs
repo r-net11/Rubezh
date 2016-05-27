@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 

@@ -1,5 +1,5 @@
-﻿using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
+﻿using StrazhAPI.Plans.Elements;
+using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -51,7 +51,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
+			get { return StrazhAPI.Plans.Elements.Primitive.PolygonZone; }
 		}
 
 		#endregion IPrimitive Members

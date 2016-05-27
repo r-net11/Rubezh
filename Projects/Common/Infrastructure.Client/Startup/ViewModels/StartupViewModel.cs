@@ -46,7 +46,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		{
 			Surface.WindowStyle = WindowStyle.None;
 			Surface.AllowsTransparency = true;
-			Surface.Background = new SolidColorBrush(Colors.Transparent);
+			Surface.Background = new SolidColorBrush(System.Windows.Media.Colors.Transparent);
 			Surface.SizeToContent = SizeToContent.WidthAndHeight;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}

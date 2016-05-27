@@ -85,7 +85,7 @@
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<xc:ColorPicker SelectedColor="{Binding ExplicitValue.ColorValue, UpdateSourceTrigger=PropertyChanged}" Width="200"
+					<xc:ColorPicker SelectedColor="{Binding ExplicitValue.ColorValue, Converter={StaticResource ColorToSystemColorConverter}, UpdateSourceTrigger=PropertyChanged}" Width="200"
 						Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}"/>
 					<ComboBox ItemsSource="{Binding ExplicitValue.CardTypeValues}" SelectedItem="{Binding ExplicitValue.CardTypeValue, UpdateSourceTrigger=PropertyChanged}"
 					Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.CardType}}" Width="200">

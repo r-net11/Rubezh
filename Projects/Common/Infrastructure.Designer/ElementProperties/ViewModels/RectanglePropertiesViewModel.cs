@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -19,8 +20,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected virtual void CopyProperties()
 		{
-			BackgroundColor = ElementRectangle.BackgroundColor;
-			BorderColor = ElementRectangle.BorderColor;
+			BackgroundColor = ElementRectangle.BackgroundColor.ToWindowsColor();
+			BorderColor = ElementRectangle.BorderColor.ToWindowsColor();
 			StrokeThickness = ElementRectangle.BorderThickness;
 			PresentationName = ElementRectangle.PresentationName;
 		}
@@ -71,8 +72,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			ElementRectangle.BackgroundColor = BackgroundColor;
-			ElementRectangle.BorderColor = BorderColor;
+			ElementRectangle.BackgroundColor = BackgroundColor.ToStruzhColor();
+			ElementRectangle.BorderColor = BorderColor.ToStruzhColor();
 			ElementRectangle.BorderThickness = StrokeThickness;
 			ElementRectangle.PresentationName = PresentationName;
 			ImagePropertiesViewModel.Save();

@@ -3,7 +3,7 @@ using StrazhAPI.GK;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure.Client.Plans.Presenter;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace StrazhModule.Plans
 {

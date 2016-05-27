@@ -1,14 +1,13 @@
 ﻿using Common;
 using StrazhAPI;
-using FiresecService.ViewModels;
-using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using StrazhDAL;
 using System;
 using System.Data.SqlClient;
 using System.IO;
-using System.Windows;
+using StrazhService;
+using System.Reflection;
 
 namespace FiresecService
 {
@@ -43,9 +42,21 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Create.sql"));
-					using (var streamReader = new StreamReader(createStream.Stream))
+					using (var createStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.Journal.Create.sql"))
+					{
+						using (var streamReader = new StreamReader(createStream))
+						{
+							commandText = streamReader.ReadToEnd();
+						}
+						commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
+						server.ConnectionContext.ExecuteNonQuery(commandText);
+						server.ConnectionContext.Disconnect();
+					}
+				}
+
+				using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.Journal.Patches.sql"))
+				{
+					using (var streamReader = new StreamReader(patchesStream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
@@ -53,15 +64,6 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Patches.sql"));
-				using (var streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
-				server.ConnectionContext.ExecuteNonQuery(commandText);
-				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
 			{
@@ -90,9 +92,20 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Create.sql"));
-					using (var streamReader = new StreamReader(createStream.Stream))
+					using (var createStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.PassJournal.Create.sql"))
+					{
+						using (var streamReader = new StreamReader(createStream))
+						{
+							commandText = streamReader.ReadToEnd();
+						}
+						commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
+						server.ConnectionContext.ExecuteNonQuery(commandText);
+						server.ConnectionContext.Disconnect();
+					}
+				}
+				using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.PassJournal.Patches.sql"))
+				{
+					using (var streamReader = new StreamReader(patchesStream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
@@ -100,15 +113,6 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Patches.sql"));
-				using (var streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
-				server.ConnectionContext.ExecuteNonQuery(commandText);
-				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
 			{
@@ -168,7 +172,7 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException)
 			{
-                return new OperationResult(String.Format(Resources.Language.PatchManager.PatchManager.ResetDB_OperationResult, ConnectionString));
+				return new OperationResult("Не удалось подключиться к базе данных " + ConnectionString);
 			}
 			catch (Exception e)
 			{
@@ -180,16 +184,26 @@ namespace FiresecService
 
 		private static void HandleConnectionFailureException(Exception e, string codePlace)
 		{
-            UILogger.Log(String.Format(Resources.Language.PatchManager.PatchManager.HandleConnectionFailureException_Log, ConnectionString));
 			Logger.Error(e, codePlace);
-            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.PatchManager.HandleConnectionFailureException_Log);
+
+			const string msg = "Не удалось подключиться к базе данных";
+			Notifier.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
+			Notifier.BalloonShowFromServer(msg);
 		}
 
 		private static void HandleExecutionFailureException(Exception e, string codePlace)
 		{
-            UILogger.Log(String.Format(Resources.Language.PatchManager.PatchManager.HandleExecutionFailureException_Log, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Logger.Error(e, codePlace);
-            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.PatchManager.HandleExecutionFailureException_Balloon);
+
+			const string msg = "Возникла ошибка при работе с базой данных";
+			Notifier.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+			Notifier.BalloonShowFromServer(msg);
+		}
+
+		private static Stream GetResourceStream(string assemblyName, string resourceName)
+		{
+			var assembly = Assembly.LoadFrom(assemblyName);
+			return assembly.GetManifestResourceStream(resourceName);
 		}
 	}
 }

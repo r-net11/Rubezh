@@ -32,5 +32,15 @@ namespace Integration.Service
 			_opcIntegrationService.StopOPCIntegrationService();
 			_opcIntegrationService.StartOPCIntegrationService(SKDManager.SKDConfiguration.OPCSettings);
 		}
+
+		public void SetGuard(int no)
+		{
+			_opcIntegrationService.SetGuard(no);
+		}
+
+		public void UnsetGuard(int no)
+		{
+			_opcIntegrationService.UnsetGuard(no);
+		}
 	}
 }

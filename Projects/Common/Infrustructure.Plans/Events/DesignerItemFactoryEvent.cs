@@ -1,5 +1,5 @@
 ﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Events

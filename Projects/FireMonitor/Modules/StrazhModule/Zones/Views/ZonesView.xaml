@@ -9,10 +9,20 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+		<Grid
+			ScrollViewer.IsDeferredScrollingEnabled="True"
+			VirtualizingStackPanel.VirtualizationMode="Recycling">
+			<DataGrid
+				Focusable="True"
+				ItemsSource="{Binding Zones}"
+				SelectedItem="{Binding SelectedZone}"
+				CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
+					<DataGridTemplateColumn
+						Header="№"
+						SortMemberPath="Zone.No"
+						Width="Auto"
+						CanUserResize="False">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -22,13 +32,24 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Зона" Width="*" SortMemberPath="Zone.Name">
+					<DataGridTemplateColumn
+						Header="Зона"
+						Width="*"
+						SortMemberPath="Zone.Name">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-									<TextBlock VerticalAlignment="Center" Margin="2 0 0 0">
-											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+									<Image
+										Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}"
+										Width="16"
+										Height="16"
+										VerticalAlignment="Center" />
+									<TextBlock
+										VerticalAlignment="Center"
+										Margin="2 0 0 0">
+											<Hyperlink
+												Command="{Binding ShowPropertiesCommand}"
+												Style="{StaticResource HyperlinkStyle2}" >
 												<TextBlock Text="{Binding Zone.Name}" />
 											</Hyperlink>
 											<TextBlock.ContextMenu>
@@ -58,15 +79,30 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+					<DataGridTextColumn
+						Binding="{Binding Zone.Description}"
+						Header="Примечание"
+						Width="*" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-		<Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="4 0 0 0">
+		<GridSplitter
+			Grid.Column="1"
+			Height="5"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Background="Transparent"
+			Cursor="SizeWE" />
+		<Grid
+			Grid.Column="2"
+			ScrollViewer.IsDeferredScrollingEnabled="True"
+			VirtualizingStackPanel.VirtualizationMode="Recycling"
+			Margin="4 0 0 0">
 			<DataGrid ItemsSource="{Binding Devices}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Считыватель, ведущий в зону" Width="*">
+					<DataGridTemplateColumn
+						Header="Считыватель, ведущий в зону"
+						Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock VerticalAlignment="Center">

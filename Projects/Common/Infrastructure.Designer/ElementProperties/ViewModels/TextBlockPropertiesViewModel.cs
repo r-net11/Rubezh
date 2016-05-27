@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
-using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using Infrustructure.Plans;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -40,9 +40,9 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected virtual void CopyProperties()
 		{
 			Text = ElementTextBlock.Text;
-			BackgroundColor = ElementTextBlock.BackgroundColor;
-			ForegroundColor = ElementTextBlock.ForegroundColor;
-			BorderColor = ElementTextBlock.BorderColor;
+			BackgroundColor = ElementTextBlock.BackgroundColor.ToWindowsColor();
+			ForegroundColor = ElementTextBlock.ForegroundColor.ToWindowsColor();
+			BorderColor = ElementTextBlock.BorderColor.ToWindowsColor();
 			StrokeThickness = ElementTextBlock.BorderThickness;
 			FontSize = ElementTextBlock.FontSize;
 			FontItalic = ElementTextBlock.FontItalic;
@@ -215,9 +215,9 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected override bool Save()
 		{
 			ElementTextBlock.Text = Text;
-			ElementTextBlock.BackgroundColor = BackgroundColor;
-			ElementTextBlock.ForegroundColor = ForegroundColor;
-			ElementTextBlock.BorderColor = BorderColor;
+			ElementTextBlock.BackgroundColor = BackgroundColor.ToStruzhColor();
+			ElementTextBlock.ForegroundColor = ForegroundColor.ToStruzhColor();
+			ElementTextBlock.BorderColor = BorderColor.ToStruzhColor();
 			ElementTextBlock.BorderThickness = StrokeThickness;
 			ElementTextBlock.FontSize = FontSize;
 			ElementTextBlock.FontBold = FontBold;

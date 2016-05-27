@@ -1,8 +1,7 @@
 ﻿using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using Infrastructure;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.PassCardDesigner.Designer
