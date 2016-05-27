@@ -1,13 +1,11 @@
-﻿using System.Linq;
+﻿using ChinaSKDDriverNativeApi;
 using StrazhDeviceSDK.API;
-using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using StrazhAPI.Journal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace StrazhDeviceSDK
 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators {
+namespace StrazhDAL.Resources.Language.Translators {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TimeTrackDocumentTypeTranslator {
+    public class TimeTrackDocumentTypeTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.TimeTrackDocumentTypeTranslator", typeof(TimeTrackDocumentTypeTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.TimeTrackDocumentTypeTranslator", typeof(TimeTrackDocumentTypeTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность работы в дневное время.
         /// </summary>
-        internal static string String1 {
+        public static string String1 {
             get {
                 return ResourceManager.GetString("String1", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Я.
         /// </summary>
-        internal static string String1_Code {
+        public static string String1_Code {
             get {
                 return ResourceManager.GetString("String1_Code", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Ежегодный дополнительный оплачиваемый отпуск.
         /// </summary>
-        internal static string String10 {
+        public static string String10 {
             get {
                 return ResourceManager.GetString("String10", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ОД.
         /// </summary>
-        internal static string String10_Code {
+        public static string String10_Code {
             get {
                 return ResourceManager.GetString("String10_Code", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Дополнительный отпуск в связи с обучением с сохранением среднего заработка работникам, совмещающим работу с обучением.
         /// </summary>
-        internal static string String11 {
+        public static string String11 {
             get {
                 return ResourceManager.GetString("String11", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to У.
         /// </summary>
-        internal static string String11_Code {
+        public static string String11_Code {
             get {
                 return ResourceManager.GetString("String11_Code", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Сокращенная продолжительность рабочего времени для обучающихся без отрыва от производства с частичным сохранением заработной платы.
         /// </summary>
-        internal static string String12 {
+        public static string String12 {
             get {
                 return ResourceManager.GetString("String12", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to УВ.
         /// </summary>
-        internal static string String12_Code {
+        public static string String12_Code {
             get {
                 return ResourceManager.GetString("String12_Code", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Дополнительный отпуск в связи с обучением без сохранения заработной платы.
         /// </summary>
-        internal static string String13 {
+        public static string String13 {
             get {
                 return ResourceManager.GetString("String13", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to УД.
         /// </summary>
-        internal static string String13_Code {
+        public static string String13_Code {
             get {
                 return ResourceManager.GetString("String13_Code", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отпуск по беременности и родам (отпуск в связи с усыновлением новорожденного ребенка).
         /// </summary>
-        internal static string String14 {
+        public static string String14 {
             get {
                 return ResourceManager.GetString("String14", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Р.
         /// </summary>
-        internal static string String14_Code {
+        public static string String14_Code {
             get {
                 return ResourceManager.GetString("String14_Code", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отпуск по уходу за ребенком до достижения им возраста трех лет.
         /// </summary>
-        internal static string String15 {
+        public static string String15 {
             get {
                 return ResourceManager.GetString("String15", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ОЖ.
         /// </summary>
-        internal static string String15_Code {
+        public static string String15_Code {
             get {
                 return ResourceManager.GetString("String15_Code", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отпуск без сохранения заработной платы, предоставляемый работнику по разрешению работодателя.
         /// </summary>
-        internal static string String16 {
+        public static string String16 {
             get {
                 return ResourceManager.GetString("String16", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ДО.
         /// </summary>
-        internal static string String16_Code {
+        public static string String16_Code {
             get {
                 return ResourceManager.GetString("String16_Code", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отпуск без сохранения заработной платы при условиях, предусмотренных действующим законодательством Российской Федерации.
         /// </summary>
-        internal static string String17 {
+        public static string String17 {
             get {
                 return ResourceManager.GetString("String17", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ОЗ.
         /// </summary>
-        internal static string String17_Code {
+        public static string String17_Code {
             get {
                 return ResourceManager.GetString("String17_Code", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Ежегодный дополнительный отпуск без сохранения заработной платы.
         /// </summary>
-        internal static string String18 {
+        public static string String18 {
             get {
                 return ResourceManager.GetString("String18", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ДБ.
         /// </summary>
-        internal static string String18_Code {
+        public static string String18_Code {
             get {
                 return ResourceManager.GetString("String18_Code", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Временная нетрудоспособность (кроме случаев, предусмотренных кодом &apos;Т&apos;) с назначением пособия согласно законодательству.
         /// </summary>
-        internal static string String19 {
+        public static string String19 {
             get {
                 return ResourceManager.GetString("String19", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Б.
         /// </summary>
-        internal static string String19_Code {
+        public static string String19_Code {
             get {
                 return ResourceManager.GetString("String19_Code", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность работы в ночное время.
         /// </summary>
-        internal static string String2 {
+        public static string String2 {
             get {
                 return ResourceManager.GetString("String2", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Н.
         /// </summary>
-        internal static string String2_Code {
+        public static string String2_Code {
             get {
                 return ResourceManager.GetString("String2_Code", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Временная нетрудоспособность без назначения пособия в случаях, предусмотренных законодательством.
         /// </summary>
-        internal static string String20 {
+        public static string String20 {
             get {
                 return ResourceManager.GetString("String20", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Т.
         /// </summary>
-        internal static string String20_Code {
+        public static string String20_Code {
             get {
                 return ResourceManager.GetString("String20_Code", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Сокращенная продолжительность рабочего времени против нормальной продолжительности рабочего дня в случаях, предусмотренных законодательством.
         /// </summary>
-        internal static string String21 {
+        public static string String21 {
             get {
                 return ResourceManager.GetString("String21", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ЛЧ.
         /// </summary>
-        internal static string String21_Code {
+        public static string String21_Code {
             get {
                 return ResourceManager.GetString("String21_Code", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Время вынужденного прогула в случае признания увольнения, перевода на другую работу или отстранения от работы незаконным и с восстановлением на прежней работе.
         /// </summary>
-        internal static string String22 {
+        public static string String22 {
             get {
                 return ResourceManager.GetString("String22", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ПВ.
         /// </summary>
-        internal static string String22_Code {
+        public static string String22_Code {
             get {
                 return ResourceManager.GetString("String22_Code", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Невыходы на время исполнения государственных или общественных обязанностей согласно законодательству.
         /// </summary>
-        internal static string String23 {
+        public static string String23 {
             get {
                 return ResourceManager.GetString("String23", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Г.
         /// </summary>
-        internal static string String23_Code {
+        public static string String23_Code {
             get {
                 return ResourceManager.GetString("String23_Code", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Прогулы (отсутствие на рабочем месте без уважительных причин в течение времени, установленного законодательством).
         /// </summary>
-        internal static string String24 {
+        public static string String24 {
             get {
                 return ResourceManager.GetString("String24", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ПР.
         /// </summary>
-        internal static string String24_Code {
+        public static string String24_Code {
             get {
                 return ResourceManager.GetString("String24_Code", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность работы в режиме неполного рабочего времени по инициативе работодателя в случаях, предусмотренных законодательством.
         /// </summary>
-        internal static string String25 {
+        public static string String25 {
             get {
                 return ResourceManager.GetString("String25", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НС.
         /// </summary>
-        internal static string String25_Code {
+        public static string String25_Code {
             get {
                 return ResourceManager.GetString("String25_Code", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Выходные дни (еженедельный отпуск) и нерабочие праздничные дни.
         /// </summary>
-        internal static string String26 {
+        public static string String26 {
             get {
                 return ResourceManager.GetString("String26", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to В.
         /// </summary>
-        internal static string String26_Code {
+        public static string String26_Code {
             get {
                 return ResourceManager.GetString("String26_Code", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Дополнительные выходные дни (оплачиваемые).
         /// </summary>
-        internal static string String27 {
+        public static string String27 {
             get {
                 return ResourceManager.GetString("String27", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ОВ.
         /// </summary>
-        internal static string String27_Code {
+        public static string String27_Code {
             get {
                 return ResourceManager.GetString("String27_Code", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Дополнительные выходные дни (без сохранения заработной платы).
         /// </summary>
-        internal static string String28 {
+        public static string String28 {
             get {
                 return ResourceManager.GetString("String28", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НВ.
         /// </summary>
-        internal static string String28_Code {
+        public static string String28_Code {
             get {
                 return ResourceManager.GetString("String28_Code", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Забастовка (при условиях и в порядке, предусмотренных законом).
         /// </summary>
-        internal static string String29 {
+        public static string String29 {
             get {
                 return ResourceManager.GetString("String29", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ЗБ.
         /// </summary>
-        internal static string String29_Code {
+        public static string String29_Code {
             get {
                 return ResourceManager.GetString("String29_Code", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность работы в выходные и нерабочие праздничные дни.
         /// </summary>
-        internal static string String3 {
+        public static string String3 {
             get {
                 return ResourceManager.GetString("String3", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to РВ.
         /// </summary>
-        internal static string String3_Code {
+        public static string String3_Code {
             get {
                 return ResourceManager.GetString("String3_Code", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Неявки по невыясненным причинам (до выяснения обстоятельств).
         /// </summary>
-        internal static string String30 {
+        public static string String30 {
             get {
                 return ResourceManager.GetString("String30", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НН.
         /// </summary>
-        internal static string String30_Code {
+        public static string String30_Code {
             get {
                 return ResourceManager.GetString("String30_Code", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Время простоя по вине работодателя.
         /// </summary>
-        internal static string String31 {
+        public static string String31 {
             get {
                 return ResourceManager.GetString("String31", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to РП.
         /// </summary>
-        internal static string String31_Code {
+        public static string String31_Code {
             get {
                 return ResourceManager.GetString("String31_Code", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Время простоя по причинам, не зависящим от работодателя и работника.
         /// </summary>
-        internal static string String32 {
+        public static string String32 {
             get {
                 return ResourceManager.GetString("String32", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НП.
         /// </summary>
-        internal static string String32_Code {
+        public static string String32_Code {
             get {
                 return ResourceManager.GetString("String32_Code", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Время простоя по вине работника.
         /// </summary>
-        internal static string String33 {
+        public static string String33 {
             get {
                 return ResourceManager.GetString("String33", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ВП.
         /// </summary>
-        internal static string String33_Code {
+        public static string String33_Code {
             get {
                 return ResourceManager.GetString("String33_Code", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отстранение от работы (недопущение к работе) с оплатой (пособием) в соответствии с законодательством.
         /// </summary>
-        internal static string String34 {
+        public static string String34 {
             get {
                 return ResourceManager.GetString("String34", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НО.
         /// </summary>
-        internal static string String34_Code {
+        public static string String34_Code {
             get {
                 return ResourceManager.GetString("String34_Code", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отстранение от работы (недопущение к работе) по причинам, предусмотренным законодательством, без начисления заработной платы.
         /// </summary>
-        internal static string String35 {
+        public static string String35 {
             get {
                 return ResourceManager.GetString("String35", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НБ.
         /// </summary>
-        internal static string String35_Code {
+        public static string String35_Code {
             get {
                 return ResourceManager.GetString("String35_Code", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Время приостановки работы в случае задержки выплаты заработной платы.
         /// </summary>
-        internal static string String36 {
+        public static string String36 {
             get {
                 return ResourceManager.GetString("String36", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to НЗ.
         /// </summary>
-        internal static string String36_Code {
+        public static string String36_Code {
             get {
                 return ResourceManager.GetString("String36_Code", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность сверхурочной работы.
         /// </summary>
-        internal static string String4 {
+        public static string String4 {
             get {
                 return ResourceManager.GetString("String4", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to С.
         /// </summary>
-        internal static string String4_Code {
+        public static string String4_Code {
             get {
                 return ResourceManager.GetString("String4_Code", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Продолжительность работы вахтовым методом.
         /// </summary>
-        internal static string String5 {
+        public static string String5 {
             get {
                 return ResourceManager.GetString("String5", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ВМ.
         /// </summary>
-        internal static string String5_Code {
+        public static string String5_Code {
             get {
                 return ResourceManager.GetString("String5_Code", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Служебная командировка.
         /// </summary>
-        internal static string String6 {
+        public static string String6 {
             get {
                 return ResourceManager.GetString("String6", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to К.
         /// </summary>
-        internal static string String6_Code {
+        public static string String6_Code {
             get {
                 return ResourceManager.GetString("String6_Code", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Повышение квалификации с отрывом от работы.
         /// </summary>
-        internal static string String7 {
+        public static string String7 {
             get {
                 return ResourceManager.GetString("String7", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ПК.
         /// </summary>
-        internal static string String7_Code {
+        public static string String7_Code {
             get {
                 return ResourceManager.GetString("String7_Code", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Повышение квалификации с отрывом от работы в другой местности.
         /// </summary>
-        internal static string String8 {
+        public static string String8 {
             get {
                 return ResourceManager.GetString("String8", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ПМ.
         /// </summary>
-        internal static string String8_Code {
+        public static string String8_Code {
             get {
                 return ResourceManager.GetString("String8_Code", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Ежегодный основной оплачиваемый отпуск.
         /// </summary>
-        internal static string String9 {
+        public static string String9 {
             get {
                 return ResourceManager.GetString("String9", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to ОТ.
         /// </summary>
-        internal static string String9_Code {
+        public static string String9_Code {
             get {
                 return ResourceManager.GetString("String9_Code", resourceCulture);
             }

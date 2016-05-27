@@ -1,4 +1,4 @@
-﻿using StrazhDeviceSDK.NativeAPI;
+﻿using ChinaSKDDriverNativeApi;
 using StrazhAPI.Journal;
 using System;
 

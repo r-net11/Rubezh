@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators {
+namespace StrazhDAL.Resources.Language.Translators {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PassJournalTranslator {
+    public class PassJournalTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.PassJournalTranslator", typeof(PassJournalTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.PassJournalTranslator", typeof(PassJournalTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Данный интервал является пересекающимся.
         /// </summary>
-        internal static string AddCustomPassJournal_Error {
+        public static string AddCustomPassJournal_Error {
             get {
                 return ResourceManager.GetString("AddCustomPassJournal_Error", resourceCulture);
             }

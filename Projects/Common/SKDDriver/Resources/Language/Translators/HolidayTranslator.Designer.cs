@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators {
+namespace StrazhDAL.Resources.Language.Translators {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class HolidayTranslator {
+    public class HolidayTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.HolidayTranslator", typeof(HolidayTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.HolidayTranslator", typeof(HolidayTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Отсутствует праздничный день с UID=&apos;{0}&apos;.
         /// </summary>
-        internal static string CanRestore_Error {
+        public static string CanRestore_Error {
             get {
                 return ResourceManager.GetString("CanRestore_Error", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Праздничный день введенный на дату {0} уже существует.
         /// </summary>
-        internal static string Validate_HolidayDateDay_Error {
+        public static string Validate_HolidayDateDay_Error {
             get {
                 return ResourceManager.GetString("Validate_HolidayDateDay_Error", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Праздничный день с таким названием уже существует.
         /// </summary>
-        internal static string Validate_HolidayDateYear_Error {
+        public static string Validate_HolidayDateYear_Error {
             get {
                 return ResourceManager.GetString("Validate_HolidayDateYear_Error", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Рабочий выходной, имеющий дату переноса {0} уже существует.
         /// </summary>
-        internal static string Validate_HolidayTransferDate {
+        public static string Validate_HolidayTransferDate {
             get {
                 return ResourceManager.GetString("Validate_HolidayTransferDate", resourceCulture);
             }

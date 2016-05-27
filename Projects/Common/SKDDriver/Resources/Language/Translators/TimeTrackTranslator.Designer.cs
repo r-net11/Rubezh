@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators {
+namespace StrazhDAL.Resources.Language.Translators {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TimeTrackTranslator {
+    public class TimeTrackTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.TimeTrackTranslator", typeof(TimeTrackTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.TimeTrackTranslator", typeof(TimeTrackTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Не найден сотрудник.
         /// </summary>
-        internal static string GetEmployeeTimeTrack_Employee_Error {
+        public static string GetEmployeeTimeTrack_Employee_Error {
             get {
                 return ResourceManager.GetString("GetEmployeeTimeTrack_Employee_Error", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Не найден график.
         /// </summary>
-        internal static string GetEmployeeTimeTrack_Schedule_Error {
+        public static string GetEmployeeTimeTrack_Schedule_Error {
             get {
                 return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Error", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to До начала действия графика.
         /// </summary>
-        internal static string GetEmployeeTimeTrack_Schedule_Start_Error {
+        public static string GetEmployeeTimeTrack_Schedule_Start_Error {
             get {
                 return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Start_Error", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Не найдена схема работы.
         /// </summary>
-        internal static string GetEmployeeTimeTrack_ScheduleScheme_Error {
+        public static string GetEmployeeTimeTrack_ScheduleScheme_Error {
             get {
                 return ResourceManager.GetString("GetEmployeeTimeTrack_ScheduleScheme_Error", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Не найден день.
         /// </summary>
-        internal static string GetPlannedTimeTrackPart_Schedule_Day_Error {
+        public static string GetPlannedTimeTrackPart_Schedule_Day_Error {
             get {
                 return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_Day_Error", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace SKDDriver.Resources.Language.Translators {
         /// <summary>
         ///   Looks up a localized string similar to Не найден дневной интервал.
         /// </summary>
-        internal static string GetPlannedTimeTrackPart_Schedule_DayInterval_Error {
+        public static string GetPlannedTimeTrackPart_Schedule_DayInterval_Error {
             get {
                 return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_DayInterval_Error", resourceCulture);
             }

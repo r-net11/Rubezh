@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using LocalizationConveters;
+using StrazhAPI.SKD;
 
 namespace ChinaSKDDriverNativeApi
 {

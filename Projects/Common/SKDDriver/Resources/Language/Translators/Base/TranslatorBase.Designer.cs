@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators.Base {
+namespace StrazhDAL.Resources.Language.Translators.Base {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TranslatorBase {
+    public class TranslatorBase {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.Base.TranslatorBase", typeof(TranslatorBase).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.Base.TranslatorBase", typeof(TranslatorBase).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         /// <summary>
         ///   Looks up a localized string similar to Попытка сохранить пустую запись.
         /// </summary>
-        internal static string SaveEmptyRecord {
+        public static string SaveEmptyRecord {
             get {
                 return ResourceManager.GetString("SaveEmptyRecord", resourceCulture);
             }

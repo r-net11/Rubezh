@@ -1,5 +1,5 @@
-﻿using StrazhDeviceSDK.API;
-using StrazhDeviceSDK.NativeAPI;
+﻿using ChinaSKDDriverNativeApi;
+using StrazhDeviceSDK.API;
 
 namespace StrazhDeviceSDK
 {

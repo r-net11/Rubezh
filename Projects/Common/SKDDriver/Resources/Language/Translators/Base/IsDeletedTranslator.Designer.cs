@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language.Translators.Base {
+namespace StrazhDAL.Resources.Language.Translators.Base {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class IsDeletedTranslator {
+    public class IsDeletedTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.Base.IsDeletedTranslator", typeof(IsDeletedTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StrazhDAL.Resources.Language.Translators.Base.IsDeletedTranslator", typeof(IsDeletedTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         /// <summary>
         ///   Looks up a localized string similar to Не найдена запись в базе данных.
         /// </summary>
-        internal static string EmptyRecordInDB {
+        public static string EmptyRecordInDB {
             get {
                 return ResourceManager.GetString("EmptyRecordInDB", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         /// <summary>
         ///   Looks up a localized string similar to Не задан идентификатор.
         /// </summary>
-        internal static string EmtyID {
+        public static string EmtyID {
             get {
                 return ResourceManager.GetString("EmtyID", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         /// <summary>
         ///   Looks up a localized string similar to Данная запись не удалена.
         /// </summary>
-        internal static string RecordIsNotDeleted {
+        public static string RecordIsNotDeleted {
             get {
                 return ResourceManager.GetString("RecordIsNotDeleted", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SKDDriver.Resources.Language.Translators.Base {
         /// <summary>
         ///   Looks up a localized string similar to Существует неудаленная запись с тем же названием.
         /// </summary>
-        internal static string RecordIsNotDeletedSameName {
+        public static string RecordIsNotDeletedSameName {
             get {
                 return ResourceManager.GetString("RecordIsNotDeletedSameName", resourceCulture);
             }
