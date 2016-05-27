@@ -4,7 +4,7 @@ using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Designer;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Designer

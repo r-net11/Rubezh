@@ -2,17 +2,21 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Administrator.Features" Title="Администратор" Description="Установка приложения Администратор" Level="1" Display="hidden"
+		<Feature Id="Administrator.Features" Title="Администратор" Description="Программа установит компоненты, которые запускаются на рабочем месте администратора и позволяют конфигурировать систему" Level="1" Display="expand"
 							 ConfigurableDirectory="ADMINISTRATORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Administrator.Files" />
 			<ComponentRef Id="Administrator.DB" />
+			<ComponentRef Id="Administrator.PLANS_MODULE" />
+			<ComponentRef Id="Administrator.SOUNDS_MODULE" />
+			<ComponentRef Id="Administrator.SETTINGS_MODULE" />
+			<ComponentRef Id="Administrator.STRAZH_MODULE" />
+			<ComponentRef Id="Administrator.VIDEO_MODULE" />
 			<ComponentRef Id="Administrator.svg2xaml" />
 			<ComponentRef Id="Administrator.xaml2svg" />
-			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />
-			<ComponentRef Id="Administrator.DesktopShortcut" />
-
 			<ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
 			<ComponentRef Id="Administrator.Files.dll" />
+			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />
+			<ComponentRef Id="Administrator.DesktopShortcut" />
 		</Feature>
 	</Fragment>
 </Wix>

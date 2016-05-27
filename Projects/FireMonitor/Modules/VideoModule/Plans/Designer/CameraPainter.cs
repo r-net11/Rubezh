@@ -9,6 +9,8 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
+using Color = StrazhAPI.Color;
+using Colors = StrazhAPI.Colors;
 
 namespace VideoModule.Plans.Designer
 {

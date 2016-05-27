@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Common;
+using Infrustructure.Plans;
 using StrazhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Common;
@@ -109,10 +110,10 @@ namespace LayoutModule.ViewModels
 			_loading = true;
 			Manager.GridSplitterWidth = _layout.SplitterSize;
 			Manager.GridSplitterHeight = _layout.SplitterSize;
-			Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
-			Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor);
+			Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor.ToWindowsColor());
+			Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor.ToWindowsColor());
 			Manager.BorderThickness = new Thickness(_layout.BorderThickness);
-			Manager.Background = new SolidColorBrush(_layout.BackgroundColor);
+			Manager.Background = new SolidColorBrush(_layout.BackgroundColor.ToWindowsColor());
 			Manager.Padding = new Thickness(_layout.Padding);
 			Manager.Layout = new LayoutRoot();
 			if (!string.IsNullOrEmpty(_layout.Content))

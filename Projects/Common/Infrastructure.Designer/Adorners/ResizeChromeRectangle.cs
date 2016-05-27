@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.Adorners
 {

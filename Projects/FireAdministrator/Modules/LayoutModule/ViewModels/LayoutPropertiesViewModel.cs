@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -30,11 +31,11 @@ namespace LayoutModule.ViewModels
 		{
 			Caption = Layout.Caption;
 			Description = Layout.Description;
-			SplitterColor = Layout.SplitterColor;
+			SplitterColor = Layout.SplitterColor.ToWindowsColor();
 			SplitterSize = Layout.SplitterSize;
-			BorderColor = Layout.BorderColor;
+			BorderColor = Layout.BorderColor.ToWindowsColor();
 			BorderThickness = Layout.BorderThickness;
-			BackgroundColor = Layout.BackgroundColor;
+			BackgroundColor = Layout.BackgroundColor.ToWindowsColor();
 			Padding = Layout.Padding;
 			IsRibbonEnabled = Layout.IsRibbonEnabled;
 		}
@@ -146,11 +147,11 @@ namespace LayoutModule.ViewModels
 			Layout.Description = Description;
 			LayoutUsersViewModel.Save();
 			Layout.HostNameOrAddressList = IPFilterViewModel.GetModel();
-			Layout.SplitterColor = SplitterColor;
+			Layout.SplitterColor = SplitterColor.ToStruzhColor();
 			Layout.SplitterSize = SplitterSize;
-			Layout.BorderColor = BorderColor;
+			Layout.BorderColor = BorderColor.ToStruzhColor();
 			Layout.BorderThickness = BorderThickness;
-			Layout.BackgroundColor = BackgroundColor;
+			Layout.BackgroundColor = BackgroundColor.ToStruzhColor();
 			Layout.Padding = Padding;
 			Layout.IsRibbonEnabled = IsRibbonEnabled;
 			return base.Save();

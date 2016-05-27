@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Devices;
+﻿using StrazhAPI.Plans.Devices;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;

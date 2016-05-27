@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -17,7 +18,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		void CopyProperties()
 		{
-			BorderColor = _elementPolyline.BorderColor;
+			BorderColor = _elementPolyline.BorderColor.ToWindowsColor();
 			StrokeThickness = _elementPolyline.BorderThickness;
 			PresentationName = _elementPolyline.PresentationName;
 		}
@@ -57,7 +58,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			_elementPolyline.BorderColor = BorderColor;
+			_elementPolyline.BorderColor = BorderColor.ToStruzhColor();
 			_elementPolyline.BorderThickness = StrokeThickness;
 			_elementPolyline.PresentationName = PresentationName;
 			return base.Save();

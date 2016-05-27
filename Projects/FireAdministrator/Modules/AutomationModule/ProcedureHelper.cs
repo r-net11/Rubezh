@@ -7,7 +7,7 @@ using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

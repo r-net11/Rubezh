@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Infrustructure.Plans.Devices;
+using StrazhAPI.Plans.Devices;
 
 namespace DeviceControls
 {

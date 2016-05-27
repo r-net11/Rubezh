@@ -13,6 +13,8 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using StrazhModule.ViewModels;
 using StrazhAPI.GK;
+using Color = StrazhAPI.Color;
+using Colors = StrazhAPI.Colors;
 
 namespace StrazhModule.Plans.Designer
 {

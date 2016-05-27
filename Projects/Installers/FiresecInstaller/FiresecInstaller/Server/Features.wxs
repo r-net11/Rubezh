@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="hidden"
+		<Feature Id="Server.Features" Title="Сервер приложений" Description="Программа установит компоненты для работы службы сервера приложений, в том числе приложение 'Монитор сервера' для настройки и управления службой" Level="1" Display="expand"
 					ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
 			<ComponentRef Id="Server.DB.Common" />
@@ -10,19 +10,12 @@
 			<ComponentRef Id="Server.Config.fscp" />
 			<!--<ComponentRef Id="AppData.ServerLocation.Config" />-->
 			<ComponentRef Id="Server.AppData.EmptyLocation" />
-			<ComponentRef Id="Server.SKD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
-			<ComponentRef Id="Server.AutorunComponent" />
 			<ComponentRef Id="AppData.ServerLocation.Sounds" />
 			<ComponentRef Id="AppData.Manual_Admin.pdf" />
 			<ComponentRef Id="AppData.Manual_User.pdf" />
 			<ComponentRef Id="AppData.FiresecLocation.Permissions" />
-
 			<ComponentRef Id="Server.VIDEO_MODULE_DLL" />
-
-			<!--<ComponentRef Id="FiresecNTServiceComponent" />
-			<ComponentRef Id="RemoveNTServiceComponent" />-->
-			
 			<!-- Включаем файл AppServerSettings.xml в состав инсталлятора -->
 			<ComponentRef Id="AppData.AppServerSettings.xml" />
 		</Feature>

@@ -17,7 +17,7 @@ namespace StrazhModule.Plans.InstrumentAdorners
 			_zonesViewModel = zonesViewModel;
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override StrazhAPI.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleSKDZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);

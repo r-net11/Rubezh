@@ -2,7 +2,7 @@
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 

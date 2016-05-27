@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Common;
 using StrazhAPI.SKD;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCardDesigner.Designer;
 using SKDModule.PassCardDesigner.Painter;

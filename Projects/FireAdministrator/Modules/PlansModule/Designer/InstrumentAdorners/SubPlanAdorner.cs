@@ -13,7 +13,7 @@ namespace PlansModule.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override StrazhAPI.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementSubPlan();
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);

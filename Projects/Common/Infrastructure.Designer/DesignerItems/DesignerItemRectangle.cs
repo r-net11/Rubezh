@@ -3,7 +3,7 @@ using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Adorners;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Services;
 
 namespace Infrastructure.Designer.DesignerItems
