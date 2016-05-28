@@ -84,6 +84,10 @@
 		<Views:VisitorSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ScriptListViewModel}">
+		<Views:ScriptListView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
@@ -268,6 +272,10 @@
 		<Views:GetSkdZonePropertyStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="executeFireSecScript">
+		<Views:ExecuteFireSecScriptView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -315,5 +323,6 @@
 		GetDateTimeNowTemplate="{StaticResource getDateTimeNowTemplate}"
 		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"
 		GetDoorPropertyTemplate="{StaticResource getDoorPropertyTemplate}"
-		GetSkdZonePropertyTemplate="{StaticResource getSkdZonePropertyTemplate}"/>
+		GetSkdZonePropertyTemplate="{StaticResource getSkdZonePropertyTemplate}"
+		ExecuteFireSecScriptTemplate="{StaticResource executeFireSecScript}"/>
 </ResourceDictionary>

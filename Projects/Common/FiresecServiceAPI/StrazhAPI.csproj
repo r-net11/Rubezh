@@ -154,6 +154,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Automation\Enums\FiresecCommandType.cs" />
     <Compile Include="Enums\GuardZoneType.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Integration.OPC\OPCSettings.cs" />
     <Compile Include="Integration.OPC\OPCZone.cs" />
+    <Compile Include="Integration.OPC\Script.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalErrorCode.cs" />
@@ -181,15 +183,13 @@
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
-    <Compile Include="Models\Automation\GlobalVariable.cs" />
-    <Compile Include="Models\Automation\IVariable.cs" />
-    <Compile Include="Models\Automation\LocalVariable.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ExecuteFireSecScriptArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GenerateGuidArguments.cs" />
@@ -218,7 +218,6 @@
     <Compile Include="Journal\JournalSubsystemType.cs" />
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
-    <Compile Include="Models\Automation\VariableValue.cs" />
     <Compile Include="Models\License\ILicenseData.cs" />
     <Compile Include="Models\License\LicenseData.cs" />
     <Compile Include="Models\Plans\Devices\ILibraryDevice.cs" />
@@ -270,6 +269,7 @@
     <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RviAlarmArguments.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
+    <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />

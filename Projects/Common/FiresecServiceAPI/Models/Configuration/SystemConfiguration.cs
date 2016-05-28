@@ -1,8 +1,6 @@
 ﻿using Entities.DeviceOriented;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.Integration.OPC;
-using StrazhAPI.SKD.ReportFilters;
 using StrazhAPI.Automation;
 using StrazhAPI.Journal;
 

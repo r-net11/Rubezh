@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AutomationModule.Steps.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -51,6 +52,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate GetSkdDevicePropertyTemplate { get; set; }
 		public DataTemplate GetDoorPropertyTemplate { get; set; }
 		public DataTemplate GetSkdZonePropertyTemplate { get; set; }
+		public DataTemplate ExecuteFireSecScriptTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -146,6 +148,8 @@ namespace AutomationModule.ViewModels
 				return GetDoorPropertyTemplate;
 			if (item is GetSkdZonePropertyStepViewModel)
 				return GetSkdZonePropertyTemplate;
+			if (item is ExecuteFireSecScriptViewModel)
+				return ExecuteFireSecScriptTemplate;
 			return null;
 		}
 	}

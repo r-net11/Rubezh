@@ -3,7 +3,6 @@ using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
-using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -18,22 +17,21 @@ namespace AutomationModule
 {
 	public static class ProcedureHelper
 	{
-		public static List<IVariable> GetAllVariables(Procedure procedure)
+		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
-			var globalVariables = FiresecManager.FiresecService.GetInitialGlobalVariables().Result;
-			var allVariables = globalVariables.ToList<IVariable>();
+			var allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
 		}
 
-		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.SKDDevice, EnumType enumType = EnumType.DriverType)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.SKDDevice, EnumType enumType = EnumType.DriverType)
 		{
-			var allVariables = GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType);
+			var allVariables = GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType);
 			if (explicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.VariableValue.EnumType == enumType);
+				allVariables = allVariables.FindAll(x => x.EnumType == enumType);
 			if (explicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.VariableValue.ObjectType == objectType);
+				allVariables = allVariables.FindAll(x => x.ObjectType == objectType);
 			return allVariables;
 		}
 
@@ -52,26 +50,26 @@ namespace AutomationModule
 			return elements;
 		}
 
-		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType && x.VariableValue.ObjectType == objectType);
+			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType && x.ObjectType == objectType);
 		}
 
-		public static List<IVariable> GetAllVariables(List<IVariable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
+		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
 		{
-			var variables = new List<IVariable>(allVariables);
+			var variables = new List<Variable>(allVariables);
 			if (explicitTypes == null) return variables;
 
-			variables = variables.FindAll(x => explicitTypes.Contains(x.VariableValue.ExplicitType));
+			variables = variables.FindAll(x => explicitTypes.Contains(x.ExplicitType));
 
 			if (explicitTypes.Contains(ExplicitType.Enum))
 			{
-				variables = variables.FindAll(x => enumTypes.Contains(x.VariableValue.EnumType));
+				variables = variables.FindAll(x => enumTypes.Contains(x.EnumType));
 			}
 
 			if (explicitTypes.Contains(ExplicitType.Object))
 			{
-				variables = variables.FindAll(x => objectTypes.Contains(x.VariableValue.ObjectType));
+				variables = variables.FindAll(x => objectTypes.Contains(x.ObjectType));
 			}
 
 			return variables;
@@ -270,8 +268,6 @@ namespace AutomationModule
 
 		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
-			if (explicitValue == null) return null;
-
 			var result = string.Empty;
 			switch (explicitType)
 			{
@@ -378,6 +374,8 @@ namespace AutomationModule
 				case ProcedureStepType.ControlSKDZone:
 				case ProcedureStepType.ControlSKDDevice:
 				case ProcedureStepType.ControlDoor:
+				case ProcedureStepType.SendOPCScript:
+				case ProcedureStepType.ExecuteFiresecScript:
 					return "/Controls;component/StepIcons/Control.png";
 				case ProcedureStepType.ExportReport:
 				case ProcedureStepType.ExportOrganisationList:

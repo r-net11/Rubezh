@@ -1,10 +1,10 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Common;
 using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace FiresecClient
 {

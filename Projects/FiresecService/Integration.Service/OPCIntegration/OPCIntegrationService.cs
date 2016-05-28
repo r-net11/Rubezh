@@ -4,11 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Common;
 using Integration.Service.Entities;
+using StrazhAPI.Automation.Enums;
 using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
 using StrazhAPI.SKD;
@@ -21,6 +24,7 @@ namespace Integration.Service.OPCIntegration
 		private const string UnsetGuardCommand = "Zone:Guard:Unset:{0}";
 		private const string GetConfigCommand = "Config";
 		private const string PingCommand = "Ping";
+		private const string ExecuteScriptCommand = "Scenario:{0}:{1}";
 		private HttpClient _httpClient;
 
 		public OPCIntegrationService()
@@ -185,6 +189,76 @@ namespace Integration.Service.OPCIntegration
 			catch (WebException e)
 			{
 				Logger.Info(e.ToString());
+			}
+		}
+
+		public List<Script> GetFiresecScripts()
+		{
+			var result = SendRequestToOPCServer(GetConfigCommand);
+
+			XDocument xdoc;
+			try
+			{
+				xdoc = XDocument.Parse(result.Body);
+			}
+			catch (XmlException e)
+			{
+				Logger.Error(e);
+				return new List<Script>();
+			}
+
+			var scripts = new List<Script>();
+			foreach (var node in xdoc.Descendants("scenaries").Descendants("scenario"))
+			{
+				var str = node.Attributes();
+				var idNode = node.Attribute("id");
+				var nameNode = node.Attribute("caption");
+				var descriptionNode = node.Attribute("desc");
+				var isEnabledNode = node.Attribute("enabled");
+
+				scripts.Add(new Script
+				{
+					Id = Convert.ToInt32(idNode.Value),
+					Name = nameNode != null ? nameNode.Value : null,
+					Description = descriptionNode != null ? descriptionNode.Value : null,
+					IsEnabled =  Convert.ToInt32(isEnabledNode.Value) != default(int)
+				});
+			}
+			Thread.Sleep(2000);
+			return scripts;
+		}
+
+		public bool ExecuteFiresecScript(Script script, FiresecCommandType type)
+		{
+			if (script == null) return false;
+
+			try
+			{
+				SendRequestToOPCServer(string.Format(ExecuteScriptCommand, script.Id, TypeToFiresecCommand(type)));
+			}
+			catch (WebException e)
+			{
+				Logger.Info(e.ToString());
+				return false;
+			}
+
+			return true;
+		}
+
+		private static string TypeToFiresecCommand(FiresecCommandType type)
+		{
+			switch (type)
+			{
+				case FiresecCommandType.Run:
+					return "Run";
+				case FiresecCommandType.Stop:
+					return "Stop";
+				case FiresecCommandType.Unlock:
+					return "Unblock";
+				case FiresecCommandType.Lock:
+					return "Block";
+				default:
+					return null;
 			}
 		}
 

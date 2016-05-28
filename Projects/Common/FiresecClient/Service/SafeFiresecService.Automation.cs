@@ -4,7 +4,7 @@ using Common;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
-using StrazhAPI.Models.Automation;
+using StrazhAPI.Integration.OPC;
 
 namespace FiresecClient
 {
@@ -23,19 +23,9 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GetProperties(layoutUID));
 		}
 
-		public OperationResult<bool> SaveGlobalVariable(GlobalVariable variable)
+		public OperationResult<List<Script>> GetFiresecScripts()
 		{
-			return SafeContext.Execute(() => FiresecService.SaveGlobalVariable(variable));
-		}
-
-		public OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable)
-		{
-			return SafeContext.Execute(() => FiresecService.RemoveGlobalVariable(variable));
-		}
-
-		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
-		{
-			return SafeContext.Execute(() => FiresecService.GetInitialGlobalVariables());
+			return SafeContext.Execute(() => FiresecService.GetFiresecScripts());
 		}
 	}
 }

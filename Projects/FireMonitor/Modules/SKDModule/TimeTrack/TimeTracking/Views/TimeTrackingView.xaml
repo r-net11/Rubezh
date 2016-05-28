@@ -4,7 +4,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
 	xmlns:Converters2="clr-namespace:Controls.Converters;assembly=Controls"
-	xmlns:cal="http://www.caliburnproject.org"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:local="clr-namespace:SKDModule.Views"
@@ -12,6 +11,7 @@
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	xmlns:models="clr-namespace:SKDModule.Model"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
 	d:DesignHeight="400"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -168,7 +168,7 @@
 			</Grid>
 		</Border>
 		<DataGrid
-			x:Name="grid"
+			x:Name="Grid"
 			Grid.Row="1"
 			Margin="0 4"
 			CanUserReorderColumns="False"
@@ -298,13 +298,13 @@
 				</ItemsPanelTemplate>
 			</DataGrid.ItemsPanel>
 		</DataGrid>
-		<local:BisyIndicator
+		<customControls:BisyIndicator
 			Grid.Row="1"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Center"
 			Width="50"
 			Height="50"
-			Visibility="{Binding ElementName=grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 		<StackPanel
 			Grid.Row="2"
 			Margin="2"

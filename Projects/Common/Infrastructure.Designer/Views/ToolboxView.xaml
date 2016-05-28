@@ -3,7 +3,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary  Source="pack://application:,,,/Infrastructure.Designer;component/Views/ToolboxResource.xaml"/> <!--Source="ToolboxResource.xaml" />-->
+				<ResourceDictionary Source="ToolboxResource.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="ToolBoxItem2" BasedOn="{StaticResource ToolBoxItem}" TargetType="ListBoxItem">
 				<EventSetter Event="PreviewMouseRightButtonDown" Handler="OnListViewItemPreviewMouseRightButtonDown" />

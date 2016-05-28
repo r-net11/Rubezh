@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using StrazhAPI;
+using StrazhAPI.Automation.Enums;
 using StrazhAPI.Integration.OPC;
 
 namespace FiresecService.Service
@@ -25,6 +26,16 @@ namespace FiresecService.Service
 		public OperationResult UnsetGuard(int no)
 		{
 			return SafeContext.Execute(() => FiresecService.UnsetGuard(no));
+		}
+
+		public OperationResult<bool> ExecuteFiresecScript(Script script, FiresecCommandType type)
+		{
+			return SafeContext.Execute(() => FiresecService.ExecuteFiresecScript(script, type));
+		}
+
+		public OperationResult<List<Script>> GetFiresecScripts()
+		{
+			return SafeContext.Execute(() => FiresecService.GetFiresecScripts());
 		}
 	}
 }

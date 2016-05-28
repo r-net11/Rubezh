@@ -1,0 +1,56 @@
+﻿<UserControl
+	x:Class="AutomationModule.Views.ExecuteFireSecScriptView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:enums="clr-namespace:StrazhAPI.Automation.Enums;assembly=StrazhAPI"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+	d:DesignWidth="300">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<TextBlock
+			Text="Сценарий FireSec"
+			VerticalAlignment="Center"
+			Foreground="White"
+			Margin="5"/>
+		<TextBlock
+			Grid.Column="1"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5"
+			Focusable="False">
+			<Hyperlink
+				Command="{Binding ShowScriptListCommand}"
+				Style="{StaticResource HyperlinkStyle}">
+				<TextBlock
+					Foreground="White"
+					Text="{Binding CurrentScript}"/>
+			</Hyperlink>
+		</TextBlock>
+		<TextBlock
+			Grid.Row="1"
+			Text="Команда"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5" />
+		<ComboBox
+			Grid.Row="1"
+			Grid.Column="1"
+			ItemsSource="{Binding Source={x:Type enums:FiresecCommandType}, Converter={StaticResource EnumToItemsSourceConverter}}"
+			ItemTemplate="{StaticResource EnumDescriptionTemplate}"
+			SelectedItem="{Binding ExecuteFireSecScriptArguments.CommandType}"
+			Width="200"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"
+			Margin="5"/>
+    </Grid>
+</UserControl>

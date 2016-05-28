@@ -73,15 +73,11 @@
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
-    <Compile Include="GlobalVariables\ViewModels\ModalDialogs\AddGlobalVariableDialogViewModel.cs" />
     <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
       <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml.cs">
-      <DependentUpon>AddGlobalVariableDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartProcedureViewModel.cs" />
@@ -95,6 +91,7 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Script.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\VisitorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\EmployeeSelectionViewModel.cs" />
@@ -132,8 +129,12 @@
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ScriptListViewModel.cs" />
     <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
       <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ScriptListView.xaml.cs">
+      <DependentUpon>ScriptListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -152,6 +153,7 @@
     </Compile>
     <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExecuteFireSecScriptViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportConfigurationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportOrganisationListStepViewModel.cs" />
@@ -273,6 +275,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlVisualStepView.xaml.cs">
       <DependentUpon>ControlVisualStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExecuteFireSecScriptView.xaml.cs">
+      <DependentUpon>ExecuteFireSecScriptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ExportConfigurationStepView.xaml.cs">
       <DependentUpon>ExportConfigurationStepView.xaml</DependentUpon>
@@ -518,10 +523,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Layout\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -574,6 +575,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Procedures\Views\ScriptListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\StringDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -591,6 +596,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlVisualStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExecuteFireSecScriptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

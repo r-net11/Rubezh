@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using StrazhAPI.Automation.Enums;
 using StrazhAPI.Integration.OPC;
-using StrazhAPI.Models;
 
 namespace Integration.Service
 {
@@ -15,5 +15,9 @@ namespace Integration.Service
 		void SetGuard(int no);
 
 		void UnsetGuard(int no);
+
+		List<Script> GetFiresecScripts();
+
+		bool ExecuteFiresecScript(Script script, FiresecCommandType type);
 	}
 }

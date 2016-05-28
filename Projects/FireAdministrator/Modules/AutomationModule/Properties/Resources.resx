@@ -120,6 +120,14 @@
   <data name="ArgumentExistError" xml:space="preserve">
     <value>Аргумент с таким именем уже существует.</value>
   </data>
+  <data name="PressToSelectOPCScenarioText" xml:space="preserve">
+    <value>Нажмите для выбора сценария</value>
+    <comment>Текст, который выводится, для ссылки в автоматизации, позволяющей выбрать сценарий ОПС, при интеграции с ОПС.</comment>
+  </data>
+  <data name="ScenarioInfoText" xml:space="preserve">
+    <value>№ Сценария: {0} Название: {1}</value>
+    <comment>Текст описания сценария ОПС.</comment>
+  </data>
   <data name="VariableExistError" xml:space="preserve">
     <value>Переменная с таким именем уже существует.</value>
   </data>

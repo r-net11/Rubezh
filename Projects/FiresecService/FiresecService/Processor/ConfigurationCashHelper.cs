@@ -70,10 +70,14 @@ namespace FiresecService
 		private static void CreateConfigDirectory()
 		{
 			if (!Directory.Exists(ConfigDirectory))
+			{
 				Directory.CreateDirectory(ConfigDirectory);
+			}
 
 			if (!Directory.Exists(ContentDirectory))
+			{
 				Directory.CreateDirectory(ContentDirectory);
+			}
 		}
 
 		public static SecurityConfiguration GetSecurityConfiguration()
@@ -107,9 +111,10 @@ namespace FiresecService
 
 		private static SystemConfiguration GetSystemConfiguration()
 		{
-			var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
-			var filePath = Path.Combine(configDirectoryName, "SystemConfiguration.xml");
-			var systemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(filePath, false);
+		//	var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+		//	var filePath = Path.Combine(configDirectoryName, "SystemConfiguration.xml");
+		//	var systemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(filePath, false);
+			var systemConfiguration = (SystemConfiguration)GetConfigurationFromZip("SystemConfiguration.xml", typeof(SystemConfiguration));
 
 			if (systemConfiguration == null) return null;
 

@@ -1,5 +1,4 @@
 ﻿using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
@@ -8,17 +7,17 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableViewModel : BaseViewModel
 	{
-		public IVariable Variable { get; set; }
+		public Variable Variable { get; set; }
 		public ExplicitValueViewModel ExplicitValue { get; protected set; }
 		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
 		public bool IsEditMode { get; set; }
 
-		public VariableViewModel(IVariable variable)
+		public VariableViewModel(Variable variable)
 		{
 			Variable = variable;
-			ExplicitValue = new ExplicitValueViewModel(variable.VariableValue.ExplicitValue);
+			ExplicitValue = new ExplicitValueViewModel(variable.ExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-			foreach (var explicitValue in variable.VariableValue.ExplicitValues)
+			foreach (var explicitValue in variable.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			OnPropertyChanged(() => ExplicitValues);
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
@@ -30,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		public VariableViewModel(Argument argument)
 		{
-			Variable.VariableValue = new VariableValue
+			Variable = new Variable
 			{
 				ExplicitType = argument.ExplicitType,
 				EnumType = argument.EnumType,
@@ -62,10 +61,10 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitType ExplicitType
 		{
-			get { return Variable.VariableValue.ExplicitType; }
+			get { return Variable.ExplicitType; }
 			set
 			{
-				Variable.VariableValue.ExplicitType = value;
+				Variable.ExplicitType = value;
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -74,10 +73,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<EnumType> EnumTypes { get; private set; }
 		public EnumType SelectedEnumType
 		{
-			get { return Variable.VariableValue.EnumType; }
+			get { return Variable.EnumType; }
 			set
 			{
-				Variable.VariableValue.EnumType = value;
+				Variable.EnumType = value;
 				OnPropertyChanged(() => SelectedEnumType);
 			}
 		}
@@ -85,10 +84,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
 		public ObjectType SelectedObjectType
 		{
-			get { return Variable.VariableValue.ObjectType; }
+			get { return Variable.ObjectType; }
 			set
 			{
-				Variable.VariableValue.ObjectType = value;
+				Variable.ObjectType = value;
 				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
@@ -106,7 +105,7 @@ namespace AutomationModule.ViewModels
 			if (ExplicitType == ExplicitType.Object)
 				ProcedureHelper.SelectObject(SelectedObjectType, explicitValueViewModel);
 			ExplicitValues.Add(explicitValueViewModel);
-			Variable.VariableValue.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
+			Variable.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
@@ -114,7 +113,7 @@ namespace AutomationModule.ViewModels
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
-			Variable.VariableValue.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
+			Variable.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 

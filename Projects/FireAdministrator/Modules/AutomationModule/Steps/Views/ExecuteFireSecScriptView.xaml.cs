@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace AutomationModule.Views
 {
 	/// <summary>
-	/// Interaction logic for AddGlobalVariableDialog.xaml
+	/// Interaction logic for ExecuteFireSecScript.xaml
 	/// </summary>
-	public partial class AddGlobalVariableDialogView : UserControl
+	public partial class ExecuteFireSecScriptView : UserControl
 	{
-		public AddGlobalVariableDialogView()
+		public ExecuteFireSecScriptView()
 		{
 			InitializeComponent();
 		}

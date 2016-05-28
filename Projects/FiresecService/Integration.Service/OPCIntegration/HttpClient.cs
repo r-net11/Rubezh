@@ -142,17 +142,9 @@ namespace Integration.Service.OPCIntegration
 			var buffer = Encoding.UTF8.GetBytes(body);
 			webRequest.ContentLength = buffer.Length;
 			webRequest.Timeout = DefaultTimeoutMilliseconds;
-			Stream requestStream = null;
-			try
-			{
-				using (requestStream = webRequest.GetRequestStream())
-					requestStream.Write(buffer, 0, buffer.Length);
-			}
-			finally
-			{
-				if(requestStream != null)
-					requestStream.Dispose();
-			}
+
+			using (var requestStream = webRequest.GetRequestStream())
+				requestStream.Write(buffer, 0, buffer.Length);
 		}
 	}
 }

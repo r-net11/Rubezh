@@ -53,6 +53,7 @@ namespace StrazhAPI.Automation
 			RviAlarmArguments = new RviAlarmArguments();
 			ExportReportArguments = new ExportReportArguments();
 			GetDateTimeNowArguments = new GetDateTimeNowArguments();
+			ExecuteFireSecScriptArguments = new ExecuteFireSecScriptArguments();
 		}
 
 		[XmlIgnore]
@@ -195,5 +196,8 @@ namespace StrazhAPI.Automation
 
 		[DataMember]
 		public GetDateTimeNowArguments GetDateTimeNowArguments { get; set; }
+
+		[DataMember]
+		public ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
 	}
 }
