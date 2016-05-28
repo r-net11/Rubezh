@@ -1,5 +1,4 @@
 ﻿using StrazhAPI.Plans.Elements;
-using StrazhAPI.Plans.Elements;
 using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
