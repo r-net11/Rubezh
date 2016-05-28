@@ -14,17 +14,18 @@
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="50*" />
+				<ColumnDefinition Width="50*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
 			<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsRemoteConnectionsEnabled}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
 
 			<TextBlock Grid.Row="1" Grid.Column="0" Text="IP-адрес сервера" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
@@ -35,6 +36,36 @@
 
 			<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 			<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
+
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Папка хранения файлов оправдательных документов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
+			<Grid Grid.Row="4" Grid.Column="1" >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBox Grid.Column="0" Height="25" Margin="2" Text="{Binding AttachmentsFolder}" />
+				<Button Grid.Column ="1" Width="20" Height="25" Margin="-5,0,2,0" Command="{Binding SelectAttachmentsFolderCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right">
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="Button">
+										<Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
+											<ContentPresenter x:Name="contentPresenter" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+										</Border>
+										<ControlTemplate.Triggers>
+											<Trigger Property="UIElement.IsMouseOver" Value="True">
+												<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+												<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</Button.Style>
+				</Button>
+			</Grid>
 		</Grid>
 		<Button Grid.Row="1" Content="Применить" Command="{Binding ApplyCommand}" Width="100" HorizontalAlignment="Right" Margin="5"/>
 	</Grid>

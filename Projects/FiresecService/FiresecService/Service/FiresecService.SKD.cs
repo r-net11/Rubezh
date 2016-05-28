@@ -2126,7 +2126,7 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<Guid> UploadFile(Attachment attachment)
 		{
-			var dir = AppDataFolderHelper.GetAttachmentsFolder();
+			var dir = AppServerSettingsHelper.AppServerSettings.AttachmentsFolder;
 			try
 			{
 				// Сохраняем файл в хранилище
@@ -2158,7 +2158,7 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<Attachment> DownloadFile(Guid attachmentUID)
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), attachmentUID.ToString());
+			var fileName = Path.Combine(AppServerSettingsHelper.AppServerSettings.AttachmentsFolder, attachmentUID.ToString());
 			try
 			{
 				Attachment attachment;
@@ -2185,7 +2185,7 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> RemoveFile(Guid attachmentUID)
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetAttachmentsFolder(), attachmentUID.ToString());
+			var fileName = Path.Combine(AppServerSettingsHelper.AppServerSettings.AttachmentsFolder, attachmentUID.ToString());
 			try
 			{
 				// Удаляем файл из хранилища
