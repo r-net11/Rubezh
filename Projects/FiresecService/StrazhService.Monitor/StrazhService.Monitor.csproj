@@ -72,6 +72,8 @@
     <Compile Include="Converters\ServiceStateToStringConverter.cs" />
     <Compile Include="Converters\ServiceStateToColorNameConverter.cs" />
     <Compile Include="Converters\StringsToLastStringConverter.cs" />
+    <Compile Include="Database\IDatabaseService.cs" />
+    <Compile Include="Database\MsSqlServerDatabaseService.cs" />
     <Compile Include="Events\ServerLogsReceivedEvent.cs" />
     <Compile Include="IServiceStateHolder.cs" />
     <Compile Include="IWindowsServiceStatusMonitor.cs" />

@@ -124,6 +124,12 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 			<Button
+				Grid.Column="0"
+				Content="Создать бэкап"
+				Command="{Binding BackupDatabaseCommand}"
+				Width="150"
+				Margin="2"/>
+			<Button
 				Grid.Column="1"
 				Content="Проверка соединения"
 				Command="{Binding CheckSqlServerConnectionCommand}"
