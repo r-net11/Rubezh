@@ -1331,5 +1331,11 @@ namespace FiresecService
 			if (step != null && step.ExecuteFireSecScriptArguments != null)
 				FiresecServiceManager.SafeFiresecService.ExecuteFiresecScript(step.ExecuteFireSecScriptArguments.CurrentScript, step.ExecuteFireSecScriptArguments.CommandType);
 		}
+
+		private static void SendOPCScript(ProcedureStep step)
+		{
+			if (step != null && step.ExecuteFireSecScriptArguments != null)
+				FiresecServiceManager.SafeFiresecService.SendOPCScript(step.SendOPCCommandArguments.SelectedCommandType);
+		}
 	}
 }

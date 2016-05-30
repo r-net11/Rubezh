@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.VariableExistError);
+				MessageBoxService.ShowError(Resources.ErrorVariableExist);
 				return;
 			}
 

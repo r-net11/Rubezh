@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using StrazhAPI.Models.Automation.StepArguments;
 
 namespace StrazhAPI.Automation
 {
@@ -54,6 +55,7 @@ namespace StrazhAPI.Automation
 			ExportReportArguments = new ExportReportArguments();
 			GetDateTimeNowArguments = new GetDateTimeNowArguments();
 			ExecuteFireSecScriptArguments = new ExecuteFireSecScriptArguments();
+			SendOPCCommandArguments = new SendOPCCommandArguments();
 		}
 
 		[XmlIgnore]
@@ -199,5 +201,8 @@ namespace StrazhAPI.Automation
 
 		[DataMember]
 		public ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
+
+		[DataMember]
+		public SendOPCCommandArguments SendOPCCommandArguments { get; set; }
 	}
 }

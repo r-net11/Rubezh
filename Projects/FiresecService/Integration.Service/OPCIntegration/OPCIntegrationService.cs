@@ -194,17 +194,21 @@ namespace Integration.Service.OPCIntegration
 
 		public List<Script> GetFiresecScripts()
 		{
-			var result = SendRequestToOPCServer(GetConfigCommand);
-
 			XDocument xdoc;
 			try
 			{
+				var result = SendRequestToOPCServer(GetConfigCommand);
 				xdoc = XDocument.Parse(result.Body);
 			}
 			catch (XmlException e)
 			{
 				Logger.Error(e);
 				return new List<Script>();
+			}
+			catch (WebException e)
+			{
+				Logger.Error(e);
+				return null;
 			}
 
 			var scripts = new List<Script>();
@@ -245,6 +249,21 @@ namespace Integration.Service.OPCIntegration
 			return true;
 		}
 
+		public bool SendOPCCommandType(OPCCommandType type)
+		{
+			try
+			{
+				SendRequestToOPCServer(TypeToOPCCommand(type));
+			}
+			catch (WebException e)
+			{
+				Logger.Error(e);
+				return false;
+			}
+
+			return true;
+		}
+
 		private static string TypeToFiresecCommand(FiresecCommandType type)
 		{
 			switch (type)
@@ -257,6 +276,19 @@ namespace Integration.Service.OPCIntegration
 					return "Unblock";
 				case FiresecCommandType.Lock:
 					return "Block";
+				default:
+					return null;
+			}
+		}
+
+		private static string TypeToOPCCommand(OPCCommandType type)
+		{
+			switch (type)
+			{
+				case OPCCommandType.ResetFire:
+					return "ResetFire";
+				case OPCCommandType.ResetAlarm:
+					return "ResetAlarm";
 				default:
 					return null;
 			}

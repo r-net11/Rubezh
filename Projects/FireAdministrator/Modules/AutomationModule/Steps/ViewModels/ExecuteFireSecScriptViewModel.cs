@@ -3,6 +3,7 @@ using AutomationModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using StrazhAPI.Automation;
+using StrazhAPI.Automation.Enums;
 
 namespace AutomationModule.Steps.ViewModels
 {
@@ -18,6 +19,17 @@ namespace AutomationModule.Steps.ViewModels
 				if (string.Equals(_currentScript, value)) return;
 				_currentScript = value;
 				OnPropertyChanged(() => CurrentScript);
+			}
+		}
+
+		public FiresecCommandType SelectedCommand
+		{
+			get { return ExecuteFireSecScriptArguments.CommandType; }
+			set
+			{
+				if (ExecuteFireSecScriptArguments.CommandType == value) return;
+				ExecuteFireSecScriptArguments.CommandType = value;
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
 
@@ -48,7 +60,7 @@ namespace AutomationModule.Steps.ViewModels
 			{
 				return ExecuteFireSecScriptArguments.CurrentScript == null
 					? null
-					: string.Format(Resources.ScenarioInfoText, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
+					: string.Format(Resources.ScenarioInfoLabel, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
 			}
 		}
 
@@ -56,7 +68,7 @@ namespace AutomationModule.Steps.ViewModels
 		{
 			CurrentScript = arguments.CurrentScript != null
 				? string.Format("{0}. {1}", ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name)
-				: Resources.PressToSelectOPCScenarioText;
+				: Resources.PressToSelectOPCScenarioLabel;
 		}
 	}
 }

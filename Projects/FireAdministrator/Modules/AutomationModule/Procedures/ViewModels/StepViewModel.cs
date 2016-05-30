@@ -179,6 +179,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ExecuteFiresecScript:
 					return new ExecuteFireSecScriptViewModel(this);
 
+				case ProcedureStepType.SendOPCScript:
+					return new SendOPCCommandStepViewModel(this);
+
 				default:
 					return null;
 			}
