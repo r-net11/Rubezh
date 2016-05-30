@@ -47,7 +47,7 @@
 			Grid.Column="1"
 			ItemsSource="{Binding Source={x:Type enums:FiresecCommandType}, Converter={StaticResource EnumToItemsSourceConverter}}"
 			ItemTemplate="{StaticResource EnumDescriptionTemplate}"
-			SelectedItem="{Binding ExecuteFireSecScriptArguments.CommandType}"
+			SelectedItem="{Binding SelectedCommand}"
 			Width="200"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Left"

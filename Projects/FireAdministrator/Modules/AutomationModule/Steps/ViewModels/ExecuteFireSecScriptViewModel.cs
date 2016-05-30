@@ -3,6 +3,7 @@ using AutomationModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using StrazhAPI.Automation;
+using StrazhAPI.Automation.Enums;
 
 namespace AutomationModule.Steps.ViewModels
 {
@@ -18,6 +19,19 @@ namespace AutomationModule.Steps.ViewModels
 				if (string.Equals(_currentScript, value)) return;
 				_currentScript = value;
 				OnPropertyChanged(() => CurrentScript);
+			}
+		}
+
+		private FiresecCommandType _selectedCommand;
+
+		public FiresecCommandType SelectedCommand
+		{
+			get { return _selectedCommand; }
+			set
+			{
+				if (_selectedCommand == value) return;
+				_selectedCommand = value;
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
 

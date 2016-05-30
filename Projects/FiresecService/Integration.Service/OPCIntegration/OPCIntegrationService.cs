@@ -194,14 +194,18 @@ namespace Integration.Service.OPCIntegration
 
 		public List<Script> GetFiresecScripts()
 		{
-			var result = SendRequestToOPCServer(GetConfigCommand);
-
 			XDocument xdoc;
 			try
 			{
+				var result = SendRequestToOPCServer(GetConfigCommand);
 				xdoc = XDocument.Parse(result.Body);
 			}
 			catch (XmlException e)
+			{
+				Logger.Error(e);
+				return new List<Script>();
+			}
+			catch (WebException e)
 			{
 				Logger.Error(e);
 				return new List<Script>();
