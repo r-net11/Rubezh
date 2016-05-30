@@ -63,7 +63,7 @@ namespace StrazhService.Monitor
 				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitorOnStatusChanged;
 
 				if (!ServiceRepository.Instance.WindowsServiceStatusMonitor.Start())
-					MessageBoxService.ShowWarning("Служба \"Сервер приложений A.C.Tech\" не обнаружена.\nДля управления службой установите ее и перезапустите монитор сервера");
+					MessageBoxService.ShowWarning("Служба \"Сервер A.C.Tech\" не обнаружена.\nДля управления службой установите ее и перезапустите монитор сервера");
 			}
 			catch (Exception e)
 			{

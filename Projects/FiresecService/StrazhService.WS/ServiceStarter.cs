@@ -76,7 +76,7 @@ namespace StrazhService.WS
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Ошибка при запуске сервера приложений");
+				Logger.Error(e, "Ошибка при запуске сервера");
 				Stop();
 			}
 		}
