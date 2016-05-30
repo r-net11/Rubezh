@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Forms;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -14,6 +16,7 @@ namespace StrazhService.Monitor.ViewModels
 		private int _servicePort;
 		private int _reportServicePort;
 		private bool _isRemoteConnectionsEnabled;
+		private string _attachmentsFolder;
 
 		/// <summary>
 		/// IP-адрес сервера
@@ -76,6 +79,18 @@ namespace StrazhService.Monitor.ViewModels
 			}
 		}
 
+		public string AttachmentsFolder
+		{
+			get { return _attachmentsFolder; }
+			set
+			{
+				if (_attachmentsFolder == value)
+					return;
+				_attachmentsFolder = value;
+				OnPropertyChanged(() => AttachmentsFolder);
+			}
+		}
+
 		/// <summary>
 		/// Список доступных ip-адресов для хоста, где размещен сервер приложений
 		/// </summary>
@@ -83,9 +98,12 @@ namespace StrazhService.Monitor.ViewModels
 
 		public RelayCommand ApplyCommand { get; private set; }
 
+		public RelayCommand SelectAttachmentsFolderCommand { get; private set; }
+
 		public AppServerSettingsViewModel()
 		{
 			ApplyCommand = new RelayCommand(OnApply);
+			SelectAttachmentsFolderCommand = new RelayCommand(OnSelectAttachmentsFolder);
 			InitializeAvailableIpAddresses();
 			ReadFromModel();
 		}
@@ -95,6 +113,19 @@ namespace StrazhService.Monitor.ViewModels
 			WriteToModel();
 			if (ServiceRepository.Instance.ServiceStateHolder.State != ServiceState.Stoped)
 				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера приложений");
+		}
+
+		private void OnSelectAttachmentsFolder()
+		{
+			var dlg = new FolderBrowserDialog
+			{
+				//RootFolder = Environment.SpecialFolder.MyComputer,
+				SelectedPath = AttachmentsFolder
+			};
+			var result = dlg.ShowDialog();
+			if (result != DialogResult.OK)
+				return;
+			AttachmentsFolder = dlg.SelectedPath;
 		}
 
 		/// <summary>
@@ -122,6 +153,7 @@ namespace StrazhService.Monitor.ViewModels
 			ServicePort = settings.ServicePort;
 			ReportServicePort = settings.ReportServicePort;
 			IsRemoteConnectionsEnabled = settings.EnableRemoteConnections;
+			AttachmentsFolder = settings.AttachmentsFolder;
 		}
 
 		private void WriteToModel()
@@ -132,6 +164,7 @@ namespace StrazhService.Monitor.ViewModels
 			settings.ServicePort = ServicePort;
 			settings.ReportServicePort = ReportServicePort;
 			settings.EnableRemoteConnections = IsRemoteConnectionsEnabled;
+			settings.AttachmentsFolder = AttachmentsFolder;
 			AppServerSettingsHelper.Save();
 		}
 	}

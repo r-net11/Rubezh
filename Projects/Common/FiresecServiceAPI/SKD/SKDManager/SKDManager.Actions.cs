@@ -197,13 +197,6 @@ namespace StrazhAPI.SKD
 
 			IPAddress ipAddress = null;
 			return IPAddress.TryParse(address, out ipAddress);
-
-			const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
-			if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
-			{
-				return false;
-			}
-			return true;
 		}
 	}
 }

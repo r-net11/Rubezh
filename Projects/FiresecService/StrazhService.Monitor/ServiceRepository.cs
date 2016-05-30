@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using Microsoft.Practices.Prism.Events;
+using StrazhService.Monitor.Database;
 
 namespace StrazhService.Monitor
 {
@@ -13,6 +14,7 @@ namespace StrazhService.Monitor
 			Events = new EventAggregator();
 			ServiceStateHolder = new ServiceStateHolder();
 			WindowsServiceStatusMonitor = new WindowsServiceStatusMonitor(new ServiceController("StrazhService"));
+			DatabaseService = new MsSqlServerDatabaseService();
 		}
 
 		public static ServiceRepository Instance
@@ -25,5 +27,7 @@ namespace StrazhService.Monitor
 		public IServiceStateHolder ServiceStateHolder { get; private set; }
 
 		public IWindowsServiceStatusMonitor WindowsServiceStatusMonitor { get; private set; }
+
+		public IDatabaseService DatabaseService { get; private set; }
 	}
 }
