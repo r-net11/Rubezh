@@ -25,6 +25,7 @@ namespace CustomAction
 				try
 				{
 					if ((process.ProcessName == "StrazhService")
+						|| (process.ProcessName == "StrazhService.Monitor")
 						|| (process.ProcessName == "StrazhMonitor")
 						|| (process.ProcessName == "StrazhAdmin")
 						|| (process.ProcessName == "Revisor"))

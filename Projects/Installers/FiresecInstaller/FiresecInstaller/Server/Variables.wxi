@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 	<?define ServerName="Сервер приложений A.C.Tech" ?>
+
+	<?define Server_Service_Name="StrazhService" ?>
+	<?define Server_Service_DisplayName="StrazhService" ?>
+	<?define Server_Service_Description="Сервер A.C.Tech" ?>
+
 	<?define ServerMonitorName="Монитор сервера приложений A.C.Tech" ?>
 	<?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
 	<?define Server.TargetFileName="StrazhService.Monitor.exe"?>
