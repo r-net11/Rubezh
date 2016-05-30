@@ -395,6 +395,10 @@ namespace FiresecService
 				case ProcedureStepType.ExecuteFiresecScript:
 					ExecuteFiresecScript(procedureStep);
 					break;
+
+				case ProcedureStepType.SendOPCScript:
+					SendOPCScript(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

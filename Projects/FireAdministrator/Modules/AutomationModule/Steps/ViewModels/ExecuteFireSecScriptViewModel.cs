@@ -22,15 +22,13 @@ namespace AutomationModule.Steps.ViewModels
 			}
 		}
 
-		private FiresecCommandType _selectedCommand;
-
 		public FiresecCommandType SelectedCommand
 		{
-			get { return _selectedCommand; }
+			get { return ExecuteFireSecScriptArguments.CommandType; }
 			set
 			{
-				if (_selectedCommand == value) return;
-				_selectedCommand = value;
+				if (ExecuteFireSecScriptArguments.CommandType == value) return;
+				ExecuteFireSecScriptArguments.CommandType = value;
 				OnPropertyChanged(() => SelectedCommand);
 			}
 		}

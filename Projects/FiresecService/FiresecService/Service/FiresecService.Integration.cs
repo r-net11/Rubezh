@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using StrazhAPI;
 using StrazhAPI.Automation.Enums;
+using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
 
 namespace FiresecService.Service
@@ -49,6 +50,11 @@ namespace FiresecService.Service
 				};
 
 			return new OperationResult<List<Script>>(result);
+		}
+
+		public OperationResult<bool> SendOPCScript(OPCCommandType type)
+		{
+			return new OperationResult<bool>(_integrationService.SendOPCCommandType(type));
 		}
 	}
 }

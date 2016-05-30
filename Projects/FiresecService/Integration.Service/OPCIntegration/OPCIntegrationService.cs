@@ -249,6 +249,21 @@ namespace Integration.Service.OPCIntegration
 			return true;
 		}
 
+		public bool SendOPCCommandType(OPCCommandType type)
+		{
+			try
+			{
+				SendRequestToOPCServer(TypeToOPCCommand(type));
+			}
+			catch (WebException e)
+			{
+				Logger.Error(e);
+				return false;
+			}
+
+			return true;
+		}
+
 		private static string TypeToFiresecCommand(FiresecCommandType type)
 		{
 			switch (type)
@@ -261,6 +276,19 @@ namespace Integration.Service.OPCIntegration
 					return "Unblock";
 				case FiresecCommandType.Lock:
 					return "Block";
+				default:
+					return null;
+			}
+		}
+
+		private static string TypeToOPCCommand(OPCCommandType type)
+		{
+			switch (type)
+			{
+				case OPCCommandType.ResetFire:
+					return "ResetFire";
+				case OPCCommandType.ResetAlarm:
+					return "ResetAlarm";
 				default:
 					return null;
 			}
