@@ -62,7 +62,7 @@ namespace AutomationModule.Steps.ViewModels
 			{
 				return ExecuteFireSecScriptArguments.CurrentScript == null
 					? null
-					: string.Format(Resources.ScenarioInfoText, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
+					: string.Format(Resources.ScenarioInfoLabel, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace AutomationModule.Steps.ViewModels
 		{
 			CurrentScript = arguments.CurrentScript != null
 				? string.Format("{0}. {1}", ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name)
-				: Resources.PressToSelectOPCScenarioText;
+				: Resources.PressToSelectOPCScenarioLabel;
 		}
 	}
 }

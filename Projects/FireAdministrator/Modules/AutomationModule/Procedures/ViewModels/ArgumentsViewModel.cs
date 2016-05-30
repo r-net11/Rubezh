@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.ArgumentExistError);
+				MessageBoxService.ShowError(Resources.ErrorArgumentExistContent);
 				return;
 			}
 

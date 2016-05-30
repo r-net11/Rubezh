@@ -208,7 +208,7 @@ namespace Integration.Service.OPCIntegration
 			catch (WebException e)
 			{
 				Logger.Error(e);
-				return new List<Script>();
+				return null;
 			}
 
 			var scripts = new List<Script>();

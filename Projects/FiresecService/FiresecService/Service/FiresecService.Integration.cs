@@ -40,7 +40,15 @@ namespace FiresecService.Service
 
 		public OperationResult<List<Script>> GetFiresecScripts()
 		{
-			return new OperationResult<List<Script>>(_integrationService.GetFiresecScripts());
+			var result = _integrationService.GetFiresecScripts();
+
+			if (result == null)
+				return new OperationResult<List<Script>>
+				{
+					Errors = new List<string> {"Connection problems."}
+				};
+
+			return new OperationResult<List<Script>>(result);
 		}
 	}
 }

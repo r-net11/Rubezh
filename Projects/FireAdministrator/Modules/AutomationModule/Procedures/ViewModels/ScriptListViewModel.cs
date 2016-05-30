@@ -1,9 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutomationModule.Models;
+using AutomationModule.Properties;
+using Common;
 using FiresecClient;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Windows.Controls;
+using StrazhAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -54,15 +60,27 @@ namespace AutomationModule.ViewModels
 		public void LoadScripts()
 		{
 			IsBisy = true;
-			Task.Factory.StartNew(() =>
+			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetFiresecScripts())
+			.ContinueWith(t =>
 			{
-				Scripts = FiresecManager.FiresecService.GetFiresecScripts().Result.Select(x => new Script(x)).ToList();
-			})
-			.ContinueWith(x =>
-			{
-				IsBisy = false;
-				SelectedScript = Scripts.FirstOrDefault();
-			});
+				if (t.IsFaulted || t.Result.HasError)
+				{
+					IsBisy = false;
+					var ex = t.Exception;
+					while (ex is AggregateException && ex.InnerException != null)
+					{
+						ex = (AggregateException) ex.InnerException;
+						Logger.Error(ex);
+					}
+					MessageBoxService.ShowError(Resources.ErrorOPCScriptConnectionContent);
+				}
+				else
+				{
+					IsBisy = false;
+					Scripts = t.Result.Result.Select(x => new Script(x)).ToList();
+					SelectedScript = Scripts.FirstOrDefault();
+				}
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
 		protected override bool CanSave()
