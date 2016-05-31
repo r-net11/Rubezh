@@ -117,25 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CameraFigureProperties" xml:space="preserve">
-    <value>Свойства фигуры: Камера</value>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
   </data>
-  <data name="Channel" xml:space="preserve">
-    <value>Канал </value>
+  <data name="Cameras" xml:space="preserve">
+    <value>Cams</value>
   </data>
-  <data name="DeleteCamConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить видеокамеру "{0}"?</value>
+  <data name="No" xml:space="preserve">
+    <value>&lt;None&gt;</value>
   </data>
-  <data name="Devices" xml:space="preserve">
-    <value>Устройства</value>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
-  <data name="DeviceViewName" xml:space="preserve">
-    <value>{0} (канал "{1}", поток {2})</value>
+  <data name="Videocam" xml:space="preserve">
+    <value>Camcorder</value>
   </data>
-  <data name="CameraProperties" xml:space="preserve">
-    <value>Свойства камеры</value>
-  </data>
-  <data name="SettingsSelectionSave" xml:space="preserve">
-    <value>Изменение типа сервера влечет удаление ранее добавленных камер. Сохранить настройки и удалить камеры?</value>
+  <data name="VideoPanel" xml:space="preserve">
+    <value>Video panel from camera</value>
   </data>
 </root>

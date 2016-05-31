@@ -1,5 +1,5 @@
 ﻿using Common;
-using Localization.Video;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;

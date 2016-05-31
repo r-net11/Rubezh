@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Localization.Video;
+using Localization.Video.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;

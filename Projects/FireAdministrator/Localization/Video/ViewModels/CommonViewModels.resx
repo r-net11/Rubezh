@@ -117,22 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Camera" xml:space="preserve">
-    <value>Камера</value>
+  <data name="CameraFigureProperties" xml:space="preserve">
+    <value>Figure properties: Camera</value>
   </data>
-  <data name="Cameras" xml:space="preserve">
-    <value>Камеры</value>
+  <data name="CameraProperties" xml:space="preserve">
+    <value>Camera properties</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Настройки</value>
+  <data name="Channel" xml:space="preserve">
+    <value>Channel</value>
   </data>
-  <data name="Videocam" xml:space="preserve">
-    <value>Видеокамера</value>
+  <data name="DeleteCamConfirm" xml:space="preserve">
+    <value>Are you sure you want to remove your camcorder "{0}"?</value>
   </data>
-  <data name="VideoPanel" xml:space="preserve">
-    <value>Панель видео с камеры</value>
+  <data name="Devices" xml:space="preserve">
+    <value>Devices</value>
   </data>
-  <data name="No" xml:space="preserve">
-    <value>&lt;нет&gt;</value>
+  <data name="DeviceViewName" xml:space="preserve">
+    <value>{0} channel "{1}", stream {2})</value>
+  </data>
+  <data name="SettingsSelectionSave" xml:space="preserve">
+    <value>Changing the server type, involves the removal of the previously added camera. Save the settings and remove the camera?</value>
   </data>
 </root>

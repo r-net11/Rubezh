@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Localization.Video;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.ViewModels;

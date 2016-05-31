@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using StrazhAPI.Automation;
 using FiresecClient;
 using StrazhAPI.Models.Layouts;
-using Localization.Automation;
+using Localization.Automation.Common;
 
 namespace AutomationModule.Layout.ViewModels
 {

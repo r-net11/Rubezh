@@ -8,7 +8,7 @@ using StrazhAPI.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using StrazhAPI;
-using Localization.Automation;
+using Localization.Automation.Common;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

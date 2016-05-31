@@ -1,6 +1,6 @@
 ﻿using Entities.DeviceOriented;
 using Infrastructure.Common.Windows.ViewModels;
-using Localization.Video;
+using Localization.Video.ViewModels;
 
 namespace VideoModule.ViewModels
 {

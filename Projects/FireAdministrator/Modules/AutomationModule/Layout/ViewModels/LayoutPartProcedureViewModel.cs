@@ -5,7 +5,7 @@ using Infrastructure.Client.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using FiresecClient;
-using Localization.Automation;
+using Localization.Automation.Common;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Layout.ViewModels

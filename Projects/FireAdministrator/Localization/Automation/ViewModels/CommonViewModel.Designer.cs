@@ -223,6 +223,15 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора сценария.
+        /// </summary>
+        public static string PressToSelectOPCScenarioLabel {
+            get {
+                return ResourceManager.GetString("PressToSelectOPCScenarioLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Создание процедуры.
         /// </summary>
         public static string ProcedureDetails_Create {
@@ -318,6 +327,15 @@ namespace Localization.Automation.ViewModels {
         public static string ProcedureSelectionViewModel_Title {
             get {
                 return ResourceManager.GetString("ProcedureSelectionViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
+        /// </summary>
+        public static string ScenarioInfoLabel {
+            get {
+                return ResourceManager.GetString("ScenarioInfoLabel", resourceCulture);
             }
         }
         

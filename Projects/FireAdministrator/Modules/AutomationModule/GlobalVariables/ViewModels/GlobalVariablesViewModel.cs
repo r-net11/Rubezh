@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AutomationModule.Properties;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Localization.Automation.Common;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -8,7 +8,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using Localization.Automation;
 
 namespace AutomationModule.ViewModels
 {

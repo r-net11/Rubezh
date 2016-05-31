@@ -1014,8 +1014,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-	<Compile Include="IFiresecServiceOPCIntegration.cs" />
-	<EmbeddedResource Include="Resources\Language\Automation\Enums\AccessState.resx">
+    <Compile Include="IFiresecServiceOPCIntegration.cs" />
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\AccessState.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AccessState1.Designer.cs</LastGenOutput>
     </EmbeddedResource>

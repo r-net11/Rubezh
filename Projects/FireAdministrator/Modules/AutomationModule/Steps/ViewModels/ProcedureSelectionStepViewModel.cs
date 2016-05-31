@@ -2,7 +2,7 @@
 using System.Linq;
 using StrazhAPI.Automation;
 using FiresecClient;
-using Localization.Automation;
+using Localization.Automation.Common;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

@@ -1,11 +1,12 @@
 <UserControl x:Class="VideoModule.Views.CamerasMenuView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:lang="clr-namespace:Localization.Video;assembly=Localization">
+			 xmlns:langCommon="clr-namespace:Localization.Video.Common;assembly=Localization"
+			 xmlns:langViews="clr-namespace:Localization.Video.Views;assembly=Localization">
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddCommand}" ToolTip="{x:Static lang:CommonViews.Add}" ImageSource="Add"  />
-        <ToolBarButton Command="{Binding EditCommand}" ToolTip="{x:Static lang:CommonViews.Edit}" ImageSource="Edit"  />
-        <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="{x:Static lang:CommonViews.Delete}" ImageSource="Delete"  />
-        <ToolBarButton Command="{Binding SettingsCommand}" ToolTip="{x:Static lang:CommonResources.Settings}" ImageSource="Settings2"  />
+        <ToolBarButton Command="{Binding AddCommand}" ToolTip="{x:Static langViews:CommonViews.Add}" ImageSource="Add"  />
+        <ToolBarButton Command="{Binding EditCommand}" ToolTip="{x:Static langViews:CommonViews.Edit}" ImageSource="Edit"  />
+        <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="{x:Static langViews:CommonViews.Delete}" ImageSource="Delete"  />
+        <ToolBarButton Command="{Binding SettingsCommand}" ToolTip="{x:Static langCommon:CommonResources.Settings}" ImageSource="Settings2"  />
 	</StackPanel>
 </UserControl>

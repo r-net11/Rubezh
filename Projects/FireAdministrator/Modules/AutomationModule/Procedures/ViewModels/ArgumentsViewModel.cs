@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using AutomationModule.Properties;
 using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;

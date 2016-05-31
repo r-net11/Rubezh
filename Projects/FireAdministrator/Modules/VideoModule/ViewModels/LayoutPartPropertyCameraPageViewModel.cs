@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Localization.Video;
+using Localization.Video.Common;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure.Common.Services.Layout;

@@ -8,7 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI;
 using System.Linq.Expressions;
-using Localization.Automation;
+using Localization.Automation.Common;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

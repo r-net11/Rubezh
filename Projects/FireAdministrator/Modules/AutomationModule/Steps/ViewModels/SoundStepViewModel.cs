@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Automation.Common;
 using StrazhAPI.Automation;
 using FiresecClient;
-using Localization.Automation;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

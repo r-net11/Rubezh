@@ -117,58 +117,85 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentExist_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует.</value>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="OPCScriptConnectionContent_Error" xml:space="preserve">
-    <value>Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения.</value>
+  <data name="AddAll" xml:space="preserve">
+    <value>Add all</value>
   </data>
-  <data name="UnboundProcedure_Error" xml:space="preserve">
-    <value>Несвязанная процедура</value>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
   </data>
-  <data name="ValidatorProcedureLayoutElement_Error" xml:space="preserve">
-    <value>Не выбран элемент макета</value>
+  <data name="AllowMultipleVisualization" xml:space="preserve">
+    <value>Allow multiple visualization</value>
   </data>
-  <data name="ValidatorProcedureLayout_Error" xml:space="preserve">
-    <value>Не выбран макет</value>
+  <data name="CameraCanNotPlacedOnPlan" xml:space="preserve">
+    <value>The camera may not be placed on the plan</value>
   </data>
-  <data name="ValidatorProcedureLicense_Error" xml:space="preserve">
-    <value>Функция не может быть загружена по причине лицензионных ограничений</value>
+  <data name="CameraCanPlacedOnPlan" xml:space="preserve">
+    <value>The camera can be placed on the plan</value>
   </data>
-  <data name="ValidatorProcedurePlanElement_Error" xml:space="preserve">
-    <value>Не выбран элемент плана</value>
+  <data name="CameraNotPlacedOnPlan" xml:space="preserve">
+    <value>The camera is not placed on the plan</value>
   </data>
-  <data name="ValidatorProcedurePlan_Error" xml:space="preserve">
-    <value>Не выбран план</value>
+  <data name="CameraPlacedOnPlan" xml:space="preserve">
+    <value>Camera is already placed on the plan</value>
   </data>
-  <data name="ValidatorProcedureProperty_Error" xml:space="preserve">
-    <value>Не выбрано свойство</value>
+  <data name="ChannelName" xml:space="preserve">
+    <value>Channel name</value>
   </data>
-  <data name="ValidatorProcedureSameNameArgument_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует {0}</value>
+  <data name="ChannelNumber" xml:space="preserve">
+    <value>Channel number</value>
   </data>
-  <data name="ValidatorProcedureSameNameProcedure_Error" xml:space="preserve">
-    <value>Процедура с таким именем уже существует {0}</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="ValidatorProcedureSameNameVariable_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует {0}</value>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Delete all</value>
   </data>
-  <data name="ValidatorProcedureVariables_Error" xml:space="preserve">
-    <value>Все переменные должны быть инициализированы</value>
+  <data name="Denomination" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="ValidatorScheduleBeginDate_Error" xml:space="preserve">
-    <value>Должна быть задана конкретная дата начала периода {0}</value>
+  <data name="DenyMultipleVisualization" xml:space="preserve">
+    <value>Disable multiple visualization</value>
   </data>
-  <data name="ValidatorScheduleNullPeriod_Error" xml:space="preserve">
-    <value>Должен быть задан не нулевой период {0}</value>
+  <data name="Description" xml:space="preserve">
+    <value>Note</value>
   </data>
-  <data name="ValidatorScheduleSameName_Error" xml:space="preserve">
-    <value>Расписание с таким именем уже существует {0}</value>
+  <data name="DeviceAddress" xml:space="preserve">
+    <value>Device address</value>
   </data>
-  <data name="ValidatorSound_Error" xml:space="preserve">
-    <value>Звуковой элемент с таким именем уже существует {0}</value>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Device name</value>
   </data>
-  <data name="VariableExist_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует.</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="ServerType" xml:space="preserve">
+    <value>Server type</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Use</value>
+  </data>
+  <data name="VideoView" xml:space="preserve">
+    <value>View video</value>
   </data>
 </root>

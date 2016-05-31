@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Localization.Video;
+using Localization.Video.Common;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

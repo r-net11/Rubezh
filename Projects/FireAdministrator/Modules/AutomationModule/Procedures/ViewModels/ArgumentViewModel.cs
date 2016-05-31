@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Localization.Automation.Common;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Localization.Automation;
-using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {

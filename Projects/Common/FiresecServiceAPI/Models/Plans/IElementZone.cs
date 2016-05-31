@@ -25,8 +25,8 @@ namespace StrazhAPI.Plans.Elements
 
 	public enum ElementZoneType
 	{
-		//[Description("СКД зона")]
-        [LocalizedDescription(typeof(Resources.Language.Elements.IElementZone),"SKD")]
+		[Description("СКД зона")]
+        //[LocalizedDescription(typeof(Resources.Language.Elements.IElementZone), "SKD")]
 		SKD,
 	}
 }

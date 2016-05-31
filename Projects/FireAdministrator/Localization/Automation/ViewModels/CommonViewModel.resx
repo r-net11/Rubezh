@@ -264,4 +264,10 @@
   <data name="Style" xml:space="preserve">
     <value>Стиль</value>
   </data>
+  <data name="PressToSelectOPCScenarioLabel" xml:space="preserve">
+    <value>Нажмите для выбора сценария</value>
+  </data>
+  <data name="ScenarioInfoLabel" xml:space="preserve">
+    <value>№ Сценария: {0} Название: {1}</value>
+  </data>
 </root>

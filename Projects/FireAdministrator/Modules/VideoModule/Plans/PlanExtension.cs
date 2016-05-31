@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Localization.Video;
+using Localization.Video.Common;
+using Localization.Video.Errors;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;

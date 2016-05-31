@@ -1,8 +1,8 @@
-﻿using StrazhAPI.Automation;
+﻿using Localization.Automation.Common;
+using StrazhAPI.Automation;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
-using Localization.Automation;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

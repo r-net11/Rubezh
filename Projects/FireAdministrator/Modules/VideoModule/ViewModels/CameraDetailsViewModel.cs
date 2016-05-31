@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Localization.Video;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;

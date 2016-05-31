@@ -1,11 +1,12 @@
 ﻿<UserControl x:Class="VideoModule.Views.LayoutPartPropertyCameraPageView" 
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:lang="clr-namespace:Localization.Video;assembly=Localization">
+			 xmlns:langViews="clr-namespace:Localization.Video.Views;assembly=Localization"
+			 xmlns:langCommon="clr-namespace:Localization.Video.Common;assembly=Localization">
 
 	<XDataGrid Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="250" Header="{x:Static lang:CommonResources.Camera}">
+			<DataGridTemplateColumn Width="250" Header="{x:Static langCommon:CommonResources.Camera}">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -15,7 +16,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="100" Header="{x:Static lang:CommonViews.Address}" Binding="{Binding PresentationAddress}" />
+            <DataGridTextColumn Width="100" Header="{x:Static langViews:CommonViews.Address}" Binding="{Binding PresentationAddress}" />
 		</DataGrid.Columns>
 	</XDataGrid>
 </UserControl>

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
 using AutomationModule.Models;
-using AutomationModule.Properties;
 using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Windows.Controls;
-using StrazhAPI;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.ViewModels
 {
@@ -72,7 +70,7 @@ namespace AutomationModule.ViewModels
 						ex = (AggregateException) ex.InnerException;
 						Logger.Error(ex);
 					}
-					MessageBoxService.ShowError(Resources.ErrorOPCScriptConnectionContent);
+					MessageBoxService.ShowError(CommonErrors.OPCScriptConnectionContent_Error);
 				}
 				else
 				{

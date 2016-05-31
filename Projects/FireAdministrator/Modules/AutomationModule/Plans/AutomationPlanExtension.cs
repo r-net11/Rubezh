@@ -15,7 +15,7 @@ using Infrustructure.Plans.Services;
 using AutomationModule.Plans.InstrumentAdorners;
 using AutomationModule.Plans.ViewModels;
 using AutomationModule.Events;
-using Localization.Automation;
+using Localization.Automation.Common;
 using Localization.Automation.Errors;
 
 namespace AutomationModule.Plans

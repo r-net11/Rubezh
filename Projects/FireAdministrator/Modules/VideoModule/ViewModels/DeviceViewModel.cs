@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using Localization.Video;
+using Localization.Video.ViewModels;
 using RviCommonClient;
 
 namespace VideoModule.ViewModels

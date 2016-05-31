@@ -6,7 +6,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
 	xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
-	xmlns:lang="clr-namespace:Localization.Video;assembly=Localization"
+	xmlns:langViews="clr-namespace:Localization.Video.Views;assembly=Localization"
 	MinWidth="545"
 	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
@@ -19,7 +19,7 @@
 		</Style>
 	</UserControl.Resources>
 	<TabControl>
-		<TabItem Header="{x:Static lang:CommonViews.Main}">
+        <TabItem Header="{x:Static langViews:CommonViews.Main}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -36,7 +36,7 @@
 					Grid.Column="0"
 					Margin="5 5 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{x:Static lang:CommonViews.DeviceName}" />
+					Text="{x:Static langViews:CommonViews.DeviceName}" />
 				<TextBlock
 					Grid.Row="0"
 					Grid.Column="1"
@@ -48,7 +48,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{x:Static lang:CommonViews.DeviceAddress}" />
+					Text="{x:Static langViews:CommonViews.DeviceAddress}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="1"
@@ -60,7 +60,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{x:Static lang:CommonViews.ChannelNumber}" />
+					Text="{x:Static langViews:CommonViews.ChannelNumber}" />
 				<TextBlock
 					Grid.Row="2"
 					Grid.Column="1"
@@ -72,7 +72,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{x:Static lang:CommonViews.ChannelName}" />
+					Text="{x:Static langViews:CommonViews.ChannelName}" />
 				<TextBlock
 					Grid.Row="3"
 					Grid.Column="1"
@@ -81,13 +81,13 @@
 					Text="{Binding Camera.RviChannelName, FallbackValue=Rvi_Имя}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="{x:Static lang:CommonViews.Preview}">
+        <TabItem Header="{x:Static langViews:CommonViews.Preview}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="{x:Static lang:CommonViews.VideoView}" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
+                <Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="{x:Static langViews:CommonViews.VideoView}" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
 				<rviClientUi:VideoCellControl
 					Grid.Row="1"
 					x:Name="videoCellControl"

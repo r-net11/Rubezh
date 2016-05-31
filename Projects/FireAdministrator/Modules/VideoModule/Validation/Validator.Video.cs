@@ -1,7 +1,7 @@
 ﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Validation;
-using Localization.Video;
+using Localization.Video.Errors;
 
 namespace VideoModule.Validation
 {

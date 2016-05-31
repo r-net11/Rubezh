@@ -20,7 +20,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
-using Localization.Automation;
+using Localization.Automation.Common;
 
 namespace AutomationModule
 {

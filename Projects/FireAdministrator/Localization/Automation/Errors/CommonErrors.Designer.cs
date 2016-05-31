@@ -70,6 +70,15 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения..
+        /// </summary>
+        public static string OPCScriptConnectionContent_Error {
+            get {
+                return ResourceManager.GetString("OPCScriptConnectionContent_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Несвязанная процедура.
         /// </summary>
         public static string UnboundProcedure_Error {

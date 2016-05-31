@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using Entities.DeviceOriented;
-using Localization.Video;
+using Localization.Video.Common;
 
 namespace VideoModule.Converters
 {

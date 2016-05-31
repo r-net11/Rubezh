@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Automation;
 using System.Collections.ObjectModel;
 using Infrastructure;
-using Localization.Automation;
+using Localization.Automation.Common;
 
 namespace AutomationModule.ViewModels
 {
