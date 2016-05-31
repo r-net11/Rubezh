@@ -3,20 +3,18 @@ using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.Models.Automation;
 
 namespace StrazhAPI.Automation
 {
 	[DataContract]
-	[KnownType(typeof(GlobalVariable))]
-	[KnownType(typeof(LocalVariable))]
 	public class Procedure : IPlanPresentable
 	{
 		public Procedure()
 		{
+			Name = "Новая процедура";
 			Name = Resources.Language.Models.Automation.Procedure.Name;
-			Variables = new List<IVariable>();
-			Arguments = new List<IVariable>();
+			Variables = new List<Variable>();
+			Arguments = new List<Variable>();
 			Steps = new List<ProcedureStep>();
 			Uid = Guid.NewGuid();
 			FiltersUids = new List<Guid>();
@@ -37,10 +35,10 @@ namespace StrazhAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public List<IVariable> Variables { get; set; }
+		public List<Variable> Variables { get; set; }
 
 		[DataMember]
-		public List<IVariable> Arguments { get; set; }
+		public List<Variable> Arguments { get; set; }
 
 		[DataMember]
 		public List<Guid> FiltersUids { get; set; }

@@ -13,35 +13,6 @@ namespace CustomAction
 {
 	public class CustomActions
 	{
-		#region <Закрытие приложений перед проведением обновления>
-
-		[CustomAction]
-		public static ActionResult CloseApplications(Session session)
-		{
-			session.Log("Выполнение CloseApplications");
-			Process[] processes = Process.GetProcesses();
-			foreach (var process in processes)
-			{
-				try
-				{
-					if ((process.ProcessName == "StrazhService")
-						|| (process.ProcessName == "StrazhMonitor")
-						|| (process.ProcessName == "StrazhAdmin")
-						|| (process.ProcessName == "Revisor"))
-					{
-						process.Kill();
-					}
-				}
-				catch(Exception e)
-				{
-					session.Log("В результате выполнения CloseApplications возникла ошибка: {0}", e.Message);
-				}
-			}
-			return ActionResult.Success;
-		}
-
-		#endregion </Закрытие приложений перед проведением обновления>
-
 		#region <Работа с файлом конфигурации AppServerSettings.xml>
 
 		private const string ConfigDir = "C:\\ProgramData\\Strazh";

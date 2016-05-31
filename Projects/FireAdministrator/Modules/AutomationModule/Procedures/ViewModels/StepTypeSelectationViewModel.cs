@@ -71,7 +71,7 @@ namespace AutomationModule.ViewModels
 		private void BuildStepTypeTree()
 		{
 			var stepTypeViewModels = new List<StepTypeViewModel>();
-			
+
 			var node = BuildOperationsNode();
 			if (node.ChildrenCount > 0)
 				stepTypeViewModels.Add(node);
@@ -97,7 +97,7 @@ namespace AutomationModule.ViewModels
 		private StepTypeViewModel BuildDataExchangeNode()
 		{
 			var stepTypeViewModels = new List<StepTypeViewModel>();
-			
+
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportReport))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportReport));
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportJournal))
@@ -215,8 +215,8 @@ namespace AutomationModule.ViewModels
 			if (node.ChildrenCount > 0)
 				stepTypeViewModels.Add(node);
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_HardwareControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
-		}
+			stepTypeViewModels.Add(BuildOPCIntegrationControlNode());
+            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_HardwareControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);		}
 
 		private StepTypeViewModel BuildStrazhControlNode()
 		{
@@ -229,7 +229,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlDoor))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlDoor));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_StrazhControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_StrazhControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildVideoControlNode()
@@ -243,7 +243,18 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarm))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarm));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildOPCIntegrationControlNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>
+			{
+				new StepTypeViewModel(ProcedureStepType.ExecuteFiresecScript),
+				new StepTypeViewModel(ProcedureStepType.SendOPCScript)
+			};
+
+			return new StepTypeViewModel("Интеграция с ОПС", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		protected override bool CanSave()

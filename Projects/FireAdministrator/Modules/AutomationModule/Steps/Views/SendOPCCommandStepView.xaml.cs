@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace AutomationModule.Views
 {
 	/// <summary>
-	/// Interaction logic for AddGlobalVariableDialog.xaml
+	/// Interaction logic for SendOPCCommand.xaml
 	/// </summary>
-	public partial class AddGlobalVariableDialogView : UserControl
+	public partial class SendOPCCommandStepView : UserControl
 	{
-		public AddGlobalVariableDialogView()
+		public SendOPCCommandStepView()
 		{
 			InitializeComponent();
 		}

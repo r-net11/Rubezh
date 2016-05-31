@@ -10,9 +10,5 @@
 	<DataTemplate DataType="{x:Type ViewModels:GlobalVariablesMenuViewModel}">
 		<Views:GlobalVariablesMenuView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:AddGlobalVariableDialogViewModel}">
-		<Views:AddGlobalVariableDialogView />
-	</DataTemplate>
-
+	
 </ResourceDictionary>

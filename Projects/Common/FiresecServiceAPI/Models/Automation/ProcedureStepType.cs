@@ -223,6 +223,11 @@ namespace StrazhAPI.Automation
 
 		//[Description("Получение свойства зоны СКД")]
         [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetSkdZoneProperty")]
-        GetSkdZoneProperty
+
+		[Description("Вызов сценария FireSec")]
+		ExecuteFiresecScript,
+
+		[Description("Отправить команду")]
+		SendOPCScript
 	}
 }

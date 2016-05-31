@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SKDModule.Views
+namespace Controls.CustomControls
 {
 	/// <summary>
 	/// Interaction logic for BisyIndicator.xaml

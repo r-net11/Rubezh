@@ -10,7 +10,7 @@ namespace StrazhService.Monitor.ViewModels
 	public class ServiceControlViewModel : BaseViewModel
 	{
 		private const string ServiceName = "StrazhService";
-		private const int ServiceWaitTimeout = 10;
+		private const int ServiceWaitTimeout = 15;
 		private ServiceController _serviceController;
 		private bool isRestarting;
 
@@ -67,12 +67,15 @@ namespace StrazhService.Monitor.ViewModels
 
 		private void StopService()
 		{
+			Logger.Info(string.Format("Останавливаем службу '{0}'", ServiceName));
 			try
 			{
 				_serviceController.Stop();
 				_serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(ServiceWaitTimeout));
-				if (_serviceController.Status != ServiceControllerStatus.Stopped)
-					Logger.Warn(string.Format("Служба '{0}' не была остановлена за {1} сек.", ServiceName, ServiceWaitTimeout));
+			}
+			catch (System.ServiceProcess.TimeoutException)
+			{
+				Logger.Warn(string.Format("Служба '{0}' не была остановлена за {1} сек.", ServiceName, ServiceWaitTimeout));
 			}
 			catch (Exception e)
 			{
@@ -82,12 +85,15 @@ namespace StrazhService.Monitor.ViewModels
 
 		private void StartService()
 		{
+			Logger.Info(string.Format("Запускаем службу '{0}'", ServiceName));
 			try
 			{
 				_serviceController.Start();
 				_serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(ServiceWaitTimeout));
-				if (_serviceController.Status != ServiceControllerStatus.Running)
-					Logger.Warn(string.Format("Служба '{0}' не была запущена за {1} сек.", ServiceName, ServiceWaitTimeout));
+			}
+			catch (System.ServiceProcess.TimeoutException)
+			{
+				Logger.Warn(string.Format("Служба '{0}' не была запущена за {1} сек.", ServiceName, ServiceWaitTimeout));
 			}
 			catch (Exception e)
 			{

@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentExistError" xml:space="preserve">
+  <data name="ErrorArgumentExistContent" xml:space="preserve">
     <value>Аргумент с таким именем уже существует.</value>
   </data>
-  <data name="VariableExistError" xml:space="preserve">
+  <data name="ErrorOPCScriptConnectionContent" xml:space="preserve">
+    <value>Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения.</value>
+    <comment>Текст ошибки при попытке получения списка сценариев FireSec</comment>
+  </data>
+  <data name="ErrorVariableExist" xml:space="preserve">
     <value>Переменная с таким именем уже существует.</value>
+  </data>
+  <data name="PressToSelectOPCScenarioLabel" xml:space="preserve">
+    <value>Нажмите для выбора сценария</value>
+    <comment>Текст, который выводится, для ссылки в автоматизации, позволяющей выбрать сценарий ОПС, при интеграции с ОПС.</comment>
+  </data>
+  <data name="ScenarioInfoLabel" xml:space="preserve">
+    <value>№ Сценария: {0} Название: {1}</value>
+    <comment>Текст описания сценария ОПС.</comment>
   </data>
 </root>

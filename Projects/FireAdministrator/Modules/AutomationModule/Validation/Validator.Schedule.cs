@@ -33,12 +33,12 @@ namespace AutomationModule.Validation
 		{
 			foreach (var argument in scheduleProcedure.Arguments)
 			{
-				//if (argument.VariableScope != VariableScope.ExplicitValue)
-					//if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid)) TODO: validate Global Variables
-					//{
-					//	Errors.Add(new ScheduleValidationError(schedule, "Все переменные должны быть инициализированы " + schedule.Name, ValidationErrorLevel.CannotSave));
-					//	return false;
-					//}
+				if (argument.VariableScope != VariableScope.ExplicitValue)
+					if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
+					{
+						Errors.Add(new ScheduleValidationError(schedule, "Все переменные должны быть инициализированы " + schedule.Name, ValidationErrorLevel.CannotSave));
+						return false;
+					}
 			}
 			return true;
 		}

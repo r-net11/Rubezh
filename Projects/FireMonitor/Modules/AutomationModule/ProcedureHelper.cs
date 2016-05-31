@@ -1,7 +1,6 @@
 ﻿using AutomationModule.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using System;
@@ -14,18 +13,17 @@ namespace AutomationModule
 {
 	public static class ProcedureHelper
 	{
-		public static List<IVariable> GetAllVariables(Procedure procedure)
+		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
-			var globalVariables = FiresecManager.FiresecService.GetInitialGlobalVariables().Result;
-			var allVariables = globalVariables.ToList<IVariable>();//new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get Global Variables
+			var allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
 		}
 
-		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType && x.VariableValue.ObjectType == objectType);
+			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType);
 		}
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
@@ -35,15 +33,14 @@ namespace AutomationModule
 			return new List<Property>();
 		}
 
-		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType explicitType)
+		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
-			if ((explicitType == ExplicitType.Integer) || (explicitType == ExplicitType.DateTime) || (explicitType == ExplicitType.Object))
+			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (explicitType == ExplicitType.Boolean || explicitType == ExplicitType.Enum)
+			if (ExplicitType == ExplicitType.Boolean || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
-			if (explicitType == ExplicitType.String)
+			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
-
 			return new List<ConditionType>();
 		}
 

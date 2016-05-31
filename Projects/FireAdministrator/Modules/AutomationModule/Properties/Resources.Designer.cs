@@ -63,18 +63,45 @@ namespace AutomationModule.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Аргумент с таким именем уже существует..
         /// </summary>
-        internal static string ArgumentExistError {
+        internal static string ErrorArgumentExistContent {
             get {
-                return ResourceManager.GetString("ArgumentExistError", resourceCulture);
+                return ResourceManager.GetString("ErrorArgumentExistContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения..
+        /// </summary>
+        internal static string ErrorOPCScriptConnectionContent {
+            get {
+                return ResourceManager.GetString("ErrorOPCScriptConnectionContent", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Переменная с таким именем уже существует..
         /// </summary>
-        internal static string VariableExistError {
+        internal static string ErrorVariableExist {
             get {
-                return ResourceManager.GetString("VariableExistError", resourceCulture);
+                return ResourceManager.GetString("ErrorVariableExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора сценария.
+        /// </summary>
+        internal static string PressToSelectOPCScenarioLabel {
+            get {
+                return ResourceManager.GetString("PressToSelectOPCScenarioLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
+        /// </summary>
+        internal static string ScenarioInfoLabel {
+            get {
+                return ResourceManager.GetString("ScenarioInfoLabel", resourceCulture);
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Infrastructure.Common
 {
 	public static class AppServerSettingsHelper
 	{
-		private static string FileName = AppDataFolderHelper.GetAppServerSettingsFileName();
+		private static readonly string FileName = AppDataFolderHelper.GetAppServerSettingsFileName();
 
 		public static AppServerSettings AppServerSettings { get; private set; }
 
@@ -30,6 +30,9 @@ namespace Infrastructure.Common
 						AppServerSettings = (AppServerSettings)xmlSerializer.Deserialize(fileStream);
 					}
 				}
+				// Задаем значение по умолчанию для папки хранения файлов документов, если она не задана в конфиге
+				if (string.IsNullOrEmpty(AppServerSettings.AttachmentsFolder))
+					AppServerSettings.AttachmentsFolder = AppDataFolderHelper.GetAttachmentsFolder();
 			}
 			catch (Exception e)
 			{

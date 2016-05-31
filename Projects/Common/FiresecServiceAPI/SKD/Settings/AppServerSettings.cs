@@ -54,5 +54,8 @@ namespace StrazhAPI
 		public string DBUserPwd { get; set; }
 
 		public bool EnableOfflineLog { get; set; }
+
+		[DataMember]
+		public string AttachmentsFolder { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Automation;
+﻿using AutomationModule.Steps.ViewModels;
+using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.TreeList;
 
@@ -174,6 +175,12 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.GetSkdZoneProperty:
 					return new GetSkdZonePropertyStepViewModel(this);
+
+				case ProcedureStepType.ExecuteFiresecScript:
+					return new ExecuteFireSecScriptViewModel(this);
+
+				case ProcedureStepType.SendOPCScript:
+					return new SendOPCCommandStepViewModel(this);
 
 				default:
 					return null;

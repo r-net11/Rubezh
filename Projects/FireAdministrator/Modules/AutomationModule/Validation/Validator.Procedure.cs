@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Validation;
@@ -210,7 +209,7 @@ namespace AutomationModule.Validation
 						var sendEmailArguments = step.SendEmailArguments;
 						if (!ValidateArgument(step, sendEmailArguments.EMailAddressFromArgument))
 							break;
-
+						
 						var eMailAddressToArgumentsValidationResult = true;
 						foreach (var eMailAddressToArgument in sendEmailArguments.EMailAddressToArguments)
 						{
@@ -244,10 +243,10 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.RunProgram:
 					{
-						var runProgramArguments = step.RunProgramArguments;
-						if (!ValidateArgument(step, runProgramArguments.ParametersArgument))
+						var RunProgramArguments = step.RunProgramArguments;
+						if (!ValidateArgument(step, RunProgramArguments.ParametersArgument))
 							break;
-						ValidateArgument(step, runProgramArguments.PathArgument);
+						ValidateArgument(step, RunProgramArguments.PathArgument);
 					}
 					break;
 
@@ -445,16 +444,16 @@ namespace AutomationModule.Validation
 
 		bool ValidateArgument(ProcedureStep step, Argument argument)
 		{
-			var localVariables = new List<IVariable>(Procedure.Variables);
-			localVariables.AddRange(new List<IVariable>(Procedure.Arguments));
-			//if (argument.VariableScope == VariableScope.GlobalVariable) //TODO: Validate Global Variables in the server side
-			//	if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
-			//	{
-			//		Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
-			//		return false;
-			//	}
+			var localVariables = new List<Variable>(Procedure.Variables);
+			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
+			if (argument.VariableScope == VariableScope.GlobalVariable)
+				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
+				{
+					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
+					return false;
+				}
 			if (argument.VariableScope == VariableScope.LocalVariable)
-				if (localVariables.All(x => x.UID != argument.VariableUid))
+				if (localVariables.All(x => x.Uid != argument.VariableUid))
 				{
                     Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error, ValidationErrorLevel.CannotSave));
 					return false;

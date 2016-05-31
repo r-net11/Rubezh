@@ -92,7 +92,6 @@
 		<FeatureRef Id="StrazhFeature" />
 
 		<InstallExecuteSequence>
-			<Custom Action="CloseApplications" Sequence="1" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
 		</InstallExecuteSequence>

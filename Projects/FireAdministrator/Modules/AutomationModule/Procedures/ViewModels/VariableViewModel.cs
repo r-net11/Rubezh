@@ -1,5 +1,4 @@
 ﻿using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI;
 
@@ -7,9 +6,9 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableViewModel : BaseViewModel
 	{
-		public IVariable Variable { get; set; }
+		public Variable Variable { get; set; }
 
-		public VariableViewModel(IVariable variable)
+		public VariableViewModel(Variable variable)
 		{
 			Variable = variable;
 		}
@@ -18,7 +17,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = ProcedureHelper.GetStringValue(Variable.VariableValue.ExplicitValue, Variable.VariableValue.ExplicitType, Variable.VariableValue.EnumType);
+				var description = ProcedureHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
 				description = description.TrimEnd(',', ' ');
 				return description;
 			}
@@ -28,11 +27,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (Variable.VariableValue.ExplicitType == ExplicitType.Object)
-					return Variable.VariableValue.ExplicitType.ToDescription() + " \\ " + Variable.VariableValue.ObjectType.ToDescription();
-				if (Variable.VariableValue.ExplicitType == ExplicitType.Enum)
-					return Variable.VariableValue.ExplicitType.ToDescription() + " \\ " + Variable.VariableValue.EnumType.ToDescription();
-				return Variable.VariableValue.ExplicitType.ToDescription();
+				if (Variable.ExplicitType == ExplicitType.Object)
+					return Variable.ExplicitType.ToDescription() + " \\ " + Variable.ObjectType.ToDescription();
+				if (Variable.ExplicitType == ExplicitType.Enum)
+					return Variable.ExplicitType.ToDescription() + " \\ " + Variable.EnumType.ToDescription();
+				return Variable.ExplicitType.ToDescription();
 			}
 		}
 

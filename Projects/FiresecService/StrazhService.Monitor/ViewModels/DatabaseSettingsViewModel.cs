@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SqlClient;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
+using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -115,16 +118,53 @@ namespace StrazhService.Monitor.ViewModels
 			}
 		}
 
+		public RelayCommand BackupDatabaseCommand { get; private set; }
+
 		public RelayCommand CheckSqlServerConnectionCommand { get; private set; }
 
 		public RelayCommand ApplyCommand { get; private set; }
 
 		public DatabaseSettingsViewModel()
 		{
+			BackupDatabaseCommand = new RelayCommand(OnBackupDatabase);
 			CheckSqlServerConnectionCommand = new RelayCommand(OnCheckSqlServerConnection);
 			ApplyCommand = new RelayCommand(OnApply);
 			InitializeAvailableSqlServerAuthenticationModes();
 			ReadFromModel();
+		}
+
+		private void OnBackupDatabase()
+		{
+			var dlg = new FolderBrowserDialog();
+			var dlgResult = dlg.ShowDialog();
+			if (dlgResult != DialogResult.OK)
+				return;
+
+			Logger.Info(string.Format("Создание бэкапа базы с сохранением в папку '{0}'", dlg.SelectedPath));
+
+			var sb = new StringBuilder();
+			var backupResult = true;
+			foreach (var dbName in new[] { "Journal_1", "PassJournal_1", "SKD" })
+			{
+				string errors;
+				backupResult &= ServiceRepository.Instance.DatabaseService.CreateBackup(DBServerAddress, DBServerPort,
+					DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, dbName, Path.Combine(dlg.SelectedPath, string.Format("{0}.bak", dbName)), out errors);
+				if (!string.IsNullOrEmpty(errors))
+					sb.AppendLine(errors);
+			}
+
+			var msg = string.Format("Операция бэкапа базы завершилась {0}", backupResult ? "успешно" : string.Format("с ошибкой: \n\n{0}", sb));
+
+			if (!backupResult)
+			{
+				Logger.Warn(msg);
+				MessageBoxService.ShowWarning(msg);
+			}
+			else
+			{
+				Logger.Info(msg);
+				MessageBoxService.Show(msg);
+			}
 		}
 
 		private void InitializeAvailableSqlServerAuthenticationModes()
@@ -138,67 +178,32 @@ namespace StrazhService.Monitor.ViewModels
 		
 		private void OnCheckSqlServerConnection()
 		{
+			Logger.Info("Проверка соединения с СУБД");
+
 			string errors;
-			var checkResult = CheckSqlServerConnection(DBServerAddress, DBServerPort,
+
+			var checkResult = ServiceRepository.Instance.DatabaseService.CheckConnection(DBServerAddress, DBServerPort,
 				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, out errors);
 
 			var msg = string.Format("Соединение с сервером {0} {1}", DBServerName, checkResult ? "успешно установлено" : string.Format("установить не удалось по причине ошибки: \n\n{0}", errors));
 
 			if (!checkResult)
+			{
+				Logger.Warn(msg);
 				MessageBoxService.ShowWarning(msg);
+			}
 			else
+			{
+				Logger.Info(msg);
 				MessageBoxService.Show(msg);
-		}
-
-		/// <summary>
-		/// Проверяет доступность СУБД MS SQL Server
-		/// </summary>
-		/// <param name="ipAddress">IP-адрес сервера СУБД</param>
-		/// <param name="ipPort">IP-порт сервера СУБД</param>
-		/// <param name="instanceName">Название именованной установки сервера СУБД</param>
-		/// <param name="useIntegratedSecurity">Метод аутентификации</param>
-		/// <param name="userID">Логин (только для SQL Server аутентификации)</param>
-		/// <param name="userPwd">Пароль (только для SQL Server аутентификации)</param>
-		/// <param name="errors">Ошибки, возникшие в процессе проверки соединения</param>
-		/// <returns>true - в случае успеха, false - в противном случае</returns>
-		private static bool CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd, out string errors)
-		{
-			errors = null;
-			var connectionString = BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
-			using (var connection = new SqlConnection(connectionString))
-			{
-				try
-				{
-					connection.Open();
-				}
-				catch (Exception e)
-				{
-					errors = e.Message;
-					return false;
-				}
 			}
-			return true;
-		}
-
-		private static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity, string userID, string userPwd)
-		{
-			var csb = new SqlConnectionStringBuilder();
-			csb.DataSource = String.Format(@"{0}{1},{2}", ipAddress, String.IsNullOrEmpty(instanceName) ? String.Empty : String.Format(@"\{0}", instanceName), ipPort);
-			csb.InitialCatalog = db;
-			csb.IntegratedSecurity = useIntegratedSecurity;
-			if (!csb.IntegratedSecurity)
-			{
-				csb.UserID = userID;
-				csb.Password = userPwd;
-			}
-			return csb.ConnectionString;
 		}
 
 		private void OnApply()
 		{
 			WriteToModel();
 			if (ServiceRepository.Instance.ServiceStateHolder.State != ServiceState.Stoped)
-				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера приложений");
+				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера");
 		}
 
 		private void ReadFromModel()

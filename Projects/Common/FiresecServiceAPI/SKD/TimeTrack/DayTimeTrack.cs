@@ -902,7 +902,6 @@ namespace StrazhAPI.SKD
 		/// <param name="timeTrackPart">Время, отслеженное в УРВ</param>
 		/// <param name="realTimeTrackParts">Коллекция интервалов прохода сотрудника</param>
 		/// <param name="plannedTimeTrackParts">Коллекция интервалов графика работ</param>
-		/// <param name="isOnlyFirstEnter">Флаг, показывающий, работает ли система в режиме "первый вход-последний выход"</param>
 		/// <param name="schedulePlannedInterval">Начальное и конечное время графика работы</param>
 		/// <param name="combinedInterval">Начальное время и конечное время временного интервала в УРВ</param>
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
@@ -989,6 +988,7 @@ namespace StrazhAPI.SKD
 		/// <param name="plannedTimeTrackParts">Коллекция временных интервалов графика работ</param>
 		/// <param name="realTimeTrackParts">Коллекция интервалов прохода сотрудника</param>
 		/// <param name="combinedTimeTrackParts">Коллекция всех интервалов (графика работ, проходов сотрудника, документов)</param>
+		/// <param name="isHoliday"></param>
 		/// <returns>Возвращает коллекцию всех типов интервалов</returns>
 		public List<TimeTrackTotal> CalculateTotal(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> combinedTimeTrackParts, bool isHoliday)
 		{

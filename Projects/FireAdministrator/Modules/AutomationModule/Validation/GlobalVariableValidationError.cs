@@ -1,14 +1,14 @@
-﻿using AutomationModule.Events;
+﻿using System;
+using AutomationModule.Events;
+using StrazhAPI.Automation;
 using StrazhAPI.Enums;
-using StrazhAPI.Models.Automation;
 using Infrastructure.Common.Validation;
-using System;
 
 namespace AutomationModule.Validation
 {
-	class GlobalVariableValidationError : ObjectValidationError<IVariable, ShowGlobalVariablesEvent, Guid>
+	class GlobalVariableValidationError : ObjectValidationError<Variable, ShowGlobalVariablesEvent, Guid>
 	{
-		public GlobalVariableValidationError(IVariable globalVariable, string error, ValidationErrorLevel level)
+		public GlobalVariableValidationError(Variable globalVariable, string error, ValidationErrorLevel level)
 			: base(globalVariable, error, level)
 		{
 		}
@@ -19,7 +19,7 @@ namespace AutomationModule.Validation
 		}
 		protected override Guid Key
 		{
-			get { return Object.UID; }
+			get { return Object.Uid; }
 		}
 		public override string Address
 		{

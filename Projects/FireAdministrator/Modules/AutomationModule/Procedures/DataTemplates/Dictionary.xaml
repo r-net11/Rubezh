@@ -84,6 +84,14 @@
 		<Views:VisitorSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ScriptListViewModel}">
+		<Views:ScriptListView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SendOPCCommandStepViewModel}">
+		<Views:SendOPCCommandStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
@@ -268,6 +276,14 @@
 		<Views:GetSkdZonePropertyStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="executeFireSecScript">
+		<Views:ExecuteFireSecScriptView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="sendOPCCommandStep">
+		<Views:SendOPCCommandStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -315,5 +331,7 @@
 		GetDateTimeNowTemplate="{StaticResource getDateTimeNowTemplate}"
 		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"
 		GetDoorPropertyTemplate="{StaticResource getDoorPropertyTemplate}"
-		GetSkdZonePropertyTemplate="{StaticResource getSkdZonePropertyTemplate}"/>
+		GetSkdZonePropertyTemplate="{StaticResource getSkdZonePropertyTemplate}"
+		ExecuteFireSecScriptTemplate="{StaticResource executeFireSecScript}"
+		SendOPCCommandTemplate="{StaticResource sendOPCCommandStep}"/>
 </ResourceDictionary>

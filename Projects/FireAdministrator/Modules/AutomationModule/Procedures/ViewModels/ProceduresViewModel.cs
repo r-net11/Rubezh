@@ -6,7 +6,6 @@ using System.Windows.Input;
 using AutomationModule.Plans;
 using Common;
 using StrazhAPI.Automation;
-using StrazhAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -166,8 +165,8 @@ namespace AutomationModule.ViewModels
 		{
 			if (inputUid == Guid.Empty)
 				return;
-			var variables = new List<IVariable>();
-			var arguments = new List<IVariable>();
+			var variables = new List<Variable>();
+			var arguments = new List<Variable>();
 			var procedureSteps = new List<ProcedureStep>();
 
 			foreach (var procedure in Procedures)
@@ -181,25 +180,25 @@ namespace AutomationModule.ViewModels
 			{
 				SelectedProcedure = Procedures.FirstOrDefault(item => item.Procedure.Uid == inputUid);
 			}
-			else if (variables.Any(item => item.UID == inputUid))
+			else if (variables.Any(item => item.Uid == inputUid))
 			{
-				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Variables.Any(z => z.UID == inputUid));
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Variables.Any(z => z.Uid == inputUid));
 				if (selectedProcedure != null)
 				{
 					SelectedProcedure = selectedProcedure;
 					SelectedProcedure.ShowVariablesCommand.Execute();
 				}
-				SelectedProcedure.VariablesViewModel.SelectedVariable = SelectedProcedure.VariablesViewModel.Variables.FirstOrDefault(item => item.Variable.UID == inputUid);
+				SelectedProcedure.VariablesViewModel.SelectedVariable = SelectedProcedure.VariablesViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
 			}
-			else if (arguments.Any(item => item.UID == inputUid))
+			else if (arguments.Any(item => item.Uid == inputUid))
 			{
-				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Arguments.Any(z => z.UID == inputUid));
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Arguments.Any(z => z.Uid == inputUid));
 				if (selectedProcedure != null)
 				{
 					SelectedProcedure = selectedProcedure;
 					SelectedProcedure.ShowArgumentsCommand.Execute();
 				}
-				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.UID == inputUid);
+				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
 			}
 
 			else if (procedureSteps.Any(item => item.UID == inputUid))
@@ -250,27 +249,11 @@ namespace AutomationModule.ViewModels
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
 		}
 
-        //private void SetRibbonItems()
-        //{
-        //    RibbonItems = new List<RibbonMenuItemViewModel>
-        //    {
-        //        new RibbonMenuItemViewModel(proceduresViewModel.Edition, new ObservableCollection<RibbonMenuItemViewModel>
-        //        {
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Add, AddCommand, "BAdd"),
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Edit, EditCommand, "BEdit"),
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Copy, CopyCommand, "BCopy"),
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Cut, CutCommand, "BCut"),
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Paste, PasteCommand, "BPaste"),
-        //            new RibbonMenuItemViewModel(proceduresViewModel.Delete, DeleteCommand, "BDelete"),
-        //        }, "BEdit") { Order = 2 }
-        //    };
-        //}
-
-        private void SetRibbonItems()
-        {
-            RibbonItems = new List<RibbonMenuItemViewModel>
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					new RibbonMenuItemViewModel("", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("", EditCommand, "BEdit"),
@@ -281,5 +264,10 @@ namespace AutomationModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
         }
+
+		public override void OnHide()
+		{
+			base.OnHide();
+		}
 	}
 }

@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using StrazhAPI.Models.Automation;
 using KeyGenerator;
 
 namespace FiresecService.Service
@@ -82,99 +81,99 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
-			return SafeOperationCall(() => FiresecService.Connect(uid, clientCredentials, isNew), "Connect");
+			return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
 		}
 
 		public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
 		{
-			return SafeOperationCall(() => FiresecService.Reconnect(uid, userName, password), "Reconnect");
+			return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
 		}
 
 		public void Disconnect(Guid uid)
 		{
-			SafeOperationCall(() => FiresecService.Disconnect(uid), "Disconnect");
+			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
 		}
 
 		public string Ping()
 		{
-			return SafeOperationCall(() => FiresecService.Ping(), "Ping");
+			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
 		}
 
 		public List<ServerTask> GetServerTasks()
 		{
-			return SafeOperationCall(() => FiresecService.GetServerTasks(), "GetServerTasks");
+			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
 		}
 
 		public OperationResult ResetDB()
 		{
-			return SafeOperationCall(() => FiresecService.ResetDB(), "ResetDB");
+			return SafeOperationCall(() => { return FiresecService.ResetDB(); }, "ResetDB");
 		}
 
 		public List<CallbackResult> Poll(Guid uid)
 		{
-			return SafeContext.Execute(() => FiresecService.Poll(uid));
+			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
 		}
 
 		public void NotifyClientsOnConfigurationChanged()
 		{
-			SafeOperationCall(() => FiresecService.NotifyClientsOnConfigurationChanged(), "NotifyClientsOnConfigurationChanged");
+			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			return SafeOperationCall(() => FiresecService.GetSecurityConfiguration(), "GetSecurityConfiguration");
+			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
 		public List<string> GetFileNamesList(string directory)
 		{
-			return SafeOperationCall(() => FiresecService.GetFileNamesList(directory), "GetFileNamesList");
+			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");
 		}
 
 		public Dictionary<string, string> GetDirectoryHash(string directory)
 		{
-			return SafeOperationCall(() => FiresecService.GetDirectoryHash(directory), "GetDirectoryHash");
+			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
 		}
 
-		public Stream GetFile(string dirAndFileName)
+		public System.IO.Stream GetFile(string dirAndFileName)
 		{
-			return SafeOperationCall(() => FiresecService.GetFile(dirAndFileName), "GetFile");
+			return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
 		}
 
 		public Stream GetConfig()
 		{
-			return SafeOperationCall(() => FiresecService.GetConfig(), "GetConfig");
+			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
 		}
 
 		public void SetConfig(Stream stream)
 		{
-			SafeOperationCall(() => FiresecService.SetConfig(stream), "SetConfig");
+			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
 		}
 
 		public void SetLocalConfig()
 		{
-			SafeOperationCall(() => FiresecService.SetLocalConfig(), "SetLocalConfig");
+			SafeOperationCall(() => { FiresecService.SetLocalConfig(); }, "SetLocalConfig");
 		}
 
 		#region Journal
 
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			return SafeContext.Execute(() => FiresecService.GetMinJournalDateTime());
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinJournalDateTime());
 		}
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			return SafeContext.Execute(() => FiresecService.GetFilteredJournalItems(filter));
+			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
 
 		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			return SafeContext.Execute(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
 		}
 
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
-			return SafeOperationCall(() => FiresecService.AddJournalItem(journalItem), "AddJournalItem");
+			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
 		#endregion Journal
@@ -183,7 +182,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
-			return SafeOperationCall(() => FiresecService.RunProcedure(clientUID, procedureUID, args), "RunProcedure");
+			return SafeOperationCall(() => { return FiresecService.RunProcedure(clientUID, procedureUID, args); }, "RunProcedure");
 		}
 
 		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
@@ -193,42 +192,7 @@ namespace FiresecService.Service
 
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-			return SafeOperationCall(() => FiresecService.GetProperties(layoutUID), "GetProperties");
-		}
-
-		public OperationResult<bool> SaveGlobalVariable(GlobalVariable variable)
-		{
-			return SafeOperationCall(() => FiresecService.SaveGlobalVariable(variable), "SaveGlobalVariable");
-		}
-
-		public OperationResult<bool> ResetGlobalVariables()
-		{
-			return SafeOperationCall(() => FiresecService.ResetGlobalVariables(), "ResetGlobalVariables");
-		}
-
-		public OperationResult<bool> SaveGlobalVariables(List<IVariable> variables)
-		{
-			return SafeOperationCall(() => FiresecService.SaveGlobalVariables(variables), "SaveGlobalVariables");
-		}
-
-		public OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable)
-		{
-			return SafeOperationCall(() => FiresecService.RemoveGlobalVariable(variable), "RemoveGlobalVariable");
-		}
-
-		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
-		{
-			return SafeOperationCall(() => FiresecService.GetInitialGlobalVariables(), "GetGlobalVariables");
-		}
-
-		public OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables()
-		{
-			return SafeOperationCall(() => FiresecService.GetCurrentGlobalVariables(), "GetCurrentGlobalVariables");
-		}
-
-		public OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables)
-		{
-			return SafeOperationCall(() => FiresecService.SaveEditedGlobalVariables(variables), "SaveEditedGlobalVariables");
+			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
 
 		#endregion Automation
@@ -254,7 +218,10 @@ namespace FiresecService.Service
 		public OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName,
 			bool useIntegratedSecurity, string userID, string userPwd)
 		{
-			return SafeOperationCall(() => FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd), "CheckSqlServerConnection");
+			return SafeOperationCall(() =>
+			{
+				return FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd);
+			}, "CheckSqlServerConnection");
 		}
 
 		#region Licensing
@@ -282,7 +249,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
 		}
-
+	
 		#endregion
 
 		/// <summary>

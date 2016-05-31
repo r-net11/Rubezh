@@ -1718,26 +1718,6 @@ END
 GO
 
 --****************************************************************************************Release 1.0.3*********************************************************************
-IF NOT EXISTS (SELECT * FROM  Patches WHERE Id = 'AddingGlobalVariablesTable')
-BEGIN
-	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GlobalVariables')
-	CREATE TABLE [dbo].[GlobalVariables]
-	(
-	[UID] UNIQUEIDENTIFIER NOT NULL,
-	[Name] NVARCHAR(50) NOT NULL,
-	[CurrentValueXML] NVARCHAR(MAX) NOT NULL,
-	[InitialValueXML] NVARCHAR(MAX) NOT NULL,
-	[IsSaveWhenRestart] bit NOT NULL,
-	[IsReference] bit NOT NULL
-	CONSTRAINT [PK_GlobalVariables] PRIMARY KEY CLUSTERED
-	(
-		[UID] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
-	INSERT INTO Patches (Id) VALUES ('AddingGlobalVariablesTable')
-END
-GO
-
 -- Добавлена таблица 'AccessTemplateDeactivatingReader'
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Table_AccessTemplateDeactivatingReader_Added')
 BEGIN
@@ -1745,7 +1725,7 @@ BEGIN
 		[UID] [uniqueidentifier] NOT NULL,
 		[AccessTemplateUID] [uniqueidentifier] NOT NULL,
 		[DeactivatingReaderUID] [uniqueidentifier] NOT NULL,
-	CONSTRAINT [PK_AccessTemplateDeactivatingReader] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccessTemplateDeactivatingReader] PRIMARY KEY CLUSTERED
 	(
 		[UID] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1753,8 +1733,8 @@ BEGIN
 
 	ALTER TABLE [dbo].[AccessTemplateDeactivatingReader]  WITH NOCHECK ADD  CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
 	REFERENCES [dbo].[AccessTemplate] ([UID])
-	NOT FOR REPLICATION 
-	
+	NOT FOR REPLICATION
+
 	ALTER TABLE [dbo].[AccessTemplateDeactivatingReader] NOCHECK CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate]
 
 	INSERT INTO Patches (Id) VALUES ('Table_AccessTemplateDeactivatingReader_Added')

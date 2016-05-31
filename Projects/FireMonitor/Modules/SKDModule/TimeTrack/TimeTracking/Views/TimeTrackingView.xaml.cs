@@ -25,15 +25,15 @@ namespace SKDModule.Views
 		{
 			var dpd = DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(DataGrid));
 			if (dpd != null)
-				dpd.AddValueChanged(grid, ItemSourceChanged);
+				dpd.AddValueChanged(Grid, ItemSourceChanged);
 		}
 
 		private void ItemSourceChanged(object sender, EventArgs e)
 		{
 			var viewModel = (TimeTrackingViewModel)DataContext;
 			var date = viewModel.FirstDay;
-			for (int i = grid.Columns.Count - 1; i >= 3; i--)
-				grid.Columns.RemoveAt(i);
+			for (int i = Grid.Columns.Count - 1; i >= 3; i--)
+				Grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
 				var factory = new FrameworkElementFactory(typeof(TimeTrackingDayControlView)); //TODO: Remove obsolete realization
@@ -54,7 +54,7 @@ namespace SKDModule.Views
 
 				column.Header = CreateColumnHeader(date, holiday);
 
-				grid.Columns.Add(column);
+				Grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
 		}

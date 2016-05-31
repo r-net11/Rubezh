@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using StrazhAPI.Models;
-using StrazhAPI.Models.Automation;
 
 namespace StrazhAPI.Automation
 {
@@ -15,6 +14,7 @@ namespace StrazhAPI.Automation
 			Procedures = new List<Procedure>();
 			AutomationSchedules = new List<AutomationSchedule>();
 			AutomationSounds = new List<AutomationSound>();
+			GlobalVariables = new List<Variable>();
 		}
 
 		[DataMember]
@@ -26,64 +26,67 @@ namespace StrazhAPI.Automation
 		[DataMember]
 		public List<AutomationSound> AutomationSounds { get; set; }
 
+		[DataMember]
+		public List<Variable> GlobalVariables { get; set; }
+
 		public void UpdateConfiguration()
 		{
-			if (Procedures != null)
+			foreach (var procedure in Procedures)
 			{
-				foreach (var procedure in Procedures)
+				foreach (var step in procedure.Steps)
 				{
-					foreach (var step in procedure.Steps)
-					{
-						InvalidateStep(step, procedure);
-					}
+					InvalidateStep(step, procedure);
 				}
 			}
 
-			if (AutomationSchedules != null && Procedures != null)
+			foreach (var schedule in AutomationSchedules)
 			{
-				foreach (var schedule in AutomationSchedules)
+				var tempScheduleProcedures = new List<ScheduleProcedure>();
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
-					var tempScheduleProcedures = new List<ScheduleProcedure>();
-
-					foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+					var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+					if (procedure != null)
 					{
-						var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-						if (procedure != null)
+						var tempArguments = new List<Argument>();
+						int i = 0;
+						foreach (var variable in procedure.Arguments)
 						{
-							var tempArguments = new List<Argument>();
-							var i = 0;
-							foreach (var variable in procedure.Arguments)
+							Argument argument;
+							if (scheduleProcedure.Arguments.Count <= i)
+								argument = InitializeArgumemt(variable);
+							else
 							{
-								Argument argument;
-								if (scheduleProcedure.Arguments.Count <= i)
+								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
 									argument = InitializeArgumemt(variable);
 								else
-									argument = CheckSignature(scheduleProcedure.Arguments[i], variable)
-										? scheduleProcedure.Arguments[i]
-										: InitializeArgumemt(variable);
-								tempArguments.Add(argument);
-								i++;
+									argument = scheduleProcedure.Arguments[i];
 							}
-							scheduleProcedure.Arguments = new List<Argument>(tempArguments);
-							tempScheduleProcedures.Add(scheduleProcedure);
+							tempArguments.Add(argument);
+							i++;
 						}
+						scheduleProcedure.Arguments = new List<Argument>(tempArguments);
+						tempScheduleProcedures.Add(scheduleProcedure);
 					}
+				}
+				schedule.ScheduleProcedures = new List<ScheduleProcedure>(tempScheduleProcedures);
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					foreach (var argument in scheduleProcedure.Arguments)
+						InvalidateArgument(argument);
 				}
 			}
 		}
 
-		private static Argument InitializeArgumemt(IVariable variable)
+		private Argument InitializeArgumemt(Variable variable)
 		{
-			var argument = new Argument
-			{
-				VariableScope = VariableScope.GlobalVariable,
-				ExplicitType = variable.VariableValue.ExplicitType,
-				EnumType = variable.VariableValue.EnumType,
-				ObjectType = variable.VariableValue.ObjectType
-			};
-			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
+			var argument = new Argument();
+			argument.VariableScope = VariableScope.GlobalVariable;
+			argument.ExplicitType = variable.ExplicitType;
+			argument.EnumType = variable.EnumType;
+			argument.ObjectType = variable.ObjectType;
+			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValues in variable.VariableValue.ExplicitValues)
+			foreach (var explicitValues in variable.ExplicitValues)
 			{
 				var explicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValues, explicitValue);
@@ -92,16 +95,16 @@ namespace StrazhAPI.Automation
 			return argument;
 		}
 
-		private bool CheckSignature(Argument argument, IVariable variable)
+		private bool CheckSignature(Argument argument, Variable variable)
 		{
-			if (argument.ExplicitType != variable.VariableValue.ExplicitType)
+			if (argument.ExplicitType != variable.ExplicitType)
 				return false;
 			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
 				return true;
 			if (argument.ExplicitType != ExplicitType.Object)
-				return (argument.ObjectType == variable.VariableValue.ObjectType);
+				return (argument.ObjectType == variable.ObjectType);
 			if (argument.ExplicitType != ExplicitType.Enum)
-				return (argument.EnumType == variable.VariableValue.EnumType);
+				return (argument.EnumType == variable.EnumType);
 			return false;
 		}
 
@@ -273,9 +276,9 @@ namespace StrazhAPI.Automation
 
 				case ProcedureStepType.RunProgram:
 					{
-						var runProgramArguments = step.RunProgramArguments;
-						InvalidateArgument(procedure, runProgramArguments.ParametersArgument);
-						InvalidateArgument(procedure, runProgramArguments.PathArgument);
+						var RunProgramArguments = step.RunProgramArguments;
+						InvalidateArgument(procedure, RunProgramArguments.ParametersArgument);
+						InvalidateArgument(procedure, RunProgramArguments.PathArgument);
 					}
 					break;
 
@@ -396,15 +399,23 @@ namespace StrazhAPI.Automation
 			}
 		}
 
-		private static void InvalidateArgument(Procedure procedure, Argument argument)
+		private void InvalidateArgument(Procedure procedure, Argument argument)
 		{
-			var localVariables = new List<IVariable>(procedure.Variables);
-			localVariables.AddRange(new List<IVariable>(procedure.Arguments));
+			var localVariables = new List<Variable>(procedure.Variables);
+			localVariables.AddRange(new List<Variable>(procedure.Arguments));
+			if (argument.VariableScope == VariableScope.GlobalVariable)
+				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
+			if (argument.VariableScope == VariableScope.LocalVariable)
+				if (localVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
+		}
 
-			if (argument.VariableScope != VariableScope.LocalVariable) return;
-
-			if (localVariables.All(x => x.UID != argument.VariableUid))
-				argument.VariableUid = Guid.Empty;
+		private void InvalidateArgument(Argument argument)
+		{
+			if (argument.VariableScope != VariableScope.ExplicitValue)
+				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
 		}
 	}
 }
