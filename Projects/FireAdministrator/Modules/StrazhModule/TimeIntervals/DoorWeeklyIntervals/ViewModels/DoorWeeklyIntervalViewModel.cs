@@ -43,7 +43,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (IsActive && Model == null)
 			{
-				Model = new SKDDoorWeeklyInterval(true)
+				Model = new SKDDoorWeeklyInterval
 				{
 					ID = Index,
 					Name = Name,
@@ -104,11 +104,11 @@ namespace StrazhModule.ViewModels
 		{
 			string newName;
 			var i = 1;
-			
+
 			do
 				newName = String.Format("{0} ({1})", name, i++);
 			while (_weeklyIntervalsViewModel.Intervals.Any(x => x.Name == newName));
-			
+
 			return newName;
 		}
 

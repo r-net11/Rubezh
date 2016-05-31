@@ -7,7 +7,7 @@ namespace StrazhAPI.SKD
 	[DataContract]
 	public abstract class FilterBase
 	{
-		public FilterBase()
+		protected FilterBase()
 		{
 			UIDs = new List<Guid>();
 			ExceptUIDs = new List<Guid>();

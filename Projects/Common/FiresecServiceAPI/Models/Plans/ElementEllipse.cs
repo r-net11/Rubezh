@@ -14,7 +14,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementEllipse elementBase = new ElementEllipse();
+			var elementBase = new ElementEllipse();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.Ellipse; }
+			get { return Primitive.Ellipse; }
 		}
 
 		#endregion IPrimitive Members

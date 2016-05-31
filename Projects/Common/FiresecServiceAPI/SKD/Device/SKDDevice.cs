@@ -1,12 +1,12 @@
 ﻿using Common;
-using StrazhAPI.SKD.Device;
+using StrazhAPI.GK;
 using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using StrazhAPI.GK;
 
 namespace StrazhAPI.SKD
 {
@@ -98,7 +98,7 @@ namespace StrazhAPI.SKD
 					case SKDDriverType.Lock:
 					case SKDDriverType.LockControl:
 					case SKDDriverType.Button:
-						return (IntAddress + 1).ToString();
+						return (IntAddress + 1).ToString(CultureInfo.InvariantCulture);
 
 					default:
 						return string.Empty;

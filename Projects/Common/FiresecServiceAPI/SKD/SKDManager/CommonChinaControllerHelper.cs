@@ -8,7 +8,7 @@ namespace StrazhAPI.SKD
 		{
 			var properties = new List<SKDDriverProperty>();
 
-			var addressProperty = new SKDDriverProperty()
+			var addressProperty = new SKDDriverProperty
 			{
 				Name = "Address",
 				Caption = "Адрес",
@@ -17,7 +17,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(addressProperty);
 
-			var portProperty = new SKDDriverProperty()
+			var portProperty = new SKDDriverProperty
 			{
 				Name = "Port",
 				Caption = "Порт",
@@ -26,7 +26,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(portProperty);
 
-			var loginProperty = new SKDDriverProperty()
+			var loginProperty = new SKDDriverProperty
 			{
 				Name = "Login",
 				Caption = "Логин",
@@ -35,7 +35,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(loginProperty);
 
-			var passwordProperty = new SKDDriverProperty()
+			var passwordProperty = new SKDDriverProperty
 			{
 				Name = "Password",
 				Caption = "Пароль",
@@ -44,7 +44,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(passwordProperty);
 
-			var maskProperty = new SKDDriverProperty()
+			var maskProperty = new SKDDriverProperty
 			{
 				Name = "Mask",
 				Caption = "Маска подсети",
@@ -53,7 +53,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(maskProperty);
 
-			var gatewayProperty = new SKDDriverProperty()
+			var gatewayProperty = new SKDDriverProperty
 			{
 				Name = "Gateway",
 				Caption = "Шлюз по умолчанию",

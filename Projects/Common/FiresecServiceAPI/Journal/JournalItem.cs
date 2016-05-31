@@ -9,7 +9,6 @@ namespace StrazhAPI.Journal
 	public class JournalItem : SKDModelBase
 	{
 		public JournalItem()
-			: base()
 		{
 			SystemDateTime = DateTime.Now;
 			JournalDetalisationItems = new List<JournalDetalisationItem>();

@@ -8,13 +8,9 @@ namespace StrazhAPI.SKD
 	[DataContract]
 	public class ElementPassCardTextProperty : ElementTextBlock
 	{
-		public ElementPassCardTextProperty()
-		{
-		}
-
 		public override ElementBase Clone()
 		{
-			ElementPassCardTextProperty elementBase = new ElementPassCardTextProperty();
+			var elementBase = new ElementPassCardTextProperty();
 			Copy(elementBase);
 			return elementBase;
 		}

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -62,21 +61,21 @@ namespace StrazhAPI.SKD
 		/// </summary>
 		private void CreatePredefinedHolidays()
 		{
-			Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 1) });
-			Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 2) });
-			Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 3) });
-			Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 4) });
-			Holidays.Add(new SKDHoliday() { Name = "Рождество", DateTime = new DateTime(2000, 1, 7) });
-			Holidays.Add(new SKDHoliday()
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 1) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 2) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 3) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 4) });
+			Holidays.Add(new SKDHoliday { Name = "Рождество", DateTime = new DateTime(2000, 1, 7) });
+			Holidays.Add(new SKDHoliday
 			{
 				Name = "День советской армии и военно-морского флота",
 				DateTime = new DateTime(2000, 2, 23)
 			});
-			Holidays.Add(new SKDHoliday() { Name = "Международный женский день", DateTime = new DateTime(2000, 3, 8) });
-			Holidays.Add(new SKDHoliday() { Name = "День победы", DateTime = new DateTime(2000, 5, 9) });
-			Holidays.Add(new SKDHoliday() { Name = "День России", DateTime = new DateTime(2000, 6, 12) });
-			Holidays.Add(new SKDHoliday() { Name = "День примерения", DateTime = new DateTime(2000, 11, 4) });
-			Holidays.Add(new SKDHoliday() { Name = "Новый год", DateTime = new DateTime(2000, 12, 31) });
+			Holidays.Add(new SKDHoliday { Name = "Международный женский день", DateTime = new DateTime(2000, 3, 8) });
+			Holidays.Add(new SKDHoliday { Name = "День победы", DateTime = new DateTime(2000, 5, 9) });
+			Holidays.Add(new SKDHoliday { Name = "День России", DateTime = new DateTime(2000, 6, 12) });
+			Holidays.Add(new SKDHoliday { Name = "День примерения", DateTime = new DateTime(2000, 11, 4) });
+			Holidays.Add(new SKDHoliday { Name = "Новый год", DateTime = new DateTime(2000, 12, 31) });
 		}
 
 		/// <summary>
@@ -90,7 +89,7 @@ namespace StrazhAPI.SKD
 
 			// Дневной график доступа <Всегда>
 			var alwaysDayInterval = new SKDDayInterval { Name = PredefinedIntervalNameAlways };
-			alwaysDayInterval.DayIntervalParts.Add(new SKDDayIntervalPart() { StartMilliseconds = 0, EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds });
+			alwaysDayInterval.DayIntervalParts.Add(new SKDDayIntervalPart { StartMilliseconds = 0, EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds });
 			DayIntervals.Add(alwaysDayInterval);
 		}
 
@@ -138,7 +137,7 @@ namespace StrazhAPI.SKD
 				if (predefinedDayInterval != null)
 					continue;
 				predefinedDayInterval = new SKDDoorDayInterval { Name = dictionaryItem.Key };
-				predefinedDayInterval.DayIntervalParts.Add(new SKDDoorDayIntervalPart()
+				predefinedDayInterval.DayIntervalParts.Add(new SKDDoorDayIntervalPart
 				{
 					StartMilliseconds = 0,
 					EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds,
@@ -153,7 +152,7 @@ namespace StrazhAPI.SKD
 		/// </summary>
 		private void CreatePredefinedDoorWeeklyIntervals()
 		{
-			var dictionary = new Dictionary<string, SKDDoorDayInterval>()
+			var dictionary = new Dictionary<string, SKDDoorDayInterval>
 			{
 				{PredefinedIntervalNameCard, DoorDayIntervals.FirstOrDefault(x => x.Name == PredefinedIntervalNameCard)},
 				{PredefinedIntervalNamePassword, DoorDayIntervals.FirstOrDefault(x => x.Name == PredefinedIntervalNamePassword)},
@@ -163,7 +162,7 @@ namespace StrazhAPI.SKD
 			var i = 0;
 			foreach (var item in dictionary)
 			{
-				var weeklyInterval = new SKDDoorWeeklyInterval(true) { Name = item.Key, ID = i++ };
+				var weeklyInterval = new SKDDoorWeeklyInterval { Name = item.Key, ID = i++ };
 				if (item.Value != null)
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 					{
@@ -222,10 +221,8 @@ namespace StrazhAPI.SKD
 
 		private bool ValidateSlideIntervals()
 		{
-			var result = true;
+			var result = !(SlideWeeklyIntervals.RemoveAll(x => x.ID > 127) > 0);
 
-			if (SlideWeeklyIntervals.RemoveAll(x => x.ID > 127) > 0)
-				result = false;
 			if (SlideDayIntervals.RemoveAll(x => x.ID > 127) > 0)
 				result = false;
 

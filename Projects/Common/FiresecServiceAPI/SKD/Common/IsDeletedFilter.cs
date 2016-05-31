@@ -12,8 +12,7 @@ namespace StrazhAPI.SKD
 		[DataMember]
 		public DateTimePeriod RemovalDates { get; set; }
 
-		public IsDeletedFilter()
-			: base()
+		protected IsDeletedFilter()
 		{
 			RemovalDates = new DateTimePeriod();
 			LogicalDeletationType = LogicalDeletationType.Active;

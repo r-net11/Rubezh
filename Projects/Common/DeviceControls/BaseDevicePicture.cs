@@ -17,7 +17,7 @@ namespace DeviceControls
 		protected Dictionary<Guid, Brush> Brushes { get; private set; }
 		protected Dictionary<Guid, Dictionary<XStateClass, Brush>> DynamicBrushes { get; private set; }
 
-		public BaseDevicePicture()
+		protected BaseDevicePicture()
 		{
 			Brushes = new Dictionary<Guid, Brush>();
 			DynamicBrushes = new Dictionary<Guid, Dictionary<XStateClass, Brush>>();
@@ -27,7 +27,7 @@ namespace DeviceControls
 		{
 			Brushes.Clear();
 			RegisterBrush(null);
-			EnumerateLibrary().ForEach(item => RegisterBrush(item));
+			EnumerateLibrary().ForEach(RegisterBrush);
 		}
 		public virtual void LoadDynamicCache()
 		{
@@ -46,7 +46,7 @@ namespace DeviceControls
 			});
 		}
 
-		private void RegisterBrush(ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass> libraryDevice)
+		private void RegisterBrush(ILibraryDevice<TLibraryState, TLibraryFrame> libraryDevice)
 		{
 			var frameworkElement = libraryDevice == null ? PictureCacheSource.EmptyPicture : GetDefaultPicture(libraryDevice);
 			var brush = new VisualBrush(frameworkElement);
@@ -58,18 +58,17 @@ namespace DeviceControls
 
 		protected Brush GetBrush(Guid driverUID)
 		{
-			if (!Brushes.ContainsKey(driverUID))
+			if (Brushes.ContainsKey(driverUID)) return Brushes[driverUID];
+
+			var libraryDevice = EnumerateLibrary().FirstOrDefault(x => x.DriverId == driverUID);
+			if (libraryDevice == null)
 			{
-				var libraryDevice = EnumerateLibrary().FirstOrDefault(x => x.DriverId == driverUID);
-				if (libraryDevice == null)
-				{
-					if (!Brushes.ContainsKey(Guid.Empty))
-						RegisterBrush(null);
-					return Brushes[Guid.Empty];
-				}
-				else
-					RegisterBrush(libraryDevice);
+				if (!Brushes.ContainsKey(Guid.Empty))
+					RegisterBrush(null);
+				return Brushes[Guid.Empty];
 			}
+			RegisterBrush(libraryDevice);
+
 			return Brushes[driverUID];
 		}
 		protected Brush GetDynamicBrush(Guid guid, TDeviceState deviceState)
@@ -85,10 +84,10 @@ namespace DeviceControls
 			return brush ?? PictureCacheSource.EmptyBrush;
 		}
 
-		protected abstract IEnumerable<ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass>> EnumerateLibrary();
+		protected abstract IEnumerable<ILibraryDevice<TLibraryState, TLibraryFrame>> EnumerateLibrary();
 		protected abstract XStateClass DefaultState { get; }
 
-		protected virtual FrameworkElement GetDefaultPicture(ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass> libraryDevice)
+		protected virtual FrameworkElement GetDefaultPicture(ILibraryDevice<TLibraryState, TLibraryFrame> libraryDevice)
 		{
 			var state = libraryDevice.States.FirstOrDefault(x => x.StateType.Equals(DefaultState));
 			return state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : PictureCacheSource.EmptyPicture;

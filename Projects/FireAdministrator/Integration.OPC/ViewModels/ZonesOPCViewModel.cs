@@ -15,6 +15,8 @@ namespace Integration.OPC.ViewModels
 {
 	public class ZonesOPCViewModel : MenuViewPartViewModel
 	{
+		private OPCZone _selectedZoneOPC;
+
 		public void Initialize(IEnumerable<OPCZone> existingZones)
 		{
 			ZonesOPC = new ObservableCollection<OPCZone>(existingZones);
@@ -26,8 +28,6 @@ namespace Integration.OPC.ViewModels
 		}
 
 		public ObservableCollection<OPCZone> ZonesOPC { get; set; }
-
-		private OPCZone _selectedZoneOPC;
 
 		public OPCZone SelectedZoneOPC
 		{

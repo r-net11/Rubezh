@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 
 namespace StrazhAPI.SKD
 {
@@ -108,7 +107,6 @@ namespace StrazhAPI.SKD
 
 			foreach (var child in device.Children)
 			{
-				var s = child.NameWithParent;
 				if (child.Door == null || child.Door.UID != door.UID) continue;
 
 				child.Door = null;
@@ -185,7 +183,7 @@ namespace StrazhAPI.SKD
 				door.OutDevice.OnChanged();
 			}
 
-			SKDManager.SKDConfiguration.Doors.Remove(door);
+			SKDConfiguration.Doors.Remove(door);
 		}
 
 		public static bool ValidateIPAddress(string address)
@@ -195,7 +193,7 @@ namespace StrazhAPI.SKD
 				return false;
 			}
 
-			IPAddress ipAddress = null;
+			IPAddress ipAddress;
 			return IPAddress.TryParse(address, out ipAddress);
 		}
 	}

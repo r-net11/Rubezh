@@ -7,7 +7,7 @@ namespace StrazhAPI.SKD
 	{
 		public static SKDDriver Create()
 		{
-			var driver = new SKDDriver()
+			var driver = new SKDDriver
 			{
 				UID = new Guid("578537D0-36A9-4916-BC8F-80CDEDC6AE15"),
 				Name = "Замок",

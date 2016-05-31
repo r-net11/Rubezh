@@ -7,9 +7,9 @@ namespace StrazhAPI.Plans.Elements
 	[DataContract]
 	public abstract class ElementBaseShape : ElementBase
 	{
-		public ElementBaseShape()
+		protected ElementBaseShape()
 		{
-			Points = new System.Windows.Media.PointCollection();
+			Points = new PointCollection();
 		}
 
 		[DataMember]
@@ -23,8 +23,8 @@ namespace StrazhAPI.Plans.Elements
 			if (Points.Count == 0)
 				return new Rect(0, 0, 0, 0);
 
-			double minLeft = double.MaxValue;
-			double minTop = double.MaxValue;
+			var minLeft = double.MaxValue;
+			var minTop = double.MaxValue;
 			double maxLeft = 0;
 			double maxTop = 0;
 
@@ -48,9 +48,9 @@ namespace StrazhAPI.Plans.Elements
 
 		protected override void SetPosition(Point point)
 		{
-			Rect rect = GetRectangle();
-			Vector shift = new Vector(point.X - rect.Width / 2 - rect.X, point.Y - rect.Height / 2 - rect.Y);
-			for (int i = 0; i < Points.Count; i++)
+			var rect = GetRectangle();
+			var shift = new Vector(point.X - rect.Width / 2 - rect.X, point.Y - rect.Height / 2 - rect.Y);
+			for (var i = 0; i < Points.Count; i++)
 				Points[i] = Points[i] + shift;
 		}
 

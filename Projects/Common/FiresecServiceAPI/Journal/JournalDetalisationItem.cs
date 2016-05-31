@@ -25,7 +25,7 @@ namespace StrazhAPI.Journal
 
 		public static string ListToString(List<JournalDetalisationItem> detalisations)
 		{
-			string result = "";
+			var result = string.Empty;
 			foreach (var detalisation in detalisations)
 			{
 				result += "$%" + detalisation.Name + "%%" + detalisation.Value + "%$";
@@ -35,16 +35,16 @@ namespace StrazhAPI.Journal
 
 		public static List<JournalDetalisationItem> StringToList(string detalisation)
 		{
-			var detalisationStringsItems = detalisation.Split(new string[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
+			var detalisationStringsItems = detalisation.Split(new[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
 			var result = new List<JournalDetalisationItem>();
 			foreach (var detSubString in detalisationStringsItems)
 			{
-				var nameValueString = detSubString.Split(new string[] { "%" }, StringSplitOptions.RemoveEmptyEntries);
+				var nameValueString = detSubString.Split(new[] { "%" }, StringSplitOptions.RemoveEmptyEntries);
 				if (nameValueString.Length >= 2)
 				{
 					result.Add(new JournalDetalisationItem(nameValueString[0], nameValueString[1]));
 				}
-			};
+			}
 			return result;
 		}
 	}

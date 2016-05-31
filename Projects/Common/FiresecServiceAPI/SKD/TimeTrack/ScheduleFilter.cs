@@ -8,7 +8,6 @@ namespace StrazhAPI.SKD
 	public class ScheduleFilter : EmployeeFilterBase
 	{
 		public ScheduleFilter()
-			: base()
 		{
 			ScheduleSchemeUIDs = new List<Guid>();
 		}

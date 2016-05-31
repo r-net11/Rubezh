@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Common;
 
 namespace StrazhAPI.Automation
 {
@@ -62,7 +63,7 @@ namespace StrazhAPI.Automation
 		/// Delegate to create a new instance of the target type given an instance of the
 		/// source type. This is a single delegate from an expression tree.
 		/// </summary>
-		private static readonly Func<TSource, TTarget> creator;
+		private static readonly Func<TSource, TTarget> Creator;
 
 		/// <summary>
 		/// List of properties to grab values from. The corresponding targetProperties
@@ -74,7 +75,6 @@ namespace StrazhAPI.Automation
 		private static readonly List<PropertyInfo> sourceProperties = new List<PropertyInfo>();
 
 		private static readonly List<PropertyInfo> targetProperties = new List<PropertyInfo>();
-		private static readonly Exception initializationException;
 
 		internal static TTarget Copy(TSource source)
 		{
@@ -86,7 +86,7 @@ namespace StrazhAPI.Automation
 			{
 				throw new ArgumentNullException("source");
 			}
-			return creator(source);
+			return Creator(source);
 		}
 
 		internal static void Copy(TSource source, TTarget target)
@@ -99,7 +99,7 @@ namespace StrazhAPI.Automation
 			{
 				throw new ArgumentNullException("source");
 			}
-			for (int i = 0; i < sourceProperties.Count; i++)
+			for (var i = 0; i < sourceProperties.Count; i++)
 			{
 				if (targetProperties[i].Name != "Uid")
 					targetProperties[i].SetValue(target, sourceProperties[i].GetValue(source, null), null);
@@ -110,27 +110,26 @@ namespace StrazhAPI.Automation
 		{
 			try
 			{
-				creator = BuildCreator();
-				initializationException = null;
+				Creator = BuildCreator();
 			}
 			catch (Exception e)
 			{
-				creator = null;
-				initializationException = e;
+				Creator = null;
+				Logger.Error(e);
 			}
 		}
 
 		private static Func<TSource, TTarget> BuildCreator()
 		{
-			ParameterExpression sourceParameter = Expression.Parameter(typeof(TSource), "source");
+			var sourceParameter = Expression.Parameter(typeof(TSource), "source");
 			var bindings = new List<MemberBinding>();
-			foreach (PropertyInfo sourceProperty in typeof(TSource).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+			foreach (var sourceProperty in typeof(TSource).GetProperties(BindingFlags.Public | BindingFlags.Instance))
 			{
 				if (!sourceProperty.CanRead)
 				{
 					continue;
 				}
-				PropertyInfo targetProperty = typeof(TTarget).GetProperty(sourceProperty.Name);
+				var targetProperty = typeof(TTarget).GetProperty(sourceProperty.Name);
 				if (targetProperty == null)
 				{
 					throw new ArgumentException("Property " + sourceProperty.Name + " is not present and accessible in " + typeof(TTarget).FullName);

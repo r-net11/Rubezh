@@ -6,10 +6,6 @@ namespace StrazhAPI.AutomationCallback
 	[DataContract]
 	public class AutomationCallbackResult
 	{
-		public AutomationCallbackResult()
-		{
-		}
-
 		[DataMember]
 		public Guid CallbackUID { get; set; }
 

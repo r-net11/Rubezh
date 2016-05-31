@@ -13,7 +13,7 @@ namespace StrazhAPI.SKD
 		[DataMember]
 		public Guid UserUID { get; set; }
 
-		public OrganisationFilterBase()
+		protected OrganisationFilterBase()
 		{
 			OrganisationUIDs = new List<Guid>();
 		}

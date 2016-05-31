@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using StrazhAPI.SKD;
 using NUnit.Framework;
+using Color = StrazhAPI.Color;
 
 namespace FiresecMonitorUnitTests.FireMonitorTests
 {
@@ -102,7 +103,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.White);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.White);
 		}
 
 		[Test]
@@ -121,7 +122,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.Pink);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.Pink);
 		}
 
 		[Test]
@@ -140,7 +141,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.LightGreen);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.LightGreen);
 		}
 
 		[Test]
@@ -159,7 +160,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.LightCoral);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.LightCoral);
 		}
 
 		[Test]
@@ -186,7 +187,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.DarkRed);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.DarkRed);
 		}
 
 		[Test]
@@ -203,7 +204,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.LightGray);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.LightGray);
 		}
 
 		[Test]
@@ -230,7 +231,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.DarkGreen);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.DarkGreen);
 		}
 
 		[Test]
@@ -257,7 +258,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			dayTimeTrack.Calculate();
 
 			//Assert
-			Assert.AreEqual(dayTimeTrack.BackgroundColor, Colors.DarkRed);
+			Assert.AreEqual(dayTimeTrack.BackgroundColor, StrazhAPI.Colors.DarkRed);
 		}
 	}
 }

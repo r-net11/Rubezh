@@ -1,9 +1,8 @@
-﻿using System;
+﻿using StrazhAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows;
-using StrazhAPI.Journal;
 
 namespace StrazhAPI
 {
@@ -29,15 +28,13 @@ namespace StrazhAPI
 			if (value is JournalEventDescriptionType)
 				return EventDescriptionAttributeHelper.ToName((JournalEventDescriptionType)value);
 
-			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
-			if (fieldInfo != null)
-			{
-				DescriptionAttribute[] descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-				if (descriptionAttributes.Length > 0)
-					return descriptionAttributes[0].Description;
-				return value.ToString();
-			}
-			return null;
+			var fieldInfo = value.GetType().GetField(value.ToString());
+
+			if (fieldInfo == null) return null;
+
+			var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+			return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : value.ToString();
 		}
 
 		public static Size Subtract(this Size s1, Size s2)

@@ -2,7 +2,7 @@
 namespace StrazhAPI
 {
 	/// <summary>Implements a set of predefined colors. </summary>
-	public sealed class Colors
+	public static class Colors
 	{
 		/// <summary>Gets the system-defined color that has an ARGB value of #FFF0F8FF. </summary>
 		/// <returns>Represents colors in terms of alpha, red, green, and blue channels.</returns>
@@ -1412,10 +1412,6 @@ namespace StrazhAPI
 			{
 				return Color.FromUInt32(4288335154u);
 			}
-		}
-
-		private Colors()
-		{
 		}
 	}
 }
