@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Localization.Video;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -72,7 +73,7 @@ namespace VideoModule
 		{
 			// Элемент "Камера" в макетах доступен, если этого не запрещает лицензия
 			if (ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
-				yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CameraVideo, 204, "Камера", "Панель видео с камеры", "BVideo.png")
+				yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CameraVideo, 204, CommonResources.Camera, CommonResources.VideoPanel, "BVideo.png")
 				{
 					Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties),
 				};

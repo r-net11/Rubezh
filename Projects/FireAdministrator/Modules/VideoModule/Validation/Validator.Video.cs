@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using FiresecClient;
+﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Validation;
+using Localization.Video;
 
 namespace VideoModule.Validation
 {
@@ -15,7 +15,7 @@ namespace VideoModule.Validation
 			if (!ServiceFactory.ConfigurationElementsAvailabilityService.IsCamerasAvailable)
 				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 				{
-					Errors.Add(new VideoValidationError(camera, "Камера не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
+					Errors.Add(new VideoValidationError(camera, CommonErrors.LicenseRestiction_Error, ValidationErrorLevel.CannotSave));
 				}
 		}
 	}

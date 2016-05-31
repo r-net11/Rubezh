@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Video;
 using StrazhAPI.Models;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
@@ -17,7 +17,7 @@ namespace VideoModule.ViewModels
 
 		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Камера";
+			Title = CommonResources.Camera;
 			IconSource = LayoutPartDescription.IconPath + "BVideo.png";
 			_сameraTitle = null;
 			_properties = properties ?? new LayoutPartReferenceProperties();

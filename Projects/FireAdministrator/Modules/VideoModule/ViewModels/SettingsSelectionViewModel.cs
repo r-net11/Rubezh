@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Localization.Video;
 using StrazhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -13,7 +14,7 @@ namespace VideoModule.ViewModels
 
 		public SettingsSelectionViewModel(RviSettings rviSettings)
 		{
-			Title = "Настройки";
+			Title = CommonResources.Settings;
 
 			_oldVideoIntegrationProvider = rviSettings.VideoIntegrationProvider;
 			RviSettings = new RviSettings();
@@ -98,7 +99,7 @@ namespace VideoModule.ViewModels
 			RviSettings.Password = Password;
 
 			if (VideoIntegrationProvider != _oldVideoIntegrationProvider)
-				return MessageBoxService.ShowConfirmation("Изменение типа сервера влечет удаление ранее добавленных камер. Сохранить настройки и удалить камеры?");
+				return MessageBoxService.ShowConfirmation(CommonViewModels.SettingsSelectionSave);
 			
 			return base.Save();
 		}

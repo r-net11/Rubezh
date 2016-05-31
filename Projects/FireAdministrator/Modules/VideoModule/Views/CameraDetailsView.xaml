@@ -6,6 +6,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
 	xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
+	xmlns:lang="clr-namespace:Localization.Video;assembly=Localization"
 	MinWidth="545"
 	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
@@ -18,7 +19,7 @@
 		</Style>
 	</UserControl.Resources>
 	<TabControl>
-		<TabItem Header="Основные">
+		<TabItem Header="{x:Static lang:CommonViews.Main}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -35,7 +36,7 @@
 					Grid.Column="0"
 					Margin="5 5 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Название устройства" />
+					Text="{x:Static lang:CommonViews.DeviceName}" />
 				<TextBlock
 					Grid.Row="0"
 					Grid.Column="1"
@@ -47,7 +48,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Адрес устройства" />
+					Text="{x:Static lang:CommonViews.DeviceAddress}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="1"
@@ -59,7 +60,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Номер канала" />
+					Text="{x:Static lang:CommonViews.ChannelNumber}" />
 				<TextBlock
 					Grid.Row="2"
 					Grid.Column="1"
@@ -71,7 +72,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Название канала" />
+					Text="{x:Static lang:CommonViews.ChannelName}" />
 				<TextBlock
 					Grid.Row="3"
 					Grid.Column="1"
@@ -80,13 +81,13 @@
 					Text="{Binding Camera.RviChannelName, FallbackValue=Rvi_Имя}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Предпросмотр">
+		<TabItem Header="{x:Static lang:CommonViews.Preview}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
+				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="{x:Static lang:CommonViews.VideoView}" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
 				<rviClientUi:VideoCellControl
 					Grid.Row="1"
 					x:Name="videoCellControl"
