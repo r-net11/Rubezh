@@ -41,19 +41,6 @@ namespace AutomationModule.ViewModels
 			SetCurrentGuardZoneName(_guardZoneControlArguments);
 		}
 
-		public override string Description
-		{
-			get
-			{
-				if (_guardZoneControlArguments == null || _guardZoneControlArguments.CurrentGuardZone == null) return null;
-
-				return string.Format(Resources.LabelGuardZoneInfo,
-					_guardZoneControlArguments.CurrentGuardZone.No,
-					_guardZoneControlArguments.CurrentGuardZone.Name,
-					SelectedCommand.ToDescription());
-			}
-		}
-
 		public RelayCommand ShowGuardListCommand { get; set; }
 
 		public void OnShowGuardListCommand()
@@ -71,6 +58,19 @@ namespace AutomationModule.ViewModels
 			CurrentGuardZone = arguments.CurrentGuardZone != null
 				? string.Format("{0}. {1}", arguments.CurrentGuardZone.No, arguments.CurrentGuardZone.Name)
 				: Resources.LabelPressToSelectOPCZone;
+		}
+
+		public override string Description
+		{
+			get
+			{
+				if (_guardZoneControlArguments == null || _guardZoneControlArguments.CurrentGuardZone == null) return null;
+
+				return string.Format(Resources.LabelGuardZoneInfo,
+					_guardZoneControlArguments.CurrentGuardZone.No,
+					_guardZoneControlArguments.CurrentGuardZone.Name,
+					SelectedCommand.ToDescription());
+			}
 		}
 	}
 }

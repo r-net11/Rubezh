@@ -65,7 +65,7 @@ namespace AutomationModule.ViewModels
 				{
 					IsBisy = false;
 					var ex = t.Exception;
-					while (ex is AggregateException && ex.InnerException != null)
+					while (ex != null && ex.InnerException != null)
 					{
 						ex = (AggregateException) ex.InnerException;
 						Logger.Error(ex);

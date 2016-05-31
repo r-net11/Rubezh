@@ -1,24 +1,24 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Views="clr-namespace:Integration.OPC.Views"
-					xmlns:ViewModels="clr-namespace:Integration.OPC.ViewModels">
-	<DataTemplate DataType="{x:Type ViewModels:ZonesOPCViewModel}">
-		<Views:ZonesOPCView />
+					xmlns:views="clr-namespace:Integration.OPC.Views"
+					xmlns:viewModels="clr-namespace:Integration.OPC.ViewModels">
+	<DataTemplate DataType="{x:Type viewModels:ZonesOPCViewModel}">
+		<views:ZonesOPCView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MenuViewModel}">
-		<Views:MenuViewModel />
+	<DataTemplate DataType="{x:Type viewModels:MenuViewModel}">
+		<views:MenuViewModel />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
-		<Views:SettingsDialogView />
+	<DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+		<views:SettingsDialogView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:AddZoneDialogViewModel}">
-		<Views:AddZoneDialogView />
+	<DataTemplate DataType="{x:Type viewModels:AddZoneDialogViewModel}">
+		<views:AddZoneDialogView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PropertiesDialogViewModel}">
-		<Views:PropertiesDialogView />
+	<DataTemplate DataType="{x:Type viewModels:PropertiesDialogViewModel}">
+		<views:PropertiesDialogView />
 	</DataTemplate>
 </ResourceDictionary>

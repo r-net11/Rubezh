@@ -31,7 +31,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="5 0">
-								<Image Source="pack://application:,,,/Controls;component/StepIcons/Control.png" />
+								<Image Source="pack://application:,,,/Controls;component/Images/GuardZone.png" />
 								<TextBlock
 									Text="{Binding No}"
 									VerticalAlignment="Center"

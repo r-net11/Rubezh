@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutomationModule.Properties;
+﻿using AutomationModule.Properties;
 using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutomationModule.ViewModels
@@ -60,14 +59,15 @@ namespace AutomationModule.ViewModels
 		public void LoadZones()
 		{
 			IsBisy = true;
+
 			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetOPCZones())
 			.ContinueWith(t =>
 			{
+				IsBisy = false;
 				if (t.IsFaulted || t.Result.HasError)
 				{
-					IsBisy = false;
 					var ex = t.Exception;
-					while (ex is AggregateException && ex.InnerException != null)
+					while (ex != null && ex.InnerException != null)
 					{
 						ex = (AggregateException) ex.InnerException;
 						Logger.Error(ex);
@@ -76,7 +76,6 @@ namespace AutomationModule.ViewModels
 				}
 				else
 				{
-					IsBisy = false;
 					Zones = t.Result.Result.Where(x => x.Type == OPCZoneType.Guard).ToList();
 					SelectedZone = Zones.FirstOrDefault();
 				}
