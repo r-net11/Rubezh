@@ -5,18 +5,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
+	xmlns:models="clr-namespace:Integration.OPC.Models"
+	mc:Ignorable="d"
     Height="300"
 	Width="600">
 	<UserControl.Resources>
 		<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+		<converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+		<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	</UserControl.Resources>
-    <Grid>
-		<DataGrid ItemsSource="{Binding Zones, IsAsync=True}" CanUserSortColumns="True">
+	<Grid>
+		<DataGrid
+			x:Name="Grid"
+			ItemsSource="{Binding Zones, IsAsync=True}"
+			IsEnabled="{Binding IsBisy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
+			CanUserSortColumns="True"
+			CanUserReorderColumns="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="Auto">
+				<DataGridTemplateColumn Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<CheckBox
 								IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
 								IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
@@ -25,9 +34,9 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="№" Width="Auto">
+				<DataGridTemplateColumn Header="№" Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
 								Text="{Binding No}"
 								VerticalAlignment="Center"
@@ -37,7 +46,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Наименование" Width="1.5*">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
 								Text="{Binding Name}"
 								VerticalAlignment="Center"
@@ -47,7 +56,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Назначение" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
 								Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
 								VerticalAlignment="Center"
@@ -57,7 +66,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Примечание" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
 								Text="{Binding Description}"
 								VerticalAlignment="Center"
@@ -67,5 +76,17 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
+		<StackPanel
+			VerticalAlignment="Center"
+			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+			<customControls:BisyIndicator
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Width="50"
+				Height="50"/>
+			<TextBlock
+				Text="Получение данных от сервера..."
+				HorizontalAlignment="Center"/>
+		</StackPanel>
     </Grid>
 </UserControl>

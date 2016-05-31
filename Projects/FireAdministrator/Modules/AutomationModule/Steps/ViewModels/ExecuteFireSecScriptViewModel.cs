@@ -33,7 +33,7 @@ namespace AutomationModule.Steps.ViewModels
 			}
 		}
 
-		ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
+		private ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
 
 		public ExecuteFireSecScriptViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
@@ -60,7 +60,7 @@ namespace AutomationModule.Steps.ViewModels
 			{
 				return ExecuteFireSecScriptArguments.CurrentScript == null
 					? null
-					: string.Format(Resources.ScenarioInfoLabel, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
+					: string.Format(Resources.LabelScenarioInfo, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace AutomationModule.Steps.ViewModels
 		{
 			CurrentScript = arguments.CurrentScript != null
 				? string.Format("{0}. {1}", ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name)
-				: Resources.PressToSelectOPCScenarioLabel;
+				: Resources.LabelPressToSelectOPCScenario;
 		}
 	}
 }

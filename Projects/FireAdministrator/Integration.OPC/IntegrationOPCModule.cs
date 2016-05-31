@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Infrastructure.Client;
+﻿using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
@@ -12,6 +7,8 @@ using Integration.OPC.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.SKD;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Integration.OPC
 {
@@ -37,7 +34,7 @@ namespace Integration.OPC
 		{
 			return new List<NavigationItem>
 			{
-				new NavigationItem<ShowZonesOPCEvent>(_integrationOPCViewModel, ModuleType.ToDescription(), "music")
+				new NavigationItem<ShowZonesOPCEvent>(_integrationOPCViewModel, ModuleType.ToDescription(), "OPCIntegrationMenu")
 			};
 		}
 	}

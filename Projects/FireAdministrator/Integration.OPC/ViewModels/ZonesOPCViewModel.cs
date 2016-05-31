@@ -1,5 +1,4 @@
-﻿using FiresecClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
@@ -48,13 +47,13 @@ namespace Integration.OPC.ViewModels
 
 		public void OnAdd()
 		{
-			var zones = FiresecManager.FiresecService.GetOPCZones();
-			var addZoneDialog = new AddZoneDialogViewModel(zones.Result.Select(x => new OPCZone(x, ZonesOPC.Any(existingZone => existingZone.No == x.No))));
+			var addZoneDialog = new AddZoneDialogViewModel(ZonesOPC);
 
 			if (DialogService.ShowModalWindow(addZoneDialog))
 			{
-				ZonesOPC.AddRange(addZoneDialog.Zones.Where(x => x.IsChecked && x.IsEnabled));
-				SKDManager.SKDConfiguration.OPCZones.AddRange(addZoneDialog.Zones.Where(x => x.IsChecked && x.IsEnabled).Select(x => x.ToDTO()));
+				var addingZones = addZoneDialog.Zones.Where(x => x.CanAdd).ToList();
+				ZonesOPC.AddRange(addingZones);
+				SKDManager.SKDConfiguration.OPCZones.AddRange(addingZones.Select(x => x.ToDTO()));
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -64,6 +63,7 @@ namespace Integration.OPC.ViewModels
 			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
 
 			ZonesOPC.Remove(SelectedZoneOPC);
+
 			SelectedZoneOPC = ZonesOPC.FirstOrDefault();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

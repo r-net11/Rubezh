@@ -14,7 +14,6 @@
 				MinWidth="100"
 				Command="{Binding CancelCommand}"
 				Content="{Binding CancelCaption}"
-				Visibility="{Binding IsCancelVisible, Converter={StaticResource BoolToVisibilityConverter}}"
 				DockPanel.Dock="Right" />
 			<Button
 				Name="bOk"

@@ -17,19 +17,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _isCancelVisible;
-
-		public bool IsCancelVisible
-		{
-			get { return _isCancelVisible; }
-			set
-			{
-				if (_isCancelVisible == value) return;
-				_isCancelVisible = value;
-				OnPropertyChanged(() => IsCancelVisible);
-			}
-		}
-
 		public RelayCommand SaveCommand { get; protected set; }
 
 		public RelayCommand CancelCommand { get; protected set; }
@@ -37,7 +24,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public SaveCancelDialogViewModel()
 		{
 			AllowSave = true;
-			IsCancelVisible = true;
 			SaveCaption = "ОК";
 			CancelCaption = "Отмена";
 			SaveCommand = new RelayCommand(OnSave, CanSave);

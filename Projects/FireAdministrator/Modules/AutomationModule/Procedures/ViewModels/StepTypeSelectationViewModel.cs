@@ -252,7 +252,8 @@ namespace AutomationModule.ViewModels
 			var stepTypeViewModels = new List<StepTypeViewModel>
 			{
 				new StepTypeViewModel(ProcedureStepType.ExecuteFiresecScript),
-				new StepTypeViewModel(ProcedureStepType.SendOPCScript)
+				new StepTypeViewModel(ProcedureStepType.SendOPCScript),
+				new StepTypeViewModel(ProcedureStepType.GuardZoneControl)
 			};
 
 			return new StepTypeViewModel("Интеграция с ОПС", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);

@@ -54,6 +54,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate GetSkdZonePropertyTemplate { get; set; }
 		public DataTemplate ExecuteFireSecScriptTemplate { get; set; }
 		public DataTemplate SendOPCCommandTemplate { get; set; }
+		public DataTemplate GuardZoneControlTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -153,6 +154,8 @@ namespace AutomationModule.ViewModels
 				return ExecuteFireSecScriptTemplate;
 			if (item is SendOPCCommandStepViewModel)
 				return SendOPCCommandTemplate;
+			if (item is GuardZoneControlStepViewModel)
+				return GuardZoneControlTemplate;
 			return null;
 		}
 	}

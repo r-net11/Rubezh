@@ -173,6 +173,9 @@ namespace StrazhAPI.Automation
 		ExecuteFiresecScript,
 
 		[Description("Отправить команду")]
-		SendOPCScript
+		SendOPCScript,
+
+		[Description("Оперативное управление охранной зоной")]
+		GuardZoneControl
 	}
 }

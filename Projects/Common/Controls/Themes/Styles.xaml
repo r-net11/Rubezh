@@ -108,6 +108,7 @@
 		<ResourceDictionary Source="../XamlImages/FidthToPage.xaml" />
 		<ResourceDictionary Source="../XamlImages/DropAllApb.xaml" />
 		<ResourceDictionary Source="../XamlImages/filter.xaml" />
+		<ResourceDictionary Source="../XamlImages/OPCIntegrationMenu.xaml" />
 		<ResourceDictionary Source="../XamlImages/FolderOpen.xaml" />
 		<ResourceDictionary Source="../XamlImages/Font.xaml" />
 		<ResourceDictionary Source="../XamlImages/GlobalVariables.xaml" />
