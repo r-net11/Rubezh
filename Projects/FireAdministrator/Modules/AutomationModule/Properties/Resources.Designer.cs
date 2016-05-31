@@ -88,20 +88,38 @@ namespace AutomationModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to №, название охранной зоны: {0} {1} Команда: {2}.
+        /// </summary>
+        internal static string LabelGuardZoneInfo {
+            get {
+                return ResourceManager.GetString("LabelGuardZoneInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нажмите для выбора сценария.
         /// </summary>
-        internal static string PressToSelectOPCScenarioLabel {
+        internal static string LabelPressToSelectOPCScenario {
             get {
-                return ResourceManager.GetString("PressToSelectOPCScenarioLabel", resourceCulture);
+                return ResourceManager.GetString("LabelPressToSelectOPCScenario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора охранной зоны.
+        /// </summary>
+        internal static string LabelPressToSelectOPCZone {
+            get {
+                return ResourceManager.GetString("LabelPressToSelectOPCZone", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
         /// </summary>
-        internal static string ScenarioInfoLabel {
+        internal static string LabelScenarioInfo {
             get {
-                return ResourceManager.GetString("ScenarioInfoLabel", resourceCulture);
+                return ResourceManager.GetString("LabelScenarioInfo", resourceCulture);
             }
         }
     }

@@ -182,6 +182,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.SendOPCScript:
 					return new SendOPCCommandStepViewModel(this);
 
+				case ProcedureStepType.GuardZoneControl:
+					return new GuardZoneControlStepViewModel(this);
+
 				default:
 					return null;
 			}

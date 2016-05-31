@@ -1,21 +1,23 @@
-﻿using AutomationModule.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using AutomationModule.Properties;
 using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using StrazhAPI.Enums;
+using StrazhAPI.Integration.OPC;
 using System.Threading.Tasks;
 
 namespace AutomationModule.ViewModels
 {
-	public class ScriptListViewModel : SaveCancelDialogViewModel
+	public class GuardZonesListViewModel : SaveCancelDialogViewModel
 	{
 		private bool _isBisy;
-		private List<Script> _scripts;
-		private Script _selectedScript;
+		private List<OPCZone> _zones;
+		private OPCZone _selectedZone;
 
 		public bool IsBisy
 		{
@@ -28,37 +30,37 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public Script SelectedScript
+		public OPCZone SelectedZone
 		{
-			get { return _selectedScript; }
+			get { return _selectedZone; }
 			set
 			{
-				if (_selectedScript == value) return;
-				_selectedScript = value;
-				OnPropertyChanged(() => SelectedScript);
+				if (_selectedZone == value) return;
+				_selectedZone = value;
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
-		public List<Script> Scripts
+		public List<OPCZone> Zones
 		{
-			get { return _scripts; }
+			get { return _zones; }
 			set
 			{
-				if (_scripts == value) return;
-				_scripts = value;
-				OnPropertyChanged(() => Scripts);
+				if (_zones == value) return;
+				_zones = value;
+				OnPropertyChanged(() => Zones);
 			}
 		}
 
-		public ScriptListViewModel()
+		public GuardZonesListViewModel()
 		{
-			LoadScripts();
+			LoadZones();
 		}
 
-		public void LoadScripts()
+		public void LoadZones()
 		{
 			IsBisy = true;
-			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetFiresecScripts())
+			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetOPCZones())
 			.ContinueWith(t =>
 			{
 				if (t.IsFaulted || t.Result.HasError)
@@ -75,8 +77,8 @@ namespace AutomationModule.ViewModels
 				else
 				{
 					IsBisy = false;
-					Scripts = t.Result.Result.Select(x => new Script(x)).ToList();
-					SelectedScript = Scripts.FirstOrDefault();
+					Zones = t.Result.Result.Where(x => x.Type == OPCZoneType.Guard).ToList();
+					SelectedZone = Zones.FirstOrDefault();
 				}
 			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}

@@ -86,6 +86,7 @@ namespace Integration.Service.OPCIntegration
 			catch (WebException e)
 			{
 				Logger.Info(e.ToString());
+				throw;
 				return new List<OPCZone>();
 			}
 
@@ -98,6 +99,7 @@ namespace Integration.Service.OPCIntegration
 			catch (XmlException e)
 			{
 				Logger.Error(e);
+				throw;
 				return new List<OPCZone>();
 			}
 

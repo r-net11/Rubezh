@@ -1,0 +1,84 @@
+﻿<UserControl
+	x:Class="AutomationModule.Views.GuardZonesListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
+    mc:Ignorable="d"
+    MinHeight="300"
+	MinWidth="650"
+	MaxHeight="300"
+	MaxWidth="650">
+	<UserControl.Resources>
+		<InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+		<InverseBooleanConverter x:Key="InverseBooleanConverter" />
+	</UserControl.Resources>
+	<Grid>
+		<DataGrid
+			x:Name="Grid"
+			CanUserSortColumns="True"
+			CanUserReorderColumns="False"
+			ItemsSource="{Binding Zones, IsAsync=True}"
+			SelectedItem="{Binding SelectedZone}"
+			IsEnabled="{Binding IsBisy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn
+					Header="№"
+					Width="Auto"
+					CanUserResize="False"
+					SortMemberPath="No">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal" Margin="5 0">
+								<Image Source="pack://application:,,,/Controls;component/StepIcons/Control.png" />
+								<TextBlock
+									Text="{Binding No}"
+									VerticalAlignment="Center"
+									Margin="5 0"/>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn
+					Header="Наименование"
+					Width="1.5*"
+					SortMemberPath="Name">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding Name}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn
+					Header="Примечание"
+					Width="*"
+					SortMemberPath="Description">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock
+								Text="{Binding Description}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<StackPanel
+			VerticalAlignment="Center"
+			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+			<customControls:BisyIndicator
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Width="50"
+				Height="50"/>
+			<TextBlock
+				Text="Получение данных от сервера..."
+				HorizontalAlignment="Center"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

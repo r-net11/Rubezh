@@ -46,7 +46,7 @@ namespace Integration.OPC.ViewModels
 		public RelayCommand EditCommand { get; set; }
 		public RelayCommand SettingsCommand { get; set; }
 
-		public void OnAdd()
+		public void OnAdd() //TODO: Add async loading
 		{
 			var zones = FiresecManager.FiresecService.GetOPCZones();
 			var addZoneDialog = new AddZoneDialogViewModel(zones.Result.Select(x => new OPCZone(x, ZonesOPC.Any(existingZone => existingZone.No == x.No))));

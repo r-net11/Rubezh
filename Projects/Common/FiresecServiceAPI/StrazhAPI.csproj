@@ -155,6 +155,7 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Automation\Enums\FiresecCommandType.cs" />
+    <Compile Include="Enums\GuardZoneCommand.cs" />
     <Compile Include="Enums\GuardZoneType.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\Automation\StepArguments\GetListCountArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListItemArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GuardZoneControlArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />

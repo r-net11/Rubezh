@@ -1337,5 +1337,20 @@ namespace FiresecService
 			if (step != null && step.ExecuteFireSecScriptArguments != null)
 				FiresecServiceManager.SafeFiresecService.SendOPCScript(step.SendOPCCommandArguments.SelectedCommandType);
 		}
+
+		private static void GuardZoneControl(ProcedureStep step)
+		{
+			if (step == null || step.GuardZoneControlArguments == null) return;
+
+			switch (step.GuardZoneControlArguments.CommandType)
+			{
+				case GuardZoneCommand.SetGuard:
+					FiresecServiceManager.SafeFiresecService.SetGuard(step.GuardZoneControlArguments.CurrentGuardZone.No);
+					break;
+				case GuardZoneCommand.UnsetGuard:
+					FiresecServiceManager.SafeFiresecService.UnsetGuard(step.GuardZoneControlArguments.CurrentGuardZone.No);
+					break;
+			}
+		}
 	}
 }
