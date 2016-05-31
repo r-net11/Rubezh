@@ -203,7 +203,7 @@ namespace StrazhService.Monitor.ViewModels
 		{
 			WriteToModel();
 			if (ServiceRepository.Instance.ServiceStateHolder.State != ServiceState.Stoped)
-				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера приложений");
+				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера");
 		}
 
 		private void ReadFromModel()

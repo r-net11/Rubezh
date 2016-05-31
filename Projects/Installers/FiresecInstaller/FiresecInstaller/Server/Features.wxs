@@ -2,9 +2,10 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Server.Features" Title="Сервер приложений" Description="Программа установит компоненты для работы службы сервера приложений, в том числе приложение 'Монитор сервера' для настройки и управления службой" Level="1" Display="expand"
+		<Feature Id="Server.Features" Title="Сервер" Description="Программа установит компоненты для работы службы сервера, в том числе приложение 'Монитор сервера' для настройки и управления службой" Level="1" Display="expand"
 					ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
+			<ComponentRef Id="Server.StrazhService"/>
 			<ComponentRef Id="Server.DB.Common" />
 			<ComponentRef Id="Server.ChinaSKD" />
 			<ComponentRef Id="Server.Config.fscp" />

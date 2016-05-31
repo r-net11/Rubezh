@@ -76,7 +76,7 @@ namespace StrazhService.WS
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Ошибка при запуске сервера приложений");
+				Logger.Error(e, "Ошибка при запуске сервера");
 				Stop();
 			}
 		}
@@ -84,8 +84,12 @@ namespace StrazhService.WS
 		public void Stop()
 		{
 			Logger.Info("Остановка сервера");
+			ScheduleRunner.Stop();
 			ProcedureRunner.Terminate();
-			Environment.Exit(1);
+			SKDProcessor.Stop();
+			FiresecServiceManager.Close();
+			ReportServiceManager.Stop();
+			ClientsManager.ClientInfos.Clear();
 		}
 	}
 }

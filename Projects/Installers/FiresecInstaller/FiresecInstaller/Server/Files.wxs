@@ -9,7 +9,6 @@
 			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
 				<File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
 				<File Id="Server.StrazhService.Monitor.exe.config" Name="StrazhService.Monitor.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
@@ -57,6 +56,27 @@
 				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.OPCIntegrationClient.dll" Name="OPCIntegrationClient.dll" Source="$(var.Server.TargetDir)" />
+			</Component>
+
+			<Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">
+				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+
+				<!-- Tell WiX to install the Service -->
+				<ServiceInstall Id="ServiceInstaller"
+								Type="ownProcess"
+								Name="$(var.Server_Service_Name)"
+								DisplayName="$(var.Server_Service_DisplayName)"
+								Description="$(var.Server_Service_Description)"
+								Start="auto"
+								ErrorControl="ignore" >
+
+					<util:ServiceConfig FirstFailureActionType="restart"
+										SecondFailureActionType="restart"
+										ThirdFailureActionType="none"
+										RestartServiceDelayInSeconds="1"
+										ResetPeriodInDays="1"/>
+
+				</ServiceInstall>
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
