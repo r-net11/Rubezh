@@ -117,64 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentExist_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует.</value>
+  <data name="Beeper" xml:space="preserve">
+    <value>Компьютерный динамик</value>
   </data>
-  <data name="OPCScriptConnectionContent_Error" xml:space="preserve">
-    <value>Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения.</value>
+  <data name="Continuously" xml:space="preserve">
+    <value>Непрерывно</value>
   </data>
-  <data name="UnboundProcedure_Error" xml:space="preserve">
-    <value>Несвязанная процедура</value>
+  <data name="Sound" xml:space="preserve">
+    <value>Звук</value>
   </data>
-  <data name="ValidatorGlobalVariable_Error" xml:space="preserve">
-    <value>Глобальная переменная с таким именем уже существует {0}</value>
-  </data>
-  <data name="ValidatorProcedureLayoutElement_Error" xml:space="preserve">
-    <value>Не выбран элемент макета</value>
-  </data>
-  <data name="ValidatorProcedureLayout_Error" xml:space="preserve">
-    <value>Не выбран макет</value>
-  </data>
-  <data name="ValidatorProcedureLicense_Error" xml:space="preserve">
-    <value>Функция не может быть загружена по причине лицензионных ограничений</value>
-  </data>
-  <data name="ValidatorProcedurePlanElement_Error" xml:space="preserve">
-    <value>Не выбран элемент плана</value>
-  </data>
-  <data name="ValidatorProcedurePlan_Error" xml:space="preserve">
-    <value>Не выбран план</value>
-  </data>
-  <data name="ValidatorProcedureProperty_Error" xml:space="preserve">
-    <value>Не выбрано свойство</value>
-  </data>
-  <data name="ValidatorProcedureSameNameArgument_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует {0}</value>
-  </data>
-  <data name="ValidatorProcedureSameNameProcedure_Error" xml:space="preserve">
-    <value>Процедура с таким именем уже существует {0}</value>
-  </data>
-  <data name="ValidatorProcedureSameNameVariable_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует {0}</value>
-  </data>
-  <data name="ValidatorProcedureVariables_Error" xml:space="preserve">
-    <value>Все переменные должны быть инициализированы</value>
-  </data>
-  <data name="ValidatorScheduleBeginDate_Error" xml:space="preserve">
-    <value>Должна быть задана конкретная дата начала периода {0}</value>
-  </data>
-  <data name="ValidatorScheduleNullPeriod_Error" xml:space="preserve">
-    <value>Должен быть задан не нулевой период {0}</value>
-  </data>
-  <data name="ValidatorScheduleSameName_Error" xml:space="preserve">
-    <value>Расписание с таким именем уже существует {0}</value>
-  </data>
-  <data name="ValidatorSchedule_Error" xml:space="preserve">
-    <value>Все переменные должны быть инициализированы {0}</value>
-  </data>
-  <data name="ValidatorSound_Error" xml:space="preserve">
-    <value>Звуковой элемент с таким именем уже существует {0}</value>
-  </data>
-  <data name="VariableExist_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует.</value>
+  <data name="State" xml:space="preserve">
+    <value>Состояние</value>
   </data>
 </root>

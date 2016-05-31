@@ -106,6 +106,15 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Команда: {0}.
+        /// </summary>
+        public static string Command {
+            get {
+                return ResourceManager.GetString("Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to и ....
         /// </summary>
         public static string Condition_AND {

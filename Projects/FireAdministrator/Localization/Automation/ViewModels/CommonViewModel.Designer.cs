@@ -439,6 +439,15 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Интеграция с ОПС.
+        /// </summary>
+        public static string StepTypeSelection_OPCIntegration {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_OPCIntegration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Операции.
         /// </summary>
         public static string StepTypeSelection_Operations {

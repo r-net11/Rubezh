@@ -1,4 +1,5 @@
 using Common;
+using Localization.Sounds.Common;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
 using Infrastructure;
@@ -131,8 +132,8 @@ namespace SoundsModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Проверить звук", PlaySoundCommand, "BPlay") { Order = 2 },
-				new RibbonMenuItemViewModel("Остановить", PlaySoundCommand, "BStop") { Order = 3 }
+				new RibbonMenuItemViewModel(CommonResources.SoundCheck, PlaySoundCommand, "BPlay") { Order = 2 },
+				new RibbonMenuItemViewModel(CommonResources.Stop, PlaySoundCommand, "BStop") { Order = 3 }
 			};
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.Validation
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.Validation
 			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				if (nameList.Contains(globalVariable.Name))
-					Errors.Add(new VariableValidationError(globalVariable, "Глобальная переменная с таким именем уже существует " + globalVariable.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new VariableValidationError(globalVariable, string.Format(CommonErrors.ValidatorGlobalVariable_Error, globalVariable.Name), ValidationErrorLevel.CannotSave));
 				nameList.Add(globalVariable.Name);
 			}
 		}

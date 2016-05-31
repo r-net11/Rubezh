@@ -66,6 +66,46 @@
       <DependentUpon>CommonViews.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sounds\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\Common\CommonResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Sounds\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sounds\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Video\Common\CommonResources.ru.Designer.cs">
       <DependentUpon>CommonResources.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -125,6 +165,38 @@
       <LastGenOutput>CommonViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Automation\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Errors\CommonErrors.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Errors\CommonErrors.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Views\CommonViews.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\Views\CommonViews.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
     </EmbeddedResource>

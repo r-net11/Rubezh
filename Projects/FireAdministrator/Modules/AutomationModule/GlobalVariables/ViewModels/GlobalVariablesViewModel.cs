@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
 using System.Windows.Input;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using KeyboardKey = System.Windows.Input.Key;
 using Localization.Automation.Errors;
@@ -63,7 +64,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
+            var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModel.GlobalVariable_DefaultName, CommonViewModel.GlobalVariable_Add);
 
 			if (!DialogService.ShowModalWindow(globalVariableDetailsViewModel)) return;
 
@@ -102,7 +103,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную");
+            var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, CommonViewModel.GlobalVariable_DefaultName, CommonViewModel.GlobalVariable_Edit);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				globalVariableDetailsViewModel.Variable.IsGlobal = true;

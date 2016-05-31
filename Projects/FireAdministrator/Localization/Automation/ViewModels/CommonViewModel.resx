@@ -270,4 +270,7 @@
   <data name="ScenarioInfoLabel" xml:space="preserve">
     <value>№ Сценария: {0} Название: {1}</value>
   </data>
+  <data name="StepTypeSelection_OPCIntegration" xml:space="preserve">
+    <value>Интеграция с ОПС</value>
+  </data>
 </root>

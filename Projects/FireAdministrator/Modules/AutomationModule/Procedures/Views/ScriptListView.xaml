@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
+	mc:Ignorable="d"
     MinHeight="300"
 	MinWidth="650"
 	MaxHeight="300"
@@ -42,7 +43,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
-					Header="Название"
+					Header="{x:Static lang:CommonViews.Title}"
 					Width="1.5*"
 					SortMemberPath="Name">
 					<DataGridTemplateColumn.CellTemplate>
@@ -55,7 +56,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
-					Header="Примечание"
+					Header="{x:Static lang:CommonViews.Description}"
 					Width="*"
 					SortMemberPath="Description">
 					<DataGridTemplateColumn.CellTemplate>
@@ -68,7 +69,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
-					Header="Активен"
+					Header="{x:Static lang:CommonViews.Active}"
 					Width="Auto"
 					SortMemberPath="IsEnabled"
 					CanUserResize="False">
@@ -93,7 +94,7 @@
 				Width="50"
 				Height="50"/>
 			<TextBlock
-				Text="Получение данных от сервера..."
+				Text="{x:Static lang:CommonViews.RecevingData}"
 				HorizontalAlignment="Center"/>
 		</StackPanel>
 	</Grid>

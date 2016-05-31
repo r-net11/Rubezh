@@ -61,6 +61,15 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Активен.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить.
         /// </summary>
         public static string Add {
@@ -606,6 +615,15 @@ namespace Localization.Automation.Views {
         public static string FilterInName {
             get {
                 return ResourceManager.GetString("FilterInName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сценарий FireSec.
+        /// </summary>
+        public static string FiresecScenario {
+            get {
+                return ResourceManager.GetString("FiresecScenario", resourceCulture);
             }
         }
         
@@ -1164,6 +1182,15 @@ namespace Localization.Automation.Views {
         public static string PTZNumber {
             get {
                 return ResourceManager.GetString("PTZNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Получение данных от сервера....
+        /// </summary>
+        public static string RecevingData {
+            get {
+                return ResourceManager.GetString("RecevingData", resourceCulture);
             }
         }
         

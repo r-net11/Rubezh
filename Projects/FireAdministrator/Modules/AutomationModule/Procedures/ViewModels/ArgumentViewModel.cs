@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -109,11 +110,11 @@ namespace AutomationModule.ViewModels
 		void OnAddVariable()
 		{
 			var defaultName = SelectedVariableScope == VariableScope.LocalVariable
-				? "локальная переменная"
-				: "глобальная переменная";
+                ? CommonViewModel.LocalVariable_DefaultName
+                : CommonViewModel.GlobalVariable_DefaultName;
 			var title = SelectedVariableScope == VariableScope.LocalVariable
-				? "Добавить локальную переменную"
-				: "Добавить глобальную переменную";
+                ? CommonViewModel.LocalVariable_Add
+                : CommonViewModel.GlobalVariable_Add;
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{
 				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes)

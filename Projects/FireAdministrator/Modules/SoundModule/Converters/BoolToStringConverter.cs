@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.Sounds.Common;
 
 namespace SoundsModule.Converters
 {
@@ -7,7 +8,7 @@ namespace SoundsModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return (bool) value ? "Остановить" : "Проверка";
+            return (bool)value ? CommonResources.Stop : CommonResources.Check;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -88,6 +88,15 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Глобальная переменная с таким именем уже существует {0}.
+        /// </summary>
+        public static string ValidatorGlobalVariable_Error {
+            get {
+                return ResourceManager.GetString("ValidatorGlobalVariable_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не выбран макет.
         /// </summary>
         public static string ValidatorProcedureLayout_Error {
@@ -174,6 +183,15 @@ namespace Localization.Automation.Errors {
         public static string ValidatorProcedureVariables_Error {
             get {
                 return ResourceManager.GetString("ValidatorProcedureVariables_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все переменные должны быть инициализированы {0}.
+        /// </summary>
+        public static string ValidatorSchedule_Error {
+            get {
+                return ResourceManager.GetString("ValidatorSchedule_Error", resourceCulture);
             }
         }
         

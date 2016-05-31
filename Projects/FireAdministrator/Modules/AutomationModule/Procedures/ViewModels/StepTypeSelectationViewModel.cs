@@ -254,7 +254,7 @@ namespace AutomationModule.ViewModels
 				new StepTypeViewModel(ProcedureStepType.SendOPCScript)
 			};
 
-			return new StepTypeViewModel("Интеграция с ОПС", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_OPCIntegration, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		protected override bool CanSave()

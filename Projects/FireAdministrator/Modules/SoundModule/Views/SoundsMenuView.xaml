@@ -1,7 +1,8 @@
 <UserControl x:Class="SoundsModule.Views.SoundsMenuView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:lang="clr-namespace:Localization.Sounds.Common;assembly=Localization">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<Button Name="playButton" Command="{Binding PlaySoundCommand}" Style="{StaticResource ToolBarButtonStyle}">
@@ -13,7 +14,7 @@
 								<DataTrigger.Setters>
 									<Setter Property="ContentControl.Content">
 										<Setter.Value>
-											<Grid Background="{DynamicResource Stop}" Height="24" Width="32" ToolTip="Остановить" />
+											<Grid Background="{DynamicResource Stop}" Height="24" Width="32" ToolTip="{x:Static lang:CommonResources.Stop}" />
 										</Setter.Value>
 									</Setter>
 								</DataTrigger.Setters>
@@ -22,7 +23,7 @@
 								<DataTrigger.Setters>
 									<Setter Property="ContentControl.Content">
 										<Setter.Value>
-											<Grid Background="{DynamicResource Play}" Height="32" ToolTip="Проверить звук" />
+											<Grid Background="{DynamicResource Play}" Height="32" ToolTip="{x:Static lang:CommonResources.SoundCheck}" />
 										</Setter.Value>
 									</Setter>
 								</DataTrigger.Setters>

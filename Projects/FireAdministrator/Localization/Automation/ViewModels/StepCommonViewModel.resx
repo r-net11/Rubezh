@@ -288,4 +288,7 @@
   <data name="Value" xml:space="preserve">
     <value>Значение: {0}</value>
   </data>
+  <data name="Command" xml:space="preserve">
+    <value>Команда: {0}</value>
+  </data>
 </root>

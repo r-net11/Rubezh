@@ -253,14 +253,14 @@ namespace AutomationModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModel.Procedures_Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("", CutCommand, "BCut"),
-					new RibbonMenuItemViewModel("", PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel("", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Cut, CutCommand, "BCut"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Paste, PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
         }

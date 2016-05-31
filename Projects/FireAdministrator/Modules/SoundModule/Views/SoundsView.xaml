@@ -5,7 +5,8 @@
 	xmlns:Converters="clr-namespace:SoundsModule.Converters"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.Sounds.Views;assembly=Localization"
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300">
 	<UserControl.Resources>
@@ -17,7 +18,7 @@
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				SortMemberPath="StateClass"
-				Header="Состояние"
+				Header="{x:Static lang:CommonViews.State}"
 				Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
@@ -28,7 +29,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Звук" Width="1*">
+			<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Sound}" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding SoundName, Converter={StaticResource SoundToStringConverter}}" />
@@ -46,7 +47,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellEditingTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Компьютерный динамик" Width="1*">
+			<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Beeper}" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}}" />
@@ -64,7 +65,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellEditingTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Непрерывно" Width="1*">
+			<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Continuously}" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

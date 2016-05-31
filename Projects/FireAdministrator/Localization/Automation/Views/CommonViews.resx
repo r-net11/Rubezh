@@ -609,4 +609,13 @@
   <data name="Zones" xml:space="preserve">
     <value>Зоны</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="FiresecScenario" xml:space="preserve">
+    <value>Сценарий FireSec</value>
+  </data>
+  <data name="RecevingData" xml:space="preserve">
+    <value>Получение данных от сервера...</value>
+  </data>
 </root>

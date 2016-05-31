@@ -449,7 +449,7 @@ namespace AutomationModule.Validation
 			if (argument.VariableScope == VariableScope.GlobalVariable)
 				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 				{
-					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
+                    Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error, ValidationErrorLevel.CannotSave));
 					return false;
 				}
 			if (argument.VariableScope == VariableScope.LocalVariable)

@@ -36,7 +36,7 @@ namespace AutomationModule.Validation
 				if (argument.VariableScope != VariableScope.ExplicitValue)
 					if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 					{
-						Errors.Add(new ScheduleValidationError(schedule, "Все переменные должны быть инициализированы " + schedule.Name, ValidationErrorLevel.CannotSave));
+						Errors.Add(new ScheduleValidationError(schedule, string.Format(CommonErrors.ValidatorSchedule_Error,schedule.Name), ValidationErrorLevel.CannotSave));
 						return false;
 					}
 			}
