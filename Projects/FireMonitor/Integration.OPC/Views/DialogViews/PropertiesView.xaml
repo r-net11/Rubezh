@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:Views="clr-namespace:Integration.OPC.Views"
+	xmlns:views="clr-namespace:Integration.OPC.Views"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
     mc:Ignorable="d"
     MinHeight="300"
@@ -43,10 +43,10 @@
 					Margin="5" />
 			</StackPanel>
 		</StackPanel>
-		<Views:FireZonePrepertyControl
+		<views:FireZonePrepertyControl
 			Grid.Row="1"
 			Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<Views:GuardZonePropertyControl
+		<views:GuardZonePropertyControl
 			Grid.Row="1"
 			Visibility="{Binding IsFireZone, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 	</Grid>
