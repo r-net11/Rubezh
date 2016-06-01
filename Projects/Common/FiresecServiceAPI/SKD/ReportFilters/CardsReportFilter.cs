@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.Enums;
 
 namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(CardsReportFilter))]
-	public class CardsReportFilter : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterEmployee
+	public class CardsReportFilter : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor
 	{
 		public CardsReportFilter()
 		{

@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using StrazhAPI.GK;
 
 namespace StrazhAPI.SKD
 {
 	[DataContract]
-	public class SKDLibraryDevice : ILibraryDevice<SKDLibraryState, SKDLibraryFrame, XStateClass>
+	public class SKDLibraryDevice : ILibraryDevice<SKDLibraryState, SKDLibraryFrame>
 	{
 		public SKDLibraryDevice()
 		{

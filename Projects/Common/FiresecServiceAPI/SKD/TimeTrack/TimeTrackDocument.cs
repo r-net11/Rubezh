@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace StrazhAPI.SKD
@@ -64,7 +65,7 @@ namespace StrazhAPI.SKD
 
 		public string JournalEventName
 		{
-			get { return string.Format(Resources.Language.SKD.TimeTrack.TimeTrackDocument.JournalEventName, TimeTrackDocumentType == null ? null : TimeTrackDocumentType.ShortName, TimeTrackDocumentType == null ? null : TimeTrackDocumentType.Code.ToString(), DocumentDateTime.ToString("d")); }
+			get { return string.Format(Resources.Language.SKD.TimeTrack.TimeTrackDocument.JournalEventName, TimeTrackDocumentType == null ? null : TimeTrackDocumentType.ShortName, TimeTrackDocumentType == null ? null : TimeTrackDocumentType.Code.ToString(CultureInfo.InvariantCulture), DocumentDateTime.ToString("d")); }
 		}
 	}
 }

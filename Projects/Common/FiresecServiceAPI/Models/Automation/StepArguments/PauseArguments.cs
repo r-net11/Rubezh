@@ -7,8 +7,7 @@ namespace StrazhAPI.Automation
 	{
 		public PauseArguments()
 		{
-			PauseArgument = new Argument();
-			PauseArgument.ExplicitValue.IntValue = 1;
+			PauseArgument = new Argument {ExplicitValue = {IntValue = 1}};
 		}
 
 		[DataMember]

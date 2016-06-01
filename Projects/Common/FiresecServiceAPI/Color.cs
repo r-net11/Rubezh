@@ -33,16 +33,16 @@ namespace StrazhAPI
 
 		public static Color FromRgb(byte r, byte g, byte b)
 		{
-			return Color.FromArgb(255, r, g, b);
+			return FromArgb(255, r, g, b);
 		}
 
 		public override string ToString()
 		{
 			var stringBuilder = new StringBuilder();
-			stringBuilder.AppendFormat("#{0:X2}", this.A);
-			stringBuilder.AppendFormat("{0:X2}", this.R);
-			stringBuilder.AppendFormat("{0:X2}", this.G);
-			stringBuilder.AppendFormat("{0:X2}", this.B);
+			stringBuilder.AppendFormat("#{0:X2}", A);
+			stringBuilder.AppendFormat("{0:X2}", R);
+			stringBuilder.AppendFormat("{0:X2}", G);
+			stringBuilder.AppendFormat("{0:X2}", B);
 			return stringBuilder.ToString();
 		}
 

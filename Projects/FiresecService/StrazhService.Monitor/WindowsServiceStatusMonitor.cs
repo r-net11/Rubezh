@@ -9,7 +9,7 @@ namespace StrazhService.Monitor
 {
 	public class WindowsServiceStatusMonitor : IWindowsServiceStatusMonitor
 	{
-		private const string serviceName = "StrazhService";
+		private const string ServiceName = "StrazhService";
 
 		private readonly ServiceController _serviceController;
 
@@ -31,15 +31,15 @@ namespace StrazhService.Monitor
 		public bool Start()
 		{
 			var localServices = ServiceController.GetServices();
-			if (localServices.All(x => x.ServiceName != serviceName))
+			if (localServices.All(x => x.ServiceName != ServiceName))
 			{
-				Logger.Info(string.Format("Служба '{0}' не обнаружена", serviceName));
+				Logger.Info(string.Format("Служба '{0}' не обнаружена", ServiceName));
 				return IsStarted;
 			}
 
-			Logger.Info(string.Format("Служба '{0}' обнаружена", serviceName));
+			Logger.Info(string.Format("Служба '{0}' обнаружена", ServiceName));
 			IsStarted = true;
-			Logger.Info(string.Format("Начинаем слежение за службой '{0}'", serviceName));
+			Logger.Info(string.Format("Начинаем слежение за службой '{0}'", ServiceName));
 			_cancellationTokenSource = new CancellationTokenSource();
 			Task.Factory.StartNew(() => ForegroundWork(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
 			return IsStarted;
@@ -50,7 +50,7 @@ namespace StrazhService.Monitor
 			if (_cancellationTokenSource == null)
 				return;
 
-			Logger.Info(string.Format("Останавливаем слежение за статусом службы '{0}'", serviceName));
+			Logger.Info(string.Format("Останавливаем слежение за статусом службы '{0}'", ServiceName));
 			_cancellationTokenSource.Cancel();
 		}
 
@@ -59,7 +59,7 @@ namespace StrazhService.Monitor
 		private void ForegroundWork(CancellationToken cancellationToken)
 		{
 			Status = _serviceController.Status;
-			Logger.Info(string.Format("Cтатус службы '{0}' изменился на '{1}'", serviceName, Status));
+			Logger.Info(string.Format("Cтатус службы '{0}' изменился на '{1}'", ServiceName, Status));
 			RaiseStatusChanged(Status);
 
 			while (true)
@@ -69,7 +69,7 @@ namespace StrazhService.Monitor
 				if (newStatus != Status)
 				{
 					Status = newStatus;
-					Logger.Info(string.Format("Cтатус службы '{0}' изменился на '{1}'", serviceName, Status));
+					Logger.Info(string.Format("Cтатус службы '{0}' изменился на '{1}'", ServiceName, Status));
 					RaiseStatusChanged(Status);
 				}
 				cancellationToken.ThrowIfCancellationRequested();

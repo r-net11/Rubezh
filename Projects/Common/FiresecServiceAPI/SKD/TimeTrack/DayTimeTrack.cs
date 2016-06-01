@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
-using System.Windows.Media;
-using StrazhAPI.Extensions;
+﻿using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -356,7 +355,7 @@ namespace StrazhAPI.SKD
 			return totalCollection;
 		}
 
-		private List<TimeTrackPart> CorrectDocumentIntervals(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTIme)
+		private List<TimeTrackPart> CorrectDocumentIntervals(IEnumerable<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTIme)
 		{
 			var result = new List<TimeTrackPart>();
 			var tmpCalc = 0.0;
@@ -380,7 +379,7 @@ namespace StrazhAPI.SKD
 			return result;
 		}
 
-		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
+		private static List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
@@ -409,7 +408,7 @@ namespace StrazhAPI.SKD
 			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
 		}
 
-		private static bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
+		private static bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, IEnumerable<NightSettings> nightSettings, out NightSettings currentNightSetting)
 		{
 			foreach (var nightSetting in nightSettings)
 			{
@@ -548,7 +547,7 @@ namespace StrazhAPI.SKD
 			if (sumPlannedTime < slideTime) return combinedTimeTrackParts;
 
 			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступное время неявки
-			const double TOLERANCE = 0.000001;
+			const double tolerance = 0.000001;
 
 			var resultedCombinedCollection = new List<TimeTrackPart>();
 
@@ -566,7 +565,7 @@ namespace StrazhAPI.SKD
 						|| el.TimeTrackPartType == TimeTrackType.EarlyLeave
 						|| el.TimeTrackPartType == TimeTrackType.Late) //Если интервал с типом неявки
 					{
-						if (Math.Abs(differWithPlannedTime.TotalSeconds) < TOLERANCE)
+						if (Math.Abs(differWithPlannedTime.TotalSeconds) < tolerance)
 						{
 							resultedCombinedCollection.Add(el);
 							continue;
@@ -763,14 +762,14 @@ namespace StrazhAPI.SKD
 				dateTimes.Add(trackPart.EnterDateTime);
 				dateTimes.Add(trackPart.ExitDateTime);
 			}
-			dateTimes = dateTimes.OrderBy(x => x.Value.TimeOfDay.TotalSeconds).ToList();
+			dateTimes = dateTimes.OrderBy(x => x != null ? x.Value.TimeOfDay.TotalSeconds : 0).ToList();
 
 			var result = new List<TimeTrackPart>();
 			for (int i = 0; i < dateTimes.Count - 1; i++)
 			{
 				var startTimeSpan = dateTimes[i].Value;
 				var endTimeSpan = dateTimes[i + 1].Value;
-				var timeTrackParts = DocumentTrackParts.Where(x => x.EnterDateTime <= startTimeSpan && x.ExitDateTime > startTimeSpan);
+				var timeTrackParts = DocumentTrackParts.Where(x => x.EnterDateTime <= startTimeSpan && x.ExitDateTime > startTimeSpan).ToList();
 
 				if (timeTrackParts.Any())
 				{
@@ -1034,7 +1033,7 @@ namespace StrazhAPI.SKD
 		/// </summary>
 		/// <param name="inputCollectionTotals">Коллекция интервалов всех типов проходов</param>
 		/// <returns>Коллекция интервалов всех типов для отображения пользователю</returns>
-		private static List<TimeTrackTotal> FillTotalsCollection(List<TimeTrackTotal> inputCollectionTotals)
+		private static List<TimeTrackTotal> FillTotalsCollection(IEnumerable<TimeTrackTotal> inputCollectionTotals)
 		{
 			var resultCollection = new List<TimeTrackTotal>();
 			var timeTrackTypes = new List<TimeTrackType>(Enum.GetValues(typeof(TimeTrackType)).Cast<TimeTrackType>().ToList());

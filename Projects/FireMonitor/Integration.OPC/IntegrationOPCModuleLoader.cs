@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Infrastructure.Client;
+﻿using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Integration.OPC.Events;
@@ -11,6 +6,8 @@ using Integration.OPC.Models;
 using Integration.OPC.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.SKD;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Integration.OPC
 {

@@ -1,10 +1,9 @@
 ﻿using Common;
+using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Media;
-using StrazhAPI.Models;
 
 namespace StrazhAPI.SKD
 {
@@ -19,7 +18,6 @@ namespace StrazhAPI.SKD
 			Height = 297;
 			BackgroundColor = Colors.Transparent;
 			BorderColor = Colors.Black;
-			BorderThickness = 0;
 			ImageType = ResourceType.Image;
 			ClearElements();
 		}

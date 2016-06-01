@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using LocalizationConveters;
 
 namespace StrazhAPI.Journal
@@ -49,8 +45,6 @@ namespace StrazhAPI.Journal
         [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "AbInterlockStatus")]
         AbInterlockStatus = 24,
 
-		//[Description("Патрульные карты")]
-		//PatrolCards = 25,
 
 		//[Description("Замок в состоянии 'Взлом'")]
         [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "DeviceIsUnderIntrusionAlam")]
@@ -60,39 +54,14 @@ namespace StrazhAPI.Journal
         [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "PeriodError")]
         PeriodError = 32,
 
-		//[Description("Ошибочный временной диапазон для нерабочего дня")]
-		//TimeRangeErrorInHoliday = 33,
-
-		//[Description("")]
-		//NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
 
 		//[Description("Неверный пароль пропуска")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "CardCorrectInputPasswordError")]
-        CardCorrectInputPasswordError = 64,
+		[LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "CardCorrectInputPasswordError")]
+		CardCorrectInputPasswordError = 64,
 
-		//[Description("Карта верная, вышло время ввода пароля")]
-		//CardCorrectPasswordInputTimeout = 65,
-
-		//[Description("Карта верная, ошибка отпечатка пальца")]
-		//CardCorrectFingerprintError = 66,
-
-		//[Description("Карта верная, вышло время ввода отпечатка пальца")]
-		//CardCorrectFingerprintInputTimeout = 67,
-
-		//[Description("Отпечаток пальца верный, ошибка в пароле")]
-		//FingerprintCorrectPasswordError = 68,
-
-		//[Description("Отпечаток пальца верный, вышло время ввода пароля")]
-		//FingerprintCorrectPasswordInputTimeout = 69,
-
-		//[Description("Ошибка при совместной попытке открыть дверь")]
-		//CombinedOrderToOpenTheDoorError = 80,
-
-		//[Description("Требуется проверка при совместной попытке открыть дверь")]
-		//CombinedOrderToOpenTheDoorNeedVerified = 81,
 
 		//[Description("Ожидание подтверждения прохода")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "VerificationPassedControlNotAuthorized")]
-        VerificationPassedControlNotAuthorized = 96
+		[LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "VerificationPassedControlNotAuthorized")]
+		VerificationPassedControlNotAuthorized = 96
 	}
 }

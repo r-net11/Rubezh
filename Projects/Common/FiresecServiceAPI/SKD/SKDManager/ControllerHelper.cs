@@ -7,7 +7,7 @@ namespace StrazhAPI.SKD
 	{
 		public static SKDDriver Create()
 		{
-			var driver = new SKDDriver()
+			var driver = new SKDDriver
 			{
 				UID = new Guid("93AFFD73-ACA8-421e-BA5B-1E5D3E5113B4"),
                 Name = Resources.Language.SKD.SKDManager.ControllerHelper.Name,

@@ -61,6 +61,42 @@ namespace Integration.OPC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Возникла ошибка при получении списка зон ОПС. Убедитесь, что сервер интеграции запущен и проверьте сетевые настройки..
+        /// </summary>
+        internal static string ErrorGetOPCZonesContent {
+            get {
+                return ResourceManager.GetString("ErrorGetOPCZonesContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение IP-адреса не может быть пустым..
+        /// </summary>
+        internal static string ErrorIPAddressEmptyContent {
+            get {
+                return ResourceManager.GetString("ErrorIPAddressEmptyContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение порта не может быть равным нулю..
+        /// </summary>
+        internal static string ErrorPortIsZeroContent {
+            get {
+                return ResourceManager.GetString("ErrorPortIsZeroContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение порта не может быть отрицательным..
+        /// </summary>
+        internal static string ErrorPortLowerZeroContent {
+            get {
+                return ResourceManager.GetString("ErrorPortLowerZeroContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Соединение с сервером ОПС успешно установлено. Для того, чтобы измененные параметры вступили в силу, необходимо сохранить их и применить конфигурацию..
         /// </summary>
         internal static string MessagePingSuccessfulContent {

@@ -1,14 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class EmailSettings
 	{
-		public EmailSettings()
-		{
-		}
-
 		[DataMember]
 		public string Ip { get; set; }
 
@@ -23,11 +20,13 @@ namespace StrazhAPI.Models
 
 		public static EmailSettings SetDefaultParams()
 		{
-			EmailSettings defaultParams = new EmailSettings();
-			defaultParams.Ip = "mail.rubezh.ru";
-			defaultParams.Port = ((int)25).ToString();
-			defaultParams.UserName = "obychevma@rubezh.ru";
-			defaultParams.Password = "Aiciir5kee";
+			var defaultParams = new EmailSettings
+			{
+				Ip = "mail.rubezh.ru",
+				Port = 25.ToString(CultureInfo.InvariantCulture),
+				UserName = "obychevma@rubezh.ru",
+				Password = "Aiciir5kee"
+			};
 			return defaultParams;
 		}
 	}

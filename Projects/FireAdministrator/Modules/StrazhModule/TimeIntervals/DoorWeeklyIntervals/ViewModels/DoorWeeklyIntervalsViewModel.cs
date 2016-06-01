@@ -43,7 +43,7 @@ namespace StrazhModule.ViewModels
 
 		protected override SKDDoorWeeklyInterval CopyInterval(SKDDoorWeeklyInterval source)
 		{
-			var copy = new SKDDoorWeeklyInterval(true)
+			var copy = new SKDDoorWeeklyInterval
 			{
 				Name = source.Name,
 				Description = source.Description,

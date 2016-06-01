@@ -7,9 +7,9 @@
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	mc:Ignorable="d"
-	MinHeight="200"
+	MinHeight="190"
 	MinWidth="380"
-    MaxHeight="200"
+    MaxHeight="190"
 	MaxWidth="380">
 	<UserControl.Resources>
 		<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
@@ -21,7 +21,7 @@
 		</Style>
 	</UserControl.Resources>
 	<StackPanel Grid.IsSharedSizeScope="True">
-		<Grid>
+		<Grid x:Name="DefaultSection">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -80,7 +80,7 @@
 				Text="{Binding CurrentZone.Type, Converter={StaticResource EnumToDescriptionConverter}}"
 				Style="{StaticResource TextBlockStyle}"/>
 		</Grid>
-		<Grid Visibility="{Binding IsGuardSectionVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid x:Name="GuardZoneSection" Visibility="{Binding IsGuardSectionVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />

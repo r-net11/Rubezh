@@ -8,7 +8,7 @@ namespace StrazhAPI.SKD
 		{
 			var properties = new List<SKDDriverProperty>();
 
-			var addressProperty = new SKDDriverProperty()
+			var addressProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Caption,
@@ -17,7 +17,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(addressProperty);
 
-			var portProperty = new SKDDriverProperty()
+			var portProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Caption,
@@ -26,7 +26,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(portProperty);
 
-			var loginProperty = new SKDDriverProperty()
+			var loginProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Caption,
@@ -35,7 +35,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(loginProperty);
 
-			var passwordProperty = new SKDDriverProperty()
+			var passwordProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Caption,
@@ -44,7 +44,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(passwordProperty);
 
-			var maskProperty = new SKDDriverProperty()
+			var maskProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Caption,
@@ -53,7 +53,7 @@ namespace StrazhAPI.SKD
 			};
 			properties.Add(maskProperty);
 
-			var gatewayProperty = new SKDDriverProperty()
+			var gatewayProperty = new SKDDriverProperty
 			{
                 Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Name,
                 Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Caption,

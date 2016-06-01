@@ -140,7 +140,7 @@ namespace StrazhAPI
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 
 		[OperationContract]
-		OperationResult SaveOrganisation(OrganisationDetails Organisation, bool isNew);
+		OperationResult SaveOrganisation(OrganisationDetails organisation, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedOrganisation(Guid uid, string name);
@@ -414,7 +414,7 @@ namespace StrazhAPI
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]
-		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
+		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid cameraUID);
 
 		#region Export
 

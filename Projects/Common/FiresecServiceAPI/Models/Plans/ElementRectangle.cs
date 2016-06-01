@@ -14,7 +14,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementRectangle elementBase = new ElementRectangle();
+			var elementBase = new ElementRectangle();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public virtual Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.Rectangle; }
+			get { return Primitive.Rectangle; }
 		}
 
 		#endregion IPrimitive Members

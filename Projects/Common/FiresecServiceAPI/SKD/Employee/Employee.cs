@@ -10,7 +10,6 @@ namespace StrazhAPI.SKD
 	public class Employee : OrganisationElementBase
 	{
 		public Employee()
-			: base()
 		{
 			Cards = new List<SKDCard>();
 			AdditionalColumns = new List<AdditionalColumn>();

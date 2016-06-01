@@ -11,7 +11,7 @@ namespace StrazhAPI.SKD.ReportFilters
 	{
 		public PositionsReportFilter()
 		{
-			ReportType = Enums.ReportType.PositionsReport;
+			ReportType = ReportType.PositionsReport;
 		}
 
 		#region IReportFilterOrganisation Members

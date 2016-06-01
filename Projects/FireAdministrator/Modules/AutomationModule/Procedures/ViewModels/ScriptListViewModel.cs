@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using AutomationModule.Models;
+﻿using AutomationModule.Models;
 using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Localization.Automation.Errors;
 
@@ -65,7 +65,7 @@ namespace AutomationModule.ViewModels
 				{
 					IsBisy = false;
 					var ex = t.Exception;
-					while (ex is AggregateException && ex.InnerException != null)
+					while (ex != null && ex.InnerException != null)
 					{
 						ex = (AggregateException) ex.InnerException;
 						Logger.Error(ex);

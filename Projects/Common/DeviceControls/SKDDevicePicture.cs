@@ -1,9 +1,9 @@
-﻿using System;
+﻿using StrazhAPI.GK;
+using StrazhAPI.Plans.Devices;
+using StrazhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using StrazhAPI.GK;
-using StrazhAPI.SKD;
-using StrazhAPI.Plans.Devices;
 
 namespace DeviceControls
 {
@@ -15,7 +15,7 @@ namespace DeviceControls
 
 		public Brush GetBrush(SKDDevice device)
 		{
-			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
+			var driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetBrush(driverUID);
 		}
 		public Brush GetDynamicBrush(SKDDevice device)
@@ -23,11 +23,11 @@ namespace DeviceControls
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.State);
 		}
 
-		protected override IEnumerable<ILibraryDevice<SKDLibraryState, SKDLibraryFrame, XStateClass>> EnumerateLibrary()
+		protected override IEnumerable<ILibraryDevice<SKDLibraryState, SKDLibraryFrame>> EnumerateLibrary()
 		{
-			foreach (var device in SKDManager.SKDLibraryConfiguration.Devices)
-				yield return device;
+			return SKDManager.SKDLibraryConfiguration.Devices;
 		}
+
 		protected override XStateClass DefaultState
 		{
 			get { return XStateClass.No; }

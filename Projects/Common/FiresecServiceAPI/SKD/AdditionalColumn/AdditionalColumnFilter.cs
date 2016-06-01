@@ -14,7 +14,6 @@ namespace StrazhAPI.SKD
 		public List<Guid> ColumnTypeUIDs { get; set; }
 
 		public AdditionalColumnFilter()
-			: base()
 		{
 			EmployeeUIDs = new List<Guid>();
 			ColumnTypeUIDs = new List<Guid>();

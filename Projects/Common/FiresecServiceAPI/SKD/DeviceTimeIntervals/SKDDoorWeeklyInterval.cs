@@ -10,11 +10,6 @@ namespace StrazhAPI.SKD
 	{
 		public SKDDoorWeeklyInterval()
 		{
-			WeeklyIntervalParts = new List<SKDDoorWeeklyIntervalPart>();
-		}
-
-		public SKDDoorWeeklyInterval(bool createdefault)
-		{
 			WeeklyIntervalParts = CreateParts();
 		}
 
@@ -34,13 +29,13 @@ namespace StrazhAPI.SKD
 		{
 			var result = new List<SKDDoorWeeklyIntervalPart>
 			{
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Monday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Tuesday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Wednesday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Thursday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Friday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Saturday},
-				new SKDDoorWeeklyIntervalPart() {DayOfWeek = SKDDayOfWeek.Sunday}
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Monday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Tuesday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Wednesday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Thursday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Friday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Saturday},
+				new SKDDoorWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Sunday}
 			};
 			return result;
 		}

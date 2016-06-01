@@ -10,8 +10,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementSKDDevice()
 		{
-			DeviceUID = Guid.Empty;
-            PresentationName = Resources.Language.Models.Plans.ElementSKDDevice.PresentationName;
+			PresentationName = Resources.Language.Models.Plans.ElementSKDDevice.PresentationName;
 		}
 
 		[DataMember]
@@ -19,7 +18,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementSKDDevice elementBase = new ElementSKDDevice();
+			var elementBase = new ElementSKDDevice();
 			Copy(elementBase);
 			return elementBase;
 		}

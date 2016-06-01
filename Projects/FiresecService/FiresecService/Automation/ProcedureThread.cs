@@ -399,6 +399,10 @@ namespace FiresecService
 				case ProcedureStepType.SendOPCScript:
 					SendOPCScript(procedureStep);
 					break;
+
+				case ProcedureStepType.GuardZoneControl:
+					GuardZoneControl(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

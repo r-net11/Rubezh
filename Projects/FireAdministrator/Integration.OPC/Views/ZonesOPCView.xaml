@@ -5,9 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
+	xmlns:models="clr-namespace:Integration.OPC.Models"
     mc:Ignorable="d"
     d:DesignHeight="300"
-	d:DesignWidth="300">
+	d:DesignWidth="400">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
@@ -24,9 +25,9 @@
 				CanUserResize="False"
 				SortMemberPath="No">
 				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
+					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+							<!--<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />-->
 							<TextBlock Text="{Binding No}" />
 						</StackPanel>
 					</DataTemplate>
@@ -34,7 +35,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Наименование" Width="2*">
 				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
+					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
 							Text="{Binding Name}"
 							Margin="5 0"/>
@@ -43,7 +44,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Назначение" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
+					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
 							Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
 							Margin="5 0"/>
@@ -52,7 +53,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Примечание" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
+					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
 							Text="{Binding Description}"
 							Margin="5 0"/>

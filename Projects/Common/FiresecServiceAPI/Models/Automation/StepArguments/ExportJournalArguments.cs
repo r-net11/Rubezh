@@ -1,9 +1,7 @@
-﻿using System;
-using System.Data.Linq.Mapping;
+﻿using StrazhAPI.Enums;
+using StrazhAPI.SKD.ReportFilters;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using StrazhAPI.Enums;
-using StrazhAPI.SKD.ReportFilters;
 
 namespace StrazhAPI.Automation
 {

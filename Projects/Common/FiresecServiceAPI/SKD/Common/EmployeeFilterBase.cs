@@ -7,8 +7,7 @@ namespace StrazhAPI.SKD
 	[DataContract]
 	public abstract class EmployeeFilterBase : OrganisationFilterBase
 	{
-		public EmployeeFilterBase()
-			: base()
+		protected EmployeeFilterBase()
 		{
 			EmployeeUIDs = new List<Guid>();
 		}

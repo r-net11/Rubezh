@@ -48,7 +48,7 @@ namespace StrazhAPI.Automation
 					if (procedure != null)
 					{
 						var tempArguments = new List<Argument>();
-						int i = 0;
+						var i = 0;
 						foreach (var variable in procedure.Arguments)
 						{
 							Argument argument;
@@ -56,10 +56,7 @@ namespace StrazhAPI.Automation
 								argument = InitializeArgumemt(variable);
 							else
 							{
-								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
-									argument = InitializeArgumemt(variable);
-								else
-									argument = scheduleProcedure.Arguments[i];
+								argument = CheckSignature(scheduleProcedure.Arguments[i], variable) ? scheduleProcedure.Arguments[i] : InitializeArgumemt(variable);
 							}
 							tempArguments.Add(argument);
 							i++;
@@ -79,11 +76,14 @@ namespace StrazhAPI.Automation
 
 		private Argument InitializeArgumemt(Variable variable)
 		{
-			var argument = new Argument();
-			argument.VariableScope = VariableScope.GlobalVariable;
-			argument.ExplicitType = variable.ExplicitType;
-			argument.EnumType = variable.EnumType;
-			argument.ObjectType = variable.ObjectType;
+			var argument = new Argument
+			{
+				VariableScope = VariableScope.GlobalVariable,
+				ExplicitType = variable.ExplicitType,
+				EnumType = variable.EnumType,
+				ObjectType = variable.ObjectType
+			};
+
 			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
 			foreach (var explicitValues in variable.ExplicitValues)
@@ -95,7 +95,7 @@ namespace StrazhAPI.Automation
 			return argument;
 		}
 
-		private bool CheckSignature(Argument argument, Variable variable)
+		private static bool CheckSignature(Argument argument, Variable variable)
 		{
 			if (argument.ExplicitType != variable.ExplicitType)
 				return false;
@@ -276,9 +276,9 @@ namespace StrazhAPI.Automation
 
 				case ProcedureStepType.RunProgram:
 					{
-						var RunProgramArguments = step.RunProgramArguments;
-						InvalidateArgument(procedure, RunProgramArguments.ParametersArgument);
-						InvalidateArgument(procedure, RunProgramArguments.PathArgument);
+						var runProgramArguments = step.RunProgramArguments;
+						InvalidateArgument(procedure, runProgramArguments.ParametersArgument);
+						InvalidateArgument(procedure, runProgramArguments.PathArgument);
 					}
 					break;
 

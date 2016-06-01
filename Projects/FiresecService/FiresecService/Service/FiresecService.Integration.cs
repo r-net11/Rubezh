@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StrazhAPI;
 using StrazhAPI.Automation.Enums;
 using StrazhAPI.Enums;
@@ -15,11 +16,20 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(result);
 		}
 
-		public OperationResult<List<OPCZone>> GetOPCZones()
+		public OperationResult<List<OPCZone>> GetOPCZones() //TODO: Handle exceptions
 		{
-			var result = _integrationService.GetOPCZones();
-
-			return new OperationResult<List<OPCZone>>(result);
+			try
+			{
+				var result = _integrationService.GetOPCZones();
+				return new OperationResult<List<OPCZone>>(result);
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<OPCZone>>
+				{
+					Errors = new List<string> {e.ToString()}
+				};
+			}
 		}
 
 		public OperationResult SetGuard(int no)

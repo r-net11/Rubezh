@@ -22,7 +22,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementSubPlan elementBase = new ElementSubPlan();
+			var elementBase = new ElementSubPlan();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -39,7 +39,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.SubPlan; }
+			get { return Primitive.SubPlan; }
 		}
 
 		#endregion IPrimitive Members

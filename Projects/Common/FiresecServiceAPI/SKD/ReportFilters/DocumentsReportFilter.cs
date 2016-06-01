@@ -15,7 +15,7 @@ namespace StrazhAPI.SKD.ReportFilters
 			Presence = true;
 			Abcense = true;
 			AbcenseReasonable = true;
-			ReportType = Enums.ReportType.DocumentsReport;
+			ReportType = ReportType.DocumentsReport;
 		}
 
 		#region IReportFilterPeriod Members

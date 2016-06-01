@@ -7,7 +7,6 @@ namespace StrazhAPI.SKD
 	public class AccessTemplate : OrganisationElementBase, IOrganisationElement
 	{
 		public AccessTemplate()
-			: base()
 		{
 			CardDoors = new List<CardDoor>();
 			DeactivatingReaders = new List<AccessTemplateDeactivatingReader>();

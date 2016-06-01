@@ -56,6 +56,7 @@ namespace StrazhAPI.Automation
 			GetDateTimeNowArguments = new GetDateTimeNowArguments();
 			ExecuteFireSecScriptArguments = new ExecuteFireSecScriptArguments();
 			SendOPCCommandArguments = new SendOPCCommandArguments();
+			GuardZoneControlArguments = new GuardZoneControlArguments();
 		}
 
 		[XmlIgnore]
@@ -204,5 +205,8 @@ namespace StrazhAPI.Automation
 
 		[DataMember]
 		public SendOPCCommandArguments SendOPCCommandArguments { get; set; }
+
+		[DataMember]
+		public GuardZoneControlArguments GuardZoneControlArguments { get; set; }
 	}
 }

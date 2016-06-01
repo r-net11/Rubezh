@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace StrazhAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleSKDZone : ElementBaseRectangle, IElementZone, IPrimitive, IElementReference
+	public class ElementRectangleSKDZone : ElementBaseRectangle, IElementZone, IPrimitive
 	{
 		public ElementRectangleSKDZone()
 		{
@@ -51,7 +51,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.RectangleZone; }
+			get { return Primitive.RectangleZone; }
 		}
 
 		#endregion IPrimitive Members

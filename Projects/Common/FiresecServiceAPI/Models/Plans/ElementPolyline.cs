@@ -14,7 +14,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementPolyline elementLine = new ElementPolyline();
+			var elementLine = new ElementPolyline();
 			Copy(elementLine);
 			return elementLine;
 		}
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.Polyline; }
+			get { return Primitive.Polyline; }
 		}
 
 		#endregion IPrimitive Members

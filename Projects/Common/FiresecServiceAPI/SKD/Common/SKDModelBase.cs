@@ -17,7 +17,7 @@ namespace StrazhAPI.SKD
 	[DataContract]
 	public abstract class SKDModelBase
 	{
-		public SKDModelBase()
+		protected SKDModelBase()
 		{
 			UID = Guid.NewGuid();
 		}

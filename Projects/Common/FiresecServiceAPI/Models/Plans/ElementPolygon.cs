@@ -14,7 +14,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementPolygon elementBase = new ElementPolygon();
+			var elementBase = new ElementPolygon();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.Polygon; }
+			get { return Primitive.Polygon; }
 		}
 
 		#endregion IPrimitive Members

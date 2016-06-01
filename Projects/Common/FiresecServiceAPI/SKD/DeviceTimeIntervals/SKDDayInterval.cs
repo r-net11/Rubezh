@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.GK;
 
 namespace StrazhAPI.SKD
 {

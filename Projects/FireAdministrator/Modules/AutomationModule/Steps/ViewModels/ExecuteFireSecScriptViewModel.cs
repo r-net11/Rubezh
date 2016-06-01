@@ -33,7 +33,7 @@ namespace AutomationModule.Steps.ViewModels
 			}
 		}
 
-		ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
+		private ExecuteFireSecScriptArguments ExecuteFireSecScriptArguments { get; set; }
 
 		public ExecuteFireSecScriptViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{

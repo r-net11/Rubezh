@@ -10,9 +10,9 @@ namespace StrazhAPI.Models
 
 		void SetCameras(List<VSSCamera> cameras);
 
-		void StartRecording(Guid CameraUID);
+		void StartRecording(Guid cameraUID);
 
-		void StopRecording(Guid CameraUID);
+		void StopRecording(Guid cameraUID);
 	}
 
 	public class VSSCamera
@@ -47,37 +47,30 @@ namespace StrazhAPI.Models
 	{
 		public void PlayReal(Guid cameraUID)
 		{
-			;
 		}
 
 		public void StopReal()
 		{
-			;
 		}
 
 		public void PlayArchive(VSSArchiveFilter archiveFilter)
 		{
-			;
 		}
 
 		public void StopArchive()
 		{
-			;
 		}
 
 		public void PauseArchive()
 		{
-			;
 		}
 
 		public void RevArchive()
 		{
-			;
 		}
 
 		public void FFArchive()
 		{
-			;
 		}
 	}
 }

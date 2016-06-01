@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+using Integration.OPC.Properties;
 
 namespace Integration.OPC.Models
 {
@@ -98,15 +95,15 @@ namespace Integration.OPC.Models
 				if (columnName == string.Empty || columnName == "OPCPort" || columnName == "HTTPClientPort")
 				{
 					if ((OPCPort < default(int)) || (IntegrationPort < default(int)))
-						result = "Значение порта не может быть отрицательным.";
+						result = Resources.ErrorPortLowerZeroContent;
 
 					if ((OPCPort == default(int)) || (IntegrationPort == default(int)))
-						result = "Значение порта не может быть равным нулю.";
+						result = Resources.ErrorPortIsZeroContent;
 				}
 				if (columnName == string.Empty || columnName == "OPCAddress")
 				{
 					if (string.IsNullOrEmpty(OPCAddress))
-						result = "Значение IP-адреса не может быть пустым.";
+						result = Resources.ErrorIPAddressEmptyContent;
 				}
 
 				CurrentError = result;

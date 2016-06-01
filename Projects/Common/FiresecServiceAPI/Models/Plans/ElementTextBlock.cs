@@ -1,6 +1,5 @@
 ﻿using StrazhAPI.Plans.Elements;
 using System.Runtime.Serialization;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace StrazhAPI.Models
@@ -10,20 +9,12 @@ namespace StrazhAPI.Models
 	{
 		public ElementTextBlock()
 		{
-			Stretch = false;
-			TextAlignment = 0;
-			VerticalAlignment = 0;
-			WordWrap = false;
-			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
             PresentationName = Resources.Language.Models.Plans.ElementTextBlock.PresentationName;
             Text = Resources.Language.Models.Plans.ElementTextBlock.Text;
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
-			TextAlignment = 0;
 			FontFamilyName = "Arial";
-			FontItalic = false;
-			FontBold = false;
 			Height = 22;
 			Width = 52;
 		}
@@ -60,7 +51,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementTextBlock elementBase = new ElementTextBlock();
+			var elementBase = new ElementTextBlock();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -84,7 +75,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.TextBlock; }
+			get { return Primitive.TextBlock; }
 		}
 
 		#endregion IPrimitive Members

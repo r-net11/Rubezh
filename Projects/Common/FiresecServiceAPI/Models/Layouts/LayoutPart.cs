@@ -12,10 +12,6 @@ namespace StrazhAPI.Models.Layouts
 	[KnownType(typeof(LayoutPartTextProperties))]
 	public class LayoutPart
 	{
-		public LayoutPart()
-		{
-		}
-
 		[DataMember]
 		public string Title { get; set; }
 

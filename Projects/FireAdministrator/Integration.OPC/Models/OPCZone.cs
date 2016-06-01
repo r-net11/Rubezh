@@ -5,9 +5,16 @@ namespace Integration.OPC.Models
 {
 	public class OPCZone : BaseViewModel
 	{
-		#region Properties
-
 		private bool? _isSkippedTypeEnabled;
+		private int? _delay;
+		private int? _autoset;
+		private GuardZoneType? _guardZoneType;
+		private int _no;
+		private string _name;
+		private OPCZoneType _type;
+		private string _description;
+		private bool _isChecked;
+		private bool _isEnabled;
 
 		public bool? IsSkippedTypeEnabled
 		{
@@ -19,7 +26,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private int? _delay;
 		public int? Delay
 		{
 			get { return _delay; }
@@ -30,7 +36,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private int? _autoset;
 		public int? AutoSet
 		{
 			get { return _autoset; }
@@ -41,8 +46,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private GuardZoneType? _guardZoneType;
-
 		public GuardZoneType? GuardZoneType
 		{
 			get { return _guardZoneType; }
@@ -52,7 +55,6 @@ namespace Integration.OPC.Models
 				OnPropertyChanged(() => GuardZoneType);
 			}
 		}
-		private int _no;
 
 		public int No
 		{
@@ -64,8 +66,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private string _name;
-
 		public string Name
 		{
 			get { return _name; }
@@ -75,8 +75,6 @@ namespace Integration.OPC.Models
 				OnPropertyChanged(() => Name);
 			}
 		}
-
-		private OPCZoneType _type;
 
 		public OPCZoneType Type
 		{
@@ -88,8 +86,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private string _description;
-
 		public string Description
 		{
 			get { return _description; }
@@ -99,8 +95,6 @@ namespace Integration.OPC.Models
 				OnPropertyChanged(() => Description);
 			}
 		}
-
-		private bool _isChecked;
 
 		public bool IsChecked
 		{
@@ -112,8 +106,6 @@ namespace Integration.OPC.Models
 			}
 		}
 
-		private bool _isEnabled;
-
 		public bool IsEnabled
 		{
 			get { return _isEnabled; }
@@ -123,7 +115,14 @@ namespace Integration.OPC.Models
 				OnPropertyChanged(() => IsEnabled);
 			}
 		}
-		#endregion
+
+		/// <summary>
+		/// Свойство, которое должно использоваться, при добавлении экземпляров данного класса.
+		/// </summary>
+		public bool CanAdd
+		{
+			get { return IsChecked && IsEnabled; }
+		}
 
 		public OPCZone(StrazhAPI.Integration.OPC.OPCZone zone, bool isExist)
 		{

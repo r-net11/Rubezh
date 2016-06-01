@@ -16,7 +16,7 @@ namespace StrazhAPI.SKD.ReportFilters
 			ShowAbsence = true;
 			ShowOvertime = true;
 			ShowAllViolation = true;
-			ReportType = Enums.ReportType.DisciplineReport;
+			ReportType = ReportType.DisciplineReport;
 		}
 
 		#region IReportFilterPeriod Members

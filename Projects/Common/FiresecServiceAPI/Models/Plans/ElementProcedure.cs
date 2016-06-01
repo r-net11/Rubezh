@@ -2,7 +2,6 @@
 using StrazhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace StrazhAPI.Models
@@ -12,21 +11,11 @@ namespace StrazhAPI.Models
 	{
 		public ElementProcedure()
 		{
-			ProcedureUID = Guid.Empty;
-			Stretch = false;
-			TextAlignment = 0;
-			VerticalAlignment = 0;
-			WordWrap = false;
-			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
-
-            Text = Resources.Language.Models.Plans.ElementProcedure.Text;
+			Text = Resources.Language.Models.Plans.ElementProcedure.Text;
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
-			TextAlignment = 0;
 			FontFamilyName = "Arial";
-			FontItalic = false;
-			FontBold = false;
 			Height = 22;
 			Width = 52;
 		}
@@ -66,7 +55,7 @@ namespace StrazhAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementProcedure elementBase = new ElementProcedure();
+			var elementBase = new ElementProcedure();
 			Copy(elementBase);
 			return elementBase;
 		}

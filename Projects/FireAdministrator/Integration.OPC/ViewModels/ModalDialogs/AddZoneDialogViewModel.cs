@@ -1,17 +1,53 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecClient;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
+using Integration.OPC.Properties;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Integration.OPC.ViewModels
 {
 	public class AddZoneDialogViewModel : SaveCancelDialogViewModel
 	{
-		public ObservableCollection<OPCZone> Zones { get; private set; }
+		private bool _isBisy;
+		private readonly IEnumerable<OPCZone> _existingZones;
 
-		public AddZoneDialogViewModel(IEnumerable<OPCZone> zones)
+		public bool IsBisy
 		{
-			Zones = new ObservableCollection<OPCZone>(zones);
+			get { return _isBisy; }
+			set
+			{
+				if (_isBisy == value) return;
+				_isBisy = value;
+				OnPropertyChanged(() => IsBisy);
+			}
+		}
+
+		public List<OPCZone> Zones { get; private set; }
+
+		public AddZoneDialogViewModel(IEnumerable<OPCZone> existingZones)
+		{
+			Title = "Зоны ОПС";
+			_existingZones = existingZones;
+			LoadingContent();
+		}
+
+		private void LoadingContent()
+		{
+			IsBisy = true;
+			Task.Factory
+				.StartNew(() => FiresecManager.FiresecService.GetOPCZones())
+				.ContinueWith(t =>
+				{
+					IsBisy = false;
+
+					if (t.IsFaulted || t.Result.HasError)
+						MessageBoxService.ShowError(Resources.ErrorGetOPCZonesContent);
+					else
+						Zones = t.Result.Result.Select(newZone => new OPCZone(newZone, _existingZones.Any(zone => zone.No == newZone.No))).ToList();
+				});
 		}
 	}
 }

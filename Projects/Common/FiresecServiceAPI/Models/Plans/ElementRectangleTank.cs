@@ -35,7 +35,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.RectangleZone; }
+			get { return Primitive.RectangleZone; }
 		}
 
 		#endregion IPrimitive Members

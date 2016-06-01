@@ -67,7 +67,7 @@ namespace StrazhAPI.SKD
 		public string Name
 		{
 			get { return FIO; }
-			set { return; }
+			set { }
 		}
 
 		public string FIO

@@ -126,6 +126,7 @@
     <Compile Include="Procedures\ViewModels\AddRemoveArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\GuardZonesListViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
@@ -133,9 +134,13 @@
     <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
       <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
-      <DependentUpon>StringDetailsView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\GuardZonesListView.xaml.cs">
+      <DependentUpon>GuardZonesListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
+      <DependentUpon>StringDetailsView.xaml</DependentUpon>    </Compile>
+    <Compile Include="Procedures\Views\ScriptListView.xaml.cs">
+      <DependentUpon>ScriptListView.xaml</DependentUpon>    </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -160,6 +165,7 @@
     <Compile Include="Steps\ViewModels\GetDoorPropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetSkdZonePropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetSkdDevicePropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GuardZoneControlStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
@@ -301,6 +307,9 @@
     </Compile>
     <Compile Include="Steps\Views\GetSkdDevicePropertyStepView.xaml.cs">
       <DependentUpon>GetSkdDevicePropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GuardZoneControlStepView.xaml.cs">
+      <DependentUpon>GuardZoneControlStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
       <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
@@ -576,6 +585,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Procedures\Views\GuardZonesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\ScriptListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -643,6 +656,10 @@
     <Page Include="Steps\Views\GetSkdDevicePropertyStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GuardZoneControlStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
       <SubType>Designer</SubType>

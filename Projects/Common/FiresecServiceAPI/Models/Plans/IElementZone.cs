@@ -1,12 +1,11 @@
 ﻿using StrazhAPI.Plans.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Windows.Media;
 using LocalizationConveters;
 
 namespace StrazhAPI.Plans.Elements
 {
-	public interface IElementZone : IElementReference, IElementBase
+	public interface IElementZone : IElementReference
 	{
 		Guid ZoneUID { get; set; }
 
@@ -26,7 +25,7 @@ namespace StrazhAPI.Plans.Elements
 	public enum ElementZoneType
 	{
 		[Description("СКД зона")]
-        //[LocalizedDescription(typeof(Resources.Language.Elements.IElementZone), "SKD")]
+		//[LocalizedDescription(typeof(Resources.Language.Elements.IElementZone), "SKD")]
 		SKD,
 	}
 }

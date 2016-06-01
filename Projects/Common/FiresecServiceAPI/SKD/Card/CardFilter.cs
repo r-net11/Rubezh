@@ -8,7 +8,6 @@ namespace StrazhAPI.SKD
 	public class CardFilter : OrganisationFilterBase
 	{
 		public CardFilter()
-			: base()
 		{
 			DeactivationType = LogicalDeletationType.All;
 			CardTypes = new List<CardType>();
