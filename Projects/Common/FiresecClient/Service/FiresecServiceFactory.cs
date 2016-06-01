@@ -43,8 +43,14 @@ namespace FiresecClient
 			ChannelFactory.Open();
 
 			IFiresecService firesecService = ChannelFactory.CreateChannel();
+			((ICommunicationObject)firesecService).Faulted += new EventHandler(Program_Faulted);
 			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
 			return firesecService;
+		}
+
+		private void Program_Faulted(object sender, EventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 		public void Dispose()
