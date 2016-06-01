@@ -24,7 +24,7 @@ namespace FiresecService.Service
 				if (result.Count == 0)
 				{
 					clientInfo.WaitEvent = new AutoResetEvent(false);
-					if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromSeconds(1)))
+					if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromMinutes(5)))
 					{
 						result = CallbackManager.Get(clientInfo);
 					}
