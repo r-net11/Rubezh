@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Localization.Plans.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -12,7 +13,7 @@ namespace PlansModule.ViewModels
 
 		public SubPlanPropertiesViewModel(ElementSubPlan elementSubPlan)
 		{
-			Title = "Свойства фигуры: Ссылка на план";
+			Title = CommonViewModels.FigurePropertiesReferenceToPlan;
 			_elementSubPlan = elementSubPlan;
 			Initialize();
 		}

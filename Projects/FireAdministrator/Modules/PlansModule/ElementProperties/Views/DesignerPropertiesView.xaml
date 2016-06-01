@@ -4,10 +4,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+	xmlns:lang="clr-namespace:Localization.Plans.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="400">
 	<TabControl>
-		<TabItem Header="Основные">
+		<TabItem Header="{x:Static lang:CommonViews.Main}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -24,7 +25,7 @@
 					Grid.Row="0"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Название" />
+					Content="{x:Static lang:CommonViews.Name}" />
 				<TextBox
 					Grid.Row="0"
 					Grid.Column="1"
@@ -35,7 +36,7 @@
 					Grid.Row="1"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Описание" />
+					Content="{x:Static lang:CommonViews.Description}" />
 				<TextBox
 					Grid.Row="1"
 					Grid.Column="1"
@@ -46,7 +47,7 @@
 					Grid.Row="2"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Ширина" />
+					Content="{x:Static lang:CommonViews.Width}" />
 				<extToolkit:IntegerUpDown
 					Grid.Row="2"
 					Grid.Column="1"
@@ -58,7 +59,7 @@
 					Grid.Row="3"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Высота" />
+					Content="{x:Static lang:CommonViews.Height}" />
 				<extToolkit:IntegerUpDown
 					Grid.Row="3"
 					Grid.Column="1"
@@ -70,7 +71,7 @@
 					Grid.Row="4"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Цвет фона" />
+					Content="{x:Static lang:CommonViews.BackgroundColor}" />
 				<xc:ColorPicker
 					Grid.Row="4"
 					Grid.Column="1"
@@ -79,7 +80,7 @@
 				                                        UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Изображение">
+        <TabItem Header="{x:Static lang:CommonViews.Picture}">
 			<Grid DataContext="{Binding ImagePropertiesViewModel}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -90,11 +91,11 @@
 					<Button
 						Margin="2"
 						Command="{Binding SelectPictureCommand}"
-						Content="Выбрать картинку" />
+						Content="{x:Static lang:CommonViews.SelectPicture}" />
 					<Button
 						Margin="2"
 						Command="{Binding RemovePictureCommand}"
-						Content="Очистить картинку" />
+						Content="{x:Static lang:CommonViews.DeletePicture}" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
+using Localization.Plans.Common;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Plans;
@@ -57,7 +58,7 @@ namespace PlansModule.ViewModels
 					yield return new PlanElementValidationError(new ElementError
 					{
 						PlanUID = plan.UID,
-						Error = "Несвязанная ссылка на план",
+						Error = CommonResources.UnrelatedReference,
 						Element = element,
 						IsCritical = false,
 						ImageSource = "/Controls;component/Images/CMap.png",

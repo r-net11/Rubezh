@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using Localization.Plans.Common;
 using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Designer;
@@ -19,7 +20,7 @@ namespace PlansModule.Designer
 			ContextMenu.Items.Add(new Separator());
 
 			var editItem = DesignerCanvasHelper.BuildMenuItem(
-				"Редактировать план", 
+				CommonResources.EditPlan, 
 				"BEdit", 
 				planDesignerViewModel.PlansViewModel.EditCommand
 			);

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.Plans.ViewModels;
 using StrazhAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -21,7 +22,7 @@ namespace PlansModule.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Subplan",
-					ToolTip="Ссылка на план",
+					ToolTip=CommonViewModels.ReferenceToPlan,
 					Index = 1000,
 					Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});

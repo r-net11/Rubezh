@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.Plans.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -41,7 +42,7 @@ namespace PlansModule.ViewModels
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
 
-			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
+			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, CommonViewModels.ReferenceToPlans);
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
 				if (e.Element is ElementSubPlan)
@@ -162,7 +163,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			string message = string.Format(SelectedPlan.PlanFolder != null ? "Вы действительно хотите удалить папку\n\"{0}\"?" : "Вы действительно хотите удалить графический план \"{0}\"?", SelectedPlan.Caption);
+            string message = string.Format(SelectedPlan.PlanFolder != null ? CommonViewModels.DeleteFolderValidator : CommonViewModels.DeletePlanValidator, SelectedPlan.Caption);
 			if (MessageBoxService.ShowConfirmation(message))
 				OnPlanRemove(false);
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.Plans.Common;
 using StrazhAPI;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -26,7 +27,7 @@ namespace PlansModule.Designer
 			Plan plan = GetPlan(element);
 			if (plan == null && element.PlanUID != Guid.Empty)
 				SetSubPlan(element, null);
-			return plan == null ? "Несвязанная ссылка на план" : plan.Caption;
+			return plan == null ? CommonResources.UnrelatedReference : plan.Caption;
 		}
 		public static void SetSubPlan(ElementSubPlan element)
 		{
