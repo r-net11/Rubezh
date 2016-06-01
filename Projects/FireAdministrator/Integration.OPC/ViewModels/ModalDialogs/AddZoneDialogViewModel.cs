@@ -43,7 +43,7 @@ namespace Integration.OPC.ViewModels
 				{
 					IsBisy = false;
 
-					if (t.IsFaulted || t.Result.HasError)
+					if (t.IsFaulted || t.Result == null || t.Result.HasError)
 						MessageBoxService.ShowError(Resources.ErrorGetOPCZonesContent);
 					else
 						Zones = t.Result.Result.Select(newZone => new OPCZone(newZone, _existingZones.Any(zone => zone.No == newZone.No))).ToList();
