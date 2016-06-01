@@ -304,8 +304,26 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
+		/// <summary>
+ 		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
+ 		/// Необходим для корректного обнаружения мёртвых соединений.
+ 		/// Работает только при повторном входе клиента с одного ip-адреса.
+ 		/// </summary>
+ 		/// <param name="clientCredentials">Информация о клиенте</param>
+ 		/// <param name="clientType">Информация о типе клиента</param>
+ 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
+ 		{
+ 			var existingClient = ClientsManager.ClientInfos
+ 									.Where(x => x.ClientCredentials.ClientType == clientType)
+ 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
+ 
+ 			if(existingClient != null)
+ 				Disconnect(existingClient.UID);
+ 		}
+
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			DisconnectRepeatUser(clientCredentials, ClientType.Administrator); //TODO: remove it
 			// Может быть только одно подключение Администратора
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
@@ -318,6 +336,7 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
 			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
 			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
