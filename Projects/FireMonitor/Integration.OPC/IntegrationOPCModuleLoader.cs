@@ -28,7 +28,7 @@ namespace Integration.OPC
 		{
 			return new List<NavigationItem>
 			{
-				new NavigationItem<ShowOPCIntegrationEvent>(_opcZonesViewModel, "Зоны ОПС", "Kartoteka2W")
+				new NavigationItem<ShowOPCIntegrationEvent>(_opcZonesViewModel, "Зоны ОПС", "OPCIntegrationMenu")
 			};
 		}
 
