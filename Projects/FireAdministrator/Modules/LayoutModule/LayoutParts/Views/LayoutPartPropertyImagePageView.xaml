@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="LayoutModule.LayoutParts.Views.LayoutPartPropertyImagePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="LayoutModule.LayoutParts.Views.LayoutPartPropertyImagePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization">
 	<UserControl.Resources>
 		<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
 			<Setter Property="ItemTemplate">
@@ -21,9 +22,9 @@
 				<Border Background="{Binding ImageBrush}" />
 			</Border>
 			<StackPanel Grid.Column="1">
-				<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="Выбрать картинку" />
-				<Button Margin="2" Command="{Binding RemovePictureCommand}" Content="Очистить картинку" />
-				<TextBlock Margin="4" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Text="Расположение:" />
+				<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="{x:Static lang:CommonViews.SelectPicture}" />
+                <Button Margin="2" Command="{Binding RemovePictureCommand}" Content="{x:Static lang:CommonViews.DeletePicture}" />
+                <TextBlock Margin="4" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.Position}" />
 				<ComboBox Margin="4" ItemsSource="{Binding StretchTypes}" SelectedItem="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
 			</StackPanel>
 		</Grid>

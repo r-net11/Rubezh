@@ -291,4 +291,16 @@
   <data name="Command" xml:space="preserve">
     <value>Команда: {0}</value>
   </data>
+  <data name="LabelGuardZoneInfo" xml:space="preserve">
+    <value>№, название охранной зоны: {0} {1} Команда: {2}</value>
+  </data>
+  <data name="LabelPressToSelectOPCScenario" xml:space="preserve">
+    <value>Нажмите для выбора сценария</value>
+  </data>
+  <data name="LabelPressToSelectOPCZone" xml:space="preserve">
+    <value>Нажмите для выбора охранной зоны</value>
+  </data>
+  <data name="LabelScenarioInfo" xml:space="preserve">
+    <value>№ Сценария: {0} Название: {1}</value>
+  </data>
 </root>

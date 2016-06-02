@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
+using Localization.Layout.ViewModels;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
@@ -7,7 +8,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 	{
 		public LayoutPartEmptyViewModel()
 		{
-			Title = "Заглушка";
+			Title = CommonViewModels.LayoutPartEmpty_Title;
 			IconSource = LayoutPartDescription.IconPath + "BExit.png";
 		}
 	}

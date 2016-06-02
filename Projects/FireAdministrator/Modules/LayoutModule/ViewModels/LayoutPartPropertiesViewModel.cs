@@ -3,6 +3,7 @@ using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Layout.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace LayoutModule.ViewModels
 		public LayoutPartViewModel LayoutPartViewModel { get; private set; }
 		public LayoutPartPropertiesViewModel(LayoutPartViewModel layoutPartViewModel)
 		{
-			Title = "Свойства элемента";
+			Title = CommonViewModels.LayoutPartProperties_Title;
 			LayoutPartViewModel = layoutPartViewModel;
 			LayoutSize = LayoutPartViewModel.GetSize();
 			PropertyPages = new ObservableCollection<LayoutPartPropertyPageViewModel>();

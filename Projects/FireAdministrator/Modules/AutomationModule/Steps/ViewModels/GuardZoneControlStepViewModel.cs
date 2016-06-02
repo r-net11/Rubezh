@@ -1,6 +1,6 @@
-﻿using AutomationModule.Properties;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Localization.Automation.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models.Automation.StepArguments;
@@ -57,7 +57,7 @@ namespace AutomationModule.ViewModels
 		{
 			CurrentGuardZone = arguments.CurrentGuardZone != null
 				? string.Format("{0}. {1}", arguments.CurrentGuardZone.No, arguments.CurrentGuardZone.Name)
-				: Resources.LabelPressToSelectOPCZone;
+				: StepCommonViewModel.LabelPressToSelectOPCZone;
 		}
 
 		public override string Description
@@ -66,7 +66,7 @@ namespace AutomationModule.ViewModels
 			{
 				if (_guardZoneControlArguments == null || _guardZoneControlArguments.CurrentGuardZone == null) return null;
 
-				return string.Format(Resources.LabelGuardZoneInfo,
+                return string.Format(StepCommonViewModel.LabelGuardZoneInfo,
 					_guardZoneControlArguments.CurrentGuardZone.No,
 					_guardZoneControlArguments.CurrentGuardZone.Name,
 					SelectedCommand.ToDescription());

@@ -3,14 +3,16 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-	xmlns:viewModel="clr-namespace:LayoutModule.ViewModels">
+	xmlns:viewModel="clr-namespace:LayoutModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Layout.Common;assembly=Localization">
 	<ListView ItemsSource="{Binding Layouts.Layouts}" SelectedItem="{Binding Layouts.SelectedLayout}">
 		<ListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 				<MouseBinding Command="{Binding DataContext.Layouts.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
-				<MenuItem Command="{Binding EditCommand}" Header="Редактировать">
+                <MenuItem Command="{Binding EditCommand}" Header="{x:Static langCommon:CommonResources.Edit}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -28,7 +30,7 @@
 					</MenuItem.Header>
 					</MenuItem>
 				-->
-				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
+                <MenuItem Command="{Binding RemoveCommand}" Header="{x:Static langCommon:CommonResources.Delete}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -37,7 +39,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 				<Separator />
-				<MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
+                <MenuItem Command="{Binding LayoutCopyCommand}" Header="{x:Static langCommon:CommonResources.Copy}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -45,7 +47,7 @@
 							Background="{DynamicResource BCopy}" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding LayoutCutCommand}" Header="Вырезать">
+                <MenuItem Command="{Binding LayoutCutCommand}" Header="{x:Static langCommon:CommonResources.Cut}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -74,7 +76,7 @@
 		</ListView.ItemContainerStyle>
 		<ListView.ContextMenu>
 			<ContextMenu>
-				<MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить макет">
+                <MenuItem Command="{Binding Layouts.AddCommand}" Header="{x:Static langCommon:CommonResources.AddLayout}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -85,7 +87,7 @@
 				<MenuItem
 					Command="{Binding Layouts.LayoutPasteCommand}"
 					CommandParameter="{StaticResource True}"
-					Header="Вставить">
+					Header="{x:Static langCommon:CommonResources.Paste}">
 					<MenuItem.Icon>
 						<Grid
 							Width="16"
@@ -97,7 +99,7 @@
 		</ListView.ContextMenu>
 		<ListView.View>
 			<GridView>
-				<GridViewColumn Width="300" Header="Макеты">
+                <GridViewColumn Width="300" Header="{x:Static lang:CommonViews.Layouts}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<Border Background="Transparent">

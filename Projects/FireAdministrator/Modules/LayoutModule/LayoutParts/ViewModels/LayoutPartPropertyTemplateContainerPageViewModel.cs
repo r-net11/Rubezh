@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using Localization.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Services.Layout;
@@ -48,7 +49,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 
 		public override string Header
 		{
-			get { return "Макет"; }
+			get { return CommonViewModels.LayoutPartPropertyTemplateContainerPage_Header; }
 		}
 		public override void CopyProperties()
 		{

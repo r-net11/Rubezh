@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Localization.Layout.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -6,7 +7,7 @@ namespace LayoutModule.ViewModels
 	{
 		public IPFilterDetailsViewModel()
 		{
-			Title = "Задайте имя или адрес компьютера";
+			Title = CommonViewModels.IPFilterDetails_Title;
 			IsDnsName = true;
 		}
 

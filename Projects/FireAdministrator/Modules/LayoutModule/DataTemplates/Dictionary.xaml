@@ -1,10 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:LayoutModule.ViewModels" xmlns:Views="clr-namespace:LayoutModule.Views">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:LayoutModule.ViewModels" xmlns:Views="clr-namespace:LayoutModule.Views"
+                    xmlns:lang="clr-namespace:Localization.Layout.Common;assembly=Localization">
 
 	<SwitchConverter x:Key="StretchConverter" Else="{x:Null}">
-		<SwitchCase Then="Нет" When="{x:Static Stretch.None}" />
-		<SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
-		<SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
-		<SwitchCase Then="Устройство уже размещено на плане" When="Single" />
+		<SwitchCase Then="{x:Static lang:CommonResources.None}" When="{x:Static Stretch.None}" />
+        <SwitchCase Then="{x:Static lang:CommonResources.DeviceIsNotPlaced}" When="NotPresent" />
+        <SwitchCase Then="{x:Static lang:CommonResources.DeviceCanNotBePlaced}" When="Prohibit" />
+        <SwitchCase Then="{x:Static lang:CommonResources.DeviceIsPlaced}" When="Single" />
 	</SwitchConverter>
 
 	<DataTemplate DataType="{x:Type ViewModels:MonitorLayoutsViewModel}">

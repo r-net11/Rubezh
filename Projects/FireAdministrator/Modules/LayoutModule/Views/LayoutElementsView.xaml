@@ -6,15 +6,16 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModel="clr-namespace:LayoutModule.ViewModels"
 	xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+	xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
-			<SwitchCase Then="Элемент может быть размещено" When="Multiple" />
-			<SwitchCase Then="Элемент не размещен" When="NotPresent" />
-			<SwitchCase Then="Элемент нельзя размещать" When="Prohibit" />
-			<SwitchCase Then="Элемент уже размещен" When="Single" />
+			<SwitchCase Then="{x:Static lang:CommonViews.ElementCanNotBePlaced}" When="Multiple" />
+            <SwitchCase Then="{x:Static lang:CommonViews.ElementIsNotPlaced}" When="NotPresent" />
+            <SwitchCase Then="{x:Static lang:CommonViews.ElementCanBePlaced}" When="Prohibit" />
+            <SwitchCase Then="{x:Static lang:CommonViews.ElementIsPlaced}" When="Single" />
 		</SwitchConverter>
 	</UserControl.Resources>
 	<TreeList SelectedTreeNode="{Binding SelectedLayoutPart}" Source="{Binding LayoutParts}">
@@ -99,7 +100,7 @@
 		</TreeList.Resources>
 		<TreeList.View>
 			<GridView>
-				<GridViewColumn Width="250" Header="Элементы" />
+                <GridViewColumn Width="250" Header="{x:Static lang:CommonViews.Elements}" />
 			</GridView>
 		</TreeList.View>
 	</TreeList>

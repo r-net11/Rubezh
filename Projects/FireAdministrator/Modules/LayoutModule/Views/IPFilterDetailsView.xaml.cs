@@ -5,13 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using Infrastructure.Common.Windows;
+using Localization.Layout.Errors;
 
 namespace LayoutModule.Views
 {
 	public partial class IPFilterDetailsView : UserControl
 	{
 		const char DOT = '.';
-		static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
+        static readonly string MessageFormat = CommonErrors.IpFilterDetailsView_Error;
 		List<IpAddressByte> IpAddressBytes = new List<IpAddressByte>();
 
 		public IPFilterDetailsView()

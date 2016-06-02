@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -37,10 +38,10 @@
 			-->
 			<Style.Triggers>
 				<Trigger Property="IsChecked" Value="true">
-					<Setter Property="ToolTip" Value="Доступен" />
+                    <Setter Property="ToolTip" Value="{x:Static lang:CommonViews.Available}" />
 				</Trigger>
 				<Trigger Property="IsChecked" Value="false">
-					<Setter Property="ToolTip" Value="Недоступен" />
+                    <Setter Property="ToolTip" Value="{x:Static lang:CommonViews.Unavailable}" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
@@ -65,11 +66,11 @@
 				<GridViewColumn
 					Width="100"
 					DisplayMemberBinding="{Binding Login}"
-					Header="Логин" />
+					Header="{x:Static lang:CommonViews.Login}" />
 				<GridViewColumn
 					Width="150"
 					DisplayMemberBinding="{Binding Name}"
-					Header="Имя" />
+					Header="{x:Static lang:CommonViews.Name}" />
 			</GridView>
 		</ListView.View>
 	</ListView>
