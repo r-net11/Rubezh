@@ -24,9 +24,7 @@ namespace FiresecService.Service
 			//	result = false;
 			//}
 
-			var clientInfo = new ClientInfo();
-			clientInfo.UID = uid;
-			clientInfo.ClientCredentials = clientCredentials;
+			var clientInfo = new ClientInfo {UID = uid, ClientCredentials = clientCredentials};
 			ClientInfos.Add(clientInfo);
 
 			MainViewModel.Current.AddClient(clientCredentials);
