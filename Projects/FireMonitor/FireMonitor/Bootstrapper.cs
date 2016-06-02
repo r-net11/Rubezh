@@ -28,7 +28,8 @@ namespace FireMonitor
 			bool result;
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
-			ServiceFactory.Initialize(new LayoutService(), new SecurityService(), new UiElementsVisibilityService());
+		//	ServiceFactory.Initialize(new LayoutService(), new SecurityService(), new UiElementsVisibilityService());
+			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
@@ -50,14 +51,14 @@ namespace FireMonitor
 					};
 
 					// При получении от сервера уведомления о смене лицензии выводим соответствующее предупреждение и завершаем работу
-					SafeFiresecService.LicenseChangedEvent += () =>
-					{
-						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
-						ApplicationService.ShutDown();
-					};
+					//SafeFiresecService.LicenseChangedEvent += () =>
+					//{
+					//	ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
+					//	ApplicationService.ShutDown();
+					//};
 
 					// Получаем данные лицензии с Сервера
-					ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
+				//	ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
 
 					CreateModules();
 

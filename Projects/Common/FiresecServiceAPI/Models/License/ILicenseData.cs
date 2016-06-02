@@ -1,15 +1,15 @@
 ﻿namespace FiresecAPI.Models
 {
-	public interface ILicenseData
-	{
-		bool IsEnabledURV { get; set; }
+	//public interface ILicenseData
+	//{
+	//	bool IsEnabledURV { get; set; }
 
-		bool IsEnabledPhotoVerification { get; set; }
+	//	bool IsEnabledPhotoVerification { get; set; }
 
-		bool IsEnabledRVI { get; set; }
+	//	bool IsEnabledRVI { get; set; }
 
-		bool IsEnabledAutomation { get; set; }
+	//	bool IsEnabledAutomation { get; set; }
 
-		bool IsUnlimitedUsers { get; set; }
-	}
+	//	bool IsUnlimitedUsers { get; set; }
+	//}
 }

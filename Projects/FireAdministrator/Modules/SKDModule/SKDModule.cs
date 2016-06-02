@@ -50,8 +50,8 @@ namespace SKDModule
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
 			// Скрываем элемент "Верификация" в конфигураторе макетов интерфейса, если лицензия этого требует
-			if (ServiceFactory.UiElementsVisibilityService.IsLayoutModuleVerificationElementVisible)
-				yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 304, "Верификация", "Панель верификация", "BTree.png") { Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartReferenceProperties), };
+			//if (ServiceFactory.UiElementsVisibilityService.IsLayoutModuleVerificationElementVisible)
+			//	yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 304, "Верификация", "Панель верификация", "BTree.png") { Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartReferenceProperties), };
 
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.SKDHR, 305, "Картотека", "Панель картотека", "BLevels.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDayIntervals, 306, "Дневные графики", "Панель дневные графики", "BTree.png");

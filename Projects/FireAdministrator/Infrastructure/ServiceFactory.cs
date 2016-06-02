@@ -2,7 +2,7 @@
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Configuration;
+//using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Common.Services.Ribbon;
@@ -27,9 +27,10 @@ namespace Infrastructure
 
 		public static void Initialize(
 			ILayoutService ILayoutService,
-			IValidationService IValidationService,
-			IUiElementsVisibilityService uiElementsVisibilityService,
-			IConfigurationElementsAvailabilityService configurationElementsAvailabilityService)
+			IValidationService IValidationService
+			//IUiElementsVisibilityService uiElementsVisibilityService,
+			//IConfigurationElementsAvailabilityService configurationElementsAvailabilityService
+			)
 		{
 			SaveService = new SaveService();
 			Events = new EventAggregator();
@@ -40,8 +41,8 @@ namespace Infrastructure
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
-			UiElementsVisibilityService = uiElementsVisibilityService;
-			ConfigurationElementsAvailabilityService = configurationElementsAvailabilityService;
+			//UiElementsVisibilityService = uiElementsVisibilityService;
+			//ConfigurationElementsAvailabilityService = configurationElementsAvailabilityService;
 		}
 
 		public static SaveService SaveService { get; private set; }
@@ -51,7 +52,7 @@ namespace Infrastructure
 		public static MenuService MenuService { get; set; }
 		public static IRibbonService RibbonService { get; private set; }
 
-		public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
-		public static IConfigurationElementsAvailabilityService ConfigurationElementsAvailabilityService { get; private set; }
+		//public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
+		//public static IConfigurationElementsAvailabilityService ConfigurationElementsAvailabilityService { get; private set; }
 	}
 }

@@ -6,7 +6,7 @@ using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Services.Configuration;
+//using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
 using System;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using KeyGenerator;
-using KeyGenerator.Entities;
+//using KeyGenerator.Entities;
 
 namespace FiresecService
 {
@@ -25,10 +25,11 @@ namespace FiresecService
 		private static MainViewModel MainViewModel;
 		private static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
-		public static void Run(ILicenseManager licenseManager)
+	//	public static void Run(ILicenseManager licenseManager)
+		public static void Run()
 		{
-			if(licenseManager == null)
-				throw new ArgumentException("LicenseManager");
+			//if(licenseManager == null)
+			//	throw new ArgumentException("LicenseManager");
 
 			try
 			{
@@ -40,7 +41,8 @@ namespace FiresecService
 				WindowThread = new Thread(OnWorkThread) {Name = "Main window", Priority = ThreadPriority.Highest};
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
-				WindowThread.Start(licenseManager);
+				//WindowThread.Start(licenseManager);
+				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
 				UILogger.Log("Загрузка конфигурации");
@@ -50,7 +52,8 @@ namespace FiresecService
 				UILogger.Log("Открытие хоста");
 				try
 				{
-					FiresecServiceManager.Open(licenseManager);
+					//FiresecServiceManager.Open(licenseManager);
+					FiresecServiceManager.Open();
 				}
 				catch (Exception)
 				{
@@ -91,12 +94,13 @@ namespace FiresecService
 
 		private static void OnWorkThread(object o)
 		{
-			var license = o as ILicenseManager;
-			if (license == null) return;
+			//var license = o as ILicenseManager;
+			//if (license == null) return;
 
 			try
 			{
-				MainViewModel = new MainViewModel(license);
+			//	MainViewModel = new MainViewModel(license);
+				MainViewModel = new MainViewModel();
 				ApplicationService.Run(MainViewModel, false, false);
 			}
 			catch (Exception e)

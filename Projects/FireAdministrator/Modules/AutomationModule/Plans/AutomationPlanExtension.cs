@@ -63,8 +63,8 @@ namespace AutomationModule.Plans
 					_instruments = new List<IInstrument>();
 					
 					// В редакторе планов кнопка "Процедура" доступна, если этого не запрещает лицензия
-					if (ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
-					{
+				//	if (ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
+					//{
 						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
 						{
 							ImageSource = "Procedure",
@@ -73,7 +73,7 @@ namespace AutomationModule.Plans
 							Index = 400,
 							Autostart = true
 						});
-					}
+				//	}
 				}
 				return _instruments;
 			}

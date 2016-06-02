@@ -14,13 +14,15 @@ namespace FiresecService.Service
 		private static ServiceHost ServiceHost;
 		public static SafeFiresecService SafeFiresecService;
 
-		public static bool Open(ILicenseManager licenseManager)
+	//	public static bool Open(ILicenseManager licenseManager)
+		public static bool Open()
 		{
 			try
 			{
 				Close();
 
-				SafeFiresecService = new SafeFiresecService(licenseManager);
+				//SafeFiresecService = new SafeFiresecService(licenseManager);
+				SafeFiresecService = new SafeFiresecService();
 				ServiceHost = new ServiceHost(SafeFiresecService);
 
 				if (AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections && UACHelper.IsAdministrator)

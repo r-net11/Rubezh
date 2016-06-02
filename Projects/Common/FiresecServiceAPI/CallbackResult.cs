@@ -56,6 +56,6 @@ namespace FiresecAPI
 		/// <summary>
 		/// Уведовление о том, что на Сервере сменилась лицензия
 		/// </summary>
-		LicenseChanged
+		//LicenseChanged
 	}
 }

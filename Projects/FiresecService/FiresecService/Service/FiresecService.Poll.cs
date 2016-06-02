@@ -90,7 +90,7 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
-		
+
 		public static void NotifyNewSearchDevices(List<SKDDeviceSearchInfo> searchDevices)
 		{
 			var callbackResult = new CallbackResult()
@@ -113,16 +113,16 @@ namespace FiresecService.Service
 		/// <summary>
 		/// Посылает подключенным в данный момент Клиентам уведомление о смене лицензии на Сервере
 		/// </summary>
-		public void NotifyLicenseChanged()
-		{
-			foreach (var clientInfo in ClientsManager.ClientInfos)
-			{
-				var callbackResult = new CallbackResult()
-				{
-					CallbackResultType = CallbackResultType.LicenseChanged
-				};
-				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
-			}
-		}
+		//public void NotifyLicenseChanged()
+		//{
+		//	foreach (var clientInfo in ClientsManager.ClientInfos)
+		//	{
+		//		var callbackResult = new CallbackResult()
+		//		{
+		//			CallbackResultType = CallbackResultType.LicenseChanged
+		//		};
+		//		CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+		//	}
+		//}
 	}
 }

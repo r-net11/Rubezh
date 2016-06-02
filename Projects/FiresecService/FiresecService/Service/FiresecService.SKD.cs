@@ -356,8 +356,8 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				if (!_licenseManager.CanAddCard(databaseService.CardTranslator.GetCardsCount()))
-					return	OperationResult<bool>.FromError(string.Format(Resources.LicenseAddCardMessage, _licenseManager.CurrentLicense.TotalUsers));
+				//if (!_licenseManager.CanAddCard(databaseService.CardTranslator.GetCardsCount()))
+				//	return	OperationResult<bool>.FromError(string.Format(Resources.LicenseAddCardMessage, _licenseManager.CurrentLicense.TotalUsers));
 
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)

@@ -11,7 +11,7 @@ namespace VideoModule.Validation
 		public IEnumerable<IValidationError> Validate()
 		{
 			Errors = new List<IValidationError>();
-			ValidateCamerasAvailabilityAgainstLicenseData();
+		//	ValidateCamerasAvailabilityAgainstLicenseData();
 			return Errors;
 		}
 	}

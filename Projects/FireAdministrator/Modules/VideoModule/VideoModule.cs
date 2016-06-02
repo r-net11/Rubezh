@@ -54,8 +54,8 @@ namespace VideoModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			// Скрываем в главном меню пункт "Видео", если лицензия этого требует
-			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
-				return new List<NavigationItem>();
+			//if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
+			//	return new List<NavigationItem>();
 
 			return new List<NavigationItem>
 			{
@@ -71,7 +71,7 @@ namespace VideoModule
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
 			// Элемент "Камера" в макетах доступен, если этого не запрещает лицензия
-			if (ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
+		//	if (ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
 				yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Video, LayoutPartIdentities.CameraVideo, 204, "Камера", "Панель видео с камеры", "BVideo.png")
 				{
 					Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties),
