@@ -37,7 +37,7 @@ namespace FiresecClient
 						break;
 					}
 					error = operationResult.Error;
-					Thread.Sleep(TimeSpan.FromMilliseconds(500));
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 				}
 
 				_userLogin = login;
