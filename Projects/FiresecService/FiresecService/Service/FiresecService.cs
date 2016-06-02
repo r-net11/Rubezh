@@ -24,18 +24,17 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
-	//	private readonly ILicenseManager _licenseManager;
+		private readonly ILicenseManager _licenseManager;
 
-	//	public FiresecService(ILicenseManager licenseManager)
-		public FiresecService()
+		public FiresecService(ILicenseManager licenseManager)
 		{
-			//if(licenseManager == null)
-			//	throw new ArgumentException("License Manager");
+			if(licenseManager == null)
+				throw new ArgumentException("License Manager");
 
-			//_licenseManager = licenseManager;
+			_licenseManager = licenseManager;
 
 			// Записываем состояние лицензии в журнал системы при запуске сервера
-		//	AddJournalMessage(_licenseManager.IsValidExistingKey() ? JournalEventNameType.Лицензия_обнаружена : JournalEventNameType.Отсутствует_лицензия, null);
+			AddJournalMessage(_licenseManager.IsValidExistingKey() ? JournalEventNameType.Лицензия_обнаружена : JournalEventNameType.Отсутствует_лицензия, null);
 		}
 
 		private ClientCredentials CurrentClientCredentials;
@@ -71,14 +70,14 @@ namespace FiresecService.Service
 				return operationResult;
 
 			// Проверяем активацию лицензии на сервере
-			//operationResult = CanConnect();
-			//if (operationResult.HasError)
-			//	return operationResult;
+			operationResult = CanConnect();
+			if (operationResult.HasError)
+				return operationResult;
 
 			// Проверяем текущую конфигурацию на соответствие ограничениям лицензии
-			//operationResult = CheckConfigurationValidation();
-			//if (operationResult.HasError)
-			//	return operationResult;
+			operationResult = CheckConfigurationValidation();
+			if (operationResult.HasError)
+				return operationResult;
 
 			// Проверка разрешений согласно лицензии
 			operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
@@ -86,9 +85,9 @@ namespace FiresecService.Service
 				return operationResult;
 
 			// Проверяем количесво активных карт и сравниваем с данными лицензии
-			//operationResult = CheckActiveCardsCountAgainstLicenseData();
-			//if (operationResult.HasError)
-			//	return operationResult;
+			operationResult = CheckActiveCardsCountAgainstLicenseData();
+			if (operationResult.HasError)
+				return operationResult;
 
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
@@ -252,47 +251,47 @@ namespace FiresecService.Service
 
 		#region <Лицензирование>
 
-		//public OperationResult<bool> CheckLicenseExising()
-		//{
-		//	return new OperationResult<bool>(_licenseManager.IsValidExistingKey());
-		//}
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return new OperationResult<bool>(_licenseManager.IsValidExistingKey());
+		}
 
-		//public OperationResult<bool> CanConnect()
-		//{
-		//	return _licenseManager.CanConnect()
-		//		? new OperationResult<bool>(true)
-		//		: OperationResult<bool>.FromError("Сервер не активирован. Подключение к серверу возможно только после его активации");
-		//}
+		public OperationResult<bool> CanConnect()
+		{
+			return _licenseManager.CanConnect()
+				? new OperationResult<bool>(true)
+				: OperationResult<bool>.FromError("Сервер не активирован. Подключение к серверу возможно только после его активации");
+		}
 
-		//public OperationResult<bool> CanLoadModule(ModuleType type)
-		//{
-		//	return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
-		//}
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
+		}
 
-		//private OperationResult<bool> CheckActiveCardsCountAgainstLicenseData()
-		//{
-		//	using (var databaseService = new SKDDatabaseService())
-		//	{
-		//		if (!_licenseManager.CurrentLicense.IsUnlimitedUsers &&
-		//			databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
-		//			return OperationResult<bool>.FromError("Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна");
-		//	}
-		//	return new OperationResult<bool>(true);
-		//}
+		private OperationResult<bool> CheckActiveCardsCountAgainstLicenseData()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				if (!_licenseManager.CurrentLicense.IsUnlimitedUsers &&
+				    databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
+					return OperationResult<bool>.FromError("Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна");
+			}
+			return new OperationResult<bool>(true);
+		}
 
-		//private OperationResult<bool> CheckConfigurationValidation()
-		//{
-		//	return ConfigurationElementsAgainstLicenseDataValidator.Instance.IsValidated
-		//		? new OperationResult<bool>(true)
-		//		: OperationResult<bool>.FromError("Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию");
-		//}
+		private OperationResult<bool> CheckConfigurationValidation()
+		{
+			return ConfigurationElementsAgainstLicenseDataValidator.Instance.IsValidated
+				? new OperationResult<bool>(true)
+				: OperationResult<bool>.FromError("Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию");
+		}
 
 		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
 			// Удаленное соединение Клиента (Администратор/ОЗ) при запрещении удаленных соединений в параметрах лицензии
-			//if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
-			//	_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
-			//	return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
+			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
+				_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
+				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
 
 			// Клиент - Администратор
 			if (clientCredentials.ClientType == ClientType.Administrator)
@@ -317,7 +316,7 @@ namespace FiresecService.Service
 			var existingClients = ClientsManager.ClientInfos
 				.Where(x => x.ClientCredentials.ClientType == clientType
 					&& x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
-
+ 
 			foreach (var existingClient in existingClients)
 			{
 				Disconnect(existingClient.UID);
@@ -340,7 +339,7 @@ namespace FiresecService.Service
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
 			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
-			//var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
+			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
 			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
 				x.ClientCredentials.ClientType == ClientType.Monitor &&
@@ -351,19 +350,19 @@ namespace FiresecService.Service
 
 			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
 
-			//if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
-			//	(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
-			//	(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
-			//	return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
+			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
+				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
 
 			// TODO: Временная мера. В рамках одного хоста может быть запущен только один экземпляр ОЗ
-			//var instancesRunnedFromTheSameHost = ClientsManager.ClientInfos.Where(x =>
-			//	x.ClientCredentials.ClientType == clientCredentials.ClientType &&
-			//	x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress).ToList();
-			//if (instancesRunnedFromTheSameHost.Any())
-			//	return OperationResult<bool>.FromError(string.Format(
-			//		"Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.",
-			//		instancesRunnedFromTheSameHost[0].ClientCredentials.ClientIpAddress));
+			var instancesRunnedFromTheSameHost = ClientsManager.ClientInfos.Where(x =>
+				x.ClientCredentials.ClientType == clientCredentials.ClientType &&
+				x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress).ToList();
+			if (instancesRunnedFromTheSameHost.Any())
+				return OperationResult<bool>.FromError(string.Format(
+					"Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.",
+					instancesRunnedFromTheSameHost[0].ClientCredentials.ClientIpAddress));
 
 			return new OperationResult<bool>(true);
 		}
@@ -373,20 +372,20 @@ namespace FiresecService.Service
 		/// Получает данные лицензии с Сервера
 		/// </summary>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		//public OperationResult<LicenseData> GetLicenseData()
-		//{
-		//	if(!_licenseManager.IsValidExistingKey())
-		//		return new OperationResult<LicenseData>();
+		public OperationResult<LicenseData> GetLicenseData()
+		{
+			if(!_licenseManager.IsValidExistingKey())
+				return new OperationResult<LicenseData>();
 
-		//	return new OperationResult<LicenseData>(new LicenseData
-		//	{
-		//		IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
-		//		IsEnabledPhotoVerification = _licenseManager.CurrentLicense.IsEnabledPhotoVerification,
-		//		IsEnabledRVI = _licenseManager.CurrentLicense.IsEnabledRVI,
-		//		IsEnabledURV = _licenseManager.CurrentLicense.IsEnabledURV,
-		//		IsUnlimitedUsers = _licenseManager.CurrentLicense.IsUnlimitedUsers
-		//	});
-		//}
+			return new OperationResult<LicenseData>(new LicenseData
+			{
+				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
+				IsEnabledPhotoVerification = _licenseManager.CurrentLicense.IsEnabledPhotoVerification,
+				IsEnabledRVI = _licenseManager.CurrentLicense.IsEnabledRVI,
+				IsEnabledURV = _licenseManager.CurrentLicense.IsEnabledURV,
+				IsUnlimitedUsers = _licenseManager.CurrentLicense.IsUnlimitedUsers
+			});
+		}
 
 		#endregion </Лицензирование>
 	}

@@ -39,7 +39,7 @@ namespace FiresecService
 			SKDManager.UpdateConfiguration();
 
 			// Проверяем состав конфигурации на предмет соответствия лицензионным ограничениям
-		//	ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+			ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
 		}
 
 		private static void ExtractAllConfigFiles()

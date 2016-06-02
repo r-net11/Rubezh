@@ -104,21 +104,21 @@ namespace FiresecAPI
 
 		#region Licensing
 
-		//[OperationContract]
-		//OperationResult<bool> CheckLicenseExising();
+		[OperationContract]
+		OperationResult<bool> CheckLicenseExising();
 
-		//[OperationContract]
-		//OperationResult<bool> CanConnect();
+		[OperationContract]
+		OperationResult<bool> CanConnect();
 
-		//[OperationContract]
-		//OperationResult<bool> CanLoadModule(ModuleType type);
+		[OperationContract]
+		OperationResult<bool> CanLoadModule(ModuleType type);
 
 		/// <summary>
 		/// Получает данные лицензии с Сервера
 		/// </summary>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		//[OperationContract]
-		//OperationResult<LicenseData> GetLicenseData();
+		[OperationContract]
+		OperationResult<LicenseData> GetLicenseData();
 
 		#endregion
 	}

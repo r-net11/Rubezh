@@ -36,22 +36,22 @@ namespace FiresecServiceRunner
 				Current.MainWindow.Close();
 			}
 
-			//var licenseService = new LicenseManager();
+			var licenseService = new LicenseManager();
 
-			//if (licenseService.IsValidExistingKey())
-			//{
-			//	Logger.Error("License file is not exists");
-			//}
+			if (licenseService.IsValidExistingKey())
+			{
+				Logger.Error("License file is not exists");
+			}
 
-		//	ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseService;
+			ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseService;
 
 			// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
 			// и уведомляем всех Клиентов
-			//licenseService.LicenseChanged += () =>
-			//{
-			//	ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
-			//	FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
-			//};
+			licenseService.LicenseChanged += () =>
+			{
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+				FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
+			};
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
@@ -59,8 +59,7 @@ namespace FiresecServiceRunner
 				AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
 				try
 				{
-				//	Bootstrapper.Run(licenseService);
-					Bootstrapper.Run();
+					Bootstrapper.Run(licenseService);
 				}
 				catch (Exception ex)
 				{

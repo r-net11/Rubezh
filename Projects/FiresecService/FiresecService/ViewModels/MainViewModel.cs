@@ -10,14 +10,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
 using KeyGenerator;
-//using KeyGenerator.Entities;
+using KeyGenerator.Entities;
 
 namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
-	//	private const string LicLoadAccept = "Лицензия загружена";
-		//private const string LicLoadFailed = "Лицензия отстутствует";
+		private const string LicLoadAccept = "Лицензия загружена";
+		private const string LicLoadFailed = "Лицензия отстутствует";
 
 		public static MainViewModel Current { get; private set; }
 
@@ -48,22 +48,21 @@ namespace FiresecService.ViewModels
 		public RelayCommand LoadLicenseCommand { get; set; }
 
 		private readonly Dispatcher _dispatcher;
-		//private readonly ILicenseManager _currentLicenseManager;
+		private readonly ILicenseManager _currentLicenseManager;
 
-		//public MainViewModel(ILicenseManager currentLicenseManager)
-		public MainViewModel()
+		public MainViewModel(ILicenseManager currentLicenseManager)
 		{
-			//if(currentLicenseManager == null)
-			//	throw new ArgumentException("License Manager is null");
+			if(currentLicenseManager == null)
+				throw new ArgumentException("License Manager is null");
 
-		//	_currentLicenseManager = currentLicenseManager;
+			_currentLicenseManager = currentLicenseManager;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
 			Current = this;
 			Title = "Сервер приложений";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
-		//	LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
-		//	UserKey = currentLicenseManager.GetUserKey();
+			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
+			UserKey = currentLicenseManager.GetUserKey();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			UpdateLicenseStatus();
 			ReleaseClientsCommand = new RelayCommand(OnReleaseClients, CanReleaseClients);
@@ -71,34 +70,34 @@ namespace FiresecService.ViewModels
 
 		private void UpdateLicenseStatus()
 		{
-		//	LicenseStatusText = LicenseItems.Any() ? LicLoadAccept : LicLoadFailed;
+			LicenseStatusText = LicenseItems.Any() ? LicLoadAccept : LicLoadFailed;
 		}
 
-		//public static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
-		//{
-		//	var dict = new Dictionary<string, string>();
+		public static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
+		{
+			var dict = new Dictionary<string, string>();
 
-		//	if (currentLicense == null) return dict;
+			if (currentLicense == null) return dict;
 
-		//	var props = currentLicense.GetType().GetProperties();
-		//	foreach (var prop in props)
-		//	{
-		//		var attrs = prop.GetCustomAttributes(true);
-		//		foreach (var attr in attrs)
-		//		{
-		//			var authAttr = attr as DescriptionAttribute;
-		//			if (authAttr != null)
-		//			{
-		//				var propName = PropertyConverter(prop.GetValue(currentLicense, null));
-		//				var auth = authAttr.Description;
+			var props = currentLicense.GetType().GetProperties();
+			foreach (var prop in props)
+			{
+				var attrs = prop.GetCustomAttributes(true);
+				foreach (var attr in attrs)
+				{
+					var authAttr = attr as DescriptionAttribute;
+					if (authAttr != null)
+					{
+						var propName = PropertyConverter(prop.GetValue(currentLicense, null));
+						var auth = authAttr.Description;
 
-		//				dict.Add(auth, propName);
-		//			}
-		//		}
-		//	}
+						dict.Add(auth, propName);
+					}
+				}
+			}
 
-		//	return dict;
-		//}
+			return dict;
+		}
 
 		private static string PropertyConverter(object propertyValue)
 		{
@@ -212,21 +211,21 @@ namespace FiresecService.ViewModels
 
 		private void OnLoadLicense()
 		{
-			//var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lic", Filter = "License files (.lic)|*.lic"};
+			var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lic", Filter = "License files (.lic)|*.lic"};
 
-			//var result = dlg.ShowDialog();
+			var result = dlg.ShowDialog();
 
-			//if (result != true) return;
+			if (result != true) return;
 
-			//if (_currentLicenseManager.LoadLicenseFromFile(dlg.FileName))
-			//{
-			//	LicenseItems = GetLicenseDictionary(_currentLicenseManager.CurrentLicense);
-			//	UpdateLicenseStatus();
-			//}
-			//else
-			//	MessageBoxService.ShowError(
-			//		"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
-			//		"Ошибка чтения файла лицензии");
+			if (_currentLicenseManager.LoadLicenseFromFile(dlg.FileName))
+			{
+				LicenseItems = GetLicenseDictionary(_currentLicenseManager.CurrentLicense);
+				UpdateLicenseStatus();
+			}
+			else
+				MessageBoxService.ShowError(
+					"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
+					"Ошибка чтения файла лицензии");
 		}
 
 		public RelayCommand ReleaseClientsCommand { get; private set; }

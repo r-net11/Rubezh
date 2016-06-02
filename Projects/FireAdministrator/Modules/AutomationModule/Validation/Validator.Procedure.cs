@@ -46,7 +46,7 @@ namespace AutomationModule.Validation
 		void ValidateStep(ProcedureStep step)
 		{
 			// Проверка шага процедуры согласно данным лицензии
-		//	ValidateProcedureStepTypeAccordingToLicenseData(step);
+			ValidateProcedureStepTypeAccordingToLicenseData(step);
 
 			switch (step.ProcedureStepType)
 			{
@@ -208,7 +208,7 @@ namespace AutomationModule.Validation
 						var sendEmailArguments = step.SendEmailArguments;
 						if (!ValidateArgument(step, sendEmailArguments.EMailAddressFromArgument))
 							break;
-
+						
 						var eMailAddressToArgumentsValidationResult = true;
 						foreach (var eMailAddressToArgument in sendEmailArguments.EMailAddressToArguments)
 						{
@@ -433,13 +433,13 @@ namespace AutomationModule.Validation
 				ValidateStep(childStep);
 		}
 
-		//private void ValidateProcedureStepTypeAccordingToLicenseData(ProcedureStep procedureStep)
-		//{
-		//	if (ServiceFactory.ConfigurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType))
-		//	{
-		//		Errors.Add(new ProcedureStepValidationError(procedureStep, "Функция не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
-		//	}
-		//}
+		private void ValidateProcedureStepTypeAccordingToLicenseData(ProcedureStep procedureStep)
+		{
+			if (ServiceFactory.ConfigurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType))
+			{
+				Errors.Add(new ProcedureStepValidationError(procedureStep, "Функция не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
+			}
+		}
 
 		bool ValidateArgument(ProcedureStep step, Argument argument)
 		{

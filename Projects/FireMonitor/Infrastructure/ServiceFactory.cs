@@ -26,14 +26,13 @@ namespace Infrastructure
 		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
 		public static LoginService LoginService { get; private set; }
-
+		
 		/// <summary>
 		/// Сервис, который определяет видимость элементов UI ОЗ, согласно данным лицензии
 		/// </summary>
-	//	public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
+		public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
 
-		//public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService, IUiElementsVisibilityService uiElementsVisibilityService)
-		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
+		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService, IUiElementsVisibilityService uiElementsVisibilityService)
 		{
 			ServiceFactoryBase.Events = Events = new EventAggregator();
 			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
@@ -42,7 +41,7 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
-		//	UiElementsVisibilityService = uiElementsVisibilityService;
+			UiElementsVisibilityService = uiElementsVisibilityService;
 		}
 
 		public static void SafeCall(Action action)

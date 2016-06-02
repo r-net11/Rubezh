@@ -7,7 +7,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
-//using Infrastructure.Common.Services.Configuration;
+using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
@@ -23,10 +23,9 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Initialize(
 				new LayoutService(),
-				new ValidationService()
-				//new UiElementsVisibilityService(),
-				//new ConfigurationElementsAvailabilityService()
-				);
+				new ValidationService(),
+				new UiElementsVisibilityService(),
+				new ConfigurationElementsAvailabilityService());
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
@@ -42,16 +41,16 @@ namespace FireAdministrator
 					};
 
 					// При получении от сервера уведомления о смене лицензии выводим соответствующее предупреждение и завершаем работу
-					//SafeFiresecService.LicenseChangedEvent += () =>
-					//{
-					//	ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
-					//	ApplicationService.ShutDown();
-					//};
+					SafeFiresecService.LicenseChangedEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
 
 					// Получаем данные лицензии с Сервера и инициализируем зависимые от них службы
-				//	var licenseData = FiresecManager.FiresecService.GetLicenseData().Result;
-					//ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);
-				//	ServiceFactory.ConfigurationElementsAvailabilityService.Initialize(licenseData);
+					var licenseData = FiresecManager.FiresecService.GetLicenseData().Result;
+					ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);
+					ServiceFactory.ConfigurationElementsAvailabilityService.Initialize(licenseData);
 
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();

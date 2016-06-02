@@ -53,7 +53,7 @@ namespace SKDModule
 				new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W")
 			};
 
-		//	if (ServiceFactory.UiElementsVisibilityService.IsMainMenuSkdUrvElementVisible)
+			if (ServiceFactory.UiElementsVisibilityService.IsMainMenuSkdUrvElementVisible)
 				items.Add(BuildUrvItem());
 
 			return new NavigationItem("СКД", "SKDW", items);

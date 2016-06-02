@@ -222,29 +222,29 @@ namespace FiresecClient
 		}
 
 		#region Licensing
-		//public OperationResult<bool> CheckLicenseExising()
-		//{
-		//	return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
-		//}
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
+		}
 
-		//public OperationResult<bool> CanConnect()
-		//{
-		//	return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
-		//}
+		public OperationResult<bool> CanConnect()
+		{
+			return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
+		}
 
-		//public OperationResult<bool> CanLoadModule(ModuleType type)
-		//{
-		//	return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
-		//}
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
+		}
 
 		/// <summary>
 		/// Получает данные лицензии с Сервера
 		/// </summary>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		//public OperationResult<LicenseData> GetLicenseData()
-		//{
-		//	return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
-		//}
+		public OperationResult<LicenseData> GetLicenseData()
+		{
+			return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
+		}
 
 		#endregion
 

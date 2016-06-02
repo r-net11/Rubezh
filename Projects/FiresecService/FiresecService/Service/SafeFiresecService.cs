@@ -19,11 +19,9 @@ namespace FiresecService.Service
 	{
 		public FiresecService FiresecService { get; set; }
 
-	//	public SafeFiresecService(ILicenseManager licenseManager)
-		public SafeFiresecService()
+		public SafeFiresecService(ILicenseManager licenseManager)
 		{
-		//	FiresecService = new FiresecService(licenseManager);
-			FiresecService = new FiresecService();
+			FiresecService = new FiresecService(licenseManager);
 		}
 
 		public void BeginOperation(string operationName)
@@ -227,30 +225,30 @@ namespace FiresecService.Service
 
 		#region Licensing
 
-		//public OperationResult<bool> CheckLicenseExising()
-		//{
-		//	return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
-		//}
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
+		}
 
-		//public OperationResult<bool> CanConnect()
-		//{
-		//	return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
-		//}
+		public OperationResult<bool> CanConnect()
+		{
+			return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
+		}
 
-		//public OperationResult<bool> CanLoadModule(ModuleType type)
-		//{
-		//	return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
-		//}
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
+		}
 
 		/// <summary>
 		/// Получает данные лицензии с Сервера
 		/// </summary>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		//public OperationResult<LicenseData> GetLicenseData()
-		//{
-		//	return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
-		//}
-
+		public OperationResult<LicenseData> GetLicenseData()
+		{
+			return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
+		}
+	
 		#endregion
 
 		/// <summary>
@@ -265,9 +263,9 @@ namespace FiresecService.Service
 		/// <summary>
 		/// Посылает Клиентам уведомление о смене лицензии на Сервере
 		/// </summary>
-		//public void NotifyLicenseChanged()
-		//{
-		//	SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
-		//}
+		public void NotifyLicenseChanged()
+		{
+			SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
+		}
 	}
 }
