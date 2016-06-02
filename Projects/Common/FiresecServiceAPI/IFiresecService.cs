@@ -160,5 +160,11 @@ namespace StrazhAPI
 		/// <returns>Логи загрузки Сервера</returns>
 		[OperationContract]
 		OperationResult<string> GetLogs();
+
+		/// <summary>
+		/// Уведомление об изменении лога загрузки Сервера
+		/// </summary>
+		[OperationContract]
+		void NotifyCoreLoadingLogChanged();
 	}
 }

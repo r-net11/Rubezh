@@ -296,5 +296,13 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
+
+		/// <summary>
+		/// Уведомление об изменении лога загрузки Сервера
+		/// </summary>
+		public void NotifyCoreLoadingLogChanged()
+		{
+			SafeOperationCall(() => FiresecService.NotifyCoreLoadingLogChanged(), "NotifyCoreLoadingLogChanged");
+		}
 	}
 }

@@ -4,6 +4,7 @@ using FiresecService.Service.Validators;
 using StrazhAPI;
 using StrazhAPI.AutomationCallback;
 using StrazhAPI.Journal;
+using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -177,6 +178,22 @@ namespace FiresecService.Service
 				{
 					CallbackResultType = CallbackResultType.CardDeactivated,
 					Card = card
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
+		}
+
+		/// <summary>
+		/// Уведомление об изменении лога загрузки Сервера
+		/// </summary>
+		public void NotifyCoreLoadingLogChanged()
+		{
+			foreach (var clientInfo in ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == ClientType.ServiceMonitor))
+			{
+				Logger.Info("Уведомляем подключенный к Серверу Монитор сервера об изменении логов загрузки Сервера");
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.CoreLoadingLogChanged,
 				};
 				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
 			}

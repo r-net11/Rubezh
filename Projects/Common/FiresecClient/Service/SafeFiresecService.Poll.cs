@@ -32,6 +32,10 @@ namespace FiresecClient
 		/// Событие деактивации карты
 		/// </summary>
 		public static event Action<SKDCard> CardDeactivatedEvent;
+		/// <summary>
+		/// Событие изменения лога загрузки Сервера
+		/// </summary>
+		public static event Action CoreLoadingLogChangedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -190,6 +194,15 @@ namespace FiresecClient
 						{
 							if (CardDeactivatedEvent != null)
 								CardDeactivatedEvent(callbackResult.Card);
+						});
+						break;
+					// Поступило уведомление об изменении лога загрузки Сервера
+					case CallbackResultType.CoreLoadingLogChanged:
+						Logger.Info("Поступило уведомление об изменении лога загрузки Сервера");
+						SafeOperationCall(() =>
+						{
+							if (CoreLoadingLogChangedEvent != null)
+								CoreLoadingLogChangedEvent();
 						});
 						break;
 				}

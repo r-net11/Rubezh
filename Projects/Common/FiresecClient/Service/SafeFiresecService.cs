@@ -291,6 +291,7 @@ namespace FiresecClient
 		/// <returns>Логи загрузки Сервера</returns>
 		public OperationResult<string> GetLogs()
 		{
+			Logger.Info("Запрашиваем у Сервера логи загрузки");
 			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
 	}

@@ -69,6 +69,11 @@ namespace StrazhAPI
 		/// <summary>
 		/// Уведомление о деактивации карты
 		/// </summary>
-		CardDeactivated
+		CardDeactivated,
+
+		/// <summary>
+		/// Уведомление о изменении лога загрузки ядра сервера
+		/// </summary>
+		CoreLoadingLogChanged
 	}
 }

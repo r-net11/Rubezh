@@ -59,8 +59,11 @@ namespace StrazhService.Monitor
 				_windowThread.Start(licenseManager);
 				_mainViewStartedEvent.WaitOne();
 
-				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged -= WindowsServiceStatusMonitorOnStatusChanged;
-				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitorOnStatusChanged;
+				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged -= WindowsServiceStatusMonitor_StatusChanged;
+				ServiceRepository.Instance.WindowsServiceStatusMonitor.StatusChanged += WindowsServiceStatusMonitor_StatusChanged;
+
+				SafeFiresecService.CoreLoadingLogChangedEvent -= SafeFiresecService_CoreLoadingLogChangedEvent;
+				SafeFiresecService.CoreLoadingLogChangedEvent += SafeFiresecService_CoreLoadingLogChangedEvent;
 
 				if (!ServiceRepository.Instance.WindowsServiceStatusMonitor.Start())
 					MessageBoxService.ShowWarning("Служба \"Сервер A.C.Tech\" не обнаружена.\nДля управления службой установите ее и перезапустите монитор сервера");
@@ -72,7 +75,16 @@ namespace StrazhService.Monitor
 			}
 		}
 
-		private void WindowsServiceStatusMonitorOnStatusChanged(ServiceControllerStatus status)
+		private void SafeFiresecService_CoreLoadingLogChangedEvent()
+		{
+			var getLogsOperationResult = FiresecManager.FiresecService.GetLogs();
+			if (getLogsOperationResult.HasError)
+				return;
+
+			ServiceRepository.Instance.Events.GetEvent<ServerLogsReceivedEvent>().Publish(getLogsOperationResult.Result);
+		}
+
+		private void WindowsServiceStatusMonitor_StatusChanged(ServiceControllerStatus status)
 		{
 			switch (status)
 			{
