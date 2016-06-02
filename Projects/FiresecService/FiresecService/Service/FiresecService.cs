@@ -282,25 +282,6 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
- 		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
- 		/// Необходим для корректного обнаружения мёртвых соединений.
- 		/// Работает только при повторном входе клиента с одного ip-адреса.
- 		/// </summary>
- 		/// <param name="clientCredentials">Информация о клиенте</param>
- 		/// <param name="clientType">Информация о типе клиента</param>
- 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
-		{
-			var existingClients = ClientsManager.ClientInfos
-				.Where(x => x.ClientCredentials.ClientType == clientType
-					&& x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
-
-			foreach (var existingClient in existingClients)
-			{
-				Disconnect(existingClient.UID);
-			}
- 		}
-
-		/// <summary>
 		/// Получает данные лицензии с Сервера
 		/// </summary>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
