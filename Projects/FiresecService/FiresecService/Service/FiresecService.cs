@@ -298,7 +298,7 @@ namespace FiresecService.Service
  		{
  			var existingClient = ClientsManager.ClientInfos
  									.Where(x => x.ClientCredentials.ClientType == clientType)
- 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
+ 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress);
 
 			if (existingClient != null)
 			{
