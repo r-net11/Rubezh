@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -26,7 +27,7 @@ namespace FiresecClient
 				};
 
 				string error = null;
-				for (int i = 0; i < 3; i++)
+				for (var i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
 					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
@@ -36,6 +37,7 @@ namespace FiresecClient
 						break;
 					}
 					error = operationResult.Error;
+					Thread.Sleep(TimeSpan.FromMilliseconds(500));
 				}
 
 				_userLogin = login;
