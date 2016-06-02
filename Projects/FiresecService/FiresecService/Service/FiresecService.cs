@@ -79,11 +79,6 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
-			// Проверка разрешений согласно лицензии
-			//operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
-			//if (operationResult.HasError)
-			//	return operationResult;
-
 			// Проверяем количесво активных карт и сравниваем с данными лицензии
 			operationResult = CheckActiveCardsCountAgainstLicenseData();
 			if (operationResult.HasError)
@@ -286,24 +281,6 @@ namespace FiresecService.Service
 				: OperationResult<bool>.FromError("Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию");
 		}
 
-		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
-		{
-			// Удаленное соединение Клиента (Администратор/ОЗ) при запрещении удаленных соединений в параметрах лицензии
-			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
-				_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
-				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
-
-			// Клиент - Администратор
-			if (clientCredentials.ClientType == ClientType.Administrator)
-				return CheckAdministratorConnectionRightsUsingLicenseData(clientCredentials);
-
-			// Клиент - ОЗ
-			if (clientCredentials.ClientType == ClientType.Monitor)
-				return CheckMonitorConnectionRightsUsingLicenseData(clientCredentials);
-
-			return new OperationResult<bool>(true);
-		}
-
 		/// <summary>
  		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
  		/// Необходим для корректного обнаружения мёртвых соединений.
@@ -322,51 +299,6 @@ namespace FiresecService.Service
 				Disconnect(existingClient.UID);
 			}
  		}
-
-		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
-		{
-			DisconnectRepeatUser(clientCredentials, ClientType.Administrator); //TODO: remove it
-			// Может быть только одно подключение Администратора
-			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
-			if (existingClients.Any())
-				return OperationResult<bool>.FromError(string.Format(
-					"Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере",
-					existingClients[0].ClientCredentials.ClientIpAddress));
-
-			return new OperationResult<bool>(true);
-		}
-
-		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
-		{
-			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
-			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
-
-			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
-				x.ClientCredentials.ClientType == ClientType.Monitor &&
-				NetworkHelper.IsLocalAddress(x.ClientCredentials.ClientIpAddress));
-
-			var totalMonitorConnectionsCount =
-				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
-
-			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
-
-			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
-				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
-				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
-				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
-
-			// TODO: Временная мера. В рамках одного хоста может быть запущен только один экземпляр ОЗ
-			var instancesRunnedFromTheSameHost = ClientsManager.ClientInfos.Where(x =>
-				x.ClientCredentials.ClientType == clientCredentials.ClientType &&
-				x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress).ToList();
-			if (instancesRunnedFromTheSameHost.Any())
-				return OperationResult<bool>.FromError(string.Format(
-					"Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.",
-					instancesRunnedFromTheSameHost[0].ClientCredentials.ClientIpAddress));
-
-			return new OperationResult<bool>(true);
-		}
-
 
 		/// <summary>
 		/// Получает данные лицензии с Сервера
