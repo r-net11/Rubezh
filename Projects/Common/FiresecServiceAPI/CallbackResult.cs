@@ -35,6 +35,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<SKDDeviceSearchInfo> SearchDevices { get; set; }
+
+		[DataMember]
+		public bool ShowNotificationOnDisconnectClientCommand { get; set; }
 	}
 
 	public enum CallbackResultType

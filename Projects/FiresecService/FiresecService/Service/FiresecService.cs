@@ -63,6 +63,12 @@ namespace FiresecService.Service
 		{
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
+#if DEBUG
+			Logger.Info(string.Format("Попытка подключения Клиента: GUID='{0}' Имя='{1}' Тип='{2}'", clientCredentials.ClientUID, clientCredentials.UserName, clientCredentials.ClientType));
+#endif
+
+			// Временный костыль
+			DisconnectRepeatUser(clientCredentials, clientCredentials.ClientType);
 
 			// Проводим аутентификацию пользователя
 			var operationResult = Authenticate(clientCredentials);
@@ -316,14 +322,18 @@ namespace FiresecService.Service
  			var existingClient = ClientsManager.ClientInfos
  									.Where(x => x.ClientCredentials.ClientType == clientType)
  									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
- 
- 			if(existingClient != null)
- 				Disconnect(existingClient.UID);
+
+			if (existingClient != null)
+			{
+#if DEBUG
+				Logger.Info(string.Format("Просим Клиента завершить сеанс: GUID='{0}' Имя='{1}' Тип='{2}'", existingClient.ClientCredentials.ClientUID, existingClient.ClientCredentials.UserName, existingClient.ClientCredentials.ClientType));
+#endif
+				SendDisconnectClientCommand(existingClient.UID, false);
+			}
  		}
 
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
-			DisconnectRepeatUser(clientCredentials, ClientType.Administrator); //TODO: remove it
 			// Может быть только одно подключение Администратора
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
@@ -336,7 +346,6 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
-			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
 			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
 			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
