@@ -335,12 +335,14 @@ namespace FiresecService.Service
 		/// <param name="clientType">Информация о типе клиента</param>
 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
 		{
-			var existingClient = ClientsManager.ClientInfos
-									.Where(x => x.ClientCredentials.ClientType == clientType)
-									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
+			var existingClients = ClientsManager.ClientInfos
+ 				.Where(x => x.ClientCredentials.ClientType == clientType
+ 						&& x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
 
-			if(existingClient != null)
-				Disconnect(existingClient.UID);
+ 			foreach (var clientInfo in existingClients)
+ 			{
+				Disconnect(clientInfo.UID);
+ 			}
 		}
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
