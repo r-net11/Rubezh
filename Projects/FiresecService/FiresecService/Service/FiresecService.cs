@@ -80,9 +80,9 @@ namespace FiresecService.Service
 				return operationResult;
 
 			// Проверка разрешений согласно лицензии
-			operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
-			if (operationResult.HasError)
-				return operationResult;
+			//operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
+			//if (operationResult.HasError)
+			//	return operationResult;
 
 			// Проверяем количесво активных карт и сравниваем с данными лицензии
 			operationResult = CheckActiveCardsCountAgainstLicenseData();
@@ -316,7 +316,7 @@ namespace FiresecService.Service
 			var existingClients = ClientsManager.ClientInfos
 				.Where(x => x.ClientCredentials.ClientType == clientType
 					&& x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
- 
+
 			foreach (var existingClient in existingClients)
 			{
 				Disconnect(existingClient.UID);
