@@ -16,12 +16,11 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(result);
 		}
 
-		public OperationResult<List<OPCZone>> GetOPCZones() //TODO: Handle exceptions
+		public OperationResult<List<OPCZone>> GetOPCZones()
 		{
 			try
 			{
-				var result = _integrationService.GetOPCZones();
-				return new OperationResult<List<OPCZone>>(result);
+				return new OperationResult<List<OPCZone>>(_integrationService.GetOPCZones());
 			}
 			catch (Exception e)
 			{
@@ -51,15 +50,17 @@ namespace FiresecService.Service
 
 		public OperationResult<List<Script>> GetFiresecScripts()
 		{
-			var result = _integrationService.GetFiresecScripts();
-
-			if (result == null)
+			try
+			{
+				return new OperationResult<List<Script>>(_integrationService.GetFiresecScripts());
+			}
+			catch (Exception e)
+			{
 				return new OperationResult<List<Script>>
 				{
-					Errors = new List<string> {"Connection problems."}
+					Errors = new List<string> {e.ToString()}
 				};
-
-			return new OperationResult<List<Script>>(result);
+			}
 		}
 
 		public OperationResult<bool> SendOPCScript(OPCCommandType type)

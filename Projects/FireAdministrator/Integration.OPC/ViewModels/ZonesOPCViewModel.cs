@@ -25,6 +25,7 @@ namespace Integration.OPC.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedZoneOPC != null);
 			EditCommand = new RelayCommand(OnEdit, () => SelectedZoneOPC != null);
 			SettingsCommand = new RelayCommand(OnSettings);
+			SelectedZoneOPC = ZonesOPC != null ? ZonesOPC.FirstOrDefault() : null;
 		}
 
 		public ObservableCollection<OPCZone> ZonesOPC { get; set; }

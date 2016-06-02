@@ -20,7 +20,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal">
+		<!--<StackPanel Orientation="Horizontal">
 			<Rectangle
 				Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}"
 				StrokeThickness="2"
@@ -42,7 +42,7 @@
 					VerticalAlignment="Center"
 					Margin="5" />
 			</StackPanel>
-		</StackPanel>
+		</StackPanel>-->
 		<views:FireZonePrepertyControl
 			Grid.Row="1"
 			Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}" />
