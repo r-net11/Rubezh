@@ -272,9 +272,10 @@ namespace FiresecClient
 		/// Посылает команду Клиенту на закрытие соединения с Сервером
 		/// </summary>
 		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
-		public void SendDisconnectClientCommand(Guid clientUid)
+		/// <param name="showNotification">Уведомлять или нет пользователя перед закрытием приложения Клиента</param>
+		public void SendDisconnectClientCommand(Guid clientUid, bool showNotification)
 		{
-			SafeOperationCall(() => FiresecService.SendDisconnectClientCommand(clientUid), "SendDisconnectClientCommand");
+			SafeOperationCall(() => FiresecService.SendDisconnectClientCommand(clientUid, showNotification), "SendDisconnectClientCommand");
 		}
 
 		/// <summary>
@@ -291,6 +292,7 @@ namespace FiresecClient
 		/// <returns>Логи загрузки Сервера</returns>
 		public OperationResult<string> GetLogs()
 		{
+			Logger.Info("Запрашиваем у Сервера логи загрузки");
 			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
 	}
