@@ -11,7 +11,7 @@ namespace StrazhAPI.SKD.ReportFilters
 	{
 		public DoorsReportFilter()
 		{
-			ReportType = Enums.ReportType.DoorsReport;
+			ReportType = ReportType.DoorsReport;
 		}
 		#region IReportFilterOrganisation Members
 

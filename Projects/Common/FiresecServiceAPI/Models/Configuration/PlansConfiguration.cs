@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -40,43 +39,45 @@ namespace StrazhAPI.Models
 			AddChildren(Plans, null);
 		}
 
-		private void AddChildren(List<Plan> plans, Plan parent)
+		private void AddChildren(IEnumerable<Plan> plans, Plan parent)
 		{
 			foreach (var plan in plans)
 			{
 				plan.Parent = parent;
-				var realPlan = plan as Plan;
-				if (realPlan != null)
-				{
-					AllPlans.Add(realPlan);
-					_planMap.Add(realPlan.UID, realPlan);
-				}
+				var realPlan = plan;
+				AllPlans.Add(realPlan);
+				_planMap.Add(realPlan.UID, realPlan);
+
 				if (plan.Children == null)
 					plan.Children = new List<Plan>();
+
 				AddChildren(plan.Children, plan);
 			}
 		}
 
 		public override bool ValidateVersion()
 		{
-			bool result = true;
+			var result = true;
 			Update();
 			result &= ValidateVersion(AllPlans);
 			return result;
 		}
 
-		private bool ValidateVersion(List<Plan> folders)
+		private bool ValidateVersion(IEnumerable<Plan> folders)
 		{
-			bool result = true;
-			foreach (var plan in folders.OfType<Plan>())
-				result &= ValidateVersion(plan);
+			var result = true;
+			foreach (var folder in folders)
+			{
+				var plan = folder;
+				if (plan != null)
+					result &= ValidateVersion(plan);
+			}
 			return result;
 		}
 
-		private bool ValidateVersion(Plan plan)
+		private bool ValidateVersion(Plan plan) //TODO: implement this method or remove
 		{
-			bool result = true;
-			return result;
+			return true;
 		}
 	}
 }

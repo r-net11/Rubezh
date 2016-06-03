@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.Enums;
 
 namespace StrazhAPI.SKD.ReportFilters
 {

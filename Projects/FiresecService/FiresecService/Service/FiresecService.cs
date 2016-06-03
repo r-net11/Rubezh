@@ -1,22 +1,22 @@
-﻿using System.Data.SqlClient;
-using System.Linq;
+﻿using Common;
+using FiresecService.Service.Validators;
+using Infrastructure.Common;
 using Integration.Service;
-using StrazhDeviceSDK;
-using Common;
+using KeyGenerator;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using FiresecService.Service.Validators;
-using Infrastructure.Common;
-using KeyGenerator;
 using StrazhDAL;
+using StrazhDeviceSDK;
+using StrazhService;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using StrazhService;
 
 namespace FiresecService.Service
 {
@@ -315,6 +315,7 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			DisconnectRepeatUser(clientCredentials, ClientType.Administrator); //TODO: remove it
 			// Может быть только одно подключение Администратора
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
@@ -325,8 +326,28 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
+		/// <summary>
+		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
+		/// Необходим для корректного обнаружения мёртвых соединений.
+		/// Работает только при повторном входе клиента с одного ip-адреса.
+		/// </summary>
+		/// <param name="clientCredentials">Информация о клиенте</param>
+		/// <param name="clientType">Информация о типе клиента</param>
+		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
+		{
+			var existingClients = ClientsManager.ClientInfos
+ 				.Where(x => x.ClientCredentials.ClientType == clientType
+ 						&& x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
+
+ 			foreach (var clientInfo in existingClients)
+ 			{
+				Disconnect(clientInfo.UID);
+ 			}
+		}
+
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
 			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
 			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>

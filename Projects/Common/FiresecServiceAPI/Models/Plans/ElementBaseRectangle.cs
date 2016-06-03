@@ -7,7 +7,7 @@ namespace StrazhAPI.Plans.Elements
 	[DataContract]
 	public abstract class ElementBaseRectangle : ElementBasePoint
 	{
-		public ElementBaseRectangle()
+		protected ElementBaseRectangle()
 		{
 			Height = 50;
 			Width = 50;

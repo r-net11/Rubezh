@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace StrazhAPI.Models
 {
 	[DataContract]
-	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive, IElementReference
+	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive
 	{
 		public ElementPolygonSKDZone()
 		{
@@ -51,7 +51,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return StrazhAPI.Plans.Elements.Primitive.PolygonZone; }
+			get { return Primitive.PolygonZone; }
 		}
 
 		#endregion IPrimitive Members

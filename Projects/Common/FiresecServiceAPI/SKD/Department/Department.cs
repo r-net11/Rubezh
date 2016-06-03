@@ -8,7 +8,6 @@ namespace StrazhAPI.SKD
 	public class Department : OrganisationElementBase
 	{
 		public Department()
-			: base()
 		{
 			ChildDepartmentUIDs = new List<Guid>();
 		}

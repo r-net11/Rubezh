@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 			//}
 			foreach (var name in GetWellKnownNames())
 			{
-				if (!zipConfigurationItems.Any(x => x.Name == name))
+				if (zipConfigurationItems.All(x => x.Name != name))
 					zipConfigurationItems.Add(new ZipConfigurationItem(name, 1, 1));
 			}
 			return zipConfigurationItems;

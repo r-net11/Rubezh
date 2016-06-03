@@ -94,7 +94,7 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
-		
+
 		public static void NotifyNewSearchDevices(List<SKDDeviceSearchInfo> searchDevices)
 		{
 			var callbackResult = new CallbackResult()
@@ -112,7 +112,7 @@ namespace FiresecService.Service
 		public void SendDisconnectClientCommand(Guid clientUid)
 		{
 			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
-			
+
 			// После посылки Клиенту команды на разрыв соединения ждем 2 секунды и сами имитируем вызов от имени Клиента на разрыв соединения,
 			// т.к. "мертвый" Клиент этого не сделает
 			Task.Factory.StartNew(() =>

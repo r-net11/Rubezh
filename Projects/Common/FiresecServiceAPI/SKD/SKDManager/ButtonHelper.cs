@@ -7,7 +7,7 @@ namespace StrazhAPI.SKD
 	{
 		public static SKDDriver Create()
 		{
-			var driver = new SKDDriver()
+			var driver = new SKDDriver
 			{
 				UID = new Guid("5E4050C3-BDFA-4aeb-B66F-2BAD7F5CDF58"),
 				Name = "Кнопка выход",

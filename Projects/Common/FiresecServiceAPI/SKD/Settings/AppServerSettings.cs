@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace StrazhAPI
@@ -12,7 +11,6 @@ namespace StrazhAPI
 			ServiceAddress = "localhost";
 			ServicePort = 8000;
 			ReportServicePort = 8800;
-			EnableRemoteConnections = false;
 			EnableOfflineLog = true;
 
 			DBServerAddress = ".";

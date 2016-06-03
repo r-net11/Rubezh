@@ -15,6 +15,8 @@ namespace Integration.OPC.ViewModels
 {
 	public class ZonesOPCViewModel : MenuViewPartViewModel
 	{
+		private OPCZone _selectedZoneOPC;
+
 		public void Initialize(IEnumerable<OPCZone> existingZones)
 		{
 			ZonesOPC = new ObservableCollection<OPCZone>(existingZones);
@@ -23,11 +25,10 @@ namespace Integration.OPC.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedZoneOPC != null);
 			EditCommand = new RelayCommand(OnEdit, () => SelectedZoneOPC != null);
 			SettingsCommand = new RelayCommand(OnSettings);
+			SelectedZoneOPC = ZonesOPC != null ? ZonesOPC.FirstOrDefault() : null;
 		}
 
 		public ObservableCollection<OPCZone> ZonesOPC { get; set; }
-
-		private OPCZone _selectedZoneOPC;
 
 		public OPCZone SelectedZoneOPC
 		{

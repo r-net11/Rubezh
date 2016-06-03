@@ -28,8 +28,8 @@ namespace StrazhAPI.SKD
 
 		public string Description
 		{
-			get { return ""; }
-			set { return; }
+			get { return string.Empty; }
+			set { }
 		}
 	}
 }

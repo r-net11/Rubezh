@@ -18,7 +18,7 @@ namespace StrazhAPI.SKD.ReportFilters
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			IsEmployee = true;
-			ReportType = Enums.ReportType.EventsReport;
+			ReportType = ReportType.EventsReport;
 		}
 
 		#region IReportFilterPeriod Members

@@ -8,7 +8,7 @@ namespace StrazhAPI.SKD
 		public static void CreateDrivers()
 		{
 			Drivers = new List<SKDDriver>();
-			var systemDriver = new SKDDriver()
+			var systemDriver = new SKDDriver
 			{
 				UID = new Guid("EC1089D1-7DBC-4797-A5AB-F37104999E91"),
 				Name = "Система",

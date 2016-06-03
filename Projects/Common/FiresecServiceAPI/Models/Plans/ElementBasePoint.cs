@@ -7,7 +7,7 @@ namespace StrazhAPI.Plans.Elements
 	[DataContract]
 	public abstract class ElementBasePoint : ElementBase
 	{
-		public ElementBasePoint()
+		protected ElementBasePoint()
 		{
 			Top = 0;
 			Left = 0;

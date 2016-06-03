@@ -14,7 +14,7 @@ namespace StrazhAPI.SKD.ReportFilters
 			UseCurrentDate = true;
 			IsEmployee = true;
 			ReportDateTime = DateTime.Now;
-			ReportType = Enums.ReportType.EmployeeZonesReport;
+			ReportType = ReportType.EmployeeZonesReport;
 		}
 
 		#region IReportFilterOrganisation Members

@@ -1,11 +1,10 @@
 ﻿using StrazhAPI.Plans.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Windows.Media;
 
 namespace StrazhAPI.Plans.Elements
 {
-	public interface IElementZone : IElementReference, IElementBase
+	public interface IElementZone : IElementReference
 	{
 		Guid ZoneUID { get; set; }
 

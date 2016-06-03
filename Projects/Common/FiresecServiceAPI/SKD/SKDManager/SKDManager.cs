@@ -51,11 +51,12 @@ namespace StrazhAPI.SKD
 			if (SKDConfiguration.RootDevice == null)
 			{
 				var driver = Drivers.FirstOrDefault(x => x.DriverType == SKDDriverType.System);
-				SKDConfiguration.RootDevice = new SKDDevice
-				{
-					DriverUID = driver.UID,
-					Name = "Система"
-				};
+				if (driver != null)
+					SKDConfiguration.RootDevice = new SKDDevice
+					{
+						DriverUID = driver.UID,
+						Name = "Система"
+					};
 			}
 
 			SKDConfiguration.Update();
@@ -196,7 +197,7 @@ namespace StrazhAPI.SKD
 		/// <returns>Точка доступа</returns>
 		public static SKDDoor GetDoorForLock(SKDDevice device)
 		{
-			foreach (var door in SKDManager.Doors)
+			foreach (var door in Doors)
 			{
 				if (door.InDevice != null)
 				{

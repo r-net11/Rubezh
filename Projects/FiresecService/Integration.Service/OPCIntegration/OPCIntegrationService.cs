@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Common;
-using Integration.Service.Entities;
+﻿using Common;
 using StrazhAPI.Automation.Enums;
 using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
-using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Integration.Service.OPCIntegration
 {
@@ -61,104 +55,7 @@ namespace Integration.Service.OPCIntegration
 		/// <returns>true - если ответ получен.</returns>
 		public bool PingOPCServer()
 		{
-			WebResponseInfo info;
-			try
-			{
-				info = SendRequestToOPCServer(PingCommand);
-			}
-			catch (WebException e)
-			{
-				Logger.Info(e.ToString());
-				return false;
-			}
-
-			return info == _httpClient.PingSuccess;
-		}
-
-
-		public List<OPCZone> GetOPCZones()
-		{
-			WebResponseInfo info;
-			try
-			{
-				info = SendRequestToOPCServer(GetConfigCommand);
-			}
-			catch (WebException e)
-			{
-				Logger.Info(e.ToString());
-				throw;
-				return new List<OPCZone>();
-			}
-
-			var xmlDoc = new XmlDocument();
-
-			try
-			{
-				xmlDoc.LoadXml(info.Body);
-			}
-			catch (XmlException e)
-			{
-				Logger.Error(e);
-				throw;
-				return new List<OPCZone>();
-			}
-
-			const string xPath = "config/zone";
-			var nodes = xmlDoc.SelectNodes(xPath);
-
-			var inputZones = new List<zone>();
-
-			foreach (XmlNode node in nodes)
-			{
-				var str = node.OuterXml;
-				using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(str)))
-				{
-					var serializer = new XmlSerializer(typeof(zone));
-					inputZones.Add(serializer.Deserialize(stream) as zone);
-				}
-			}
-
-			var opcZones = new List<OPCZone>();
-			foreach (var inputZone in inputZones)
-			{
-				var autoset = inputZone.param.FirstOrDefault(x => x.name == "AutoSet");
-				var delay = inputZone.param.FirstOrDefault(x => x.name == "Delay");
-				var guardZoneType = inputZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
-				var isSkippedTypeEnabled = inputZone.param.FirstOrDefault(x => x.name == "IsSkippedTypeEnabled");
-				var zoneType = inputZone.param.FirstOrDefault(x => x.name == "ZoneType");
-
-				var zone = new OPCZone
-				{
-					Name = inputZone.name,
-					No = inputZone.no,
-					Description = inputZone.desc,
-					AutoSet = autoset != null ? Convert.ToInt32(autoset.value) : (int?)null,
-					Delay = delay != null ? Convert.ToInt32(delay.value) : (int?)null,
-					IsSkippedTypeEnabled = isSkippedTypeEnabled != null ? Convert.ToBoolean(isSkippedTypeEnabled) : (bool?)null
-				};
-
-				if (zoneType != null)
-				{
-					OPCZoneType zoneTypeResult;
-					if (Enum.TryParse(zoneType.value, true, out zoneTypeResult))
-					{
-						zone.Type = zoneTypeResult;
-					}
-				}
-
-				if (guardZoneType != null)
-				{
-					GuardZoneType guardZoneTypeResult;
-					if (Enum.TryParse(guardZoneType.value, true, out guardZoneTypeResult))
-					{
-						zone.GuardZoneType = guardZoneTypeResult;
-					}
-				}
-
-				opcZones.Add(zone);
-			}
-
-			return new List<OPCZone>(opcZones.Where(x => x.Type != OPCZoneType.ASC));
+			return SendRequestToOPCServer(PingCommand) == _httpClient.PingSuccess;
 		}
 
 		public bool StopOPCIntegrationService()
@@ -172,97 +69,108 @@ namespace Integration.Service.OPCIntegration
 
 		public void SetGuard(int no)
 		{
-			try
-			{
-				SendRequestToOPCServer(string.Format(SetGuardCommand, no));
-			}
-			catch (WebException e)
-			{
-				Logger.Info(e.ToString());
-			}
+			SendRequestToOPCServer(string.Format(SetGuardCommand, no));
 		}
 
 		public void UnsetGuard(int no)
 		{
-			try
-			{
-				SendRequestToOPCServer(string.Format(UnsetGuardCommand, no));
-			}
-			catch (WebException e)
-			{
-				Logger.Info(e.ToString());
-			}
+			SendRequestToOPCServer(string.Format(UnsetGuardCommand, no));
 		}
 
 		public List<Script> GetFiresecScripts()
 		{
-			XDocument xdoc;
+			Thread.Sleep(2000);
+			IEnumerable<XElement> xDoc;
 			try
 			{
 				var result = SendRequestToOPCServer(GetConfigCommand);
-				xdoc = XDocument.Parse(result.Body);
+
+				if(result == null) return new List<Script>();
+
+				xDoc = XElement.Parse(result.Body).Elements("scenaries").Elements("scenario");
 			}
-			catch (XmlException e)
+			catch (Exception e)
 			{
 				Logger.Error(e);
-				return new List<Script>();
+				throw;
 			}
-			catch (WebException e)
+
+			return xDoc
+				.Select(scriptXML =>
+					new
+					{
+						Id = (string)scriptXML.Attribute("id"),
+						Name = (string)scriptXML.Attribute("caption"),
+						Description = (string)scriptXML.Attribute("desc"),
+						IsEnabled = (string)scriptXML.Attribute("enabled")
+					})
+					.Select(script =>
+					new Script
+					{
+						Id = script.Id != null ? Convert.ToInt32(script.Id) : default(int),
+						Name = script.Name,
+						Description = script.Description,
+						IsEnabled = script.IsEnabled != null ? Convert.ToInt32(script.IsEnabled) != default(int) : default(bool)
+					})
+				.ToList();
+		}
+
+		public List<OPCZone> GetOPCZones()
+		{
+			IEnumerable<XElement> xDoc;
+			try
+			{
+				var info = SendRequestToOPCServer(GetConfigCommand);
+
+				if(info == null) return new List<OPCZone>();
+
+				xDoc = XElement.Parse(info.Body).Elements("zone");
+			}
+			catch (Exception e)
 			{
 				Logger.Error(e);
-				return null;
+				throw;
 			}
 
-			var scripts = new List<Script>();
-			foreach (var node in xdoc.Descendants("scenaries").Descendants("scenario"))
-			{
-				var str = node.Attributes();
-				var idNode = node.Attribute("id");
-				var nameNode = node.Attribute("caption");
-				var descriptionNode = node.Attribute("desc");
-				var isEnabledNode = node.Attribute("enabled");
-
-				scripts.Add(new Script
-				{
-					Id = Convert.ToInt32(idNode.Value),
-					Name = nameNode != null ? nameNode.Value : null,
-					Description = descriptionNode != null ? descriptionNode.Value : null,
-					IsEnabled =  Convert.ToInt32(isEnabledNode.Value) != default(int)
-				});
-			}
-			Thread.Sleep(2000);
-			return scripts;
+			return xDoc
+				.Select(zoneXML => new
+					{
+						No = (string)zoneXML.Attribute("no"),
+						Name = (string)zoneXML.Attribute("name"),
+						Description = (string)zoneXML.Attribute("desc"),
+						Autoset = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "AutoSet").Select(x => x.Attribute("value")).FirstOrDefault(),
+						Delay = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "Delay").Select(x => x.Attribute("value")).FirstOrDefault(),
+						GuardZoneType = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "GuardZoneType").Select(x => x.Attribute("value")).FirstOrDefault(),
+						IsSkippedTypeEnabled = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "IsSkippedTypeEnabled").Select(x => x.Attribute("value")).FirstOrDefault(),
+						ZoneType = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "ZoneType").Select(x => x.Attribute("value")).FirstOrDefault()
+					})
+				.Select(zone => new OPCZone
+					{
+						No = string.IsNullOrEmpty(zone.No) ? default(int) : Convert.ToInt32(zone.No),
+						Name = string.IsNullOrEmpty(zone.Name) ? null : zone.Name,
+						Description = string.IsNullOrEmpty(zone.Description) ? null : zone.Description,
+						AutoSet = zone.Autoset != null ? Convert.ToInt32(zone.Autoset) : (int?)null,
+						Delay = zone.Delay != null ? Convert.ToInt32(zone.Delay) : (int?)null,
+						GuardZoneType = zone.GuardZoneType != null ? (GuardZoneType)Enum.Parse(typeof(GuardZoneType), zone.GuardZoneType, true) : (GuardZoneType?)null,
+						IsSkippedTypeEnabled = zone.IsSkippedTypeEnabled != null ? Convert.ToBoolean(zone.IsSkippedTypeEnabled) : (bool?)null,
+						Type = zone.ZoneType != null ? (OPCZoneType)Enum.Parse(typeof(OPCZoneType), zone.ZoneType) : (OPCZoneType?)null
+					})
+				.Where(x => x.Type != OPCZoneType.ASC)
+				.ToList();
 		}
 
 		public bool ExecuteFiresecScript(Script script, FiresecCommandType type)
 		{
 			if (script == null) return false;
 
-			try
-			{
-				SendRequestToOPCServer(string.Format(ExecuteScriptCommand, script.Id, TypeToFiresecCommand(type)));
-			}
-			catch (WebException e)
-			{
-				Logger.Info(e.ToString());
-				return false;
-			}
+			SendRequestToOPCServer(string.Format(ExecuteScriptCommand, script.Id, TypeToFiresecCommand(type)));
 
 			return true;
 		}
 
 		public bool SendOPCCommandType(OPCCommandType type)
 		{
-			try
-			{
-				SendRequestToOPCServer(TypeToOPCCommand(type));
-			}
-			catch (WebException e)
-			{
-				Logger.Error(e);
-				return false;
-			}
-
+			SendRequestToOPCServer(TypeToOPCCommand(type));
 			return true;
 		}
 
@@ -300,10 +208,23 @@ namespace Integration.Service.OPCIntegration
 		{
 			WebResponseInfo info;
 
-			var webRequest = _httpClient.CreateWebRequest(message);
-			using (var webResponse = (HttpWebResponse)webRequest.GetResponse())
+			try
 			{
-				info = _httpClient.Read(webResponse);
+				var webRequest = _httpClient.CreateWebRequest(message);
+				using (var webResponse = (HttpWebResponse) webRequest.GetResponse())
+				{
+					info = _httpClient.Read(webResponse);
+				}
+			}
+			catch (WebException e)
+			{
+				Logger.Error(e);
+				return null;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				throw;
 			}
 
 			return info;

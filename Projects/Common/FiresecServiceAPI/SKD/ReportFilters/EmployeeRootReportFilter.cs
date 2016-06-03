@@ -12,7 +12,7 @@ namespace StrazhAPI.SKD.ReportFilters
 		public EmployeeRootReportFilter()
 		{
 			IsEmployee = true;
-			ReportType = Enums.ReportType.EmployeeRootReport;
+			ReportType = ReportType.EmployeeRootReport;
 		}
 
 		#region IReportFilterOrganisation Members

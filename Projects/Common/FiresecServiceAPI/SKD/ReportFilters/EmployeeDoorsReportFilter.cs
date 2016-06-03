@@ -7,7 +7,7 @@ namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(EmployeeDoorsReportFilter))]
-	public class EmployeeDoorsReportFilter : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZoneWithDirection, IReportFilterSchedule, IReportFilterEmployee
+	public class EmployeeDoorsReportFilter : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZoneWithDirection, IReportFilterSchedule
 	{
 		public EmployeeDoorsReportFilter()
 		{
@@ -18,7 +18,7 @@ namespace StrazhAPI.SKD.ReportFilters
 			PassCardPermanent = true;
 			PassCardTemprorary = true;
 			IsEmployee = true;
-			ReportType = Enums.ReportType.EmployeeDoorsReport;
+			ReportType = ReportType.EmployeeDoorsReport;
 		}
 
 		#region IReportFilterPassCardType Members

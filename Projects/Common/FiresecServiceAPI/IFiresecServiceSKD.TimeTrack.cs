@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
 
 namespace StrazhAPI
 {

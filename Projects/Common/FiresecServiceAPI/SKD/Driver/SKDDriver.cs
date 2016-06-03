@@ -56,7 +56,7 @@ namespace StrazhAPI.SKD
 
 		public string ImageSource
 		{
-			get { return "/Controls;component/SKDIcons/" + this.DriverType.ToString() + ".png"; }
+			get { return "/Controls;component/SKDIcons/" + DriverType + ".png"; }
 		}
 	}
 

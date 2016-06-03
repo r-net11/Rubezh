@@ -20,8 +20,7 @@ namespace StrazhAPI.Models
 
 		public override bool ValidateVersion()
 		{
-			var result = true;
-			return result;
+			return true;
 		}
 	}
 }

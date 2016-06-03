@@ -18,13 +18,13 @@ namespace StrazhAPI.Models
 
 		public override bool ValidateVersion()
 		{
-			var result = true;
 			foreach (var layout in Layouts)
 			{
 				if (layout.UID == Guid.Empty)
 					layout.UID = Guid.NewGuid();
 			}
-			return result;
+
+			return true;
 		}
 
 		public void Update()

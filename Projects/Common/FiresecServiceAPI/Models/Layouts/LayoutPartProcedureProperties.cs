@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows.Media;
 
 namespace StrazhAPI.Models.Layouts
 {
@@ -8,16 +7,13 @@ namespace StrazhAPI.Models.Layouts
 	{
 		public LayoutPartProcedureProperties()
 		{
-			Text = "";
+			Text = string.Empty;
 			ForegroundColor = Colors.Black;
 			BackgroundColor = Colors.White;
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
 			FontSize = 10;
-			TextAlignment = 0;
 			FontFamilyName = "Arial";
-			FontItalic = false;
-			FontBold = false;
 		}
 
 		[DataMember]

@@ -15,7 +15,7 @@ namespace StrazhAPI.SKD
 
 		public SKDWeeklyInterval(bool createdefault)
 		{
-			WeeklyIntervalParts = CreateParts();
+			WeeklyIntervalParts = CreateParts(); //TODO: can move to default constructor.
 		}
 
 		[DataMember]
@@ -32,14 +32,16 @@ namespace StrazhAPI.SKD
 
 		public static List<SKDWeeklyIntervalPart> CreateParts()
 		{
-			var result = new List<SKDWeeklyIntervalPart>();
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Monday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Tuesday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Wednesday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Thursday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Friday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Saturday });
-			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Sunday });
+			var result = new List<SKDWeeklyIntervalPart>
+			{
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Monday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Tuesday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Wednesday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Thursday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Friday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Saturday},
+				new SKDWeeklyIntervalPart {DayOfWeek = SKDDayOfWeek.Sunday}
+			};
 			return result;
 		}
 

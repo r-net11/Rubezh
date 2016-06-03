@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-
+﻿
 namespace StrazhAPI.Plans.Elements
 {
 	public interface IElementBorder

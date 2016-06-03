@@ -7,8 +7,7 @@ namespace StrazhAPI.Automation
 	{
 		public RviAlarmArguments()
 		{
-			NameArgument = new Argument();
-			NameArgument.ExplicitValue.StringValue = "";
+			NameArgument = new Argument {ExplicitValue = {StringValue = string.Empty}};
 		}
 
 		[DataMember]

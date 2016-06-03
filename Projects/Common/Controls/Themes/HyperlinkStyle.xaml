@@ -12,6 +12,7 @@
 		</Style.Triggers>
 		<Setter Property="Foreground" Value="SteelBlue" />
 		<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+		<Setter Property="Focusable" Value="False" />
 	</Style>
 
 	<Style x:Key="HyperlinkStyle2" TargetType="{x:Type Hyperlink}">
@@ -25,5 +26,6 @@
 		</Style.Triggers>
 		<Setter Property="Foreground" Value="Black" />
 		<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+		<Setter Property="Focusable" Value="False" />
 	</Style>
 </ResourceDictionary>

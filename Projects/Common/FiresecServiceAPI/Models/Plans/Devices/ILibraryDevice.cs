@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StrazhAPI.Plans.Devices
 {
-	public interface ILibraryDevice<TLibraryState, TLibraryFrame, TStateType>
+	public interface ILibraryDevice<TLibraryState, TLibraryFrame>
 		where TLibraryFrame : ILibraryFrame
 		where TLibraryState : ILibraryState<TLibraryFrame>
 	{
