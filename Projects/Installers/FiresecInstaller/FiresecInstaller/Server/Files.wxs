@@ -55,7 +55,6 @@
 				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.OPCIntegrationClient.dll" Name="OPCIntegrationClient.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.AutoMapper.Net4.dll" Name="AutoMapper.Net4.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.AutoMapper.dll" Name="AutoMapper.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
