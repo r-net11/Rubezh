@@ -23,7 +23,7 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GetProperties(layoutUID));
 		}
 
-		public OperationResult<List<Script>> GetFiresecScripts()
+		public OperationResult<IEnumerable<Script>> GetFiresecScripts()
 		{
 			return SafeContext.Execute(() => FiresecService.GetFiresecScripts());
 		}

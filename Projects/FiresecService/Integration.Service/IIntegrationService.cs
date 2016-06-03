@@ -9,7 +9,7 @@ namespace Integration.Service
 	{
 		bool PingOPCServer();
 
-		List<OPCZone> GetOPCZones();
+		IEnumerable<OPCZone> GetOPCZones();
 
 		void SetNewConfig();
 
@@ -17,10 +17,12 @@ namespace Integration.Service
 
 		void UnsetGuard(int no);
 
-		List<Script> GetFiresecScripts();
+		IEnumerable<Script> GetFiresecScripts();
 
 		bool ExecuteFiresecScript(Script script, FiresecCommandType type);
 
 		bool SendOPCCommandType(OPCCommandType type);
+
+		IEnumerable<OPCZone> GetGuardZones();
 	}
 }

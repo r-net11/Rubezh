@@ -1,18 +1,20 @@
-﻿using Common;
+﻿using System.Linq;
+using AutoMapper;
+using Common;
+using Integration.Service.Entities;
+using Integration.Service.Parcers;
 using StrazhAPI.Automation.Enums;
 using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Integration.Service.OPCIntegration
 {
-	public sealed class OPCIntegrationService
+	internal sealed class OPCIntegrationService
 	{
 		private const string SetGuardCommand = "Zone:Guard:Set:{0}";
 		private const string UnsetGuardCommand = "Zone:Guard:Unset:{0}";
@@ -77,17 +79,18 @@ namespace Integration.Service.OPCIntegration
 			SendRequestToOPCServer(string.Format(UnsetGuardCommand, no));
 		}
 
-		public List<Script> GetFiresecScripts()
+		public IEnumerable<Script> GetFiresecScripts()
 		{
 			Thread.Sleep(2000);
-			IEnumerable<XElement> xDoc;
+			ScriptParser parser;
 			try
 			{
 				var result = SendRequestToOPCServer(GetConfigCommand);
 
-				if(result == null) return new List<Script>();
+				if(result == null)
+					return new List<Script>();
 
-				xDoc = XElement.Parse(result.Body).Elements("scenaries").Elements("scenario");
+				parser = new ScriptParser(result.Body);
 			}
 			catch (Exception e)
 			{
@@ -95,68 +98,35 @@ namespace Integration.Service.OPCIntegration
 				throw;
 			}
 
-			return xDoc
-				.Select(scriptXML =>
-					new
-					{
-						Id = (string)scriptXML.Attribute("id"),
-						Name = (string)scriptXML.Attribute("caption"),
-						Description = (string)scriptXML.Attribute("desc"),
-						IsEnabled = (string)scriptXML.Attribute("enabled")
-					})
-					.Select(script =>
-					new Script
-					{
-						Id = script.Id != null ? Convert.ToInt32(script.Id) : default(int),
-						Name = script.Name,
-						Description = script.Description,
-						IsEnabled = script.IsEnabled != null ? Convert.ToInt32(script.IsEnabled) != default(int) : default(bool)
-					})
-				.ToList();
+			return Mapper.Map<IEnumerable<ScriptMessage>, IEnumerable<Script>>(parser.GetResult());
 		}
 
-		public List<OPCZone> GetOPCZones()
+		public IEnumerable<OPCZone> GetOPCZones()
 		{
-			IEnumerable<XElement> xDoc;
+			Thread.Sleep(2000);
+			OPCZoneParser parser;
 			try
 			{
 				var info = SendRequestToOPCServer(GetConfigCommand);
 
-				if(info == null) return new List<OPCZone>();
+				if(info == null)
+					return new List<OPCZone>();
 
-				xDoc = XElement.Parse(info.Body).Elements("zone");
+				parser = new OPCZoneParser(info.Body);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e);
 				throw;
 			}
-
-			return xDoc
-				.Select(zoneXML => new
-					{
-						No = (string)zoneXML.Attribute("no"),
-						Name = (string)zoneXML.Attribute("name"),
-						Description = (string)zoneXML.Attribute("desc"),
-						Autoset = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "AutoSet").Select(x => x.Attribute("value")).FirstOrDefault(),
-						Delay = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "Delay").Select(x => x.Attribute("value")).FirstOrDefault(),
-						GuardZoneType = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "GuardZoneType").Select(x => x.Attribute("value")).FirstOrDefault(),
-						IsSkippedTypeEnabled = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "IsSkippedTypeEnabled").Select(x => x.Attribute("value")).FirstOrDefault(),
-						ZoneType = (string)zoneXML.Descendants("param").Where(x => x.Attribute("name") != null && x.Attribute("name").Value == "ZoneType").Select(x => x.Attribute("value")).FirstOrDefault()
-					})
-				.Select(zone => new OPCZone
-					{
-						No = string.IsNullOrEmpty(zone.No) ? default(int) : Convert.ToInt32(zone.No),
-						Name = string.IsNullOrEmpty(zone.Name) ? null : zone.Name,
-						Description = string.IsNullOrEmpty(zone.Description) ? null : zone.Description,
-						AutoSet = zone.Autoset != null ? Convert.ToInt32(zone.Autoset) : (int?)null,
-						Delay = zone.Delay != null ? Convert.ToInt32(zone.Delay) : (int?)null,
-						GuardZoneType = zone.GuardZoneType != null ? (GuardZoneType)Enum.Parse(typeof(GuardZoneType), zone.GuardZoneType, true) : (GuardZoneType?)null,
-						IsSkippedTypeEnabled = zone.IsSkippedTypeEnabled != null ? Convert.ToBoolean(zone.IsSkippedTypeEnabled) : (bool?)null,
-						Type = zone.ZoneType != null ? (OPCZoneType)Enum.Parse(typeof(OPCZoneType), zone.ZoneType) : (OPCZoneType?)null
-					})
+			return Mapper.Map<IEnumerable<OPCZoneMessage>, IEnumerable<OPCZone>>(parser.GetResult())
 				.Where(x => x.Type != OPCZoneType.ASC)
 				.ToList();
+		}
+
+		public IEnumerable<OPCZone> GetGuardZones()
+		{
+			return GetOPCZones().Where(x => x.Type == OPCZoneType.Guard);
 		}
 
 		public bool ExecuteFiresecScript(Script script, FiresecCommandType type)

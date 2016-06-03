@@ -46,8 +46,11 @@ namespace Integration.Service.OPCIntegration
 
 		public void Stop()
 		{
-			if(_httpListener != null)
+			if (_httpListener != null)
+			{
 				_httpListener.Stop();
+				_httpListener.Close();
+			}
 		}
 
 		public void ProcessRequest()
@@ -82,8 +85,7 @@ namespace Integration.Service.OPCIntegration
 
 			if (request.HasEntityBody)
 			{
-				using(var bodyStream = request.InputStream)
-				using (var reader = new StreamReader(bodyStream, Encoding.GetEncoding(1251)))
+				using (var reader = new StreamReader(request.InputStream, Encoding.GetEncoding(1251)))
 				{
 					if (request.ContentType != null)
 						info.ContentType = request.ContentType;
@@ -107,8 +109,7 @@ namespace Integration.Service.OPCIntegration
 				ContentType = response.ContentType
 			};
 
-			using(var bodyStream = response.GetResponseStream())
-			using (var reader = new StreamReader(bodyStream, Encoding.GetEncoding(1251)))
+			using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251)))
 			{
 				info.Body = reader.ReadToEnd();
 			}
