@@ -57,9 +57,10 @@ namespace FireMonitor
 				try
 				{
 					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
-					SafeFiresecService.DisconnectClientCommandEvent += () =>
+					SafeFiresecService.DisconnectClientCommandEvent += (showNotification) =>
 					{
-						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+						if (showNotification)
+							ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
 						ApplicationService.ShutDown();
 					};
 

@@ -145,8 +145,9 @@ namespace StrazhAPI
 		/// Посылает команду Клиенту на закрытие соединения с Сервером
 		/// </summary>
 		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
+		/// <param name="showNotification">Уведомлять или нет пользователя перед закрытием приложения Клиента</param>
 		[OperationContract]
-		void SendDisconnectClientCommand(Guid clientUid);
+		void SendDisconnectClientCommand(Guid clientUid, bool showNotification);
 
 		/// <summary>
 		/// Монитор Сервера уведомляет Сервер о смене лицензии

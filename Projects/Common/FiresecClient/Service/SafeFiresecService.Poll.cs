@@ -22,7 +22,7 @@ namespace FiresecClient
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
-		public static event Action DisconnectClientCommandEvent;
+		public static event Action<bool> DisconnectClientCommandEvent;
 		public static event Action LicenseChangedEvent;
 		/// <summary>
 		/// Событие прохода по "Гостевой" карте
@@ -168,7 +168,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (DisconnectClientCommandEvent != null)
-								DisconnectClientCommandEvent();
+								DisconnectClientCommandEvent(callbackResult.ShowNotificationOnDisconnectClientCommand);
 						});
 						break;
 

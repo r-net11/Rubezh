@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common;
 using StrazhAPI;
 using StrazhAPI.Models;
@@ -36,6 +37,7 @@ namespace FiresecClient
 						break;
 					}
 					error = operationResult.Error;
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 				}
 
 				_userLogin = login;

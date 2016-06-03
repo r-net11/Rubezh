@@ -38,6 +38,9 @@ namespace StrazhAPI
 
 		[DataMember]
 		public SKDCard Card { get; set; }
+
+		[DataMember]
+		public bool ShowNotificationOnDisconnectClientCommand { get; set; }
 	}
 
 	public enum CallbackResultType
