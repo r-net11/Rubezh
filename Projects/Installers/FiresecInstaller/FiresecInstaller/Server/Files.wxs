@@ -77,6 +77,15 @@
 										ResetPeriodInDays="1"/>
 
 				</ServiceInstall>
+
+				<!-- Tell WiX to start the Service -->
+				<ServiceControl Id="StartService"
+								Start="install"
+								Stop="both"
+								Remove="uninstall"
+								Name="$(var.Server_Service_Name)"
+								Wait="yes">
+				</ServiceControl>
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
