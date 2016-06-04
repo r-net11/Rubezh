@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Journal;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
@@ -31,9 +32,9 @@ namespace FiltersModule.ViewModels
 		{
 			RootNames = new ObservableCollection<NameViewModel>
 			{
-				new NameViewModel(JournalSubsystemType.System) {IsExpanded = true},
-				new NameViewModel(JournalSubsystemType.SKD) {IsExpanded = true},
-				new NameViewModel(JournalSubsystemType.Video) {IsExpanded = true},
+				new NameViewModel(JournalSubsystemType.System),
+				new NameViewModel(JournalSubsystemType.SKD),
+				new NameViewModel(JournalSubsystemType.Video),
 			};
 
 			RootNames[0].AddChildren(GetEventsByType(JournalSubsystemType.System));
@@ -55,6 +56,7 @@ namespace FiltersModule.ViewModels
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
+					ExpandParent(filterNameViewModel);
 				}
 			}
 		}
@@ -84,6 +86,15 @@ namespace FiltersModule.ViewModels
 				_selectedName = value;
 				OnPropertyChanged(() => SelectedName);
 			}
+		}
+
+		private void ExpandParent(TreeNodeViewModel<NameViewModel> child)
+		{
+			if (child.Parent == null)
+				return;
+
+			child.Parent.IsExpanded = true;
+			ExpandParent(child.Parent);
 		}
 	}
 }
