@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Reflection;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using Infrastructure.Common.TreeList;
 using Controls.Converters;
-using System;
 
 namespace FiltersModule.ViewModels
 {
@@ -32,13 +30,13 @@ namespace FiltersModule.ViewModels
 		{
 			JournalEventNameType = journalEventNameType;
 
-			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
+			var fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventNameAttribute[] eventNameAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+				var eventNameAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
 				if (eventNameAttributes.Length > 0)
 				{
-					EventNameAttribute eventNameAttribute = eventNameAttributes[0];
+					var eventNameAttribute = eventNameAttributes[0];
 					Name = eventNameAttribute.NameInFilter;
 					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
 					StateClass = eventNameAttribute.StateClass;
@@ -52,7 +50,7 @@ namespace FiltersModule.ViewModels
 			IsSubsystem = false;
 		}
 
-		bool _isChecked;
+		private bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
@@ -64,7 +62,7 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		void PropogateDown(bool value)
+		private void PropogateDown(bool value)
 		{
 			foreach (var child in Children)
 			{
@@ -73,17 +71,16 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		void PropogateUp(bool value)
+		private void PropogateUp(bool value)
 		{
-			if (Parent != null)
-			{
-				var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-				Parent.SetIsChecked(isAllChecked);
-				Parent.PropogateUp(value);
-			}
+			if (Parent == null)
+				return;
+
+			Parent.SetIsChecked(Parent.Children.All(x => x.IsChecked));
+			Parent.PropogateUp(value);
 		}
 
-		void SetIsChecked(bool value)
+		private void SetIsChecked(bool value)
 		{
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);

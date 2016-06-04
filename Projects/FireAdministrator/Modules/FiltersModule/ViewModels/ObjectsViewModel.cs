@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
@@ -18,17 +16,9 @@ namespace FiltersModule.ViewModels
 			Initialize(filter);
 		}
 
-		void Initialize(JournalFilter filter)
+		private void Initialize(JournalFilter filter)
 		{
 			AllObjects.ForEach(x => x.SetIsChecked(false));
-			foreach (var subsystemType in filter.JournalSubsystemTypes)
-			{
-				var subsystemViewModel = RootObjects.FirstOrDefault(x => x.JournalSubsystemType == subsystemType);
-				if (subsystemViewModel != null)
-				{
-					subsystemViewModel.IsChecked = true;
-				}
-			}
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
 				var objectTypeViewModel = AllObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
@@ -53,27 +43,16 @@ namespace FiltersModule.ViewModels
 			var filter = new ArchiveFilter();
 			foreach (var subsystem in RootObjects)
 			{
-				if (subsystem.IsChecked)
+				foreach (var objectType in subsystem.Children)
 				{
-					filter.JournalSubsystemTypes.Add(subsystem.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var objectType in subsystem.Children)
+					if (objectType.IsChecked)
+						filter.JournalObjectTypes.Add(objectType.JournalObjectType);
+					else
 					{
-						if (objectType.IsChecked)
+						foreach (var objectViewModel in objectType.GetAllChildren())
 						{
-							filter.JournalObjectTypes.Add(objectType.JournalObjectType);
-						}
-						else
-						{
-							foreach (var objectViewModel in objectType.GetAllChildren())
-							{
-								if (objectViewModel.IsChecked && objectViewModel.UID != Guid.Empty)
-								{
-									filter.ObjectUIDs.Add(objectViewModel.UID);
-								}
-							}
+							if (objectViewModel.IsChecked && objectViewModel.UID != Guid.Empty)
+								filter.ObjectUIDs.Add(objectViewModel.UID);
 						}
 					}
 				}
@@ -86,7 +65,7 @@ namespace FiltersModule.ViewModels
 
 		public ObservableCollection<ObjectViewModel> RootObjects { get; private set; }
 
-		ObjectViewModel _selectedObject;
+		private ObjectViewModel _selectedObject;
 		public ObjectViewModel SelectedObject
 		{
 			get { return _selectedObject; }
@@ -97,7 +76,7 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		void BuildTree()
+		private void BuildTree()
 		{
 			RootObjects = new ObservableCollection<ObjectViewModel>();
 			AllObjects = new List<ObjectViewModel>();
@@ -142,7 +121,7 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		ObjectViewModel AddSKDDeviceInternal(SKDDevice device, ObjectViewModel parentDeviceViewModel)
+		private ObjectViewModel AddSKDDeviceInternal(SKDDevice device, ObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new ObjectViewModel(device);
 			if (parentDeviceViewModel != null)
@@ -155,7 +134,7 @@ namespace FiltersModule.ViewModels
 			return deviceViewModel;
 		}
 
-		void AddChild(ObjectViewModel parentDeviceViewModel, ObjectViewModel childDeviceViewModel)
+		private void AddChild(ObjectViewModel parentDeviceViewModel, ObjectViewModel childDeviceViewModel)
 		{
 			parentDeviceViewModel.AddChild(childDeviceViewModel);
 			AllObjects.Add(childDeviceViewModel);
