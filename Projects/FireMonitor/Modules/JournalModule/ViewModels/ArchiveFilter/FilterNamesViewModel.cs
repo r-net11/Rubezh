@@ -1,5 +1,6 @@
 ﻿using Common;
 using StrazhAPI.Journal;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace JournalModule.ViewModels
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
+					ExpandParent(filterNameViewModel);
 				}
 			}
 		}
@@ -76,14 +78,23 @@ namespace JournalModule.ViewModels
 		{
 			RootFilters = new ObservableCollection<FilterNameViewModel>
 			{
-				new FilterNameViewModel(JournalSubsystemType.System) {IsExpanded = true},
-				new FilterNameViewModel(JournalSubsystemType.SKD) {IsExpanded = true},
-				new FilterNameViewModel(JournalSubsystemType.Video) {IsExpanded = true},
+				new FilterNameViewModel(JournalSubsystemType.System),
+				new FilterNameViewModel(JournalSubsystemType.SKD),
+				new FilterNameViewModel(JournalSubsystemType.Video),
 			};
 
 			RootFilters[0].AddChildren(GetEventsByType(JournalSubsystemType.System));
 			RootFilters[1].AddChildren(GetEventsByType(JournalSubsystemType.SKD));
 			RootFilters[2].AddChildren(GetEventsByType(JournalSubsystemType.Video));
+		}
+
+		private void ExpandParent(TreeNodeViewModel<FilterNameViewModel> child)
+		{
+			if (child.Parent == null)
+				return;
+
+			child.Parent.IsExpanded = true;
+			ExpandParent(child.Parent);
 		}
 	}
 }
