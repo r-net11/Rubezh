@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace JournalModule.ViewModels
 				if (objectTypeViewModel != null)
 				{
 					objectTypeViewModel.IsChecked = true;
+					ExpandParent(objectTypeViewModel);
 				}
 			}
 			foreach (var uid in filter.ObjectUIDs)
@@ -33,7 +35,10 @@ namespace JournalModule.ViewModels
 				{
 					var objectUIDViewModel = _allObjects.FirstOrDefault(x => x.UID == uid);
 					if (objectUIDViewModel != null)
+					{
 						objectUIDViewModel.IsChecked = true;
+						ExpandParent(objectUIDViewModel);
+					}
 				}
 			}
 		}
@@ -81,7 +86,7 @@ namespace JournalModule.ViewModels
 			RootFilters = new ObservableCollection<FilterObjectViewModel>();
 			_allObjects = new List<FilterObjectViewModel>();
 
-			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD) {IsExpanded = true};
+			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
 			RootFilters.Add(skdViewModel);
 
 			var skdDevicesViewModel = new FilterObjectViewModel(JournalObjectType.SKDDevice);
@@ -107,7 +112,7 @@ namespace JournalModule.ViewModels
 				AddChild(skdDoorsViewModel, filterObjectViewModel);
 			}
 
-			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video) {IsExpanded = true};
+			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			RootFilters.Add(videoViewModel);
 
 			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
@@ -136,6 +141,15 @@ namespace JournalModule.ViewModels
 		{
 			parentDeviceViewModel.AddChild(childDeviceViewModel);
 			_allObjects.Add(childDeviceViewModel);
+		}
+
+		private void ExpandParent(TreeNodeViewModel<FilterObjectViewModel> child)
+		{
+			if (child.Parent == null)
+				return;
+			
+			child.Parent.IsExpanded = true;
+			ExpandParent(child.Parent);
 		}
 	}
 }
