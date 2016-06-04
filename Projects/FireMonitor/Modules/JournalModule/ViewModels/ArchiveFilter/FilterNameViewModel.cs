@@ -49,27 +49,15 @@ namespace JournalModule.ViewModels
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public bool IsSubsystem { get; private set; }
 
-		bool _isChecked;
+		private bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-
-				if (IsSubsystem)
-				{
-					foreach (var child in Children)
-					{
-						child.SetIsChecked(value);
-					}
-				}
-				else if (Parent != null)
-				{
-					var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-					Parent.SetIsChecked(isAllChecked);
-				}
+				SetIsChecked(value);
+				PropogateDown(value);
+				PropogateUp(value);
 			}
 		}
 
@@ -77,6 +65,24 @@ namespace JournalModule.ViewModels
 		{
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
+		}
+
+		private void PropogateDown(bool value)
+		{
+			foreach (var child in Children)
+			{
+				child.SetIsChecked(value);
+				child.PropogateDown(value);
+			}
+		}
+
+		private void PropogateUp(bool value)
+		{
+			if (Parent == null)
+				return;
+
+			Parent.SetIsChecked(Parent.Children.All(x => x.IsChecked));
+			Parent.PropogateUp(value);
 		}
 	}
 }

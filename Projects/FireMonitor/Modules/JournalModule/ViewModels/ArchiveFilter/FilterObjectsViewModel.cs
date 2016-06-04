@@ -18,12 +18,22 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(ArchiveFilter filter)
 		{
-			foreach (var subsystemType in filter.JournalSubsystemTypes)
+			_allObjects.ForEach(x => x.SetIsChecked(false));
+			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
-				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == subsystemType);
-				if (filterNameViewModel != null)
+				var objectTypeViewModel = _allObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
+				if (objectTypeViewModel != null)
 				{
-					filterNameViewModel.IsChecked = true;
+					objectTypeViewModel.IsChecked = true;
+				}
+			}
+			foreach (var uid in filter.ObjectUIDs)
+			{
+				if (uid != Guid.Empty)
+				{
+					var objectUIDViewModel = _allObjects.FirstOrDefault(x => x.UID == uid);
+					if (objectUIDViewModel != null)
+						objectUIDViewModel.IsChecked = true;
 				}
 			}
 		}
@@ -33,27 +43,16 @@ namespace JournalModule.ViewModels
 			var filter = new ArchiveFilter();
 			foreach (var subsystemFilter in RootFilters)
 			{
-				if (subsystemFilter.IsChecked)
+				foreach (var objectTypeFilter in subsystemFilter.Children)
 				{
-					filter.JournalSubsystemTypes.Add(subsystemFilter.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var objectTypeFilter in subsystemFilter.Children)
+					if (objectTypeFilter.IsChecked)
+						filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
+					else
 					{
-						if (objectTypeFilter.IsChecked)
+						foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
 						{
-							filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
-						}
-						else
-						{
-							foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
-							{
-								if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
-								{
-									filter.ObjectUIDs.Add(filterViewModel.UID);
-								}
-							}
+							if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
+								filter.ObjectUIDs.Add(filterViewModel.UID);
 						}
 					}
 				}
@@ -61,6 +60,8 @@ namespace JournalModule.ViewModels
 
 			return filter;
 		}
+
+		private List<FilterObjectViewModel> _allObjects;
 
 		public ObservableCollection<FilterObjectViewModel> RootFilters { get; private set; }
 
@@ -75,54 +76,54 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void BuildTree()
+		private void BuildTree()
 		{
 			RootFilters = new ObservableCollection<FilterObjectViewModel>();
+			_allObjects = new List<FilterObjectViewModel>();
 
 			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD) {IsExpanded = true};
 			RootFilters.Add(skdViewModel);
 
 			var skdDevicesViewModel = new FilterObjectViewModel(JournalObjectType.SKDDevice);
-			skdViewModel.AddChild(skdDevicesViewModel);
+			AddChild(skdViewModel, skdDevicesViewModel);
 			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children.OrderBy(x => x.Name))
 			{
 				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
 			}
 
 			var skdZonesViewModel = new FilterObjectViewModel(JournalObjectType.SKDZone);
-			skdViewModel.AddChild(skdZonesViewModel);
+			AddChild(skdViewModel, skdZonesViewModel);
 			foreach (var zone in SKDManager.Zones.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				skdZonesViewModel.AddChild(filterObjectViewModel);
+				AddChild(skdZonesViewModel, filterObjectViewModel);
 			}
 
 			var skdDoorsViewModel = new FilterObjectViewModel(JournalObjectType.SKDDoor);
-			skdViewModel.AddChild(skdDoorsViewModel);
+			AddChild(skdViewModel, skdDoorsViewModel);
 			foreach (var door in SKDManager.Doors.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(door);
-				skdDoorsViewModel.AddChild(filterObjectViewModel);
+				AddChild(skdDoorsViewModel, filterObjectViewModel);
 			}
 
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video) {IsExpanded = true};
 			RootFilters.Add(videoViewModel);
 
 			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
-			videoViewModel.AddChild(videoDevicesViewModel);
+			AddChild(videoViewModel, videoDevicesViewModel);
 			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras.OrderBy(x => x.Name))
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(camera);
-				videoDevicesViewModel.AddChild(filterObjectViewModel);
+				AddChild(videoDevicesViewModel, filterObjectViewModel);
 			}
 		}
 
-		FilterObjectViewModel AddSKDDeviceInternal(SKDDevice device, FilterObjectViewModel parentDeviceViewModel)
+		private FilterObjectViewModel AddSKDDeviceInternal(SKDDevice device, FilterObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
-				//AddChild(parentDeviceViewModel, deviceViewModel);
+				AddChild(parentDeviceViewModel, deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
@@ -131,9 +132,10 @@ namespace JournalModule.ViewModels
 			return deviceViewModel;
 		}
 
-		//void AddChild(FilterObjectViewModel parentDeviceViewModel, FilterObjectViewModel childDeviceViewModel)
-		//{
-		//	parentDeviceViewModel.AddChild(childDeviceViewModel);
-		//}
+		private void AddChild(FilterObjectViewModel parentDeviceViewModel, FilterObjectViewModel childDeviceViewModel)
+		{
+			parentDeviceViewModel.AddChild(childDeviceViewModel);
+			_allObjects.Add(childDeviceViewModel);
+		}
 	}
 }
