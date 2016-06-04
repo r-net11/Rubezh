@@ -55,7 +55,8 @@
 				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.OPCIntegrationClient.dll" Name="OPCIntegrationClient.dll" Source="$(var.Server.TargetDir)" />
+				<!--<File Id="Server.AutoMapper.Net4.dll" Name="AutoMapper.Net4.dll" Source="$(var.Server.TargetDir)" />-->
+				<File Id="Server.AutoMapper.dll" Name="AutoMapper.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">
@@ -133,7 +134,7 @@
 				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
 			</Component>
-			
+
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">

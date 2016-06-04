@@ -14,6 +14,7 @@ namespace Integration.Service
 
 		public IntegrationFacade()
 		{
+			MappingRegistration.RegisterMapping();
 			_opcIntegrationService = new OPCIntegrationService();
 			if(!_opcIntegrationService.StartOPCIntegrationService(SKDManager.SKDConfiguration.OPCSettings))
 				throw new Exception("Can not start OPC integration service.");
@@ -24,7 +25,7 @@ namespace Integration.Service
 			return _opcIntegrationService.PingOPCServer();
 		}
 
-		public List<OPCZone> GetOPCZones()
+		public IEnumerable<OPCZone> GetOPCZones()
 		{
 			return _opcIntegrationService.GetOPCZones();
 		}
@@ -45,7 +46,7 @@ namespace Integration.Service
 			_opcIntegrationService.UnsetGuard(no);
 		}
 
-		public List<Script> GetFiresecScripts()
+		public IEnumerable<Script> GetFiresecScripts()
 		{
 			return _opcIntegrationService.GetFiresecScripts();
 		}
@@ -58,6 +59,11 @@ namespace Integration.Service
 		public bool SendOPCCommandType(OPCCommandType type)
 		{
 			return _opcIntegrationService.SendOPCCommandType(type);
+		}
+
+		public IEnumerable<OPCZone> GetGuardZones()
+		{
+			return _opcIntegrationService.GetGuardZones();
 		}
 	}
 }

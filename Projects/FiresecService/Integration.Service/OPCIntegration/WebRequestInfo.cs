@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Integration.Service.OPCIntegration
 {
-	public class WebRequestInfo
+	internal sealed class WebRequestInfo
 	{
 		public string Body { get; set; }
 		public long ContentLenght { get; set; }

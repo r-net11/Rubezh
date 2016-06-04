@@ -13,6 +13,7 @@ namespace Integration.OPC.ViewModels
 	{
 		private bool _isBisy;
 		private readonly IEnumerable<OPCZone> _existingZones;
+		private List<OPCZone> _zones;
 
 		public bool IsBisy
 		{
@@ -25,7 +26,16 @@ namespace Integration.OPC.ViewModels
 			}
 		}
 
-		public List<OPCZone> Zones { get; private set; }
+		public List<OPCZone> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				if (_zones == value) return;
+				_zones = value;
+				OnPropertyChanged(() => Zones);
+			}
+		}
 
 		public AddZoneDialogViewModel(IEnumerable<OPCZone> existingZones)
 		{
@@ -46,8 +56,10 @@ namespace Integration.OPC.ViewModels
 					if (t.IsFaulted || t.Result == null || t.Result.HasError)
 						MessageBoxService.ShowError(Resources.ErrorGetOPCZonesContent);
 					else
+					{
 						Zones = t.Result.Result.Select(newZone => new OPCZone(newZone, _existingZones.Any(zone => zone.No == newZone.No))).ToList();
-				});
+					}
+				}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 	}
 }

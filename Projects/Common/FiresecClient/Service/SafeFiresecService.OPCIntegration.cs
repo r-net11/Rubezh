@@ -15,7 +15,7 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.PingOPCServer());
 		}
 
-		public OperationResult<List<OPCZone>> GetOPCZones()
+		public OperationResult<IEnumerable<OPCZone>> GetOPCZones()
 		{
 			return SafeContext.Execute(() => FiresecService.GetOPCZones());
 		}
@@ -28,6 +28,11 @@ namespace FiresecClient
 		public OperationResult UnsetGuard(int no)
 		{
 			return SafeContext.Execute(() => FiresecService.UnsetGuard(no));
+		}
+
+		public OperationResult<IEnumerable<OPCZone>> GetGuardZones()
+		{
+			return SafeContext.Execute(() => FiresecService.GetGuardZones());
 		}
     }
 }

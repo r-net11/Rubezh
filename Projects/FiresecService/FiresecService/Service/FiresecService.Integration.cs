@@ -16,15 +16,31 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(result);
 		}
 
-		public OperationResult<List<OPCZone>> GetOPCZones()
+		public OperationResult<IEnumerable<OPCZone>> GetOPCZones()
 		{
 			try
 			{
-				return new OperationResult<List<OPCZone>>(_integrationService.GetOPCZones());
+				return new OperationResult<IEnumerable<OPCZone>>(_integrationService.GetOPCZones());
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<OPCZone>>
+				return new OperationResult<IEnumerable<OPCZone>>
+				{
+					Errors = new List<string> {e.ToString()}
+				};
+			}
+		}
+
+		public OperationResult<IEnumerable<OPCZone>> GetGuardZones()
+		{
+			try
+			{
+				return new OperationResult<IEnumerable<OPCZone>>(_integrationService.GetGuardZones());
+			}
+			catch (Exception e)
+			{
+
+				return new OperationResult<IEnumerable<OPCZone>>
 				{
 					Errors = new List<string> {e.ToString()}
 				};
@@ -48,15 +64,15 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(_integrationService.ExecuteFiresecScript(script, type));
 		}
 
-		public OperationResult<List<Script>> GetFiresecScripts()
+		public OperationResult<IEnumerable<Script>> GetFiresecScripts()
 		{
 			try
 			{
-				return new OperationResult<List<Script>>(_integrationService.GetFiresecScripts());
+				return new OperationResult<IEnumerable<Script>>(_integrationService.GetFiresecScripts());
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<Script>>
+				return new OperationResult<IEnumerable<Script>>
 				{
 					Errors = new List<string> {e.ToString()}
 				};
