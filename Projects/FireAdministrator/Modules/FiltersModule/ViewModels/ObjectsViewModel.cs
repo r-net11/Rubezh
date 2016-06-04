@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
@@ -18,22 +19,26 @@ namespace FiltersModule.ViewModels
 
 		private void Initialize(JournalFilter filter)
 		{
-			AllObjects.ForEach(x => x.SetIsChecked(false));
+			_allObjects.ForEach(x => x.SetIsChecked(false));
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
-				var objectTypeViewModel = AllObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
+				var objectTypeViewModel = _allObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
 				if (objectTypeViewModel != null)
 				{
 					objectTypeViewModel.IsChecked = true;
+					ExpandParent(objectTypeViewModel);
 				}
 			}
 			foreach (var uid in filter.ObjectUIDs)
 			{
 				if (uid != Guid.Empty)
 				{
-					var objectUIDViewModel = AllObjects.FirstOrDefault(x => x.UID == uid);
+					var objectUIDViewModel = _allObjects.FirstOrDefault(x => x.UID == uid);
 					if (objectUIDViewModel != null)
+					{
 						objectUIDViewModel.IsChecked = true;
+						ExpandParent(objectUIDViewModel);
+					}
 				}
 			}
 		}
@@ -61,7 +66,7 @@ namespace FiltersModule.ViewModels
 			return filter;
 		}
 
-		public List<ObjectViewModel> AllObjects;
+		private List<ObjectViewModel> _allObjects;
 
 		public ObservableCollection<ObjectViewModel> RootObjects { get; private set; }
 
@@ -79,10 +84,9 @@ namespace FiltersModule.ViewModels
 		private void BuildTree()
 		{
 			RootObjects = new ObservableCollection<ObjectViewModel>();
-			AllObjects = new List<ObjectViewModel>();
+			_allObjects = new List<ObjectViewModel>();
 
 			var skdViewModel = new ObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
 			RootObjects.Add(skdViewModel);
 
 			var skdDevicesViewModel = new ObjectViewModel(JournalObjectType.SKDDevice);
@@ -109,7 +113,6 @@ namespace FiltersModule.ViewModels
 			}
 
 			var videoViewModel = new ObjectViewModel(JournalSubsystemType.Video);
-			videoViewModel.IsExpanded = true;
 			RootObjects.Add(videoViewModel);
 
 			var videoDevicesViewModel = new ObjectViewModel(JournalObjectType.VideoDevice);
@@ -137,7 +140,16 @@ namespace FiltersModule.ViewModels
 		private void AddChild(ObjectViewModel parentDeviceViewModel, ObjectViewModel childDeviceViewModel)
 		{
 			parentDeviceViewModel.AddChild(childDeviceViewModel);
-			AllObjects.Add(childDeviceViewModel);
+			_allObjects.Add(childDeviceViewModel);
+		}
+
+		private void ExpandParent(TreeNodeViewModel<ObjectViewModel> child)
+		{
+			if (child.Parent == null)
+				return;
+
+			child.Parent.IsExpanded = true;
+			ExpandParent(child.Parent);
 		}
 	}
 }
