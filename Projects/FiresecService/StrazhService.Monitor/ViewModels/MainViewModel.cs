@@ -153,13 +153,8 @@ namespace StrazhService.Monitor.ViewModels
 			var clientsToDisconnect = Clients.Where(x => x.IsChecked).ToList();
 			foreach (var client in clientsToDisconnect)
 			{
-				// Просим Сервер посылать Клиенту команду на разрыв соединения
-				FiresecManager.FiresecService.SendDisconnectClientCommand(client.ClientCredentials.ClientUID);
-			}
-			foreach (var client in clientsToDisconnect)
-			{
-				// Т.к. "зависший" Клиент не вызовет на Сервере Disconnect, то удаляем информацию о нем (освобождаем занятую лицензию)
-				//ClientsManager.Remove(client.ClientCredentials.ClientUID);
+				// Просим Сервер послать Клиенту команду на разрыв соединения
+				FiresecManager.FiresecService.SendDisconnectClientCommand(client.ClientCredentials.ClientUID, true);
 			}
 		}
 		private bool CanReleaseClients()

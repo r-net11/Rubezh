@@ -11,12 +11,15 @@ namespace StrazhAPI
 		OperationResult<bool> PingOPCServer();
 
 		[OperationContract]
-		OperationResult<List<OPCZone>> GetOPCZones();
+		OperationResult<IEnumerable<OPCZone>> GetOPCZones();
 
 		[OperationContract]
 		OperationResult SetGuard(int no);
 
 		[OperationContract]
 		OperationResult UnsetGuard(int no);
+
+		[OperationContract]
+		OperationResult<IEnumerable<OPCZone>> GetGuardZones();
 	}
 }

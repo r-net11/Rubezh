@@ -68,6 +68,16 @@ namespace FiresecService.Service
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
+			Logger.Info(string.Format(
+				"Входящий запрос на подключение Клиента: GUID='{0}' Логин='{1}' Тип='{2}' Адрес='{3}'",
+				clientCredentials.ClientUID,
+				clientCredentials.UserName,
+				clientCredentials.ClientType,
+				clientCredentials.ClientIpAddressAndPort));
+
+			// Временный костыль
+			DisconnectRepeatUser(clientCredentials, clientCredentials.ClientType);
+
 			// Проводим аутентификацию пользователя
 			var operationResult = Authenticate(clientCredentials);
 			if (operationResult.HasError)
@@ -96,7 +106,11 @@ namespace FiresecService.Service
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
 			{
-				Logger.Info(string.Format("Вход пользователя в систему: GUID='{0}' Тип='{1}' Пользователь='{2}'", clientCredentials.ClientUID, clientCredentials.ClientType, clientCredentials.FriendlyUserName));
+				Logger.Info(string.Format(
+					"Вход пользователя в систему: GUID='{0}' Тип='{1}' Пользователь='{2}'",
+					clientCredentials.ClientUID,
+					clientCredentials.ClientType,
+					clientCredentials.FriendlyUserName));
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
 			}
 
@@ -327,25 +341,31 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
-		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
-		/// Необходим для корректного обнаружения мёртвых соединений.
-		/// Работает только при повторном входе клиента с одного ip-адреса.
-		/// </summary>
-		/// <param name="clientCredentials">Информация о клиенте</param>
-		/// <param name="clientType">Информация о типе клиента</param>
-		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
-		{
-			var existingClient = ClientsManager.ClientInfos
-									.Where(x => x.ClientCredentials.ClientType == clientType)
-									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddressAndPort == clientCredentials.ClientIpAddressAndPort);
+ 		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
+ 		/// Необходим для корректного обнаружения мёртвых соединений.
+ 		/// Работает только при повторном входе клиента с одного ip-адреса.
+ 		/// </summary>
+ 		/// <param name="clientCredentials">Информация о клиенте</param>
+ 		/// <param name="clientType">Информация о типе клиента</param>
+ 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
+ 		{
+ 			var existingClient = ClientsManager.ClientInfos
+ 									.Where(x => x.ClientCredentials.ClientType == clientType)
+ 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress);
+			if (existingClient == null)
+				return;
 
-			if(existingClient != null)
-				Disconnect(existingClient.UID);
-		}
+			Logger.Info(string.Format(
+				"Исходящий запрос Клиенту на завершение работы: GUID='{0}' Логин='{1}' Тип='{2}' Адрес='{3}'",
+				existingClient.ClientCredentials.ClientUID,
+				existingClient.ClientCredentials.UserName,
+				existingClient.ClientCredentials.ClientType,
+				existingClient.ClientCredentials.ClientIpAddressAndPort));
+			SendDisconnectClientCommand(existingClient.UID, false);
+ 		}
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
-			DisconnectRepeatUser(clientCredentials, ClientType.Monitor); //TODO: remove it
 			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
 			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>

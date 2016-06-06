@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Common;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace StrazhService.Monitor.ViewModels

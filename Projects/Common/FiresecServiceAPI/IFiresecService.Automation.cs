@@ -20,6 +20,6 @@ namespace StrazhAPI
 		ProcedureProperties GetProperties(Guid layoutUID);
 
 		[OperationContract]
-		OperationResult<List<Script>> GetFiresecScripts();
+		OperationResult<IEnumerable<Script>> GetFiresecScripts();
 	}
 }

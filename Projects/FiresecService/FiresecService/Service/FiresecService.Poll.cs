@@ -4,6 +4,7 @@ using FiresecService.Service.Validators;
 using StrazhAPI;
 using StrazhAPI.AutomationCallback;
 using StrazhAPI.Journal;
+using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -108,9 +109,16 @@ namespace FiresecService.Service
 		/// Посылает команду Клиенту на закрытие соединения с Сервером
 		/// </summary>
 		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
-		public void SendDisconnectClientCommand(Guid clientUid)
+		/// <param name="showNotification">Уведомлять или нет пользователя перед закрытием приложения Клиента</param>
+		public void SendDisconnectClientCommand(Guid clientUid, bool showNotification)
 		{
-			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
+			CallbackManager.Add(
+				new CallbackResult
+				{
+					CallbackResultType = CallbackResultType.DisconnectClientCommand,
+					ShowNotificationOnDisconnectClientCommand = showNotification
+				},
+				clientUid);
 
 			// После посылки Клиенту команды на разрыв соединения ждем 2 секунды и сами имитируем вызов от имени Клиента на разрыв соединения,
 			// т.к. "мертвый" Клиент этого не сделает
@@ -177,6 +185,22 @@ namespace FiresecService.Service
 				{
 					CallbackResultType = CallbackResultType.CardDeactivated,
 					Card = card
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
+		}
+
+		/// <summary>
+		/// Уведомление об изменении лога загрузки Сервера
+		/// </summary>
+		public void NotifyCoreLoadingLogChanged()
+		{
+			foreach (var clientInfo in ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == ClientType.ServiceMonitor))
+			{
+				Logger.Info("Уведомляем подключенный к Серверу Монитор сервера об изменении логов загрузки Сервера");
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.CoreLoadingLogChanged,
 				};
 				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
 			}

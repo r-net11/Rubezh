@@ -22,7 +22,7 @@ namespace FiresecClient
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
-		public static event Action DisconnectClientCommandEvent;
+		public static event Action<bool> DisconnectClientCommandEvent;
 		public static event Action LicenseChangedEvent;
 		/// <summary>
 		/// Событие прохода по "Гостевой" карте
@@ -32,6 +32,10 @@ namespace FiresecClient
 		/// Событие деактивации карты
 		/// </summary>
 		public static event Action<SKDCard> CardDeactivatedEvent;
+		/// <summary>
+		/// Событие изменения лога загрузки Сервера
+		/// </summary>
+		public static event Action CoreLoadingLogChangedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -164,7 +168,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (DisconnectClientCommandEvent != null)
-								DisconnectClientCommandEvent();
+								DisconnectClientCommandEvent(callbackResult.ShowNotificationOnDisconnectClientCommand);
 						});
 						break;
 
@@ -190,6 +194,15 @@ namespace FiresecClient
 						{
 							if (CardDeactivatedEvent != null)
 								CardDeactivatedEvent(callbackResult.Card);
+						});
+						break;
+					// Поступило уведомление об изменении лога загрузки Сервера
+					case CallbackResultType.CoreLoadingLogChanged:
+						Logger.Info("Поступило уведомление об изменении лога загрузки Сервера");
+						SafeOperationCall(() =>
+						{
+							if (CoreLoadingLogChangedEvent != null)
+								CoreLoadingLogChangedEvent();
 						});
 						break;
 				}

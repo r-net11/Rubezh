@@ -60,7 +60,7 @@ namespace AutomationModule.ViewModels
 		{
 			IsBisy = true;
 
-			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetOPCZones())
+			Task.Factory.StartNew(() => FiresecManager.FiresecService.GetGuardZones())
 			.ContinueWith(t =>
 			{
 				IsBisy = false;
@@ -76,7 +76,7 @@ namespace AutomationModule.ViewModels
 				}
 				else
 				{
-					Zones = t.Result.Result.Where(x => x.Type == OPCZoneType.Guard).ToList();
+					Zones = t.Result.Result.ToList();
 					SelectedZone = Zones.FirstOrDefault();
 				}
 			}, TaskScheduler.FromCurrentSynchronizationContext());

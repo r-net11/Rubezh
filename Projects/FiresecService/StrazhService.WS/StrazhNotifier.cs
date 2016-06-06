@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using Common;
+using FiresecService.Service;
 using StrazhAPI.Models;
 
 namespace StrazhService.WS
@@ -24,6 +26,12 @@ namespace StrazhService.WS
 				return;
 
 			_stringBuilder.AppendLine(message);
+
+			if (FiresecServiceManager.SafeFiresecService == null)
+				return;
+
+			// Уведомляем подключенный к Серверу Монитор сервера об изменении логов загрузки Сервера
+			FiresecServiceManager.SafeFiresecService.NotifyCoreLoadingLogChanged();
 		}
 
 		public void BalloonShowFromServer(string text)
