@@ -11,14 +11,14 @@ namespace AutomationModule.ViewModels
 		public AutomationSchedule Schedule { get; private set; }
 		public ScheduleDetailsViewModel(AutomationSchedule schedule)
 		{
-            Title = CommonViewModel.ScheduleDetails_Properties;
+            Title = CommonViewModels.ScheduleDetails_Properties;
 			Schedule = schedule;
 			Name = Schedule.Name;
 		}
 
 		public ScheduleDetailsViewModel()
 		{
-            Title = CommonViewModel.ScheduleDetails_Add;
+            Title = CommonViewModels.ScheduleDetails_Add;
 			Schedule = new AutomationSchedule();
 			Name = Schedule.Name;
 		}

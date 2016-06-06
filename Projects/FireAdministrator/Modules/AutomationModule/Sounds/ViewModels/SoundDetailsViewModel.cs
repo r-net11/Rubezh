@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 
 		public SoundDetailsViewModel(AutomationSound sound)
 		{
-			Title = CommonViewModel.SoundDetailsViewModel_Title;
+            Title = CommonViewModels.SoundDetailsViewModel_Title;
 			Sound = sound;
 			Name = Sound.Name;
 		}

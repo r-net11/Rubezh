@@ -2,6 +2,7 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 xmlns:lang="clr-namespace:Localization.Security.Views;assembly=Localization"
 			 MinWidth="350" MinHeight="100">
 	
 	<Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -15,9 +16,29 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<RadioButton Grid.Column="0" Grid.Row="0" GroupName="HostNameOrAddress" IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" Content="Имя" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
-				<TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding Hostname}" IsEnabled="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" Margin="2" />
-				<RadioButton Grid.Column="0" Grid.Row="1" GroupName="HostNameOrAddress" IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='IpAddress'}" Content="IP адрес" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+				<RadioButton 
+                    Grid.Column="0" 
+                    Grid.Row="0" 
+                    GroupName="HostNameOrAddress" 
+                    IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" 
+                    Content="{x:Static lang:CommonViews.Name}" 
+                    Foreground="{DynamicResource ForegroundColorLight}" 
+                    VerticalAlignment="Center" />
+				<TextBox 
+                    Grid.Column="1" 
+                    Grid.Row="0" 
+                    MaxLength="100" 
+                    Text="{Binding Hostname}" 
+                    IsEnabled="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Hostname'}" 
+                    Margin="2" />
+				<RadioButton 
+                    Grid.Column="0" 
+                    Grid.Row="1" 
+                    GroupName="HostNameOrAddress" 
+                    IsChecked="{Binding PcIdentificationMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='IpAddress'}" 
+                    Content="{x:Static lang:CommonViews.IpAddress}" 
+                    Foreground="{DynamicResource ForegroundColorLight}" 
+                    VerticalAlignment="Center" />
 				<TextBox Grid.Column="1" Grid.Row="1" Margin="2"
 					Name="addressEditor"
 					PreviewKeyDown="OnPreviewKeyDown"

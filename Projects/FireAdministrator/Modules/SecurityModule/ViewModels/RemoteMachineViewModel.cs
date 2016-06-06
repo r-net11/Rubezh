@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Security.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
@@ -7,7 +8,7 @@ namespace SecurityModule.ViewModels
 	{
 		public RemoteMachineViewModel()
 		{
-			Title = "Задайте имя или адрес компьютера";
+			Title = CommonViewModels.RemoteMachine_Title;
 		}
 
 		private string _hostname;

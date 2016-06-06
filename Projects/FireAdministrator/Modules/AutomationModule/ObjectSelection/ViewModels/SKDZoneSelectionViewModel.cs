@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDZoneSelectionViewModel(SKDZone zone)
 		{
-			Title = CommonViewModel.SKDZoneSelectionViewModel_Title;
+            Title = CommonViewModels.SKDZoneSelectionViewModel_Title;
 			Zones = new ObservableCollection<ZoneViewModel>();
 			SKDManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)

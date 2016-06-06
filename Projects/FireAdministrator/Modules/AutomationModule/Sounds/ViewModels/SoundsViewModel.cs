@@ -96,8 +96,8 @@ namespace AutomationModule.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-                Filter = CommonViewModel.SoundsViewModel_Extention,
-                DefaultExt = CommonViewModel.SoundsViewModel_Extention
+                Filter = CommonViewModels.SoundsViewModel_Extention,
+                DefaultExt = CommonViewModels.SoundsViewModel_Extention
 			};
 			if (openFileDialog.ShowDialog().Value)
 			{

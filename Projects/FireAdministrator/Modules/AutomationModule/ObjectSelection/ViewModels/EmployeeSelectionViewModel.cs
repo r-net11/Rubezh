@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public EmployeeSelectionViewModel(ShortEmployee employee)
 		{
-			Title = CommonViewModel.EmployeeSelectionViewModel_Title;
+            Title = CommonViewModels.EmployeeSelectionViewModel_Title;
 
 			BuildTreeAndSelect(employee);
 		}

@@ -12,6 +12,8 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Localization.Security.Common;
+using Localization.Security.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
@@ -78,7 +80,7 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (!MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить учетную запись\n\"{0}\"?", SelectedUser.User.Name)))
+			if (!MessageBoxService.ShowQuestion(String.Format(CommonViewModels.Users_DeleteCommand, SelectedUser.User.Name)))
 				return;
 			FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
 			Users.Remove(SelectedUser);
@@ -119,11 +121,11 @@ namespace SecurityModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

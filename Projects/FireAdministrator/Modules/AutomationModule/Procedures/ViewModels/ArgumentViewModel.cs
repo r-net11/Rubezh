@@ -110,11 +110,11 @@ namespace AutomationModule.ViewModels
 		void OnAddVariable()
 		{
 			var defaultName = SelectedVariableScope == VariableScope.LocalVariable
-                ? CommonViewModel.LocalVariable_DefaultName
-                : CommonViewModel.GlobalVariable_DefaultName;
+                ? CommonViewModels.LocalVariable_DefaultName
+                : CommonViewModels.GlobalVariable_DefaultName;
 			var title = SelectedVariableScope == VariableScope.LocalVariable
-                ? CommonViewModel.LocalVariable_Add
-                : CommonViewModel.GlobalVariable_Add;
+                ? CommonViewModels.LocalVariable_Add
+                : CommonViewModels.GlobalVariable_Add;
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{
 				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes)

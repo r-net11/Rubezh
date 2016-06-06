@@ -55,15 +55,55 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StepCommonViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Automation\ViewModels\CommonViewModel.Designer.cs">
+    <Compile Include="Automation\ViewModels\CommonViewModels.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CommonViewModel.resx</DependentUpon>
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
     </Compile>
     <Compile Include="Automation\Views\CommonViews.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonViews.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Filter\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Filter\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Layout\Common\CommonResources.Designer.cs">
       <DependentUpon>CommonResources.resx</DependentUpon>
@@ -146,6 +186,166 @@
       <DependentUpon>CommonViews.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strazh\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Strazh\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SKD\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Security\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Security\Common\CommonResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Security\Errors\CommonErrors.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Security\ViewModels\CommonViewModels.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Security\Views\CommonViews.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonViews.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sounds\Common\CommonResources.ru.Designer.cs">
       <DependentUpon>CommonResources.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -240,13 +440,45 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StepCommonViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\CommonViewModel.resx">
+    <EmbeddedResource Include="Automation\ViewModels\CommonViewModels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommonViewModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Automation\Views\CommonViews.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Filter\Views\CommonViews.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Layout\Common\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -309,6 +541,137 @@
       <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Plans\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strazh\Views\CommonViews.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SKD\Views\CommonViews.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Views\CommonViews.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\Views\CommonViews.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\Views\CommonViews.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -380,6 +743,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Security\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

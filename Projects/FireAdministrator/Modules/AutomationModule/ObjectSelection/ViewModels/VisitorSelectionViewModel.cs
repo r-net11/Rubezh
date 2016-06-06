@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public VisitorSelectionViewModel(ShortEmployee visitor)
 		{
-			Title = CommonViewModel.VisitorSelectionViewModel_Title;
+            Title = CommonViewModels.VisitorSelectionViewModel_Title;
 
 			BuildTreeAndSelect(visitor);
 		}

@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModel.Argument_Title, CommonViewModel.Argument_Add);
+            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModels.Argument_Title, CommonViewModels.Argument_Add);
 
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
@@ -65,7 +65,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModel.Argument_Title, CommonViewModel.Argument_Edit);
+            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModels.Argument_Title, CommonViewModels.Argument_Edit);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);

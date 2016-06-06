@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public FilterSelectionViewModel(Procedure procedure)
 		{
-			Title = CommonViewModel.FilterSelectionViewModel_Title;
+            Title = CommonViewModels.FilterSelectionViewModel_Title;
 			Procedure = procedure;
 			InitializeFilters();
 			CreateFilterCommand = new RelayCommand(OnCreateFilter);

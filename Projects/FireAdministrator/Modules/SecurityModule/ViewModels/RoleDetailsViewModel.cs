@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Localization.Security.Errors;
+using Localization.Security.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
@@ -17,12 +19,12 @@ namespace SecurityModule.ViewModels
 		{
 			if (role != null)
 			{
-				Title = string.Format("Свойства шаблона прав: {0}", role.Name);
+				Title = string.Format(CommonViewModels.RoleDetailsTemplate_Title, role.Name);
 				Role = role;
 			}
 			else
 			{
-				Title = "Создание нового шаблона прав";
+				Title = CommonViewModels.RoleDetailsNewTemplate_Title;
 				Role = new UserRole();
 			}
 
@@ -59,12 +61,12 @@ namespace SecurityModule.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(Name))
 			{
-				MessageBoxService.Show("Сначала введите название шаблона прав");
+				MessageBoxService.Show(CommonErrors.RoleDetailsIsNullOrWhiteSpace_Error);
 				return false;
 			}
 			else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
 			{
-				MessageBoxService.Show("Шаблон прав с таким названием уже существует");
+                MessageBoxService.Show(CommonErrors.RoleDetailsSameName_Error);
 				return false;
 			}
 

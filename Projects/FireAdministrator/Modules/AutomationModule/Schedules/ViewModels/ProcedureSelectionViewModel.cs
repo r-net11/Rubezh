@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
 		public ProcedureSelectionViewModel()
 		{
-			Title = CommonViewModel.ProcedureSelectionViewModel_Title;
+            Title = CommonViewModels.ProcedureSelectionViewModel_Title;
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 
 		public ProcedureSelectionViewModel(Guid procedureUid)
 		{
-            Title = CommonViewModel.ProcedureSelectionViewModel_Title;
+            Title = CommonViewModels.ProcedureSelectionViewModel_Title;
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();

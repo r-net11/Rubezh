@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Filter.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Models.Layouts;
 using StrazhAPI.SKD;
@@ -16,7 +17,7 @@ namespace FiltersModule.ViewModels
 
 		public LayoutPartJournalViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Журнал событий";
+			Title = CommonViewModels.LayoutPartJournal_Title;
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			var journalFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.ReferenceUID);

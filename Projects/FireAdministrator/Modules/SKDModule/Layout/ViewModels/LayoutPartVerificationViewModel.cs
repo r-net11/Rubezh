@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
@@ -15,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public LayoutPartVerificationViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Верификация";
+			Title = CommonResources.Verification;
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			DeviceViewModel deviceViewModel = null;
@@ -30,7 +32,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				UpdateLayoutPart("Устройство не указано");
+				UpdateLayoutPart(CommonViewModels.UnknownDevice);
 			}
 		}
 

@@ -8,6 +8,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using System.Windows.Input;
+using Localization.Filter.Common;
+using Localization.Filter.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Collections.Generic;
 using Infrastructure.Common.Ribbon;
@@ -132,11 +134,11 @@ namespace FiltersModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+					new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

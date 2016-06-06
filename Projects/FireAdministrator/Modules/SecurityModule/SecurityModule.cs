@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Localization.Security.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -35,8 +36,8 @@ namespace SecurityModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem(ModuleType.ToDescription(), "users", new List<NavigationItem>(){
-					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "user"),
-					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Шаблоны прав", "users"),
+					new NavigationItem<ShowUsersEvent>(UsersViewModel, CommonResources.Users, "user"),
+					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, CommonResources.RightsTemplate, "users"),
 				}),
 			};
 		}

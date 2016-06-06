@@ -91,11 +91,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -121,10 +116,6 @@
     <Compile Include="Views\FiltersView.xaml.cs">
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -163,6 +154,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Localization\Localization.csproj">
+      <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

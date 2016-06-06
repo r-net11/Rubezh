@@ -5,13 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using Infrastructure.Common.Windows;
+using Localization.Security.Errors;
 
 namespace SecurityModule.Views
 {
 	public partial class RemoteMachineView : UserControl
 	{
 		const char DOT = '.';
-		static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
+		static readonly string MessageFormat = CommonErrors.RemoteMachineView_Error;
 		List<IpAddressByte> IpAddressBytes = new List<IpAddressByte>();
 
 		public RemoteMachineView()

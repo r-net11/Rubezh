@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Filter.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Models.Layouts;
 using StrazhAPI.SKD;
@@ -44,7 +45,7 @@ namespace FiltersModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Фильтр журнала"; }
+            get { return CommonViewModels.LayoutPartPropertyJournalPage_Header; }
 		}
 		public override void CopyProperties()
 		{

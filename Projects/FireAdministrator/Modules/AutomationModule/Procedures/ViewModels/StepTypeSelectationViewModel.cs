@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public StepTypeSelectationViewModel()
 		{
-			Title = CommonViewModel.StepTypeSelection_Title;
+            Title = CommonViewModels.StepTypeSelection_Title;
 
 			BuildStepTypeTree();
 			FillAllStepTypes();
@@ -91,7 +91,7 @@ namespace AutomationModule.ViewModels
 			if (node.ChildrenCount > 0)
 				stepTypeViewModels.Add(node);
 
-            RootStepType = new StepTypeViewModel(CommonViewModel.StepTypeSelection_FunctionsRegister, "/Controls;component/Images/CFolder.png", stepTypeViewModels);
+            RootStepType = new StepTypeViewModel(CommonViewModels.StepTypeSelection_FunctionsRegister, "/Controls;component/Images/CFolder.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildDataExchangeNode()
@@ -113,7 +113,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ImportOrganisationList))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ImportOrganisationList));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_DataExchange, "/Controls;component/StepIcons/Export.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_DataExchange, "/Controls;component/StepIcons/Export.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildOperationsNode()
@@ -133,7 +133,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GenerateGuid))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GenerateGuid));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_Operations, "/Controls;component/StepIcons/Arithmetics.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_Operations, "/Controls;component/StepIcons/Arithmetics.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildInteractiveLogicNode()
@@ -159,7 +159,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ShowDialog))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ShowDialog));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_Logic, "/Controls;component/StepIcons/PlaySound.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_Logic, "/Controls;component/StepIcons/PlaySound.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildServiceFunctionsNode()
@@ -185,7 +185,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetSkdZoneProperty))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_ServiceFunctions, "/Controls;component/StepIcons/Exit.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_ServiceFunctions, "/Controls;component/StepIcons/Exit.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildSeriesFunctionsNode()
@@ -201,7 +201,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Continue))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Continue));
 
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_CycleFunctions, "/Controls;component/StepIcons/For.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_CycleFunctions, "/Controls;component/StepIcons/For.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildHardwareControlNode()
@@ -216,7 +216,8 @@ namespace AutomationModule.ViewModels
 				stepTypeViewModels.Add(node);
 
 			stepTypeViewModels.Add(BuildOPCIntegrationControlNode());
-            return new StepTypeViewModel(CommonViewModel.StepTypeSelection_HardwareControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);		}
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_HardwareControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+        }
 
 		private StepTypeViewModel BuildStrazhControlNode()
 		{
@@ -229,7 +230,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlDoor))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlDoor));
 
-			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_StrazhControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_StrazhControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildVideoControlNode()
@@ -243,7 +244,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarm))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarm));
 
-			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildOPCIntegrationControlNode()
@@ -255,7 +256,7 @@ namespace AutomationModule.ViewModels
 				new StepTypeViewModel(ProcedureStepType.GuardZoneControl)
 			};
 
-			return new StepTypeViewModel(CommonViewModel.StepTypeSelection_OPCIntegration, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+            return new StepTypeViewModel(CommonViewModels.StepTypeSelection_OPCIntegration, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		protected override bool CanSave()

@@ -253,14 +253,14 @@ namespace AutomationModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel(CommonViewModel.Procedures_Edition, new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.Procedures_Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Add, AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Edit, EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Copy, CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Cut, CutCommand, "BCut"),
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Paste, PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel(CommonViewModel.Procedures_Delete, DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Cut, CutCommand, "BCut"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Paste, PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
         }

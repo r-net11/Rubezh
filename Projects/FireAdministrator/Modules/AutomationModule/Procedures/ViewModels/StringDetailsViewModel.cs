@@ -7,7 +7,7 @@ namespace AutomationModule.ViewModels
 	{
 		public StringDetailsViewModel(string stringValue)
 		{
-			Title = CommonViewModel.StringDetailsViewModel_Title;
+			Title = CommonViewModels.StringDetailsViewModel_Title;
 			StringValue = stringValue;
 		}
 

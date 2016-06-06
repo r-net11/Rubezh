@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public DoorSelectionViewModel(SKDDoor door)
 		{
-			Title = CommonViewModel.DoorSelectionViewModel_Title;
+            Title = CommonViewModels.DoorSelectionViewModel_Title;
 			Doors = new ObservableCollection<DoorViewModel>();
 			SKDManager.Doors.ForEach(x => Doors.Add(new DoorViewModel(x)));
 			if (door != null)

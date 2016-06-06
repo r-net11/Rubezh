@@ -1,3 +1,4 @@
+using Localization.SKD.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Models.Layouts;
 using Infrastructure;
@@ -51,14 +52,14 @@ namespace SKDModule
 		{
 			// Скрываем элемент "Верификация" в конфигураторе макетов интерфейса, если лицензия этого требует
 			if (ServiceFactory.UiElementsVisibilityService.IsLayoutModuleVerificationElementVisible)
-				yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 304, "Верификация", "Панель верификация", "BTree.png") { Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartReferenceProperties), };
+                yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 304, CommonResources.Verification, CommonResources.VerificationPanel, "BTree.png") { Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartReferenceProperties), };
 
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.SKDHR, 305, "Картотека", "Панель картотека", "BLevels.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDayIntervals, 306, "Дневные графики", "Панель дневные графики", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDScheduleSchemes, 307, "Графики", "Панель графики", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHolidays, 308, "Праздничные дни", "Панель праздничные дни", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDSchedules, 309, "Графики работ", "Панель графики работ", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDTimeTracking, 310, "УРВ", "Панель учета рабочего времени", "BTree.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.SKDHR, 305, CommonResources.CardIndex, CommonResources.CardIndexPanel, "BLevels.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDayIntervals, 306, CommonResources.DayPlans, CommonResources.DayPlansPanel, "BTree.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDScheduleSchemes, 307, CommonResources.Plans, CommonResources.PlansPanel, "BTree.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHolidays, 308, CommonResources.Holidays, CommonResources.HolidaysPanel, "BTree.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDSchedules, 309, CommonResources.WorkPlans, CommonResources.WorkPlansPanel, "BTree.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDTimeTracking, 310, CommonResources.WorkTime, CommonResources.WorkTimePanel, "BTree.png");
 		}
 		#endregion
 	}

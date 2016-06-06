@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
+using Localization.Strazh.Common;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -477,7 +476,7 @@ namespace StrazhModule.ViewModels
 
 			if (HasChanged)
 			{
-				if (!MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
+                if (!MessageBoxService.ShowConfirmation(CommonResources.SaveConfigurationControllerWarning))
 					return false;
 			}
 			

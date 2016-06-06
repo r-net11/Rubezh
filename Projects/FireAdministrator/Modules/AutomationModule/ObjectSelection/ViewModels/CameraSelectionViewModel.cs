@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public CameraSelectionViewModel(Camera camera)
 		{
-			Title = CommonViewModel.CameraSelectionViewModel_Title;
+            Title = CommonViewModels.CameraSelectionViewModel_Title;
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in FiresecManager.SystemConfiguration.Cameras)
 			{

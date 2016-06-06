@@ -1,7 +1,8 @@
 <UserControl x:Class="SecurityModule.Views.RemoteAccessView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Converters="clr-namespace:SecurityModule.Converters">
+			 xmlns:Converters="clr-namespace:SecurityModule.Converters"
+			 xmlns:lang="clr-namespace:Localization.Security.Common;assembly=Localization">
 	<UserControl.Resources>
 		<Converters:RemoteAccessTypeToStringConverter x:Key="RemoteAccessTypeToStringConverter" />
 	</UserControl.Resources>
@@ -29,8 +30,8 @@
 			<ListBox Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}" Margin="2" />
 
 			<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
-				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
-				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+                <ToolBarButton Command="{Binding AddCommand}" ToolTip="{x:Static lang:CommonResources.Add}" ImageSource="Add"  />
+				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="{x:Static lang:CommonResources.Delete}" ImageSource="Delete"  />
 			</StackPanel>
 		</Grid>
 	</Grid>

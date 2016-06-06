@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public OrganisationSelectionViewModel(Organisation organisation)
 		{
-			Title = CommonViewModel.OrganisationSelectionViewModel_Title;
+            Title = CommonViewModels.OrganisationSelectionViewModel_Title;
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			var userOrganisations = OrganisationHelper.GetByCurrentUser();
 			foreach (var userOrganisation in userOrganisations)

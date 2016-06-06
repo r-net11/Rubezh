@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using Localization.Filter.Errors;
 
 namespace FilterModule.Validation
 {
@@ -12,7 +13,7 @@ namespace FilterModule.Validation
 			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters)
 			{
 				if (nameList.Contains(filter.Name))
-					Errors.Add(new FilterValidationError(filter, "Фильтр с таким именем уже существует " + filter.Name, ValidationErrorLevel.CannotWrite));
+					Errors.Add(new FilterValidationError(filter, string.Format(CommonErrors.ValidatorFilter_Error, filter.Name), ValidationErrorLevel.CannotWrite));
 				nameList.Add(filter.Name);
 			}
 		}

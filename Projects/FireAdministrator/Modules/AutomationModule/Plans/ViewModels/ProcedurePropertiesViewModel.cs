@@ -18,7 +18,7 @@ namespace AutomationModule.Plans.ViewModels
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
-			Title = CommonViewModel.ProcedurePropertiesViewModel_Title;
+            Title = CommonViewModels.ProcedurePropertiesViewModel_Title;
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}

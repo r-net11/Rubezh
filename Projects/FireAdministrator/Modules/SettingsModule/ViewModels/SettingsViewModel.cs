@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Models;
+﻿using Localization.Settings.Errors;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -30,7 +31,7 @@ namespace SettingsModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowError("У Вас нет прав для изменения настроек");
+				MessageBoxService.ShowError(CommonErrors.Settings_Error);
 			}
 		}
 	}

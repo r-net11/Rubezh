@@ -1,4 +1,6 @@
-﻿using StrazhAPI.Journal;
+﻿using Localization.Filter.Errors;
+using Localization.Filter.ViewModels;
+using StrazhAPI.Journal;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -14,13 +16,13 @@ namespace FiltersModule.ViewModels
 		{
 			if (filter == null)
 			{
-				Title = "Добавить фильтр";
+				Title = CommonViewModels.FilterDetails_AddFilter;
 				Filter = new JournalFilter();
-				Name = "Новый фильтр";
+                Name = CommonViewModels.FilterDetails_NewFilter;
 			}
 			else
 			{
-				Title = "Свойства фильтра";
+                Title = CommonViewModels.FilterDetails_NewFilter;
 				Filter = filter;
 			}
 			NamesViewModel = new NamesViewModel(Filter);
@@ -72,7 +74,7 @@ namespace FiltersModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название фильтра не может быть пустым");
+				MessageBoxService.ShowWarning(CommonErrors.FilterDetails_Warning);
 				return false;
 			}
 

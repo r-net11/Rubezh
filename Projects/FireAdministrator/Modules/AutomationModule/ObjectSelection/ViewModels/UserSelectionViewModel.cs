@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 	{
 		public UserSelectionViewModel(User user)
 		{
-			Title = CommonViewModel.UserSelectionViewModel_Title;
+            Title = CommonViewModels.UserSelectionViewModel_Title;
 
 			Users = new SortableObservableCollection<UserViewModel>();
 			if (FiresecManager.SecurityConfiguration.Users != null)

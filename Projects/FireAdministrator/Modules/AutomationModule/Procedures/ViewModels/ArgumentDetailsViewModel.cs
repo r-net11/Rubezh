@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		public ArgumentDetailsViewModel(Argument argument)
 		{
 			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			Title = CommonViewModel.ArgumentDetailsViewModel_Title;
+            Title = CommonViewModels.ArgumentDetailsViewModel_Title;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 
