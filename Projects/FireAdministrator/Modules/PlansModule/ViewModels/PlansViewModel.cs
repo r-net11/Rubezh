@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common.Services;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -42,17 +43,16 @@ namespace PlansModule.ViewModels
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
 
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
-			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
+			ServiceFactoryBase.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
 				if (e.Element is ElementSubPlan)
 				{
-					e.DesignerItem = new DesignerItemSubPlan(e.Element);
-					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
+					e.DesignerItem = new DesignerItemSubPlan(e.Element) {IconSource = "/Controls;component/Images/CMap.png"};
 				}
 			});
 
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
-			PlanDesignerViewModel.IsCollapsedChanged += new EventHandler(PlanDesignerViewModel_IsCollapsedChanged);
+			PlanDesignerViewModel.IsCollapsedChanged += PlanDesignerViewModel_IsCollapsedChanged;
 			OnPropertyChanged(() => PlanDesignerViewModel);
 			PlanDesignerViewModel.DesignerCanvas.ZoomChanged();
 			ElementsViewModel = new ElementsViewModel(PlanDesignerViewModel.DesignerCanvas);
@@ -243,7 +243,7 @@ namespace PlansModule.ViewModels
 			if (deviceUIDs.Count > 0)
 			{
 				OnShowDevices(deviceUIDs);
-				if (DesignerCanvas.SelectedItems.Count() == 0)
+				if (!DesignerCanvas.SelectedItems.Any())
 				{
 					var plans = new List<PlanViewModel>();
 					GetAllPlans(plans, Plans);
@@ -307,7 +307,7 @@ namespace PlansModule.ViewModels
 		}
 
 		private double _splitterDistance;
-		private GridLength _emptyGridColumn;
+		private readonly GridLength _emptyGridColumn;
 
 		private GridLength _width1;
 		public GridLength Width1

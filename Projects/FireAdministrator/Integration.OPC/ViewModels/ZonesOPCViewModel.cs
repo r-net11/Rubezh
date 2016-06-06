@@ -17,15 +17,20 @@ namespace Integration.OPC.ViewModels
 	{
 		private OPCZone _selectedZoneOPC;
 
-		public void Initialize(IEnumerable<OPCZone> existingZones)
+		public ZonesOPCViewModel()
 		{
-			ZonesOPC = new ObservableCollection<OPCZone>(existingZones);
-			Menu = new MenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedZoneOPC != null);
 			EditCommand = new RelayCommand(OnEdit, () => SelectedZoneOPC != null);
 			SettingsCommand = new RelayCommand(OnSettings);
+			IsRightPanelEnabled = true;
+			Menu = new MenuViewModel(this);
 			SelectedZoneOPC = ZonesOPC != null ? ZonesOPC.FirstOrDefault() : null;
+		}
+
+		public void Initialize(IEnumerable<OPCZone> existingZones)
+		{
+			ZonesOPC = new ObservableCollection<OPCZone>(existingZones);
 		}
 
 		public ObservableCollection<OPCZone> ZonesOPC { get; set; }

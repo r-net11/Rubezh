@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
-using StrazhAPI.Enums;
-using StrazhAPI.Models;
-using StrazhAPI.Models.Layouts;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
@@ -17,7 +14,10 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using FiresecClient;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
+using System.Collections.Generic;
 
 namespace PlansModule
 {
@@ -31,9 +31,9 @@ namespace PlansModule
 		}
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosedEvent);
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
-			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
+			ServiceFactoryBase.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosedEvent);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
+			ServiceFactoryBase.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
 			_plansViewModel = new PlansViewModel();
 			ApplicationService.Starting += (s, e) => ShowRightContent();
 		}
@@ -49,7 +49,7 @@ namespace PlansModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
+			return new List<NavigationItem>
 			{
 #if PLAN_TAB
 				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","map"),
@@ -63,7 +63,7 @@ namespace PlansModule
 		private void ShowRightContent()
 		{
 #if !PLAN_TAB
-			var viewModel = new RightContentViewModel()
+			var viewModel = new RightContentViewModel
 			{
 				Content = _plansViewModel,
 				Menu = _plansViewModel.Menu,
@@ -80,7 +80,7 @@ namespace PlansModule
 		{
 			_plansViewModel.PlanDesignerViewModel.Save();
 		}
-		private void OnConfigurationClosedEvent(object obj)
+		private static void OnConfigurationClosedEvent(object obj)
 		{
 			PainterCache.Dispose();
 		}
@@ -90,7 +90,7 @@ namespace PlansModule
 		{
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png")
 			{
-				Factory = (p) => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
+				Factory = p => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
 			};
 		}
 		#endregion

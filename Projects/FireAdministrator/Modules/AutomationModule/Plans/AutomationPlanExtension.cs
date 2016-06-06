@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
 using AutomationModule.ViewModels;
 using Infrastructure;
@@ -22,20 +23,20 @@ namespace AutomationModule.Plans
 	{
 		public static AutomationPlanExtension Instance { get; private set; }
 
-		private ProceduresViewModel _proceduresViewModel;
+		private readonly ProceduresViewModel _proceduresViewModel;
 		private IEnumerable<IInstrument> _instruments;
 
 		public AutomationPlanExtension(ProceduresViewModel proceduresViewModel)
 		{
 			Instance = this;
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_proceduresViewModel = proceduresViewModel;
 			_instruments = null;
-			Cache.Add<Procedure>(() => FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
+			Cache.Add(() => FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
 		}
 
 		#region IPlanExtension Members
@@ -53,22 +54,21 @@ namespace AutomationModule.Plans
 		{
 			get
 			{
-				if (_instruments == null)
+				if (_instruments != null) return _instruments;
+
+				_instruments = new List<IInstrument>();
+
+				// В редакторе планов кнопка "Процедура" доступна, если этого не запрещает лицензия
+				if (ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
 				{
-					_instruments = new List<IInstrument>();
-					
-					// В редакторе планов кнопка "Процедура" доступна, если этого не запрещает лицензия
-					if (ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
+					((List<IInstrument>)_instruments).Add(new InstrumentViewModel
 					{
-						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
-						{
-							ImageSource = "Procedure",
-							ToolTip = "Процедура",
-							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
-							Index = 400,
-							Autostart = true
-						});
-					}
+						ImageSource = "Procedure",
+						ToolTip = "Процедура",
+						Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
+						Index = 400,
+						Autostart = true
+					});
 				}
 				return _instruments;
 			}
@@ -107,9 +107,8 @@ namespace AutomationModule.Plans
 		{
 			if (plan.ElementExtensions == null)
 				plan.ElementExtensions = new List<ElementBase>();
-			foreach (var element in plan.ElementExtensions)
-				if (element is ElementProcedure)
-					yield return element;
+
+			return plan.ElementExtensions.OfType<ElementProcedure>();
 		}
 
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
@@ -125,30 +124,31 @@ namespace AutomationModule.Plans
 
 		public override IEnumerable<ElementError> Validate()
 		{
-			List<ElementError> errors = new List<ElementError>();
+			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
+
 			return errors;
 		}
 		#endregion
 
-		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		private static void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
-			ElementProcedure element = e.Element as ElementProcedure;
+			var element = e.Element as ElementProcedure;
+
 			if (element != null)
 				e.PropertyViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel);
 		}
 
 		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
 		{
-			if (typeof(TItem) == typeof(Procedure))
-			{
-				var procedure = item as Procedure;
-				designerItem.Title = procedure == null ? "Несвязанная процедура" : procedure.Name;
-			}
+			if (typeof (TItem) != typeof (Procedure)) return;
+
+			var procedure = item as Procedure;
+			designerItem.Title = procedure == null ? "Несвязанная процедура" : procedure.Name;
 		}
 	}
 }
