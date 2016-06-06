@@ -18,20 +18,20 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://192.168.11.4:8000/Integration/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://192.168.0.202:8091/Integration/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="6610e5c2-7741-4779-bb76-44e3aeec8539" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="7a23279e-8ef5-48fc-a832-732a904a2d12" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a00c88db-9387-42cc-8ec6-9cbfa77baef2" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="2dd51937-9471-499d-82af-b835fe246807" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="a38a9840-6a5d-46fa-9c2b-91d86a32e2a5" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Perimeter.xsd" MetadataType="Schema" ID="13fc2fcf-4a1d-4e8c-a3e3-35e8e3deb4f2" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.xsd" MetadataType="Schema" ID="ff42a6e7-4a8b-4947-a795-87604526a405" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Alarm.xsd" MetadataType="Schema" ID="286ba59b-4074-4346-8e49-ba6e3db780b8" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Video.xsd" MetadataType="Schema" ID="900566f6-ba49-4384-a9ea-825a407f64fe" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Operator.xsd" MetadataType="Schema" ID="e4741f4c-222a-46c5-b58f-dd561b47ce7f" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
-    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="df0cf371-7966-4e76-8b39-6d4447f0687d" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="c81a58d9-f4dc-4768-9021-fce245d3a82a" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="add9dfc6-f267-4293-92f2-433184b9aa97" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="36740a7a-90d6-4278-bc2a-ea2728f50914" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas1.xsd" MetadataType="Schema" ID="bc853115-4a40-453a-bd0f-29b9a378eadc" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Common1.xsd" MetadataType="Schema" ID="19e4ccdf-94c6-40cc-b646-20af2d1e4e77" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Perimeter1.xsd" MetadataType="Schema" ID="8e758d19-7a97-4c02-8857-562af56b867f" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface1.xsd" MetadataType="Schema" ID="0cef7236-461d-4077-9859-243e0d9856aa" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Alarm1.xsd" MetadataType="Schema" ID="3c5fecfb-2d54-43f6-a2f9-d37568bcf835" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Video1.xsd" MetadataType="Schema" ID="4c82d4d3-e24f-4bcc-b8fd-fd64042a54a5" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Operator1.xsd" MetadataType="Schema" ID="5b917f63-f865-4198-b0ba-0cc32e53a423" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
+    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="6d3e1cfe-1cd7-41e9-9d4c-cf40e5eaf193" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/Integration/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
