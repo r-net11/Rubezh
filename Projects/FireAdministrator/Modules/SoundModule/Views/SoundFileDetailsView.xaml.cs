@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SoundsModule.Views
 {
 	/// <summary>
-	/// Interaction logic for SoundsView.xaml
+	/// Interaction logic for SoundFileDetailsView.xaml
 	/// </summary>
-	public partial class SoundsView : UserControl
+	public partial class SoundFileDetailsView : UserControl
 	{
-		public SoundsView()
+		public SoundFileDetailsView()
 		{
 			InitializeComponent();
 		}

@@ -83,7 +83,7 @@ namespace FireMonitor.ViewModels
 			}
 			if (minSound != null)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.IsContinious);
 			}
 		}
 

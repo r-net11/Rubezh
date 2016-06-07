@@ -92,11 +92,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SoundsModule.cs" />
+    <Compile Include="Validation\SoundValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="ViewModels\SoundFileDetailsViewModel.cs" />
+    <Compile Include="ViewModels\SoundFilesViewModel.cs" />
+    <Compile Include="ViewModels\SoundFileViewModel.cs" />
     <Compile Include="ViewModels\SoundsMenuViewModel.cs" />
+    <Compile Include="ViewModels\SoundsAssignmentViewModel.cs" />
+    <Compile Include="ViewModels\SoundAssignmentViewModel.cs" />
     <Compile Include="ViewModels\SoundsViewModel.cs" />
-    <Compile Include="ViewModels\SoundViewModel.cs" />
+    <Compile Include="Views\SoundFileDetailsView.xaml.cs">
+      <DependentUpon>SoundFileDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SoundFilesView.xaml.cs">
+      <DependentUpon>SoundFilesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SoundsMenuView.xaml.cs">
       <DependentUpon>SoundsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SoundsAssignmentView.xaml.cs">
+      <DependentUpon>SoundsAssignmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SoundsView.xaml.cs">
       <DependentUpon>SoundsView.xaml</DependentUpon>
@@ -146,7 +161,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SoundFileDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SoundFilesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SoundsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SoundsAssignmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -140,6 +140,7 @@
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
     <Compile Include="Converters\IfConverter.cs" />
+    <Compile Include="Converters\JournalEventNameTypeToIconConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Converters\SKDDeviceTypeEnumToAttributeValueConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />

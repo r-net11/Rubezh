@@ -96,7 +96,7 @@ namespace AutomationModule
 							() =>
 								AlarmPlayerHelper.Play(
 									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())),
-									BeeperType.Alarm, false));
+									false));
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
