@@ -121,7 +121,6 @@
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
     <Compile Include="Views\RestartApplicationView.xaml.cs">
       <DependentUpon>RestartApplicationView.xaml</DependentUpon>
@@ -131,9 +130,6 @@
     </Compile>
     <Compile Include="Views\UserFotterView.xaml.cs">
       <DependentUpon>UserFotterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserView.xaml.cs">
-      <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\SecurityService.cs" />
@@ -186,10 +182,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserFotterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
