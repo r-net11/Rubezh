@@ -15,10 +15,6 @@
 		<Views:SoundView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
-		<Views:UserView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:RestartApplicationViewModel}">
 		<Views:RestartApplicationView />
 	</DataTemplate>

@@ -18,13 +18,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://192.168.0.202:8091/IntegrationVideoStreaming/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ea675c7e-bf30-432a-9b63-bbef066c777b" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="72e6ad7a-70f0-45bc-90b3-8ee72dce9896" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="24274361-6ed7-4687-a83e-f6e6d5c90222" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
-    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="5c1f6fd3-0c9d-4216-b9c2-55f58eb71b77" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="2f3b1d35-7237-4f9c-a187-777f200417ca" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="04c18515-489b-49a5-9acc-46d2de774b80" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="e60f92f5-6d6d-4ee7-81d1-86f3d246174f" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="Message1.xsd" MetadataType="Schema" ID="4a6e00f8-2ec6-4f51-9e4f-0e626aa21d8e" SourceId="1" SourceUrl="net.tcp://192.168.0.202:8091/IntegrationVideoStreaming/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
