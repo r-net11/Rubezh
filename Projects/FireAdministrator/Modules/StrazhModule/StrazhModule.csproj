@@ -117,12 +117,6 @@
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorWeeklyIntervalsEvent.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\Controls\OPCZonePropertyControl.xaml.cs">
-      <DependentUpon>OPCZonePropertyControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\Controls\SKDZonePropertyControl.xaml.cs">
-      <DependentUpon>SKDZonePropertyControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
@@ -470,14 +464,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Doors\Views\DeviceSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Plans\Views\Controls\OPCZonePropertyControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Plans\Views\Controls\SKDZonePropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

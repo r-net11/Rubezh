@@ -103,7 +103,13 @@ namespace StrazhAPI.Models
 		public List<ElementRectangleSKDZone> ElementRectangleSKDZones { get; set; }
 
 		[DataMember]
+		public List<ElementRectangleOPCZone> ElementRectangleOPCZones { get; set; }
+
+		[DataMember]
 		public List<ElementPolygonSKDZone> ElementPolygonSKDZones { get; set; }
+
+		[DataMember]
+		public List<ElementPolygonOPCZone> ElementPolygonOPCZones { get; set; }
 
 		[DataMember]
 		public List<ElementDoor> ElementDoors { get; set; }

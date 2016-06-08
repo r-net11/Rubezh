@@ -12,12 +12,14 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+			<converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<DataGrid
 		ItemsSource="{Binding ZonesOPC, IsAsync=True}"
 		SelectedItem="{Binding SelectedZoneOPC}"
-		CanUserSortColumns="True">
+		CanUserSortColumns="True"
+		CanUserReorderColumns="False">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				Header="№"
@@ -27,13 +29,19 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<StackPanel Orientation="Horizontal">
-							<!--<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />-->
-							<TextBlock Text="{Binding No}" />
+							<Image
+								Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}"
+								VerticalAlignment="Center"
+								Margin="5 2 0 0"/>
+							<TextBlock
+								Text="{Binding No}"
+								VerticalAlignment="Center"
+								Margin="5 0"/>
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Наименование" Width="2*">
+			<DataGridTemplateColumn Header="Наименование" Width="2*" SortMemberPath="Name">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
@@ -42,7 +50,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Назначение" Width="*">
+			<DataGridTemplateColumn Header="Назначение" Width="*" SortMemberPath="Type">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
@@ -51,7 +59,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Примечание" Width="*">
+			<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock

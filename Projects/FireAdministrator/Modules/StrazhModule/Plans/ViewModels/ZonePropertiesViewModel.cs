@@ -20,10 +20,15 @@ namespace StrazhModule.Plans.ViewModels
 			Zones = zonesViewModel.Zones;
 			_elementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedZone != null);
 			Title = "Свойства фигуры: Зона СКД";
-			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+			SetSelectedZone();
+		}
+
+		private void SetSelectedZone()
+		{
+			if (_elementZone.ZoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == _elementZone.ZoneUID);
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -59,10 +64,6 @@ namespace StrazhModule.Plans.ViewModels
 		{
 			ServiceFactoryBase.Events.GetEvent<EditSKDZoneEvent>().Publish(SelectedZone.Zone.UID);
 			SelectedZone.Update(SelectedZone.Zone);
-		}
-		bool CanEdit()
-		{
-			return SelectedZone != null;
 		}
 
 		protected override bool Save()

@@ -21,4 +21,8 @@
 	<DataTemplate DataType="{x:Type viewModels:PropertiesDialogViewModel}">
 		<views:PropertiesDialogView />
 	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type viewModels:ZonePropertiesViewModel}">
+		<views:ZonePropertiesView />
+	</DataTemplate>
 </ResourceDictionary>

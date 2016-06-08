@@ -16,11 +16,7 @@ namespace StrazhAPI.Plans.Elements
 			BackgroundColor = Colors.White;
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
-			BackgroundImageSource = null;
-			BackgroundSourceName = null;
 			ImageType = ResourceType.Image;
-			IsLocked = false;
-			IsHidden = false;
 		}
 
 		[XmlIgnore]
@@ -76,7 +72,7 @@ namespace StrazhAPI.Plans.Elements
 		{
 			get
 			{
-				Rect rect = GetRectangle();
+				var rect = GetRectangle();
 				return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
 			}
 			set { SetPosition(value); }

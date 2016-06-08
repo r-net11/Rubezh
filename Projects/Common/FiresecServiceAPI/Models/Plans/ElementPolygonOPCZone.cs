@@ -6,30 +6,16 @@ using System.Xml.Serialization;
 
 namespace StrazhAPI.Models
 {
-	[DataContract]
-	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive
+	public class ElementPolygonOPCZone : ElementBasePolygon, IElementZone, IPrimitive
 	{
-		public ElementPolygonSKDZone()
+		public ElementPolygonOPCZone()
 		{
-			PresentationName = "Зона Страж";
+			PresentationName = "Зона ОПС";
 		}
-
-		[DataMember]
-		public Guid ZoneUID { get; set; }
-
-		[XmlIgnore]
-		public bool IsHiddenZone //TODO: Remove it
-		{
-			get { return false; }
-			set { }
-		}
-
-		[DataMember]
-		public ElementZoneType ElementZoneType { get; set; }
 
 		public override ElementBase Clone()
 		{
-			var elementBase = new ElementPolygonSKDZone();
+			var elementBase = new ElementPolygonOPCZone();
 			Copy(elementBase);
 			return elementBase;
 		}
@@ -46,6 +32,23 @@ namespace StrazhAPI.Models
 			element.IsHiddenZone = IsHiddenZone;
 		}
 
+		[DataMember]
+		public Guid ZoneUID { get; set; }
+		public void SetZLayer(int zlayer)
+		{
+			ZLayer = zlayer;
+		}
+
+		[XmlIgnore]
+		public bool IsHiddenZone //TODO: Remove it
+		{
+			get { return false; }
+			set { }
+		}
+
+		[DataMember]
+		public ElementZoneType ElementZoneType { get; set; }
+
 		#region IPrimitive Members
 
 		[XmlIgnore]
@@ -55,11 +58,6 @@ namespace StrazhAPI.Models
 		}
 
 		#endregion IPrimitive Members
-
-		public void SetZLayer(int zlayer)
-		{
-			ZLayer = zlayer;
-		}
 
 		#region IElementReference Members
 

@@ -12,13 +12,13 @@ namespace StrazhAPI.Plans.Elements
 
 		void SetZLayer(int zlayer);
 
-		bool IsHiddenZone { get; set; }
+		bool IsHiddenZone { get; set; } //TODO: Can remove it?
 
 		int ZIndex { get; set; }
 
 		int ZLayer { get; }
 
-		ElementZoneType ElementZoneType { get; set; }
+		ElementZoneType ElementZoneType { get; set; } //TODO: Can remove it?
 	}
 
 	public enum ElementZoneType

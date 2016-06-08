@@ -47,16 +47,16 @@ namespace AutomationModule
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
-			_planExtension.Initialize();
+			_planExtension.Initialize(); //TODO: This is equal to BuildAllSafe() method below;
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
-			_planExtension.Cache.BuildAllSafe();
+			_planExtension.Cache.BuildAllSafe(); //TODO: Remove
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			// Скрываем в главном меню пункт "Сценарии автоматизации", если лицензия этого требует
 			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
 				return new List<NavigationItem>();
-			
+
 			return new List<NavigationItem>
 				{
 					new NavigationItem(ModuleType.ToDescription(), "tree",

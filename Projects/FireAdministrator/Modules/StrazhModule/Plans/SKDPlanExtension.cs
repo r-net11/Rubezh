@@ -239,8 +239,6 @@ namespace StrazhModule.Plans
 				elementZone.BackgroundColor = GetSKDZoneColor(item as SKDZone);
 				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
-			else
-				base.UpdateElementProperties(element, item);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -251,6 +249,7 @@ namespace StrazhModule.Plans
 			else if (args.Element is ElementDoor)
 				args.Painter = new DoorPainter(DesignerCanvas, (ElementDoor)args.Element);
 		}
+
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
 			var element = e.Element as ElementSKDDevice;

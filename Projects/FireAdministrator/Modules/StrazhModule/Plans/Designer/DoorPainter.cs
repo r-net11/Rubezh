@@ -10,14 +10,13 @@ namespace StrazhModule.Plans.Designer
 {
 	public class DoorPainter : PointPainter
 	{
-		private ElementDoor _elementDoor;
-		private ImageTextTooltipViewModel _toolTip;
+		private readonly ElementDoor _elementDoor;
+		private readonly ImageTextTooltipViewModel _toolTip;
 		public DoorPainter(CommonDesignerCanvas designerCanvas, ElementDoor elementDoor)
 			: base(designerCanvas, elementDoor)
 		{
 			_elementDoor = elementDoor;
-			_toolTip = new ImageTextTooltipViewModel();
-			_toolTip.ImageSource = "/Controls;component/Images/Door.png";
+			_toolTip = new ImageTextTooltipViewModel {ImageSource = "/Controls;component/Images/Door.png"};
 		}
 
 		protected override Brush GetBrush()

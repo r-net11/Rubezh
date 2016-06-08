@@ -7,7 +7,7 @@ namespace Infrastructure.Common
 {
 	public abstract class ModuleBase : IModule
 	{
-		public ModuleBase()
+		protected ModuleBase()
 		{
 			RegisterResource();
 		}
