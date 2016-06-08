@@ -42,13 +42,13 @@ namespace Integration.OPC.ViewModels
 		public ZonesOPCViewModel()
 		{
 			_lockSelection = false;
+			Menu = new MenuViewModel(this);
 			SubscribeEvents();
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, () => SelectedZoneOPC != null);
 			EditCommand = new RelayCommand(OnEdit, () => SelectedZoneOPC != null);
 			SettingsCommand = new RelayCommand(OnSettings);
 			IsRightPanelEnabled = true;
-			Menu = new MenuViewModel(this);
 			SelectedZoneOPC = ZonesOPC != null ? ZonesOPC.FirstOrDefault() : null;
 		}
 
@@ -87,10 +87,14 @@ namespace Integration.OPC.ViewModels
 		{
 			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
 
-			ZonesOPC.Remove(SelectedZoneOPC);
-
-			SelectedZoneOPC = ZonesOPC.FirstOrDefault();
-			ServiceFactory.SaveService.SKDChanged = true;
+			var removedItem = SKDManager.SKDConfiguration.OPCZones.FirstOrDefault(x => x.No == SelectedZoneOPC.No);
+			if (removedItem != null)
+			{
+				SKDManager.SKDConfiguration.OPCZones.Remove(removedItem);
+				ZonesOPC.Remove(SelectedZoneOPC);
+				SelectedZoneOPC = ZonesOPC.FirstOrDefault();
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 
 		public void OnEdit()

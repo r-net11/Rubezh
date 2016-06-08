@@ -35,7 +35,7 @@ namespace FireAdministrator
 				try
 				{
 					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
-					SafeFiresecService.DisconnectClientCommandEvent += (showNotification) =>
+					SafeFiresecService.DisconnectClientCommandEvent += showNotification =>
 					{
 						if (showNotification)
 							ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
@@ -79,9 +79,8 @@ namespace FireAdministrator
 					}
 					else if (Application.Current != null)
 					{
-						var shell = new AdministratorShellViewModel();
-						shell.LogoSource = "Logo";
-						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
+						var shell = new AdministratorShellViewModel {LogoSource = "Logo"};
+						ServiceFactory.MenuService = new MenuService(vm => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}
 					ServiceFactory.StartupService.Close();
@@ -92,8 +91,8 @@ namespace FireAdministrator
 					SafeFiresecService.SKDProgressCallbackEvent -= OnSKDProgressCallbackEvent;
 					SafeFiresecService.SKDProgressCallbackEvent += OnSKDProgressCallbackEvent;
 
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
-					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
+					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
+					ServiceFactoryBase.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 					MutexHelper.KeepAlive();
 				}
 				catch (StartupCancellationException)
@@ -106,14 +105,12 @@ namespace FireAdministrator
 					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
-					return;
 				}
 			}
 			else
 			{
 				if (Application.Current != null)
 					Application.Current.Shutdown();
-				return;
 			}
 		}
 
@@ -152,14 +149,14 @@ namespace FireAdministrator
 		private void OnConfigurationChanged(object obj)
 		{
 			LoadingErrorManager.Clear();
-			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-			ServiceFactory.ContentService.Clear();
+			ServiceFactoryBase.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
+			ServiceFactoryBase.ContentService.Clear();
 			InitializeModules();
 			LoadingService.Close();
 		}
-		private void OnConfigurationClosed(object obj)
+		private static void OnConfigurationClosed(object obj)
 		{
-			ServiceFactory.ContentService.Close();
+			ServiceFactoryBase.ContentService.Close();
 		}
 
 		private void CloseOnException(string message)

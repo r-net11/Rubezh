@@ -20,6 +20,12 @@
 		SelectedItem="{Binding SelectedZoneOPC}"
 		CanUserSortColumns="True"
 		CanUserReorderColumns="False">
+		<DataGrid.ContextMenu>
+			<ContextMenu>
+				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить" />
+				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Свойства" />
+			</ContextMenu>
+		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				Header="№"
