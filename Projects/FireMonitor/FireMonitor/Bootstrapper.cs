@@ -166,7 +166,6 @@ namespace FireMonitor
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 			if (!RunShell(shell))
 				result = false;
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 			return result;
 		}
 		protected virtual ShellViewModel CreateShell()

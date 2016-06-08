@@ -32,7 +32,6 @@ namespace FireMonitor.Layout.ViewModels
 			Layout = layout;
 			LayoutContainer = new LayoutContainer(this, layout);
 			LayoutContainer.LayoutChanging += LayoutChanging;
-			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 		}
 
@@ -73,8 +72,6 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void AddRibbonItem()
 		{
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "BUser"));
-
 			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
@@ -86,17 +83,6 @@ namespace FireMonitor.Layout.ViewModels
 			}, "BConfig"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
-		}
-
-		public RelayCommand ChangeUserCommand { get; private set; }
-		private void OnChangeUser()
-		{
-			ApplicationService.ShutDown();
-			Process.Start(Application.ResourceAssembly.Location);
-		}
-		private bool CanChangeUser()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
