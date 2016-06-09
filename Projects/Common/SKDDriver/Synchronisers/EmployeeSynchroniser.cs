@@ -47,10 +47,10 @@ namespace StrazhDAL
 
 		protected override void UpdateForignKeys(ExportEmployee exportItem, DataAccess.Employee tableItem)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, _DatabaseService.Context.Positions);
-			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, _DatabaseService.Context.Employees);
+			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, DatabaseService.Context.Organisations);
+			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, DatabaseService.Context.Positions);
+			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, DatabaseService.Context.Departments);
+			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, DatabaseService.Context.Employees);
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(ExportFilter filter)

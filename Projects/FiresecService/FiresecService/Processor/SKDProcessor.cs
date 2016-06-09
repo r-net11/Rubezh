@@ -263,13 +263,13 @@ namespace FiresecService
 			{
 				skdStates.DeviceStates.Add(device.State);
 			}
-			foreach (var zone in SKDManager.Zones)
+			foreach (var zone in SKDManager.Zones.Where(x => x.State != null))
 			{
 				zone.State.StateClasses = GetZoneStateClasses(zone);
 				zone.State.StateClass = zone.State.StateClasses.Min();
 				skdStates.ZoneStates.Add(zone.State);
 			}
-			foreach (var door in SKDManager.Doors)
+			foreach (var door in SKDManager.Doors.Where(x => x.State != null))
 			{
 				door.State.StateClasses = GetDoorStateClasses(door);
 				door.State.StateClass = door.State.StateClasses.Min();

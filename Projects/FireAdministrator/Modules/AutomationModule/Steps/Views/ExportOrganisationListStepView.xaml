@@ -13,7 +13,7 @@
 					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к файлам" />
+					<Label Content="Путь к папке" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,13 @@ namespace StrazhDAL
 	{
 		public static OperationResult Export(ConfigurationExportFilter filter)
 		{
-			if (!Directory.Exists(filter.Path))
-				return new OperationResult("Папка не существует");
+			if (filter == null || string.IsNullOrEmpty(filter.Path))
+			{
+				Logger.Error("Path is empty");
+				return new OperationResult("Path is empty");
+			}
+
+			Directory.CreateDirectory(filter.Path);
 			var devicesResult = new OperationResult();
 			var doorsResult = new OperationResult();
 			var zonesResult = new OperationResult();
@@ -27,7 +33,7 @@ namespace StrazhDAL
 			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);
 		}
 
-		private static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
+		private static OperationResult Export<TExportItem, TConfigItem>(IEnumerable<TConfigItem> configItems, string fileName, string path)
 			where TExportItem : IConfigExportItem<TConfigItem>, new()
 		{
 			try

@@ -181,9 +181,7 @@ namespace StrazhDAL
 		{
 			if (dateTime < MinYear)
 				return MinYear;
-			if (dateTime > MaxYear)
-				return MaxYear;
-			return dateTime;
+			return dateTime > MaxYear ? MaxYear : dateTime;
 		}
 
 		public static OperationResult ConcatOperationResults(params OperationResult[] results)

@@ -21,7 +21,7 @@
 					<Views:ArgumentView DataContext="{Binding IsExportZones}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к файлам" />
+					<Label Content="Путь к папке" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>
