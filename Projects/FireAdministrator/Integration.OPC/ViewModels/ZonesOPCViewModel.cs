@@ -35,6 +35,7 @@ namespace Integration.OPC.ViewModels
 				if (_selectedZoneOPC == value) return;
 				_selectedZoneOPC = value;
 				OnPropertyChanged(() => SelectedZoneOPC);
+				GenerateFindEvent();
 			}
 		}
 		#endregion
@@ -118,6 +119,20 @@ namespace Integration.OPC.ViewModels
 		}
 
 		#region Private Methods
+		/// <summary>
+		/// Служит для уведомления о смене выбранной зоны.
+		/// Генерируемое событие принимает PlansViewModel для нахождения элемента на плане и осуществления принудительного выбора элемента на плане.
+		/// </summary>
+		private void GenerateFindEvent()
+		{
+			if (SelectedZoneOPC == null || _lockSelection) return;
+
+			var zone = SKDManager.SKDConfiguration.OPCZones.FirstOrDefault(x => x.No == SelectedZoneOPC.No);
+
+			if (zone == null || !zone.PlanElementUIDs.Any()) return;
+
+			ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(zone.PlanElementUIDs);
+		}
 		private void SubscribeEvents()
 		{
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);

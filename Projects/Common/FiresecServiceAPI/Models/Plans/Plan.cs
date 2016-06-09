@@ -117,6 +117,12 @@ namespace StrazhAPI.Models
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
 
+
+		/// <summary>
+		/// Свойство содержит коллекцию всех элементов плана.
+		/// Служит для корректной работы функционала, который позволяет отображать на плане фигуру, соответствующую выбранному элементу (например, выбранную процедуру),
+		/// даже если на данный момент выбран тот план, где фигуры, соответствующей выбранному элементу, не существует (но существует на других планах).
+		/// </summary>
 		[XmlIgnore]
 		public List<ElementBase> ElementUnion
 		{
@@ -129,6 +135,8 @@ namespace StrazhAPI.Models
 				union.AddRange(ElementRectangleSKDZones);
 				union.AddRange(ElementSKDDevices);
 				union.AddRange(ElementSubPlans);
+				union.AddRange(ElementPolygonOPCZones);
+				union.AddRange(ElementRectangleOPCZones);
 				return union;
 			}
 		}

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Input;
 using AutomationModule.Plans;
 using Common;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Events;
 using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -13,26 +15,61 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
 
 namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public static ProceduresViewModel Current { get; private set; }
+		private SortableObservableCollection<ProcedureViewModel> _procedures;
+		private ProcedureViewModel _selectedProcedure;
+		private Procedure _procedureToCopy;
+		private bool _lockSelection;
+
 		public ProceduresViewModel()
 		{
 			Current = this;
 			Menu = new ProceduresMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			CutCommand = new RelayCommand(OnCut, CanCopy);
+			DeleteCommand = new RelayCommand(OnDelete, () => SelectedProcedure != null);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedProcedure != null);
+			CopyCommand = new RelayCommand(OnCopy, () => SelectedProcedure != null);
+			PasteCommand = new RelayCommand(OnPaste, () => _procedureToCopy != null);
+			CutCommand = new RelayCommand(OnCut, () => SelectedProcedure != null);
 			RegisterShortcuts();
 			SetRibbonItems();
+			SubscribeEvents();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
+		}
+
+		public static ProceduresViewModel Current { get; private set; }
+
+		public SortableObservableCollection<ProcedureViewModel> Procedures
+		{
+			get { return _procedures; }
+			set
+			{
+				_procedures = value;
+				OnPropertyChanged(() => Procedures);
+			}
+		}
+
+		public ProcedureViewModel SelectedProcedure
+		{
+			get { return _selectedProcedure; }
+			set
+			{
+				_selectedProcedure = value;
+				OnPropertyChanged(() => SelectedProcedure);
+				GenerateFindEvent();
+
+				if (value == null) return;
+
+				value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
+				value.StepsViewModel.UpdateContent();
+			}
 		}
 
 		public void Initialize()
@@ -51,54 +88,18 @@ namespace AutomationModule.ViewModels
 			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
-		SortableObservableCollection<ProcedureViewModel> _procedures;
-		public SortableObservableCollection<ProcedureViewModel> Procedures
-		{
-			get { return _procedures; }
-			set
-			{
-				_procedures = value;
-				OnPropertyChanged(() => Procedures);
-			}
-		}
-
-		ProcedureViewModel _selectedProcedure;
-		public ProcedureViewModel SelectedProcedure
-		{
-			get { return _selectedProcedure; }
-			set
-			{
-				_selectedProcedure = value;
-				OnPropertyChanged(() => SelectedProcedure);
-				if (value != null)
-				{
-					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
-					value.StepsViewModel.UpdateContent();
-				}
-			}
-		}
-
-		Procedure _procedureToCopy;
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		private void OnCopy()
 		{
 			_procedureToCopy = Utils.Clone(SelectedProcedure.Procedure);
 		}
 
-		bool CanCopy()
-		{
-			return SelectedProcedure != null;
-		}
-
-		public RelayCommand CutCommand { get; private set; }
 		private void OnCut()
 		{
 			OnCopy();
 			OnDelete();
 		}
 
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		private void OnPaste()
 		{
 			_procedureToCopy.Uid = Guid.NewGuid();
 			var procedureViewModel = new ProcedureViewModel(Utils.Clone(_procedureToCopy));
@@ -109,13 +110,7 @@ namespace AutomationModule.ViewModels
 			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 		}
 
-		bool CanPaste()
-		{
-			return _procedureToCopy != null;
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var procedureDetailsViewModel = new ProcedureDetailsViewModel();
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
@@ -129,8 +124,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var procedureDetailsViewModel = new ProcedureDetailsViewModel(SelectedProcedure.Procedure);
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
@@ -139,13 +133,8 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
-		bool CanEdit()
-		{
-			return SelectedProcedure != null;
-		}
 
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 			var index = Procedures.IndexOf(SelectedProcedure);
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
@@ -154,10 +143,6 @@ namespace AutomationModule.ViewModels
 			if (index > -1)
 				SelectedProcedure = Procedures[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
-		}
-		bool CanDelete()
-		{
-			return SelectedProcedure != null;
 		}
 
 		public void Select(Guid inputUid)
@@ -212,7 +197,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		List<ProcedureStep> GetAllSteps(List<ProcedureStep> steps, List<ProcedureStep> resultSteps)
+		private static List<ProcedureStep> GetAllSteps(IEnumerable<ProcedureStep> steps, List<ProcedureStep> resultSteps)
 		{
 			foreach (var step in steps)
 			{
@@ -238,7 +223,7 @@ namespace AutomationModule.ViewModels
 			SelectedProcedure = Procedures != null ? Procedures.FirstOrDefault() : null;
 		}
 
-		void RegisterShortcuts()
+		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
@@ -250,9 +235,9 @@ namespace AutomationModule.ViewModels
 
 		private void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
@@ -263,10 +248,70 @@ namespace AutomationModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
 		}
-
-		public override void OnHide()
+		private void SubscribeEvents()
 		{
-			base.OnHide();
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
+
+		private void OnProcedureChanged(Guid uid)
+		{
+			var procedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == uid);
+			if (procedure == null) return;
+
+			procedure.Update();
+
+			if (!_lockSelection)
+			{
+				SelectedProcedure = procedure;
+			}
+		}
+		private void OnElementChanged(List<ElementBase> elements)
+		{
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				var elementProcedure = element as ElementProcedure;
+				if (elementProcedure != null)
+					OnProcedureChanged(elementProcedure.ProcedureUID);
+			});
+			_lockSelection = false;
+		}
+		private void OnElementSelected(ElementBase element)
+		{
+			var elementProcedure = element as ElementProcedure;
+			if (elementProcedure == null) return;
+
+			_lockSelection = true;
+			Select(elementProcedure.ProcedureUID);
+			_lockSelection = false;
+		}
+
+		/// <summary>
+		/// Служит для уведомления о смене выбранной процедуры.
+		/// Генерируемое событие принимает PlansViewModel для нахождения элемента на плане и осуществления принудительного выбора элемента на плане.
+		/// </summary>
+		private void GenerateFindEvent()
+		{
+			if (SelectedProcedure == null || _lockSelection || SelectedProcedure.Procedure == null) return;
+
+			if (!SelectedProcedure.Procedure.PlanElementUIDs.Any()) return;
+
+			ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(SelectedProcedure.Procedure.PlanElementUIDs);
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		public RelayCommand DeleteCommand { get; private set; }
+		public RelayCommand AddCommand { get; private set; }
+		public RelayCommand CutCommand { get; private set; }
+		public RelayCommand CopyCommand { get; private set; }
+		public RelayCommand PasteCommand { get; private set; }
 	}
 }

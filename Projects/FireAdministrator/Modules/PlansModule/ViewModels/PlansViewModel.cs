@@ -24,26 +24,31 @@ namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : ViewPartViewModel
 	{
-		public BaseViewModel Menu { get; protected set; }
-		public ElementsViewModel ElementsViewModel { get; private set; }
-		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
+		private double _splitterDistance;
+		private readonly GridLength _emptyGridColumn;
+		private GridLength _width1;
+		private GridLength _width2;
+		private GridLength _width3;
+		private GridLength _layersHeight;
+		private ObservableCollection<PlanViewModel> _plans;
+		private PlanViewModel _selectedPlan;
 
 		public PlansViewModel()
 		{
-			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
-			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
-			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
+			ServiceFactoryBase.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
+			ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
+			ServiceFactoryBase.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
 			AddCommand = new RelayCommand(OnAdd);
-			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
-			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
-			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
-			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, () => SelectedPlan != null);
+			RemoveCommand = new RelayCommand(OnRemove, () => SelectedPlan != null);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedPlan != null);
+			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, () => SelectedPlan != null);
 			AddFolderCommand = new RelayCommand(OnAddFolder);
-			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
+			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, () => SelectedPlan != null);
 
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
-			ServiceFactoryBase.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
+			ServiceFactoryBase.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe(e =>
 			{
 				if (e.Element is ElementSubPlan)
 				{
@@ -78,39 +83,52 @@ namespace PlansModule.ViewModels
 			};
 		}
 
-		public void Initialize()
+		public GridLength Width1
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			get { return _width1; }
+			set
 			{
-				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-					plan.BackgroundImageSource = null;
-				Helper.UpgradeBackground(plan);
-				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-					Helper.UpgradeBackground(elementBase);
+				_width1 = value;
+				OnPropertyChanged(() => Width1);
 			}
-			SelectedPlan = null;
-			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-				AddPlan(plan, null);
-			if (SelectedPlan != null)
-				SelectedPlan.ExpandToThis();
 		}
-		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+
+		public GridLength Width2
 		{
-			var planViewModel = new PlanViewModel(plan);
-			if (parentPlanViewModel == null)
-				Plans.Add(planViewModel);
-			else
-				parentPlanViewModel.AddChild(planViewModel);
-			if (SelectedPlan == null && !planViewModel.IsFolder)
-				SelectedPlan = planViewModel;
-
-			foreach (var childPlan in plan.Children)
-				AddPlan(childPlan, planViewModel);
-			return planViewModel;
+			get { return _width2; }
+			set
+			{
+				_width2 = value;
+				OnPropertyChanged(() => Width2);
+			}
 		}
 
-		private ObservableCollection<PlanViewModel> _plans;
+		public GridLength Width3
+		{
+			get { return _width3; }
+			set
+			{
+				_width3 = value;
+				OnPropertyChanged(() => Width3);
+			}
+		}
+
+		public GridLength LayersHeight
+		{
+			get { return _layersHeight; }
+			set
+			{
+				_layersHeight = value;
+				OnPropertyChanged(() => LayersHeight);
+			}
+		}
+
+		public BaseViewModel Menu { get; protected set; }
+
+		public ElementsViewModel ElementsViewModel { get; private set; }
+
+		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
+
 		public ObservableCollection<PlanViewModel> Plans
 		{
 			get { return _plans; }
@@ -121,7 +139,6 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private PlanViewModel _selectedPlan;
 		public PlanViewModel SelectedPlan
 		{
 			get { return _selectedPlan; }
@@ -139,38 +156,73 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
 		{
 			get { return PlanDesignerViewModel.DesignerCanvas; }
 		}
 
-		public RelayCommand AddCommand { get; private set; }
+		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+
+		public void Initialize()
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.BackgroundImageSource.HasValue && !ServiceFactoryBase.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
+					plan.BackgroundImageSource = null;
+				Helper.UpgradeBackground(plan);
+				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+					Helper.UpgradeBackground(elementBase);
+			}
+			SelectedPlan = null;
+			Plans = new ObservableCollection<PlanViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+				AddPlan(plan, null);
+			if (SelectedPlan != null)
+				SelectedPlan.ExpandToThis();
+		}
+
+		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		{
+			var planViewModel = new PlanViewModel(plan);
+			if (parentPlanViewModel == null)
+				Plans.Add(planViewModel);
+			else
+				parentPlanViewModel.AddChild(planViewModel);
+			if (SelectedPlan == null && !planViewModel.IsFolder)
+				SelectedPlan = planViewModel;
+
+			foreach (var childPlan in plan.Children)
+				AddPlan(childPlan, planViewModel);
+			return planViewModel;
+		}
+
 		private void OnAdd()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 				OnPlanPaste(planDetailsViewModel.Plan, true);
 		}
-		public RelayCommand AddSubPlanCommand { get; private set; }
+
 		private void OnAddSubPlan()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 				OnPlanPaste(planDetailsViewModel.Plan, false);
 		}
-		public RelayCommand RemoveCommand { get; private set; }
+
 		private void OnRemove()
 		{
-			string message = string.Format(SelectedPlan.PlanFolder != null ? "Вы действительно хотите удалить папку\n\"{0}\"?" : "Вы действительно хотите удалить графический план \"{0}\"?", SelectedPlan.Caption);
+			var message = string.Format(SelectedPlan.PlanFolder != null ? "Вы действительно хотите удалить папку\n\"{0}\"?" : "Вы действительно хотите удалить графический план \"{0}\"?", SelectedPlan.Caption);
 			if (MessageBoxService.ShowConfirmation(message))
 				OnPlanRemove(false);
 		}
 
-		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			SaveCancelDialogViewModel dialog = SelectedPlan.PlanFolder != null ? (SaveCancelDialogViewModel)new FolderPropertiesViewModel(SelectedPlan.PlanFolder) : new DesignerPropertiesViewModel(SelectedPlan.Plan);
+			var dialog = SelectedPlan.PlanFolder != null
+				? (SaveCancelDialogViewModel)new FolderPropertiesViewModel(SelectedPlan.PlanFolder)
+				: new DesignerPropertiesViewModel(SelectedPlan.Plan);
+
 			if (DialogService.ShowModalWindow(dialog))
 			{
 				SelectedPlan.Update();
@@ -180,7 +232,7 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
-		public RelayCommand AddFolderCommand { get; private set; }
+
 		private void OnAddFolder()
 		{
 			var viewModel = new FolderPropertiesViewModel(null);
@@ -195,7 +247,7 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
-		public RelayCommand AddSubFolderCommand { get; private set; }
+
 		private void OnAddSubFolder()
 		{
 			var viewModel = new FolderPropertiesViewModel(null);
@@ -211,10 +263,6 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
-		private bool CanAddEditRemove()
-		{
-			return SelectedPlan != null;
-		}
 
 		private void OnSelectPlan(Guid planUID)
 		{
@@ -226,6 +274,7 @@ namespace PlansModule.ViewModels
 			if (plan != null)
 				SelectedPlan = plan;
 		}
+
 		private void OnShowElement(ShowOnPlanArgs<Guid> arg)
 		{
 			DesignerCanvas.Toolbox.SetDefault();
@@ -236,6 +285,7 @@ namespace PlansModule.ViewModels
 				if (arg.Value == item.Element.UID && item.IsEnabled)
 					item.IsSelected = true;
 		}
+
 		private void OnShowElementDevice(List<Guid> deviceUIDs)
 		{
 			DesignerCanvas.Toolbox.SetDefault();
@@ -247,31 +297,32 @@ namespace PlansModule.ViewModels
 				{
 					var plans = new List<PlanViewModel>();
 					GetAllPlans(plans, Plans);
-					foreach (var plan in plans)
-						foreach (var elementDevice in plan.Plan.ElementUnion)
-							if (deviceUIDs.Contains(elementDevice.UID))
-							{
-								SelectedPlan = plan;
-								OnShowDevices(deviceUIDs);
-								return;
-							}
+					foreach (var plan in plans.Where(plan => plan.Plan.ElementUnion.Any(elementDevice => deviceUIDs.Contains(elementDevice.UID))))
+					{
+						SelectedPlan = plan;
+						OnShowDevices(deviceUIDs);
+						return;
+					}
 				}
 			}
 		}
-		private void OnShowDevices(List<Guid> deviceUIDs)
+
+		private void OnShowDevices(ICollection<Guid> deviceUIDs)
 		{
 			foreach (var item in DesignerCanvas.Items)
 				if (deviceUIDs.Contains(item.Element.UID) && item.IsEnabled)
 					item.IsSelected = true;
 		}
-		private void GetAllPlans(List<PlanViewModel> allPlans, IEnumerable<PlanViewModel> plans)
+
+		private static void GetAllPlans(ICollection<PlanViewModel> allPlans, IEnumerable<PlanViewModel> plans)
 		{
-			if (plans != null)
-				foreach (var planViewModel in plans)
-				{
-					allPlans.Add(planViewModel);
-					GetAllPlans(allPlans, planViewModel.Children);
-				}
+			if (plans == null) return;
+
+			foreach (var planViewModel in plans)
+			{
+				allPlans.Add(planViewModel);
+				GetAllPlans(allPlans, planViewModel.Children);
+			}
 		}
 
 		public override void OnShow()
@@ -291,6 +342,7 @@ namespace PlansModule.ViewModels
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();
 		}
+
 		public override void OnHide()
 		{
 			base.OnHide();
@@ -298,7 +350,7 @@ namespace PlansModule.ViewModels
 				DesignerCanvas.Toolbox.AcceptKeyboard = false;
 		}
 
-		private void ClearReferences(Plan plan)
+		private static void ClearReferences(Plan plan)
 		{
 			foreach (var p in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var subPlan in p.ElementSubPlans)
@@ -306,49 +358,6 @@ namespace PlansModule.ViewModels
 						Helper.SetSubPlan(subPlan);
 		}
 
-		private double _splitterDistance;
-		private readonly GridLength _emptyGridColumn;
-
-		private GridLength _width1;
-		public GridLength Width1
-		{
-			get { return _width1; }
-			set
-			{
-				_width1 = value;
-				OnPropertyChanged(() => Width1);
-			}
-		}
-		private GridLength _width2;
-		public GridLength Width2
-		{
-			get { return _width2; }
-			set
-			{
-				_width2 = value;
-				OnPropertyChanged(() => Width2);
-			}
-		}
-		private GridLength _width3;
-		public GridLength Width3
-		{
-			get { return _width3; }
-			set
-			{
-				_width3 = value;
-				OnPropertyChanged(() => Width3);
-			}
-		}
-		private GridLength _layersHeight;
-		public GridLength LayersHeight
-		{
-			get { return _layersHeight; }
-			set
-			{
-				_layersHeight = value;
-				OnPropertyChanged(() => LayersHeight);
-			}
-		}
 		private void PlanDesignerViewModel_IsCollapsedChanged(object sender, EventArgs e)
 		{
 			if (Width3 != _emptyGridColumn)
@@ -357,5 +366,12 @@ namespace PlansModule.ViewModels
 			Width2 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : GridLength.Auto;
 			Width3 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : new GridLength(_splitterDistance, GridUnitType.Pixel);
 		}
+
+		public RelayCommand AddCommand { get; private set; }
+		public RelayCommand AddSubPlanCommand { get; private set; }
+		public RelayCommand RemoveCommand { get; private set; }
+		public RelayCommand EditCommand { get; private set; }
+		public RelayCommand AddFolderCommand { get; private set; }
+		public RelayCommand AddSubFolderCommand { get; private set; }
 	}
 }
