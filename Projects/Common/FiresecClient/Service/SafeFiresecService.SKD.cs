@@ -577,11 +577,6 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.ResetSKDDatabase());
 		}
 
-		public OperationResult GenerateEmployeeDays()
-		{
-			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
-		}
-
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalVideoUID(journalItemUID, videoUID, cameraUID));

@@ -15,7 +15,7 @@ namespace StrazhDAL
 		protected SKDDatabaseService DatabaseService;
 		protected DataAccess.SKDDataContext Context;
 
-		public TranslatorBase(SKDDatabaseService databaseService)
+		protected TranslatorBase(SKDDatabaseService databaseService)
 		{
 			DatabaseService = databaseService;
 			Context = databaseService.Context;

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using StrazhAPI.SKD;
-using FiresecClient;
+﻿using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using StrazhAPI.SKD;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -19,31 +19,31 @@ namespace SKDModule.ViewModels
 		protected abstract EmployeeFilter EmptyFilter { get; }
 		public virtual bool CanEditDepartment { get { return false; } }
 		public virtual bool CanEditPosition { get { return false; } }
-		protected IOrganisationElementViewModel _parent;
-		protected bool _isWithDeleted;
-		protected bool _isOrganisationDeleted;
+		protected IOrganisationElementViewModel Parent;
+		protected bool IsWithDeleted;
+		protected bool IsOrganisationDeleted;
 
-		public bool IsDeleted { get { return _parent.IsDeleted; } }
+		public bool IsDeleted { get { return Parent.IsDeleted; } }
 
-		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
+		protected EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Unsubscribe(OnEditEmployeePositionDepartment);
-			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Subscribe(OnEditEmployeePositionDepartment);
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Unsubscribe(OnEditEmployeePositionDepartment);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Subscribe(OnEditEmployeePositionDepartment);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
 			Initialize(parent, isWithDeleted);
 		}
 
 		public void Initialize(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
-			_parent = parent;
-			_isWithDeleted = isWithDeleted;
-			_isOrganisationDeleted = _parent.IsOrganisationDeleted;
+			Parent = parent;
+			IsWithDeleted = isWithDeleted;
+			IsOrganisationDeleted = Parent.IsOrganisationDeleted;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
 				return;
@@ -52,24 +52,24 @@ namespace SKDModule.ViewModels
 			{
 				var viewModel = new TItem();
 				viewModel.Initialize(employee);
-				viewModel.IsOrganisationDeleted = _isOrganisationDeleted;
+				viewModel.IsOrganisationDeleted = IsOrganisationDeleted;
 				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
 		}
 
-		ObservableCollection<TItem> _Employees;
+		private ObservableCollection<TItem> _employees;
 		public ObservableCollection<TItem> Employees
 		{
-			get { return _Employees; }
+			get { return _employees; }
 			private set
 			{
-				_Employees = value;
+				_employees = value;
 				OnPropertyChanged(() => Employees);
 			}
 		}
 
-		TItem _selectedEmployee;
+		private TItem _selectedEmployee;
 		public TItem SelectedEmployee
 		{
 			get { return _selectedEmployee; }
@@ -84,7 +84,7 @@ namespace SKDModule.ViewModels
 		protected virtual void Update() { }
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(EmptyFilter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
@@ -96,69 +96,68 @@ namespace SKDModule.ViewModels
 					return;
 				Employees.Add(viewModel);
 				SelectedEmployee = viewModel;
-				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
 			}
 		}
 		bool CanAdd()
 		{
-			return !_parent.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !Parent.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы действительно хотите открепить сотрудника?")))
-			{
-				var result = RemoveFromParent(SelectedEmployee.Employee);
-				if (!result)
-					return;
-				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
-				Employees.Remove(SelectedEmployee);
-				SelectedEmployee = Employees.FirstOrDefault();
-			}
+			if (!MessageBoxService.ShowQuestion(string.Format("Вы действительно хотите открепить сотрудника?"))) return;
+
+			var result = RemoveFromParent(SelectedEmployee.Employee);
+
+			if (!result) return;
+
+			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+			Employees.Remove(SelectedEmployee);
+			SelectedEmployee = Employees.FirstOrDefault();
 		}
-		bool CanRemove()
+		private bool CanRemove()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !Parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel();
-			if (employeeDetailsViewModel.Initialize(_parent.OrganisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
+			if (employeeDetailsViewModel.Initialize(Parent.OrganisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
 				DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.Model);
-				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
 			}
 		}
 		bool CanEdit()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !Parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);
 		protected abstract bool RemoveFromParent(ShortEmployee employee);
 		protected abstract Guid GetParentUID(Employee employee);
 
-		void OnEditEmployeePositionDepartment(Employee employee)
+		private void OnEditEmployeePositionDepartment(Employee employee)
 		{
 			var employeeListItemViewModel = Employees.FirstOrDefault(x => x.Employee.UID == employee.UID);
-			if (employeeListItemViewModel == null && GetParentUID(employee) == _parent.UID)
+			if (employeeListItemViewModel == null && GetParentUID(employee) == Parent.UID)
 			{
 				var shortEmployee = EmployeeHelper.GetSingleShort(employee.UID);
-				if (shortEmployee != null)
-				{
-					var viewModel = new TItem();
-					viewModel.Initialize(shortEmployee);
-					Employees.Add(viewModel);
-				}
+
+				if (shortEmployee == null) return;
+
+				var viewModel = new TItem();
+				viewModel.Initialize(shortEmployee);
+				Employees.Add(viewModel);
 			}
-			else if (employeeListItemViewModel != null && (GetParentUID(employee) != _parent.UID || GetParentUID(employee) == Guid.Empty))
-			{
+			else if (employeeListItemViewModel != null &&
+			         (GetParentUID(employee) != Parent.UID || GetParentUID(employee) == Guid.Empty))
 				Employees.Remove(employeeListItemViewModel);
-			}
 		}
 
 		void OnEditEmployee(Guid employeeUID)
@@ -169,7 +168,7 @@ namespace SKDModule.ViewModels
 				var shortEmployee = EmployeeHelper.GetSingleShort(employeeUID);
 				if (shortEmployee != null)
 				{
-					if (shortEmployee.IsDeleted && !_parent.IsWithDeleted)
+					if (shortEmployee.IsDeleted && !Parent.IsWithDeleted)
 						Employees.Remove(employeeListItemViewModel);
 					else
 						employeeListItemViewModel.Update(shortEmployee);
@@ -197,8 +196,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsDeleted);
 			}
 		}
-
-		public EmployeeListItemViewModel() { }
 
 		public void Initialize(ShortEmployee employee)
 		{

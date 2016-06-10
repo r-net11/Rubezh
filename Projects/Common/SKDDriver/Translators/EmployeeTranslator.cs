@@ -11,18 +11,17 @@ namespace StrazhDAL
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
-		private readonly EFDataAccess.SKDEntities1 EFContext;
+		private readonly EFDataAccess.SKDEntities1 _efContext;
 
 		public EmployeeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 			Synchroniser = new EmployeeSynchroniser(Table, databaseService);
-			EFContext = new EFDataAccess.SKDEntities1(@"metadata=res://*/EFDataAccess.SKDModel.csdl|res://*/EFDataAccess.SKDModel.ssdl|res://*/EFDataAccess.SKDModel.msl;
+			_efContext = new EFDataAccess.SKDEntities1(@"metadata=res://*/EFDataAccess.SKDModel.csdl|res://*/EFDataAccess.SKDModel.ssdl|res://*/EFDataAccess.SKDModel.msl;
 				provider=System.Data.SqlClient;provider connection string='data source=02-KBP-NIO-0524\SQLEXPRESS;
 				initial catalog=SKD;integrated security=True;
 				multipleactiveresultsets=True'");
 		}
-
 
 		public OperationResult<ShortEmployee> GetByUid(Guid id)
 		{
@@ -95,6 +94,7 @@ namespace StrazhDAL
 
 				foreach (var tableItem in tableItems)
 					result.Add(TranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, tableItem.AdditionalColumns));
+
 				return new OperationResult<IEnumerable<ShortEmployee>>(result);
 			}
 			catch (Exception e)
@@ -108,34 +108,32 @@ namespace StrazhDAL
 			try
 			{
 				var result = new List<ShortEmployee>();
-				EFContext.CommandTimeout = 600;
+				_efContext.CommandTimeout = 600;
+
 				var tableItems =
-					from employee in EFContext.Employees//.Where(EFIsInFilter(filter))
-					join department in EFContext.Departments on employee.DepartmentUID equals department.UID into departments
+					from employee in _efContext.Employees
+					join department in _efContext.Departments on employee.DepartmentUID equals department.UID into departments
 					from department in departments.DefaultIfEmpty()
-					join position in EFContext.Positions on employee.PositionUID equals position.UID into positions
+					join position in _efContext.Positions on employee.PositionUID equals position.UID into positions
 					from position in positions.DefaultIfEmpty()
-					join schedule in EFContext.Schedules on employee.ScheduleUID equals schedule.UID into schedules
+					join schedule in _efContext.Schedules on employee.ScheduleUID equals schedule.UID into schedules
 					from schedule in schedules.DefaultIfEmpty()
-					join organisation in EFContext.Organisations on employee.OrganisationUID equals organisation.UID into organisations
+					join organisation in _efContext.Organisations on employee.OrganisationUID equals organisation.UID into organisations
 					from organisation in organisations.DefaultIfEmpty()
-					//join additionalColumn in EFContext.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
-					//    on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
 					select new
 					{
 						Employee = employee,
 						Department = department,
 						Position = position,
 						Organisation = organisation,
-						Schedule = schedule,
-
-						//AdditionalColumns = new List<EFDataAccess.AdditionalColumn>(),
+						Schedule = schedule
 					};
 
 				foreach (var tableItem in tableItems)
 					result.Add(EFTranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, new List<EFDataAccess.AdditionalColumn>()));
-				var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
-				operationResult.Result = result;
+
+				var operationResult = new OperationResult<IEnumerable<ShortEmployee>> {Result = result};
+
 				return operationResult;
 			}
 			catch (Exception e)
@@ -159,29 +157,35 @@ namespace StrazhDAL
 			result.SecondName = employee.SecondName;
 			result.LastName = employee.LastName;
 			result.Description = employee.Description;
-			var cards = new List<SKDCard>();
 			result.Type = (PersonType)employee.Type;
 			result.TabelNo = employee.TabelNo;
 			var textColumns = new List<TextColumn>();
+
 			foreach (var additionalColumn in additionalColumns)
 			{
 				textColumns.Add(new TextColumn { ColumnTypeUID = additionalColumn.AdditionalColumnTypeUID != null ? additionalColumn.AdditionalColumnTypeUID.Value : Guid.Empty, Text = additionalColumn.TextData });
 			}
+
 			result.Phone = employee.Phone;
 			result.LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate;
+
 			if (position != null)
 			{
 				result.PositionName = position.Name;
 				result.IsPositionDeleted = position.IsDeleted;
 			}
+
 			if (department != null)
 			{
 				result.DepartmentName = department.Name;
 				result.IsDepartmentDeleted = department.IsDeleted;
 			}
+
 			if (organisation != null)
 				result.OrganisationName = organisation.Name;
+
 			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+
 			return result;
 		}
 
@@ -198,53 +202,60 @@ namespace StrazhDAL
 				UID = employee.UID,
 				IsDeleted = employee.IsDeleted,
 				OrganisationUID = employee.OrganisationUID != null ? employee.OrganisationUID.Value : Guid.Empty,
-				RemovalDate = employee.RemovalDate
+				RemovalDate = employee.RemovalDate,
+				FirstName = employee.FirstName,
+				SecondName = employee.SecondName,
+				LastName = employee.LastName,
+				Description = employee.Description,
+				Type = (PersonType) employee.Type,
+				TabelNo = employee.TabelNo
 			};
-			result.FirstName = employee.FirstName;
-			result.SecondName = employee.SecondName;
-			result.LastName = employee.LastName;
-			result.Description = employee.Description;
-			var cards = new List<SKDCard>();
-			result.Type = (PersonType)employee.Type;
-			result.TabelNo = employee.TabelNo;
 			var textColumns = new List<TextColumn>();
+
 			foreach (var additionalColumn in additionalColumns)
 			{
 				textColumns.Add(new TextColumn { ColumnTypeUID = additionalColumn.AdditionalColumnTypeUID != null ? additionalColumn.AdditionalColumnTypeUID.Value : Guid.Empty, Text = additionalColumn.TextData });
 			}
+
 			result.Phone = employee.Phone;
 			result.LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate;
+
 			if (position != null)
 			{
 				result.PositionName = position.Name;
 				result.IsPositionDeleted = position.IsDeleted;
 			}
+
 			if (department != null)
 			{
 				result.DepartmentName = department.Name;
 				result.IsDepartmentDeleted = department.IsDeleted;
 			}
+
 			if (organisation != null)
 				result.OrganisationName = organisation.Name;
 			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+
 			return result;
 		}
 
 		protected override OperationResult CanSave(Employee employee)
 		{
 			var result = base.CanSave(employee);
+
 			if (result.HasError)
 				return result;
-			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
+
+			var hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
 				x.SecondName == employee.SecondName &&
 				x.LastName == employee.LastName &&
 				x.OrganisationUID == employee.OrganisationUID &&
 				x.UID != employee.UID &&
 				x.IsDeleted == false);
-			if (hasSameName)
-				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
-			else
-				return new OperationResult();
+
+			return hasSameName
+				? new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных")
+				: new OperationResult();
 		}
 
 		protected override Employee Translate(DataAccess.Employee tableItem)
@@ -276,6 +287,7 @@ namespace StrazhDAL
 			result.DocumentType = (EmployeeDocumentType?)tableItem.DocumentType;
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
+
 			return result;
 		}
 
@@ -338,6 +350,7 @@ namespace StrazhDAL
 			tableItem.DocumentType = (int?)apiItem.DocumentType;
 			tableItem.Phone = apiItem.Phone;
 			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
+
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}
@@ -345,11 +358,15 @@ namespace StrazhDAL
 		public override OperationResult Save(Employee apiItem)
 		{
 			var columnSaveResult = DatabaseService.AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
+
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
+
 			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
+
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
+
 			return base.Save(apiItem);
 		}
 
@@ -379,10 +396,9 @@ namespace StrazhDAL
 
 			if (filter.PositionUIDs.IsNotNullOrEmpty())
 			{
-				if (filter.WithDeletedPositions)
-					result = result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID));
-				else
-					result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+				result = filter.WithDeletedPositions
+					? result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID))
+					: result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
 			}
 
 			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
@@ -405,12 +421,17 @@ namespace StrazhDAL
 			var result = PredicateBuilder.True<EFDataAccess.Employee>();
 			result = result.And(e => e != null);
 			var uids = filter.UIDs;
+
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
+
 			var exceptUIDs = filter.ExceptUIDs;
+
 			if (exceptUIDs != null && exceptUIDs.Count != 0)
 				result = result.And(e => !exceptUIDs.Contains(e.UID));
+
 			var IsDeletedExpression = PredicateBuilder.True<EFDataAccess.Employee>();
+
 			switch (filter.LogicalDeletationType)
 			{
 				case LogicalDeletationType.Deleted:
@@ -424,6 +445,7 @@ namespace StrazhDAL
 				default:
 					break;
 			}
+
 			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 				result = result.And(x => x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value));
 			if (filter.UserUID != Guid.Empty)
@@ -446,10 +468,9 @@ namespace StrazhDAL
 
 			if (filter.PositionUIDs.IsNotNullOrEmpty())
 			{
-				if (filter.WithDeletedPositions)
-					result = result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID));
-				else
-					result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+				result = filter.WithDeletedPositions
+					? result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID))
+					: result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
 			}
 
 			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
@@ -472,6 +493,13 @@ namespace StrazhDAL
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+
+				if(tableItem == null)
+					return new OperationResult("Employee not exist");
+
+				if (departmentUID == Guid.Empty)
+					DatabaseService.DepartmentTranslator.SaveChief(tableItem.DepartmentUID.GetValueOrDefault(), departmentUID);
+
 				tableItem.DepartmentUID = departmentUID;
 				Table.Context.SubmitChanges();
 			}
@@ -487,6 +515,10 @@ namespace StrazhDAL
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+
+				if(tableItem == null)
+					return new OperationResult("Department not exist");
+
 				tableItem.PositionUID = positionUID;
 				Table.Context.SubmitChanges();
 			}
@@ -496,103 +528,6 @@ namespace StrazhDAL
 			}
 			return new OperationResult();
 		}
-
-		#region TestData
-
-		private static DateTime _minDate = new DateTime(1900, 1, 1);
-
-		public OperationResult GenerateEmployeeDays()
-		{
-			try
-			{
-				var result = new List<EmployeeDay>();
-				var employees = Table.Where(x => !x.IsDeleted);
-				foreach (var employee in employees)
-				{
-					var employeeDay = new EmployeeDay();
-					employeeDay.EmployeeUID = employee.UID;
-					var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
-					if (schedule != null)
-					{
-						employeeDay.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
-						employeeDay.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-						employeeDay.AllowedLate = schedule.AllowedLate;
-						employeeDay.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
-						employeeDay.Date = DateTime.Now;
-						var scheduleScheme = schedule.ScheduleScheme;
-						if (scheduleScheme != null)
-						{
-							var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
-							int dayNo = -1;
-							switch (scheduleSchemeType)
-							{
-								case ScheduleSchemeType.Week:
-									dayNo = (int)employeeDay.Date.DayOfWeek - 1;
-									if (dayNo == -1)
-										dayNo = 6;
-									break;
-
-								case ScheduleSchemeType.SlideDay:
-									var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
-									var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
-									dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
-									break;
-
-								case ScheduleSchemeType.Month:
-									dayNo = (int)employeeDay.Date.Day - 1;
-									break;
-							}
-							var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
-							foreach (var dayIntervalPart in dayIntervalParts)
-							{
-								employeeDay.DayIntervalsString += dayIntervalPart.BeginTime + "-" + dayIntervalPart.EndTime + ";";
-							}
-							employee.LastEmployeeDayUpdate = employeeDay.Date;
-							Context.SubmitChanges();
-							result.Add(employeeDay);
-						}
-					}
-				}
-				var passJournalTranslator = new PassJournalTranslator();
-				return passJournalTranslator.SaveEmployeeDays(result);
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public void TestGet()
-		{
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-			for (int i = 0; i < 100; i++)
-			{
-				var e1 = GetList(new EmployeeFilter());
-			}
-			stopWatch.Stop();
-			Trace.WriteLine("LinqToSql " + new TimeSpan(stopWatch.Elapsed.Ticks / 100));
-			var stopWatch2 = new Stopwatch();
-			stopWatch2.Start();
-			for (int i = 0; i < 100; i++)
-			{
-				var e2 = EFGetList(new EmployeeFilter());
-			}
-			stopWatch2.Stop();
-			Trace.WriteLine("LinqToEntities " + new TimeSpan(stopWatch2.Elapsed.Ticks / 100));
-			//var e1 = GetList(new EmployeeFilter());
-			//var e2 = EFGetList(new EmployeeFilter());
-
-			//int i = 0;
-			//string s;
-			//foreach (var employee in Table)
-			//{
-			//    i++;
-			//    s = string.Format("{0} {1}", employee.UID, i);
-			//}
-		}
-
-		#endregion TestData
 
 		public EmployeeSynchroniser Synchroniser;
 	}

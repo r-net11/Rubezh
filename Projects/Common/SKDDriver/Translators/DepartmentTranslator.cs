@@ -40,17 +40,17 @@ namespace StrazhDAL
 			try
 			{
 				var databaseItems = Table.Where(x => !x.IsDeleted && x.ParentDepartmentUID == parentDepartmentUID);
-				if (databaseItems != null)
+
+				foreach (var item in databaseItems)
 				{
-					foreach (var item in databaseItems)
-					{
-						item.IsDeleted = true;
-						item.RemovalDate = removalDate;
-						var result = MarkDeletedByParent(item.UID, removalDate);
-						if (result.HasError)
-							return result;
-					}
+					item.IsDeleted = true;
+					item.RemovalDate = removalDate;
+					var result = MarkDeletedByParent(item.UID, removalDate);
+
+					if (result.HasError)
+						return result;
 				}
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -64,9 +64,12 @@ namespace StrazhDAL
 			try
 			{
 				var result = MarkDeletedByParent(uid, removalDate);
+
 				if (result.HasError)
 					return result;
+
 				Context.SubmitChanges();
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -85,13 +88,16 @@ namespace StrazhDAL
 			try
 			{
 				var parent = Table.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
+
 				if (parent != null)
 				{
 					parent.IsDeleted = false;
 					var result = RestoreByChild(parent.UID, removalDate);
+
 					if (result.HasError)
 						return result;
 				}
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -105,9 +111,12 @@ namespace StrazhDAL
 			try
 			{
 				var result = RestoreByChild(uid, removalDate);
+
 				if (result.HasError)
 					return result;
+
 				Context.SubmitChanges();
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -121,10 +130,12 @@ namespace StrazhDAL
 			var result = base.Translate(tableItem);
 
 			var childDepartmentUIDs = new List<Guid>();
+
 			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
+
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
@@ -134,6 +145,7 @@ namespace StrazhDAL
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.ChiefUID = tableItem.ChiefUID;
 			result.Phone = tableItem.Phone;
+
 			return result;
 		}
 
@@ -145,10 +157,12 @@ namespace StrazhDAL
 			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
 			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
 			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
+
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.Phone = apiItem.Phone;
+
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}
@@ -162,12 +176,11 @@ namespace StrazhDAL
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 
-			if (_allDepartments != null)
+			if (_allDepartments == null) return result;
+
+			foreach (var department in _allDepartments.Where(x => x.ParentDepartmentUID == tableItem.UID))
 			{
-				foreach (var department in _allDepartments.Where(x => x.ParentDepartmentUID == tableItem.UID))
-				{
-					result.ChildDepartments.Add(department.UID, department.Name);
-				}
+				result.ChildDepartments.Add(department.UID, department.Name);
 			}
 
 			return result;
@@ -184,11 +197,11 @@ namespace StrazhDAL
 		public string GetName(Guid? uid)
 		{
 			if (uid == null)
-				return "";
+				return string.Empty;
+
 			var tableItem = Table.FirstOrDefault(x => x.UID == uid.Value);
-			if (tableItem == null)
-				return "";
-			return tableItem.Name;
+
+			return tableItem == null ? string.Empty : tableItem.Name;
 		}
 
 		public OperationResult SaveChief(Guid uid, Guid chiefUID)
@@ -196,6 +209,10 @@ namespace StrazhDAL
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+
+				if(tableItem == null)
+					return new OperationResult("Department not exist");
+
 				tableItem.ChiefUID = chiefUID;
 				Table.Context.SubmitChanges();
 			}
@@ -212,6 +229,7 @@ namespace StrazhDAL
 			{
 				var departmentUIDs = GetChildUIDs(uid);
 				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
+
 				return new OperationResult<IEnumerable<Guid>>(employees.ToList());
 			}
 			catch (Exception e)
@@ -226,6 +244,7 @@ namespace StrazhDAL
 			{
 				var departmentUIDs = GetParentUIDs(uid);
 				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
+
 				return new OperationResult<IEnumerable<Guid>>(employees.ToList());
 			}
 			catch (Exception e)
@@ -236,37 +255,37 @@ namespace StrazhDAL
 
 		private List<Guid> GetChildUIDs(Guid uid)
 		{
-			var result = new List<Guid>();
-			result.Add(uid);
+			var result = new List<Guid> {uid};
 			var children = Context.Departments.Where(x => x.ParentDepartmentUID == uid);
-			if (children != null && children.Count() > 0)
+
+			if (children.Any())
 			{
 				foreach (var child in children)
 				{
 					result.AddRange(GetChildUIDs(child.UID));
 				}
 			}
+
 			return result;
 		}
 
 		private List<Guid> GetParentUIDs(Guid uid)
 		{
-			var result = new List<Guid>();
-			result.Add(uid);
+			var result = new List<Guid> {uid};
 			var parent = Context.Departments.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
+
 			if (parent != null)
 			{
 				result.AddRange(GetParentUIDs(parent.UID));
 			}
+
 			return result;
 		}
 
 		public override OperationResult Save(Department apiItem)
 		{
 			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
-			return base.Save(apiItem);
+			return photoSaveResult.HasError ? photoSaveResult : base.Save(apiItem);
 		}
 
 		protected override bool IsSimilarNames(DataAccess.Department item1, DataAccess.Department item2)

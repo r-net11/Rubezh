@@ -2026,14 +2026,6 @@ namespace FiresecService.Service
 			return PatchManager.Reset_SKD();
 		}
 
-		public OperationResult GenerateEmployeeDays()
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.EmployeeTranslator.GenerateEmployeeDays();
-			}
-		}
-
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			using (var journalTranslator = new JournalTranslator())
