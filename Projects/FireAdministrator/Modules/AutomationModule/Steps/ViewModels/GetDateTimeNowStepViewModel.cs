@@ -25,7 +25,7 @@ namespace AutomationModule.ViewModels
 		public GetDateTimeNowStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetDateTimeNowArguments = stepViewModel.Step.GetDateTimeNowArguments;
-			Result = new ArgumentViewModel(GetDateTimeNowArguments.Result, stepViewModel.Update, UpdateContent);
+			Result = new ArgumentViewModel(GetDateTimeNowArguments.Result, stepViewModel.Update, UpdateContent, false);
 		}
 
 		public override void UpdateContent()
@@ -35,7 +35,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return string.Format("Результат: {0}. Округление: {1}", Result.Description, SelectedRoundingType.ToDescription()); }
+			get { return string.Format("Результат: {0}. Отсечение: {1}", Result.Description, SelectedRoundingType.ToDescription()); }
 		}
 	}
 }
