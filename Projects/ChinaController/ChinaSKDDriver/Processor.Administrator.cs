@@ -71,6 +71,12 @@ namespace StrazhDeviceSDK
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> SynchronizeTime(Guid deviceUID)
 		{
+			if (DeviceProcessors == null)
+			{
+				Logger.Info("SynchronizeTime error. DeviceProcessors is null.");
+				return new OperationResult<bool>(false);
+			}
+
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
@@ -79,7 +85,7 @@ namespace StrazhDeviceSDK
 
 				if (deviceProcessor.Wrapper.SetDateTime(DateTime.Now))
 					return new OperationResult<bool>(true);
-				
+
 				return OperationResult<bool>.FromError("Ошибка при выполнении операции синхронизации времени на контроллере");
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
@@ -138,7 +144,7 @@ namespace StrazhDeviceSDK
 					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				SKDProgressCallback progressCallback = null;
-	
+
 				// Показываем индикатор хода выполнения операции
 				if (doProgress)
 					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
@@ -205,8 +211,8 @@ namespace StrazhDeviceSDK
 					// Выполнение операции прервано пользователем
 					if (progressCallback != null && progressCallback.IsCanceled)
 						return OperationResult<bool>.FromCancel(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
-					
-					
+
+
 					// Обновляем индикатор хода выполнения операции
 					if (progressCallback != null)
 						DoProgress(null, progressCallback);
@@ -217,7 +223,7 @@ namespace StrazhDeviceSDK
 						// Останавливаем индикатор хода выполнения операции
 						if (progressCallback != null)
 							StopProgress(progressCallback);
-						
+
 						return OperationResult<bool>.FromError(String.Format("Ошибка при выполнении операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
 					}
 				}
@@ -503,7 +509,7 @@ namespace StrazhDeviceSDK
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
-		
+
 		public static OperationResult<bool> StartSearchDevices()
 		{
 			if (Wrapper.StartSearchDevices())
@@ -641,7 +647,7 @@ namespace StrazhDeviceSDK
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
-		
+
 		#endregion </Пароли замков>
 	}
 }
