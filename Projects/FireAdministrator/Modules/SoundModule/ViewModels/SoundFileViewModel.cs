@@ -1,12 +1,14 @@
 ﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Automation;
+using StrazhAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
 	public class SoundFileViewModel : BaseViewModel
 	{
 		public const string DefaultName = "<нет>";
+
 		public AutomationSound Sound { get; set; }
 
 		public SoundFileViewModel(AutomationSound sound)
@@ -21,6 +23,17 @@ namespace SoundsModule.ViewModels
 			{
 				Sound.Name = value;
 				OnPropertyChanged(() => Name);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		public SoundLibraryType SoundLibraryType
+		{
+			get { return Sound.SoundLibraryType; }
+			set
+			{
+				Sound.SoundLibraryType = value;
+				OnPropertyChanged(() => SoundLibraryType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

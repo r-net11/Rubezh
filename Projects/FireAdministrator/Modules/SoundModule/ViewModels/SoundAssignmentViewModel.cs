@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
@@ -11,16 +13,22 @@ namespace SoundsModule.ViewModels
 {
 	public class SoundAssignmentViewModel : BaseViewModel
 	{
-		private Dictionary<string, SoundLibraryType> _soundsDictionary;
-
 		public const string DefaultName = "<нет>";
 
-		public Sound Sound { get; set; }
+		public Sound Sound { get; private set; }
 
-		public SoundAssignmentViewModel(Sound sound)
+		public SoundAssignmentViewModel(Sound sound, ObservableCollection<SoundFileViewModel> soundFileViewModels)
 		{
-			_soundsDictionary = new Dictionary<string, SoundLibraryType>();
 			Sound = sound;
+			AvailableSoundFileViewModels = soundFileViewModels;
+			SelectedSoundFileViewModel = AvailableSoundFileViewModels.FirstOrDefault(x => x.Name == SoundName);
+			AvailableSoundFileViewModels.CollectionChanged += AvailableSoundFileViewModels_CollectionChanged;
+		}
+
+		private void AvailableSoundFileViewModels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+		{
+			if (notifyCollectionChangedEventArgs.Action == NotifyCollectionChangedAction.Remove)
+				SelectedSoundFileViewModel = AvailableSoundFileViewModels.FirstOrDefault(x => x.Name == SoundName);
 		}
 
 		public JournalEventNameType JournalEventNameType
@@ -28,18 +36,14 @@ namespace SoundsModule.ViewModels
 			get { return Sound.JournalEventNameType; }
 		}
 
-		public XStateClass StateClass
-		{
-			get { return Sound.StateClass; }
-		}
-
 		public string SoundName
 		{
 			get { return Sound.SoundName; }
 			set
 			{
+				if (Sound.SoundName == value)
+					return;
 				Sound.SoundName = value;
-				Sound.SoundLibraryType = _soundsDictionary[value];
 				OnPropertyChanged(() => SoundName);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
@@ -50,30 +54,25 @@ namespace SoundsModule.ViewModels
 			get { return Sound.IsContinious; }
 			set
 			{
+				if (Sound.IsContinious == value)
+					return;
 				Sound.IsContinious = value;
 				OnPropertyChanged(() => IsContinious);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
 		}
 
-		public List<string> AvailableSounds
+		public ObservableCollection<SoundFileViewModel> AvailableSoundFileViewModels { get; private set; }
+
+		private SoundFileViewModel _selectedSoundFileViewModel;
+		public SoundFileViewModel SelectedSoundFileViewModel
 		{
-			get
+			get { return _selectedSoundFileViewModel; }
+			set
 			{
-				_soundsDictionary.Clear();
-
-				_soundsDictionary.Add(string.Empty, SoundLibraryType.None);
-				
-				// Системные звуки
-				FiresecClient.FileHelper.SoundsList.ForEach(ss => _soundsDictionary.Add(ss, SoundLibraryType.System));
-				
-				// Пользовательские звуки
-				if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds != null)
-				{
-					FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(us => _soundsDictionary.Add(us.Name, SoundLibraryType.User));
-				}
-
-				return _soundsDictionary.Keys.ToList();
+				_selectedSoundFileViewModel = value;
+				OnPropertyChanged(() => SelectedSoundFileViewModel);
+				SoundName = _selectedSoundFileViewModel == null ? null : _selectedSoundFileViewModel.Name;
 			}
 		}
 	}

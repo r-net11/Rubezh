@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.GK;
@@ -14,20 +16,17 @@ namespace SoundsModule.ViewModels
 {
 	public class SoundsAssignmentViewModel : BaseViewModel
 	{
-		public SoundsAssignmentViewModel()
+		private readonly ObservableCollection<SoundFileViewModel> _soundFileViewModels;
+
+		public SoundsAssignmentViewModel(ObservableCollection<SoundFileViewModel> soundFileViewModels)
 		{
+			_soundFileViewModels = soundFileViewModels;
 			Initialize();
 		}
 
 		private void Initialize()
 		{
 			Sounds = new SortableObservableCollection<SoundAssignmentViewModel>();
-			var stateClasses = new List<XStateClass>();
-
-			stateClasses.Add(XStateClass.Attention);
-			stateClasses.Add(XStateClass.ConnectionLost);
-			stateClasses.Add(XStateClass.Off);
-			stateClasses.Add(XStateClass.On);
 
 			var journalEventNameTypes = new List<JournalEventNameType>
 			{
@@ -54,7 +53,7 @@ namespace SoundsModule.ViewModels
 				else
 					newSound = sound;
 
-				Sounds.Add(new SoundAssignmentViewModel(newSound));
+				Sounds.Add(new SoundAssignmentViewModel(newSound, _soundFileViewModels));
 			}
 
 			SelectedSound = Sounds.FirstOrDefault();

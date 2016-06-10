@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using StrazhAPI.Automation;
+using StrazhAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
@@ -18,10 +19,10 @@ namespace SoundsModule.ViewModels
 	{
 		public SoundFilesViewModel()
 		{
-			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDeletePlaySound);
+			EditCommand = new RelayCommand(OnEdit, CanEditDeletePlaySound);
+			PlaySoundCommand = new RelayCommand(OnPlaySound, CanEditDeletePlaySound);
 			Initialize();
 		}
 
@@ -38,7 +39,7 @@ namespace SoundsModule.ViewModels
 			SelectedSound = Sounds.FirstOrDefault();
 		}
 
-		ObservableCollection<SoundFileViewModel> _sounds;
+		private ObservableCollection<SoundFileViewModel> _sounds;
 		public ObservableCollection<SoundFileViewModel> Sounds
 		{
 			get { return _sounds; }
@@ -60,7 +61,7 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		bool _isNowPlaying;
+		private bool _isNowPlaying;
 		public bool IsNowPlaying
 		{
 			get { return _isNowPlaying; }
@@ -72,7 +73,7 @@ namespace SoundsModule.ViewModels
 		}
 
 		public ICommand PlaySoundCommand { get; private set; }
-		void OnPlaySound()
+		private void OnPlaySound()
 		{
 			if (IsNowPlaying == false)
 			{
@@ -88,7 +89,7 @@ namespace SoundsModule.ViewModels
 		}
 
 		public ICommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -100,7 +101,8 @@ namespace SoundsModule.ViewModels
 				var sound = new AutomationSound
 				{
 					Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName),
-					Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName)
+					Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName),
+					SoundLibraryType = SoundLibraryType.User
 				};
 				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -110,13 +112,13 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return true;
 		}
 
 		public ICommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 			if (!MessageBoxService.ShowConfirmation("Удалить выбранный звук из системы?"))
 				return;
@@ -131,7 +133,7 @@ namespace SoundsModule.ViewModels
 		}
 
 		public ICommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var soundFileDetailsViewModel = new SoundFileDetailsViewModel(SelectedSound.Sound);
 			if (DialogService.ShowModalWindow(soundFileDetailsViewModel))
@@ -142,7 +144,7 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
+		private bool CanEditDeletePlaySound()
 		{
 			return SelectedSound != null;
 		}

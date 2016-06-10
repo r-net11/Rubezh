@@ -31,18 +31,18 @@
 			<DataGridTemplateColumn Header="Звук" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding SoundName, Converter={StaticResource SoundToStringConverter}}" />
+						<TextBlock Text="{Binding SelectedSoundFileViewModel.Name, FallbackValue=&lt;нет&gt;}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 				<DataGridTemplateColumn.CellEditingTemplate>
 					<DataTemplate>
-						<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
-							<ComboBox.ItemTemplate>
+						<FeaturedComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSoundFileViewModels}" SelectedItem="{Binding SelectedSoundFileViewModel, UpdateSourceTrigger=PropertyChanged}" NullValueText="&lt;нет&gt;" CanSelectNullItem="True" >
+							<FeaturedComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="{DynamicResource ForegroundColorDark}" />
+									<TextBlock Text="{Binding Name}" Foreground="{DynamicResource ForegroundColorDark}" />
 								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+							</FeaturedComboBox.ItemTemplate>
+						</FeaturedComboBox>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellEditingTemplate>
 			</DataGridTemplateColumn>

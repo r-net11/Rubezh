@@ -30,8 +30,8 @@ namespace SoundsModule.ViewModels
 
 		public SoundsViewModel()
 		{
-			SoundsAssignmentViewModel = new SoundsAssignmentViewModel();
 			SoundFilesViewModel = new SoundFilesViewModel();
+			SoundsAssignmentViewModel = new SoundsAssignmentViewModel(SoundFilesViewModel.Sounds);
 
 			AddCommand = SoundFilesViewModel.AddCommand;
 			EditCommand = SoundFilesViewModel.EditCommand;
