@@ -9,21 +9,19 @@ namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : ViewPartViewModel
 	{
-		public ProceduresViewModel()
-		{
-
-		}
-
 		public void Initialize()
 		{
 			Procedures = new ObservableCollection<ProcedureViewModel>();
+
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+
+			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(x => x.IsActive))
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+
 			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
