@@ -27,6 +27,9 @@ namespace SKDModule.ViewModels
 		#region Fields
 
 		private const int InitialPageNumber = 1;
+		private bool _isEnabledTimeTrackFilter;
+		private bool _isBisy;
+		private bool _canShowDocumentTypes;
 		readonly TimeTrackFilter _timeTrackFilter;
 		private TimeTrack _selectedTimeTrack;
 		private bool _hasSelectedTimeTrack;
@@ -43,7 +46,6 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region Properties
-		private bool _isEnabledTimeTrackFilter;
 
 		public bool IsEnabledTimeTrackFilter
 		{
@@ -56,8 +58,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsEnabledTimeTrackFilter);
 			}
 		}
-
-		private bool _isBisy;
 
 		public bool IsBisy
 		{
@@ -103,8 +103,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _canShowDocumentTypes;
-
+		
 		public bool CanShowDocumentTypes
 		{
 			get { return _canShowDocumentTypes; }
