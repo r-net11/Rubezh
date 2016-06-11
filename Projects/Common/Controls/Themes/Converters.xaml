@@ -59,6 +59,7 @@
 	<Converters:SKDDeviceTypeEnumToAttributeValueConverter x:Key="SKDDeviceTypeEnumToAttributeValueConverter"/>
 	<Converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
 	<Converters:ColorToSystemColorConverter x:Key="ColorToSystemColorConverter"/>
+	<Converters:JournalEventNameTypeToIconConverter x:Key="JournalEventNameTypeToIconConverter"/>
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />

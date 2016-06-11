@@ -1,13 +1,12 @@
 ﻿using System;
-using AutomationModule.Events;
+using Infrastructure.Common.Validation;
+using Infrastructure.Events;
 using StrazhAPI.Automation;
 using StrazhAPI.Enums;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common;
 
-namespace AutomationModule.Validation
+namespace SoundsModule.Validation
 {
-	class SoundValidationError : ObjectValidationError<AutomationSound, ShowAutomationSoundsEvent, Guid>
+	class SoundValidationError : ObjectValidationError<AutomationSound, ShowSoundsEvent, Guid>
 	{
 		public SoundValidationError(AutomationSound sound, string error, ValidationErrorLevel level)
 			: base(sound, error, level)
@@ -16,7 +15,7 @@ namespace AutomationModule.Validation
 
 		public override ModuleType Module
 		{
-			get { return ModuleType.Automation; }
+			get { return ModuleType.Sounds; }
 		}
 		protected override Guid Key
 		{

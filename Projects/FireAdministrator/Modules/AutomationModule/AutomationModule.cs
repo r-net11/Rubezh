@@ -23,7 +23,6 @@ namespace AutomationModule
 {
 	public class AutomationModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		private SoundsViewModel _soundsViewModel;
 		private ProceduresViewModel _proceduresViewModel;
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
@@ -31,7 +30,6 @@ namespace AutomationModule
 
 		public override void CreateViewModels()
 		{
-			_soundsViewModel = new SoundsViewModel();
 			_proceduresViewModel = new ProceduresViewModel();
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
@@ -42,7 +40,6 @@ namespace AutomationModule
 		{
 			ControlVisualStepViewModel.Initialize();
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			_soundsViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
@@ -64,8 +61,7 @@ namespace AutomationModule
 						{
 							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")
+							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables")
 						}) {IsExpanded = true},
 				};
 		}
@@ -79,7 +75,6 @@ namespace AutomationModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));

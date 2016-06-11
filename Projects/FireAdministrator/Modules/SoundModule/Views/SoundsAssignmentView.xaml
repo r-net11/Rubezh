@@ -1,0 +1,52 @@
+﻿<UserControl 
+	x:Class="SoundsModule.Views.SoundsAssignmentView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+
+	<DataGrid ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False" CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn
+				SortMemberPath="JournalEventNameType"
+				Header="Событие"
+				Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Path=JournalEventNameType, Converter={StaticResource JournalEventNameTypeToIconConverter}}" Margin="2 0" />
+							<TextBlock Text="{Binding Path=JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2 0" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Звук" Width="1*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding SelectedSoundFileViewModel.Name, FallbackValue=&lt;нет&gt;}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+				<DataGridTemplateColumn.CellEditingTemplate>
+					<DataTemplate>
+						<FeaturedComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSoundFileViewModels}" SelectedItem="{Binding SelectedSoundFileViewModel, UpdateSourceTrigger=PropertyChanged}" NullValueText="&lt;нет&gt;" CanSelectNullItem="True" >
+							<FeaturedComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Name}" Foreground="{DynamicResource ForegroundColorDark}" />
+								</DataTemplate>
+							</FeaturedComboBox.ItemTemplate>
+						</FeaturedComboBox>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellEditingTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Непрерывно" Width="1*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

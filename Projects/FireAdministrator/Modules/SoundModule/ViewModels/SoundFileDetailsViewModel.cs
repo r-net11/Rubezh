@@ -1,15 +1,14 @@
-﻿using StrazhAPI.Automation;
-using StrazhAPI.Models;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
+using StrazhAPI.Automation;
 
-namespace AutomationModule.ViewModels
+namespace SoundsModule.ViewModels
 {
-	public class SoundDetailsViewModel : SaveCancelDialogViewModel
+	public class SoundFileDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public AutomationSound Sound { get; private set; }
 
-		public SoundDetailsViewModel(AutomationSound sound)
+		public SoundFileDetailsViewModel(AutomationSound sound)
 		{
 			Title = "Свойства звукового элемента";
 			Sound = sound;

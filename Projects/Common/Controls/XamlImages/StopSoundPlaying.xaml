@@ -1,0 +1,7 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="StopSoundPlaying" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="M23,8.5000002 L38,8.5000002 38,23.5 23,23.5 z M18.748001,0 L18.748001,31.3547 9.8120003,23.6774 0,23.6774 0,7.6773698 9.8120003,7.6773698 z" />
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

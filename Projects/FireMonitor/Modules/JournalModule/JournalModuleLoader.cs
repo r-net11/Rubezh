@@ -1,3 +1,4 @@
+using System.IO;
 using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -12,6 +13,7 @@ using JournalModule.Reports;
 using JournalModule.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.Journal;
+using StrazhAPI.Models;
 using StrazhAPI.Models.Layouts;
 using System;
 using System.Collections.Generic;
@@ -115,13 +117,33 @@ namespace JournalModule
 			_archiveViewModel.Update();
 		}
 
-		static void OnNewJournalItem(JournalItem journalItem)
+		private static void OnNewJournalItem(JournalItem journalItem)
 		{
 			ApplicationService.Invoke(() =>
 			{
 				var journalItems = new List<JournalItem> {journalItem};
 				ServiceFactoryBase.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+				PlaySoundOnJournalEvent(journalItem);
 			});
+		}
+
+		private static void PlaySoundOnJournalEvent(JournalItem journalItem)
+		{
+			if (FiresecManager.SystemConfiguration.Sounds == null)
+				return;
+
+			var sound = FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(s => s.JournalEventNameType == journalItem.JournalEventNameType);
+			if (sound == null || sound.SoundLibraryType == SoundLibraryType.None)
+				return;
+
+			var automationSound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(s => s.Name == sound.SoundName);
+			if (automationSound == null)
+				return;
+			var soundFileName = FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, automationSound.Uid.ToString()));
+			if (string.IsNullOrEmpty(soundFileName))
+				return;
+
+			AlarmPlayerHelper.Play(soundFileName, sound.IsContinious);
 		}
 
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)

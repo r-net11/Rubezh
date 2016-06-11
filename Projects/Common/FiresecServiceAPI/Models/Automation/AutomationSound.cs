@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using StrazhAPI.Models;
 
 namespace StrazhAPI.Automation
 {
@@ -16,5 +17,8 @@ namespace StrazhAPI.Automation
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		[DataMember]
+		public SoundLibraryType SoundLibraryType { get; set; }
 	}
 }

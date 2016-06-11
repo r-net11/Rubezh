@@ -1,11 +1,24 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using StrazhAPI.SKD;
 
-namespace AutomationModule.Validation
+namespace SoundsModule.Validation
 {
-	public partial class Validator
+	public class Validator
 	{
+		List<IValidationError> Errors { get; set; }
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			SKDManager.UpdateConfiguration();
+			Errors = new List<IValidationError>();
+			
+			ValidateSoundName();
+			
+			return Errors;
+		}
+		
 		private void ValidateSoundName()
 		{
 			var nameList = new List<string>();
