@@ -62,6 +62,19 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
+		public SoundLibraryType SoundLibraryType
+		{
+			get { return Sound.SoundLibraryType; }
+			set
+			{
+				if (Sound.SoundLibraryType == value)
+					return;
+				Sound.SoundLibraryType = value;
+				OnPropertyChanged(() => SoundLibraryType);
+				ServiceFactory.SaveService.SoundsChanged = true;
+			}
+		}
+
 		public ObservableCollection<SoundFileViewModel> AvailableSoundFileViewModels { get; private set; }
 
 		private SoundFileViewModel _selectedSoundFileViewModel;
@@ -72,7 +85,16 @@ namespace SoundsModule.ViewModels
 			{
 				_selectedSoundFileViewModel = value;
 				OnPropertyChanged(() => SelectedSoundFileViewModel);
-				SoundName = _selectedSoundFileViewModel == null ? null : _selectedSoundFileViewModel.Name;
+				if (_selectedSoundFileViewModel != null)
+				{
+					SoundName = _selectedSoundFileViewModel.Name;
+					SoundLibraryType = _selectedSoundFileViewModel.SoundLibraryType;
+				}
+				else
+				{
+					SoundName = null;
+					SoundLibraryType = SoundLibraryType.None;
+				}
 			}
 		}
 	}
