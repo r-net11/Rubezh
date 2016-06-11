@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -20,18 +21,19 @@ namespace SoundsModule.ViewModels
 		public SoundFilesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDeletePlaySound);
-			EditCommand = new RelayCommand(OnEdit, CanEditDeletePlaySound);
-			PlaySoundCommand = new RelayCommand(OnPlaySound, CanEditDeletePlaySound);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
 			Initialize();
 		}
 
 		private void Initialize()
 		{
+			UpdateSystemPredefinedSounds();
 			Sounds = new ObservableCollection<SoundFileViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
-			foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
+			if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
+				FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
+			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				var soundFileViewModel = new SoundFileViewModel(sound);
 				Sounds.Add(soundFileViewModel);
@@ -87,6 +89,11 @@ namespace SoundsModule.ViewModels
 				IsNowPlaying = false;
 			}
 		}
+		private bool CanPlaySound()
+		{
+			return SelectedSound != null;
+
+		}
 
 		public ICommand AddCommand { get; private set; }
 		private void OnAdd()
@@ -104,7 +111,7 @@ namespace SoundsModule.ViewModels
 					Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName),
 					SoundLibraryType = SoundLibraryType.User
 				};
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
+				FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var soundFileViewModel = new SoundFileViewModel(sound);
 				Sounds.Add(soundFileViewModel);
@@ -129,6 +136,7 @@ namespace SoundsModule.ViewModels
 			index = Math.Min(index, Sounds.Count - 1);
 			if (index > -1)
 				SelectedSound = Sounds[index];
+			//ServiceFactoryBase.ContentService.RemoveContent(SelectedSound.Sound.Uid);
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -144,9 +152,9 @@ namespace SoundsModule.ViewModels
 			}
 		}
 
-		private bool CanEditDeletePlaySound()
+		private bool CanEditDelete()
 		{
-			return SelectedSound != null;
+			return SelectedSound != null && SelectedSound.SoundLibraryType != SoundLibraryType.System;
 		}
 
 		public void Select(Guid soundUid)
@@ -155,6 +163,25 @@ namespace SoundsModule.ViewModels
 			{
 				SelectedSound = Sounds.FirstOrDefault(item => item.Sound.Uid == soundUid);
 			}
+		}
+
+		private void UpdateSystemPredefinedSounds()
+		{
+			FileHelper.SoundsList.ForEach(sf =>
+			{
+				var fileName = Path.GetFileNameWithoutExtension(sf);
+				if (!FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(s => s.Name == fileName && s.SoundLibraryType == SoundLibraryType.System))
+				{
+					var contentUID = ServiceFactoryBase.ContentService.AddContent(FileHelper.GetSoundFilePath(sf));
+					FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(new AutomationSound
+					{
+						Name = fileName,
+						Uid = contentUID,
+						SoundLibraryType = SoundLibraryType.System
+					});
+					ServiceFactory.SaveService.AutomationChanged = true;
+				}
+			});
 		}
 	}
 }
