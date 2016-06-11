@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
 
@@ -30,8 +31,11 @@ namespace FireMonitor.ViewModels
 			// Выключить звук
 			if (IsSoundOn)
 			{
-				AlarmPlayerHelper.IsMuted = true;
-				IsSoundOn = false;
+				if (MessageBoxService.ShowConfirmation("Отключить проигрывание звуков?"))
+				{
+					AlarmPlayerHelper.IsMuted = true;
+					IsSoundOn = false;
+				}
 			}
 			// Включить звук
 			else
