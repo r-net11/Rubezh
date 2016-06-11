@@ -136,19 +136,10 @@ namespace JournalModule
 			if (sound == null || sound.SoundLibraryType == SoundLibraryType.None)
 				return;
 
-			string soundFileName = null;
-			switch (sound.SoundLibraryType)
-			{
-				case SoundLibraryType.System:
-					soundFileName = FileHelper.GetSoundFilePath(sound.SoundName);
-					break;
-				case SoundLibraryType.User:
-					var automationSound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(s => s.Name == sound.SoundName);
-					if (automationSound != null)
-						soundFileName = FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, automationSound.Uid.ToString()));
-					break;
-			}
-
+			var automationSound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(s => s.Name == sound.SoundName);
+			if (automationSound == null)
+				return;
+			var soundFileName = FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, automationSound.Uid.ToString()));
 			if (string.IsNullOrEmpty(soundFileName))
 				return;
 
