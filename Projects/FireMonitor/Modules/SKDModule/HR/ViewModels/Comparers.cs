@@ -105,17 +105,17 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class PassCardTemplateViewModelNameComparer : TreeNodeComparer<PassCardTemplateViewModel>
+	public class PassCardTemplateViewModelNameComparer : TreeNodeComparer<TemplateViewModel>
 	{
-		protected override int Compare(PassCardTemplateViewModel x, PassCardTemplateViewModel y)
+		protected override int Compare(TemplateViewModel x, TemplateViewModel y)
 		{
 			return string.Compare(x.Name, y.Name);
 		}
 	}
 
-	public class PassCardTemplateViewModelDescriptionComparer : TreeNodeComparer<PassCardTemplateViewModel>
+	public class PassCardTemplateViewModelDescriptionComparer : TreeNodeComparer<TemplateViewModel>
 	{
-		protected override int Compare(PassCardTemplateViewModel x, PassCardTemplateViewModel y)
+		protected override int Compare(TemplateViewModel x, TemplateViewModel y)
 		{
 			return string.Compare(x.Description, y.Description);
 		}

@@ -43,6 +43,52 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Charts.v14.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Data.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.PivotGrid.v14.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Sparkline.v14.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v14.1">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Utils.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v14.1.UI, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Utils.v14.1.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v14.1">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraBars.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraCharts.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v14.1">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraEditors.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v14.1">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraPrinting.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v14.1">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraReports.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v14.1.Extensions">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraReports.v14.1.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
     </Reference>
@@ -85,7 +131,12 @@
       <HintPath>..\..\packages\reactiveui-xaml.4.6.7\lib\Net40\ReactiveUI.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.IO">
       <HintPath>..\..\packages\Microsoft.Bcl.1.1.7\lib\net40\System.IO.dll</HintPath>
     </Reference>
@@ -113,6 +164,7 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\..\packages\Microsoft.Bcl.1.1.7\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\System.Windows.Interactivity.dll</HintPath>
@@ -122,6 +174,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL" />
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
@@ -267,40 +320,59 @@
     <Compile Include="Common\Views\EmployeeSelectionView.xaml.cs">
       <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Designer\DesignerCanvas.cs" />
-    <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
-    <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
-    <Compile Include="PassCardDesigner\Painter\PassCardImagePropertyPainter.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardDesignerViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardImagePropertyViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateDetailsViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatePropertiesViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatesViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateViewModel.cs" />
-    <Compile Include="PassCardDesigner\ViewModels\PassCardTextPropertyViewModel.cs" />
-    <Compile Include="PassCardDesigner\Views\PassCardDesignerMenuControl.xaml.cs">
-      <DependentUpon>PassCardDesignerMenuControl.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Model\EmployeeDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml.cs">
-      <DependentUpon>PassCardImagePropertyView.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Model\ImageBuilder.cs" />
+    <Compile Include="PassCardDesigner\Model\PassCardTemplateReport.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PassCardDesigner\Views\PassCardTemplateDetailsView.xaml.cs">
-      <DependentUpon>PassCardTemplateDetailsView.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Model\PassCardTemplateReport.Designer.cs">
+      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml.cs">
-      <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Model\PreviewImage.cs" />
+    <Compile Include="PassCardDesigner\Model\ProportionHelper.cs" />
+    <Compile Include="PassCardDesigner\Model\Template.cs" />
+    <Compile Include="PassCardDesigner\Model\TemplateConfigurationProvider.cs" />
+    <Compile Include="PassCardDesigner\Model\TemplateSide.cs" />
+    <Compile Include="PassCardDesigner\Model\WatermarkImage.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\TemplateDetailsViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\TemplatePropertiesViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\TemplatesViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\TemplateViewModel.cs" />
+    <Compile Include="PassCardDesigner\Views\Controls\ImageViewerControl.xaml.cs">
+      <DependentUpon>ImageViewerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Views\PassCardTemplatesView.xaml.cs">
-      <DependentUpon>PassCardTemplatesView.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml.cs">
-      <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
+    <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.Designer.cs">
+      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControlWrapper.xaml.cs">
+      <DependentUpon>PassCardDesignerControlWrapper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\TemplateDetailsView.xaml.cs">
+      <DependentUpon>TemplateDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\TemplatePropertiesView.xaml.cs">
+      <DependentUpon>TemplatePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\TemplatesView.xaml.cs">
+      <DependentUpon>TemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
@@ -318,6 +390,7 @@
     <Compile Include="Reports\Providers\EmployeeDoorsReportProvider.cs" />
     <Compile Include="Reports\Providers\EmployeeAccessReportProvider.cs" />
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
+    <Compile Include="Reports\ReportExtensions.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemComparer.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
@@ -463,7 +536,6 @@
     <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
-    <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
     <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
@@ -818,29 +890,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PassCardDesigner\Views\PassCardDesignerMenuControl.xaml">
+    <Page Include="PassCardDesigner\Views\Controls\ImageViewerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PassCardDesigner\Views\PassCardTemplateDetailsView.xaml">
+    <Page Include="PassCardDesigner\Views\Controls\PassCardDesignerControlWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PassCardDesigner\Views\PassCardTemplatesView.xaml">
+    <Page Include="PassCardDesigner\Views\TemplateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml">
+    <Page Include="PassCardDesigner\Views\TemplatePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\TemplatesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Resource Include="Reports\DeviceListReport.xaml">
       <SubType>Designer</SubType>
@@ -1091,12 +1159,43 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PassCardDesigner\Model\PassCardTemplateReport.resx">
+      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PassCardDesigner\Model\PassCardTemplateReport.ru-RU.resx">
+      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.resx">
+      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.ru-RU.resx">
+      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="PassCardDesigner\Model\EmployeeDataSet.xsc">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PassCardDesigner\Model\EmployeeDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="PassCardDesigner\Model\EmployeeDataSet.xss">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\mVhfa1TVLKc.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

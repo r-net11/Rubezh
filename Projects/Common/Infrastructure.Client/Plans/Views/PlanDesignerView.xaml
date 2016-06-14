@@ -9,9 +9,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-
 		<ContentPresenter Content="{Binding Toolbox}" DockPanel.Dock="Top" />
-
 		<ScrollViewer
 			Name="_scrollViewer"
 			Grid.Row="1"
@@ -30,8 +28,9 @@
 				<ContentPresenter Name="_contentControl" Content="{Binding Canvas}" />
 			</Grid>
 		</ScrollViewer>
-
-		<Grid Grid.Row="2" Visibility="{Binding HasPermissionsToScale, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid
+			Grid.Row="2"
+			Visibility="{Binding HasPermissionsToScale, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="{Binding AllowScalePoint, Converter={StaticResource BoolToGridLengthConverter}}" />
 				<ColumnDefinition Width="*" />
@@ -39,16 +38,12 @@
 			</Grid.ColumnDefinitions>
 			<DockPanel Visibility="{Binding AllowScalePoint, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ToolBarButton
-					Command="{Binding DeviceZoomOutCommand,
-				                                 RelativeSource={RelativeSource FindAncestor,
-				                                                                AncestorType={x:Type UserControl}}}"
+					Command="{Binding DeviceZoomOutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Left"
 					ImageSource="ZoomOut"
 					ToolTip="Уменьшить размер устройства" />
 				<ToolBarButton
-					Command="{Binding DeviceZoomInCommand,
-				                                 RelativeSource={RelativeSource FindAncestor,
-				                                                                AncestorType={x:Type UserControl}}}"
+					Command="{Binding DeviceZoomInCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Right"
 					ImageSource="ZoomIn"
 					ToolTip="Увеличить размер устройства" />
@@ -67,16 +62,12 @@
 			</DockPanel>
 			<DockPanel Grid.Column="1">
 				<ToolBarButton
-					Command="{Binding ZoomOutCommand,
-				                                 RelativeSource={RelativeSource FindAncestor,
-				                                                                AncestorType={x:Type UserControl}}}"
+					Command="{Binding ZoomOutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Left"
 					ImageSource="ZoomOut"
 					ToolTip="Уменьшить масштаб плана" />
 				<ToolBarButton
-					Command="{Binding ZoomInCommand,
-				                                 RelativeSource={RelativeSource FindAncestor,
-				                                                                AncestorType={x:Type UserControl}}}"
+					Command="{Binding ZoomInCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Right"
 					ImageSource="ZoomIn"
 					ToolTip="Увеличить масштаб плана" />
@@ -95,14 +86,10 @@
 				Width="50"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
-				Content="{Binding IsCollapsed,
-			                                         Converter={StaticResource BoolToMinimizeTextConverter}}"
+				Content="{Binding IsCollapsed, Converter={StaticResource BoolToMinimizeTextConverter}}"
 				IsChecked="{Binding IsCollapsed}"
-				ToolTip="{Binding IsCollapsed,
-			                                         Converter={StaticResource BoolToMinimizeTooltipConverter},
-			                                         ConverterParameter=True}"
-				Visibility="{Binding CanCollapse,
-			                                            Converter={StaticResource BoolToVisibilityConverter}}" />
+				ToolTip="{Binding IsCollapsed, Converter={StaticResource BoolToMinimizeTooltipConverter}, ConverterParameter=True}"
+				Visibility="{Binding CanCollapse, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</Grid>
 	</Grid>
 </UserControl>

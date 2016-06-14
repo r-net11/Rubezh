@@ -95,6 +95,7 @@ namespace Controls
 				var memoryStream = new MemoryStream();
 				openFileDialog.OpenFile().CopyTo(memoryStream);
 				Data = memoryStream.ToArray();
+				memoryStream.Close();
 			}
 		}
 

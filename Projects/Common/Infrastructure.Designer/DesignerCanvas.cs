@@ -21,9 +21,9 @@ namespace Infrastructure.Designer
 	{
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 		public ToolboxViewModel Toolbox { get; private set; }
-		private Point? _startPoint = null;
+		private Point? _startPoint;
 		private List<ElementBase> _initialElements;
-		private MoveAdorner _moveAdorner;
+		private readonly MoveAdorner _moveAdorner;
 
 		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(ServiceFactoryBase.Events)
@@ -49,8 +49,7 @@ namespace Infrastructure.Designer
 			menuItem.CommandParameter = this;
 			var pasteItem = menuItem;
 
-			ContextMenu = new ContextMenu();
-			ContextMenu.HasDropShadow = false;
+			ContextMenu = new ContextMenu {HasDropShadow = false};
 			ContextMenu.Items.Add(pasteItem);
 			_moveAdorner = new MoveAdorner(this);
 			Toolbox.SetDefault();
@@ -103,64 +102,62 @@ namespace Infrastructure.Designer
 		{
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
+
+			if (elementBase == null) return;
+
+			Toolbox.SetDefault();
+			//elementBase.SetDefault();
+			var position = e.GetPosition(this);
+			elementBase.Position = position;
+			if (GridLineController != null)
+				elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
+			CreateDesignerItem(elementBase);
+			e.Handled = true;
+		}
+		private void OnDragServiceDragOver(object sender, DragServiceEventArgs e)
+		{
+			if (!IsMouseInside()) return;
+
+			e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
+			if (e.Effects == DragDropEffects.Move)
+			{
+				Toolbox.SetDefault();
+				DeselectAll();
+				e.Handled = true;
+			}
+		}
+		private void OnDragServiceDrop(object sender, DragServiceEventArgs e)
+		{
+			if (!IsMouseInside()) return;
+
+			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 			if (elementBase != null)
 			{
 				Toolbox.SetDefault();
 				//elementBase.SetDefault();
-				Point position = e.GetPosition(this);
+				var position = Mouse.GetPosition(this);
 				elementBase.Position = position;
 				if (GridLineController != null)
 					elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
 				CreateDesignerItem(elementBase);
 				e.Handled = true;
 			}
-		}
-		private void OnDragServiceDragOver(object sender, DragServiceEventArgs e)
-		{
-			if (IsMouseInside())
-			{
-				e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
-				if (e.Effects == DragDropEffects.Move)
-				{
-					Toolbox.SetDefault();
-					DeselectAll();
-					e.Handled = true;
-				}
-			}
-		}
-		private void OnDragServiceDrop(object sender, DragServiceEventArgs e)
-		{
-			if (IsMouseInside())
-			{
-				var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
-				if (elementBase != null)
-				{
-					Toolbox.SetDefault();
-					//elementBase.SetDefault();
-					Point position = Mouse.GetPosition(this);
-					elementBase.Position = position;
-					if (GridLineController != null)
-						elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
-					CreateDesignerItem(elementBase);
-					e.Handled = true;
-				}
-				_startPoint = null;
-			}
+			_startPoint = null;
 		}
 		private void OnDragServiceCorrection(object sender, DragCorrectionEventArgs e)
 		{
-			if (GridLineController != null)
-			{
-				var position = e.GetPosition(this);
-				var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
-				if (elementBase != null && IsMouseInside(position))
-					e.Correction = GridLineController.Pull(position) * Zoom;
-			}
+			if (GridLineController == null) return;
+
+			var position = e.GetPosition(this);
+			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
+			if (elementBase != null && IsMouseInside(position))
+				e.Correction = GridLineController.Pull(position) * Zoom;
 		}
 		private bool IsMouseInside(Point? point = null)
 		{
 			if (!point.HasValue)
 				point = Mouse.GetPosition(this);
+
 			return PlanDesignerViewModel.IsNotEmpty && point.Value.X > 0 && point.Value.Y > 0 && point.Value.X < ActualWidth && point.Value.Y < ActualHeight;
 		}
 
@@ -169,8 +166,7 @@ namespace Infrastructure.Designer
 			base.BackgroundMouseDown(e);
 			if (Toolbox.ActiveInstrument != null & Toolbox.ActiveInstrument.Adorner != null && Toolbox.ActiveInstrument.Adorner.AllowBackgroundStart)
 			{
-				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
-				ee.RoutedEvent = MouseDownEvent;
+				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton) {RoutedEvent = MouseDownEvent};
 				DesignerSurface.RaiseEvent(ee);
 				e.Handled = true;
 			}
@@ -180,7 +176,7 @@ namespace Infrastructure.Designer
 			base.OnMouseDown(e);
 			if (e.Source == DesignerSurface && e.ChangedButton == MouseButton.Left && !ServiceFactoryBase.DragDropService.IsDragging)
 			{
-				_startPoint = new Point?(e.GetPosition(this));
+				_startPoint = e.GetPosition(this);
 				Toolbox.Apply(_startPoint);
 				e.Handled = true;
 			}
@@ -199,15 +195,15 @@ namespace Infrastructure.Designer
 		public override void CreateDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = AddElement(elementBase);
-			if (designerItem != null)
-			{
-				DeselectAll();
-				designerItem.IsSelected = true;
-				PlanDesignerViewModel.MoveToFrontCommand.Execute();
-				ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
-				//Toolbox.SetDefault();
-				DesignerChanged();
-			}
+
+			if (designerItem == null) return;
+
+			DeselectAll();
+			designerItem.IsSelected = true;
+			PlanDesignerViewModel.MoveToFrontCommand.Execute();
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
+			//Toolbox.SetDefault();
+			DesignerChanged();
 		}
 		public void RemoveDesignerItem(ElementBase elementBase)
 		{
@@ -224,6 +220,7 @@ namespace Infrastructure.Designer
 		public DesignerItem UpdateElement(ElementBase elementBase)
 		{
 			var designerItem = GetDesignerItem(elementBase);
+
 			if (designerItem != null)
 			{
 				var element = designerItem.Element;
@@ -232,6 +229,7 @@ namespace Infrastructure.Designer
 			}
 			else
 				Logger.Error("DesignerCanvas Undo/Redo designerItem = null");
+
 			return designerItem;
 		}
 
@@ -246,13 +244,14 @@ namespace Infrastructure.Designer
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("CloneElements");
 			_initialElements = new List<ElementBase>();
+
 			foreach (var designerItem in designerItems)
 			{
 				designerItem.UpdateElementProperties();
 				_initialElements.Add(designerItem.Element.Clone());
 			}
+
 			return _initialElements;
 		}
 
@@ -262,22 +261,26 @@ namespace Infrastructure.Designer
 		}
 		protected void Update(object element)
 		{
-			IElementRectangle elementRectangle = element as IElementRectangle;
+			var elementRectangle = element as IElementRectangle;
+
 			if (elementRectangle != null)
 			{
 				CanvasWidth = elementRectangle.Width;
 				CanvasHeight = elementRectangle.Height;
 			}
-			IElementBackground elementBackground = element as IElementBackground;
+
+			var elementBackground = element as IElementBackground;
+
 			if (elementBackground != null)
 				CanvasBackground = PainterCache.GetBrush(elementBackground);
-			IElementBorder elementBorder = element as IElementBorder;
+
+			var elementBorder = element as IElementBorder;
+
 			if (elementBorder != null)
 				CanvasBorder = PainterCache.GetPen(elementBorder.BorderColor, elementBorder.BorderThickness);
 		}
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("BeginChange");
 			_initialElements = CloneElements(designerItems);
 		}
 		public override void BeginChange()
@@ -286,9 +289,9 @@ namespace Infrastructure.Designer
 		}
 		public override void EndChange()
 		{
-			//Debug.WriteLine("EndChange");
 			var after = PlanDesignerViewModel.AddHistoryItem(_initialElements);
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(after);
+
 			foreach (var designerItem in SelectedItems)
 				designerItem.UpdateElementProperties();
 		}
@@ -298,9 +301,11 @@ namespace Infrastructure.Designer
 			Margin = new Thickness(25 / Zoom);
 			ZoomChanged();
 			Toolbox.UpdateZoom();
-			foreach (DesignerItem designerItem in Items)
+
+			foreach (var designerItem in Items)
 			{
 				designerItem.UpdateZoom();
+
 				if (designerItem is DesignerItemPoint)
 					designerItem.UpdateZoomPoint();
 			}
@@ -308,9 +313,8 @@ namespace Infrastructure.Designer
 		public void UpdateZoomPoint()
 		{
 			ZoomChanged();
-			foreach (DesignerItem designerItem in Items)
-				if (designerItem is DesignerItemPoint)
-					designerItem.UpdateZoomPoint();
+			foreach (var designerItem in Items.OfType<DesignerItemPoint>())
+				designerItem.UpdateZoomPoint();
 		}
 
 		public void BeginMove(Point point)
@@ -356,14 +360,11 @@ namespace Infrastructure.Designer
 				var designerItem = SelectedItems.FirstOrDefault();
 				if (designerItem != null)
 				{
-					if (vector.HasValue)
-					{
-						var point = designerItem.Element.Position;
-						if (!e.IsRepeat)
-							designerItem.DragStarted(designerItem.Element.Position);
-						designerItem.DragDelta(point, vector.Value);
-						e.Handled = true;
-					}
+					var point = designerItem.Element.Position;
+					if (!e.IsRepeat)
+						designerItem.DragStarted(designerItem.Element.Position);
+					designerItem.DragDelta(point, vector.Value);
+					e.Handled = true;
 				}
 			}
 			base.OnKeyDown(e);
@@ -392,10 +393,10 @@ namespace Infrastructure.Designer
 				return 10;
 			if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None)
 				return Math.Max(CanvasHeight, CanvasWidth);
-			else if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None)
+			if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None)
 				return 50;
-			else
-				return 0;
+
+			return 0;
 		}
 
 		public override void RevertLastAction()

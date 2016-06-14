@@ -701,6 +701,16 @@ namespace FiresecService.Service
 
 		#endregion Export
 
+		public OperationResult<bool> UpdatePassCardOriginalImage(Guid? idToRemove, Attachment attachment)
+		{
+			return SafeOperationCall(() => FiresecService.UpdatePassCardOriginalImage(idToRemove, attachment), "UpdatePassCardOriginalImage");
+		}
+
+		public OperationResult<List<Attachment>> UploadPassCardImages()
+		{
+			return SafeOperationCall(() => FiresecService.UploadPassCardImages(), "UploadPassCardImages");
+		}
+
 		/// <summary>
 		/// Выгружает файл на Сервер приложений
 		/// </summary>

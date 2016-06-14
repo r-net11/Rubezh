@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanPaste()
 		{
-			return base.CanPaste() && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
+			return base.CanPaste() && ParentOrganisation.Organisation.UID == Clipboard.OrganisationUID;
 		}
 
 		protected override string ItemRemovingName

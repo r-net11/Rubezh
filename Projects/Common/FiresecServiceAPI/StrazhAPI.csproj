@@ -168,6 +168,7 @@
     <Compile Include="Automation\Enums\EmailSecureProtocol.cs" />
     <Compile Include="Enums\OPCCommandType.cs" />
     <Compile Include="Enums\OPCZoneType.cs" />
+    <Compile Include="Enums\PassCardTemplateSideType.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />
@@ -303,6 +304,7 @@
     <Compile Include="SKD\Device\SKDLocksPassword.cs" />
     <Compile Include="SKD\Device\SKDControllerPasswords.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTemplateSide.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
     <Compile Include="SKD\ReportFilters\EventsReportFilter.cs" />

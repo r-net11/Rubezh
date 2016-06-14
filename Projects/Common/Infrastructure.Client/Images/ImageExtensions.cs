@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -16,6 +18,7 @@ namespace Infrastructure.Client.Converters
 		public const string VectorGraphicFilter = "Все файлы изображений|*.svg; *.svgx; *.wmf; *.emf|SVG Файлы|*.svg; *.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf";
 
 		public const string GraphicFilter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg; *.svgx; *.wmf; *.emf|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg;*.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf";
+		public const string ImageGraphicFilter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
 
 		public static bool IsGraphics(string fileName)
 		{
@@ -40,6 +43,18 @@ namespace Infrastructure.Client.Converters
 		private static bool CheckFileExtension(string fileName, string extensionList)
 		{
 			return extensionList.Split(';').Contains(Path.GetExtension(fileName).ToLower());
+		}
+
+		public static byte[] ToByteArray(this Image image, ImageFormat format = null)
+		{
+			if (image == null)
+				return null;
+
+			using (var ms = new MemoryStream())
+			{
+				image.Save(ms, format ?? ImageFormat.Bmp);
+				return ms.ToArray();
+			}
 		}
 	}
 }

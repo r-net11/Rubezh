@@ -16,7 +16,7 @@ namespace StrazhAPI.SKD
 
 		public override ElementBase Clone()
 		{
-			ElementPassCardImageProperty elementBase = new ElementPassCardImageProperty();
+			var elementBase = new ElementPassCardImageProperty();
 			Copy(elementBase);
 			return elementBase;
 		}

@@ -30,6 +30,10 @@ namespace Infrastructure.Common.Services.Content
 		}
 
 		#region IContentService Members
+		public bool CheckIfExists(Guid guid)
+		{
+			return CheckIfExists(guid.ToString());
+		}
 
 		public bool CheckIfExists(string guid)
 		{
@@ -70,10 +74,11 @@ namespace Infrastructure.Common.Services.Content
 		{
 			if (_images.ContainsKey(guid))
 				return _images[guid];
-			BitmapImage bitmap = new BitmapImage();
+			var bitmap = new BitmapImage();
 			try
 			{
 				bitmap.BeginInit();
+
 				var contentStream = GetContentStream(guid);
 				if (contentStream != null)
 					bitmap.StreamSource = contentStream;
@@ -159,6 +164,9 @@ namespace Infrastructure.Common.Services.Content
 
 		public Guid AddContent(string fileName)
 		{
+			if (string.IsNullOrEmpty(fileName))
+				return Guid.Empty;
+
 			var guid = Guid.NewGuid();
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			File.Copy(fileName, contentFile);
@@ -168,20 +176,29 @@ namespace Infrastructure.Common.Services.Content
 		{
 			var guid = Guid.NewGuid();
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
-			byte[] buffer = new byte[byte.MaxValue];
-			int count = 0;
+			var buffer = new byte[byte.MaxValue];
+			int count;
 			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
 				while ((count = fileStream.Read(buffer, 0, buffer.Length)) > 0)
 					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
-		public Guid AddContent(byte[] data)
+		public Guid AddContent(byte[] data, Guid? uid)
 		{
-			var guid = Guid.NewGuid();
-			var contentFile = Path.Combine(ContentFolder, guid.ToString());
+			if(data == null)
+				throw new ArgumentNullException("data");
+
+			if (uid == null)
+				uid = Guid.NewGuid();
+			else
+				RemoveContent(uid.Value);
+
+			var contentFile = Path.Combine(ContentFolder, uid.ToString());
+
 			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
 				fileStream.Write(data, 0, data.Length);
-			return guid;
+
+			return uid.Value;
 		}
 		public Guid AddContent(object data)
 		{

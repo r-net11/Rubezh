@@ -7,6 +7,7 @@ using Infrustructure.Plans.Painters;
 
 namespace SKDModule.PassCard.Designer
 {
+	//TODO: Refactor that class
 	class PassCardImagePropertyPainter : RectanglePainter
 	{
 		private Brush _brush;
