@@ -80,5 +80,11 @@ namespace SoundsModule.ViewModels
 				ServiceFactory.RibbonService.RemoveRibbonItems(RibbonItems);
 			}
 		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			InvalidateMenuAndRibbonItems(SelectedTabIndex == 1);
+		}
 	}
 }
