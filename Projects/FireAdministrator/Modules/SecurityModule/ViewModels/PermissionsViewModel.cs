@@ -7,8 +7,11 @@ namespace SecurityModule.ViewModels
 {
 	public class PermissionsViewModel : BaseViewModel
 	{
-		public PermissionsViewModel(List<string> permissionStrings)
+		private bool _isReadOnly;
+
+		public PermissionsViewModel(List<string> permissionStrings, bool isReadOnly = false)
 		{
+			_isReadOnly = isReadOnly;
 			BuildPermissionTree();
 			FillAllPermissions();
 
@@ -226,7 +229,7 @@ namespace SecurityModule.ViewModels
 										}),
 								}),
 						}),
-				});
+				}) {IsReadOnly = _isReadOnly};
 		}
 
 		public List<string> GetPermissionStrings()
