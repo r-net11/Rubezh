@@ -45,5 +45,8 @@ namespace StrazhAPI.SKD
 
 		[Description("Отсутствие по уважительной причине")]
 		DocumentAbsenceReasonable,
+
+		[Description("Перерыв")]
+		Break,
 	}
 }

@@ -23,5 +23,8 @@ namespace StrazhAPI.SKD
 
 		[DataMember]
 		public DayIntervalPartTransitionType TransitionType { get; set; }
+
+		[DataMember]
+		public DayIntervalPartType Type { get; set; }
 	}
 }

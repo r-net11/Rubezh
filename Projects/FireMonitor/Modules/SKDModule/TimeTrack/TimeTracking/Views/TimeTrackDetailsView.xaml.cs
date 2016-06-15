@@ -104,7 +104,7 @@ namespace SKDModule.Views
 							timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
 						if (timeTrackPart.EndsInNextDay)
 							timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
-						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+						//timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 					}
 				}
 
@@ -251,6 +251,8 @@ namespace SKDModule.Views
 
 				case TimeTrackType.DocumentAbsenceReasonable:
 					return new SolidColorBrush(WindowsColors.LightPink);
+				case TimeTrackType.Break:
+					return new SolidColorBrush(WindowsColors.LightGray);
 			}
 
 			return new SolidColorBrush(WindowsColors.Green);

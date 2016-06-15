@@ -2,14 +2,19 @@
 	x:Class="SKDModule.Views.DayIntervalPartDetailsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:skdModuleConverters="clr-namespace:SKDModule.Converters"
 	Width="300"
-	Height="110">
+	Height="140">
+	<UserControl.Resources>
+		<skdModuleConverters:DayIntervalPartTypeToBoolConverter x:Key="DayIntervalPartTypeToBoolConverter"/>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="1.2*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
@@ -23,18 +28,29 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			TimeSpan="{Binding BeginTime}" />
-
 		<TextBlock
 			Grid.Row="1"
-			Margin="5"
+			Margin="5,13,5,17"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Конец" />
+			Text="Окончание" />
 		<TimePicker
 			Grid.Row="1"
 			Grid.Column="1"
 			Margin="5"
 			VerticalAlignment="Center"
 			TimeSpan="{Binding EndTime}" />
+		<TextBlock
+			Grid.Row="2"
+			Margin="5,13,5,17"
+			VerticalAlignment="Center"
+			Foreground="White"
+			Text="Перерыв" />
+		<CheckBox
+			Grid.Row="2"
+			Grid.Column="1"
+			IsChecked="{Binding Type, Converter={StaticResource DayIntervalPartTypeToBoolConverter}}"
+			VerticalAlignment="Center"
+			Margin="5" />
 	</Grid>
 </UserControl>

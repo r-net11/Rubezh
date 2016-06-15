@@ -319,7 +319,8 @@ namespace StrazhDAL
 					var timeTrackPart = new TimeTrackPart
 					{
 						EnterDateTime = new DateTime() + TimeSpan.FromSeconds(tableInterval.BeginTime),
-						ExitDateTime = new DateTime() + TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60*60*24 - 1))
+						ExitDateTime = new DateTime() + TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60*60*24 - 1)),
+						TimeTrackPartType = ((DayIntervalPartType)tableInterval.Type == DayIntervalPartType.Break) ? TimeTrackType.Break : TimeTrackType.Presence
 					};
 					if (tableInterval.EndTime > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;

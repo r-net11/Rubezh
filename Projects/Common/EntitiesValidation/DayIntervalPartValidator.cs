@@ -10,28 +10,7 @@ namespace EntitiesValidation
 {
 	public static class DayIntervalPartValidator
 	{
-		private const int _daySeconds = 86400;
-
-		/// <summary>
-		/// Проверяем что добавляемый интервал не должен заканчиваться ранее, чем уже добавленные интервалы
-		/// </summary>
-		/// <param name="newDayIntervalPart">Добавляемый интервал</param>
-		/// <param name="existingDayIntervalParts">Ранее добавленные интервалы</param>
-		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> ValidateNewDayIntervalPartOrder(DayIntervalPart newDayIntervalPart, IEnumerable<DayIntervalPart> existingDayIntervalParts)
-		{
-			var endTime = newDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
-				? newDayIntervalPart.EndTime
-				: newDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1));
-			var existingEndTimes = existingDayIntervalParts.Select(
-				existingDayIntervalPart => existingDayIntervalPart.TransitionType == DayIntervalPartTransitionType.Day
-				? existingDayIntervalPart.EndTime
-				: existingDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))).ToList();
-
-			return existingEndTimes.Any(x => x >= endTime)
-				? OperationResult<bool>.FromError("Интервалы должны идти последовательно")
-				: new OperationResult<bool>(true);
-		}
+		private const int DaySeconds = 86400;
 
 		/// <summary>
 		/// Проверяем что текущий интервал не должен пересекаться с остальными интервалами
@@ -92,7 +71,7 @@ namespace EntitiesValidation
 			var beginTime = dayIntervalPart.BeginTime.TotalSeconds;
 			var endTime = dayIntervalPart.EndTime.TotalSeconds;
 			if (dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night)
-				endTime += _daySeconds;
+				endTime += DaySeconds;
 			return TimeSpan.FromSeconds(endTime - beginTime);
 		}
 
