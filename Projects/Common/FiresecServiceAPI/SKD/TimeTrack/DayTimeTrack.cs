@@ -938,12 +938,14 @@ namespace StrazhAPI.SKD
 
 			var hasRealTimeTrack = realTimeTrack.Any();
 
+#if DEBUG
 			if (hasRealTimeTrack && realTimeTrack.Count > 1)
 			{
 				var sb = new StringBuilder();
 				realTimeTrack.ForEach(rtt => sb.Append(string.Format(" {0}({1}-{2})", rtt.TimeTrackPartType, rtt.EnterDateTime.TimeOfDay, rtt.ExitDateTime.Value.TimeOfDay)));
 				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: realTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
 			}
+#endif
 
 			var plannedTimeTrack = plannedTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
@@ -954,12 +956,14 @@ namespace StrazhAPI.SKD
 
 			var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
+#if DEBUG
 			if (hasPlannedTimeTrack && plannedTimeTrack.Count > 1)
 			{
 				var sb = new StringBuilder();
 				plannedTimeTrack.ForEach(ptt => sb.Append(string.Format(" {0}({1}-{2})", ptt.TimeTrackPartType, ptt.EnterDateTime.TimeOfDay, ptt.ExitDateTime.Value.TimeOfDay)));
 				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: plannedTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
 			}
+#endif
 			
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
