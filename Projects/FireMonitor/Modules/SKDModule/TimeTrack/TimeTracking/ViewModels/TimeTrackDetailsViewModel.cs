@@ -203,7 +203,7 @@ namespace SKDModule.ViewModels
 				if (DayTimeTrack == null) return default(TimeSpan);
 				if (DayTimeTrack.SlideTime == TimeSpan.Zero)
 					return DayTimeTrack.PlannedTimeTrackParts.Aggregate(default(TimeSpan),
-						(accumulate, part) => part.Delta + accumulate);
+						(accumulate, part) => accumulate + ((part.TimeTrackPartType == TimeTrackType.Break) ?  TimeSpan.Zero : part.Delta));
 				return DayTimeTrack.SlideTime;
 			}
 		}
