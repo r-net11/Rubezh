@@ -844,8 +844,10 @@ namespace StrazhAPI.SKD
 				var hasRealTimeTrack = realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
 					.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
-				var hasPlannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
-																		&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
+				var plannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue)
+					.Where(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay 
+						&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay).ToList();
+				var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
 				var documentTimeTrack = documentTimeTrackParts.Where(x => x.ExitDateTime.HasValue).FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 																			&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
@@ -856,6 +858,23 @@ namespace StrazhAPI.SKD
 				if (documentTimeTrack != null)
 				{
 					timeTrackPart.TimeTrackPartType = GetDocumentTimeTrackType(documentTimeTrack, timeTrackPart, hasPlannedTimeTrack, hasRealTimeTrack);
+
+					if (hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
+					{
+						switch (documentTimeTrack.MinTimeTrackDocumentType.DocumentType)
+						{
+							case DocumentType.Overtime:
+								break;
+							case DocumentType.Presence:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+							case DocumentType.Absence:
+							case DocumentType.AbsenceReasonable:
+								if (!documentTimeTrack.IsOutside)
+									timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+						}
+					}
 				}
 
 				// Удаляем все временные интервалы с типом "Перерыв" из результатирующиго графика ИТОГО
