@@ -63,6 +63,12 @@ namespace FiresecService.Service
 		{
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
+#if DEBUG
+			Logger.Info(string.Format("Попытка подключения Клиента: GUID='{0}' Имя='{1}' Тип='{2}'", clientCredentials.ClientUID, clientCredentials.UserName, clientCredentials.ClientType));
+#endif
+
+			// Временный костыль
+			DisconnectRepeatUser(clientCredentials, clientCredentials.ClientType);
 
 			// Проводим аутентификацию пользователя
 			var operationResult = Authenticate(clientCredentials);
@@ -304,6 +310,28 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
+		/// <summary>
+ 		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
+ 		/// Необходим для корректного обнаружения мёртвых соединений.
+ 		/// Работает только при повторном входе клиента с одного ip-адреса.
+ 		/// </summary>
+ 		/// <param name="clientCredentials">Информация о клиенте</param>
+ 		/// <param name="clientType">Информация о типе клиента</param>
+ 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
+ 		{
+ 			var existingClient = ClientsManager.ClientInfos
+ 									.Where(x => x.ClientCredentials.ClientType == clientType)
+ 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress);
+
+			if (existingClient != null)
+			{
+#if DEBUG
+				Logger.Info(string.Format("Просим Клиента завершить сеанс: GUID='{0}' Имя='{1}' Тип='{2}'", existingClient.ClientCredentials.ClientUID, existingClient.ClientCredentials.UserName, existingClient.ClientCredentials.ClientType));
+#endif
+				SendDisconnectClientCommand(existingClient.UID, false);
+			}
+ 		}
+
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
 			// Может быть только одно подключение Администратора
@@ -328,7 +356,7 @@ namespace FiresecService.Service
 				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
 
 			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
-			
+
 			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
@@ -353,6 +381,9 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<LicenseData> GetLicenseData()
 		{
+			if(!_licenseManager.IsValidExistingKey())
+				return new OperationResult<LicenseData>();
+
 			return new OperationResult<LicenseData>(new LicenseData
 			{
 				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,

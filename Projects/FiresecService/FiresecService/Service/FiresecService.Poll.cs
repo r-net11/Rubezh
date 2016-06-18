@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Threading.Tasks;
+using FiresecAPI;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
@@ -105,9 +106,24 @@ namespace FiresecService.Service
 		/// Посылает команду Клиенту на закрытие соединения с Сервером
 		/// </summary>
 		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
-		public void SendDisconnectClientCommand(Guid clientUid)
+		/// <param name="showNotification">Уведомлять или нет пользователя перед закрытием приложения Клиента</param>
+		public void SendDisconnectClientCommand(Guid clientUid, bool showNotification = true)
 		{
-			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
+			CallbackManager.Add(
+				new CallbackResult
+				{
+					CallbackResultType = CallbackResultType.DisconnectClientCommand,
+					ShowNotificationOnDisconnectClientCommand = showNotification
+				},
+				clientUid);
+
+			// После посылки Клиенту команды на разрыв соединения ждем 2 секунды и сами имитируем вызов от имени Клиента на разрыв соединения,
+			// т.к. "мертвый" Клиент этого не сделает
+			Task.Factory.StartNew(() =>
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(2));
+				Disconnect(clientUid);
+			});
 		}
 
 		/// <summary>

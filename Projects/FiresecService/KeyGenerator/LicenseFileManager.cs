@@ -33,6 +33,7 @@ namespace KeyGenerator
 			}
 
 			string license;
+
 			try
 			{
 				license = File.ReadAllText(path);
@@ -43,13 +44,20 @@ namespace KeyGenerator
 				throw;
 			}
 
-			using (var rdProvider = new RijndaelManaged())
+			try
 			{
-				var secretFile = new SecretFile(rdProvider, key, iv, path);
+				using (var rdProvider = new RijndaelManaged())
+				{
+					var secretFile = new SecretFile(rdProvider, key, iv, path);
 
-				return secretFile.ReadSensitiveData(license);
+					return secretFile.ReadSensitiveData(license);
+				}
 			}
-
+			catch (Exception)
+			{
+				Logger.Info("License file is not valid.");
+				return string.Empty;
+			}
 		}
 	}
 }

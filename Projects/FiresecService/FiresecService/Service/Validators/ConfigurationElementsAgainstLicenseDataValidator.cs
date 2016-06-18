@@ -30,6 +30,8 @@ namespace FiresecService.Service.Validators
 
 		public void Validate()
 		{
+			if (LicenseManager == null)	return;
+
 			_configurationElementsAvailabilityService.Initialize(
 				LicenseManager.CurrentLicense != null
 					? new LicenseData
@@ -41,11 +43,11 @@ namespace FiresecService.Service.Validators
 						IsUnlimitedUsers = LicenseManager.CurrentLicense.IsUnlimitedUsers
 					}
 					: new LicenseData());
-			
-			IsValidated = 
-				ValidateCameras() &&
-				ValidateProcedureSteps() &&
-				ValidateLayouts();
+
+			IsValidated = LicenseManager.IsValidExistingKey()
+				&& ValidateCameras()
+				&& ValidateProcedureSteps()
+				&& ValidateLayouts();
 		}
 
 		private bool ValidateProcedureSteps()
@@ -77,7 +79,7 @@ namespace FiresecService.Service.Validators
 			// Находим запрещенные лицензией камеры
 			if (!_configurationElementsAvailabilityService.IsCamerasAvailable && systemConfiguration.Cameras.Any())
 				return false;
-			
+
 			// Камеры разрешены лицензией
 			return true;
 		}
@@ -85,7 +87,7 @@ namespace FiresecService.Service.Validators
 		private bool ValidateLayouts()
 		{
 			var layoutsConfiguration = ConfigurationCashHelper.GetLayoutsConfiguration();
-			
+
 			// Конфигурация макетов отсутствует. Проверять нечего.
 			if (layoutsConfiguration == null)
 				return true;
