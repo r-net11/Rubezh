@@ -12,23 +12,30 @@
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
 			<TabItem Header="Соединения">
-				<DataGrid ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Идентификатор">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2 0 2 0" />
-										<TextBlock Text="{Binding UID}"/>
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
-						<DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
-						<DataGridTextColumn Width="*" Binding="{Binding FriendlyUserName}" Header="Пользователь" />
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<DataGrid Grid.Row="0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2 0 2 0" />
+											<!--<TextBlock Text="{Binding UID}"/>-->
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
+							<DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
+							<DataGridTextColumn Width="*" Binding="{Binding FriendlyUserName}" Header="Пользователь" />
+						</DataGrid.Columns>
+					</DataGrid>
+					<Button Grid.Row="1" Content="Разорвать соединение" Command="{Binding ReleaseClientsCommand}" Width="150" HorizontalAlignment="Right" Margin="5"/>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Лог">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -109,9 +116,6 @@
 				</Grid>
 			</TabItem>
 		</TabControl>
-		<Grid Grid.Row="1">
-			<TextBlock Margin="5 0 0 0" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog, FallbackValue=None}" />
-			<Button Content="Разорвать соединение" Command="{Binding ReleaseClientsCommand}" Width="150" HorizontalAlignment="Right"/>
-		</Grid>
+		<TextBlock Grid.Row="1" Margin="5 0 0 0" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog, FallbackValue=None}" />
 	</Grid>
 </UserControl>
