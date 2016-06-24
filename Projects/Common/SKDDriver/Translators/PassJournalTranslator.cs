@@ -43,10 +43,12 @@ namespace SKDDriver.Translators
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
 					exitPassJournal.IsNeedAdjustmentOriginal = exitPassJournal.IsNeedAdjustment;
 					exitPassJournal.IsOpen = default(bool);
+					Logger.Info("Close interval: ");
+					Logger.Info("UID: {0}, EnterTime: {1}, ExitTime: {2}, DateTimeNow: {3}", exitPassJournal.UID, exitPassJournal.EnterTime, exitPassJournal.ExitTime, DateTime.Now);
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var enterPassJournal = new PassJournal //TODO:
+					var enterPassJournal = new PassJournal
 					{
 						UID = Guid.NewGuid(),
 						EmployeeUID = employeeUID,
@@ -57,7 +59,12 @@ namespace SKDDriver.Translators
 						IsOpen = true
 					};
 					Context.PassJournals.InsertOnSubmit(enterPassJournal);
+					Logger.Info("Open interval: ");
+					Logger.Info(string.Format("UID: {0}, EmployeeUID: {1}, ZoneUID: {2}, EnterTime: {3}, ExitTime: {4}, DateTimeNow: {5}",
+						enterPassJournal.UID, enterPassJournal.EmployeeUID, enterPassJournal.ZoneUID, enterPassJournal.EnterTime, enterPassJournal.ExitTime, DateTime.Now));
 				}
+				if(zoneUID == Guid.Empty)
+					Logger.Error("ZoneUID is empty. EmployeeUID: {0}, ExitJournalUID: {1}", employeeUID, exitPassJournal != null ? exitPassJournal.UID : Guid.Empty);
 				Context.SubmitChanges();
 				return new OperationResult();
 			}

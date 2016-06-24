@@ -103,9 +103,13 @@ namespace FiresecService
 						// Для онлайн событий прохода выполняем фиксацию факта прохода в БД журнала проходов
 						if (journalItem.JournalItemType == JournalItemType.Online && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{
+							Logger.Info("Событие проход разрешен. Date: " + DateTime.Now);
+
 							var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (readerdevice != null && readerdevice.Zone != null)
 							{
+								Logger.Info(string.Format("Device name: {0}", readerdevice.PresentationName));
+
 								var zoneUID = readerdevice.Zone.UID;
 								using (var passJournalTranslator = new PassJournalTranslator())
 								{
