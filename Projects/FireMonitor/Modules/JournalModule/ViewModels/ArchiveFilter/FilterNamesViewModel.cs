@@ -1,5 +1,6 @@
 ﻿using Common;
 using FiresecAPI.Journal;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,19 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(ArchiveFilter filter)
 		{
-			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
+			// Тип события
+			var allJournalEventNameTypes = new List<FilterNameViewModel>();
+			foreach (var rootFilter in RootFilters)
 			{
-				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
+				allJournalEventNameTypes.AddRange(rootFilter.Children.ToList());
+			}
+			foreach (var journalEventNameType in filter.JournalEventNameTypes)
+			{
+				var filterNameViewModel = allJournalEventNameTypes.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
+					ExpandParent(filterNameViewModel);
 				}
 			}
 		}
@@ -33,19 +41,10 @@ namespace JournalModule.ViewModels
 			var filter = new ArchiveFilter();
 			foreach (var rootFilter in RootFilters)
 			{
-				if (rootFilter.IsChecked)
+				foreach (var filterViewModel in rootFilter.Children)
 				{
-					filter.JournalSubsystemTypes.Add(rootFilter.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var filterViewModel in rootFilter.Children)
-					{
-						if (filterViewModel.IsChecked)
-						{
-							filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
-						}
-					}
+					if (filterViewModel.IsChecked)
+						filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
 				}
 			}
 			return filter;
@@ -53,7 +52,7 @@ namespace JournalModule.ViewModels
 
 		public ObservableCollection<FilterNameViewModel> RootFilters { get; private set; }
 
-		FilterNameViewModel _selectedFilter;
+		private FilterNameViewModel _selectedFilter;
 		public FilterNameViewModel SelectedFilter
 		{
 			get { return _selectedFilter; }
@@ -75,18 +74,27 @@ namespace JournalModule.ViewModels
 				.ToList();
 		}
 
-		void BuildTree()
+		private void BuildTree()
 		{
 			RootFilters = new ObservableCollection<FilterNameViewModel>
 			{
-				new FilterNameViewModel(JournalSubsystemType.System) {IsExpanded = true},
-				new FilterNameViewModel(JournalSubsystemType.SKD) {IsExpanded = true},
-				new FilterNameViewModel(JournalSubsystemType.Video) {IsExpanded = true},
+				new FilterNameViewModel(JournalSubsystemType.System),
+				new FilterNameViewModel(JournalSubsystemType.SKD),
+				new FilterNameViewModel(JournalSubsystemType.Video),
 			};
 
 			RootFilters[0].AddChildren(GetEventsByType(JournalSubsystemType.System));
 			RootFilters[1].AddChildren(GetEventsByType(JournalSubsystemType.SKD));
 			RootFilters[2].AddChildren(GetEventsByType(JournalSubsystemType.Video));
+		}
+
+		private void ExpandParent(TreeNodeViewModel<FilterNameViewModel> child)
+		{
+			if (child.Parent == null)
+				return;
+
+			child.Parent.IsExpanded = true;
+			ExpandParent(child.Parent);
 		}
 	}
 }
