@@ -57,6 +57,7 @@
 						Grid.Column="1"
 						ItemsSource="{Binding AvailableShellTypes}"
 						SelectedItem="{Binding SelectedShellType}"
+						IsEnabled="{Binding IsUserBuiltinAdmin, Converter={StaticResource InverseBooleanConverter}}"
 						Width="250"
 						HorizontalAlignment="Left"
 						Margin="5">

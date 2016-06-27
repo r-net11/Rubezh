@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -35,7 +36,7 @@ namespace SecurityModule.ViewModels
 		public List<RemoteAccessTypeViewModel> RemoteAccessTypes { get; private set; }
 		public ObservableCollection<string> HostNameOrAddressList { get; private set; }
 
-		string _selectedHostNameOrAddress;
+		private string _selectedHostNameOrAddress;
 		public string SelectedHostNameOrAddress
 		{
 			get { return _selectedHostNameOrAddress; }
@@ -46,8 +47,8 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public ICommand AddCommand { get; private set; }
+		private void OnAdd()
 		{
 			var remoteMachineViewModel = new RemoteMachineViewModel();
 			if (DialogService.ShowModalWindow(remoteMachineViewModel))
@@ -60,13 +61,12 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public ICommand RemoveCommand { get; private set; }
+		private void OnRemove()
 		{
 			HostNameOrAddressList.Remove(SelectedHostNameOrAddress);
 		}
-
-		bool CanRemove()
+		private bool CanRemove()
 		{
 			return SelectedHostNameOrAddress != null;
 		}
