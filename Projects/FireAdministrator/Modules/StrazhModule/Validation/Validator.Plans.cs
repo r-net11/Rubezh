@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Localization.Strazh.Common;
+using Localization.Strazh.Errors;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -17,12 +19,12 @@ namespace StrazhModule.Validation
 		}
 		private void ValidatePlanZones(Plan plan)
 		{
-			Errors.AddRange(SKDPlanExtension.Instance.FindDuplicateItems<SKDZone, IElementReference>(plan.ElementPolygonSKDZones, plan.ElementRectangleSKDZones).Select(item => new ZoneValidationError(item, GetErrorMessage("Зона", plan), ValidationErrorLevel.Warning, true, plan.UID)));
-			Errors.AddRange(SKDPlanExtension.Instance.FindDuplicateItems<SKDDoor, IElementReference>(plan.ElementDoors).Select(item => new DoorValidationError(item, GetErrorMessage("Точка доступа", plan), ValidationErrorLevel.Warning, true, plan.UID)));
+			Errors.AddRange(SKDPlanExtension.Instance.FindDuplicateItems<SKDZone, IElementReference>(plan.ElementPolygonSKDZones, plan.ElementRectangleSKDZones).Select(item => new ZoneValidationError(item, GetErrorMessage(CommonResources.Zone, plan), ValidationErrorLevel.Warning, true, plan.UID)));
+			Errors.AddRange(SKDPlanExtension.Instance.FindDuplicateItems<SKDDoor, IElementReference>(plan.ElementDoors).Select(item => new DoorValidationError(item, GetErrorMessage(CommonResources.Door, plan), ValidationErrorLevel.Warning, true, plan.UID)));
 		}
 		private string GetErrorMessage(string typeName, Plan plan)
 		{
-			return string.Format("{0} дублируется на плане {1}", typeName, plan.Caption);
+			return string.Format(CommonErrors.ValidatePlans_DublicateError, typeName, plan.Caption);
 		}
 	}
 }

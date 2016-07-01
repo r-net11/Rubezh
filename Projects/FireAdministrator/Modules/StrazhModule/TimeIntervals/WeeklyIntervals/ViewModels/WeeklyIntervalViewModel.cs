@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -34,7 +35,7 @@ namespace StrazhModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = IsActive ? Model.Name : string.Format("Понедельный график {0}", Index);
+			Name = IsActive ? Model.Name : string.Format(CommonViewModels.WeekSchedule, Index);
 			Description = IsActive ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
@@ -102,7 +103,7 @@ namespace StrazhModule.ViewModels
 
 		bool ConfirmDeactivation()
 		{
-			return MessageBoxService.ShowQuestion(String.Format("Недельный график доступа \"{0}\" может использоваться для определения временных критериев прохода через точки доступа для уже выданных пропусков. При его удалении он будет заменен на критерий прохода, соответствующий недельному графику доступа \"Никогда\". Вы действительно хотите его удалить?", Name));
+			return MessageBoxService.ShowQuestion(String.Format(CommonViewModels.WeekAccessSchedule_DeleteConfirm, Name));
 		}
 
 		public override bool IsPredefined

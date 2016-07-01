@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             mc:Ignorable="d" 
+			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
+			 mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="580"
 			 MinHeight="200" MinWidth="580">
 	<Grid>
@@ -13,46 +15,46 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding StartSearchCommand}" ImageSource="Refresh" ToolTip="Обновить" HorizontalAlignment="Left"/>
+            <ToolBarButton Command="{Binding StartSearchCommand}" ImageSource="Refresh" ToolTip="{x:Static lang:CommonViews.Update}" HorizontalAlignment="Left"/>
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Devices}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Добавить" Width="Auto" >
+                <DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Add}" Width="Auto" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Center"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Наименование" Width="*">
+				<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Denomination}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип" Width="100">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Type}" Width="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DeviceType, Converter={StaticResource SKDDeviceTypeEnumToAttributeValueConverter}, ConverterParameter=label}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="IP-адрес" Width="80">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.IPaddress}" Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding IpAddress}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Шлюз" Width="80">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Gateway}" Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Gateway}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Порт" Width="50">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Port}" Width="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Port}" VerticalAlignment="Center" Margin="2" />

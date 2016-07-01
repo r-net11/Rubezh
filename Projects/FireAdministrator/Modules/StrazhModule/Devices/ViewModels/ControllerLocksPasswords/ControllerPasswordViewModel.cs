@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Strazh.Common;
+using Localization.Strazh.Errors;
+using Localization.Strazh.ViewModels;
 
 namespace StrazhModule.ViewModels
 {
@@ -17,7 +20,7 @@ namespace StrazhModule.ViewModels
 		{
 			_controllerLocksPasswordViewModel = controllerLocksPasswordViewModel;
 
-			Title = "Пароль замка";
+			Title = CommonResources.LockPassword;
 			Password = _controllerLocksPasswordViewModel.Password;
 		}
 
@@ -40,7 +43,7 @@ namespace StrazhModule.ViewModels
 			if (result)
 				_controllerLocksPasswordViewModel.Password = Password;
 			else
-				MessageBoxService.ShowWarning("Пароль замка должен соответствовать следующим ограничениям:\n\nНе может быть пустым\nМожет состоять только из цифр\nКоличество знаков от 3 до 6\nНе должен начинаться на 0\nНе должен совпадать с уже имеющимся паролем", null, 350, 160);
+				MessageBoxService.ShowWarning(CommonErrors.ControllerPassword_Error, null, 350, 160);
 
 			return result;
 		}

@@ -6,6 +6,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common;
 using FiresecClient;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using System.Collections.ObjectModel;
 
@@ -18,7 +20,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerTimeSettingsViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Временные настройки контроллера";
+			Title = CommonResources.ControllerTimeSettings;
 			DeviceViewModel = deviceViewModel;
 
 			SynchronizeDeviceTimeCommand = new RelayCommand(OnSynchronizeDeviceTime);
@@ -136,11 +138,11 @@ namespace StrazhModule.ViewModels
 			if (result.Result)
 			{
 				GetDeviceTime();
-				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+                MessageBoxService.Show(CommonViewModels.ControllerTimeSettings_SynchSuccess);
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning(CommonViewModels.ControllerTimeSettings_SynchError);
 			}
 		}
 

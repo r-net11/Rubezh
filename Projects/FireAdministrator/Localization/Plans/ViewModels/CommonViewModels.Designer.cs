@@ -214,6 +214,15 @@ namespace Localization.Plans.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Layer.
+        /// </summary>
+        public static string Layer {
+            get {
+                return ResourceManager.GetString("Layer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backward.
         /// </summary>
         public static string MoveBackward {

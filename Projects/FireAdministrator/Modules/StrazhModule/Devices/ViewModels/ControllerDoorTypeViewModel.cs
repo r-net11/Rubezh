@@ -19,7 +19,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerDoorTypeViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Основные настройки контроллера";
+			Title = CommonResources.ControllerMainSettings;
 			DeviceViewModel = deviceViewModel;
 
 			ReadDoorTypeFromControllerCommand = new RelayCommand(OnReadDoorTypeFromController);

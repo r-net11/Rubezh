@@ -278,7 +278,7 @@ namespace AutomationModule.ViewModels
 					if (procedureStep.ProcedureStepType == ProcedureStepType.For || procedureStep.ProcedureStepType == ProcedureStepType.While)
 					{
 						stepViewModel.IsExpanded = true;
-						AddСycleBody(stepViewModel);
+						AddCycleBody(stepViewModel);
 					}
 					Add(stepViewModel);
 					ServiceFactory.SaveService.AutomationChanged = true;
@@ -351,12 +351,12 @@ namespace AutomationModule.ViewModels
 			procedureStep.ProcedureStepType = ProcedureStepType.Foreach;
 			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
-			AddСycleBody(stepViewModel);
+			AddCycleBody(stepViewModel);
 			Add(stepViewModel);
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		void AddСycleBody(StepViewModel stepViewModel)
+		void AddCycleBody(StepViewModel stepViewModel)
 		{
 			var procedureStepForeachBody = new ProcedureStep();
 			procedureStepForeachBody.ProcedureStepType = ProcedureStepType.ForeachBody;

@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 	Width="500"
 	Height="200">
 	<Border Background="{DynamicResource BackgroundBrush}">
@@ -15,10 +16,10 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Начало" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.Start}" />
 			<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Окончание" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.End}" />
 				<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 	</Border>

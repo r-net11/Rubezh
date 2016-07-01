@@ -168,6 +168,9 @@
   <data name="FigurePropertiesReferenceToPlan" xml:space="preserve">
     <value>Figure properties: Reference to the plan</value>
   </data>
+  <data name="Layer" xml:space="preserve">
+    <value>Layer</value>
+  </data>
   <data name="MoveBackward" xml:space="preserve">
     <value>Backward</value>
   </data>

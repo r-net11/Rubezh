@@ -168,6 +168,9 @@
   <data name="FigurePropertiesReferenceToPlan" xml:space="preserve">
     <value>Свойства фигуры: Ссылка на план</value>
   </data>
+  <data name="Layer" xml:space="preserve">
+    <value>Слои</value>
+  </data>
   <data name="MoveBackward" xml:space="preserve">
     <value>Ниже</value>
   </data>

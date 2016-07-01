@@ -682,6 +682,15 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Охранная зона.
+        /// </summary>
+        public static string GuardZone {
+            get {
+                return ResourceManager.GetString("GuardZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Заголовок.
         /// </summary>
         public static string Header {
@@ -1182,6 +1191,15 @@ namespace Localization.Automation.Views {
         public static string PTZNumber {
             get {
                 return ResourceManager.GetString("PTZNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Получение данных от сервера....
+        /// </summary>
+        public static string ReceiveDataFromServer {
+            get {
+                return ResourceManager.GetString("ReceiveDataFromServer", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using DeviceControls;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -64,7 +65,7 @@ namespace StrazhModule.ViewModels
 			{
 				if (InDevice != null)
 					return InDevice.NameWithParent;
-				return "Нажмите для выбора устройства";
+				return CommonViewModels.Device_Select;
 			}
 		}
 

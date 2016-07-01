@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -16,10 +17,10 @@ namespace StrazhModule.ViewModels
 		{
 			if (door == null)
 			{
-				Title = "Создание точки доступа";
+				Title = CommonViewModels.Door_Creation;
 				Door = new SKDDoor()
 				{
-					Name = "Новая точка доступа",
+					Name = CommonViewModels.NewDoor,
 					No = 1,
 					PlanElementUIDs = new List<Guid>(),
 					DoorType = DoorType.TwoWay
@@ -29,7 +30,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства точки доступа: {0}", door.Name);
+				Title = string.Format(CommonViewModels.Door_Properties, door.Name);
 				Door = door;
 			}
 
@@ -103,12 +104,12 @@ namespace StrazhModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.Show(CommonViewModels.NumberIsPositive);
 				return false;
 			}
 			if (Door.No != No && SKDManager.Doors.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Точка доступа с таким номером уже существует");
+				MessageBoxService.Show(CommonViewModels.Door_Exist);
 				return false;
 			}
 

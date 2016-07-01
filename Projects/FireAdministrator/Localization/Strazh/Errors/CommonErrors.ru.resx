@@ -117,4 +117,157 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ControllerPassword_Error" xml:space="preserve">
+    <value>Пароль замка должен соответствовать следующим ограничениям:
+*Не может быть пустым
+*Может состоять только из цифр
+*Количество знаков от 3 до 6
+*Не должен начинаться на 0
+*Не должен совпадать с уже имеющимся паролем</value>
+  </data>
+  <data name="DeviceCommands_ControllerError" xml:space="preserve">
+    <value>Операция не выполнена на следующих контроллерах:
+{0}</value>
+  </data>
+  <data name="GatewayError" xml:space="preserve">
+    <value>Не верно задан шлюз по умолчанию</value>
+  </data>
+  <data name="IPAddressError" xml:space="preserve">
+    <value>Не верно задан IP-адрес</value>
+  </data>
+  <data name="MaskError" xml:space="preserve">
+    <value>Не верно задана маска подсети</value>
+  </data>
+  <data name="OperationError" xml:space="preserve">
+    <value>Ошибка во время операции</value>
+  </data>
+  <data name="UnrelatedDoorError" xml:space="preserve">
+    <value>Несвязанная точка доступа</value>
+  </data>
+  <data name="UnrelatedSKDDeviceError" xml:space="preserve">
+    <value>Несвязанное СКД устройство</value>
+  </data>
+  <data name="UnrelatedSKDZoneError" xml:space="preserve">
+    <value>Несвязанная СКД зона</value>
+  </data>
+  <data name="ValidateDevicesEqualityicate_DublicateError" xml:space="preserve">
+    <value>Дублируется название устройства</value>
+  </data>
+  <data name="ValidateDevices_DoorError" xml:space="preserve">
+    <value>Неактивный считыватель участвует в точке доступа</value>
+  </data>
+  <data name="ValidateDevices_DoorNullError" xml:space="preserve">
+    <value>Считыватель не участвует в точке доступа</value>
+  </data>
+  <data name="ValidateDevices_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название устройства</value>
+  </data>
+  <data name="ValidateDevices_ZoneError" xml:space="preserve">
+    <value>Неактивный считыватель ведет в зону</value>
+  </data>
+  <data name="ValidateDevices_ZoneNullError" xml:space="preserve">
+    <value>Считыватель не ведет в зону</value>
+  </data>
+  <data name="ValidateDoors_DeviceTypeError" xml:space="preserve">
+    <value>Тип контроллер не совпадает с типом точки доступа</value>
+  </data>
+  <data name="ValidateDoors_DublicateNameError" xml:space="preserve">
+    <value>Дублируется название точки доступа</value>
+  </data>
+  <data name="ValidateDoors_DublicateNumberError" xml:space="preserve">
+    <value>Дублируется номер</value>
+  </data>
+  <data name="ValidateDoors_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название точки доступа</value>
+  </data>
+  <data name="ValidateDoors_InDeviceError" xml:space="preserve">
+    <value>У точки доступа отсутствует входное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutDeviceEmptyError" xml:space="preserve">
+    <value>У точки доступа отсутствует выходное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutDeviceError" xml:space="preserve">
+    <value>У точки доступа неверно указано выходное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutReaderError" xml:space="preserve">
+    <value>У точки доступа выходным устройством может быть только считыватель</value>
+  </data>
+  <data name="ValidateDoors_SameDeviceError" xml:space="preserve">
+    <value>Одно и то же устройство привязано к разным точкам доступа</value>
+  </data>
+  <data name="ValidateDoorTimeIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название дневного графика</value>
+  </data>
+  <data name="ValidateDoorWeeklyIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название недельного графика</value>
+  </data>
+  <data name="ValidateDoorWeeklyIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части недельного графика пустые</value>
+  </data>
+  <data name="ValidateHolidays_DublicateError" xml:space="preserve">
+    <value>Дублируется дата праздника</value>
+  </data>
+  <data name="ValidateHolidays_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название праздника</value>
+  </data>
+  <data name="ValidateIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название дневного графика</value>
+  </data>
+  <data name="ValidateIntervals_StartLessEndError" xml:space="preserve">
+    <value>Начало интервала меньше конца интервала</value>
+  </data>
+  <data name="ValidateIPAddresses_DublicateError" xml:space="preserve">
+    <value>Дублируется IP-адрес устройства</value>
+  </data>
+  <data name="ValidateIPAddresses_LoginError" xml:space="preserve">
+    <value>Не задан логин</value>
+  </data>
+  <data name="ValidateIPAddresses_PasswordError" xml:space="preserve">
+    <value>Не задан пароль</value>
+  </data>
+  <data name="ValidateIPAddresses_PortError" xml:space="preserve">
+    <value>Не задан порт</value>
+  </data>
+  <data name="ValidatePlans_DublicateError" xml:space="preserve">
+    <value>{0} дублируется на плане {1}</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части скользящего посуточного графика пустые</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideWeeklyIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части скользящего понедельного графика пустые</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateTimeIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части дневного графика</value>
+  </data>
+  <data name="ValidateTimeIntervals_IntersectError" xml:space="preserve">
+    <value>Последовательность интервалов не должна быть пересекающейся</value>
+  </data>
+  <data name="ValidateWeeklyIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название недельного графика</value>
+  </data>
+  <data name="ValidateZones_DublicateError" xml:space="preserve">
+    <value>Дублируется название зоны</value>
+  </data>
+  <data name="ValidateZones_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название зоны</value>
+  </data>
 </root>

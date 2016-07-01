@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
+using Localization.Strazh.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Models;
 using Infrastructure;
@@ -62,8 +63,8 @@ namespace StrazhModule.ViewModels
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
 			return hasReference
-				? MessageBoxService.ShowQuestion(String.Format("Дневной график доступа \"{0}\" используется в одном или нескольких недельных графиках доступа. При его удалении он будет заменен в недельных графиках доступа на дневной график \"Никогда\". Вы действительно хотите его удалить?", Name), null, MessageBoxImage.Warning)
-				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить дневной график доступа \"{0}\"?", Name));
+				? MessageBoxService.ShowQuestion(String.Format(CommonViewModels.DayAccessSchedule_DeleteForWeekConfirm, Name), null, MessageBoxImage.Warning)
+				: MessageBoxService.ShowQuestion(String.Format(CommonViewModels.DayAccessSchedule_DeleteConfirm, Name));
 		}
 
 		/// <summary>

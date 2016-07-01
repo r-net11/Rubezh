@@ -618,4 +618,10 @@
   <data name="RecevingData" xml:space="preserve">
     <value>Получение данных от сервера...</value>
   </data>
+  <data name="ReceiveDataFromServer" xml:space="preserve">
+    <value>Получение данных от сервера...</value>
+  </data>
+  <data name="GuardZone" xml:space="preserve">
+    <value>Охранная зона</value>
+  </data>
 </root>

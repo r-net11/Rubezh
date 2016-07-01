@@ -1,6 +1,8 @@
 ﻿using Controls;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 
 namespace StrazhModule.Intervals.Base.ViewModels
 {
@@ -66,7 +68,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 
 		public string ActivateActionTitle
 		{
-			get { return IsActive ? "Деактивировать" : "Активировать"; }
+			get { return IsActive ? CommonViewModels.Deactivate : CommonResources.Activate; }
 		}
 		public string ActivateActionImage
 		{
@@ -75,7 +77,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 
 		public string ActiveTitle
 		{
-			get { return IsActive ? "Активно" : "Не активно"; }
+            get { return IsActive ? CommonViewModels.Active : CommonViewModels.Inactive; }
 		}
 		public string ActiveImage
 		{

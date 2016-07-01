@@ -250,6 +250,15 @@ namespace Localization.Video.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -273,6 +282,15 @@ namespace Localization.Video.Views {
         public static string Preview {
             get {
                 return ResourceManager.GetString("Preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rvi_Name.
+        /// </summary>
+        public static string RviName {
+            get {
+                return ResourceManager.GetString("RviName", resourceCulture);
             }
         }
         

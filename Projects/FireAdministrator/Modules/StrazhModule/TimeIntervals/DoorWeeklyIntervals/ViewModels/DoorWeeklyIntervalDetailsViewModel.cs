@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.Strazh.ViewModels;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 
 		public DoorWeeklyIntervalDetailsViewModel(SKDDoorWeeklyInterval weeklyInterval)
 		{
-			Title = "Редактирование понедельногор графика";
+			Title = CommonViewModels.WeekSchedule_Edition;
 			WeeklyInterval = weeklyInterval;
 			Name = WeeklyInterval.Name;
 			Description = WeeklyInterval.Description;
@@ -49,7 +50,7 @@ namespace StrazhModule.ViewModels
 				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
 				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword)
 			{
-				MessageBoxService.ShowWarning("Запрещенное назваине");
+				MessageBoxService.ShowWarning(CommonViewModels.ForbiddenName);
 				return false;
 			}
 			WeeklyInterval.Name = Name;

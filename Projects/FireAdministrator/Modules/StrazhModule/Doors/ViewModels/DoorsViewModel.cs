@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Common;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -104,7 +106,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить точку доступа\n\"{0}\"?", SelectedDoor.Door.Name)))
+			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.Door_DeleteConfirm, SelectedDoor.Door.Name)))
 				return;
 			var index = Doors.IndexOf(SelectedDoor);
 			SKDManager.RemoveDoor(SelectedDoor.Door);
@@ -258,11 +260,11 @@ namespace StrazhModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+					new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

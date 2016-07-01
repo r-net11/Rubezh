@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 
 		public SlideDayIntervalDetailsViewModel(SKDSlideDayInterval slideDayInterval)
 		{
-			Title = "Редактирование скользящего посуточного графика";
+		    Title = CommonViewModels.SlideDaySchedule_Edition;
 			SlideDayInterval = slideDayInterval;
 			Name = SlideDayInterval.Name;
 			Description = SlideDayInterval.Description;

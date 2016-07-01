@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models.Layouts;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
@@ -27,7 +28,7 @@ namespace StrazhModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Настройка верификации"; }
+			get { return CommonViewModels.Verification_Settings; }
 		}
 		public override void CopyProperties()
 		{

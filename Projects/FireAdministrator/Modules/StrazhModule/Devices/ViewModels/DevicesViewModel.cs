@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -250,16 +252,16 @@ namespace StrazhModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Add, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, "BDelete"),
 				}, "BEdit") { Order = 1 } ,
-				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonResources.Device, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Параметры контроллера", DeviceCommandsViewModel.ShowControllerConfigurationCommand, "BParametersWrite"),
-					new RibbonMenuItemViewModel("Параметры двери", DeviceCommandsViewModel.ShowLockConfigurationCommand, "BInformation") { IsNewGroup = true },
+					new RibbonMenuItemViewModel(CommonViewModels.Devices_ControllerParams, DeviceCommandsViewModel.ShowControllerConfigurationCommand, "BParametersWrite"),
+					new RibbonMenuItemViewModel(CommonViewModels.Devices_DoorParams, DeviceCommandsViewModel.ShowLockConfigurationCommand, "BInformation") { IsNewGroup = true },
 				}, "BDevice") { Order = 2 }
 			};
 		}

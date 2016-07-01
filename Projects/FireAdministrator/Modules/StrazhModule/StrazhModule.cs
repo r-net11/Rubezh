@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Localization.Strazh.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -91,24 +92,24 @@ namespace StrazhModule
 			{
 				new NavigationItem(ModuleType.ToDescription(), "SKDW", new List<NavigationItem>()
 				{
-					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
-					new NavigationItem("Графики замков", "ShedulesW", new List<NavigationItem>
+					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, CommonResources.Devices, "Tree", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDZoneEvent, Guid>(ZonesViewModel, CommonResources.Zones, "Zones", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDDoorEvent, Guid>(DoorsViewModel, CommonResources.Doors, "DoorW", null, null, Guid.Empty),
+					new NavigationItem(CommonResources.LockSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(DoorDayIntervalsViewModel, "Дневные графики замков", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(DoorWeeklyIntervalsViewModel, "Недельные графики замков", "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(DoorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(DoorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
-					new NavigationItem("Графики доступа", "ShedulesW", new List<NavigationItem>()
+					new NavigationItem(CommonResources.AccessSchedules, "ShedulesW", new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики доступа", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики доступа", "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(DayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
 						//new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "SheduleSlideDaylyW", null, null, -1),
 						//new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "SheduleSlideWeeklyW", null, null, -1),
 						//new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),
 					}),
 					#if DEBUG
-					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "Book"),
+					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, CommonResources.Library, "Book"),
 					#endif
 				}) {IsExpanded = true},
 			};
@@ -167,9 +168,9 @@ namespace StrazhModule
 		#region ILayoutDeclarationModule Members
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 301, "СКД устройства", "Панель СКД устройства", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 302, "СКД зоны", "Панель СКД зоны", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDoors, 303, "Точки доступа", "Панель точек доступа", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 301, CommonResources.SKDDevices, CommonResources.SKDDevicePanel, "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 302, CommonResources.SKDZones, CommonResources.SKDZonePanel, "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDoors, 303, CommonResources.Doors, CommonResources.DoorPanel, "BTree.png");
 		}
 		#endregion
 	}

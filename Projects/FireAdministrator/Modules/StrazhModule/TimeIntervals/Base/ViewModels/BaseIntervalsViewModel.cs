@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using Common;
 
@@ -149,12 +151,12 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					new RibbonMenuItemViewModel("", ActivateCommand),
-					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(CommonResources.Paste, PasteCommand, "BPaste"),
 				}, "BEdit") { Order = 1 }
 			};
 		}

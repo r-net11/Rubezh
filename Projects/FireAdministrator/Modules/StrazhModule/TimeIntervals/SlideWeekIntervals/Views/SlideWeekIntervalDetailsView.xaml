@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 	Width="500"
 	Height="200">
 	<Border Background="{DynamicResource BackgroundBrush}">
@@ -16,13 +17,13 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Наименование" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.Denomination}" />
 			<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Описание" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.Description}" />
 			<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 
-			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Первый день графика" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.ScheduleFirstDay}" />
 			<loya:Dameer Grid.Row="2" Grid.Column="1" Width="Auto" Margin="2" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDate}" />
 		</Grid>
 	</Border>

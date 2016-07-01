@@ -2,6 +2,7 @@
 	x:Class="StrazhModule.Views.ControllerTimeSettingsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 	MinWidth="471"
 	MinHeight="308">
 	<Border Background="{DynamicResource BackgroundBrush}">
@@ -10,7 +11,7 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<GroupBox Grid.Row="0"  Header="Дата и время на контроллере">
+            <GroupBox Grid.Row="0"  Header="{x:Static lang:CommonViews.ControllerDateTime}">
 				<GroupBox.HeaderTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
@@ -25,10 +26,10 @@
 						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DeviceTime, Converter={StaticResource DateTimeToStringConverter}}" TextAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2"/>
-					<Button Grid.Row="1" Grid.Column="0" BorderBrush="#D8FFFFFF" Content="Синхронизировать" Command="{Binding SynchronizeDeviceTimeCommand}" Width="150" Margin="2"/>
+                    <Button Grid.Row="1" Grid.Column="0" BorderBrush="#D8FFFFFF" Content="{x:Static lang:CommonViews.Synchronise}" Command="{Binding SynchronizeDeviceTimeCommand}" Width="150" Margin="2"/>
 				</Grid>
 			</GroupBox>
-			<GroupBox Grid.Row="1" Header="Временная зона и NTP-сервер">
+            <GroupBox Grid.Row="1" Header="{x:Static lang:CommonViews.TimeZoneNtp}">
 				<GroupBox.HeaderTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
@@ -49,7 +50,7 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Временная зона" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="0,2,2,2" Width="90" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.TimeZone}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="0,2,2,2" Width="90" />
 					<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableTimeZoneTypes}" SelectedItem="{Binding SelectedTimeZoneType}" Margin="2">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
@@ -58,23 +59,23 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 
-					<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsEnabled}" Content="Активировать синхронизацию с NTP-сервером" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsEnabled}" Content="{x:Static lang:CommonViews.ActivateSynchronisation}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 
-					<TextBlock Grid.Row="2" Grid.Column="0" Text="IP-адрес" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static lang:CommonViews.IPaddress}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Margin="2" />
 
-					<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:CommonViews.Port}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Port}" Margin="2" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" Text="Описание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static lang:CommonViews.Description}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 
-					<TextBlock Grid.Row="5" Grid.Column="0" Text="Период обновления, мин." HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{x:Static lang:CommonViews.UpdatePeriod}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding UpdatePeriod}" Margin="2" />
 
 					<StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
-						<Button Content="Считать" Command="{Binding ReadCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
-						<Button Content="Записать" Command="{Binding WriteCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
+                        <Button Content="{x:Static lang:CommonViews.Read}" Command="{Binding ReadCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
+						<Button Content="{x:Static lang:CommonViews.Write}" Command="{Binding WriteCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
 					</StackPanel>
 				</Grid>
 			</GroupBox>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -11,7 +12,7 @@ namespace StrazhModule.ViewModels
 
 		public DoorDayIntervalPartDetailsViewModel(SKDDoorDayIntervalPart dayIntervalPart = null)
 		{
-			Title = "Задание интервала";
+			Title = CommonViewModels.Interval_Creation;
 			DayIntervalPart = dayIntervalPart ?? new SKDDoorDayIntervalPart() { DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD };
 
 			MinStartTime = DateTime.MinValue.TimeOfDay;

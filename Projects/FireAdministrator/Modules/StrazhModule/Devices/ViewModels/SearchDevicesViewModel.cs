@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
 using FiresecClient;
@@ -18,7 +20,7 @@ namespace StrazhModule.ViewModels
 		private readonly SKDDevice _parentDevice;
 		public SearchDevicesViewModel(DeviceViewModel parentDeviceViewModel)
 		{
-			Title = "Автопоиск устройств";
+			Title = CommonViewModels.AutosearchDevices;
 			_parentDevice = parentDeviceViewModel.Device;
 			StartSearchCommand = new RelayCommand(OnStartSearch);
 			Devices = new ObservableCollection<SearchDeviceViewModel>();
@@ -130,7 +132,7 @@ namespace StrazhModule.ViewModels
 				{
 					Driver = driver,
 					DriverUID = driver.UID,
-					Name = GenerateDeviceName(_parentDevice.Children, "Контроллер"),
+					Name = GenerateDeviceName(_parentDevice.Children, CommonResources.Controller),
 					Parent = _parentDevice
 				};
 

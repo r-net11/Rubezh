@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.Strazh.Errors;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Validation;
 
@@ -15,7 +16,7 @@ namespace StrazhModule.Validation
 			{
 				if (string.IsNullOrEmpty(zone.Name))
 				{
-					Errors.Add(new ZoneValidationError(zone, "Отсутствует название зоны", ValidationErrorLevel.CannotSave));
+					Errors.Add(new ZoneValidationError(zone, CommonErrors.ValidateZones_EmptyNameError, ValidationErrorLevel.CannotSave));
 				}
 			}
 		}
@@ -26,7 +27,7 @@ namespace StrazhModule.Validation
 			foreach (var zone in SKDManager.Zones)
 			{
 				if (!zoneNos.Add(zone.No))
-					Errors.Add(new ZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, CommonErrors.ValidateZones_DublicateError, ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -37,7 +38,7 @@ namespace StrazhModule.Validation
 			{
 				if (!zoneNames.Add(zone.Name))
 				{
-					Errors.Add(new ZoneValidationError(zone, "Дублируется название зоны", ValidationErrorLevel.CannotSave));
+					Errors.Add(new ZoneValidationError(zone, CommonErrors.ValidateZones_DublicateError, ValidationErrorLevel.CannotSave));
 				}
 			}
 		}

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
+using Localization.Strazh.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Models;
 using Infrastructure;
@@ -60,8 +61,8 @@ namespace StrazhModule.ViewModels
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
 			return hasReference
-				? MessageBoxService.ShowQuestion(String.Format("Дневной график замка \"{0}\" используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график \"Карта\". Вы действительно хотите его удалить?", Name), null, MessageBoxImage.Warning)
-				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить дневной график замка \"{0}\"?",Name));
+				? MessageBoxService.ShowQuestion(String.Format(CommonViewModels.DayLockSchedule_DeleteForWeekConfirm, Name), null, MessageBoxImage.Warning)
+				: MessageBoxService.ShowQuestion(String.Format(CommonViewModels.DayLockSchedule_DeleteConfirm,Name));
 		}
 
 		public IEnumerable<SKDDoorWeeklyInterval> GetLinkedWeeklyIntervals()

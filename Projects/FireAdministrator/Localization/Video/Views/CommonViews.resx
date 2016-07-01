@@ -180,6 +180,9 @@
   <data name="Main" xml:space="preserve">
     <value>Main</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
+  </data>
+  <data name="RviName" xml:space="preserve">
+    <value>Rvi_Name</value>
   </data>
   <data name="ServerType" xml:space="preserve">
     <value>Server type</value>

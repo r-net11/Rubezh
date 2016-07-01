@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Common;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Enums;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.SKD;
@@ -40,7 +41,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
-			Title = "Конфигурация контроллера";
+            Title = CommonViewModels.Controller_Config;
 			Device = device;
 			DeviceInfo = deviceInfo;
 
@@ -60,14 +61,13 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		private void OnReset()
 		{
-			if (!MessageBoxService.ShowQuestion(
-					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?",
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.ResetConfig,
 					null, MessageBoxImage.Warning))
 				return;
 			var result = FiresecManager.FiresecService.SKDResetController(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
+				MessageBoxService.Show(CommonViewModels.Operation_Success);
 			}
 			else
 			{
@@ -81,7 +81,7 @@ namespace StrazhModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDRebootController(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+				MessageBoxService.Show(CommonViewModels.Controller_Reboot);
 			}
 			else
 			{
@@ -130,7 +130,7 @@ namespace StrazhModule.ViewModels
 			//	return;
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
-				MessageBoxService.ShowWarning("Перед выполнением операции необходимо применить конфигурацию.");
+				MessageBoxService.ShowWarning(CommonViewModels.AcceptConfigBeforeOperation);
 				return;
 			}
 
@@ -149,7 +149,7 @@ namespace StrazhModule.ViewModels
 			{
 				if (validationResult.CannotSave(ModuleType.SKD) || validationResult.CannotWrite(ModuleType.SKD))
 				{
-					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+					MessageBoxService.ShowWarning(CommonViewModels.Operation_Error);
 					return false;
 				}
 			}
@@ -165,7 +165,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
-				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
+				if (MessageBoxService.ShowQuestion(CommonViewModels.AcceptConfig))
 				{
 					_configurationChangedWaitHandle = new AutoResetEvent(false);
 					var cancelEventArgs = new CancelEventArgs();

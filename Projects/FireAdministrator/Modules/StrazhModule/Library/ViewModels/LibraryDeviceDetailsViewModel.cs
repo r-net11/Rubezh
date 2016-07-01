@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.Common;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.GK;
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 	{
 		public LibraryDeviceDetailsViewModel()
 		{
-			Title = "Добавить устройство";
+			Title = CommonResources.AddDevice;
 
 			Devices = new ObservableCollection<LibraryDeviceViewModel>();
 			var drivers = (from SKDDriver driver in SKDManager.Drivers select driver).ToList();

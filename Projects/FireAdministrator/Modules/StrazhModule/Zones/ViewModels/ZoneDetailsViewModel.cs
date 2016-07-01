@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.Strazh.ViewModels;
+using StrazhAPI.SKD;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
@@ -13,10 +14,10 @@ namespace StrazhModule.ViewModels
 		{
 			if (zone == null)
 			{
-				Title = "Создание новой зоны";
+				Title = CommonViewModels.Zone_Creation;
 				Zone = new SKDZone()
 				{
-					Name = "Новая зона",
+					Name = CommonViewModels.NewZone,
 					No = 1,
 				};
 				if (SKDManager.Zones.Count != 0)
@@ -24,7 +25,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства зоны: {0}", zone.Name);
+				Title = string.Format(CommonViewModels.Zone_Properties, zone.Name);
 				Zone = zone;
 			}
 			CopyProperties();
@@ -85,12 +86,12 @@ namespace StrazhModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.Show(CommonViewModels.NumberIsPositive);
 				return false;
 			}
 			if (Zone.No != No && SKDManager.Zones.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Зона с таким номером уже существует");
+				MessageBoxService.Show(CommonViewModels.Zone_Exist);
 				return false;
 			}
 

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using DeviceControls;
+using Localization.Strazh.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure.Client.Plans.ViewModels;
@@ -28,7 +29,7 @@ namespace StrazhModule.Plans.Designer
 			{
 				_toolTip.IsDeviceExists = true;
 				_toolTip.ParentImageSource = device.Parent == null ? null : device.Parent.Driver.ImageSource;
-				_toolTip.ParentTitle = device.Parent == null ? "Неизвестное устройство" : device.Parent.Name;
+				_toolTip.ParentTitle = device.Parent == null ? CommonResources.UnknownDevice : device.Parent.Name;
 			}
 			else
 				_toolTip.IsDeviceExists = false;

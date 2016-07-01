@@ -8,38 +8,40 @@
 	xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:ctrl="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-	xmlns:viewModel="clr-namespace:StrazhModule.ViewModels">
+	xmlns:viewModel="clr-namespace:StrazhModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
 	<UserControl.Resources>
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
-			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
-			<Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
-			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
-			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
+			<Conv:SwitchCase Then="{x:Static lang:CommonViews.DeviceCanPlacedOnPlan}" When="Multiple" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DeviceNotOnPlan}" When="NotPresent" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DeviceShouldNotPlacedOnPlan}" When="Prohibit" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DeviceAvailableOnPlan}" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
 			<Controls:IconedMenuItem
 				Command="{Binding AddCommand}"
 				ImageSource="BAdd"
-				Text="Добавить устройство (Ctrl+N)" />
+				Text="{x:Static langCommon:CommonResources.AddDevice}" />
 			<Controls:IconedMenuItem
 				Command="{Binding RemoveCommand}"
 				ImageSource="BDelete"
-				Text="Удалить (Ctrl+Del)" />
+				Text="{x:Static langCommon:CommonResources.Delete}" />
 			<Controls:IconedMenuItem
 				Command="{Binding ShowPropertiesCommand}"
 				ImageSource="BSettings"
-				Text="Свойства (Ctrl+E)" />
+				Text="{x:Static lang:CommonViews.Properties}" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Controls:IconedMenuItem
 				Command="{Binding AllowMultipleVizualizationCommand}"
 				CommandParameter="{StaticResource True}"
 				ImageSource="Eye2"
-				Text="Разрешить множественную визуализацию" />
+				Text="{x:Static lang:CommonViews.AllowMultiplyVisualization}" />
 			<Controls:IconedMenuItem
 				Command="{Binding AllowMultipleVizualizationCommand}"
 				CommandParameter="{StaticResource False}"
 				ImageSource="Eye3"
-				Text="Запретить множественную визуализацию" />
+				Text="{x:Static lang:CommonViews.DenyMultipleVisualization}" />
 		</ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
@@ -81,7 +83,7 @@
 				<GridView>
 					<GridViewColumn
 						Width="250"
-						Header="Устройство"
+						Header="{x:Static langCommon:CommonResources.Device}"
 						tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -173,7 +175,7 @@
 					</GridViewColumn>
 					<GridViewColumn
 						Width="100"
-						Header="Адрес"
+						Header="{x:Static lang:CommonViews.Address}"
 						tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -197,7 +199,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn ctrl:ProportionalColumn.Width="1" Header="Ведет в зону">
+                    <GridViewColumn ctrl:ProportionalColumn.Width="1" Header="{x:Static lang:CommonViews.LeadsToZone}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>
@@ -275,7 +277,7 @@
 								Width="120"
 								Margin="2 2 5 2"
 								Foreground="{DynamicResource ForegroundColorLight}"
-								Text="Подключено к " />
+								Text="{x:Static lang:CommonViews.ConnectedTo}" />
 							<TextBlock
 								VerticalAlignment="Center"
 								FontWeight="Bold"
@@ -305,12 +307,12 @@
 								Width="120"
 								Margin="2 2 5 2"
 								Foreground="{DynamicResource ForegroundColorLight}"
-								Text="Ведет в зону " />
+								Text="{x:Static lang:CommonViews.LeadsToZone}" />
 							<TextBlock
 								Margin="2 2 5 2"
 								FontStyle="Italic"
 								Foreground="{DynamicResource ForegroundColorLight}"
-								Text="Зона не указана">
+								Text="{x:Static lang:CommonViews.ZoneNotSpecified}">
 								<TextBlock.Style>
 									<Style>
 										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -359,7 +361,7 @@
 								Width="120"
 								Margin="2 2 5 2"
 								Foreground="{DynamicResource ForegroundColorLight}"
-								Text="Точка доступа " />
+								Text="{x:Static langCommon:CommonResources.Door}" />
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">

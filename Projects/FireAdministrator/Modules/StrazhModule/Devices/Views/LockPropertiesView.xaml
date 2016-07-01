@@ -5,6 +5,7 @@
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 			 mc:Ignorable="d" x:Class="StrazhModule.Views.LockPropertiesView"
 			 MinWidth="500" MinHeight="364">
 
@@ -19,9 +20,9 @@
 		</Grid.RowDefinitions>
 
 		<TabControl Grid.Row="0">
-			<TabItem Header="Замок">
+            <TabItem Header="{x:Static lang:CommonViews.Lock}">
 				<StackPanel>
-					<GroupBox Header="Основные" Margin="5" Padding="5">
+                    <GroupBox Header="{x:Static lang:CommonViews.Main}" Margin="5" Padding="5">
 						<GroupBox.HeaderTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
@@ -41,7 +42,7 @@
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
-							<TextBlock Grid.Row="0" Grid.Column="0" Text="Метод открытия" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.OpenMethod}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<Grid Grid.Row="0" Grid.Column="1">
 								<ComboBox ItemsSource="{Binding DoorOpenMethods}" SelectedItem="{Binding DoorOpenMethod}" Margin="2">
 									<ComboBox.ItemTemplate>
@@ -52,7 +53,7 @@
 								</ComboBox>
 							</Grid>
 
-							<TextBlock Grid.Row="1" Grid.Column="0" Text="График замка" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.LockSchedule}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableWeeklyIntervals}" SelectedItem="{Binding WeeklyInterval}" IsEnabled="{Binding CanSetTimeIntervals}" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -67,16 +68,16 @@
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 								<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
-								<TextBlock Grid.Column="1" Text="Имя графика, назначенного для замка, хранится в конфигурации и не считывается с контроллера" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
+                                <TextBlock Grid.Column="1" Text="{x:Static lang:CommonViews.ScheduleNameNotRead}" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
 							</Grid>
 
-							<TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:CommonViews.RetentionTime}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding UnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="34464" Margin="2" />
 
-							<TextBlock Grid.Row="4" Grid.Column="0" Text="Альтернативное время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static lang:CommonViews.AlternativeRetentionTime}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding HandicapUnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 
-							<TextBlock Grid.Row="5" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="{x:Static lang:CommonViews.DuressAlarm}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
 
 							<!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
@@ -128,7 +129,7 @@
 					</GroupBox>-->
 				</StackPanel>
 			</TabItem>
-			<TabItem Header="Датчик двери">
+            <TabItem Header="{x:Static lang:CommonViews.DoorSensor}">
 				<StackPanel>
 					<GroupBox Margin="5" Padding="5">
 						<Grid>
@@ -149,16 +150,16 @@
 							</Grid.RowDefinitions>
 
 							<CheckBox Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Активен датчик контроля двери" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{x:Static lang:CommonViews.DoorSensorActive}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
 							<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="1" Grid.Column="2" Text="Тревога по взлому" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{x:Static lang:CommonViews.BurglaryAlarm}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
 							<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}"  IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="2" Grid.Column="2" Text="Тревога по незакрытию" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{x:Static lang:CommonViews.UnclosedAlarm}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
 							<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsCloseCheckSensorEnable}"  IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="3" Grid.Column="2" Text="Закрывать замок при закрытии двери" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="3" Grid.Column="2" Text="{x:Static lang:CommonViews.CloseLockCloseDoor}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
 							<Grid Grid.Row="4" Grid.Column="2">
 								<Grid.ColumnDefinitions>
@@ -169,10 +170,10 @@
 									<RowDefinition Height="Auto"/>
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
-								<TextBlock Grid.Row="0" Grid.Column="0" Text="Время закрытия, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.ClosingTime}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 								<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding CloseTimeout, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="34464" IsEnabled="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
 
-								<TextBlock Grid.Row="1" Grid.Column="0" Text="Альтернативное время закрытия, с" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.AlternativeClosingTime}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 								<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding HandicapCloseTimeout, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsDoorNotClosedAlarmEnable}" Minimum="0" Margin="2" />
 							</Grid>
 						</Grid>
@@ -181,11 +182,11 @@
 			</TabItem>
 		</TabControl>
 
-		<TextBlock Grid.Row="1"  Text="Альтернативные время удержания и время закрытия используются с пропусками, для которых задействован режим &quot;Использовать альтернативные параметры временных задержек замка&quot;" TextWrapping="Wrap" Foreground="{DynamicResource ForegroundColorLight}" Width="480" Margin="5" />
+        <TextBlock Grid.Row="1"  Text="{x:Static lang:CommonViews.AlternativeRetentionClosingTime}" TextWrapping="Wrap" Foreground="{DynamicResource ForegroundColorLight}" Width="480" Margin="5" />
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 4 0" />
-			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 0 0" />
+            <Button Content="{x:Static lang:CommonViews.Read}" Command="{Binding GetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 4 0" />
+			<Button Content="{x:Static lang:CommonViews.Write}" Command="{Binding SetDoorConfigurationCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="0 4 0 0" />
 		</StackPanel>
 	</Grid>
 </UserControl>

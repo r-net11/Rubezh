@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -16,7 +17,7 @@ namespace StrazhModule.ViewModels
 		public ReaderPropertiesViewModel(SKDDevice device)
 		{
 			Device = device;
-			Title = "Свойства считывателя " + Device.Name;
+			Title = string.Format(CommonViewModels.Reader_Properties, Device.Name);
 			SelectCameraCommand = new RelayCommand(OnSelectCamera);
 			RemoveCameraCommand = new RelayCommand(OnRemoveCamera, CanRemove);
 

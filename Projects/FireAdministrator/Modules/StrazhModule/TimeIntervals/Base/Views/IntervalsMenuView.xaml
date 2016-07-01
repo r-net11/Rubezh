@@ -2,15 +2,16 @@
 	x:Class="StrazhModule.Intervals.Base.Views.IntervalsMenuView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
 	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
 		<ToolBarButton Command="{Binding ActivateCommand}" ImageSource="{Binding SelectedInterval.ActivateActionImage}">
 			<ToolBarButton.ToolTip>
 				<ToolTip Content="{Binding SelectedInterval.ActivateActionTitle}" ContentStringFormat="{}{0} (Ctrl+A)" />
 			</ToolBarButton.ToolTip>
 		</ToolBarButton>
-		<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
-		<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать (Ctrl+C)" />
-		<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить (Ctrl+V)" />
+        <ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="{x:Static langCommon:CommonResources.Edit}" />
+        <ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="{x:Static langCommon:CommonResources.Copy}" />
+        <ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="{x:Static langCommon:CommonResources.Paste}" />
 	</StackPanel>
 </UserControl>

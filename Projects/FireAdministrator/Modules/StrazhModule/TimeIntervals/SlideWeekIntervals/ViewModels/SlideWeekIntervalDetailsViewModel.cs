@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 
 		public SlideWeekIntervalDetailsViewModel(SKDSlideWeeklyInterval slideWeekInterval)
 		{
-			Title = "Редактирование скользящего понедельного графика";
+			Title = CommonViewModels.SlideWeekSchedule_Edition;
 			SlideWeekInterval = slideWeekInterval;
 			Name = SlideWeekInterval.Name;
 			Description = SlideWeekInterval.Description;

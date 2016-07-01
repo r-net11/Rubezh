@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
@@ -21,7 +22,7 @@ namespace StrazhModule.Plans.ViewModels
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Title = "Свойства фигуры: Зона СКД";
+			Title = CommonViewModels.FigureProperties_SKDZone;
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
 		}

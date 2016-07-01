@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Strazh.Errors;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Validation;
 using System;
@@ -20,9 +21,9 @@ namespace StrazhModule.Validation
 				}
 
 				if (string.IsNullOrEmpty(weeklyInterval.Name))
-					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Отсутствует название недельного графика", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, CommonErrors.ValidateWeeklyIntervals_EmptyNameError, ValidationErrorLevel.CannotWrite));
 				if (weeklyInterval.WeeklyIntervalParts.All(item => item.DayIntervalUID == Guid.Empty))
-					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Все составляющие части недельного графика пустые", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, CommonErrors.ValidateDoorWeeklyIntervals_EmptyError, ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -31,7 +32,7 @@ namespace StrazhModule.Validation
 			var weeklyIntervals = new HashSet<string>();
 			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 				if (!weeklyIntervals.Add(weeklyInterval.Name))
-					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Дублируется название недельного графика", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, CommonErrors.ValidateDoorWeeklyIntervals_DublicateError, ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

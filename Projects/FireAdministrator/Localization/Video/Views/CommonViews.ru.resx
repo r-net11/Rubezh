@@ -180,6 +180,9 @@
   <data name="Main" xml:space="preserve">
     <value>Основные</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Предпросмотр</value>
+  </data>
+  <data name="RviName" xml:space="preserve">
+    <value>Rvi_Имя</value>
   </data>
   <data name="ServerType" xml:space="preserve">
     <value>Тип сервера</value>

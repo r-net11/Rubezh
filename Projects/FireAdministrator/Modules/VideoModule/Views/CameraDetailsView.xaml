@@ -42,7 +42,7 @@
 					Grid.Column="1"
 					Margin="10 5 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{Binding Camera.Name, FallbackValue=Название}" />
+					Text="{Binding Camera.Name, FallbackValue={x:Static langViews:CommonViews.Name}}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="0"
@@ -78,7 +78,7 @@
 					Grid.Column="1"
 					Margin="10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{Binding Camera.RviChannelName, FallbackValue=Rvi_Имя}" />
+					Text="{Binding Camera.RviChannelName, FallbackValue={x:Static langViews:CommonViews.RviName}}" />
 			</Grid>
 		</TabItem>
         <TabItem Header="{x:Static langViews:CommonViews.Preview}">

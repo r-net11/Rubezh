@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Shapes;
 using DeviceControls;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -168,7 +169,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить контроллер\n\"{0}\"?", Device.Name)))
+			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.Controller_DeleteConfirm, Device.Name)))
 				return;
 
 			var allDevices = Device.Children;
@@ -336,7 +337,7 @@ namespace StrazhModule.ViewModels
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (Driver.HasZone)
-						presentationZone = "Нажмите для выбора зон";
+						presentationZone = CommonViewModels.Zone_Select;
 				}
 				return presentationZone;
 			}
