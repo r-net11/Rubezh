@@ -18,7 +18,7 @@
 					<Views:ArgumentView DataContext="{Binding Organisation}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static lang:CommonViews.PathToFiles}" />
+					<Label Content="Путь к папке" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool AddToParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetPosition(employee, _parent.UID);
+			return EmployeeHelper.SetPosition(employee, Parent.UID);
 		}
 
 		protected override bool RemoveFromParent(ShortEmployee employee)
@@ -24,12 +24,12 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID }, OrganisationUIDs = new List<Guid> { _parent.OrganisationUID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Parent.UID }, OrganisationUIDs = new List<Guid> { Parent.OrganisationUID }, LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { _parent.OrganisationUID }, WithDeletedPositions = true }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { Parent.OrganisationUID }, WithDeletedPositions = true }; }
 		}
 
 		protected override Guid GetParentUID(Employee employee)

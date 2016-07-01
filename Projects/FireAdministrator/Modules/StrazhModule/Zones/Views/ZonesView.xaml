@@ -1,37 +1,53 @@
-<UserControl x:Class="StrazhModule.Views.ZonesView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
-			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
-	<UserControl.Resources>
-		<ContextMenu x:Key="ZoneContextMenu">
-            <Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="{x:Static lang:CommonViews.AddChildZone}" />
-            <Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild"  Text="{x:Static lang:CommonViews.AddParentZone}" />
-			<Controls:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="{x:Static langCommon:CommonResources.Delete}" />
-			<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings"  Text="{x:Static langCommon:CommonResources.Edit}" />
-		</ContextMenu>
-	</UserControl.Resources>
-	<XDataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+<UserControl
+	x:Class="StrazhModule.Views.ZonesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
+	<XDataGrid
+		Focusable="True"
+		ItemsSource="{Binding Zones}"
+		SelectedItem="{Binding SelectedZone}"
+		CanUserSortColumns="True">
 		<DataGrid.Resources>
-				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-					<Setter Property="MinWidth" Value="0" />
-					<Setter Property="MinHeight" Value="0" />
-				</Style>
+			<Style
+				x:Key="{x:Type TextBox}"
+				BasedOn="{StaticResource {x:Type TextBox}}"
+				TargetType="TextBox">
+				<Setter Property="MinWidth" Value="0" />
+				<Setter Property="MinHeight" Value="0" />
+			</Style>
 		</DataGrid.Resources>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
+			<DataGridTemplateColumn
+				Header="№"
+				SortMemberPath="Zone.No"
+				Width="Auto"
+				CanUserResize="False">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-							<TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Zone.No}" />
+							<Image
+								Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}"
+								VerticalAlignment="Center"
+								Margin="5 2 0 0"/>
+							<TextBlock
+								VerticalAlignment="Center"
+								Text="{Binding Zone.No}"
+								Margin="5 0"/>
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="{x:Static lang:CommonViews.Denomination}" />
-            <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Note}" Width="*" SortMemberPath="Description">
+			<DataGridTextColumn
+				Width="*"
+				Binding="{Binding Zone.Name}"
+				Header="{x:Static lang:CommonViews.Denomination}" />
+			<DataGridTemplateColumn
+				Header="{x:Static lang:CommonViews.Description}"
+				Width="*"
+				SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<Controls:EditorPresenter>

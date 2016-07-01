@@ -368,5 +368,6 @@
 		<ResourceDictionary Source="../XamlImages/ServiceStart.xaml" />
 		<ResourceDictionary Source="../XamlImages/ServiceStop.xaml" />
 		<ResourceDictionary Source="../XamlImages/ServiceRestart.xaml" />
+		<ResourceDictionary Source="../XamlImages/StopSoundPlaying.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

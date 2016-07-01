@@ -17,7 +17,7 @@ namespace Infrastructure.Client.Plans
 		public MapSource Cache { get; private set; }
 		protected CommonDesignerCanvas DesignerCanvas { get; private set; }
 
-		public BasePlanExtension()
+		protected BasePlanExtension()
 		{
 			Cache = new MapSource();
 		}
@@ -49,7 +49,7 @@ namespace Infrastructure.Client.Plans
 		private void DesignerItemPropertyChanged<TItem>(object sender, EventArgs e)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			DesignerItem designerItem = (DesignerItem)sender;
+			var designerItem = (DesignerItem)sender;
 			OnDesignerItemPropertyChanged<TItem>(designerItem);
 		}
 		protected void OnDesignerItemPropertyChanged<TItem>(DesignerItem designerItem)
@@ -73,8 +73,8 @@ namespace Infrastructure.Client.Plans
 		{
 			var elementReference = designerItem.Element as IElementReference;
 			var item = GetItem<TItem>(elementReference);
-			SetItem<TItem>(elementReference, item);
-			UpdateDesignerItemProperties<TItem>(designerItem, item);
+			SetItem(elementReference, item);
+			UpdateDesignerItemProperties(designerItem, item);
 		}
 
 		public TItem GetItem<TItem>(IElementReference element)
@@ -92,7 +92,7 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var item = GetItem<TItem>(element);
-			SetItem<TItem>(element, item);
+			SetItem(element, item);
 		}
 		public void SetItem<TItem>(IElementReference element, Guid itemUID)
 			where TItem : IChangedNotification, IPlanPresentable
@@ -104,7 +104,7 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			if (item != null && item.UID == element.ItemUID)
-				ResetItem<TItem>(element, item);
+				ResetItem(element, item);
 			else
 				ResetItem<TItem>(element);
 			element.ItemUID = item == null ? Guid.Empty : item.UID;
@@ -112,13 +112,13 @@ namespace Infrastructure.Client.Plans
 			{
 				item.PlanElementUIDs.Add(element.UID);
 			}
-			UpdateElementProperties<TItem>(element, item);
+			UpdateElementProperties(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var item = GetItem<TItem>(element);
-			ResetItem<TItem>(element, item);
+			ResetItem(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
@@ -147,8 +147,8 @@ namespace Infrastructure.Client.Plans
 			where TReference : ElementBase, IElementReference
 			where TEvent : CompositePresentationEvent<TArg>, new()
 		{
-			return FindUnbinded<TReference>(elements).Select(element =>
-				new ElementError()
+			return FindUnbinded(elements).Select(element =>
+				new ElementError
 				{
 					PlanUID = planUID,
 					Error = error,
@@ -176,18 +176,13 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 			where TReference : IElementReference
 		{
-			var duplicates = FindDuplicate<TReference>(elements1, elements2);
-			foreach (var duplicate in duplicates)
-			{
-				var item = GetItem<TItem>(duplicate);
-				if (item != null)
-					yield return item;
-			}
+			var duplicates = FindDuplicate(elements1, elements2);
+			return duplicates.Select(GetItem<TItem>).Where(item => item != null);
 		}
 
 		#region IPlanExtension<Plan> Members
 
-		public abstract int Index { get; }
+		public abstract int Index { get; } //TODO: Can remove it
 		public abstract string Title { get; }
 		public abstract bool ElementAdded(Plan plan, ElementBase element);
 		public abstract bool ElementRemoved(Plan plan, ElementBase element);

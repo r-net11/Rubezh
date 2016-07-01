@@ -1,9 +1,9 @@
 ﻿using Common;
 using DeviceControls;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
@@ -28,26 +28,26 @@ namespace StrazhModule.Plans
 	{
 		public static SKDPlanExtension Instance { get; private set; }
 
-		private DevicesViewModel _devicesViewModel;
-		private ZonesViewModel _zonesViewModel;
-		private DoorsViewModel _doorsViewModel;
+		private readonly DevicesViewModel _devicesViewModel;
+		private readonly ZonesViewModel _zonesViewModel;
+		private readonly DoorsViewModel _doorsViewModel;
 		private IEnumerable<IInstrument> _instruments;
 
 		public SKDPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DoorsViewModel doorsViewModel)
 		{
 			Instance = this;
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
 			_doorsViewModel = doorsViewModel;
 			_instruments = null;
-			Cache.Add<SKDDevice>(() => SKDManager.Devices);
-			Cache.Add<SKDZone>(() => SKDManager.Zones);
-			Cache.Add<SKDDoor>(() => SKDManager.Doors);
+			Cache.Add(() => SKDManager.Devices);
+			Cache.Add(() => SKDManager.Zones);
+			Cache.Add(() => SKDManager.Doors);
 		}
 
 		public override void Initialize()
@@ -72,29 +72,28 @@ namespace StrazhModule.Plans
 		{
 			get
 			{
-				if (_instruments == null)
-					_instruments = new List<IInstrument>()
+				return _instruments ??
+					(_instruments = new List<IInstrument>
+				{
+					new InstrumentViewModel
 					{
-						new InstrumentViewModel()
-						{
-							ImageSource="ZoneRectangle",
-							ToolTip=CommonResources.SKDZone,
-							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
-							Index = 300,
-							Autostart = true,
-							GroupIndex = 300,
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="ZonePolygon",
-							ToolTip=CommonResources.SKDZone,
-							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
-							Index = 301,
-							Autostart = true,
-							GroupIndex = 300,
-						},
-					};
-				return _instruments;
+						ImageSource = "ZoneRectangle",
+						ToolTip = CommonResources.SKDZone,
+						Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
+						Index = 300,
+						Autostart = true,
+						GroupIndex = 300,
+					},
+					new InstrumentViewModel
+					{
+						ImageSource = "ZonePolygon",
+						ToolTip = CommonResources.SKDZone,
+						Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
+						Index = 301,
+						Autostart = true,
+						GroupIndex = 300,
+					},
+				});
 			}
 		}
 
@@ -107,14 +106,14 @@ namespace StrazhModule.Plans
 				SetItem<SKDDevice>(elementSKDDevice);
 				return true;
 			}
-			else if (element is ElementDoor)
+			if (element is ElementDoor)
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Add(elementDoor);
 				SetItem<SKDDoor>(elementDoor);
 				return true;
 			}
-			else if (element is IElementZone)
+			if (element is IElementZone)
 			{
 				if (element is ElementRectangleSKDZone)
 					plan.ElementRectangleSKDZones.Add((ElementRectangleSKDZone)element);
@@ -136,14 +135,14 @@ namespace StrazhModule.Plans
 				ResetItem<SKDDevice>(elementSKDDevice);
 				return true;
 			}
-			else if (element is ElementDoor)
+			if (element is ElementDoor)
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Remove(elementDoor);
 				ResetItem<SKDDoor>(elementDoor);
 				return true;
 			}
-			else if (element is IElementZone)
+			if (element is IElementZone)
 			{
 				if (element is ElementRectangleSKDZone)
 					plan.ElementRectangleSKDZones.Remove((ElementRectangleSKDZone)element);
@@ -198,7 +197,7 @@ namespace StrazhModule.Plans
 
 		public override IEnumerable<ElementError> Validate()
 		{
-			List<ElementError> errors = new List<ElementError>();
+			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 			{
 				errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, CommonErrors.UnrelatedSKDDeviceError, "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
@@ -232,7 +231,7 @@ namespace StrazhModule.Plans
 				designerItem.Index = door == null ? default(int) : door.No;
 			}
 			else
-				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
+				base.UpdateDesignerItemProperties(designerItem, item);
 		}
 		protected override void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 		{
@@ -242,8 +241,6 @@ namespace StrazhModule.Plans
 				elementZone.BackgroundColor = GetSKDZoneColor(item as SKDZone);
 				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
-			else
-				base.UpdateElementProperties<TItem>(element, item);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -254,9 +251,10 @@ namespace StrazhModule.Plans
 			else if (args.Element is ElementDoor)
 				args.Painter = new DoorPainter(DesignerCanvas, (ElementDoor)args.Element);
 		}
+
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
-			ElementSKDDevice element = e.Element as ElementSKDDevice;
+			var element = e.Element as ElementSKDDevice;
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementDoor)
@@ -265,9 +263,9 @@ namespace StrazhModule.Plans
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
 		}
 
-		private Color GetSKDZoneColor(SKDZone zone)
+		private static Color GetSKDZoneColor(SKDZone zone)
 		{
-			Color color = Colors.Black;
+			var color = Colors.Black;
 			if (zone != null)
 				color = Colors.Green;
 			return color;

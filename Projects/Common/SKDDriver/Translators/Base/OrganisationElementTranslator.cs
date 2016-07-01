@@ -12,7 +12,7 @@ namespace StrazhDAL
 		where ApiT : OrganisationElementBase, new()
 		where FilterT : OrganisationFilterBase
 	{
-		public OrganisationElementTranslator(SKDDatabaseService databaseService)
+		protected OrganisationElementTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 		}

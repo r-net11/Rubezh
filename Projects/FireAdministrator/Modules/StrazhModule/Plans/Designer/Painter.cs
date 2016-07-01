@@ -1,19 +1,19 @@
-﻿using System.Windows.Media;
-using DeviceControls;
+﻿using DeviceControls;
 using Localization.Strazh.Common;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
-using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using StrazhModule.Plans.ViewModels;
+using System.Windows.Media;
 
 namespace StrazhModule.Plans.Designer
 {
 	public class Painter : PointPainter
 	{
-		private ElementSKDDevice _elementSKDDevice;
-		private DeviceTooltipViewModel _toolTip;
+		private readonly ElementSKDDevice _elementSKDDevice;
+		private readonly DeviceTooltipViewModel _toolTip;
+
 		public Painter(CommonDesignerCanvas designerCanvas, ElementSKDDevice elementSKDDevice)
 			: base(designerCanvas, elementSKDDevice)
 		{

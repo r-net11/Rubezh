@@ -15,7 +15,6 @@ namespace AutomationModule.Validation
 			ValidateGlobalVariableName();
 			ValidateProcedure();
 			ValidateSchedule();
-			ValidateSoundName();
 			return Errors;
 		}
 	}

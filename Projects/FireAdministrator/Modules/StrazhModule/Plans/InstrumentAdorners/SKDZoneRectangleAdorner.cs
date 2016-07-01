@@ -10,7 +10,7 @@ namespace StrazhModule.Plans.InstrumentAdorners
 {
 	public class SKDZoneRectangleAdorner : BaseRectangleAdorner
 	{
-		private ZonesViewModel _zonesViewModel;
+		private readonly ZonesViewModel _zonesViewModel;
 		public SKDZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{

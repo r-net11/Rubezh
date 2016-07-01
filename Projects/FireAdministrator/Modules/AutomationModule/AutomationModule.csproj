@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
-    <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
@@ -430,16 +429,7 @@
     <Compile Include="Schedules\Views\SchedulesView.xaml.cs">
       <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sounds\ViewModels\SoundDetailsViewModel.cs" />
-    <Compile Include="Sounds\ViewModels\SoundsMenuViewModel.cs" />
-    <Compile Include="Sounds\ViewModels\SoundsViewModel.cs" />
     <Compile Include="Sounds\ViewModels\SoundViewModel.cs" />
-    <Compile Include="Sounds\Views\SoundsMenuView.xaml.cs">
-      <DependentUpon>SoundsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Sounds\Views\SoundsView.xaml.cs">
-      <DependentUpon>SoundsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\ViewModels\ProceduresMenuViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProceduresViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureViewModel.cs" />
@@ -448,9 +438,6 @@
     </Compile>
     <Compile Include="Procedures\Views\ProceduresView.xaml.cs">
       <DependentUpon>ProceduresView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Sounds\Views\SoundDetailsView.xaml.cs">
-      <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\StartRecordStepView.xaml.cs">
       <DependentUpon>StartRecordStepView.xaml</DependentUpon>
@@ -465,12 +452,10 @@
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
-    <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.GlobalVariable.cs" />
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
-    <Compile Include="Validation\Validator.Sound.cs" />
     <Compile Include="Validation\VariableValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -869,10 +854,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Sounds\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Procedures\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -884,10 +865,6 @@
     <Page Include="Procedures\Views\ProceduresView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Sounds\Views\SoundDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\StartRecordStepView.xaml">
       <SubType>Designer</SubType>
@@ -903,16 +880,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Sounds\Views\SoundsMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Sounds\Views\SoundsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Folder Include="Procedures\Converters\" />
+    <Folder Include="Sounds\Views\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -26,7 +26,6 @@ namespace AutomationModule
 {
 	public class AutomationModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		private SoundsViewModel _soundsViewModel;
 		private ProceduresViewModel _proceduresViewModel;
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
@@ -34,7 +33,6 @@ namespace AutomationModule
 
 		public override void CreateViewModels()
 		{
-			_soundsViewModel = new SoundsViewModel();
 			_proceduresViewModel = new ProceduresViewModel();
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
@@ -45,14 +43,13 @@ namespace AutomationModule
 		{
 			ControlVisualStepViewModel.Initialize();
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			_soundsViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
-			_planExtension.Initialize();
+			_planExtension.Initialize(); //TODO: This is equal to BuildAllSafe() method below;
 			ServiceFactoryBase.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
-			_planExtension.Cache.BuildAllSafe();
+			_planExtension.Cache.BuildAllSafe(); //TODO: Remove
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -68,7 +65,6 @@ namespace AutomationModule
                             new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, CommonResources.Procedure, "Procedure"),
                             new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.GlobalVariables, "Shedules"),
                             new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.Schedules, "GlobalVariables"),
-                            new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, CommonResources.Sounds, "Music")
 						}) {IsExpanded = true},
 				};
 		}
@@ -82,7 +78,6 @@ namespace AutomationModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));

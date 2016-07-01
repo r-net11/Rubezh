@@ -16,7 +16,7 @@ namespace StrazhDAL
 
 		public void Initialize()
 		{
-			ListSynchroniser = new OrgansiationListSynchroniser(_Table, _DatabaseService);
+			ListSynchroniser = new OrgansiationListSynchroniser(Table, DatabaseService);
 		}
 
 		public override ExportOrganisation Translate(DataAccess.Organisation item)
@@ -39,11 +39,11 @@ namespace StrazhDAL
 			return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
 		}
 
-		private EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
+		private EmployeeSynchroniser EmployeeSynchroniser { get { return DatabaseService.EmployeeTranslator.Synchroniser; } }
 
-		private PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
+		private PositionSynchroniser PositionSynchroniser { get { return DatabaseService.PositionTranslator.Synchroniser; } }
 
-		private DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		private DepartmentSynchroniser DepartmentSynchroniser { get { return DatabaseService.DepartmentTranslator.Synchroniser; } }
 
 		public OrgansiationListSynchroniser ListSynchroniser;
 
@@ -54,16 +54,18 @@ namespace StrazhDAL
 				var organisationResult = base.Export(filter);
 				if (organisationResult.HasError)
 					return organisationResult;
-				var employeeResult = _DatabaseService.EmployeeTranslator.Synchroniser.Export(filter);
+
+				var employeeResult = DatabaseService.EmployeeTranslator.Synchroniser.Export(filter);
 				if (employeeResult.HasError)
 					return employeeResult;
-				var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);
-				if (PositionResult.HasError)
-					return PositionResult;
-				var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
-				if (DepartmentResult.HasError)
-					return DepartmentResult;
-				return new OperationResult();
+
+				var positionResult = DatabaseService.PositionTranslator.Synchroniser.Export(filter);
+				if (positionResult.HasError)
+					return positionResult;
+
+				var departmentResult = DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
+
+				return departmentResult.HasError ? departmentResult : new OperationResult();
 			}
 			catch (Exception e)
 			{
@@ -92,8 +94,8 @@ namespace StrazhDAL
 
 		protected override void UpdateForignKeys(ExportOrganisation exportItem, DataAccess.Organisation tableItem)
 		{
-			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
-			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, DatabaseService.Context.Employees);
+			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, DatabaseService.Context.Employees);
 		}
 
 		public override void TranslateBack(ExportOrganisation exportItem, DataAccess.Organisation tableItem)

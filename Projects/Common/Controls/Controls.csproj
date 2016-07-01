@@ -140,6 +140,7 @@
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
     <Compile Include="Converters\IfConverter.cs" />
+    <Compile Include="Converters\JournalEventNameTypeToIconConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Converters\SKDDeviceTypeEnumToAttributeValueConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
@@ -1542,6 +1543,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\StopSoundPlaying.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlImages\Mute.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2727,6 +2732,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StateClassIcons\HasLicense.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FireZone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

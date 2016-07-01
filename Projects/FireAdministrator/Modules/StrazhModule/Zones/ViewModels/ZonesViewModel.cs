@@ -198,12 +198,10 @@ namespace StrazhModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		IElementZone GetElementSKDZone(ElementBase element)
+
+		static IElementZone GetElementSKDZone(ElementBase element)
 		{
-			IElementZone elementZone = element as ElementRectangleSKDZone;
-			if (elementZone == null)
-				elementZone = element as ElementPolygonSKDZone;
-			return elementZone;
+			return element as ElementRectangleSKDZone ?? (IElementZone) (element as ElementPolygonSKDZone);
 		}
 
 		public override void OnShow()
@@ -247,7 +245,7 @@ namespace StrazhModule.ViewModels
 				OnEdit(zoneViewModel);
 		}
 
-		void OnEdit(ZoneViewModel viewModel)
+		private void OnEdit(ZoneViewModel viewModel)
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
@@ -257,7 +255,7 @@ namespace StrazhModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		ZoneViewModel OnAddZone()
+		private ZoneViewModel OnAddZone()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))

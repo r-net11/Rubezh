@@ -38,7 +38,7 @@ namespace SecurityModule.ViewModels
 			SelectedRole = Roles.FirstOrDefault();
 		}
 
-		SortableObservableCollection<RoleViewModel> _roles;
+		private SortableObservableCollection<RoleViewModel> _roles;
 		public SortableObservableCollection<RoleViewModel> Roles
 		{
 			get { return _roles; }
@@ -49,7 +49,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		RoleViewModel _selectedRole;
+		private RoleViewModel _selectedRole;
 		public RoleViewModel SelectedRole
 		{
 			get { return _selectedRole; }
@@ -61,7 +61,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var roleDetailsViewModel = new RoleDetailsViewModel();
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
@@ -75,7 +75,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.Roles_DeleteCommand, SelectedRole.Role.Name)))
 				return;
@@ -85,7 +85,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var roleDetailsViewModel = new RoleDetailsViewModel(SelectedRole.Role);
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
@@ -98,7 +98,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
+		private bool CanEditDelete()
 		{
 			return SelectedRole != null;
 		}

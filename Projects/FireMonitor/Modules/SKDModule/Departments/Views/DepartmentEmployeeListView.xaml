@@ -54,8 +54,7 @@
 									Margin="1 0"
 									VerticalAlignment="Center"
 									Source="/Controls;component/Images/Chief.png"
-									Visibility="{Binding IsChief,
-								                            Converter={StaticResource BoolToVisibilityConverter}}" />
+									Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Employee.Name}" />
 							</StackPanel>
 						</DataTemplate>
@@ -64,9 +63,7 @@
 				<DataGridTemplateColumn
 					Width="*"
 					Header="Подразделение"
-					Visibility="{Binding DataContext.CanEditDepartment,
-				                                             Source={x:Reference dummyElement},
-				                                             Converter={StaticResource BoolToVisibilityConverter}}">
+					Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -79,9 +76,7 @@
 				<DataGridTemplateColumn
 					Width="*"
 					Header="Должность"
-					Visibility="{Binding DataContext.CanEditPosition,
-				                                             Source={x:Reference dummyElement},
-				                                             Converter={StaticResource BoolToVisibilityConverter}}">
+					Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -111,14 +106,12 @@
 					Command="{Binding SetChiefCommand}"
 					ImageSource="ChiefW"
 					ToolTip="Назначить руководителя"
-					Visibility="{Binding CanSetChief,
-				                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 				<ToolBarButton
 					Command="{Binding UnSetChiefCommand}"
 					ImageSource="Delete"
 					ToolTip="Снять руководителя"
-					Visibility="{Binding CanUnSetChief,
-				                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+					Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

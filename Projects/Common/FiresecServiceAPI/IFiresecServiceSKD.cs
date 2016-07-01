@@ -408,9 +408,6 @@ namespace StrazhAPI
 		OperationResult ResetSKDDatabase();
 
 		[OperationContract]
-		OperationResult GenerateEmployeeDays();
-
-		[OperationContract]
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]

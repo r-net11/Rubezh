@@ -1,10 +1,15 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Enums;
+using StrazhAPI.SKD;
+using System;
+using System.Linq;
 
 namespace Integration.OPC.Models
 {
 	public class OPCZone : BaseViewModel
 	{
+		private VisualizationState _visualizetionState;
 		private bool? _isSkippedTypeEnabled;
 		private int? _delay;
 		private int? _autoset;
@@ -15,6 +20,18 @@ namespace Integration.OPC.Models
 		private string _description;
 		private bool _isChecked;
 		private bool _isEnabled;
+		private Guid _guid;
+
+		public VisualizationState VisualizationState
+		{
+			get { return _visualizetionState; }
+			private set
+			{
+				if (_visualizetionState == value) return;
+				_visualizetionState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
+		}
 
 		public bool? IsSkippedTypeEnabled
 		{
@@ -23,6 +40,17 @@ namespace Integration.OPC.Models
 			{
 				_isSkippedTypeEnabled = value;
 				OnPropertyChanged(() => IsSkippedTypeEnabled);
+			}
+		}
+
+		public Guid UID
+		{
+			get { return _guid; }
+			set
+			{
+				if (_guid == value) return;
+				_guid = value;
+				OnPropertyChanged(() => UID);
 			}
 		}
 
@@ -124,7 +152,12 @@ namespace Integration.OPC.Models
 			get { return IsChecked && IsEnabled; }
 		}
 
-		public OPCZone(StrazhAPI.Integration.OPC.OPCZone zone, bool isExist)
+		protected OPCZone()
+		{
+			UpdateVisualizationState();
+		}
+
+		public OPCZone(StrazhAPI.Integration.OPC.OPCZone zone, bool isExist) : this()
 		{
 			if (zone == null) return;
 
@@ -139,9 +172,10 @@ namespace Integration.OPC.Models
 			Description = zone.Description;
 			IsChecked = isExist;
 			IsEnabled = !isExist;
+			UID = zone.UID;
 		}
 
-		public OPCZone(StrazhAPI.Integration.OPC.OPCZone zone)
+		public OPCZone(StrazhAPI.Integration.OPC.OPCZone zone): this()
 		{
 			if (zone == null) return;
 
@@ -154,6 +188,7 @@ namespace Integration.OPC.Models
 			if (zone.Type != null)
 				Type = (OPCZoneType)zone.Type;
 			Description = zone.Description;
+			UID = zone.UID;
 		}
 
 		public StrazhAPI.Integration.OPC.OPCZone ToDTO()
@@ -167,8 +202,25 @@ namespace Integration.OPC.Models
 				IsSkippedTypeEnabled = IsSkippedTypeEnabled,
 				Name = Name,
 				No = No,
-				Type = Type
+				Type = Type,
+				UID = UID
 			};
+		}
+
+		public void UpdateVisualizationState()
+		{
+			var zone = SKDManager.SKDConfiguration.OPCZones.FirstOrDefault(x => x.UID == UID);
+
+			if (zone != null)
+			{
+				VisualizationState = zone.PlanElementUIDs.Any()
+					? (zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single)
+					: VisualizationState.NotPresent;
+			}
+			else
+			{
+				VisualizationState = VisualizationState.NotPresent;
+			}
 		}
 	}
 }

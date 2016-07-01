@@ -58,7 +58,7 @@ namespace Infrastructure.Designer.ViewModels
 			AllElements = new List<ElementViewModel>();
 			Elements.Clear();
 			Groups = new Dictionary<string, ElementGroupViewModel>();
-			foreach (string alias in LayerGroupService.Instance)
+			foreach (var alias in LayerGroupService.Instance)
 			{
 				var group = new ElementGroupViewModel(this, alias);
 				Groups.Add(alias, group);

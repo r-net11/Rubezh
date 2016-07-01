@@ -15,7 +15,7 @@ namespace StrazhDAL
 		protected SKDDatabaseService DatabaseService;
 		protected DataAccess.SKDDataContext Context;
 
-		public TranslatorBase(SKDDatabaseService databaseService)
+		protected TranslatorBase(SKDDatabaseService databaseService)
 		{
 			DatabaseService = databaseService;
 			Context = databaseService.Context;
@@ -181,9 +181,7 @@ namespace StrazhDAL
 		{
 			if (dateTime < MinYear)
 				return MinYear;
-			if (dateTime > MaxYear)
-				return MaxYear;
-			return dateTime;
+			return dateTime > MaxYear ? MaxYear : dateTime;
 		}
 
 		public static OperationResult ConcatOperationResults(params OperationResult[] results)

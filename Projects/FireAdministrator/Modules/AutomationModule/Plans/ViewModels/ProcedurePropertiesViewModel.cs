@@ -1,24 +1,23 @@
-﻿using System;
+﻿using AutomationModule.ViewModels;
+using Infrastructure.Designer.ElementProperties.ViewModels;
+using StrazhAPI.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AutomationModule.ViewModels;
-using StrazhAPI.Automation;
-using StrazhAPI.Models;
-using Infrastructure.Designer.ElementProperties.ViewModels;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels
 {
 	public class ProcedurePropertiesViewModel : TextBlockPropertiesViewModel
 	{
-		private ElementProcedure _element;
+		private readonly ElementProcedure _element;
 
 		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel)
 			: base(element)
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
-            Title = CommonViewModels.ProcedurePropertiesViewModel_Title;
+			Title = CommonViewModels.ProcedurePropertiesViewModel_Title;
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}
@@ -39,18 +38,17 @@ namespace AutomationModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			_element.ProcedureUID = SelectedProcedure == null ? Guid.Empty : SelectedProcedure.Procedure.Uid;
-			AutomationPlanExtension.Instance.SetItem<Procedure>(_element, SelectedProcedure == null ? null : SelectedProcedure.Procedure);
+			AutomationPlanExtension.Instance.SetItem(_element, SelectedProcedure == null ? null : SelectedProcedure.Procedure);
 			UpdateProcedures(_element.ProcedureUID);
 			return base.Save();
 		}
 		private void UpdateProcedures(Guid procedureUID)
 		{
-			if (Procedures != null)
-			{
-				if (procedureUID != _element.ProcedureUID)
-					Update(procedureUID);
-				Update(_element.ProcedureUID);
-			}
+			if (Procedures == null) return;
+
+			if (procedureUID != _element.ProcedureUID)
+				Update(procedureUID);
+			Update(_element.ProcedureUID);
 		}
 		private void Update(Guid procedureUID)
 		{

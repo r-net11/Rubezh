@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -11,46 +12,49 @@ namespace StrazhDAL
 {
 	public class PassJounalSynchroniser
 	{
-		private Table<DataAccess.PassJournal> _Table;
+		private readonly Table<DataAccess.PassJournal> _table;
 
-		private string Name { get { return "PassJournal"; } }
+		private static string Name { get { return "PassJournal"; } }
 
 		public string NameXml { get { return Name + ".xml"; } }
 
 		public PassJounalSynchroniser(Table<DataAccess.PassJournal> table)
 		{
-			_Table = table;
+			_table = table;
 		}
 
 		public OperationResult Export(JournalExportFilter filter)
 		{
+			if (filter == null || string.IsNullOrEmpty(filter.Path))
+				return new OperationResult("Path is null");
+
 			try
 			{
-				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.Synchronisers.PassJournalSynchroniser.Export_Error);
-				var tableItems = _Table.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
+				Directory.CreateDirectory(filter.Path);
+				var tableItems = _table.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
+
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
-				if (filter.Path != null)
-				{
-					var newPath = Path.Combine(filter.Path, NameXml);
-					if (File.Exists(newPath))
-						File.Delete(newPath);
-					File.Move(NameXml, newPath);
-				}
+
+				var newPath = Path.Combine(filter.Path, NameXml);
+				if (File.Exists(newPath))
+					File.Delete(newPath);
+				File.Move(NameXml, newPath);
+
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e);
 				return new OperationResult(e.Message);
 			}
 		}
 
-		private ExportPassJournalItem Translate(DataAccess.PassJournal tableItem)
+		private static ExportPassJournalItem Translate(DataAccess.PassJournal tableItem)
 		{
 			return new ExportPassJournalItem
 			{

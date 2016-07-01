@@ -1,35 +1,77 @@
-﻿<UserControl x:Class="AutomationModule.Views.ExportJournalStepView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:AutomationModule.Views"
-			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
+﻿<UserControl
+	x:Class="AutomationModule.Views.ExportJournalStepView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Views="clr-namespace:AutomationModule.Views">
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-		<Grid>
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static lang:CommonViews.EventJournal}" />
-					<Views:ArgumentView DataContext="{Binding IsExportJournalArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static lang:CommonViews.PassJournal}" />
-					<Views:ArgumentView DataContext="{Binding IsExportPassJournalArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static lang:CommonViews.From}" />
-					<Views:ArgumentView DataContext="{Binding MinDateArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static lang:CommonViews.To}" />
-					<Views:ArgumentView DataContext="{Binding MaxDateArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<Label Content="{x:Static lang:CommonViews.PathToFile}" />
-					<Views:ArgumentView DataContext="{Binding PathArgument}" />
-				</StackPanel>
-			</StackPanel>
-		</Grid>
-	</ScrollViewer>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<TextBlock
+			Text="Журнал событий"
+			VerticalAlignment="Center"
+			Foreground="White"
+			Margin="5"/>
+		<Views:ArgumentView
+			Grid.Column="1"
+			DataContext="{Binding IsExportJournalArgument}"
+			VerticalAlignment="Center"
+			Margin="5"/>
+		<TextBlock
+			Grid.Row="1"
+			Text="Журнал проходов"
+			VerticalAlignment="Center"
+			Foreground="White"
+			Margin="5"/>
+		<Views:ArgumentView
+			Grid.Column="1"
+			Grid.Row="1"
+			DataContext="{Binding IsExportPassJournalArgument}"
+			Margin="5"/>
+		<TextBlock
+			Grid.Row="2"
+			Text="С"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5"/>
+		<Views:ArgumentView
+			Grid.Column="1"
+			Grid.Row="2"
+			DataContext="{Binding MinDateArgument}"
+			Margin="5"/>
+		<TextBlock
+			Grid.Row="3"
+			Text="До"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5"/>
+		<Views:ArgumentView
+			Grid.Column="1"
+			Grid.Row="3"
+			DataContext="{Binding MaxDateArgument}"
+			Margin="5"/>
+		<TextBlock
+			Grid.Row="4"
+			Text="Путь к папке"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5"/>
+		<Views:ArgumentView
+			Grid.Column="1"
+			Grid.Row="4"
+			DataContext="{Binding PathArgument}"
+			Margin="5"/>
+	</Grid>
 </UserControl>

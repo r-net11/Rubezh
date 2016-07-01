@@ -1,65 +1,54 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using StrazhAPI.Models;
-using FiresecClient;
+﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using StrazhAPI.Models;
+using System.ComponentModel;
 
 namespace FireAdministrator.ViewModels
 {
 	public class MenuViewModel : BaseViewModel
 	{
-		string FileName;
-		bool HasChanges = true;
+		#region Fields
+		private string _fileName;
+		private string _logoSource;
+		private bool _hasChanges = true;
+		private bool _isMainMenuVisible;
+		bool _isMenuVisible;
+		private BaseViewModel _extendedMenu;
+		#endregion
 
 		public MenuViewModel()
 		{
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
-			SaveCommand = new RelayCommand(OnSave, CanSave);
+			SaveCommand = new RelayCommand(OnSave, () => _hasChanges);
 			SaveAsCommand = new RelayCommand(OnSaveAs);
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 			ValidateCommand = new RelayCommand(OnValidate);
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
-			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+			ServiceFactory.SaveService.Changed += SaveService_Changed;
 
 			// Подписываемся на событие "SetNewConfigurationEvent", которое могут рассылать модули с запросом к Администратору сохранить текущую конфигурацию
-			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
-			
+			ServiceFactoryBase.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+
 			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", true);
 			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}
 
-		string logoSource;
+		#region Properties
 		public string LogoSource
 		{
-			get { return logoSource; }
+			get { return _logoSource; }
 			set
 			{
-				logoSource = value;
+				_logoSource = value;
 				OnPropertyChanged(() => LogoSource);
 			}
 		}
 
-		/// <summary>
-		/// Сохраняет текущую конфигурацию
-		/// </summary>
-		/// <param name="e">Объект CancelEventArgs с результатом выполнения операции</param>
-		void OnSetNewConfiguration(CancelEventArgs e)
-		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
-			{
-				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-				e.Cancel = true;
-				return;
-			}
-			e.Cancel = !ConfigManager.SetNewConfig();
-		}
-
-		BaseViewModel _extendedMenu;
 		public BaseViewModel ExtendedMenu
 		{
 			get { return _extendedMenu; }
@@ -70,91 +59,11 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		public bool SetNewConfig()
-		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
-			{
-				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-				return false;
-			}
-			return ConfigManager.SetNewConfig();
-		}
-
 		public bool CanShowMainMenu
 		{
 			get { return false; }
 		}
 
-		void SaveService_Changed()
-		{
-			HasChanges = ServiceFactory.SaveService.HasChanges;
-		}
-
-		public RelayCommand LoadFromFileCommand { get; private set; }
-		void OnLoadFromFile()
-		{
-			var fileName = FileConfigurationHelper.LoadFromFile();
-			if (!string.IsNullOrEmpty(fileName))
-				FileName = fileName;
-		}
-
-		public RelayCommand SaveCommand { get; private set; }
-		void OnSave()
-		{
-			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
-			if (string.IsNullOrEmpty(FileName))
-			{
-				OnSaveAs();
-			}
-			else
-			{
-				FileConfigurationHelper.SaveToZipFile(FileName);
-			}
-		}
-		bool CanSave()
-		{
-			return HasChanges;
-		}
-
-		public RelayCommand SaveAsCommand { get; private set; }
-		void OnSaveAs()
-		{
-			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
-			var fileName = FileConfigurationHelper.SaveToFile();
-			if (!string.IsNullOrEmpty(fileName))
-				FileName = fileName;
-		}
-
-		public RelayCommand CreateNewCommand { get; private set; }
-		void OnCreateNew()
-		{
-			ConfigManager.CreateNew();
-		}
-
-		public RelayCommand ValidateCommand { get; private set; }
-		void OnValidate()
-		{
-			ServiceFactory.ValidationService.Validate();
-		}
-
-		public RelayCommand SetNewConfigCommand { get; private set; }
-		void OnSetNewConfig()
-		{
-			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?")) return;
-
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
-			{
-				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-				return;
-			}
-			ConfigManager.SetNewConfig();
-		}
-		public bool CanSetNewConfig()
-		{
-			return ServiceFactory.SaveService.HasChanges;
-		}
-
-		bool _isMainMenuVisible;
 		public bool IsMainMenuVisible
 		{
 			get { return _isMainMenuVisible; }
@@ -166,7 +75,7 @@ namespace FireAdministrator.ViewModels
 				OnPropertyChanged(() => IsMainMenuVisible);
 			}
 		}
-		bool _isMenuVisible;
+
 		public bool IsMenuVisible
 		{
 			get { return _isMenuVisible; }
@@ -178,5 +87,93 @@ namespace FireAdministrator.ViewModels
 				OnPropertyChanged(() => IsMenuVisible);
 			}
 		}
+		#endregion
+
+		/// <summary>
+		/// Сохраняет текущую конфигурацию
+		/// </summary>
+		/// <param name="e">Объект CancelEventArgs с результатом выполнения операции</param>
+		private static void OnSetNewConfiguration(CancelEventArgs e)
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				e.Cancel = true;
+				return;
+			}
+			e.Cancel = !ConfigManager.SetNewConfig();
+		}
+
+		public bool SetNewConfig()
+		{
+			if (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig)) return ConfigManager.SetNewConfig();
+
+			MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+			return false;
+		}
+
+		private void SaveService_Changed()
+		{
+			_hasChanges = ServiceFactory.SaveService.HasChanges;
+		}
+
+		private void OnLoadFromFile()
+		{
+			var fileName = FileConfigurationHelper.LoadFromFile();
+			if (!string.IsNullOrEmpty(fileName))
+				_fileName = fileName;
+		}
+
+		private void OnSave()
+		{
+			ServiceFactoryBase.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
+
+			if (string.IsNullOrEmpty(_fileName))
+				OnSaveAs();
+			else
+				FileConfigurationHelper.SaveToZipFile(_fileName);
+		}
+
+		private void OnSaveAs()
+		{
+			ServiceFactoryBase.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
+			var fileName = FileConfigurationHelper.SaveToFile();
+			if (!string.IsNullOrEmpty(fileName))
+				_fileName = fileName;
+		}
+
+		private static void OnCreateNew()
+		{
+			ConfigManager.CreateNew();
+		}
+
+		private static void OnValidate()
+		{
+			ServiceFactory.ValidationService.Validate();
+		}
+
+		private static void OnSetNewConfig()
+		{
+			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?")) return;
+
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				return;
+			}
+			ConfigManager.SetNewConfig();
+		}
+
+		public bool CanSetNewConfig()
+		{
+			return ServiceFactory.SaveService.HasChanges;
+		}
+
+		public RelayCommand LoadFromFileCommand { get; private set; }
+		public RelayCommand SetNewConfigCommand { get; private set; }
+		public RelayCommand ValidateCommand { get; private set; }
+		public RelayCommand CreateNewCommand { get; private set; }
+		public RelayCommand SaveAsCommand { get; private set; }
+		public RelayCommand SaveCommand { get; private set; }
 	}
 }

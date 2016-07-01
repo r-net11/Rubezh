@@ -225,13 +225,17 @@ namespace StrazhService.Monitor.ViewModels
 			LicenseStatusText = LicenseItems.Any() ? LicLoadAccept : LicLoadFailed;
 		}
 
-		public static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
+		private static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
 		{
 			var dict = new Dictionary<string, string>();
 
 			if (currentLicense == null) return dict;
 
 			var props = currentLicense.GetType().GetProperties();
+			var isUnlimitedUsers = props.FirstOrDefault(p => p.Name == "IsUnlimitedUsers");
+			if (isUnlimitedUsers != null && (bool)isUnlimitedUsers.GetValue(currentLicense, null))
+				props = props.Where(p => p.Name != "TotalUsers").ToArray();
+
 			foreach (var prop in props)
 			{
 				var attrs = prop.GetCustomAttributes(true);

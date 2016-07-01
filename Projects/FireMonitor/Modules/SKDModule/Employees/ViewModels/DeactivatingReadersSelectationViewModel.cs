@@ -74,7 +74,7 @@ namespace SKDModule.ViewModels
 					{
 						UID = linkedDevice.UID,
 						Name = linkedDevice.Name,
-						ZoneName = linkedDevice.Zone.Name,
+						ZoneName = linkedDevice.Zone == null ? null : linkedDevice.Zone.Name,
 						IsChecked = checkedReaderGuids.Any(x => x == linkedDevice.UID)
 					};
 					readerViewModel.AddChild(inReaderViewModel);

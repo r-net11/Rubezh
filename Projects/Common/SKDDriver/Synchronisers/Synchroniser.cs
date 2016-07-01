@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using LinqKit;
 using System;
@@ -15,8 +16,8 @@ namespace StrazhDAL
 		where TTableItem : class, DataAccess.IExternalKey, new()
 		where TExportItem : IExportItem
 	{
-		protected Table<TTableItem> _Table;
-		protected SKDDatabaseService _DatabaseService;
+		protected Table<TTableItem> Table;
+		protected SKDDatabaseService DatabaseService;
 
 		protected abstract string Name { get; }
 
@@ -24,10 +25,10 @@ namespace StrazhDAL
 
 		public string NameXml { get { return Name + ".xml"; } }
 
-		public Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
+		protected Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
 		{
-			_Table = table;
-			_DatabaseService = databaseService;
+			Table = table;
+			DatabaseService = databaseService;
 		}
 
 		public OperationResult<List<TExportItem>> Get(ExportFilter filter)
@@ -35,19 +36,22 @@ namespace StrazhDAL
 			try
 			{
 				var result = new List<TExportItem>();
-				var tableItems = _Table.Where(IsInFilter(filter));
+				var tableItems = Table.Where(IsInFilter(filter));
+
 				foreach (var item in tableItems)
 				{
 					var exportItem = Translate(item);
 					exportItem.UID = item.UID;
 					if (item.ExternalKey == "-1")
 						item.ExternalKey = item.UID.ToString("N");
+
 					exportItem.ExternalKey = item.ExternalKey;
 					exportItem.IsDeleted = item.IsDeleted;
 					exportItem.RemovalDate = item.RemovalDate;
 					result.Add(exportItem);
-					_Table.Context.SubmitChanges();
+					Table.Context.SubmitChanges();
 				}
+
 				return new OperationResult<List<TExportItem>>(result);
 			}
 			catch (Exception e)
@@ -58,23 +62,31 @@ namespace StrazhDAL
 
 		public virtual OperationResult Export(ExportFilter filter)
 		{
+			if (filter == null || string.IsNullOrEmpty(filter.Path))
+			{
+				Logger.Error("Path is empty");
+				return new OperationResult("Path is empty");
+			}
+
 			try
 			{
-				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.Synchronisers.Synchroniser.Export_Error);
+				Directory.CreateDirectory(filter.Path);
 				var getResult = Get(filter);
 				if (getResult.HasError)
 					return new OperationResult(getResult.Error);
+
 				var items = getResult.Result;
 				var serializer = new XmlSerializer(typeof(List<TExportItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
+
 				var newPath = Path.Combine(filter.Path, NameXml);
 				if (File.Exists(newPath))
 					File.Delete(newPath);
 				File.Move(NameXml, newPath);
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -83,42 +95,41 @@ namespace StrazhDAL
 			}
 		}
 
-		private void Save(List<TExportItem> exportItems)
+		private void Save(IEnumerable<TExportItem> exportItems)
 		{
 			foreach (var exportItem in exportItems)
 			{
-				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
+				var tableItem = Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
 				if (tableItem != null)
 				{
 					TranslateBack(exportItem, tableItem);
 				}
 				else
 				{
-					var newTableItem = new TTableItem();
-					if (exportItem.UID != Guid.Empty)
-						newTableItem.UID = exportItem.UID;
-					else
-						newTableItem.UID = Guid.NewGuid();
-					newTableItem.ExternalKey = exportItem.ExternalKey;
-					newTableItem.RemovalDate = TranslatiorHelper.CheckDate(exportItem.RemovalDate);
-					newTableItem.IsDeleted = exportItem.IsDeleted;
+					var newTableItem = new TTableItem
+					{
+						UID = exportItem.UID != Guid.Empty ? exportItem.UID : Guid.NewGuid(),
+						ExternalKey = exportItem.ExternalKey,
+						RemovalDate = TranslatiorHelper.CheckDate(exportItem.RemovalDate),
+						IsDeleted = exportItem.IsDeleted
+					};
 					TranslateBack(exportItem, newTableItem);
-					_Table.InsertOnSubmit(newTableItem);
+					Table.InsertOnSubmit(newTableItem);
 				}
-				_Table.Context.SubmitChanges();
+				Table.Context.SubmitChanges();
 			}
 		}
 
-		private void SaveForignKeys(List<TExportItem> exportItems)
+		private void SaveForignKeys(IEnumerable<TExportItem> exportItems)
 		{
 			foreach (var exportItem in exportItems)
 			{
-				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
+				var tableItem = Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
 				if (tableItem != null)
 				{
 					UpdateForignKeys(exportItem, tableItem);
 				}
-				_Table.Context.SubmitChanges();
+				Table.Context.SubmitChanges();
 			}
 		}
 
@@ -128,20 +139,25 @@ namespace StrazhDAL
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult(Resources.Language.Synchronisers.Synchroniser.Import_Error);
+
 				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Move(fileName, NameXml);
+
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
 					var serializer = new XmlSerializer(typeof(List<TExportItem>));
 					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+
 					if (!filter.IsWithDeleted)
 						importItems = importItems.Where(x => !x.IsDeleted).ToList();
+
 					if (importItems != null)
 					{
 						BeforeSave(importItems);
 						Save(importItems);
 					}
 				}
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -158,11 +174,13 @@ namespace StrazhDAL
 				{
 					var serializer = new XmlSerializer(typeof(List<TExportItem>));
 					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+
 					if (importItems != null)
 					{
 						SaveForignKeys(importItems);
 					}
 				}
+
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -187,8 +205,10 @@ namespace StrazhDAL
 		{
 			var result = PredicateBuilder.True<TTableItem>();
 			result = result.And(e => e != null);
+
 			if (!filter.IsWithDeleted)
 				result = result.And(e => !e.IsDeleted);
+
 			return result;
 		}
 
@@ -201,15 +221,15 @@ namespace StrazhDAL
 		{
 			if (exportItem == null)
 				return "-1";
-			if (exportItem.ExternalKey == "-1")
-				return exportItem.UID.ToString();
-			return exportItem.ExternalKey;
+
+			return exportItem.ExternalKey == "-1" ? exportItem.UID.ToString() : exportItem.ExternalKey;
 		}
 
 		protected Guid GetUIDbyExternalKey<T>(string externalKey, Table<T> table)
 			where T : class, DataAccess.IExternalKey
 		{
 			var organisation = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));
+
 			return organisation != null ? organisation.UID : Guid.Empty;
 		}
 	}

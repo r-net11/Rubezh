@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Common;
 using StrazhAPI;
 using StrazhAPI.Models;
 using Infrastructure.Common.TreeList;
@@ -33,6 +34,19 @@ namespace SecurityModule.ViewModels
 			IsPermission = true;
 		}
 
+		private bool _isReadOnly;
+		public bool IsReadOnly {
+			get { return _isReadOnly; }
+			set
+			{
+				if (_isReadOnly == value)
+					return;
+				_isReadOnly = value;
+				OnPropertyChanged(() => IsReadOnly);
+				SetReadOnlyForChildren(_isReadOnly);
+			}
+		}
+
 		public bool _isChecked;
 		public bool IsChecked
 		{
@@ -63,6 +77,11 @@ namespace SecurityModule.ViewModels
 			{
 				Parent.UpdateParent();
 			}
+		}
+
+		private void SetReadOnlyForChildren(bool isReadOnly)
+		{
+			Nodes.ForEach(child => ((PermissionViewModel)child).IsReadOnly = isReadOnly);
 		}
 	}
 }

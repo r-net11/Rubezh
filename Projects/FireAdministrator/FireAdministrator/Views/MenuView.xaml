@@ -1,6 +1,6 @@
-<UserControl 
-	x:Class="FireAdministrator.Views.MenuView" 
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+<UserControl
+	x:Class="FireAdministrator.Views.MenuView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:connectionIndicator="clr-namespace:Infrastructure.Client.ConnectionIndicator.Views;assembly=Infrastructure.Client">
 	<UserControl.Resources>
@@ -12,7 +12,7 @@
 	</UserControl.Resources>
 	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
 
-		<Menu Name="mainMenu" Height="30" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Menu Name="MainMenu" Height="30" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}">
 			<MenuItem>
 				<MenuItem.Header>
 					<Grid Height="24" Width="24" Background="{Binding LogoSource, Converter={StaticResource StringToResourceConverter}}" ToolTip="Меню" />

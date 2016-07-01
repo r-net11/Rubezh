@@ -43,11 +43,11 @@ namespace StrazhDAL
 
 		protected override void UpdateForignKeys(ExportDepartment exportItem, DataAccess.Department tableItem)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.ContactEmployeeUID = GetUIDbyExternalKey(exportItem.ContactEmployeeExternalKey, _DatabaseService.Context.Employees);
-			tableItem.AttendantUID = GetUIDbyExternalKey(exportItem.AttendantExternalKey, _DatabaseService.Context.Employees);
-			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, DatabaseService.Context.Organisations);
+			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, DatabaseService.Context.Departments);
+			tableItem.ContactEmployeeUID = GetUIDbyExternalKey(exportItem.ContactEmployeeExternalKey, DatabaseService.Context.Employees);
+			tableItem.AttendantUID = GetUIDbyExternalKey(exportItem.AttendantExternalKey, DatabaseService.Context.Employees);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, DatabaseService.Context.Employees);
 		}
 
 		public override void TranslateBack(ExportDepartment exportItem, DataAccess.Department tableItem)

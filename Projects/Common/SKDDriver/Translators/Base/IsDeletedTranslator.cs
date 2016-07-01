@@ -12,7 +12,7 @@ namespace StrazhDAL
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
-		public IsDeletedTranslator(SKDDatabaseService databaseService)
+		protected IsDeletedTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 		}

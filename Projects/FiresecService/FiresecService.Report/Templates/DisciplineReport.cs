@@ -65,7 +65,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Date = dayTimeTrack.Date;
 						dataRow.Weekday = dayTimeTrack.Date.ToString("ddd");
 
-						if (dayTimeTrack.RealTimeTrackParts.Any(x => x.IsForURVZone))
+						if (dayTimeTrack.RealTimeTrackParts.Any(x => x.IsForURVZone && !x.NotTakeInCalculations))
 						{
 							dataRow.FirstEnter = GetFirstEnterString(dayTimeTrack);
 							dataRow.LastExit = GetLastExitString(dayTimeTrack);

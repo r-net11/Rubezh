@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Common;
 using Localization.Security.Errors;
 using Localization.Security.ViewModels;
@@ -24,7 +25,7 @@ namespace SecurityModule.ViewModels
 		{
 			AvailableShellTypes = new ObservableCollection<ShellType>(Enum.GetValues(typeof(ShellType)).Cast<ShellType>().ToList());
 
-			SetRolePermissionsCommand = new RelayCommand(OnSetRolePermissions);
+			SetRolePermissionsCommand = new RelayCommand(OnSetRolePermissions, CanSetRolePermissions);
 
 			if (user != null)
 			{
@@ -47,22 +48,27 @@ namespace SecurityModule.ViewModels
 				};
 			}
 
-			PermissionsViewModel = new PermissionsViewModel(User.PermissionStrings);
+			PermissionsViewModel = new PermissionsViewModel(User.PermissionStrings, IsUserBuiltinAdmin);
 			CopyProperties();
 		}
 
-		void CopyProperties()
+		private void CopyProperties()
 		{
 			Login = User.Login;
 			Name = User.Name;
 			SelectedShellType = User.ShellType;
 
 			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
-				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
+				new RemoteAccessViewModel(new RemoteAccess { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
 				new RemoteAccessViewModel(User.RemoreAccess);
 		}
 
-		PermissionsViewModel _permissionsViewModel;
+		public bool IsUserBuiltinAdmin 
+		{
+			get { return User != null && User.Login == "adm"; }
+		}
+
+		private PermissionsViewModel _permissionsViewModel;
 		public PermissionsViewModel PermissionsViewModel
 		{
 			get { return _permissionsViewModel; }
@@ -73,7 +79,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -84,7 +90,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		string _login;
+		private string _login;
 		public string Login
 		{
 			get { return _login; }
@@ -95,7 +101,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		string _password;
+		private string _password;
 		public string Password
 		{
 			get { return _password != null ? _password : ""; }
@@ -106,7 +112,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		string _passwordConfirmation;
+		private string _passwordConfirmation;
 		public string PasswordConfirmation
 		{
 			get { return _passwordConfirmation != null ? _passwordConfirmation : ""; }
@@ -117,7 +123,7 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		bool _isChangePassword;
+		private bool _isChangePassword;
 		public bool IsChangePassword
 		{
 			get { return _isChangePassword; }
@@ -133,7 +139,7 @@ namespace SecurityModule.ViewModels
 			get { return User != FiresecManager.CurrentUser; }
 		}
 
-		bool CheckLogin()
+		private bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
 			{
@@ -148,7 +154,7 @@ namespace SecurityModule.ViewModels
 			return true;
 		}
 
-		bool CheckPassword()
+		private bool CheckPassword()
 		{
 			if (Password != PasswordConfirmation)
 			{
@@ -158,7 +164,7 @@ namespace SecurityModule.ViewModels
 			return true;
 		}
 
-		void PreventAdminPermissions()
+		private void PreventAdminPermissions()
 		{
 			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
 			{
@@ -191,8 +197,8 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public RelayCommand SetRolePermissionsCommand { get; private set; }
-		void OnSetRolePermissions()
+		public ICommand SetRolePermissionsCommand { get; private set; }
+		private void OnSetRolePermissions()
 		{
 			var roleSelectationViewModel = new RoleSelectationViewModel();
 			if (DialogService.ShowModalWindow(roleSelectationViewModel))
@@ -200,8 +206,12 @@ namespace SecurityModule.ViewModels
 				PermissionsViewModel = new PermissionsViewModel(roleSelectationViewModel.SelectedRole.Role.PermissionStrings);
 			}
 		}
+		private bool CanSetRolePermissions()
+		{
+			return !IsUserBuiltinAdmin;
+		}
 
-		void SaveProperties()
+		private void SaveProperties()
 		{
 			User.Login = Login;
 			User.Name = Name;

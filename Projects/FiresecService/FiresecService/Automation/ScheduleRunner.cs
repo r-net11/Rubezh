@@ -9,34 +9,32 @@ namespace FiresecService
 {
 	public static class ScheduleRunner
 	{
-		private static int timeValidator;
-		private static DateTime startTime;
+		private static int _timeValidator;
+		private static DateTime _startTime;
+		private static Thread _thread;
+		private static AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
 
 		private static int TimeDelta
 		{
-			get { return (int)((DateTime.Now - startTime).TotalSeconds); }
+			get { return (int)((DateTime.Now - _startTime).TotalSeconds); }
 		}
-
-		private static Thread Thread;
-		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		public static void Start()
 		{
-			timeValidator = -1;
-			startTime = DateTime.Now;
-			Thread = new Thread(OnRun);
-			Thread.Start();
+			_timeValidator = -1;
+			_startTime = DateTime.Now;
+			_thread = new Thread(OnRun);
+			_thread.Start();
 		}
 
 		public static void Stop()
 		{
-			if (AutoResetEvent != null)
+			if (_autoResetEvent == null) return;
+
+			_autoResetEvent.Set();
+			if (_thread != null)
 			{
-				AutoResetEvent.Set();
-				if (Thread != null)
-				{
-					Thread.Join(TimeSpan.FromSeconds(2));
-				}
+				_thread.Join(TimeSpan.FromSeconds(2));
 			}
 		}
 
@@ -48,34 +46,32 @@ namespace FiresecService
 
 		private static void OnRun()
 		{
-			AutoResetEvent = new AutoResetEvent(false);
+			_autoResetEvent = new AutoResetEvent(false);
 			while (true)
 			{
-				//Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
-				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				if (_autoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
 					return;
 				}
 
-				timeValidator++;
+				_timeValidator++;
 				foreach (var schedule in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 				{
-					if (timeValidator <= TimeDelta)
+					if (_timeValidator > TimeDelta) continue;
+
+					var dateList = new List<DateTime>();
+					for (var i = 0; i < TimeDelta - _timeValidator; i++)
 					{
-						var dateList = new List<DateTime>();
-						for (int i = 0; i < TimeDelta - timeValidator; i++)
+						dateList.Add(DateTime.Now - TimeSpan.FromSeconds(i));
+					}
+					dateList.Reverse();
+					_timeValidator = TimeDelta - 1;
+					foreach (var date in dateList)
+					{
+						if (CheckSchedule(schedule, date))
 						{
-							dateList.Add(DateTime.Now - TimeSpan.FromSeconds(i));
-						}
-						dateList.Reverse();
-						timeValidator = TimeDelta - 1;
-						foreach (var date in dateList)
-						{
-							if (CheckSchedule(schedule, date))
-							{
-								Trace.WriteLine(DateTime.Now);
-								RunProcedures(schedule);
-							}
+							Trace.WriteLine(DateTime.Now);
+							RunProcedures(schedule);
 						}
 					}
 				}
@@ -94,23 +90,27 @@ namespace FiresecService
 						((schedule.Hour == dateTime.Hour) || (schedule.Hour == -1)) &&
 						((schedule.Minute == dateTime.Minute) || (schedule.Minute == -1)) &&
 						((schedule.Second == dateTime.Second) || (schedule.Second == -1)));
+
 			var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second);
 			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
+
 			if (delta < 0)
 				return false;
+
 			var period = schedule.PeriodDay * 24 * 3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
 			return (delta % period == 0);
 		}
 
 		private static void RunProcedures(AutomationSchedule schedule)
 		{
-			if (schedule.IsActive)
-				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
-				{
-					var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-					if (procedure != null && procedure.IsActive)
-						ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null);
-				}
+			if (!schedule.IsActive) return;
+
+			foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+			{
+				var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+				if (procedure != null && procedure.IsActive)
+					ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null);
+			}
 		}
 	}
 }

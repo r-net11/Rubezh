@@ -45,7 +45,7 @@ namespace StrazhDAL
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description;
 
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
+			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, DatabaseService.Context.Organisations);
 		}
 	}
 }

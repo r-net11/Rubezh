@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
 using System;
@@ -12,46 +13,51 @@ namespace StrazhDAL
 {
 	public class JounalSynchroniser : IDisposable
 	{
-		private Table<DataAccess.Journal> _Table;
+		private readonly Table<DataAccess.Journal> _table;
 
-		private string Name { get { return "Journal"; } }
+		private static string Name { get { return "Journal"; } }
 
 		public string NameXml { get { return Name + ".xml"; } }
 
 		public static string ConnectionString { get; set; }
 
-		private DataAccess.JournalDataContext Context;
+		private readonly DataAccess.JournalDataContext _context;
 
 		public JounalSynchroniser()
 		{
-			Context = new DataAccess.JournalDataContext(ConnectionString);
-			_Table = Context.Journals;
+			_context = new DataAccess.JournalDataContext(ConnectionString);
+			_table = _context.Journals;
 		}
 
 		public OperationResult Export(JournalExportFilter filter)
 		{
+			if (filter == null || string.IsNullOrEmpty(filter.Path))
+			{
+				Logger.Error("Path is empty");
+				return new OperationResult("Path is empty");
+			}
+
 			try
 			{
-				if (!Directory.Exists(filter.Path))
-                    return new OperationResult(Resources.Language.Synchronisers.JournalSynchroniser.Export_Error);
-				var tableItems = _Table.Where(x => x.SystemDate >= TranslatiorHelper.CheckDate(filter.MinDate) & x.SystemDate <= TranslatiorHelper.CheckDate(filter.MaxDate));
+				Directory.CreateDirectory(filter.Path);
+				var tableItems = _table.Where(x => x.SystemDate >= TranslatiorHelper.CheckDate(filter.MinDate) & x.SystemDate <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
-				if (filter.Path != null)
-				{
-					var newPath = Path.Combine(filter.Path, NameXml);
-					if (File.Exists(newPath))
-						File.Delete(newPath);
-					File.Move(NameXml, newPath);
-				}
+
+				var newPath = Path.Combine(filter.Path, NameXml);
+				if (File.Exists(newPath))
+					File.Delete(newPath);
+				File.Move(NameXml, newPath);
+
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e);
 				return new OperationResult(e.Message);
 			}
 		}
@@ -73,7 +79,7 @@ namespace StrazhDAL
 
 		public void Dispose()
 		{
-			Context.Dispose();
+			_context.Dispose();
 		}
 	}
 

@@ -46,7 +46,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TextBlock
-				Text="{x:Static lang:CommonViews.PathToFile}"
+				Text="Путь к папке"
 				Foreground="White"
 				VerticalAlignment="Center"
 				Margin="5"/>

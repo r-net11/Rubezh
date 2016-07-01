@@ -64,7 +64,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel();
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
@@ -78,7 +78,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 			if (!MessageBoxService.ShowQuestion(String.Format(CommonViewModels.Users_DeleteCommand, SelectedUser.User.Name)))
 				return;
@@ -87,13 +87,13 @@ namespace SecurityModule.ViewModels
 
 			ServiceFactory.SaveService.SecurityChanged = true;
 		}
-		bool CanDelete()
+		private bool CanDelete()
 		{
 			return SelectedUser != null && SelectedUser.User != FiresecManager.CurrentUser;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
@@ -105,7 +105,7 @@ namespace SecurityModule.ViewModels
 				ServiceFactory.SaveService.SecurityChanged = true;
 			}
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
 			return SelectedUser != null;
 		}

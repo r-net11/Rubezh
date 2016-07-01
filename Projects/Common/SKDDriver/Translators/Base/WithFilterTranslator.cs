@@ -13,7 +13,7 @@ namespace StrazhDAL
 		where ApiT : SKDModelBase, new()
 		where FilterT : FilterBase
 	{
-		public WithFilterTranslator(SKDDatabaseService databaseService)
+		protected WithFilterTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 		}

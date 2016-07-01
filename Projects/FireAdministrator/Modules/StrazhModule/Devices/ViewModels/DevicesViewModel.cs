@@ -1,3 +1,11 @@
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using Infrustructure.Plans.Events;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -5,27 +13,19 @@ using System.Linq;
 using System.Windows.Input;
 using Localization.Strazh.Common;
 using Localization.Strazh.ViewModels;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
-using Infrastructure;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using StrazhAPI.Plans.Elements;
-using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace StrazhModule.ViewModels
 {
 	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		public static DevicesViewModel Current { get; private set; }
-		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+		private DeviceViewModel _selectedDevice;
 		private bool _lockSelection;
+		private DeviceViewModel _rootDevice;
+		public List<DeviceViewModel> AllDevices;
 
 		public DevicesViewModel()
 		{
-			_lockSelection = false;
 			Menu = new DevicesMenuViewModel(this);
 			Current = this;
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
@@ -34,6 +34,41 @@ namespace StrazhModule.ViewModels
 			SubscribeEvents();
 			SetRibbonItems();
 		}
+
+		#region Properties
+
+		public static DevicesViewModel Current { get; private set; }
+		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
+				UpdateRibbonItems();
+				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
+					ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
+			}
+		}
+
+		public DeviceViewModel RootDevice
+		{
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged(() => RootDevice);
+			}
+		}
+
+		public DeviceViewModel[] RootDevices
+		{
+			get { return new[] { RootDevice }; }
+		}
+
+		#endregion
 
 		public void Initialize()
 		{
@@ -58,16 +93,13 @@ namespace StrazhModule.ViewModels
 			OnPropertyChanged(() => RootDevices);
 		}
 
-		#region DeviceSelection
-		public List<DeviceViewModel> AllDevices;
-
 		public void FillAllDevices()
 		{
 			AllDevices = new List<DeviceViewModel>();
 			AddChildPlainDevices(RootDevice);
 		}
 
-		void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		private void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
 			foreach (var childViewModel in parentViewModel.Children)
@@ -76,48 +108,17 @@ namespace StrazhModule.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			if (deviceUID != Guid.Empty)
-			{
-				FillAllDevices();
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-				if (deviceViewModel != null)
-					deviceViewModel.ExpandToThis();
-				SelectedDevice = deviceViewModel;
-			}
-		}
-		#endregion
+			if (deviceUID == Guid.Empty) return;
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				OnPropertyChanged(() => SelectedDevice);
-				UpdateRibbonItems();
-				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
-			}
+			FillAllDevices();
+			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceViewModel != null)
+				deviceViewModel.ExpandToThis();
+
+			SelectedDevice = deviceViewModel;
 		}
 
-		DeviceViewModel _rootDevice;
-		public DeviceViewModel RootDevice
-		{
-			get { return _rootDevice; }
-			private set
-			{
-				_rootDevice = value;
-				OnPropertyChanged(() => RootDevice);
-			}
-		}
-
-		public DeviceViewModel[] RootDevices
-		{
-			get { return new DeviceViewModel[] { RootDevice }; }
-		}
-
-		void BuildTree()
+		private void BuildTree()
 		{
 			RootDevice = AddDeviceInternal(SKDManager.SKDConfiguration.RootDevice, null);
 			FillAllDevices();
@@ -129,14 +130,16 @@ namespace StrazhModule.ViewModels
 			FillAllDevices();
 			return deviceViewModel;
 		}
-		private DeviceViewModel AddDeviceInternal(SKDDevice device, DeviceViewModel parentDeviceViewModel)
+		private static DeviceViewModel AddDeviceInternal(SKDDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
+
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
+
 			return deviceViewModel;
 		}
 
@@ -186,28 +189,27 @@ namespace StrazhModule.ViewModels
 
 		private void SubscribeEvents()
 		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		private void OnDeviceChanged(Guid deviceUID)
 		{
 			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (device != null)
+			if (device == null) return;
+
+			device.Update();
+			// TODO: FIX IT
+			if (!_lockSelection)
 			{
-				device.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-				{
-					device.ExpandToThis();
-					SelectedDevice = device;
-				}
+				device.ExpandToThis();
+				SelectedDevice = device;
 			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -215,7 +217,7 @@ namespace StrazhModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				ElementSKDDevice elementDevice = element as ElementSKDDevice;
+				var elementDevice = element as ElementSKDDevice;
 				if (elementDevice != null)
 					OnDeviceChanged(elementDevice.DeviceUID);
 			});
@@ -223,22 +225,12 @@ namespace StrazhModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementSKDDevice elementSKDDevice = element as ElementSKDDevice;
-			if (elementSKDDevice != null)
-			{
-				_lockSelection = true;
-				Select(elementSKDDevice.DeviceUID);
-				_lockSelection = false;
-			}
-		}
+			var elementSKDDevice = element as ElementSKDDevice;
+			if (elementSKDDevice == null) return;
 
-		public override void OnShow()
-		{
-			base.OnShow();
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
+			_lockSelection = true;
+			Select(elementSKDDevice.DeviceUID);
+			_lockSelection = false;
 		}
 
 		protected override void UpdateRibbonItems()
@@ -250,15 +242,15 @@ namespace StrazhModule.ViewModels
 		}
 		private void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel(CommonResources.Add, "BAdd"),
 					new RibbonMenuItemViewModel(CommonResources.Edit, "BEdit"),
 					new RibbonMenuItemViewModel(CommonResources.Delete, "BDelete"),
 				}, "BEdit") { Order = 1 } ,
-				new RibbonMenuItemViewModel(CommonResources.Device, new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonResources.Device, new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel(CommonViewModels.Devices_ControllerParams, DeviceCommandsViewModel.ShowControllerConfigurationCommand, "BParametersWrite"),
 					new RibbonMenuItemViewModel(CommonViewModels.Devices_DoorParams, DeviceCommandsViewModel.ShowLockConfigurationCommand, "BInformation") { IsNewGroup = true },

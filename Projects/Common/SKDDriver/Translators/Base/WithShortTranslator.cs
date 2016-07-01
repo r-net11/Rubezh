@@ -12,7 +12,7 @@ namespace StrazhDAL
 		where TFilter : OrganisationFilterBase
 		where TShort : class, IOrganisationElement, new()
 	{
-		public WithShortTranslator(SKDDatabaseService databaseService)
+		protected WithShortTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 		}

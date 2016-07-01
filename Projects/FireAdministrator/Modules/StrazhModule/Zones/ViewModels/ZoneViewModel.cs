@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using StrazhAPI;
-using StrazhAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Events;
-using StrazhModule.Events;
-using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Events;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.ViewModels
 {

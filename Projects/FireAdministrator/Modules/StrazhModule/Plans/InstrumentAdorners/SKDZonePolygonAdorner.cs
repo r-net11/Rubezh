@@ -1,20 +1,19 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using StrazhAPI.Models;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
-using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
-using StrazhModule.Plans.Designer;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.SKD;
 using StrazhModule.Plans.ViewModels;
 using StrazhModule.ViewModels;
-using StrazhAPI.SKD;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace StrazhModule.Plans.InstrumentAdorners
 {
 	public class SKDZonePolygonAdorner : BasePolygonAdorner
 	{
-		private ZonesViewModel _zonesViewModel;
+		private readonly ZonesViewModel _zonesViewModel;
 		public SKDZonePolygonAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{

@@ -26,6 +26,10 @@ namespace SKDModule.ViewModels
 	{
 		#region Fields
 
+		private const int InitialPageNumber = 1;
+		private bool _isEnabledTimeTrackFilter;
+		private bool _isBisy;
+		private bool _canShowDocumentTypes;
 		readonly TimeTrackFilter _timeTrackFilter;
 		private TimeTrack _selectedTimeTrack;
 		private bool _hasSelectedTimeTrack;
@@ -42,7 +46,6 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region Properties
-		private bool _isEnabledTimeTrackFilter;
 
 		public bool IsEnabledTimeTrackFilter
 		{
@@ -55,8 +58,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsEnabledTimeTrackFilter);
 			}
 		}
-
-		private bool _isBisy;
 
 		public bool IsBisy
 		{
@@ -102,8 +103,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _canShowDocumentTypes;
-
+		
 		public bool CanShowDocumentTypes
 		{
 			get { return _canShowDocumentTypes; }
@@ -117,7 +117,7 @@ namespace SKDModule.ViewModels
 
 		public int TotalPageNumber
 		{
-			get { return _totalPageNumber != null ? _totalPageNumber.Value : default(int); }
+			get { return (_totalPageNumber != null && _totalPageNumber.Value != 0) ? _totalPageNumber.Value : InitialPageNumber; }
 		}
 
 
@@ -160,6 +160,7 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackingViewModel()
 		{
+			_pageNumber = InitialPageNumber;
 			SubscribeOnEvents();
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter, () => !IsBisy);
@@ -172,12 +173,12 @@ namespace SKDModule.ViewModels
 			_timeTrackFilter = CreateTimeTrackFilter();
 			UpdateGrid();
 
-			var canSelectPreviousPage = this.WhenAny(x => x.PageNumber, x => (x.Value > default(int)));
+			var canSelectPreviousPage = this.WhenAny(x => x.PageNumber, x => (x.Value > InitialPageNumber));
 			PreviousPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
 			PreviousPageCommand.RegisterAsyncAction(_ => PageNumber--);
 
 			FirstPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
-			FirstPageCommand.RegisterAsyncAction(_ => PageNumber = default(int));
+			FirstPageCommand.RegisterAsyncAction(_ => PageNumber = InitialPageNumber);
 
 			var canSelectNextPage = this.ObservableForProperty(x => x.TotalPageNumber).Select(x => x.Value > PageNumber)
 				.Merge(this.WhenAny(x => x.PageNumber, x => (_cachedTimeTracks != null && (x.Value < TotalPageNumber))));
@@ -209,7 +210,7 @@ namespace SKDModule.ViewModels
 
 			var resultsTotalPages =
 				executeUpdateTotalPageCounterCommand.RegisterAsyncFunction(
-					x => _cachedTimeTracks != null ? ((_cachedTimeTracks.Count - 1)/RecordsPerPage + 1) - 1 : default(int));
+					x => _cachedTimeTracks != null ? ((_cachedTimeTracks.Count - 1)/RecordsPerPage + 1) - 1 : InitialPageNumber);
 			_executeUpdateTotalPageCounterCommand = executeUpdateTotalPageCounterCommand;
 
 			var results = executeSearchCommand.RegisterAsyncFunction(s => ExecuteSearch((int) s));
@@ -218,10 +219,8 @@ namespace SKDModule.ViewModels
 			this.WhenAny(x => x.IsActive, x => x.PageNumber, x => x.IsFilterAccepted,
 				(isActive, pageNumber, isFilterAccepted) =>
 					new {IsActive = isActive.Value, PageNumber = pageNumber.Value, IsFilterAccepted = isFilterAccepted.Value})
-				//.Throttle(TimeSpan.FromMilliseconds(1000))
 				.Select(x => new {x.PageNumber, x.IsFilterAccepted})
-				.Where(x => (x.PageNumber >= default(int) && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
-				//	.ObserveOn(RxApp.TaskpoolScheduler)
+				.Where(x => (x.PageNumber >= InitialPageNumber && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
 				.Subscribe(value =>
 				{
 					IsBisy = true;
@@ -268,12 +267,13 @@ namespace SKDModule.ViewModels
 
 		private ObservableCollection<TimeTrack> ExecuteSearch(int pageNumber)
 		{
+			var pageNum = pageNumber - 1; //Так как номер страницы начинается с единицы, то необходимо вычесть её, при осуществлении поиска записей.
 			return _cachedTimeTracks == null
 				? null
-				: new ObservableCollection<TimeTrack>(_cachedTimeTracks.Skip(pageNumber * RecordsPerPage).Take(RecordsPerPage));
+				: new ObservableCollection<TimeTrack>(_cachedTimeTracks.Skip(pageNum * RecordsPerPage).Take(RecordsPerPage));
 		}
 
-		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
+		private static TimeTrackFilter CreateTimeTrackFilter()
 		{
 			return new TimeTrackFilter
 			{
@@ -294,7 +294,7 @@ namespace SKDModule.ViewModels
 			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
 		}
 
-		private Guid GetFirstOrganizationUID()
+		private static Guid GetFirstOrganizationUID()
 		{
 			var resp = OrganisationHelper.GetByCurrentUser();
 
@@ -317,13 +317,13 @@ namespace SKDModule.ViewModels
 			_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 			_cachedTimeTracks =
 				_timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x))
-					.OrderBy(x => x.ShortEmployee.FirstName)
+					.OrderBy(x => x.ShortEmployee.FIO)
 					.ToList();
 
 			if (_executeSearchCommand != null)
 				_executeSearchCommand.Execute(PageNumber);
 
-			RowHeight = 60 + 20*_timeTrackFilter.TotalTimeTrackTypeFilters.Count;
+			RowHeight = 60 + 20 * _timeTrackFilter.TotalTimeTrackTypeFilters.Count;
 		}
 
 		private TimeTrackResult GetServerTimeTrackResults()

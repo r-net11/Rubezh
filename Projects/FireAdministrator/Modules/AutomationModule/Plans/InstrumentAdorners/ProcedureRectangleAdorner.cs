@@ -11,7 +11,8 @@ namespace AutomationModule.Plans.InstrumentAdorners
 {
 	public class ProcedureRectangleAdorner : BaseRectangleAdorner
 	{
-		private ProceduresViewModel _proceduresViewModel;
+		private readonly ProceduresViewModel _proceduresViewModel;
+
 		public ProcedureRectangleAdorner(CommonDesignerCanvas designerCanvas, ProceduresViewModel proceduresViewModel)
 			: base(designerCanvas)
 		{

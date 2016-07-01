@@ -9,7 +9,8 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeSelectationViewModel : BaseViewModel
 	{
-		EmployeeFilter _filter;
+		private readonly EmployeeFilter _filter;
+		private ShortEmployee _selectedEmployee;
 
 		public EmployeeSelectationViewModel(Guid chiefUID, EmployeeFilter filter)
 		{
@@ -18,7 +19,6 @@ namespace SKDModule.ViewModels
 			_filter = filter;
 		}
 
-		ShortEmployee _selectedEmployee;
 		public ShortEmployee SelectedEmployee
 		{
 			get { return _selectedEmployee; }
@@ -29,16 +29,17 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => HasSelected);
 			}
 		}
+
 		public bool HasSelected
 		{
 			get { return SelectedEmployee != null && !SelectedEmployee.IsDeleted; }
 		}
+
 		public Guid SelectedEmployeeUID
 		{
 			get { return SelectedEmployee != null ? SelectedEmployee.UID : Guid.Empty; }
 		}
 
-		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
 			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(HasSelected ? SelectedEmployee.UID : Guid.Empty, _filter);
@@ -47,5 +48,7 @@ namespace SKDModule.ViewModels
 				SelectedEmployee = employeeSelectionViewModel.SelectedEmployee;
 			}
 		}
+
+		public RelayCommand SelectCommand { get; private set; }
 	}
 }

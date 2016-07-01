@@ -105,7 +105,7 @@ namespace FiresecService.Service
 		private static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
 		{
 			if (File.Exists(configFileName))
-				File.Delete(configFileName);
+				File.Delete(configFileName);//TODO: Handle IOException. The process cannot access the file 'C:\ProgramData\Strazh\Server\Config.fscp' because it is being used by another process.
 
 			var zipFile = new ZipFile(configFileName);
 			zipFile.AddDirectory(configDirectory);

@@ -18,7 +18,7 @@ namespace StrazhAPI.Models
 		public Guid ZoneUID { get; set; }
 
 		[XmlIgnore]
-		public bool IsHiddenZone
+		public bool IsHiddenZone //TODO: Remove it
 		{
 			get { return false; }
 			set { }

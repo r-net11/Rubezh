@@ -169,7 +169,6 @@
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\DBHelper\EntLibHelper.cs" />
     <Compile Include="Service\FiresecService.Integration.cs" />
     <Compile Include="Service\FiresecService.Reporting.cs" />
     <Compile Include="Service\SafeFiresecService.Integration.cs" />

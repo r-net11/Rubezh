@@ -15,14 +15,30 @@ namespace FiresecService.Report.Export
 
 		public ReportExporter(ReportExportFilter filter)
 		{
+			if (filter == null || string.IsNullOrEmpty(filter.Path))
+			{
+				Logger.Error("Path is empty");
+				return;
+			}
+
 			_filter = filter;
 		}
 
 		public void Execute()
 		{
 			var skdReportFilter = InitializeFilterFromExport(_filter);
-			var report = ReportFactory.CreateReport(_filter.ReportType, skdReportFilter);
-			ExportReport(report, _filter.ReportFormat, GetPath(report, _filter));
+			try
+			{
+				var report = ReportFactory.CreateReport(_filter.ReportType, skdReportFilter);
+				Directory.CreateDirectory(_filter.Path);
+
+				ExportReport(report, _filter.ReportFormat, GetPath(report, _filter));
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				throw;
+			}
 		}
 
 		protected SKDReportFilter InitializeFilterFromExport(ReportExportFilter filter)
@@ -72,7 +88,7 @@ namespace FiresecService.Report.Export
 			return Path.Combine(filter.Path, GetReportName(report, filter));
 		}
 
-		private string GetReportName(BaseReport report, ReportExportFilter filter)
+		private static string GetReportName(BaseReport report, ReportExportFilter filter)
 		{
 			var result = report.GetType().Name;
 

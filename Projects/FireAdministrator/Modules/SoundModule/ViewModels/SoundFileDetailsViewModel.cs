@@ -1,17 +1,16 @@
 ﻿using Localization.Automation.Common;
-using StrazhAPI.Automation;
-using StrazhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using StrazhAPI.Automation;
 using Localization.Automation.ViewModels;
 
-namespace AutomationModule.ViewModels
+namespace SoundsModule.ViewModels
 {
-	public class SoundDetailsViewModel : SaveCancelDialogViewModel
+	public class SoundFileDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public AutomationSound Sound { get; private set; }
 
-		public SoundDetailsViewModel(AutomationSound sound)
+		public SoundFileDetailsViewModel(AutomationSound sound)
 		{
             Title = CommonViewModels.SoundDetailsViewModel_Title;
 			Sound = sound;

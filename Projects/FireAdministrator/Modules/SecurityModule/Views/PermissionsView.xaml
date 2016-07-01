@@ -38,7 +38,10 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<StackPanel Orientation="Horizontal">
+											<StackPanel
+												Orientation="Horizontal"
+												IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBooleanConverter}}"
+>
 												<CheckBox Margin="5 2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 													<StackPanel Orientation="Horizontal">
 														<Image

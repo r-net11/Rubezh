@@ -234,6 +234,8 @@
     <Compile Include="Models\Plans\ElementBaseRectangle.cs" />
     <Compile Include="Models\Plans\ElementBaseShape.cs" />
     <Compile Include="Models\Plans\ElementError.cs" />
+    <Compile Include="Models\Plans\ElementPolygonOPCZone.cs" />
+    <Compile Include="Models\Plans\ElementRectangleOPCZone.cs" />
     <Compile Include="Models\Plans\ElementType.cs" />
     <Compile Include="Models\Plans\IChangedNotification.cs" />
     <Compile Include="Models\Plans\IElementBackground.cs" />

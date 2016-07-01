@@ -1,115 +1,110 @@
-using System;
-using System.Collections.Generic;
 using Localization.Strazh.Common;
-using StrazhAPI;
-using StrazhAPI.Enums;
-using StrazhAPI.Models;
-using StrazhAPI.Models.Layouts;
-using StrazhAPI.SKD.Device;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.Device;
 using StrazhModule.Events;
 using StrazhModule.Plans;
 using StrazhModule.Validation;
 using StrazhModule.ViewModels;
-using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
 
 namespace StrazhModule
 {
 	public class StrazhModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		DevicesViewModel DevicesViewModel;
-		ZonesViewModel ZonesViewModel;
-		DoorsViewModel DoorsViewModel;
-		DayIntervalsViewModel DayIntervalsViewModel;
-		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
-		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
-		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
-		HolidaysViewModel HolidaysViewModel;
-		LibraryViewModel LibraryViewModel;
-		SKDPlanExtension _planExtension;
-		DoorDayIntervalsViewModel DoorDayIntervalsViewModel;
-		DoorWeeklyIntervalsViewModel DoorWeeklyIntervalsViewModel;
+		private DevicesViewModel _devicesViewModel;
+		private ZonesViewModel _zonesViewModel;
+		private DoorsViewModel _doorsViewModel;
+		private DayIntervalsViewModel _dayIntervalsViewModel;
+		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
+		private SlideDayIntervalsViewModel _slideDayIntervalsViewModel;
+		private SlideWeekIntervalsViewModel _slideWeekIntervalsViewModel;
+		private HolidaysViewModel _holidaysViewModel;
+		private LibraryViewModel _libraryViewModel;
+		private SKDPlanExtension _planExtension;
+		private DoorDayIntervalsViewModel _doorDayIntervalsViewModel;
+		private DoorWeeklyIntervalsViewModel _doorWeeklyIntervalsViewModel;
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
-			ServiceFactory.Events.GetEvent<EditSKDZoneEvent>().Subscribe(OnEditSKDZone);
-			ServiceFactory.Events.GetEvent<CreateDoorEvent>().Subscribe(OnCreateDoor);
-			ServiceFactory.Events.GetEvent<EditDoorEvent>().Subscribe(OnEditDoor);
+			ServiceFactoryBase.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
+			ServiceFactoryBase.Events.GetEvent<EditSKDZoneEvent>().Subscribe(OnEditSKDZone);
+			ServiceFactoryBase.Events.GetEvent<CreateDoorEvent>().Subscribe(OnCreateDoor);
+			ServiceFactoryBase.Events.GetEvent<EditDoorEvent>().Subscribe(OnEditDoor);
 
-			DevicesViewModel = new DevicesViewModel();
-			ZonesViewModel = new ZonesViewModel();
-			DoorsViewModel = new DoorsViewModel();
-			DayIntervalsViewModel = new DayIntervalsViewModel();
-			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
-			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
-			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
-			HolidaysViewModel = new HolidaysViewModel();
-			LibraryViewModel = new LibraryViewModel();
-			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
-			DoorDayIntervalsViewModel = new DoorDayIntervalsViewModel();
-			DoorWeeklyIntervalsViewModel = new DoorWeeklyIntervalsViewModel();
+			_devicesViewModel = new DevicesViewModel();
+			_zonesViewModel = new ZonesViewModel();
+			_doorsViewModel = new DoorsViewModel();
+			_dayIntervalsViewModel = new DayIntervalsViewModel();
+			_weeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
+			_slideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
+			_slideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
+			_holidaysViewModel = new HolidaysViewModel();
+			_libraryViewModel = new LibraryViewModel();
+			_planExtension = new SKDPlanExtension(_devicesViewModel, _zonesViewModel, _doorsViewModel);
+			_doorDayIntervalsViewModel = new DoorDayIntervalsViewModel();
+			_doorWeeklyIntervalsViewModel = new DoorWeeklyIntervalsViewModel();
 		}
 
 		public override void Initialize()
 		{
-			DevicesViewModel.Initialize();
-			ZonesViewModel.Initialize();
-			DoorsViewModel.Initialize();
+			_devicesViewModel.Initialize();
+			_zonesViewModel.Initialize();
+			_doorsViewModel.Initialize();
 
-			DayIntervalsViewModel.Initialize();
-			WeeklyIntervalsViewModel.Initialize();
-			SlideDayIntervalsViewModel.Initialize();
-			SlideWeekIntervalsViewModel.Initialize();
-			HolidaysViewModel.Initialize();
+			_dayIntervalsViewModel.Initialize();
+			_weeklyIntervalsViewModel.Initialize();
+			_slideDayIntervalsViewModel.Initialize();
+			_slideWeekIntervalsViewModel.Initialize();
+			_holidaysViewModel.Initialize();
 
 			_planExtension.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
-			DoorDayIntervalsViewModel.Initialize();
-			DoorWeeklyIntervalsViewModel.Initialize();
+			_doorDayIntervalsViewModel.Initialize();
+			_doorWeeklyIntervalsViewModel.Initialize();
 		}
 
 		public override void AfterInitialize()
 		{
 			base.AfterInitialize();
-			SafeFiresecService.NewSearchDeviceEvent -= new Action<SKDDeviceSearchInfo>(OnNewSearchDeviceEvent);
-			SafeFiresecService.NewSearchDeviceEvent += new Action<SKDDeviceSearchInfo>(OnNewSearchDeviceEvent);
+			SafeFiresecService.NewSearchDeviceEvent -= OnNewSearchDeviceEvent;
+			SafeFiresecService.NewSearchDeviceEvent += OnNewSearchDeviceEvent;
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
+			return new List<NavigationItem>
 			{
-				new NavigationItem(ModuleType.ToDescription(), "SKDW", new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), "SKDW", new List<NavigationItem>
 				{
-					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, CommonResources.Devices, "Tree", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDZoneEvent, Guid>(ZonesViewModel, CommonResources.Zones, "Zones", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDDoorEvent, Guid>(DoorsViewModel, CommonResources.Doors, "DoorW", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDDeviceEvent, Guid>(_devicesViewModel, CommonResources.Devices, "Tree", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDZoneEvent, Guid>(_zonesViewModel, CommonResources.Zones, "Zones", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDDoorEvent, Guid>(_doorsViewModel, CommonResources.Doors, "DoorW", null, null, Guid.Empty),
 					new NavigationItem(CommonResources.LockSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(DoorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(DoorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
-					new NavigationItem(CommonResources.AccessSchedules, "ShedulesW", new List<NavigationItem>()
+					new NavigationItem(CommonResources.AccessSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(DayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
-						//new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "SheduleSlideDaylyW", null, null, -1),
-						//new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "SheduleSlideWeeklyW", null, null, -1),
-						//new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
 					#if DEBUG
-					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, CommonResources.Library, "Book"),
+					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, CommonResources.Library, "Book"),
 					#endif
 				}) {IsExpanded = true},
 			};
@@ -141,28 +136,24 @@ namespace StrazhModule
 
 		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
 		{
-			ZonesViewModel.CreateZone(createZoneEventArg);
+			_zonesViewModel.CreateZone(createZoneEventArg);
 		}
 		private void OnEditSKDZone(Guid zoneUID)
 		{
-			ZonesViewModel.EditZone(zoneUID);
+			_zonesViewModel.EditZone(zoneUID);
 		}
 		private void OnCreateDoor(CreateDoorEventArg createDoorEventArg)
 		{
-			DoorsViewModel.CreateDoor(createDoorEventArg);
+			_doorsViewModel.CreateDoor(createDoorEventArg);
 		}
 		private void OnEditDoor(Guid doorUID)
 		{
-			DoorsViewModel.EditDoor(doorUID);
+			_doorsViewModel.EditDoor(doorUID);
 		}
 
-		private void OnNewSearchDeviceEvent(SKDDeviceSearchInfo skdDeviceSearchInfo)
+		private static void OnNewSearchDeviceEvent(SKDDeviceSearchInfo skdDeviceSearchInfo)
 		{
-			ApplicationService.Invoke(() =>
-			{
-				ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>()
-					.Publish(new List<SKDDeviceSearchInfo>() {skdDeviceSearchInfo});
-			});
+			ApplicationService.Invoke(() => ServiceFactoryBase.Events.GetEvent<SKDSearchDeviceEvent>().Publish(new List<SKDDeviceSearchInfo> {skdDeviceSearchInfo}));
 		}
 
 		#region ILayoutDeclarationModule Members

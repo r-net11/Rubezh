@@ -79,7 +79,7 @@ namespace FireMonitor.Layout.ViewModels
 			_soundViewModel = new SoundViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.PlaySoundCommand) { IsNewGroup = true },
+				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.SoundOnOffCommand) { IsNewGroup = true },
 			}, "BConfig"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
