@@ -294,7 +294,7 @@ namespace SKDModule.ViewModels
 			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
 		}
 
-		private Guid GetFirstOrganizationUID()
+		private static Guid GetFirstOrganizationUID()
 		{
 			var resp = OrganisationHelper.GetByCurrentUser();
 
