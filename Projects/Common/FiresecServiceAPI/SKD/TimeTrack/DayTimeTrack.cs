@@ -708,52 +708,59 @@ namespace StrazhAPI.SKD
 			return resultCollection;
 		}
 
+		/// <summary>
+		/// Получает интервал, в пределах которого ведётся расчёт документа, основываясь на времени начала и конца длительности оправдательного документа.
+		/// </summary>
+		/// <param name="document">Оправдательный документ</param>
+		/// <returns>Интервал для расчёта, длительность которого расчитывается на базе интервала длительности оправдательного документа</returns>
+		private TimeTrackPart InitializeTimeTrackPartBasedOnDocument(TimeTrackDocument document)
+		{
+			var isDurationMoreThanOneDay = document.StartDateTime.Date < Date && document.EndDateTime.Date > Date;
+			var isDurationTillTomorrow = document.StartDateTime.Date == Date && document.EndDateTime.Date > Date;
+			var isDurationFromYesterday = document.StartDateTime.Date < Date && document.EndDateTime.Date == Date;
+
+			if (isDurationMoreThanOneDay)
+				return new TimeTrackPart
+				{
+					EnterDateTime = Date.Date,
+					ExitDateTime = Date.AddDays(1).AddTicks(-1)
+				};
+
+			if (isDurationTillTomorrow)
+				return new TimeTrackPart
+				{
+					EnterDateTime = document.StartDateTime,
+					ExitDateTime = document.StartDateTime.AddDays(1).AddTicks(-1)
+				};
+
+			if (isDurationFromYesterday)
+				return new TimeTrackPart
+				{
+					EnterDateTime = Date.Date,
+					ExitDateTime = document.EndDateTime
+				};
+
+			return new TimeTrackPart
+			{
+				EnterDateTime = document.StartDateTime,
+				ExitDateTime = document.EndDateTime
+			};
+		}
+
 		private void CalculateDocuments()
 		{
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
-				TimeTrackPart timeTrackPart = null;
-				//TODO: Move document parts to separete collections for calculating and presentation
-				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
-						ExitDateTime = new DateTime(Date.Year, Date.Month, (Date.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
-					};
-				}
-				if (document.StartDateTime.Date == Date && document.EndDateTime.Date > Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = document.StartDateTime,
-						ExitDateTime = new DateTime(document.StartDateTime.Year, document.StartDateTime.Month, (document.StartDateTime.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
-					};
-				}
-				if (document.StartDateTime.Date == Date && document.EndDateTime.Date == Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = document.StartDateTime,
-						ExitDateTime = document.EndDateTime
-					};
-				}
-				if (document.StartDateTime.Date < Date && document.EndDateTime.Date == Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
-						ExitDateTime = document.EndDateTime
-					};
-				}
-				if (timeTrackPart != null)
-				{
-					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
-					timeTrackPart.IsOutside = document.IsOutside;
-					DocumentTrackParts.Add(timeTrackPart);
-				}
+				var timeTrackPart = InitializeTimeTrackPartBasedOnDocument(document);
+
+				if (timeTrackPart == null) continue;
+
+				timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
+				timeTrackPart.IsOutside = document.IsOutside;
+				DocumentTrackParts.Add(timeTrackPart);
 			}
+
 			DocumentTrackParts = DocumentTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
 			var dateTimes = new List<DateTime?>();
