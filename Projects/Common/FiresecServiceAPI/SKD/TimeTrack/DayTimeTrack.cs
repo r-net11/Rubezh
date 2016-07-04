@@ -1309,7 +1309,7 @@ namespace StrazhAPI.SKD
 					}
 					else
 						LetterCode = SlideTime == TimeSpan.Zero
-							? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F")
+							? PlannedTimeTrackParts.Sum(x => (x.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : x.Delta).TotalHours).ToString("F")
 							: SlideTime.TotalHours.ToString("F");
 				}
 			}

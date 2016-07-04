@@ -104,7 +104,6 @@ namespace SKDModule.Views
 							timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
 						if (timeTrackPart.EndsInNextDay)
 							timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
-						//timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 					}
 				}
 

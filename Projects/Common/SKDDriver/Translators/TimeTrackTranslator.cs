@@ -278,7 +278,8 @@ namespace StrazhDAL
 									EnterDateTime = new DateTime() + new TimeSpan(),  //new TimeSpan(),
 									ExitDateTime = new DateTime() + TimeSpan.FromSeconds(nightInterval.EndTime - 60*60*24),
 									StartsInPreviousDay = true,
-									DayName = previousDayInterval.Name
+									DayName = previousDayInterval.Name,
+									TimeTrackPartType = ((DayIntervalPartType)nightInterval.Type == DayIntervalPartType.Break) ? TimeTrackType.Break : TimeTrackType.Presence
 								};
 							}
 						}
