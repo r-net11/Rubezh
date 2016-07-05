@@ -624,4 +624,7 @@
   <data name="GuardZone" xml:space="preserve">
     <value>Охранная зона</value>
   </data>
+  <data name="PathToFolder" xml:space="preserve">
+    <value>Путь к папке</value>
+  </data>
 </root>

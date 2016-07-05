@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using StrazhAPI.GK;
+using Localization.Sounds.Common;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using Infrastructure;
@@ -13,7 +11,7 @@ namespace SoundsModule.ViewModels
 {
 	public class SoundAssignmentViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+        public string DefaultName = CommonResources.None;
 
 		public Sound Sound { get; private set; }
 

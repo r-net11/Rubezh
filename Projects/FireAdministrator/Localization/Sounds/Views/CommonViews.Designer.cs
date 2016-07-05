@@ -79,11 +79,47 @@ namespace Localization.Sounds.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event.
+        /// </summary>
+        public static string Event {
+            get {
+                return ResourceManager.GetString("Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sound.
         /// </summary>
         public static string Sound {
             get {
                 return ResourceManager.GetString("Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound attach.
+        /// </summary>
+        public static string SoundAttach {
+            get {
+                return ResourceManager.GetString("SoundAttach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound files.
+        /// </summary>
+        public static string SoundFiles {
+            get {
+                return ResourceManager.GetString("SoundFiles", resourceCulture);
             }
         }
         

@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Sounds.ViewModels;
 using Microsoft.Win32;
 using StrazhAPI.Automation;
 using StrazhAPI.Models;
@@ -100,8 +101,8 @@ namespace SoundsModule.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-				Filter = "Звуковой файл |*.wav",
-				DefaultExt = "Звуковой файл |*.wav"
+				Filter = CommonViewModels.SoundFile,
+                DefaultExt = CommonViewModels.SoundFile
 			};
 			if (openFileDialog.ShowDialog().Value)
 			{
@@ -127,7 +128,7 @@ namespace SoundsModule.ViewModels
 		public ICommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (!MessageBoxService.ShowConfirmation("Удалить выбранный звук из системы?"))
+			if (!MessageBoxService.ShowConfirmation(CommonViewModels.DeleteSoundFIle))
 				return;
 
 			var index = Sounds.IndexOf(SelectedSound);

@@ -1,7 +1,8 @@
-﻿using Common;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Localization.Sounds.ViewModels;
 using Localization.Sounds.Common;
-using StrazhAPI.GK;
-using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
@@ -42,8 +43,8 @@ namespace SoundsModule.ViewModels
 			SelectedTabIndex = 0;
 		}
 
-		public ICommand AddCommand { get; private set; }
 
+        public ICommand AddCommand { get; private set; }
 		public ICommand EditCommand { get; private set; }
 
 		public ICommand DeleteCommand { get; private set; }
@@ -56,12 +57,12 @@ namespace SoundsModule.ViewModels
 			if (RibbonItems == null)
 				RibbonItems = new List<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+					new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>()
 					{
-						new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-						new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-						new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-						new RibbonMenuItemViewModel("Воспроизвести", PlaySoundCommand, "BPlay"),
+						new RibbonMenuItemViewModel(CommonResources.Add, AddCommand, "BAdd"),
+						new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+						new RibbonMenuItemViewModel(CommonResources.Delete, DeleteCommand, "BDelete"),
+						new RibbonMenuItemViewModel(CommonResources.Play, PlaySoundCommand, "BPlay"),
 					}, "BEdit") { Order = 2 }
 				};
 		}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using FiresecClient;
 using Localization.Plans.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;

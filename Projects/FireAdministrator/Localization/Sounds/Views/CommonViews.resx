@@ -123,8 +123,20 @@
   <data name="Continuously" xml:space="preserve">
     <value>Continuously</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Sound" xml:space="preserve">
     <value>Sound</value>
+  </data>
+  <data name="SoundAttach" xml:space="preserve">
+    <value>Sound attach</value>
+  </data>
+  <data name="SoundFiles" xml:space="preserve">
+    <value>Sound files</value>
   </data>
   <data name="State" xml:space="preserve">
     <value>State</value>

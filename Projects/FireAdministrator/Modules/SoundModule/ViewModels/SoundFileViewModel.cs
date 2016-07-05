@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Sounds.Common;
 using StrazhAPI.Automation;
 using StrazhAPI.Models;
 
@@ -7,7 +8,8 @@ namespace SoundsModule.ViewModels
 {
 	public class SoundFileViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+		public string DefaultName = CommonResources.None;
+
 
 		public AutomationSound Sound { get; set; }
 

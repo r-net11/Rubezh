@@ -331,7 +331,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Результат: {0}. Округление: {1}.
+        ///   Looks up a localized string similar to Результат: {0}. Отсечение: {1}.
         /// </summary>
         public static string GetDateTimeNow {
             get {

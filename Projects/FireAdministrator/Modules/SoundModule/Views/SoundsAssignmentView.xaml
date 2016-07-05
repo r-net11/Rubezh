@@ -3,7 +3,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.Sounds.Views;assembly=Localization"
+    xmlns:langCommon="clr-namespace:Localization.Sounds.Common;assembly=Localization"
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300">
 
@@ -11,7 +13,7 @@
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				SortMemberPath="JournalEventNameType"
-				Header="Событие"
+				Header="{x:Static lang:CommonViews.Event}"
 				Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
@@ -22,15 +24,15 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Звук" Width="1*">
+			<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Sound}" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding SelectedSoundFileViewModel.Name, FallbackValue=&lt;нет&gt;}" />
+						<TextBlock Text="{Binding SelectedSoundFileViewModel.Name, FallbackValue={x:Static langCommon:CommonResources.None}}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 				<DataGridTemplateColumn.CellEditingTemplate>
 					<DataTemplate>
-						<FeaturedComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSoundFileViewModels}" SelectedItem="{Binding SelectedSoundFileViewModel, UpdateSourceTrigger=PropertyChanged}" NullValueText="&lt;нет&gt;" CanSelectNullItem="True" >
+                        <FeaturedComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSoundFileViewModels}" SelectedItem="{Binding SelectedSoundFileViewModel, UpdateSourceTrigger=PropertyChanged}" NullValueText="{x:Static langCommon:CommonResources.None}" CanSelectNullItem="True" >
 							<FeaturedComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" Foreground="{DynamicResource ForegroundColorDark}" />
@@ -40,7 +42,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellEditingTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Непрерывно" Width="1*">
+			<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Continuously}" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

@@ -4,15 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:views="clr-namespace:SoundsModule.Views"
-             mc:Ignorable="d" 
+			 xmlns:lang="clr-namespace:Localization.Sounds.Views;assembly=Localization"
+			 mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
 		<TabControl
 			SelectedIndex="{Binding SelectedTabIndex}">
-			<TabItem Header="Привязка звуков">
+            <TabItem Header="{x:Static lang:CommonViews.SoundAttach}">
 				<views:SoundsAssignmentView DataContext="{Binding SoundsAssignmentViewModel}" />
 			</TabItem>
-			<TabItem Header="Звуковые файлы">
+            <TabItem Header="{x:Static lang:CommonViews.SoundFiles}">
 				<views:SoundFilesView DataContext="{Binding SoundFilesViewModel}" />
 			</TabItem>
 		</TabControl>

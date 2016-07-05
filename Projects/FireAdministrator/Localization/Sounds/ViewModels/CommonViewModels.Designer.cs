@@ -61,11 +61,29 @@ namespace Localization.Sounds.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;none&gt;.
+        ///   Looks up a localized string similar to Do you want to delete selected sound from system?.
         /// </summary>
-        public static string None {
+        public static string DeleteSoundFIle {
             get {
-                return ResourceManager.GetString("None", resourceCulture);
+                return ResourceManager.GetString("DeleteSoundFIle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edition.
+        /// </summary>
+        public static string Edition {
+            get {
+                return ResourceManager.GetString("Edition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound file |*.wav.
+        /// </summary>
+        public static string SoundFile {
+            get {
+                return ResourceManager.GetString("SoundFile", resourceCulture);
             }
         }
     }

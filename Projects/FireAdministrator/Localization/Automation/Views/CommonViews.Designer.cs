@@ -1123,6 +1123,15 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Путь к папке.
+        /// </summary>
+        public static string PathToFolder {
+            get {
+                return ResourceManager.GetString("PathToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Задать период.
         /// </summary>
         public static string Period {

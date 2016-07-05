@@ -205,7 +205,7 @@
     <value>Результат: {0}</value>
   </data>
   <data name="GetDateTimeNow" xml:space="preserve">
-    <value>Результат: {0}. Округление: {1}</value>
+    <value>Результат: {0}. Отсечение: {1}</value>
   </data>
   <data name="GetDoorProperty" xml:space="preserve">
     <value>Точка доступа: {0} Свойство: {1} Значение: {2}</value>

@@ -7,6 +7,7 @@ using AutomationModule.Plans;
 using Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;

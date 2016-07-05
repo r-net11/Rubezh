@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="None" xml:space="preserve">
-    <value>&lt;нет&gt;</value>
+  <data name="DeleteSoundFIle" xml:space="preserve">
+    <value>Удалить выбранный звук из системы?</value>
+  </data>
+  <data name="Edition" xml:space="preserve">
+    <value>Редактирование</value>
+  </data>
+  <data name="SoundFile" xml:space="preserve">
+    <value>Звуковой файл |*.wav</value>
   </data>
 </root>

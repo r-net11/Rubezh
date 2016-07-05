@@ -123,8 +123,20 @@
   <data name="Continuously" xml:space="preserve">
     <value>Непрерывно</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>Событие</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
   <data name="Sound" xml:space="preserve">
     <value>Звук</value>
+  </data>
+  <data name="SoundAttach" xml:space="preserve">
+    <value>Привязка звуков</value>
+  </data>
+  <data name="SoundFiles" xml:space="preserve">
+    <value>Звуковые файлы</value>
   </data>
   <data name="State" xml:space="preserve">
     <value>Состояние</value>

@@ -14,7 +14,7 @@
 					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к папке" />
+					<Label Content="{x:Static lang:CommonViews.PathToFolder}" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>
