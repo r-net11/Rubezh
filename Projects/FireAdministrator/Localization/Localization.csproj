@@ -105,6 +105,46 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="IntegrationOPC\Common\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\Common\CommonResources.ru.Designer.cs">
+      <DependentUpon>CommonResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\Errors\CommonErrors.Designer.cs">
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\Errors\CommonErrors.ru.Designer.cs">
+      <DependentUpon>CommonErrors.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\ViewModels\CommonViewModels.Designer.cs">
+      <DependentUpon>CommonViewModels.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\ViewModels\CommonViewModels.ru.Designer.cs">
+      <DependentUpon>CommonViewModels.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\Views\CommonViews.Designer.cs">
+      <DependentUpon>CommonViews.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IntegrationOPC\Views\CommonViews.ru.Designer.cs">
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Layout\Common\CommonResources.Designer.cs">
       <DependentUpon>CommonResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -477,6 +517,38 @@
       <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Filter\Views\CommonViews.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Common\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Common\CommonResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Errors\CommonErrors.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\ViewModels\CommonViewModels.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\ViewModels\CommonViewModels.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Views\CommonViews.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrationOPC\Views\CommonViews.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -2,10 +2,11 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
-using Integration.OPC.Properties;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Localization.IntegrationOPC.Errors;
+using Localization.IntegrationOPC.ViewModels;
 
 namespace Integration.OPC.ViewModels
 {
@@ -39,7 +40,7 @@ namespace Integration.OPC.ViewModels
 
 		public AddZoneDialogViewModel(IEnumerable<OPCZone> existingZones)
 		{
-			Title = "Зоны ОПС";
+			Title = CommonViewModels.ZonesOPC;
 			_existingZones = existingZones;
 			LoadingContent();
 		}
@@ -54,7 +55,7 @@ namespace Integration.OPC.ViewModels
 					IsBisy = false;
 
 					if (t.IsFaulted || t.Result == null || t.Result.HasError)
-						MessageBoxService.ShowError(Resources.ErrorGetOPCZonesContent);
+						MessageBoxService.ShowError(CommonErrors.GetOPCZonesContent_Error);
 					else
 					{
 						Zones = t.Result.Result.Select(newZone => new OPCZone(newZone, _existingZones.Any(zone => zone.No == newZone.No))).ToList();

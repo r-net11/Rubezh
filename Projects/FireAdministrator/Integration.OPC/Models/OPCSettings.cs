@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
-using Integration.OPC.Properties;
+using Localization.IntegrationOPC.Errors;
 
 namespace Integration.OPC.Models
 {
@@ -95,15 +95,15 @@ namespace Integration.OPC.Models
 				if (columnName == string.Empty || columnName == "OPCPort" || columnName == "HTTPClientPort")
 				{
 					if ((OPCPort < default(int)) || (IntegrationPort < default(int)))
-						result = Resources.ErrorPortLowerZeroContent;
+						result = CommonErrors.PortLowerZeroContent_Error;
 
 					if ((OPCPort == default(int)) || (IntegrationPort == default(int)))
-						result = Resources.ErrorPortIsZeroContent;
+                        result = CommonErrors.PortIsZeroContent_Error;
 				}
 				if (columnName == string.Empty || columnName == "OPCAddress")
 				{
 					if (string.IsNullOrEmpty(OPCAddress))
-						result = Resources.ErrorIPAddressEmptyContent;
+                        result = CommonErrors.IPAddressEmptyContent_Error;
 				}
 
 				CurrentError = result;

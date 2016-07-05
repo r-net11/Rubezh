@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:models="clr-namespace:Integration.OPC.Models"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="400">
 	<UserControl.Resources>
@@ -22,8 +23,8 @@
 		CanUserReorderColumns="False">
 		<DataGrid.ContextMenu>
 			<ContextMenu>
-				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить" />
-				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Свойства" />
+                <IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="{x:Static lang:CommonViews.Delete}" />
+                <IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="{x:Static lang:CommonViews.Propeties}" />
 			</ContextMenu>
 		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
@@ -47,7 +48,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Наименование" Width="2*" SortMemberPath="Name">
+            <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Denomination}" Width="2*" SortMemberPath="Name">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
@@ -56,7 +57,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Назначение" Width="*" SortMemberPath="Type">
+            <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Purpose}" Width="*" SortMemberPath="Type">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock
@@ -65,7 +66,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
+            <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Note}" Width="*" SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate DataType="{x:Type models:OPCZone}">
 						<TextBlock

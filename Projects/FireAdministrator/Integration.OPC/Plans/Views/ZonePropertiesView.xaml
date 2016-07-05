@@ -7,7 +7,8 @@
 	xmlns:models="clr-namespace:Integration.OPC.Models"
 	xmlns:enums="clr-namespace:StrazhAPI.Enums;assembly=StrazhAPI"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
+	mc:Ignorable="d"
     MinHeight="300"
 	MinWidth="600"
 	MaxHeight="300"
@@ -58,7 +59,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Наименование" Width="2*" SortMemberPath="Name">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Denomination}" Width="2*" SortMemberPath="Name">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<StackPanel Orientation="Horizontal">
@@ -74,7 +75,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Назначение" Width="*" SortMemberPath="Type">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Purpose}" Width="*" SortMemberPath="Type">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
@@ -84,7 +85,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Note}" Width="*" SortMemberPath="Description">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
@@ -101,7 +102,7 @@
 			Width="100"
 			Margin="0 5"
 			Command="{Binding ShowPropertyCommand}"
-			Content="Свойства"
+			Content="{x:Static lang:CommonViews.Propeties}"
 			HorizontalAlignment="Right"/>
 	</Grid>
 </UserControl>

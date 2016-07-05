@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
 	mc:Ignorable="d"
 	MinHeight="190"
 	MinWidth="380"
@@ -34,7 +35,7 @@
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Text="Номер"
+				Text="{x:Static lang:CommonViews.Number}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock
@@ -43,7 +44,7 @@
 				Style="{StaticResource TextBlockStyle}" />
 			<TextBlock
 				Grid.Row="1"
-				Text="Название"
+				Text="{x:Static lang:CommonViews.Name}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock
@@ -55,7 +56,7 @@
 				Style="{StaticResource TextBlockStyle}"/>
 			<TextBlock
 				Grid.Row="2"
-				Text="Примечание"
+				Text="{x:Static lang:CommonViews.Note}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock
@@ -67,7 +68,7 @@
 				Style="{StaticResource TextBlockStyle}"/>
 			<TextBlock
 				Grid.Row="3"
-				Text="Назначение"
+				Text="{x:Static lang:CommonViews.Purpose}"
 				TextTrimming="CharacterEllipsis"
 				behaviours:TextBlockAutoToolTipBehaviour.AutoTooltip="True"
 				Style="{StaticResource TextBlockStyle}"
@@ -91,7 +92,7 @@
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Text="Вид"
+				Text="{x:Static lang:CommonViews.View}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock
@@ -102,7 +103,7 @@
 				Style="{StaticResource TextBlockStyle}"/>
 			<TextBlock
 				Grid.Row="1"
-				Text="Входная/выходная задержка"
+				Text="{x:Static lang:CommonViews.InOutTimeout}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock
@@ -112,7 +113,7 @@
 				Style="{StaticResource TextBlockStyle}"/>
 			<TextBlock
 				Grid.Row="2"
-				Text="Автоперевзятие через"
+				Text="{x:Static lang:CommonViews.AutoTakeOver}"
 				Style="{StaticResource TextBlockStyle}"
 				HorizontalAlignment="Right"/>
 			<TextBlock

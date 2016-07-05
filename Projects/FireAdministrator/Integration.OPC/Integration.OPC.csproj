@@ -66,11 +66,6 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModalDialogs\AddZoneDialogViewModel.cs" />
     <Compile Include="ViewModels\ModalDialogs\PropertiesDialogViewModel.cs" />
@@ -89,12 +84,6 @@
     <Compile Include="Views\ZonesOPCView.xaml.cs">
       <DependentUpon>ZonesOPCView.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
@@ -128,6 +117,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{7e982f7a-e8b8-4b63-a204-9fc7e5f97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
