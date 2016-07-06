@@ -350,6 +350,7 @@
       <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="LastEmployeeDayUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ExternalKey" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="Country" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ChiefUID" Type="Department" />
       <Association Name="Employee_Department1" Member="Departments1" ThisKey="UID" OtherKey="ContactEmployeeUID" Type="Department" />

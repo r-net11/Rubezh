@@ -159,6 +159,7 @@ namespace SKDDriver
 			result.FirstName = employee.FirstName;
 			result.SecondName = employee.SecondName;
 			result.LastName = employee.LastName;
+			result.Country = (Country?)employee.Country;
 			result.Description = employee.Description;
 			var cards = new List<SKDCard>();
 			result.Type = (PersonType)employee.Type;
@@ -277,6 +278,7 @@ namespace SKDDriver
 			result.DocumentType = (EmployeeDocumentType?)tableItem.DocumentType;
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
+			result.Country = (Country?) tableItem.Country;
 			return result;
 		}
 
@@ -341,6 +343,7 @@ namespace SKDDriver
 			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
+			tableItem.Country = (int?) apiItem.Country;
 		}
 
 		public override OperationResult Save(Employee apiItem)

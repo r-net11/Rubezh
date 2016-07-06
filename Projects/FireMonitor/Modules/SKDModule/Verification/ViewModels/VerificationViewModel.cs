@@ -85,6 +85,15 @@ namespace SKDModule.ViewModels
 			{
 				_employee = value;
 				OnPropertyChanged(() => Employee);
+				OnPropertyChanged(() => HasCountry);
+			}
+		}
+
+		public bool HasCountry
+		{
+			get
+			{
+				return Employee != null && Employee.Country != null;
 			}
 		}
 

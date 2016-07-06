@@ -135,6 +135,7 @@
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
+    <Compile Include="Converters\CountryToImageSourceConverter.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
@@ -2619,6 +2620,40 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StateClassIcons\HasLicense.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CountryFlags\Argentina.png" />
+    <Resource Include="Images\CountryFlags\Armenia.png" />
+    <Resource Include="Images\CountryFlags\Australia.png" />
+    <Resource Include="Images\CountryFlags\Azerbaijan.png" />
+    <Resource Include="Images\CountryFlags\Belarus.png" />
+    <Resource Include="Images\CountryFlags\Brazil.png" />
+    <Resource Include="Images\CountryFlags\Canada.png" />
+    <Resource Include="Images\CountryFlags\China.png" />
+    <Resource Include="Images\CountryFlags\Estonia.png" />
+    <Resource Include="Images\CountryFlags\France.png" />
+    <Resource Include="Images\CountryFlags\Georgia.png" />
+    <Resource Include="Images\CountryFlags\Germany.png" />
+    <Resource Include="Images\CountryFlags\India.png" />
+    <Resource Include="Images\CountryFlags\Indonesia.png" />
+    <Resource Include="Images\CountryFlags\Italy.png" />
+    <Resource Include="Images\CountryFlags\Japan.png" />
+    <Resource Include="Images\CountryFlags\Kazakhstan.png" />
+    <Resource Include="Images\CountryFlags\Kyrgyzstan.png" />
+    <Resource Include="Images\CountryFlags\Latvia.png" />
+    <Resource Include="Images\CountryFlags\Lithuania.png" />
+    <Resource Include="Images\CountryFlags\Mexico.png" />
+    <Resource Include="Images\CountryFlags\Moldova.png" />
+    <Resource Include="Images\CountryFlags\Russia.png" />
+    <Resource Include="Images\CountryFlags\SaudiArabia.png" />
+    <Resource Include="Images\CountryFlags\SouthAfrica.png" />
+    <Resource Include="Images\CountryFlags\SouthKorea.png" />
+    <Resource Include="Images\CountryFlags\Tajikistan.png" />
+    <Resource Include="Images\CountryFlags\Turkmenistan.png" />
+    <Resource Include="Images\CountryFlags\Ukraine.png" />
+    <Resource Include="Images\CountryFlags\UnitedKingdom.png" />
+    <Resource Include="Images\CountryFlags\UnitedStates.png" />
+    <Resource Include="Images\CountryFlags\Uzbekistan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

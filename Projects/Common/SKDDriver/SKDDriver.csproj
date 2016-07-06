@@ -63,9 +63,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PassJournal.dbml</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\SKD.cs">
-      <DependentUpon>SKD.dbml</DependentUpon>
-    </Compile>
     <Compile Include="DataAccess\SKD.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

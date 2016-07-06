@@ -1716,3 +1716,11 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('RemoveCredentialsStartDateField')
 END
 GO
+
+-- В таблицу 'Employee' добавлено поле 'Country'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_Country_Added_In_Table_Employee')
+	BEGIN
+		ALTER TABLE [dbo].[Employee] ADD [Country] [int] NULL
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_Country_Added_In_Table_Employee')
+	END
+GO

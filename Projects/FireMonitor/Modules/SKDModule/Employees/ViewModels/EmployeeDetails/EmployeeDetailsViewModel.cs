@@ -40,6 +40,8 @@ namespace SKDModule.ViewModels
 			_canEditPosition = canEditPosition;
 			_isWithDeleted = isWithDeleted;
 
+			InitializeCountries();
+
 			Genders = new ObservableCollection<Gender>();
 			foreach (Gender item in Enum.GetValues(typeof(Gender)))
 			{
@@ -84,6 +86,7 @@ namespace SKDModule.ViewModels
 			FirstName = Employee.FirstName;
 			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
+			Country = Employee.Country;
 			DocumentNumber = Employee.DocumentNumber;
 			BirthDate = Employee.BirthDate.HasValue ? Employee.BirthDate.Value.Date : default(DateTime?);
 			BirthPlace = Employee.BirthPlace;
@@ -128,6 +131,16 @@ namespace SKDModule.ViewModels
 			GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? "Фото и графические данные" : "Фото";
 		}
 
+		private void InitializeCountries()
+		{
+			var countriesSortedByDescription = new SortedList<string, Country>();
+			foreach (Country item in Enum.GetValues(typeof(Country)))
+			{
+				countriesSortedByDescription.Add(item.ToDescription(), item);
+			}
+			Countries = new ObservableCollection<Country>(countriesSortedByDescription.Values);
+		}
+
 		public Employee Employee { get; private set; }
 		public ShortEmployee Model
 		{
@@ -139,6 +152,7 @@ namespace SKDModule.ViewModels
 					FirstName = FirstName,
 					SecondName = SecondName,
 					LastName = LastName,
+					Country = Country,
 					Type = Employee.Type,
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone,
@@ -284,6 +298,21 @@ namespace SKDModule.ViewModels
 				if (_lastName == value) return;
 				_lastName = value;
 				OnPropertyChanged(() => LastName);
+			}
+		}
+
+		public ObservableCollection<Country> Countries { get; private set; }
+		
+		private Country? _country;
+		public Country? Country
+		{
+			get { return _country; }
+			set
+			{
+				if (_country == value)
+					return;
+				_country = value;
+				OnPropertyChanged(() => Country);
 			}
 		}
 
@@ -584,6 +613,7 @@ namespace SKDModule.ViewModels
 			Employee.FirstName = FirstName;
 			Employee.SecondName = SecondName;
 			Employee.LastName = LastName;
+			Employee.Country = Country;
 			Employee.DocumentNumber = DocumentNumber;
 			Employee.BirthDate = BirthDate;
 			Employee.BirthPlace = BirthPlace;

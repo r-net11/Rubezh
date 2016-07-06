@@ -31,6 +31,7 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition />
@@ -75,12 +76,54 @@
 							Grid.Row="3"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
+							Content="Страна" />
+						<FeaturedComboBox
+							Grid.Row="3"
+							Grid.Column="1"
+							NullValueText=""
+							CanSelectNullItem="True"
+							ItemsSource="{Binding Countries}"
+							SelectedItem="{Binding Country}"
+							VerticalAlignment="Center"
+							Margin="2" >
+							<FeaturedComboBox.ItemTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
+										<Border
+											Grid.Column="0"
+											BorderBrush="Black"
+											BorderThickness="1"
+											Margin="2" >
+											<Image
+												Height="20"
+												Width="30"
+												Stretch="Fill"
+												Source="{Binding Converter={StaticResource CountryToImageSourceConverter}}" />
+										</Border>
+										<TextBlock
+											Grid.Column="1"
+											Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"
+											VerticalAlignment="Center"
+											Margin="2" />
+									</Grid>
+								</DataTemplate>
+							</FeaturedComboBox.ItemTemplate>
+						</FeaturedComboBox>
+
+						<Label
+							Grid.Row="4"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							Content="Должность"
 							Visibility="{Binding CanEditPosition,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
-							Grid.Row="3"
+							Grid.Row="4"
 							Grid.Column="1"
 							VerticalAlignment="Center"
 							Orientation="Horizontal"
@@ -99,7 +142,7 @@
 						</StackPanel>
 
 						<Label
-							Grid.Row="4"
+							Grid.Row="5"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
@@ -107,7 +150,7 @@
 							Visibility="{Binding CanEditDepartment,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
-							Grid.Row="4"
+							Grid.Row="5"
 							Grid.Column="1"
 							VerticalAlignment="Center"
 							Orientation="Horizontal"
@@ -126,7 +169,7 @@
 						</StackPanel>
 
 						<Label
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
@@ -134,7 +177,7 @@
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						<StackPanel
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="1"
 							VerticalAlignment="Center"
 							Orientation="Horizontal"
@@ -159,7 +202,7 @@
 						</StackPanel>
 
 						<Label
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
@@ -167,7 +210,7 @@
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						<TextBox
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="1"
 							Margin="2"
 							Text="{Binding Description,
@@ -176,7 +219,7 @@
 						                              Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
 						<Label
-							Grid.Row="7"
+							Grid.Row="8"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
@@ -184,7 +227,7 @@
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
-							Grid.Row="7"
+							Grid.Row="8"
 							Grid.Column="1"
 							VerticalAlignment="Center"
 							Orientation="Horizontal"
@@ -202,13 +245,13 @@
 							</TextBlock>
 						</StackPanel>
 						<Label
-							Grid.Row="8"
+							Grid.Row="9"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							Content="Табельный номер"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<TextBox
-							Grid.Row="8"
+							Grid.Row="9"
 							Grid.Column="1"
 							Margin="2"
 							MaxLength="40"
@@ -216,34 +259,34 @@
 							Text="{Binding TabelNo}"
 							Visibility="{Binding IsEmployee,  Converter={StaticResource BoolToVisibilityConverter}}" />
 						<Label
-							Grid.Row="9"
+							Grid.Row="10"
 							HorizontalAlignment="Right"
 							Content="Телефон" />
 						<TextBox
-							Grid.Row="9"
+							Grid.Row="10"
 							Grid.Column="1"
 							Margin="2"
 							VerticalAlignment="Center"
 							Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" />
 						<Label
-							Grid.Row="10"
+							Grid.Row="11"
 							HorizontalAlignment="Right"
 							Content="Руководитель организации"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<CheckBox
-							Grid.Row="10"
+							Grid.Row="11"
 							Grid.Column="1"
 							Margin="2"
 							VerticalAlignment="Center"
 							IsChecked="{Binding IsOrganisationChief}"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<Label
-							Grid.Row="11"
+							Grid.Row="12"
 							HorizontalAlignment="Right"
 							Content="Руководитель отдела кадров"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<CheckBox
-							Grid.Row="11"
+							Grid.Row="12"
 							Grid.Column="1"
 							Margin="2"
 							VerticalAlignment="Center"

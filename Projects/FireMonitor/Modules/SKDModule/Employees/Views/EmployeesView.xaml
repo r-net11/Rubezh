@@ -247,6 +247,35 @@
 								<TextBlock
 									Width="100"
 									Margin="2"
+									Text="Страна" />
+								<Grid
+									Visibility="{Binding HasCountry, Converter={StaticResource BoolToVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"/>
+										<ColumnDefinition Width="*"/>
+									</Grid.ColumnDefinitions>
+									<Border
+										Grid.Column="0"
+										BorderBrush="Black"
+										BorderThickness="1"
+										Margin="2" >
+										<Image
+											Height="20"
+											Width="30"
+											Stretch="Fill"
+											Source="{Binding Country, Converter={StaticResource CountryToImageSourceConverter}}" />
+									</Border>
+									<TextBlock
+											Grid.Column="1"
+											Text="{Binding Country, Converter={StaticResource EnumToDescriptionConverter}}"
+											VerticalAlignment="Center"
+											Margin="2" />
+								</Grid>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock
+									Width="100"
+									Margin="2"
 									Text="Телефон" />
 								<TextBlock Margin="2" Text="{Binding Phone}" />
 							</StackPanel>

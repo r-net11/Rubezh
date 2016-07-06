@@ -44,6 +44,18 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsOrganisation ? string.Empty : Model.LastName; }
 		}
+		public Country? Country
+		{
+			get { return IsOrganisation ? null : Model.Country; }
+		}
+		public bool HasCountry
+		{
+			get
+			{
+				return Country.HasValue;
+			}
+		}
+
 		public string Phone
 		{
 			get { return IsOrganisation ? string.Empty : Model.Phone; }
@@ -123,6 +135,8 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => FirstName);
 			OnPropertyChanged(() => SecondName);
 			OnPropertyChanged(() => LastName);
+			OnPropertyChanged(() => Country);
+			OnPropertyChanged(() => HasCountry);
 			OnPropertyChanged(() => OrganisationName);
 			OnPropertyChanged(() => Phone);
 			OnPropertyChanged(() => Description);

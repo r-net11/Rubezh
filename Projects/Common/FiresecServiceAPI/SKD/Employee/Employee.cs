@@ -99,6 +99,9 @@ namespace FiresecAPI.SKD
 		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } }
 
 		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
+
+		[DataMember]
+		public Country? Country { get; set; }
 	}
 
 	public enum Gender

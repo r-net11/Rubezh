@@ -220,7 +220,8 @@ DocumentType [int] NULL,
 Phone [nvarchar](50) NULL,
 [Description] [nvarchar](max) NULL,
 LastEmployeeDayUpdate datetime NOT NULL CONSTRAINT "Schedule_LastEmployeeDayUpdate_Default" DEFAULT '1900-01-01 00:00:00.000',
-ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+ExternalKey nvarchar(40) NOT NULL DEFAULT '-1',
+Country [int] NULL
 CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED
 (
 [UID] ASC
@@ -1006,6 +1007,9 @@ INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
 INSERT INTO Patches (Id) VALUES
 ('RemoveCredentialsStartDateField')
+-- В таблицу 'Employee' добавлено поле 'Country'
+INSERT INTO Patches (Id) VALUES
+('Column_Country_Added_In_Table_Employee')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

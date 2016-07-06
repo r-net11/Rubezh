@@ -20,6 +20,9 @@ namespace FiresecAPI.SKD
 		public string SecondName { get; set; }
 
 		[DataMember]
+		public Country? Country { get; set; }
+
+		[DataMember]
 		public string Description { get; set; }
 
 		[DataMember]
