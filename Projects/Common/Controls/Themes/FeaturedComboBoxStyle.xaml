@@ -5,7 +5,6 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/ComboBoxStyle.xaml" />
 	</ResourceDictionary.MergedDictionaries>
-
 	<SolidColorBrush x:Key="WatermarkColor" Color="LightGray" />
 	<SolidColorBrush x:Key="FocusBrush" Color="#FFE99862" />
 	<SolidColorBrush x:Key="PopupBackground" Color="#ffffff" />
@@ -14,7 +13,6 @@
 	<Geometry x:Key="DownArrowGeometry">M 0 0 L 4 4 L 8 0 Z</Geometry>
 	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
 	<SolidColorBrush x:Key="DisabledBorderBrush" Color="#ffffff" />
-
 
 	<Style
 		x:Key="FeaturedComboBoxItemBase"
@@ -39,7 +37,6 @@
 			Background="{TemplateBinding Background}"
 			Focusable="False" />
 	</ControlTemplate>
-
 
 	<Style
 		x:Key="{x:Type controls:FeaturedComboBox}"
@@ -114,7 +111,7 @@
 						<Popup
 							Name="PART_Popup"
 							Grid.ColumnSpan="2"
-							AllowsTransparency="true"
+							AllowsTransparency="True"
 							IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
 							Placement="Bottom"
 							PopupAnimation="Slide">
@@ -144,32 +141,19 @@
 												<RowDefinition Height="Auto" />
 												<RowDefinition Height="*" />
 											</Grid.RowDefinitions>
-											<!--<Canvas
-												Width="0"
-												Height="0"
-												HorizontalAlignment="Left"
-												VerticalAlignment="Top">
-												<Rectangle
-													Name="OpaqueRect"
-													Width="{Binding ElementName=DropDownBorder,
-												                           Path=ActualWidth}"
-													Height="{Binding ElementName=DropDownBorder,
-												                            Path=ActualHeight}"
-													Fill="{Binding ElementName=DropDownBorder,
-												                          Path=Background}" />
-											</Canvas>-->
-											<StackPanel Margin="4 6" KeyboardNavigation.DirectionalNavigation="Contained">
 												<controls:FeaturedComboboxItem
 													x:Name="PART_NullValue"
 													Content="{TemplateBinding NullValueText}"
 													ContentTemplate="{TemplateBinding NullItemTemplate}"
 													IsEnabled="{TemplateBinding CanSelectNullItem}"
+													Margin="4 6 0 4"
 													Style="{StaticResource ResourceKey=ComboBoxNullItem}" />
 												<ItemsPresenter
-													Name="ItemsPresenter"
+													x:Name="ItemsPresenter"
+													Grid.Row="1"
+													Margin="4 0 4 6"
 													KeyboardNavigation.DirectionalNavigation="Contained"
 													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-											</StackPanel>
 										</Grid>
 									</ScrollViewer>
 								</Border>
@@ -197,26 +181,6 @@
 							Style="{x:Null}"
 							Template="{StaticResource ComboBoxTextBox}"
 							Visibility="Hidden" />
-						<!--<ToggleButton
-							Grid.ColumnSpan="2"
-							Background="{TemplateBinding Background}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							IsChecked="{Binding Path=IsDropDownOpen,
-						                                  Mode=TwoWay,
-						                                  RelativeSource={RelativeSource TemplatedParent}}"
-							Padding="0,0,0,10" />
-
-						<Path
-							Name="Arrow"
-							Grid.ColumnSpan="1"
-							Margin="3,1,8,0"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Center"
-							Data="{DynamicResource DownArrowGeometry}"
-							Fill="{TemplateBinding Foreground}"
-							IsHitTestVisible="False" />-->
-
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="HasItems" Value="false">
