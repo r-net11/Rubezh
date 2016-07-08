@@ -48,6 +48,8 @@ namespace FiresecAPI.SKD
 		Mexico,
 		[Description("Молдавия")]
 		Moldova,
+		[Description("Монголия")]
+		Mongolia,
 		[Description("Россия")]
 		Russia,
 		[Description("Саудовская Аравия")]
