@@ -197,6 +197,8 @@ namespace Controls
 
 		private void RemoveHighlightFromComboBoxNullItem()
 		{
+			if (_comboBoxNullItem == null) return;
+
 			_comboBoxNullItem.IsHighlighted = false;
 		}
 
@@ -221,6 +223,8 @@ namespace Controls
 
 		private void RegisterEventHandlersForComboBoxNullItem()
 		{
+			if (_comboBoxNullItem == null) return;
+
 			_comboBoxNullItem.AddHandler(MouseEnterEvent,
 										 new MouseEventHandler((o, e) => OnComboBoxNullItemMouseEnter()),
 										 handledEventsToo: true);
@@ -427,6 +431,8 @@ namespace Controls
 
 		private void HighlightNullItem()
 		{
+			if (_comboBoxNullItem == null) return;
+
 			_comboBoxNullItem.IsHighlighted = true;
 			_comboBoxNullItem.Focus();
 		}
