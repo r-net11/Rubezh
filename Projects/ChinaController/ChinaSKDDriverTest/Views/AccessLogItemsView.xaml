@@ -22,7 +22,7 @@
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding AccessLogItems}" SelectedItem="{Binding SelectedAccessLogItem}" AutoGenerateColumns="False">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="" Binding="{Binding RecordNo}" Width="Auto" />
+				<DataGridTextColumn Header="ID" Binding="{Binding RecordNo}" Width="Auto" />
 				<DataGridTextColumn Header="Пропуск" Binding="{Binding CardNo}" Width="Auto" />
 				<DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="Auto" />
 				<DataGridTextColumn Header="Время" Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
