@@ -10,12 +10,18 @@ namespace StrazhModule.ViewModels
 {
 	public class DoorDetailsViewModel : SaveCancelDialogViewModel
 	{
+		private bool _isNew;
+
 		public SKDDoor Door { get; private set; }
 
 		public DoorDetailsViewModel(SKDDoor door = null)
 		{
+			_isNew = default(bool);
+
+			// Создание новой точки доступа
 			if (door == null)
 			{
+				_isNew = true;
 				Title = "Создание точки доступа";
 				Door = new SKDDoor()
 				{
@@ -27,6 +33,7 @@ namespace StrazhModule.ViewModels
 				if (SKDManager.Doors.Count != 0)
 					Door.No = (ushort)(SKDManager.Doors.Select(x => x.No).Max() + 1);
 			}
+			// Редактирование существующей точки доступа
 			else
 			{
 				Title = string.Format("Свойства точки доступа: {0}", door.Name);
@@ -48,7 +55,7 @@ namespace StrazhModule.ViewModels
 			SelectedDoorType = Door.DoorType;
 		}
 
-		int _no;
+		private int _no;
 		public int No
 		{
 			get { return _no; }
@@ -59,7 +66,7 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -70,7 +77,7 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -83,7 +90,7 @@ namespace StrazhModule.ViewModels
 
 		public ObservableCollection<DoorType> AvailableDoorTypes { get; private set; }
 
-		DoorType _selectedDoorType;
+		private DoorType _selectedDoorType;
 		public DoorType SelectedDoorType
 		{
 			get { return _selectedDoorType; }
@@ -91,6 +98,18 @@ namespace StrazhModule.ViewModels
 			{
 				_selectedDoorType = value;
 				OnPropertyChanged(() => SelectedDoorType);
+				OnPropertyChanged(() => ShowNotificationOnDoorTypeChanged);
+			}
+		}
+
+		public bool ShowNotificationOnDoorTypeChanged
+		{
+			get
+			{
+				return !_isNew
+					&& _selectedDoorType != Door.DoorType
+					&& Door.InDevice != null
+					&& Door.OutDevice != null;
 			}
 		}
 

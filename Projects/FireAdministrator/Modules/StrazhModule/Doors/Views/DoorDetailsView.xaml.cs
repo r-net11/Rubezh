@@ -6,7 +6,7 @@ namespace StrazhModule.Views
 	{
 		public DoorDetailsView()
 		{
-			Loaded += new System.Windows.RoutedEventHandler(DoorDetailsView_Loaded);
+			Loaded += DoorDetailsView_Loaded;
 			InitializeComponent();
 		}
 

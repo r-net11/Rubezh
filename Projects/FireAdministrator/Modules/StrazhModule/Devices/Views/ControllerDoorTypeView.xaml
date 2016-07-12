@@ -42,7 +42,7 @@
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
 					<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
-					<TextBlock Grid.Column="1" Text="При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд. Остальные настройки в этом окне следует производить только после записи этого параметра."  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
+					<TextBlock Grid.Column="1" Text="При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд! Привязка считывателей к точкам доступа будет удалена! Остальные настройки в этом окне следует производить только после записи этого параметра."  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
 				</Grid>
 				<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
 					<Button Content="Считать" Command="{Binding ReadDoorTypeFromControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />
