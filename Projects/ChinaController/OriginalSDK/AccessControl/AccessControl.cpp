@@ -74,27 +74,6 @@ BOOL CAccessControlApp::InitInstance()
 	return FALSE;
 }
 
-CString GetCurrentPath()
-{
-	CString strRet = _T("");
-	CHAR   sDrive[_MAX_DRIVE];
-	CHAR   sDir[_MAX_DIR];
-	CHAR  sFilename[_MAX_FNAME];
-	CHAR	FileName[_MAX_FNAME];
-	CHAR   sExt[_MAX_EXT];
-	CString strText ; 
-	GetModuleFileName(AfxGetApp()->m_hInstance,  FileName,   _MAX_PATH);
-	_splitpath(FileName,   sDrive,   sDir,   sFilename,   sExt);
-	strText.Format(_T("%s"), sDrive);
-	/*if(strText.Right(1) != _T("\\"))
-	{
-		strText.Append(_T("\\"));
-	}*/
-	strRet.Format(_T("%s%s"), strText,sDir);
-	return strRet;
-}
-
-
 CString ConvertString(CString strText, const char* pszSeg /* = NULL */)
 {
 	CString strIniPath, strRet;
@@ -104,9 +83,8 @@ CString ConvertString(CString strText, const char* pszSeg /* = NULL */)
 	{
 		pszSeg = DLG_MAIN;
 	}
-	 
-	strIniPath = GetCurrentPath() + "langchn.ini";// "./langchn.ini"
-	GetPrivateProfileString(pszSeg, strText, "", szVal, sizeof(szVal),strIniPath);
+	
+	GetPrivateProfileString(pszSeg, strText, "", szVal, sizeof(szVal), "./langchn.ini");
 	strRet = szVal;
 	if(strRet.GetLength()==0)
 	{

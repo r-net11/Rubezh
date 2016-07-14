@@ -8,7 +8,6 @@
 //
 #include <afxmt.h>
 
- 
 typedef struct 
 {
 	NET_ALARM_TYPE	emAlarmType;
@@ -61,8 +60,6 @@ protected:
 	afx_msg void OnDestroy();
 	afx_msg LRESULT OnAlarmInfo(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnSubscribeBtnCapture();
-	afx_msg void OnButton1();
-	afx_msg void OnCalarmBtn();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
@@ -85,18 +82,11 @@ private:
 	
 	void	InsertAlarmEx2Event(ALARM_ALARM_INFO_EX2* pInfo);
 
-	void	InsertAccessLockStatus(ALARM_ACCESS_LOCK_STATUS_INFO* pInfo);
-	void	InsertAlarmExLowPowerEvent(ALARM_BATTERYLOWPOWER_INFO* pInfo);
-
 private:
 	LLONG		m_hLogin;
 	int			m_nAlarmIndex;
 	UINT32		m_uiAlarmIn;
     UINT32      m_uiAccessGroup;
-
-	void		OnDoorControl(int nOperType = 0,int nChanelID = -1,EM_NET_DOOR_STATUS_TYPE   emStateType = EM_NET_DOOR_STATUS_UNKNOWN) ;
-public:
-	afx_msg void OnBnClickedButton2();
 };
 
 //{{AFX_INSERT_LOCATION}}

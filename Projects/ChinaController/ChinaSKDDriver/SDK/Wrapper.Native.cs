@@ -110,6 +110,7 @@ namespace StrazhDeviceSDK
 						journalItem.szReaderID = eventInfo.szReaderID;
 						journalItem.CardNo = eventInfo.szCardNo;
 						journalItem.ErrorCode = (ErrorCode)eventInfo.nErrorCode;
+						journalItem.EventID = eventInfo.nPunchingRecNo;
 						break;
 					}
 

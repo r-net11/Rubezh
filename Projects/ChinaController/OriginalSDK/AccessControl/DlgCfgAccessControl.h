@@ -1,4 +1,3 @@
-#include "afxwin.h"
 #if !defined(AFX_DLGCFGACCESSCONTROL_H__E772DB79_8418_4423_B6FF_0FBC23F3D9EA__INCLUDED_)
 #define AFX_DLGCFGACCESSCONTROL_H__E772DB79_8418_4423_B6FF_0FBC23F3D9EA__INCLUDED_
 
@@ -40,11 +39,10 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDlgCfgAccessControl)
 	enum { IDD = IDD_DLG_CFG_ACCESSCONTROL };
-	CComboBox	m_cmbChannel;
-	CComboBox	m_TimeOutDoorStatus;
 	CButton	m_chkRemoteCheck;
 	CButton	m_chkFirstEnterEnable;
 	CComboBox	m_cbFirstEnterStatus;
+	CComboBox	m_cmbChannel;
 	CComboBox	m_cmbOpenTimeIndex;
 	CComboBox	m_cmbOpenMethod;
 	CButton	m_chkSensor;
@@ -71,9 +69,7 @@ protected:
 	afx_msg void OnAccessControlBtnTimeSection();
 	afx_msg void OnAccessControlBtnGet();
 	afx_msg void OnAccessControlBtnSet();
-	afx_msg void OnEditchangeAccesscontrolCmbTimeoutdoorstatus();
-	afx_msg void OnSelendcancelAccesscontrolCmbChannel();
-	afx_msg void OnBnClickedAccesscontrolChkFirstenterRemotecheck();
+	afx_msg void OnSelchangeAccesscontrolCmbChannel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 		
@@ -87,15 +83,6 @@ private:
 private:
 	LLONG					m_lLoginID;
 	CFG_ACCESS_EVENT_INFO	m_stuInfo;
-public:
-	// //≤–º≤»À «∑Ò∆Ù”√
-	CButton m_chkHandicappedCheck;
-	afx_msg void OnBnClickedAccesscontrolChkFirstenterHandicappedcheck();
-	afx_msg void OnEnChangeAccesscontrolEdtHandicappedunlockhold();
-	afx_msg void OnEnChangeAccesscontrolEdtHandicappedtimeout2();
-	afx_msg void OnEnUpdateAccesscontrolEdtHandicappedunlockhold();
-	// CloseCheckSensor
-	CButton m_chkCloseCheckSensor;
 };
 
 //{{AFX_INSERT_LOCATION}}

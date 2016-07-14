@@ -27,8 +27,7 @@ class CDlgDoorControl : public CDialog
 {
 // Construction
 public:
-	CDlgDoorControl(CWnd* pParent = NULL, LLONG lLoginID = 0, int nOperType  = 0
-		,int nChanelID = -1,EM_NET_DOOR_STATUS_TYPE   emStateType = EM_NET_DOOR_STATUS_UNKNOWN);   // standard constructor
+	CDlgDoorControl(CWnd* pParent = NULL, LLONG lLoginID = 0);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CDlgDoorControl)
@@ -62,11 +61,6 @@ private:
 
 private:
 	LLONG		m_lLoginID;
-	int		m_nOperType;
-	int		m_nChanelID  ;
-	EM_NET_DOOR_STATUS_TYPE   m_emStateType ;
-public:
-	afx_msg void OnBnClickedDoorctlBtnWaring();
 };
 
 //{{AFX_INSERT_LOCATION}}

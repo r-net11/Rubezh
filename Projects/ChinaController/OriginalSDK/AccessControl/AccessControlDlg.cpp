@@ -21,10 +21,6 @@
 #include "DlgCfgAccessControl.h"
 #include "DlgCfgTimeSchedule.h"
 #include "DlgCfgNTP.h"
-#include "DlgSearchDeivce.h"
-#include "DlgRWDevice.h"
-#include "DlgABDoor.h"
-#include "DlgAtiSet.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -532,13 +528,20 @@ HCURSOR CAccessControlDlg::OnQueryDragIcon()
 BOOL CAccessControlDlg::PreTranslateMessage(MSG* pMsg) 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
-	{
-		if (MessageBox(ConvertString("Exit?"), ConvertString("Prompt"), MB_YESNO) != IDYES)
-		{
-			return TRUE;
-		}
-	}
+    if (pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP)
+    {
+        if (VK_ESCAPE == pMsg->wParam)
+        {
+            if (MessageBox(ConvertString("Exit?"), ConvertString("Prompt"), MB_YESNO) != IDYES)
+            {
+                return TRUE;
+            }
+        }
+        else if (VK_RETURN == pMsg->wParam)
+        {
+            return TRUE;
+        }
+    }
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
@@ -565,15 +568,18 @@ void CAccessControlDlg::OnBtnLogin()
 	CString csPwd;
 	GetDlgItemText(IDC_EDT_PWD, csPwd);
 
-	NET_DEVICEINFO stuInfo = {0};
 	int nErr = 0;
-	LLONG lLoginID = CLIENT_LoginEx(csIp.GetBuffer(0), sPort, csName.GetBuffer(0), csPwd.GetBuffer(0), 0, NULL, &stuInfo, &nErr);
+    NET_DEVICEINFO_Ex stuDeviceInfo = {0};
+
+    LLONG lLoginID = CLIENT_LoginEx2(csIp.GetBuffer(0), sPort, csName.GetBuffer(0), 
+                                     csPwd.GetBuffer(0), EM_LOGIN_SPEC_CAP_TCP, NULL,
+                                     &stuDeviceInfo, &nErr);
 	if (lLoginID != NULL)
 	{
 		m_lLoginID	= lLoginID;
-		m_emType	= (NET_DEVICE_TYPE)stuInfo.byDVRType;
-		m_nAlarmIn	= stuInfo.byAlarmInPortNum;
-		m_nAlarmOut = stuInfo.byAlarmOutPortNum;
+		m_emType	= (NET_DEVICE_TYPE)stuDeviceInfo.nDVRType;
+		m_nAlarmIn	= stuDeviceInfo.nAlarmInPortNum;
+		m_nAlarmOut = stuDeviceInfo.nAlarmOutPortNum;
 		
 		GetDlgItem(IDC_IPADDRESS)->EnableWindow(FALSE);
 		GetDlgItem(IDC_EDT_PORT)->EnableWindow(FALSE);
@@ -668,15 +674,6 @@ void CAccessControlDlg::OnBtnControlQuery()
 	case EM_CONTROL_QUERY_MODIFY_PWD:
 		CQofModifyPwd();
 		break;
-	case EM_CONTROL_RW_DATA:
-		CFGofRWDeviceData();
-		break;
-	case EM_CONTROL_ATI_SET:
-		CFGofAtiSet();
-		break;
-	case EM_CONTROL_AB_DOOR:
-		CFGofABDoor();
-		break;
 	default:
 		break;
 	}
@@ -703,78 +700,7 @@ void CAccessControlDlg::OnBtnConfig()
 	case EM_CONFIG_NTP:
 		CFGofNTP();
 		break;
-	case EM_CONFIG_SEARCH:
-		CFGofSearchDevice();
-		break;
 	default:
 		break;
-	}
-}
-
-
-void CAccessControlDlg::CFGofSearchDevice()
-{
-	CDlgSearchDeivce dlg(this);
-	if (IDOK == dlg.DoModal())
-	{
-
-		CString csIp = dlg.csIp; 
-		if ("" != csIp)
-			m_DvrIPAddr.SetWindowText(csIp);
-
-		CString csPort = dlg.csPort; 
-		if ("" != csPort)
-			GetDlgItem(IDC_EDT_PORT)->SetWindowText(csPort); 
-
-		/*CString csName = ConvertString("username", DEVICE_PARAM);
-		if (csName == CString("username"))
-		{
-			GetDlgItem(IDC_EDT_NAME)->SetWindowText("system");
-		} 
-		else
-		{
-			GetDlgItem(IDC_EDT_NAME)->SetWindowText(csName);
-		}
-
-		CString csPsw = ConvertString("password", DEVICE_PARAM);
-		if (csPsw == CString("password"))
-		{
-			GetDlgItem(IDC_EDT_PWD)->SetWindowText("123456");
-		} 
-		else
-		{
-			GetDlgItem(IDC_EDT_PWD)->SetWindowText(csPsw);
-		}*/
-	}
-
-}
-
-
-void CAccessControlDlg::CFGofRWDeviceData()
-{
-	CDlgRWDevice dlg(this, m_lLoginID);
-	dlg.DoModal();
-}
-
-
-
-void CAccessControlDlg::CFGofAtiSet()
-{
-	//if (m_nAccessGroup != 4)
-	//{
-
-		CDlgAtiSet dlg(this, m_lLoginID,  m_nAccessGroup);
-		dlg.DoModal();
-	//}
-}
-
-
-
-void CAccessControlDlg::CFGofABDoor()
-{
-	if (m_nAccessGroup != 1)
-	{
-		CDlgABDoor dlg(this, m_lLoginID,  m_nAccessGroup);
-		dlg.DoModal();
 	}
 }

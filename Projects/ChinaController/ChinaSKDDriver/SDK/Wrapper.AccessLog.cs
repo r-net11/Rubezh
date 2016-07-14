@@ -136,26 +136,29 @@ namespace StrazhDeviceSDK
 
 		public SKDJournalItem AccessLogItemToJournalItem(AccessLogItem accessLogItem)
 		{
-			var journalItem = new SKDJournalItem();
+			var journalItem = new SKDJournalItem
+			{
+				JournalItemType = JournalItemType.Offline,
+				LoginID = LoginID,
+				SystemDateTime = DateTime.Now,
+				DeviceDateTime = accessLogItem.Time,
+				JournalEventNameType = accessLogItem.Status
+					? JournalEventNameType.Проход_разрешен
+					: JournalEventNameType.Проход_запрещен,
+				CardNo = accessLogItem.CardNo,
+				DoorNo = accessLogItem.DoorNo,
+				bStatus = accessLogItem.Status,
+				emCardType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE) accessLogItem.CardType,
+				emOpenMethod = (NativeWrapper.NET_ACCESS_DOOROPEN_METHOD) accessLogItem.MethodType,
+				szPwd = accessLogItem.Password,
+				szReaderID = accessLogItem.ReaderID,
+				ErrorCode = accessLogItem.ErrorCode,
+				EventID = accessLogItem.RecordNo
+			};
 
-			journalItem.JournalItemType = JournalItemType.Offline;
-			journalItem.LoginID = LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = accessLogItem.Time;
-			journalItem.JournalEventNameType = accessLogItem.Status
-				? JournalEventNameType.Проход_разрешен
-				: JournalEventNameType.Проход_запрещен;
-			journalItem.CardNo = accessLogItem.CardNo;
-			journalItem.DoorNo = accessLogItem.DoorNo;
-			journalItem.bStatus = accessLogItem.Status;
-			journalItem.emCardType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)accessLogItem.CardType;
-			journalItem.emOpenMethod = (NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)accessLogItem.MethodType;
-			journalItem.szPwd = accessLogItem.Password;
 			//journalItem.nAction = 
 			//journalItem.emStatus = 
-			journalItem.szReaderID = accessLogItem.ReaderID;
 			//journalItem.szDoorName = 
-			journalItem.ErrorCode = accessLogItem.ErrorCode;
 
 			return journalItem;
 		}

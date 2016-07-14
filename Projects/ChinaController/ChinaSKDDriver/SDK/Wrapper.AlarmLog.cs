@@ -155,6 +155,7 @@ namespace StrazhDeviceSDK
 					break;
 			}
 			journalItem.CardNo = alarmLogItem.CardId;
+			journalItem.EventID = alarmLogItem.LogNo;
 
 			return journalItem;
 		}

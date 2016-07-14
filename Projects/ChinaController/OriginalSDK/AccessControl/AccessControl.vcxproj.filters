@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{de509db8-5d54-4c5e-b3f9-d8366f8ff975}</UniqueIdentifier>
+      <UniqueIdentifier>{f00d9871-79db-4914-bf9c-e2e02fd0d82f}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{21e5abcf-ec67-431a-9996-eaa7e77bec26}</UniqueIdentifier>
+      <UniqueIdentifier>{05eb3fff-f98b-4ed4-813e-8473ec821e4f}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{2336bafc-db72-4091-b02d-33b4291bf5a4}</UniqueIdentifier>
+      <UniqueIdentifier>{75237576-27e9-4e9e-aac5-04d4fd6f2cf1}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
     <Filter Include="Config">
-      <UniqueIdentifier>{af71a237-b620-4434-b2b1-346cac3cee47}</UniqueIdentifier>
+      <UniqueIdentifier>{e530d9a4-a5f7-4327-b0cc-eaa3f3648eff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,12 +25,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AlarmSubscribe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgABDoor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgAtiSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgCapability.cpp">
@@ -46,12 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgRecordSetControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgRWDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSearchDeivce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgSubDlgInfoAccessRecord.cpp">
@@ -73,9 +61,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\mdump.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RecordSetFinder.cpp">
@@ -124,12 +109,6 @@
     <ClInclude Include="AlarmSubscribe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgABDoor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgAtiSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgCapability.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -143,12 +122,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgRecordSetControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgRWDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSearchDeivce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSubDlgInfoAccessRecord.h">
@@ -170,9 +143,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\mdump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RecordSetFinder.h">

@@ -25,6 +25,7 @@
 				<DataGridTextColumn Header="Системное время" Binding="{Binding SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Время на устройстве" Binding="{Binding DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Width="Auto" />
 				<DataGridTextColumn Header="Событие" Binding="{Binding JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="Auto" />
+				<DataGridTextColumn Header="Ид. события" Binding="{Binding EventID}" Width="Auto" />
 				<DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="Auto" />
 				<DataGridTextColumn Header="Пропуск" Binding="{Binding CardNo}" Width="Auto" />
 				<DataGridTextColumn Header="Замок" Binding="{Binding DoorNo}" Width="Auto" />

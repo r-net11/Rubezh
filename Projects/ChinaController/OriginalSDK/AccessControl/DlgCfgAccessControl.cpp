@@ -30,11 +30,10 @@ void CDlgCfgAccessControl::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgCfgAccessControl)
-	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_CHANNEL2, m_cmbChannel);
-	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_TIMEOUTDOORSTATUS, m_TimeOutDoorStatus);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_FIRSTENTER_REMOTECHECK, m_chkRemoteCheck);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_FIRSTENTER_ENABLE, m_chkFirstEnterEnable);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_FIRSTENTER_STATUS, m_cbFirstEnterStatus);
+	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_CHANNEL, m_cmbChannel);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_OPENTIMEINDEX, m_cmbOpenTimeIndex);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CMB_OPENMETHOD, m_cmbOpenMethod);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_SENSOR, m_chkSensor);
@@ -43,8 +42,6 @@ void CDlgCfgAccessControl::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_DOORNOTCLOSEALARM, m_chkDoorNotCloseAlarm);
 	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_BREAKINALARM, m_chkBreakAlarm);
 	//}}AFX_DATA_MAP
-	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_FIRSTENTER_HANDICAPPEDCHECK, m_chkHandicappedCheck);
-	DDX_Control(pDX, IDC_ACCESSCONTROL_CHK_REPEATENTERALARM2, m_chkCloseCheckSensor);
 }
 
 
@@ -53,13 +50,8 @@ BEGIN_MESSAGE_MAP(CDlgCfgAccessControl, CDialog)
 	ON_BN_CLICKED(IDC_ACCESSCONTROL_BTN_TIMESECTION, OnAccessControlBtnTimeSection)
 	ON_BN_CLICKED(IDC_ACCESSCONTROL_BTN_GET, OnAccessControlBtnGet)
 	ON_BN_CLICKED(IDC_ACCESSCONTROL_BTN_SET, OnAccessControlBtnSet)
-	ON_CBN_SELENDCANCEL(IDC_ACCESSCONTROL_CMB_CHANNEL2, OnSelendcancelAccesscontrolCmbChannel)
+	ON_CBN_SELCHANGE(IDC_ACCESSCONTROL_CMB_CHANNEL, OnSelchangeAccesscontrolCmbChannel)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_ACCESSCONTROL_CHK_FIRSTENTER_REMOTECHECK, OnBnClickedAccesscontrolChkFirstenterRemotecheck)
-	ON_BN_CLICKED(IDC_ACCESSCONTROL_CHK_FIRSTENTER_HANDICAPPEDCHECK, &CDlgCfgAccessControl::OnBnClickedAccesscontrolChkFirstenterHandicappedcheck)
-	ON_EN_CHANGE(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, &CDlgCfgAccessControl::OnEnChangeAccesscontrolEdtHandicappedunlockhold)
-	ON_EN_CHANGE(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, &CDlgCfgAccessControl::OnEnChangeAccesscontrolEdtHandicappedtimeout2)
-	ON_EN_UPDATE(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, &CDlgCfgAccessControl::OnEnUpdateAccesscontrolEdtHandicappedunlockhold)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -67,12 +59,6 @@ END_MESSAGE_MAP()
 
 void CDlgCfgAccessControl::InitDlg()
 {
-	if (!m_lLoginID)
-	{
-		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt")); 
-		OnCancel();
-		return;
-	} 
 	int i = 0;
 
 	// channel
@@ -92,6 +78,7 @@ void CDlgCfgAccessControl::InitDlg()
 		m_cmbOpenMethod.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
 	}
 	m_cmbOpenMethod.SetCurSel(-1);
+    m_cmbOpenMethod.SetDroppedWidth(160);
 	m_stuInfo.abDoorOpenMethod = true;
 
 	// door unlock hold time
@@ -157,19 +144,6 @@ void CDlgCfgAccessControl::InitDlg()
     // remote check
     //m_stuInfo.abRemoteCheck = true;
     m_chkRemoteCheck.SetCheck(BST_UNCHECKED);
-
-	// first enter status
-	m_TimeOutDoorStatus.ResetContent();
-	m_TimeOutDoorStatus.Clear();
-	static const char* szTimeOutDoorStatus[] = 
-	{	 
-	"True", 
-	"False"
-	};
-	for (i=0; i<2; i++)
-	{
-		m_TimeOutDoorStatus.InsertString(-1, ConvertString(szTimeOutDoorStatus[i], DLG_CFG_ACCESS_CONTROL));
-	}
 }
 
 BOOL CDlgCfgAccessControl::SetConfigToDevice()
@@ -216,7 +190,6 @@ BOOL CDlgCfgAccessControl::GetConfigFromDevice()
 		return FALSE;
 	}
 
-	memset(&m_stuInfo, 0, sizeof(m_stuInfo));
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)m_lLoginID, CFG_CMD_ACCESS_EVENT, nChn, szJsonBuf, 1024*40, &nerror, 5000);
@@ -245,7 +218,15 @@ BOOL CDlgCfgAccessControl::GetConfigFromDevice()
 void CDlgCfgAccessControl::DlgToStu()
 {
 	// door open method
-	m_stuInfo.emDoorOpenMethod = (CFG_DOOR_OPEN_METHOD)m_cmbOpenMethod.GetCurSel();
+    int nMethodIndex = m_cmbOpenMethod.GetCurSel();
+    if (nMethodIndex >= 0 && nMethodIndex < sizeof(stuDemoOpenMethod)/sizeof(stuDemoOpenMethod[0]))
+    {
+        m_stuInfo.emDoorOpenMethod = (CFG_DOOR_OPEN_METHOD)stuDemoOpenMethod[nMethodIndex].emOpenMethod;
+    }
+    else
+    {
+        m_stuInfo.emDoorOpenMethod = CFG_DOOR_OPEN_METHOD_UNKNOWN;
+    }
 	
 	// door unlock hold time
 	m_stuInfo.nUnlockHoldInterval = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_UNLOCKHOLD, NULL, TRUE);
@@ -338,63 +319,31 @@ void CDlgCfgAccessControl::DlgToStu()
     {
         m_stuInfo.abRemoteCheck = true;
         m_stuInfo.bRemoteCheck = TRUE;
-
-		m_stuInfo.stuRemoteDetail.nTimeOut = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT);
-		int nSel = m_TimeOutDoorStatus.GetCurSel() ;
-		if (nSel  == 0)
-			m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = TRUE;
-		else
-			m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = FALSE;
-
     }
     else
     {
         m_stuInfo.bRemoteCheck = FALSE;
-	}
-
-	// handicapped
-	int Handicappedunlockhold  = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
-	//[250, 60000] 
-	if (Handicappedunlockhold > 60000)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 60000);  
-	if (Handicappedunlockhold  < 250)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 250);  
-
-	int Handicappedtimeout2  = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2);
-	//[0,9999] 
-	if (Handicappedtimeout2 > 9999)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 9999);  
-	if (Handicappedtimeout2  < 0)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 0); 
-	if (m_chkHandicappedCheck.GetCheck())
-	{
-		m_stuInfo.abHandicapTimeOut = true;
-		m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
-		m_stuInfo.stuHandicapTimeOut.nCloseTimeout = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2);;
-	}
-	else
-	{
-		m_stuInfo.abHandicapTimeOut = false;
-		m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval  =10000;
-		m_stuInfo.stuHandicapTimeOut.nCloseTimeout  = 0;;
-	}
-	// bCloseCheckSensor
-	if (m_chkCloseCheckSensor.GetCheck())
-	{
-		m_stuInfo.bCloseCheckSensor = TRUE; 
-	}
-	else
-	{
-		m_stuInfo.bCloseCheckSensor = FALSE; 
-	}
-	
+    }
 }
 
 void CDlgCfgAccessControl::StuToDlg()
 {
 	// door open method
-	m_cmbOpenMethod.SetCurSel((CFG_DOOR_OPEN_METHOD)m_stuInfo.emDoorOpenMethod);
-	
+    BOOL bMethodFound = FALSE;
+    for (int i = 0; i < sizeof(stuDemoOpenMethod)/sizeof(stuDemoOpenMethod[0]); i++)
+    {
+        if (m_stuInfo.emDoorOpenMethod == stuDemoOpenMethod[i].emOpenMethod)
+        {
+            bMethodFound = TRUE;
+            m_cmbOpenMethod.SetCurSel(i);
+            break;
+        }
+    }
+    if (!bMethodFound)
+    {
+        m_cmbOpenMethod.SetCurSel(-1);
+    }
+
 	// door unlock hold time
 	SetDlgItemInt(IDC_ACCESSCONTROL_EDT_UNLOCKHOLD, m_stuInfo.nUnlockHoldInterval);
 	
@@ -518,69 +467,22 @@ void CDlgCfgAccessControl::StuToDlg()
         m_chkFirstEnterEnable.SetCheck(BST_UNCHECKED);
     }
 
-	// remote check
-	GetDlgItem(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT)->EnableWindow(FALSE); 
-	m_TimeOutDoorStatus.EnableWindow(FALSE); 
+    // remote check
     if (m_stuInfo.abRemoteCheck)
     {
         if (m_stuInfo.bRemoteCheck)
         {
             m_chkRemoteCheck.SetCheck(BST_CHECKED);
-
-			GetDlgItem(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT)->EnableWindow(TRUE); 
-			m_TimeOutDoorStatus.EnableWindow(TRUE); 
         }
         else
         {
             m_chkRemoteCheck.SetCheck(BST_UNCHECKED);
         }
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT, m_stuInfo.stuRemoteDetail.nTimeOut); 
-		if (m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus)
-			m_TimeOutDoorStatus.SetCurSel(0) ;
-		else
-			m_TimeOutDoorStatus.SetCurSel(1) ;
     }
     else
     {
         m_chkRemoteCheck.SetCheck(BST_UNCHECKED);
     }
-
-	// handicapped 
-	GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD)->EnableWindow(FALSE); 
-	GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2)->EnableWindow(FALSE);  
-	if (m_stuInfo.abHandicapTimeOut && ( m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval > 249))
-	{
-		//if (m_stuInfo.abHandicapTimeOut)
-		//{
-		m_chkHandicappedCheck.SetCheck(BST_CHECKED);
-
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD)->EnableWindow(TRUE); 
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2)->EnableWindow(TRUE);  
-		/*}
-		else
-		{
-			m_chkHandicappedCheck.SetCheck(BST_UNCHECKED);
-		}*/
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval);  
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, m_stuInfo.stuHandicapTimeOut.nCloseTimeout);  
-	}
-	else
-	{
-		m_chkHandicappedCheck.SetCheck(BST_UNCHECKED);
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 10000);  
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 0); 
-	}
-
-
-	// bCloseCheckSensor
-	if (m_stuInfo.bCloseCheckSensor )
-	{
-		m_chkCloseCheckSensor.SetCheck(BST_CHECKED);
-	}
-	else
-	{
-		m_chkCloseCheckSensor.SetCheck(BST_UNCHECKED);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -637,90 +539,8 @@ void CDlgCfgAccessControl::OnAccessControlBtnSet()
 	SetConfigToDevice();
 }
 
-void CDlgCfgAccessControl::OnSelendcancelAccesscontrolCmbChannel() 
+void CDlgCfgAccessControl::OnSelchangeAccesscontrolCmbChannel() 
 {
 	// TODO: Add your control notification handler code here
 	OnAccessControlBtnGet();
-	
-}
-
-void CDlgCfgAccessControl::OnBnClickedAccesscontrolChkFirstenterRemotecheck()
-{
-	// TODO: 在此添加控件通知处理程序代码
-
-	if (1 == m_chkRemoteCheck.GetCheck())
-	{
-		m_TimeOutDoorStatus.EnableWindow(1);
-
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT)->EnableWindow(TRUE); 
-
-	}else
-	{
-
-
-		m_TimeOutDoorStatus.EnableWindow(0);
-
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT)->EnableWindow(FALSE); 
-	}
-}
-
-void CDlgCfgAccessControl::OnBnClickedAccesscontrolChkFirstenterHandicappedcheck()
-{
-	// TODO: 在此添加控件通知处理程序代码
-
-
-	if (1 == m_chkHandicappedCheck.GetCheck())
-	{ 
-
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD)->EnableWindow(TRUE); 
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2)->EnableWindow(TRUE);
-
-	}else
-	{
- 
- 
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD)->EnableWindow(FALSE); 
-		GetDlgItem(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2)->EnableWindow(FALSE);
-	}
-}
-
-void CDlgCfgAccessControl::OnEnChangeAccesscontrolEdtHandicappedunlockhold()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，则它将不会
-	// 发送该通知，除非重写 CDialog::OnInitDialog()
-	// 函数并调用 CRichEditCtrl().SetEventMask()，
-	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
-
-	
-
-	int Handicappedunlockhold  = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
-	//[250, 60000] 
-	if (Handicappedunlockhold > 60000)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 60000);  
-}
-
-void CDlgCfgAccessControl::OnEnChangeAccesscontrolEdtHandicappedtimeout2()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，则它将不会
-	// 发送该通知，除非重写 CDialog::OnInitDialog()
-	// 函数并调用 CRichEditCtrl().SetEventMask()，
-	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
-	int Handicappedtimeout2  = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2);
-	//[0,9999] 
-	if (Handicappedtimeout2 > 9999)
-		SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 9999);  
-}
-
-void CDlgCfgAccessControl::OnEnUpdateAccesscontrolEdtHandicappedunlockhold()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，则它将不会
-	// 发送该通知，除非重写 CDialog::OnInitDialog()
-	// 函数，将 EM_SETEVENTMASK 消息发送到控件，
-	// 同时将 ENM_UPDATE 标志“或”运算到 lParam 掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
 }

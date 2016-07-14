@@ -71,6 +71,7 @@
     <Compile Include="Processor.Administrator.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDK\NativeWrapper.Constants.cs" />
     <Compile Include="SDK\Wrapper.OfflineLog.cs" />
     <Compile Include="SDK\Wrapper.CustomData.cs" />
     <Compile Include="SDK\Wrapper.Interlock.cs" />

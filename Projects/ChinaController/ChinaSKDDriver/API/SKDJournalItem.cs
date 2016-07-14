@@ -33,5 +33,10 @@ namespace StrazhDeviceSDK.API
 		public string szDoorName;
 
 		public ErrorCode ErrorCode { get; set; }
+
+		/// <summary>
+		/// Значение счетчика на котроллере для данного события
+		/// </summary>
+		public int? EventID { get; set; }
 	}
 }

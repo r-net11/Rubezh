@@ -47,7 +47,7 @@ END_MESSAGE_MAP()
 void CSubDlgSensorInfoDescription::InitDlg()
 {
 	int nCfgCount = m_nMaxSensor;
-	int nColumnMaxCount = 4;
+	int nColumnMaxCount = 6;
 	int nRowMaxCount = (nCfgCount%nColumnMaxCount == 0 ? nCfgCount/nColumnMaxCount : (nCfgCount/nColumnMaxCount + 1));
 	int nBtnWidth = 150;	// 100 * 1.5 
 	int nBtnHeight = 20;	// 10 * 1.5

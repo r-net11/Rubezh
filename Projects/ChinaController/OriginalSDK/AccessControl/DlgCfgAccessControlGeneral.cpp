@@ -47,7 +47,6 @@ END_MESSAGE_MAP()
 
 void CDlgCfgAccessControlGeneral::InitDlg()
 {
-	
     m_cmbAccessProperty.ResetContent();
     for (int i = 0; i < sizeof(stuDemoAccessProperty)/sizeof(stuDemoAccessProperty[0]); i++)
     {
@@ -154,12 +153,6 @@ void CDlgCfgAccessControlGeneral::OnAccesscontrolGeneralBtnSet()
 
 BOOL CDlgCfgAccessControlGeneral::OnInitDialog() 
 {
-	if (!m_lLoginID)
-	{
-		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt")); 
-		OnCancel();
-		return FALSE;
-	} 
 	CDialog::OnInitDialog();
 	g_SetWndStaticText(this, DLG_CFG_ACCESS_GENERAL);
 	// TODO: Add extra initialization here

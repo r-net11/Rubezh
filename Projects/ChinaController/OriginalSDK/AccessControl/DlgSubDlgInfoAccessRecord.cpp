@@ -54,7 +54,6 @@ void CDlgSubDlgInfoAccessRecord::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgSubDlgInfoAccessRecord, CDialog)
 	//{{AFX_MSG_MAP(CDlgSubDlgInfoAccessRecord)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK, &CDlgSubDlgInfoAccessRecord::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -67,29 +66,24 @@ void CDlgSubDlgInfoAccessRecord::InitDlg()
 	{
 		m_cmbMethod.InsertString(-1, ConvertString(stuDemoMethod[i].pszName, SUBDLG_INFO_ACCESS));
 	}
+    m_cmbMethod.SetDroppedWidth(160);
 	
 	if (Em_Operate_Type_Show == m_emOperateType)
 	{
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(FALSE);
 		StuToDlg();
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_CARDNO)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_PWD)->EnableWindow(FALSE);
-		m_Date.EnableWindow(FALSE);
-		m_Time.EnableWindow(FALSE); 
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_CHECK_STATUS)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_COMBO_METHOD)->EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Insert == m_emOperateType)
 	{
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Get == m_emOperateType)
-	{ 
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(TRUE);
+	{
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow();
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_CARDNO)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_PWD)->EnableWindow(FALSE);
 		m_Date.EnableWindow(FALSE);
-		m_Time.EnableWindow(FALSE); 
+		m_Time.EnableWindow(FALSE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_CHECK_STATUS)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_COMBO_METHOD)->EnableWindow(FALSE);
 	}
@@ -141,7 +135,20 @@ void CDlgSubDlgInfoAccessRecord::StuToDlg()
 	m_ckStatus.SetCheck(m_stuInfo.bStatus ? BST_CHECKED : BST_UNCHECKED);
 	
 	// open method
-	m_cmbMethod.SetCurSel((int)m_stuInfo.emMethod);
+    BOOL bMethodFound = FALSE;
+    for (int i = 0; i < sizeof(stuDemoMethod)/sizeof(stuDemoMethod[0]); i++)
+    {
+        if (m_stuInfo.emMethod == stuDemoMethod[i].emMethod)
+        {
+            bMethodFound = TRUE;
+            m_cmbMethod.SetCurSel(i);
+            break;
+        }
+    }
+    if (!bMethodFound)
+    {
+        m_cmbMethod.SetCurSel(-1);
+    }
 	
 	// door
 	SetDlgItemInt(IDC_SUBDLG_INFO_ACCESS_EDIT_DOORNO, m_stuInfo.nDoor);
@@ -180,7 +187,15 @@ void CDlgSubDlgInfoAccessRecord::DlgToStu()
 	}
 	
 	// open method
-	m_stuInfo.emMethod = (NET_ACCESS_DOOROPEN_METHOD)m_cmbMethod.GetCurSel();
+    int nMethodIndex = m_cmbMethod.GetCurSel();
+    if (nMethodIndex > 0 && nMethodIndex < sizeof(stuDemoMethod)/sizeof(stuDemoMethod[0]))
+    {
+        m_stuInfo.emMethod = (NET_ACCESS_DOOROPEN_METHOD)stuDemoMethod[nMethodIndex].emMethod;
+    }
+    else
+    {
+        m_stuInfo.emMethod = NET_ACCESS_DOOROPEN_METHOD_UNKNOWN;
+    }
 	
 	// door
 	m_stuInfo.nDoor = GetDlgItemInt(IDC_SUBDLG_INFO_ACCESS_EDIT_DOORNO);
@@ -235,10 +250,4 @@ void CDlgSubDlgInfoAccessRecord::OnOK()
 		break;
 	}
 	CDialog::OnOK();
-}
-
-void CDlgSubDlgInfoAccessRecord::OnBnClickedOk()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	OnOK();
 }

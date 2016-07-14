@@ -1,5 +1,3 @@
-#include "afxdtctl.h"
-#include "afxwin.h"
 #if !defined(AFX_RECORDSETFINDER_H__10AFF1A7_C4AC_433F_A798_D5735112F8C5__INCLUDED_)
 #define AFX_RECORDSETFINDER_H__10AFF1A7_C4AC_433F_A798_D5735112F8C5__INCLUDED_
 
@@ -107,23 +105,7 @@ private:
     LLONG       m_lFinder;
     int         m_nStartSeq;
     DataType	m_emDataType;
-	int         m_nAccessGroup;
-	int         m_nAllRecordCount;
-
-	CList<NET_RECORDSET_ACCESS_CTL_CARD*> m_listCards;
-public:
-	CDateTimeCtrl m_validDate;
-	afx_msg void OnBnClickedButton1();
-
-	int RecordSetFindAll_Card(LLONG lFinderId);
-
-	BOOL CardUpdate(NET_RECORDSET_ACCESS_CTL_CARD *stuInfo);
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton4();
-	CButton m_chkDoor1;
-	CButton m_chkDoor2;
-	CButton m_chkDoor3;
-	CButton m_chkDoor4;
+    int         m_nAccessGroup;
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace StrazhDeviceSDK.NativeAPI
 {
-	public class NativeWrapper
+	public partial class NativeWrapper
 	{
 		#region Common
 
@@ -84,6 +84,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			ACCESS_STATE_NORMAL,
 			ACCESS_STATE_CLOSEALWAYS,
 			ACCESS_STATE_OPENALWAYS,
+			ACCESS_STATE_NOPERSONNC,
+			ACCESS_STATE_NOPERSONNO,
 		}
 
 		public enum CFG_ACCESS_MODE
@@ -104,6 +106,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			CFG_DOOR_OPEN_METHOD_SECTION,
 			CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
 			CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
+			CFG_DOOR_OPEN_METHOD_PWD_AND_CARD_AND_FINGERPINT = 9,
+			CFG_DOOR_OPEN_METHOD_PWD_AND_FINGERPRINT = 10,
 			CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
 			CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 		}
@@ -299,6 +303,13 @@ namespace StrazhDeviceSDK.NativeAPI
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_AUTO_REMOTE_CHECK_INFO
+		{
+			public bool bEnable;
+			public int nTimeSechdule;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
@@ -313,6 +324,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public byte abUnlockHoldInterval;
 			public byte abCloseTimeout;
 			public byte abOpenAlwaysTimeIndex;
+			public byte abCloseAlwaysTimeIndex;
 			public byte abHolidayTimeIndex;
 			public byte abBreakInAlarmEnable;
 			public byte abRepeatEnterAlarmEnable;
@@ -325,11 +337,15 @@ namespace StrazhDeviceSDK.NativeAPI
 			public byte abRemoteDetail;
 			public byte abHandicapTimeOut;
 			public byte abCheckCloseSensor;
+			public bool abAutoRemoteCheck;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+			public byte[] reverse;
 
 			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 			public int nUnlockHoldInterval;
 			public int nCloseTimeout;
 			public int nOpenAlwaysTimeIndex;
+			public int nCloseAlwaysTimeIndex;
 			public int nHolidayTimeRecoNo;
 			public bool bBreakInAlarmEnable;
 			public bool bRepeatEnterAlarm;
@@ -346,6 +362,13 @@ namespace StrazhDeviceSDK.NativeAPI
 			public CFG_REMOTE_DETAIL_INFO stuRemoteDetail;
 			public CFG_HANDICAP_TIMEOUT_INFO stuHandicapTimeOut;
 			public bool bCloseCheckSensor;
+
+			public CFG_AUTO_REMOTE_CHECK_INFO stuAutoRemoteCheck;
+			public bool bLocalControlEnable;
+			public bool bRemoteControlEnable;
+			public int nSensorDelay;
+			public int nHumanStatusSensitivity;
+			public int nDetectSensitivity;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -394,6 +417,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,              // Freeze
 			NET_ACCESSCTLCARD_STATE_ARREARAGE = 0x08,           // Arrears
 			NET_ACCESSCTLCARD_STATE_OVERDUE = 0x10,             // Overdue
+			NET_ACCESSCTLCARD_STATE_PREARREARAGE = 0x20,
 		}
 
 		public enum NET_ACCESSCTLCARD_TYPE
@@ -418,6 +442,9 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			[Description("Принуждение")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
+
+			[Description("Охрана")]
+			NET_ACCESSCTLCARD_TYPE_POLLING,
 
 			[Description("Материнский")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
@@ -781,7 +808,8 @@ namespace StrazhDeviceSDK.NativeAPI
 		{
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
-			NET_ACCESS_CTL_STATUS_TYPE_CLOSE
+			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+			NET_ACCESS_CTL_STATUS_TYPE_ABNORMAL,
 		}
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
@@ -805,7 +833,15 @@ namespace StrazhDeviceSDK.NativeAPI
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
 			[Description("Кнопка")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
+
+			//NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT,
+			//NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT,
+			//NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT = 10,
+			//NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT = 11,
+			//NET_ACCESS_DOOROPEN_METHOD_PERSONS = 12,
+			//NET_ACCESS_DOOROPEN_METHOD_KEY = 13,
+			//NET_ACCESS_DOOROPEN_METHOD_COERCE_PWD = 14,
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -915,6 +951,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szSnapURL;
 
 			public int nErrorCode;
+			public int nPunchingRecNo;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1059,6 +1096,95 @@ namespace StrazhDeviceSDK.NativeAPI
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct DH_PTZ_LINK
+		{
+			public int iType;                                  // 0-None,1-Preset,2-Tour,3-Pattern
+			public int iValue;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct DH_MSG_HANDLE_EX
+		{
+			/* Message triggered methods,multiple methods,including
+			 * 0x00000001 - alarm upload
+			 * 0x00000002 - triggering recording
+			 * 0x00000004 - PTZ movement
+			 * 0x00000008 - sending email
+			 * 0x00000010 - local tour
+			 * 0x00000020 - local tips
+			 * 0x00000040 - alarm output
+			 * 0x00000080 - ftp upload
+			 * 0x00000100 - buzzer
+			 * 0x00000200 - voice tips 
+			 * 0x00000400 - snapshot
+			*/
+
+			/* Current alarm supporting methods, shown by bit mask */
+			public uint dwActionMask;
+
+			/* Triggering action,shown by bit mask,concrete action parameter is shows in the configuration */
+			public uint dwActionFlag;
+
+			/* Triggering alarm output channel,1 means triggering this output */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_ALARMOUT_NUM_EX)]
+			public byte[] byRelAlarmOut;
+			public uint dwDuration;				/* Alarm lasting period */
+
+			/* Triggering recording */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_VIDEO_IN_NUM_EX)]
+			public byte[] byRecordChannel; /* Record channel triggered by alarm,1 means triggering this channel */
+			public uint dwRecLatch;				/* Recording period */
+
+			/* Snapshot channel */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_VIDEO_IN_NUM_EX)]
+			public byte[] bySnap;
+			/* Tour channel */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_VIDEO_IN_NUM_EX)]
+			public byte[] byTour;
+
+			/* PTZ movement */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_VIDEO_IN_NUM_EX)]
+			public DH_PTZ_LINK[] struPtzLink;
+			public uint dwEventLatch;			/* Event delay time, s for unit,range is 0~15,default is 0 */
+			/* Alarm trigerring wireless output,alarm output,1 for trigerring output */
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_ALARMOUT_NUM_EX)]
+			public byte[] byRelWIAlarmOut;
+			public byte bMessageToNet;
+			public byte bMMSEn;                /*Message triggering alarm enabling*/
+			public byte bySnapshotTimes;       /* the number of sheets of drawings */
+			public byte bMatrixEn;				/*!< Matrix output enable */
+			public uint dwMatrix;				/*!< Matrix mask */
+			public byte bLog;					/*!< Log enable,only used in WTN motion detection */
+			public byte bSnapshotPeriod;		/*!<Snapshot frame interval. System can snapshot regularly at the interval you specify here. The snapshot amount in a period of time also has relationship with the snapshot frame rate. 0 means there is no interval, system just snapshot continuously.*/
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = DH_MAX_VIDEO_IN_NUM_EX)]
+			public byte[] byTour2;/* Tour channel 32-63*/
+			public byte byEmailType;             /*<0,picture,1,record>*/
+			public byte byEmailMaxLength;        /*<max record length,unit:MB>*/
+			public byte byEmailMaxTime;          /*<max time length, unit:second>*/
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 475)]
+			public byte[] byReserved;
+		}
+
+		public enum EM_NET_DEFENCE_AREA_TYPE
+		{
+			EM_NET_DEFENCE_AREA_TYPE_UNKNOW,
+			EM_NET_DEFENCE_AREA_TYPE_INTIME,
+			EM_NET_DEFENCE_AREA_TYPE_DELAY,
+			EM_NET_DEFENCE_AREA_TYPE_FULLDAY,
+			EM_NET_DEFENCE_AREA_TYPE_Follow,
+			EM_NET_DEFENCE_AREA_TYPE_MEDICAL,
+			EM_NET_DEFENCE_AREA_TYPE_PANIC,
+			EM_NET_DEFENCE_AREA_TYPE_FIRE,
+			EM_NET_DEFENCE_AREA_TYPE_FULLDAYSOUND,
+			EM_NET_DEFENCE_AREA_TYPE_FULLDATSLIENT,
+			EM_NET_DEFENCE_AREA_TYPE_ENTRANCE1,
+			EM_NET_DEFENCE_AREA_TYPE_ENTRANCE2,
+			EM_NET_DEFENCE_AREA_TYPE_INSIDE,
+			EM_NET_DEFENCE_AREA_TYPE_OUTSIDE,
+			EN_NET_DEFENCE_AREA_TYPE_PEOPLEDETECT,
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct ALARM_ALARM_INFO_EX2
 		{
 			public int dwSize;
@@ -1066,6 +1192,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			public int nAction;
 			public NET_TIME stuTime;
 			public NET_SENSE_METHOD emSenseType;
+			public DH_MSG_HANDLE_EX stuEventHandler;
+			public EM_NET_DEFENCE_AREA_TYPE emDefenceAreaType;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

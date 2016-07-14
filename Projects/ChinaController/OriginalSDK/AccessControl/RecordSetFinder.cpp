@@ -41,11 +41,6 @@ void CRecordSetFinder::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RECORDSETFINDER_CMB_RESULT, m_cmbResult);
 	DDX_Control(pDX, IDC_RECORDSETFINDER_CMB_DATATYPE, m_cmbDataType);
 	//}}AFX_DATA_MAP
-	//DDX_Control(pDX, IDC_DATETIME_RECORD_ENDDATE, m_validDate);
-	//DDX_Control(pDX, IDC_CHECK1, m_chkDoor1);
-	//DDX_Control(pDX, IDC_CHECK2, m_chkDoor2);
-	//DDX_Control(pDX, IDC_CHECK3, m_chkDoor3);
-	//DDX_Control(pDX, IDC_CHECK4, m_chkDoor4);
 }
 
 
@@ -59,8 +54,6 @@ BEGIN_MESSAGE_MAP(CRecordSetFinder, CDialog)
 	ON_CBN_SELCHANGE(IDC_RECORDSETFINDER_CMB_DATATYPE, OnSelchangeRecordsetfinderCmbDatatype)
 	ON_BN_CLICKED(IDC_RECORDSETFINDER_BTN_COUNT, OnRecordsetfinderBtnCount)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_BUTTON1, &CRecordSetFinder::OnBnClickedButton1) 
-	ON_BN_CLICKED(IDC_BUTTON4, &CRecordSetFinder::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -195,7 +188,6 @@ int CRecordSetFinder::RecordSetFindNext_Card(LLONG lFinderId)
 	for (i = 0; i < nMaxNum; i++)
 	{
 		pstuCard[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
-		pstuCard[i].stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
 	}
 	stuOut.pRecordList = (void*)pstuCard;
 	
@@ -470,7 +462,6 @@ BOOL CRecordSetFinder::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	g_SetWndStaticText(this, DLG_RECORDSET_FINDER);
-	m_nAllRecordCount = 0;
 	// TODO: Add extra initialization here
 	InitDlg();
 	
@@ -568,6 +559,8 @@ void CRecordSetFinder::OnRecordsetfinderBtnQueryStop()
     GetDlgItem(IDC_RECORDSETFINDER_BTN_QUERYNEXT)->EnableWindow(FALSE);
     GetDlgItem(IDC_RECORDSETFINDER_BTN_QUERYSTOP)->EnableWindow(FALSE);
     GetDlgItem(IDC_RECORDSETFINDER_BTN_COUNT)->EnableWindow(FALSE);
+    ClearResult();
+	SetDlgItemInt(IDC_RECORDSETFINDER_EDT_RETNUM, 0);
 }
 
 void CRecordSetFinder::OnDestroy() 
@@ -590,7 +583,6 @@ void CRecordSetFinder::OnSelchangeRecordsetfinderCmbResult()
 	{
 		return;
 	}
-	SetDlgItemInt(IDC_RECORDSETFINDER_EDT_RETNUM, 0);
 	
 	void* p = m_cmbResult.GetItemDataPtr(nSel);
     if (NULL == p)
@@ -634,7 +626,6 @@ void CRecordSetFinder::OnRecordsetfinderBtnCount()
     if (CLIENT_QueryRecordCount(&stuIn, &stuOut, SDK_API_WAITTIME))
     {
         CString csInfo;
-		m_nAllRecordCount = stuOut.nRecordCount;
         csInfo.Format("%s %d",
             ConvertString(("Total count is"), DLG_RECORDSET_FINDER),
             stuOut.nRecordCount);
@@ -648,429 +639,4 @@ void CRecordSetFinder::OnRecordsetfinderBtnCount()
             CLIENT_GetLastError());
         MessageBox(csInfo, ConvertString("Prompt"));
     }
-}
-
-void CRecordSetFinder::OnBnClickedButton1()
-{
-	// TODO: 在此添加控件通知处理程序代码
-
-	ClearResult();
-	while (m_listCards.GetCount())
-	{  
-			NET_RECORDSET_ACCESS_CTL_CARD* p = m_listCards.GetHead();
-			if (p)
-			{
-				delete p;
-				p = NULL;
-			} 
-			m_listCards.RemoveHead();
-	}
-	LLONG lFinder = 0;
-
-	SYSTEMTIME st = {0};
-	m_validDate.GetTime(&st); 
-	switch (m_cmbDataType.GetCurSel())
-	{
-	case DataType_Card:
-		RecordSetFind_Card(m_lLoginID, lFinder);
-		break; 
-	default:
-		break;
-	}
-
-	if (lFinder != 0)
-	{
-		m_lFinder = lFinder;
-		int nRet = 1;
-		while (nRet > 0)
-		{
-			nRet = RecordSetFindAll_Card(m_lFinder);
-		}
-		CLIENT_FindRecordClose(m_lFinder);
-		nRet = m_listCards.GetCount();
-		if ( nRet)
-		{
-			int nRecordCount = 0;
-			NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-			for(int i = 0; i< nRet; i ++ )
-			{
-				NET_RECORDSET_ACCESS_CTL_CARD *stuInfo =m_listCards.GetAt(m_listCards.FindIndex(i));
-				stuInfo->stuValidEndTime.dwYear = st.wYear;
-				stuInfo->stuValidEndTime.dwMonth = st.wMonth;
-				stuInfo->stuValidEndTime.dwDay = st.wDay;
-				stuInfo->bFirstEnter =FALSE;
-				stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-				stuParam.pBuf = (void*)&*stuInfo;
-				stuParam.nBufLen = sizeof(*stuInfo);
-
-				// update info
-				BOOL bRet = FALSE;
-				bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
-
-				if (!bRet) 
-				{
-					CString csInfo;
-					csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-					MessageBox(csInfo, ConvertString("Prompt"));
-					break;
-				} 
-				nRecordCount ++;
-			}
-
-			CString csInfo;
-			csInfo.Format("%s:%d", ConvertString("Update card ok:", DLG_RECORDSET_CONTROL), nRecordCount);
-			MessageBox(csInfo, ConvertString("Prompt"));
-		}
-
-
-	}
-	m_emDataType = (DataType)m_cmbDataType.GetCurSel();
-}
-
-
-BOOL CRecordSetFinder::CardUpdate(NET_RECORDSET_ACCESS_CTL_CARD *stuInfo)
-{
- 
-	if (m_lLoginID)
-	{
-		   
-
-					NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-					stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-					stuParam.pBuf = (void*)&*stuInfo;
-					stuParam.nBufLen = sizeof(*stuInfo);
-
-					// update info
-					BOOL bRet = FALSE;
-					bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
-					
-					if (bRet)
-					{
-						return  bRet;
-					} 
-					else
-					{
-						CString csInfo;
-						csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-						MessageBox(csInfo, ConvertString("Prompt"));
-					}
-		 
-	}
-	return  FALSE;
-}
-
-
-int CRecordSetFinder::RecordSetFindAll_Card(LLONG lFinderId)
-{
-	int i = 0, j = 0;
-	int nMaxNum =10;
-	if (nMaxNum <= 0)
-	{
-		return -1;
-	}
-	NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
-	stuIn.lFindeHandle = lFinderId;
-	stuIn.nFileCount = nMaxNum;
-
-	NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
-	stuOut.nMaxRecordNum = nMaxNum;
-
-	NET_RECORDSET_ACCESS_CTL_CARD* pstuCard = new NET_RECORDSET_ACCESS_CTL_CARD[nMaxNum];
-	if (NULL == pstuCard)
-	{
-		return -1;
-	}
-	memset(pstuCard, 0, sizeof(NET_RECORDSET_ACCESS_CTL_CARD) * nMaxNum);
-
-	for (i = 0; i < nMaxNum; i++)
-	{
-		pstuCard[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
-		pstuCard[i].stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
-	}
-	stuOut.pRecordList = (void*)pstuCard;
-
-	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
-	{
-		
-		for (i = 0; i < __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum); i++)
-		{
-			/*CString csInfo;
-			csInfo.Format("%d", m_nStartSeq + 1);
-			m_nStartSeq++;
-			int nIndex = m_cmbResult.InsertString(-1, csInfo);*/
-
-			//if (pstuCard[i].stuValidEndTime.dwYear < 2017)
-			//{
-				NET_RECORDSET_ACCESS_CTL_CARD* p = new NET_RECORDSET_ACCESS_CTL_CARD;
-				if (p != NULL)
-				{
-					memcpy(p, &pstuCard[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
-					//m_cmbResult.SetItemDataPtr(nIndex, (void*)p);
-
-					p->dwSize = sizeof(*p);
-					p->stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
-					m_listCards.AddTail(p);
-
-				}
-			//}
-		}
-		/*if (stuOut.nRetRecordNum  < 1)
-			break;*/
-		//SetDlgItemInt(IDC_RECORDSETFINDER_EDT_RETNUM, stuOut.nRetRecordNum);
-	}
-	else
-	{
-		CString csInfo;
-		csInfo.Format("%s:%08x", ConvertString("Find card failed", DLG_RECORDSET_FINDER), CLIENT_GetLastError());
-		MessageBox(csInfo, ConvertString("Prompt"));
-	}
-
-	delete[] pstuCard;
-	pstuCard = NULL;
-	return stuOut.nRetRecordNum;
-}
-
-void CRecordSetFinder::OnBnClickedButton3()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	ClearResult();
-	while (m_listCards.GetCount())
-	{  
-		NET_RECORDSET_ACCESS_CTL_CARD* p = m_listCards.GetHead();
-		if (p)
-		{
-			delete p;
-			p = NULL;
-		} 
-		m_listCards.RemoveHead();
-	}
-	LLONG lFinder = 0;
- 
-
-	BOOL bDoor1 = m_chkDoor1.GetCheck();
-	BOOL bDoor2 = m_chkDoor2.GetCheck();
-	BOOL bDoor3 = m_chkDoor3.GetCheck();
-	BOOL bDoor4 = m_chkDoor4.GetCheck();
-
-
-	switch (m_cmbDataType.GetCurSel())
-	{
-	case DataType_Card:
-		RecordSetFind_Card(m_lLoginID, lFinder);
-		break; 
-	default:
-		break;
-	}
-
-	if (lFinder != 0)
-	{
-		m_lFinder = lFinder;
-		int nRet = 1;
-		int nDoorNum = 0;
-		while (nRet > 0)
-		{
-			nRet = RecordSetFindAll_Card(m_lFinder);
-		}
-		CLIENT_FindRecordClose(m_lFinder);
-		nRet = m_listCards.GetCount();
-		if ( nRet)
-		{
-			int nRecordCount = 0;
-			NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-			for(int i = 0; i< nRet; i ++ )
-			{
-				NET_RECORDSET_ACCESS_CTL_CARD *stuInfo =m_listCards.GetAt(m_listCards.FindIndex(i));
-				nDoorNum =  stuInfo->nDoorNum;
-				for(int idoor = stuInfo->nDoorNum -1; idoor >= 0; idoor--)
-				{
-
-					if (bDoor1 && (0 == stuInfo->sznDoors[idoor] ))
-					{
-						nDoorNum--;
-						stuInfo->sznDoors[idoor] = stuInfo->sznDoors[idoor + 1];
-						stuInfo->sznTimeSectionNo[idoor] = stuInfo->sznTimeSectionNo[idoor + 1];
-					}else if (bDoor2 && (1 == stuInfo->sznDoors[idoor] ))
-					{
-						nDoorNum--;
-						stuInfo->sznDoors[idoor] = stuInfo->sznDoors[idoor + 1];
-						stuInfo->sznTimeSectionNo[idoor] = stuInfo->sznTimeSectionNo[idoor + 1];
-					}else if (bDoor3 && (2 == stuInfo->sznDoors[idoor] ))
-					{
-						nDoorNum--;
-						stuInfo->sznDoors[idoor] =  stuInfo->sznDoors[idoor + 1];
-						stuInfo->sznTimeSectionNo[idoor] = stuInfo->sznTimeSectionNo[idoor + 1];
-					}else if (bDoor4 && (3 == stuInfo->sznDoors[idoor] ))
-					{
-						nDoorNum--;
-						stuInfo->sznDoors[idoor] =  stuInfo->sznDoors[idoor + 1];
-						stuInfo->sznTimeSectionNo[idoor] = stuInfo->sznTimeSectionNo[idoor + 1];
-					}
-				}
-				stuInfo->nTimeSectionNum = nDoorNum;
-				stuInfo->nDoorNum = nDoorNum;  
-				stuInfo->sznDoors[nDoorNum] =  0;
-				stuInfo->sznTimeSectionNo[nDoorNum] = 0;
-				stuInfo->bFirstEnter =FALSE;
-				stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-				stuParam.pBuf = (void*)&*stuInfo;
-				stuParam.nBufLen = sizeof(*stuInfo);
-
-				// update info
-				BOOL bRet = FALSE;
-				if (nDoorNum == 0)
-				{
- 
-					stuParam.pBuf = (void*)&stuInfo->nRecNo;
-					stuParam.nBufLen = sizeof(stuInfo->nRecNo);
-					bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_REMOVE, &stuParam, SDK_API_WAITTIME);
-				}else
-					bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
-
-				if (!bRet) 
-				{
-					CString csInfo;
-					csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-					MessageBox(csInfo, ConvertString("Prompt"));
-					break;
-				} 
-				nRecordCount ++;
-			}
-
-			CString csInfo;
-			csInfo.Format("%s:%d", ConvertString("Update card ok:", DLG_RECORDSET_CONTROL), nRecordCount);
-			MessageBox(csInfo, ConvertString("Prompt"));
-		}
-
-
-	}
-	m_emDataType = (DataType)m_cmbDataType.GetCurSel();
-}
-
-void CRecordSetFinder::OnBnClickedButton4()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	ClearResult();
-	while (m_listCards.GetCount())
-	{  
-		NET_RECORDSET_ACCESS_CTL_CARD* p = m_listCards.GetHead();
-		if (p)
-		{
-			delete p;
-			p = NULL;
-		} 
-		m_listCards.RemoveHead();
-	}
-	LLONG lFinder = 0;
-
-
-	BOOL bDoor1 = m_chkDoor1.GetCheck();
-	BOOL bDoor2 = m_chkDoor2.GetCheck();
-	BOOL bDoor3 = m_chkDoor3.GetCheck();
-	BOOL bDoor4 = m_chkDoor4.GetCheck();
-
-
-
-	int nDoorNum = 0;
-
-	switch (m_cmbDataType.GetCurSel())
-	{
-	case DataType_Card:
-		RecordSetFind_Card(m_lLoginID, lFinder);
-		break; 
-	default:
-		break;
-	}
-
-	if (lFinder != 0)
-	{
-		m_lFinder = lFinder;
-		int nRet = 1;
-		while (nRet > 0)
-		{
-			nRet = RecordSetFindAll_Card(m_lFinder);
-		}
-		CLIENT_FindRecordClose(m_lFinder);
-		nRet = m_listCards.GetCount();
-		if ( nRet)
-		{
-			int nRecordCount = 0;
-			NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-			for(int i = 0; i< nRet; i ++ )
-			{
-				NET_RECORDSET_ACCESS_CTL_CARD *stuInfo =m_listCards.GetAt(m_listCards.FindIndex(i));
-				nDoorNum =  0;
-				for(int idoor = 0; idoor < stuInfo->nDoorNum ; idoor ++ )
-				{
-
-					if ((!bDoor1) && (0 == stuInfo->sznDoors[idoor] ))
-					{
-						bDoor1 =TRUE;
-					}else if ((!bDoor2) && (1 == stuInfo->sznDoors[idoor] ))
-					{
-
-						bDoor2 =TRUE;
-					}else if ((!bDoor3) && (2 == stuInfo->sznDoors[idoor] ))
-					{
-
-						bDoor3 =TRUE;
-					}else if ((!bDoor4) && (3 == stuInfo->sznDoors[idoor] ))
-					{
-
-						bDoor4 =TRUE;
-					}
-				}
-				if (bDoor1)
-				{
-					nDoorNum++;
-					stuInfo->sznDoors[0] =0;
-					stuInfo->sznTimeSectionNo[0] = 255;
-				}
-				if (bDoor2)
-				{
-					nDoorNum++;
-					stuInfo->sznDoors[1] =1;
-					stuInfo->sznTimeSectionNo[1] = 255;
-				}
-				if (bDoor3)
-				{
-					nDoorNum++;
-					stuInfo->sznDoors[2] =2;
-					stuInfo->sznTimeSectionNo[2] = 255;
-				}
-				if (bDoor4)
-				{
-					nDoorNum++;
-					stuInfo->sznDoors[3] =3;
-					stuInfo->sznTimeSectionNo[3] = 255;
-				}
-				stuInfo->nDoorNum = nDoorNum;  
-				stuInfo->nTimeSectionNum = nDoorNum; 
-
-				stuInfo->bFirstEnter =FALSE;
-				stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-				stuParam.pBuf = (void*)&*stuInfo;
-				stuParam.nBufLen = sizeof(*stuInfo);
-
-				// update info
-				BOOL bRet = FALSE;
-				bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
-
-				if (!bRet) 
-				{
-					CString csInfo;
-					csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-					MessageBox(csInfo, ConvertString("Prompt"));
-					break;
-				} 
-				nRecordCount ++;
-			}
-
-			CString csInfo;
-			csInfo.Format("%s:%d", ConvertString("Update card ok:", DLG_RECORDSET_CONTROL), nRecordCount);
-			MessageBox(csInfo, ConvertString("Prompt"));
-		}
-
-
-	}
-	m_emDataType = (DataType)m_cmbDataType.GetCurSel();
 }

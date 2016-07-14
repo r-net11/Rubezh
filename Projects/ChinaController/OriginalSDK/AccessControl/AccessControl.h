@@ -46,12 +46,6 @@
 #define DLG_CFG_NTP				"CfgNTP"			//=add to cfg
 
 
-#define DLG_SEARCHDEVICE			"SearchDevice"
-#define DLG_CFG_RWDATA			"ReadWriteDevice"
-#define DLG_CFG_ABDOOR			"ABDoorSet"
-#define DLG_CFG_AntiPassBack			"AntiPassBack"
-
-
 #define SDK_API_WAITTIME		5000                // 调用SDK接口超时时间
 
 //////////////////////////////////////////////////////////////////////////
@@ -101,7 +95,13 @@ const OpenMethod stuDemoOpenMethod[] =
 	{CFG_DOOR_OPEN_METHOD_PWD_OR_CARD, "PwdOrCard"},
 	{CFG_DOOR_OPEN_METHOD_CARD_FIRST, "CardFirst"},
 	{CFG_DOOR_OPEN_METHOD_PWD_FIRST, "PwdFirst"},
-	{CFG_DOOR_OPEN_METHOD_SECTION, "TimeSection"},
+    {CFG_DOOR_OPEN_METHOD_SECTION, "TimeSection"},
+    {CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY, "FingerPrintOnly"},
+    {CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT, "PwdOrCardOrFingerPrint"},
+    {CFG_DOOR_OPEN_METHOD_PWD_AND_CARD_AND_FINGERPINT, "Pwd+Card+FingerPrint"},
+    {CFG_DOOR_OPEN_METHOD_PWD_AND_FINGERPRINT, "Pwd+FingerPrint"},
+    {CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT, "CardAndFingerPrint"},
+	{CFG_DOOR_OPEN_METHOD_MULTI_PERSON, "MultiPerson"},
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,6 @@ typedef enum tagEm_RecordSet_Operate_Type
 	Em_Operate_Type_Clear,			// 无需参数
 	Em_Operate_Type_InsertEX,		// 除了nRecNo字段，其他字段都可写
 	Em_Operate_Type_UpdateEX,			// 只有nRecNo字段只读，其他字段可写
-	Em_Operate_Type_ClearRepeatEnter,			//  只有nRecNo,是否消警字段可写
 }Em_RecordSet_Operate_Type;
 
 //////////////////////////////////////////////////////////////////////////
@@ -150,9 +149,6 @@ typedef enum tagEM_CONTROL_QUERY_TYPE
 // 	EM_CONTROL_QUERY_RECORDSET_FINDER,
 	EM_CONTROL_QUERY_UPGRADE,
 	EM_CONTROL_QUERY_MODIFY_PWD,
-	EM_CONTROL_RW_DATA,
-	EM_CONTROL_ATI_SET,
-	EM_CONTROL_AB_DOOR,
 }EM_CONTROL_QUERY_TYPE;
 
 typedef struct tagDemo_Em_Control_Query_Type 
@@ -172,9 +168,6 @@ const Demo_Em_Control_Query_Type stuDemoEmControlQueryType[] =
 	{EM_CONTROL_QUERY_TIME,			"Time"},//
 	{EM_CONTROL_QUERY_UPGRADE,		"Upgrade"},
 	{EM_CONTROL_QUERY_MODIFY_PWD,	"ModifyPwd"},
-	{EM_CONTROL_RW_DATA,	"Read/WriteData"},
-	{EM_CONTROL_ATI_SET,	"ATISET"},
-	{EM_CONTROL_AB_DOOR,	"ABDoor"},
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -186,7 +179,6 @@ typedef enum tagEM_CONFIG_TYPE
 	EM_CONFIG_ACCESSCONTROL,
 	EM_CONFIG_ACCESS_TIMESECHDULE,
 	EM_CONFIG_NTP,
-	EM_CONFIG_SEARCH,
 }EM_CONFIG_TYPE;
 
 typedef struct tagDemo_Em_Config_Type
@@ -202,7 +194,6 @@ const Demo_Em_Config_Type stuDemoEmConfigType[] =
 	{EM_CONFIG_ACCESSCONTROL,			"CfgAccessControl"},
 	{EM_CONFIG_ACCESS_TIMESECHDULE,		"CfgAccessTimeSchedule"},
 	{EM_CONFIG_NTP,						"CfgNTP"},
-	{EM_CONFIG_NTP,						"CfgIPSearch"},
 };
 
 /////////////////////////////////////////////////////////////////////////////

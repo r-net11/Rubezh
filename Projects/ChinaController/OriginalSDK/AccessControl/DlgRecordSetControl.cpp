@@ -45,7 +45,6 @@ BEGIN_MESSAGE_MAP(CDlgRecordSetControl, CDialog)
 	//{{AFX_MSG_MAP(CDlgRecordSetControl)
 	ON_BN_CLICKED(IDD_RECORDSET_CTL_BTN_EXECUTE, OnRecordsetCtlBtnExecute)
 	//}}AFX_MSG_MAP
-	ON_CBN_SELCHANGE(IDD_RECORDSET_CTL_CMB_SETTYPE, &CDlgRecordSetControl::OnCbnSelchangeRecordsetCtlCmbSettype)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -125,23 +124,21 @@ void CDlgRecordSetControl::CardGet()
 	if (IDOK == dlg.DoModal())
 	{
 		// get info by RecNo
-		NET_RECORDSET_ACCESS_CTL_CARD stuInfo = dlg.GetInfo();
+		const NET_RECORDSET_ACCESS_CTL_CARD& stuInfo = dlg.GetInfo();
 
 		NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
 		stuParam.emType = NET_RECORD_ACCESSCTLCARD;
 
-		//NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
-		//stuCard.nRecNo = stuInfo.nRecNo;
-		//stuParam.pBuf = &stuCard;
-
-		stuParam.pBuf = (void*)&stuInfo;
-		stuParam.nBufLen = sizeof(stuInfo);
+		NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
+		stuCard.nRecNo = stuInfo.nRecNo;
+		stuParam.pBuf = &stuCard;
+		
 		int nRet = 0;
 		BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam, 
 			sizeof(stuParam), &nRet, SDK_API_WAITTIME);
 		if (bRet)
 		{
-			dlg.SetInfo(&stuInfo);
+			dlg.SetInfo(&stuCard);
 			dlg.SetOperateType(Em_Operate_Type_Show);
 			dlg.DoModal();
 		} 
@@ -153,69 +150,6 @@ void CDlgRecordSetControl::CardGet()
 		}
 	}
 }
-
-void CDlgRecordSetControl::CardClearRepeatEnter()
-{
-	CSubDlgInfoCard dlg(this, NULL, m_nAccessGroup);
-	dlg.SetOperateType(Em_Operate_Type_Get);
-	if (IDOK == dlg.DoModal())
-	{
-		// get info by RecNo
-		NET_RECORDSET_ACCESS_CTL_CARD stuInfo = dlg.GetInfo();
-
-		NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-		stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-
-		//NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
-		//stuCard.nRecNo = stuInfo.nRecNo;
-		//stuParam.pBuf = &stuCard;
-
-		stuParam.pBuf = (void*)&stuInfo;
-		stuParam.nBufLen = sizeof(stuInfo);
-		int nRet = 0;
-		BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam, 
-			sizeof(stuParam), &nRet, SDK_API_WAITTIME);
-		if (bRet)
-		{
-			dlg.SetInfo(&stuInfo);
-			dlg.SetOperateType(Em_Operate_Type_Show);
-			if (IDOK == dlg.DoModal())
-			{
-				stuInfo = dlg.GetInfo();
-
-				stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-				stuParam.pBuf = (void*)&stuInfo;
-				stuParam.nBufLen = sizeof(stuInfo);
-
-				// update info
-				BOOL bRet = FALSE;
-				////消除反潜报警 ClearRepeatEnter RPC调用
-				NET_IN_CLEAR_REPEAT_ENTER stuInClearRepeatEnter;
-				strcpy(stuInClearRepeatEnter.szCardNO, stuInfo.szCardNo);
-				NET_OUT_CLEAR_REPEAT_ENTER stuOutClearRepeatEnter;
-				bRet =  CLIENT_ClearRepeatEnter(m_lLoginID, &stuInClearRepeatEnter, &stuOutClearRepeatEnter, 3000) ;
-			 
-				if (bRet)
-				{
-					MessageBox(ConvertString("Clear RepeatEnter ok", DLG_RECORDSET_CONTROL), ConvertString("Prompt"));
-				} 
-				else
-				{
-					CString csInfo;
-					csInfo.Format("%s:0x%08x", ConvertString("Clear RepeatEnter failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-					MessageBox(csInfo, ConvertString("Prompt"));
-				}
-			}
-		} 
-		else
-		{
-			CString csInfo;
-			csInfo.Format("%s:0x%08x", ConvertString("Get card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-			MessageBox(csInfo, ConvertString("Prompt"));
-		}
-	}
-}
-
 
 void CDlgRecordSetControl::CardUpdate()
 {
@@ -498,44 +432,36 @@ void CDlgRecordSetControl::AccessInsert()
 
 void CDlgRecordSetControl::AccessGet()
 {
-	//MessageBox(ConvertString("Not supported by device", DLG_RECORDSET_CONTROL),	ConvertString("Prompt"));
-
 	CDlgSubDlgInfoAccessRecord dlg(this, NULL);
-	//dlg.DoModal();
-
-	//CDlgSubDlgInfoAccessRecord dlg(this, NULL, m_nAccessGroup);
 	dlg.SetOperateType(Em_Operate_Type_Get);
 	if (IDOK == dlg.DoModal())
 	{
 		// get info by RecNo
-		NET_RECORDSET_ACCESS_CTL_CARDREC stuInfo = dlg.GetInfo();
-
+		const NET_RECORDSET_ACCESS_CTL_CARDREC& stuInfo = dlg.GetInfo();
+		
 		NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
 		stuParam.emType = NET_RECORD_ACCESSCTLCARDREC;
-
-
-		stuParam.pBuf =  &stuInfo;
-		stuParam.nBufLen = sizeof(stuInfo);
+		
+		NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = {sizeof(stuCardRec)};
+		stuCardRec.nRecNo = stuInfo.nRecNo;
+		stuParam.pBuf = &stuCardRec;
+		
 		int nRet = 0;
 		BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam, 
 			sizeof(stuParam), &nRet, SDK_API_WAITTIME);
 		if (bRet)
 		{
-			dlg.SetInfo(&stuInfo);
+			dlg.SetInfo(&stuCardRec);
 			dlg.SetOperateType(Em_Operate_Type_Show);
 			dlg.DoModal();
-			
-
 		} 
 		else
 		{
 			CString csInfo;
-			csInfo.Format("%s:0x%08x", ConvertString("Get Access failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
+			csInfo.Format("%s:0x%08x", ConvertString("Get card access record failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
 			MessageBox(csInfo, ConvertString("Prompt"));
 		}
 	}
-	 
-	
 }
 
 void CDlgRecordSetControl::AccessUpdate()
@@ -763,10 +689,6 @@ void CDlgRecordSetControl::OnRecordsetCtlBtnExecute()
 		{
 			CardClear();
 		}
-		else if (Em_Operate_Type_ClearRepeatEnter == nCtlType + 1)
-		{
-			CardClearRepeatEnter();
-		}
 	}
 	else if (Em_RecordSet_Type_Pwd == nSetType)
 	{
@@ -837,32 +759,4 @@ void CDlgRecordSetControl::OnRecordsetCtlBtnExecute()
 			HolidayClear();
 		}
 	}
-}
-
-void CDlgRecordSetControl::OnCbnSelchangeRecordsetCtlCmbSettype()
-{
-	//// TODO: 在此添加控件通知处理程序代码
-	//int nSetType = m_cmbSetType.GetCurSel();
-	//if (Em_RecordSet_Type_Card == nSetType)
-	//{
-	//	m_cmbCtlType.ResetContent();
-	//	m_cmbCtlType.it
-	//	for (int n = 0; n < sizeof(stuDemoRecordSetCtlType)/sizeof(stuDemoRecordSetCtlType[0]); n++)
-	//	{
-	//		m_cmbCtlType.InsertString(-1, ConvertString(stuDemoRecordSetCtlType[n].szName, DLG_RECORDSET_CONTROL));
-	//	}
-	//	m_cmbCtlType.SetCurSel(0);
-	//}
-	//else if (Em_RecordSet_Type_Pwd == nSetType)
-	//{
-	//	
-	//}
-	//else if (Em_RecordSet_Type_Access == nSetType)
-	//{
-	//	
-	//}
-	//else if (Em_RecordSet_Type_Holiday == nSetType)
-	//{
-	//	
-	//}
 }

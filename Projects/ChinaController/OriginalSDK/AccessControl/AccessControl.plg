@@ -3,76 +3,76 @@
 <pre>
 <h1>Build Log</h1>
 <h3>
---------------------Configuration: AccessControl - Win32 Debug--------------------
+--------------------Configuration: AccessControl - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating command line "rc.exe /l 0x804 /fo"Debug/AccessControl.res" /d "_DEBUG" /d "_AFXDLL" "Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\AccessControl.rc"" 
-Creating temporary file "C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F3.tmp" with contents
+Creating command line "rc.exe /l 0x804 /fo"Release/AccessControl.res" /d "NDEBUG" "D:\product\AccessControl\AccessControl.rc"" 
+Creating temporary file "C:\Users\29835\AppData\Local\Temp\RSPE318.tmp" with contents
 [
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /FR"Debug/" /Fp"Debug/AccessControl.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\AccessControl.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\AccessControlDlg.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\AlarmSubscribe.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCapability.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgDeviceTime.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgDoorControl.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgQueryLog.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgRecordSetControl.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgSubDlgInfoAccessRecord.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgSubDlgInfoHoliday.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgSubDlgInfoPassword.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgUpgrade.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgUserManage.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgVersion.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\Include\mdump.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\RecordSetFinder.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\SubDlgCfgDoorOpenTimeSection.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\SubDlgInfoCard.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\SubDlgSensorInfoDescription.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCfgAccessControl.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCfgAccessControlGeneral.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCfgNetwork.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCfgNTP.cpp"
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\DlgCfgTimeSchedule.cpp"
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Release/AccessControl.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\product\AccessControl\AccessControl.cpp"
+"D:\product\AccessControl\AccessControlDlg.cpp"
+"D:\product\AccessControl\AlarmSubscribe.cpp"
+"D:\product\AccessControl\DlgCapability.cpp"
+"D:\product\AccessControl\DlgDeviceTime.cpp"
+"D:\product\AccessControl\DlgDoorControl.cpp"
+"D:\product\AccessControl\DlgQueryLog.cpp"
+"D:\product\AccessControl\DlgRecordSetControl.cpp"
+"D:\product\AccessControl\DlgSubDlgInfoAccessRecord.cpp"
+"D:\product\AccessControl\DlgSubDlgInfoHoliday.cpp"
+"D:\product\AccessControl\DlgSubDlgInfoPassword.cpp"
+"D:\product\AccessControl\DlgUpgrade.cpp"
+"D:\product\AccessControl\DlgUserManage.cpp"
+"D:\product\AccessControl\DlgVersion.cpp"
+"D:\product\AccessControl\Include\mdump.cpp"
+"D:\product\AccessControl\RecordSetFinder.cpp"
+"D:\product\AccessControl\SubDlgCfgDoorOpenTimeSection.cpp"
+"D:\product\AccessControl\SubDlgInfoCard.cpp"
+"D:\product\AccessControl\SubDlgSensorInfoDescription.cpp"
+"D:\product\AccessControl\DlgCfgAccessControl.cpp"
+"D:\product\AccessControl\DlgCfgAccessControlGeneral.cpp"
+"D:\product\AccessControl\DlgCfgNetwork.cpp"
+"D:\product\AccessControl\DlgCfgNTP.cpp"
+"D:\product\AccessControl\DlgCfgTimeSchedule.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F3.tmp" 
-Creating temporary file "C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F4.tmp" with contents
+Creating command line "cl.exe @C:\Users\29835\AppData\Local\Temp\RSPE318.tmp" 
+Creating temporary file "C:\Users\29835\AppData\Local\Temp\RSPE319.tmp" with contents
 [
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /FR"Debug/" /Fp"Debug/AccessControl.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"Z:\项目资料\SDK_Demo版本\General_AccessControlDemo_Chn_Win32_IS_V3.41.14098.T.20141126\AccessControl\StdAfx.cpp"
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Release/AccessControl.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\product\AccessControl\StdAfx.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F4.tmp" 
-Creating temporary file "C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F5.tmp" with contents
+Creating command line "cl.exe @C:\Users\29835\AppData\Local\Temp\RSPE319.tmp" 
+Creating temporary file "C:\Users\29835\AppData\Local\Temp\RSPE31A.tmp" with contents
 [
-/nologo /subsystem:windows /incremental:yes /pdb:"./Bin/AccessControl_d.pdb" /debug /machine:I386 /out:"./Bin/AccessControl_d.exe" /pdbtype:sept 
-".\Debug\AccessControl.obj"
-".\Debug\AccessControlDlg.obj"
-".\Debug\AlarmSubscribe.obj"
-".\Debug\DlgCapability.obj"
-".\Debug\DlgDeviceTime.obj"
-".\Debug\DlgDoorControl.obj"
-".\Debug\DlgQueryLog.obj"
-".\Debug\DlgRecordSetControl.obj"
-".\Debug\DlgSubDlgInfoAccessRecord.obj"
-".\Debug\DlgSubDlgInfoHoliday.obj"
-".\Debug\DlgSubDlgInfoPassword.obj"
-".\Debug\DlgUpgrade.obj"
-".\Debug\DlgUserManage.obj"
-".\Debug\DlgVersion.obj"
-".\Debug\mdump.obj"
-".\Debug\RecordSetFinder.obj"
-".\Debug\StdAfx.obj"
-".\Debug\SubDlgCfgDoorOpenTimeSection.obj"
-".\Debug\SubDlgInfoCard.obj"
-".\Debug\SubDlgSensorInfoDescription.obj"
-".\Debug\DlgCfgAccessControl.obj"
-".\Debug\DlgCfgAccessControlGeneral.obj"
-".\Debug\DlgCfgNetwork.obj"
-".\Debug\DlgCfgNTP.obj"
-".\Debug\DlgCfgTimeSchedule.obj"
-".\Debug\AccessControl.res"
+/nologo /subsystem:windows /incremental:no /pdb:"Bin/AccessControl.pdb" /debug /machine:I386 /out:"Bin/AccessControl.exe" 
+.\Release\AccessControl.obj
+.\Release\AccessControlDlg.obj
+.\Release\AlarmSubscribe.obj
+.\Release\DlgCapability.obj
+.\Release\DlgDeviceTime.obj
+.\Release\DlgDoorControl.obj
+.\Release\DlgQueryLog.obj
+.\Release\DlgRecordSetControl.obj
+.\Release\DlgSubDlgInfoAccessRecord.obj
+.\Release\DlgSubDlgInfoHoliday.obj
+.\Release\DlgSubDlgInfoPassword.obj
+.\Release\DlgUpgrade.obj
+.\Release\DlgUserManage.obj
+.\Release\DlgVersion.obj
+.\Release\mdump.obj
+.\Release\RecordSetFinder.obj
+.\Release\StdAfx.obj
+.\Release\SubDlgCfgDoorOpenTimeSection.obj
+.\Release\SubDlgInfoCard.obj
+.\Release\SubDlgSensorInfoDescription.obj
+.\Release\DlgCfgAccessControl.obj
+.\Release\DlgCfgAccessControlGeneral.obj
+.\Release\DlgCfgNetwork.obj
+.\Release\DlgCfgNTP.obj
+.\Release\DlgCfgTimeSchedule.obj
+.\Release\AccessControl.res
 ]
-Creating command line "link.exe @C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F5.tmp"
+Creating command line "link.exe @C:\Users\29835\AppData\Local\Temp\RSPE31A.tmp"
 <h3>Output Window</h3>
 Compiling resources...
 Compiling...
@@ -106,42 +106,11 @@ DlgCfgNTP.cpp
 DlgCfgTimeSchedule.cpp
 Generating Code...
 Linking...
-Creating temporary file "C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F7.tmp" with contents
-[
-/nologo /o"./Bin/AccessControl.bsc" 
-".\Debug\StdAfx.sbr"
-".\Debug\AccessControl.sbr"
-".\Debug\AccessControlDlg.sbr"
-".\Debug\AlarmSubscribe.sbr"
-".\Debug\DlgCapability.sbr"
-".\Debug\DlgDeviceTime.sbr"
-".\Debug\DlgDoorControl.sbr"
-".\Debug\DlgQueryLog.sbr"
-".\Debug\DlgRecordSetControl.sbr"
-".\Debug\DlgSubDlgInfoAccessRecord.sbr"
-".\Debug\DlgSubDlgInfoHoliday.sbr"
-".\Debug\DlgSubDlgInfoPassword.sbr"
-".\Debug\DlgUpgrade.sbr"
-".\Debug\DlgUserManage.sbr"
-".\Debug\DlgVersion.sbr"
-".\Debug\mdump.sbr"
-".\Debug\RecordSetFinder.sbr"
-".\Debug\SubDlgCfgDoorOpenTimeSection.sbr"
-".\Debug\SubDlgInfoCard.sbr"
-".\Debug\SubDlgSensorInfoDescription.sbr"
-".\Debug\DlgCfgAccessControl.sbr"
-".\Debug\DlgCfgAccessControlGeneral.sbr"
-".\Debug\DlgCfgNetwork.sbr"
-".\Debug\DlgCfgNTP.sbr"
-".\Debug\DlgCfgTimeSchedule.sbr"]
-Creating command line "bscmake.exe @C:\DOCUME~1\19159\LOCALS~1\Temp\RSP32F7.tmp"
-Creating browse info file...
-<h3>Output Window</h3>
 
 
 
 <h3>Results</h3>
-AccessControl_d.exe - 0 error(s), 0 warning(s)
+AccessControl.exe - 0 error(s), 0 warning(s)
 </pre>
 </body>
 </html>

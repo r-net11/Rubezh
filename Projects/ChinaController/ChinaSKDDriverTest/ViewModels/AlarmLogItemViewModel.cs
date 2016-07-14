@@ -125,35 +125,6 @@ namespace ControllerSDK.ViewModels
 
 		public SKDJournalItem TransformToJournalItem()
 		{
-			//var journalItem = new SKDJournalItem();
-
-			//journalItem.LoginID = MainViewModel.Wrapper.LoginID;
-			//journalItem.SystemDateTime = DateTime.Now;
-			//journalItem.DeviceDateTime = DateTime;
-			//switch (AlarmType)
-			//{
-			//	case AlarmType.BreakIn:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Взлом;
-			//		break;
-			//	case AlarmType.Duress:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
-			//		break;
-			//	case AlarmType.AlarmLocal:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
-			//		break;
-			//	case AlarmType.DoorNotClose:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
-			//		break;
-			//	case AlarmType.ReaderChassisIntruded:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
-			//		break;
-			//	case AlarmType.Repeatenter:
-			//		journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
-			//		break;
-			//}
-			//journalItem.CardNo = CardId;
-			//journalItem.DoorNo = DoorNo;
-
 			var journalItem = MainViewModel.Wrapper.AlarmLogItemToJournalItem(new AlarmLogItem()
 			{
 				LogNo = LogNo,

@@ -44,6 +44,8 @@ namespace ControllerSDK.ViewModels
 
 		public JournalItemType JournalItemType { get; private set; }
 
+		public int? EventID { get; private set; }
+
 		public JournalItemViewModel(SKDJournalItem journalItem, JournalItemType journalItemType = JournalItemType.Online)
 		{
 			LoginID = journalItem.LoginID;
@@ -63,8 +65,8 @@ namespace ControllerSDK.ViewModels
 			ReaderID = journalItem.szReaderID;
 			DoorName = journalItem.szDoorName;
 			ErrorCode = journalItem.ErrorCode;
-			
 			JournalItemType = journalItemType;
+			EventID = journalItem.EventID;
 		}
 	}
 

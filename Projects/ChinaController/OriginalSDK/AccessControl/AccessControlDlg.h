@@ -87,16 +87,6 @@ private:
 	void		CFGofAccessTimeSechdule();
 	void		CFGofNTP();
 
-	//设备搜索 无需登录
-	void		CFGofSearchDevice();
-
-	//读写数据
-	void		CFGofRWDeviceData();
-	//反潜回设定
-	void		CFGofAtiSet();
-	//AB多门互锁设定
-	void		CFGofABDoor();
-
 private:
 	LLONG		m_lLoginID;
 	NET_DEVICE_TYPE	m_emType;

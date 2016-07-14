@@ -173,7 +173,7 @@ BOOL CDlgCfgTimeSchedule::SetConfigToDevice()
 		int nerror = 0;
 		int nrestart = 0;
 		
-		bRet = CLIENT_SetNewDevConfig((LLONG)m_lLoginID, CFG_CMD_ACCESSTIMESCHEDULE, nChn, szJsonBuf, 1024*40, &nerror, &nrestart, 0);
+		bRet = CLIENT_SetNewDevConfig((LLONG)m_lLoginID, CFG_CMD_ACCESSTIMESCHEDULE, nChn, szJsonBuf, 1024*40, &nerror, &nrestart, 1000);
 		if (!bRet)
 		{
 			CString csErr;

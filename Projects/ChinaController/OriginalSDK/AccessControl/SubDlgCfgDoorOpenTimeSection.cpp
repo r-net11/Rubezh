@@ -101,7 +101,11 @@ void CSubDlgCfgDoorOpenTimeSection::InitDlg()
 		m_cmbOpenMethod2.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
 		m_cmbOpenMethod3.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
 		m_cmbOpenMethod4.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
-	}
+    }
+    m_cmbOpenMethod1.SetDroppedWidth(160);
+    m_cmbOpenMethod2.SetDroppedWidth(160);
+    m_cmbOpenMethod3.SetDroppedWidth(160);
+    m_cmbOpenMethod4.SetDroppedWidth(160);
 	m_cmbOpenMethod1.SetCurSel(-1);
 	m_cmbOpenMethod2.SetCurSel(-1);
 	m_cmbOpenMethod3.SetCurSel(-1);

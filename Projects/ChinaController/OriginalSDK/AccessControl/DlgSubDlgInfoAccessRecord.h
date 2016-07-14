@@ -19,7 +19,12 @@ const Demo_Method stuDemoMethod[] =
 	{NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST, "CardFirst"},
 	{NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST, "PwdFirst"},
 	{NET_ACCESS_DOOROPEN_METHOD_REMOTE, "Remote"},
-	{NET_ACCESS_DOOROPEN_METHOD_BUTTON, "Button"},
+    {NET_ACCESS_DOOROPEN_METHOD_BUTTON, "Button"},
+    {NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT, "FingerPrint"},
+    {NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT, "Pwd+Card+FingerPrint"},
+    {NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT, "Pwd+FingerPrint"},
+    {NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT, "Card+FingerPrint"},
+	{NET_ACCESS_DOOROPEN_METHOD_PERSONS, "Persons"},
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -76,8 +81,6 @@ private:
 private:
 	NET_RECORDSET_ACCESS_CTL_CARDREC	m_stuInfo;
 	Em_RecordSet_Operate_Type			m_emOperateType;
-public:
-	afx_msg void OnBnClickedOk();
 };
 
 //{{AFX_INSERT_LOCATION}}

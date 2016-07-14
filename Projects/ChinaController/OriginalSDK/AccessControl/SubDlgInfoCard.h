@@ -1,4 +1,3 @@
-#include "afxwin.h"
 #if !defined(AFX_SUBDLGINFOCARD_H__2410B577_5B03_4F4D_8F44_54E07099336D__INCLUDED_)
 #define AFX_SUBDLGINFOCARD_H__2410B577_5B03_4F4D_8F44_54E07099336D__INCLUDED_
 
@@ -26,6 +25,9 @@ const DemoCardStatus stuDemoCardStatus[] =
 	{NET_ACCESSCTLCARD_STATE_LOSE, "Lose"},
 	{NET_ACCESSCTLCARD_STATE_LOGOFF, "LogOff"},
 	{NET_ACCESSCTLCARD_STATE_FREEZE, "Freeze"},
+    {NET_ACCESSCTLCARD_STATE_ARREARAGE,"欠费"},
+    {NET_ACCESSCTLCARD_STATE_OVERDUE,"逾期"},
+    {NET_ACCESSCTLCARD_STATE_PREARREARAGE,"预欠费"},
 };
 
 // card type
@@ -108,6 +110,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CSubDlgInfoCard)
 	enum { IDD = IDD_SUBDLG_INFO_CARD };
+	CDateTimeCtrl	m_dtpVTEnd;
+	CDateTimeCtrl	m_dtpVTStart;
 	CButton	m_chkFirstEnter;
 	CComboBox	m_cmbCardType;
 	CComboBox	m_cmbCardStatus;
@@ -160,10 +164,6 @@ private:
     int                             m_nAccessGroup;
 	bool							m_bDirty;
 	//CFixBuffer						m_fingerPrintPacket;
-public:
-	afx_msg void OnBnClickedOk();
-	// 残疾人
-	CButton m_chkHandicapped;
 };
 
 //{{AFX_INSERT_LOCATION}}

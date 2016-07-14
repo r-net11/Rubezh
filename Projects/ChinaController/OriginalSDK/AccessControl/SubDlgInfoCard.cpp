@@ -28,7 +28,7 @@ CSubDlgInfoCard::CSubDlgInfoCard(CWnd* pParent /* = NULL */, NET_RECORDSET_ACCES
 		memcpy(&m_stuInfo, p, sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
 	}
 	m_stuInfo.dwSize = sizeof(m_stuInfo);
-	m_stuInfo.stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
+	m_stuInfo.stuFingerPrintInfo.dwSize = sizeof(m_stuInfo.stuFingerPrintInfo);
 
 	m_emOperateType = Em_Operate_Type_Show;
     m_nAccessGroup  = nAccessGroup;
@@ -40,6 +40,8 @@ void CSubDlgInfoCard::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CSubDlgInfoCard)
+	DDX_Control(pDX, IDC_RECSET_CARD_DTP_VTEND, m_dtpVTEnd);
+	DDX_Control(pDX, IDC_RECSET_CARD_DTP_VTSTART, m_dtpVTStart);
 	DDX_Control(pDX, IDC_RECSET_CARD_CHK_FIRSTENTER, m_chkFirstEnter);
 	DDX_Control(pDX, IDC_RECSET_CARD_CMB_CARDTYPE, m_cmbCardType);
 	DDX_Control(pDX, IDC_RECSET_CARD_CMB_CARDSTATUS, m_cmbCardStatus);
@@ -48,7 +50,6 @@ void CSubDlgInfoCard::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RECSET_CARD_DTP_CT_TIME, m_dtpCreateTimeTime);
 	DDX_Control(pDX, IDC_RECSET_CARD_DTP_CT_DATE, m_dtpCreateTimeDate);
 	//}}AFX_DATA_MAP
-	DDX_Control(pDX, IDC_RECSET_CARD_CHK_HANDICAPPED, m_chkHandicapped);
 }
 
 
@@ -57,7 +58,6 @@ BEGIN_MESSAGE_MAP(CSubDlgInfoCard, CDialog)
 	ON_BN_CLICKED(IDC_RECSET_CARD_BTN_DOORS, OnRecsetCardBtnDoors)
 	ON_BN_CLICKED(IDC_RECSET_CARD_BTN_TM, OnRecsetCardBtnTm)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK, &CSubDlgInfoCard::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 void CSubDlgInfoCard::InitDlg()
@@ -99,8 +99,9 @@ void CSubDlgInfoCard::InitDlg()
 		GetDlgItem(IDC_RECSET_CARD_EDT_USETIME)->EnableWindow(FALSE);
 		m_dtpVDStart.EnableWindow(FALSE);
 		m_dtpVDEnd.EnableWindow(FALSE);
+        m_dtpVTStart.EnableWindow(FALSE);
+        m_dtpVTEnd.EnableWindow(FALSE);
         m_chkFirstEnter.EnableWindow(FALSE);
-		m_chkHandicapped.EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Update == m_emOperateType || Em_Operate_Type_UpdateEX == m_emOperateType)
 	{
@@ -121,8 +122,9 @@ void CSubDlgInfoCard::InitDlg()
 		GetDlgItem(IDC_RECSET_CARD_EDT_USETIME)->EnableWindow(FALSE);
 		m_dtpVDStart.EnableWindow(FALSE);
         m_dtpVDEnd.EnableWindow(FALSE);
-		m_chkFirstEnter.EnableWindow(FALSE);
-		m_chkHandicapped.EnableWindow(FALSE);
+        m_dtpVTStart.EnableWindow(FALSE);
+        m_dtpVTEnd.EnableWindow(FALSE);
+        m_chkFirstEnter.EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Clear == m_emOperateType)
 	{
@@ -169,12 +171,20 @@ void CSubDlgInfoCard::StuToDlg()
 	st.wMonth	= (WORD)m_stuInfo.stuValidStartTime.dwMonth;
 	st.wDay		= (WORD)m_stuInfo.stuValidStartTime.dwDay;
 	m_dtpVDStart.SetTime(&st);
+    st.wHour    = (WORD)m_stuInfo.stuValidStartTime.dwHour;
+    st.wMinute  = (WORD)m_stuInfo.stuValidStartTime.dwMinute;
+    st.wSecond  = (WORD)m_stuInfo.stuValidStartTime.dwSecond;
+    m_dtpVTStart.SetTime(&st);
 
 	// valid time end
 	st.wYear	= (WORD)m_stuInfo.stuValidEndTime.dwYear;
 	st.wMonth	= (WORD)m_stuInfo.stuValidEndTime.dwMonth;
 	st.wDay		= (WORD)m_stuInfo.stuValidEndTime.dwDay;
 	m_dtpVDEnd.SetTime(&st);
+    st.wHour    = (WORD)m_stuInfo.stuValidEndTime.dwHour;
+    st.wMinute  = (WORD)m_stuInfo.stuValidEndTime.dwMinute;
+    st.wSecond  = (WORD)m_stuInfo.stuValidEndTime.dwSecond;
+    m_dtpVTEnd.SetTime(&st);
 
     // first enter
     if (m_stuInfo.bFirstEnter)
@@ -184,12 +194,7 @@ void CSubDlgInfoCard::StuToDlg()
     else
     {
         m_chkFirstEnter.SetCheck(BST_UNCHECKED);
-    } 
-	//Handicapped
-	if (m_stuInfo.bHandicap)
-		m_chkHandicapped.SetCheck(BST_CHECKED);
-	else
-		m_chkHandicapped.SetCheck(BST_UNCHECKED);
+    }
 }
 
 void CSubDlgInfoCard::DlgToStu()
@@ -231,12 +236,20 @@ void CSubDlgInfoCard::DlgToStu()
 	m_stuInfo.stuValidStartTime.dwYear = st.wYear;
 	m_stuInfo.stuValidStartTime.dwMonth = st.wMonth;
 	m_stuInfo.stuValidStartTime.dwDay = st.wDay;
+    m_dtpVTStart.GetTime(&st);
+    m_stuInfo.stuValidStartTime.dwHour = st.wHour;
+    m_stuInfo.stuValidStartTime.dwMinute = st.wMinute;
+    m_stuInfo.stuValidStartTime.dwSecond = st.wSecond;
 	
 	// valid time end
 	m_dtpVDEnd.GetTime(&st);
 	m_stuInfo.stuValidEndTime.dwYear = st.wYear;
 	m_stuInfo.stuValidEndTime.dwMonth = st.wMonth;
 	m_stuInfo.stuValidEndTime.dwDay = st.wDay;
+    m_dtpVTEnd.GetTime(&st);
+    m_stuInfo.stuValidEndTime.dwHour = st.wHour;
+    m_stuInfo.stuValidEndTime.dwMinute = st.wMinute;
+    m_stuInfo.stuValidEndTime.dwSecond = st.wSecond;
 
 	// test finger print packets(single) 虏芒脢脭脰赂脦脝脢媒戮脻拢卢脭脻脢卤虏禄脡戮鲁媒
 // 	if (m_emOperateType == Em_Operate_Type_UpdateEX || m_emOperateType == Em_Operate_Type_InsertEX)
@@ -293,15 +306,7 @@ void CSubDlgInfoCard::DlgToStu()
     else
     {
         m_stuInfo.bFirstEnter = FALSE;
-	}
-	if (m_chkHandicapped.GetCheck())
-	{
-		m_stuInfo.bHandicap = TRUE;
-	}
-	else
-	{
-		m_stuInfo.bHandicap = FALSE;
-	}
+    }
 }
 
 BOOL CSubDlgInfoCard::Get()
@@ -348,6 +353,18 @@ int CSubDlgInfoCard::CardStatusToInt(NET_ACCESSCTLCARD_STATE emStatus)
 	{
 		n = 4;
 	}
+    else if (NET_ACCESSCTLCARD_STATE_ARREARAGE == emStatus)
+    {
+        n = 5;
+    }
+    else if (NET_ACCESSCTLCARD_STATE_OVERDUE == emStatus)
+    {
+        n = 6;
+    }
+    else if (NET_ACCESSCTLCARD_STATE_PREARREARAGE == emStatus)
+    {
+        n = 7;
+    }
 	return n;
 }
 
@@ -372,6 +389,18 @@ NET_ACCESSCTLCARD_STATE CSubDlgInfoCard::IntToCardStatus(int n)
 	else if (4 == n)
 	{
 		emStatua = NET_ACCESSCTLCARD_STATE_FREEZE;
+	}
+    else if (5 == n)
+    {
+        emStatua = NET_ACCESSCTLCARD_STATE_ARREARAGE;
+	}
+    else if (6 == n)
+    {
+        emStatua = NET_ACCESSCTLCARD_STATE_OVERDUE;
+	}
+    else if (7 == n)
+    {
+        emStatua = NET_ACCESSCTLCARD_STATE_PREARREARAGE;
 	}
 	return emStatua;
 }
@@ -563,10 +592,4 @@ void CSubDlgInfoCard::OnRecsetCardBtnTm()
 			m_stuInfo.nTimeSectionNum = __min(vecChn.size(), DH_MAX_TIMESECTION_NUM);
 		}
 	}	
-}
-
-void CSubDlgInfoCard::OnBnClickedOk()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	OnOK();
 }
