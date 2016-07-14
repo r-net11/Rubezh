@@ -39,3 +39,11 @@ END'
 	INSERT INTO Patches (Id) VALUES ('GetLastJournalItemProducedByController')
 END
 GO
+
+-- В таблицу 'Journal' добавлено поле 'EventID'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_EventID_Added_In_Table_Journal')
+	BEGIN
+		ALTER TABLE [dbo].[Journal] ADD [EventID] [int] NULL
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_EventID_Added_In_Table_Journal')
+	END
+GO

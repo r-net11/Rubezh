@@ -123,6 +123,8 @@ namespace StrazhDAL.DataAccess
 		
 		private System.Nullable<System.Guid> _ControllerUID;
 		
+		private System.Nullable<int> _EventID;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -163,6 +165,8 @@ namespace StrazhDAL.DataAccess
     partial void OnErrorCodeChanged();
     partial void OnControllerUIDChanging(System.Nullable<System.Guid> value);
     partial void OnControllerUIDChanged();
+    partial void OnEventIDChanging(System.Nullable<int> value);
+    partial void OnEventIDChanged();
     #endregion
 		
 		public Journal()
@@ -526,6 +530,26 @@ namespace StrazhDAL.DataAccess
 					this._ControllerUID = value;
 					this.SendPropertyChanged("ControllerUID");
 					this.OnControllerUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventID", DbType="int")]
+		public System.Nullable<int> EventID
+		{
+			get
+			{
+				return this._EventID;
+			}
+			set
+			{
+				if ((this._EventID != value))
+				{
+					this.OnEventIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventID = value;
+					this.SendPropertyChanged("EventID");
+					this.OnEventIDChanged();
 				}
 			}
 		}

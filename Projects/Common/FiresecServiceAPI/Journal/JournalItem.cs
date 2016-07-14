@@ -66,6 +66,12 @@ namespace StrazhAPI.Journal
 		[DataMember]
 		public Guid ControllerUID { get; set; }
 
+		/// <summary>
+		/// Значение счетчика на контроллере для события
+		/// </summary>
+		[DataMember]
+		public int? EventID { get; set; }
+
 		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
 	}
