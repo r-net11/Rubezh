@@ -1,4 +1,5 @@
-﻿using StrazhDeviceSDK;
+﻿using System.Diagnostics;
+using StrazhDeviceSDK;
 using Common;
 using StrazhAPI;
 using StrazhAPI.Journal;
@@ -980,40 +981,45 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
+			if (device == null)
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+			
+			var isDisallowedHere = default(bool);
+			try
 			{
-				var isDisallowedHere = default(bool);
-				try
-				{
-					// Проверяем признак выполнения на данном устройстве опасной операции
-					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
-					if (!isDisallowedHere)
-						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
+				// Проверяем признак выполнения на данном устройстве опасной операции
+				isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
+				if (!isDisallowedHere)
+					return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
 
-					// Выполняем критическую операцию
-					using (var databaseService = new SKDDatabaseService())
+				// Выполняем критическую операцию
+				using (var databaseService = new SKDDatabaseService())
+				{
+					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
 					{
-						AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
-						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
-						var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
-						if (!cardsResult.HasError && !accessTemplatesResult.HasError)
-						{
-							return Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
-						}
-						else
-						{
-							return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
-						}
+						Logger.Info(string.Format("Контроллер '{0}'. Начата процедура записи всех карт", deviceUID));
+						var sw = new Stopwatch();
+						sw.Start();
+						var result = Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+						sw.Stop();
+						Logger.Info(string.Format("Контроллер '{0}'. Закончена процедура записи всех карт (Время выполнения {1})", deviceUID, sw.Elapsed));
+						return result;
+					}
+					else
+					{
+						return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
 					}
 				}
-				finally
-				{
-					// Убираем признак выполнения на данном устройстве опасной операции
-					if (isDisallowedHere)
-						AllowRunCriticalOperationOnDevice(deviceUID);
-				}
 			}
-			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+			finally
+			{
+				// Убираем признак выполнения на данном устройстве опасной операции
+				if (isDisallowedHere)
+					AllowRunCriticalOperationOnDevice(deviceUID);
+			}
 		}
 
 		/// <summary>
@@ -1035,9 +1041,7 @@ namespace FiresecService.Service
 				// Пользователь прервал операцию
 				if (progressCallback.IsCanceled)
 				{
-#if DEBUG
 					Logger.Info("Запись пропусков на все контроллеры отменена");
-#endif
 					Processor.StopProgress(progressCallback);
 					return OperationResult<List<Guid>>.FromCancel("Запись пропусков на все контроллеры отменена");
 				}
@@ -1046,14 +1050,16 @@ namespace FiresecService.Service
 				using (var databaseService = new SKDDatabaseService())
 				{
 					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
-#if DEBUG
-					Logger.Info(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name));
-#endif
 					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
 					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
 					{
+						Logger.Info(string.Format("Контроллер '{0}'. Начата процедура записи всех карт", device.UID));
+						var sw = new Stopwatch();
+						sw.Start();
 						result = Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result, false);
+						sw.Stop();
+						Logger.Info(string.Format("Контроллер '{0}'. Закончена процедура записи всех карт (Время выполнения {1})", device.UID, sw.Elapsed));
 					}
 					else
 					{

@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using System.Collections.Generic;
@@ -65,28 +66,29 @@ namespace StrazhDeviceSDK
 		/// <param name="device">Контроллер, на котором необходимо перезаписать все пропуска</param>
 		/// <param name="cards">Перезаписываемые пропуска</param>
 		/// <param name="accessTemplates">Шаблоны доступа для перезаписываемых пропусков</param>
+		/// <param name="doProgress"></param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, bool doProgress = true)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.UID);
-			if (deviceProcessor != null)
+			if (deviceProcessor == null)
+				return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			if (!deviceProcessor.IsConnected)
+				return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
+
+			Logger.Info(string.Format("Контроллер '{0}'. Удаление существующих карт", device.UID));
+			var result = deviceProcessor.Wrapper.RemoveAllCards();
+			if (!result)
+				return OperationResult<bool>.FromError("Ошибка при удалении всех пропусков на контроллере");
+
+			var cardWriter = new CardWriter();
+			Logger.Info(string.Format("Контроллер '{0}'. Запись новых карт", device.UID));
+			var error = cardWriter.RewriteAllCards(device, cards, accessTemplates, doProgress);
+			if (error.Count > 0)
 			{
-				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
-
-				var result = deviceProcessor.Wrapper.RemoveAllCards();
-				if (!result)
-					return OperationResult<bool>.FromError("Ошибка при удалении всех пропусков на контроллере");
-
-				var cardWriter = new CardWriter();
-				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates, doProgress);
-				if (error.Count > 0)
-				{
-					return OperationResult<bool>.FromError(error);
-				}
-				return new OperationResult<bool>(true);
+				return OperationResult<bool>.FromError(error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return new OperationResult<bool>(true);
 		}
 
 		public static CardWriter AddCard(SKDCard skdCard, AccessTemplate accessTemplate)

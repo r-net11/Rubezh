@@ -1,4 +1,5 @@
-﻿using StrazhDeviceSDK.API;
+﻿using Common;
+using StrazhDeviceSDK.API;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
@@ -57,29 +58,23 @@ namespace StrazhDeviceSDK
 
 		private List<CardWriter.ControllerCardItem> Create_ControllerCardItems_ToAdd(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
-			var controllerCardItems = new List<ControllerCardItem>();
+			var result = new List<ControllerCardItem>();
 			var cardDoors = new List<CardDoor>();
 			if (accessTemplate != null)
 			{
-				foreach (var cardDoor in accessTemplate.CardDoors)
-				{
-					cardDoors.Add(cardDoor);
-				}
+				cardDoors.AddRange(accessTemplate.CardDoors);
 			}
-			foreach (var cardDoor in skdCard.CardDoors)
-			{
-				cardDoors.Add(cardDoor);
-			}
+			cardDoors.AddRange(skdCard.CardDoors);
 
 			foreach (var cardDoor in cardDoors)
 			{
 				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (door != null)
 				{
-					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterScheduleNo);
+					Add(skdCard, result, door.InDeviceUID, cardDoor.EnterScheduleNo);
 				}
 			}
-			return controllerCardItems;
+			return result;
 		}
 
 		private void Add(SKDCard card, List<ControllerCardItem> controllerCardItems, Guid readerUID, int intervalID)
@@ -91,17 +86,18 @@ namespace StrazhDeviceSDK
 				var controllerCardItem = controllerCardItems.FirstOrDefault(x => x.ControllerDevice.UID == controllerDevice.UID);
 				if (controllerCardItem == null)
 				{
-					controllerCardItem = new ControllerCardItem();
-					controllerCardItem.Card = card;
-					controllerCardItem.ControllerDevice = controllerDevice;
-					controllerCardItem.ActionType = ControllerCardItem.ActionTypeEnum.Add;
+					controllerCardItem = new ControllerCardItem
+					{
+						Card = card,
+						ControllerDevice = controllerDevice,
+						ActionType = ControllerCardItem.ActionTypeEnum.Add
+					};
 					controllerCardItems.Add(controllerCardItem);
 				}
 				var readerIntervalItem = controllerCardItem.ReaderIntervalItems.FirstOrDefault(x => x.ReaderUID == readerUID);
 				if (readerIntervalItem == null)
 				{
-					readerIntervalItem = new ReaderIntervalItem();
-					readerIntervalItem.ReaderUID = readerUID;
+					readerIntervalItem = new ReaderIntervalItem {ReaderUID = readerUID};
 					controllerCardItem.ReaderIntervalItems.Add(readerIntervalItem);
 				}
 				readerIntervalItem.WeeklyIntervalID = intervalID;
@@ -183,6 +179,9 @@ namespace StrazhDeviceSDK
 				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
+			
+			// Просматриваем все карты и записываем только те,
+			// которые нужно записать на данный контроллер
 			foreach (var card in cards)
 			{
 				AccessTemplate accessTemplate = null;
@@ -191,6 +190,8 @@ namespace StrazhDeviceSDK
 					accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
 				}
 
+				// ControllerCardItems будет содержать записи с данными по картам,
+				// которые нужно записать на данный контроллер
 				ControllerCardItems = new List<ControllerCardItem>();
 				var controllerCardItems = Create_ControllerCardItems_ToAdd(card, accessTemplate);
 				foreach (var controllerCardItem in controllerCardItems)

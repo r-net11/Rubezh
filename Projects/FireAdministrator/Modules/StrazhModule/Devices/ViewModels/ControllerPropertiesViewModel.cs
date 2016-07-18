@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Common;
 using StrazhAPI.Enums;
@@ -100,9 +102,14 @@ namespace StrazhModule.ViewModels
 			// Начали выполнять критическую операцию на контроллере. Блокируем доступ к аналагичным операциям.
 			IsCriticalOperationsEnabled = false;
 
-			var thread = new Thread(() =>
+			Task.Factory.StartNew(() =>
 			{
+				Logger.Info(string.Format("Контроллер '{0}'. Начата процедура записи всех карт", Device.UID));
+				var sw = new Stopwatch();
+				sw.Start();
 				var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
+				sw.Stop();
+				Logger.Info(string.Format("Контроллер '{0}'. Закончена процедура записи всех карт (Время выполнения {1})", Device.UID, sw.Elapsed));
 
 				ApplicationService.Invoke(() =>
 				{
@@ -116,8 +123,6 @@ namespace StrazhModule.ViewModels
 					IsCriticalOperationsEnabled = true;
 				});
 			});
-			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
-			thread.Start();
 		}
 
 		public RelayCommand RewriteConfigurationCommand { get; private set; }
