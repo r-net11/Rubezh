@@ -523,6 +523,9 @@ namespace StrazhDeviceSDK.NativeAPI
 		public static extern int WRAP_Insert_Card(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARD nativeCard);
 
 		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_Insert_Card_Fast(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARD nativeCard);
+
+		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Update_Card(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARD nativeCard);
 
 		[DllImport(@"CPPWrapper.dll")]

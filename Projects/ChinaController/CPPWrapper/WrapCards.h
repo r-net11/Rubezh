@@ -3,6 +3,8 @@
 
 extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param);
 
+extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_Insert_Card_Fast(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param);
+
 extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param);
 
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_Remove_Card(int loginID, int recordNo);

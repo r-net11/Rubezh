@@ -187,7 +187,7 @@ namespace StrazhDeviceSDK
 			var nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
 			nativeCard.dwSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
 			nativeCard.stuFingerPrintInfo = new NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET();
-			nativeCard.stuFingerPrintInfo.dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET));
+			nativeCard.stuFingerPrintInfo.dwSize = (uint)Marshal.SizeOf(typeof(NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET));
 
 			nativeCard.bIsValid = true;
 
@@ -237,7 +237,7 @@ namespace StrazhDeviceSDK
 			// doors
 			nativeCard.nDoorNum = card.Doors.Count;
 			nativeCard.sznDoors = new int[32];
-			for (int i = 0; i < card.Doors.Count; i++)
+			for (var i = 0; i < card.Doors.Count; i++)
 			{
 				nativeCard.sznDoors[i] = card.Doors[i];
 			}
@@ -245,7 +245,7 @@ namespace StrazhDeviceSDK
 			// time sections
 			nativeCard.nTimeSectionNum = card.TimeSections.Count;
 			nativeCard.sznTimeSectionNo = new int[32];
-			for (int i = 0; i < card.TimeSections.Count; i++)
+			for (var i = 0; i < card.TimeSections.Count; i++)
 			{
 				nativeCard.sznTimeSectionNo[i] = card.TimeSections[i];
 			}
@@ -255,6 +255,8 @@ namespace StrazhDeviceSDK
 
 			//nativeCard.bHandicap = card.Handicap; // TODO определить card.Handicap
 			nativeCard.bHandicap = card.IsHandicappedCard;
+
+			nativeCard.bEnableExtended = true;
 
 			return nativeCard;
 		}

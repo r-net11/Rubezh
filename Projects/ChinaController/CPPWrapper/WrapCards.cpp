@@ -31,6 +31,23 @@ int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* par
 	return 0;
 }
 
+int CALL_METHOD WRAP_Insert_Card_Fast(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param)
+{
+	if (NULL == loginID)
+	{
+		return 0;
+	}
+
+	NET_RECORDSET_ACCESS_CTL_CARD cards[] = { *param };
+	int nRecordNo = 0;
+	BOOL bResult = CLIENT_InsertAccessControlCards(loginID, 1, cards, &nRecordNo);
+	if (bResult)
+	{
+		return nRecordNo;
+	}
+	return 0;
+}
+
 BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param)
 {
 	if (NULL == loginID)
