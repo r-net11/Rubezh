@@ -43,6 +43,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private DayIntervalPartType _type;
+
+		public DayIntervalPartType Type
+		{
+			get { return _type; }
+			set
+			{
+				if (_type == value)
+					return;
+				_type = value;
+				OnPropertyChanged(() => Type);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -67,6 +81,7 @@ namespace SKDModule.ViewModels
 
 			BeginTime = dayIntervalPart.BeginTime;
 			EndTime = dayIntervalPart.EndTime;
+			Type = dayIntervalPart.Type;
 		}
 		#endregion
 
@@ -76,6 +91,7 @@ namespace SKDModule.ViewModels
 			DayIntervalPart.BeginTime = BeginTime;
 			DayIntervalPart.EndTime = EndTime;
 			DayIntervalPart.TransitionType = BeginTime < EndTime ? DayIntervalPartTransitionType.Day : DayIntervalPartTransitionType.Night;
+			DayIntervalPart.Type = Type;
 
 			var validationResult = Validate();
 			if (validationResult.HasError)
@@ -97,19 +113,14 @@ namespace SKDModule.ViewModels
 		private OperationResult<bool> ValidateAdding()
 		{
 			// Время начала интервала равно времени окончания?
-			var validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
-			if (validationesult.HasError)
-				return validationesult;
-
-			// Добавляемый интервал заканчивается ранее, чем уже добавленные интервалы?
-			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartOrder(DayIntervalPart, _dayInterval.DayIntervalParts);
-			if (validationesult.HasError)
-				return validationesult;
+			var validationResult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
 
 			// Добавляемый интервал пересекается с уже добавленными интервалами?
-			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, _dayInterval.DayIntervalParts);
-			if (validationesult.HasError)
-				return validationesult;
+			validationResult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, _dayInterval.DayIntervalParts);
+			if (validationResult.HasError)
+				return validationResult;
 
 			return new OperationResult<bool>(true);
 		}
@@ -117,9 +128,9 @@ namespace SKDModule.ViewModels
 		private OperationResult<bool> ValidateEditing()
 		{
 			// Время начала интервала равно времени окончания?
-			var validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
-			if (validationesult.HasError)
-				return validationesult;
+			var validationResult = DayIntervalPartValidator.ValidateNewDayIntervalPartLength(DayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
 
 			var otherDayIntervalParts = _dayInterval.DayIntervalParts.Where(dayIntervalPart => dayIntervalPart.UID != DayIntervalPart.UID);
 
@@ -129,9 +140,9 @@ namespace SKDModule.ViewModels
 			//	return validationesult;
 
 			// Редактируемый интервал пересекается с остальными интервалами?
-			validationesult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, otherDayIntervalParts);
-			if (validationesult.HasError)
-				return validationesult;
+			validationResult = DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection(DayIntervalPart, otherDayIntervalParts);
+			if (validationResult.HasError)
+				return validationResult;
 
 			return new OperationResult<bool>(true);
 		}

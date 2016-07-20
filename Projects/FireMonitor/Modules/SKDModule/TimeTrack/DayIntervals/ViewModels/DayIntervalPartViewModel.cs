@@ -17,13 +17,20 @@ namespace SKDModule.ViewModels
 		{
 			get { return DayIntervalPart.BeginTime; }
 		}
+
 		public TimeSpan EndTime
 		{
 			get { return DayIntervalPart.EndTime; }
 		}
+
 		public DayIntervalPartTransitionType IntervalTransitionType
 		{
 			get { return DayIntervalPart.TransitionType; }
+		}
+
+		public DayIntervalPartType Type
+		{
+			get { return DayIntervalPart.Type; }
 		}
 
 		public void Update()
@@ -32,6 +39,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => BeginTime);
 			OnPropertyChanged(() => EndTime);
 			OnPropertyChanged(() => IntervalTransitionType);
+			OnPropertyChanged(() => Type);
 		}
 	}
 }

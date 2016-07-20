@@ -45,9 +45,6 @@ namespace StrazhDAL.DataAccess
     partial void InsertDayInterval(DayInterval instance);
     partial void UpdateDayInterval(DayInterval instance);
     partial void DeleteDayInterval(DayInterval instance);
-    partial void InsertDayIntervalPart(DayIntervalPart instance);
-    partial void UpdateDayIntervalPart(DayIntervalPart instance);
-    partial void DeleteDayIntervalPart(DayIntervalPart instance);
     partial void InsertDepartment(Department instance);
     partial void UpdateDepartment(Department instance);
     partial void DeleteDepartment(Department instance);
@@ -120,6 +117,9 @@ namespace StrazhDAL.DataAccess
     partial void InsertAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
     partial void UpdateAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
     partial void DeleteAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
+    partial void InsertDayIntervalPart(DayIntervalPart instance);
+    partial void UpdateDayIntervalPart(DayIntervalPart instance);
+    partial void DeleteDayIntervalPart(DayIntervalPart instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -189,14 +189,6 @@ namespace StrazhDAL.DataAccess
 			get
 			{
 				return this.GetTable<DayInterval>();
-			}
-		}
-		
-		public System.Data.Linq.Table<DayIntervalPart> DayIntervalParts
-		{
-			get
-			{
-				return this.GetTable<DayIntervalPart>();
 			}
 		}
 		
@@ -397,6 +389,14 @@ namespace StrazhDAL.DataAccess
 			get
 			{
 				return this.GetTable<AccessTemplateDeactivatingReader>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DayIntervalPart> DayIntervalParts
+		{
+			get
+			{
+				return this.GetTable<DayIntervalPart>();
 			}
 		}
 	}
@@ -1572,9 +1572,9 @@ namespace StrazhDAL.DataAccess
 		
 		private System.Nullable<System.Guid> _OrganisationUID;
 		
-		private EntitySet<DayIntervalPart> _DayIntervalParts;
-		
 		private EntitySet<ScheduleDay> _ScheduleDays;
+		
+		private EntitySet<DayIntervalPart> _DayIntervalParts;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -1600,8 +1600,8 @@ namespace StrazhDAL.DataAccess
 		
 		public DayInterval()
 		{
-			this._DayIntervalParts = new EntitySet<DayIntervalPart>(new Action<DayIntervalPart>(this.attach_DayIntervalParts), new Action<DayIntervalPart>(this.detach_DayIntervalParts));
 			this._ScheduleDays = new EntitySet<ScheduleDay>(new Action<ScheduleDay>(this.attach_ScheduleDays), new Action<ScheduleDay>(this.detach_ScheduleDays));
+			this._DayIntervalParts = new EntitySet<DayIntervalPart>(new Action<DayIntervalPart>(this.attach_DayIntervalParts), new Action<DayIntervalPart>(this.detach_DayIntervalParts));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -1750,19 +1750,6 @@ namespace StrazhDAL.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayIntervalParts", ThisKey="UID", OtherKey="DayIntervalUID")]
-		public EntitySet<DayIntervalPart> DayIntervalParts
-		{
-			get
-			{
-				return this._DayIntervalParts;
-			}
-			set
-			{
-				this._DayIntervalParts.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_ScheduleDay", Storage="_ScheduleDays", ThisKey="UID", OtherKey="DayIntervalUID")]
 		public EntitySet<ScheduleDay> ScheduleDays
 		{
@@ -1773,6 +1760,19 @@ namespace StrazhDAL.DataAccess
 			set
 			{
 				this._ScheduleDays.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayIntervalParts", ThisKey="UID", OtherKey="DayIntervalUID")]
+		public EntitySet<DayIntervalPart> DayIntervalParts
+		{
+			get
+			{
+				return this._DayIntervalParts;
+			}
+			set
+			{
+				this._DayIntervalParts.Assign(value);
 			}
 		}
 		
@@ -1830,18 +1830,6 @@ namespace StrazhDAL.DataAccess
 			}
 		}
 		
-		private void attach_DayIntervalParts(DayIntervalPart entity)
-		{
-			this.SendPropertyChanging();
-			entity.DayInterval = this;
-		}
-		
-		private void detach_DayIntervalParts(DayIntervalPart entity)
-		{
-			this.SendPropertyChanging();
-			entity.DayInterval = null;
-		}
-		
 		private void attach_ScheduleDays(ScheduleDay entity)
 		{
 			this.SendPropertyChanging();
@@ -1853,180 +1841,17 @@ namespace StrazhDAL.DataAccess
 			this.SendPropertyChanging();
 			entity.DayInterval = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DayIntervalPart")]
-	public partial class DayIntervalPart : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _BeginTime;
-		
-		private int _EndTime;
-		
-		private System.Guid _UID;
-		
-		private System.Guid _DayIntervalUID;
-		
-		private EntityRef<DayInterval> _DayInterval;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnBeginTimeChanging(int value);
-    partial void OnBeginTimeChanged();
-    partial void OnEndTimeChanging(int value);
-    partial void OnEndTimeChanged();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnDayIntervalUIDChanging(System.Guid value);
-    partial void OnDayIntervalUIDChanged();
-    #endregion
-		
-		public DayIntervalPart()
+		private void attach_DayIntervalParts(DayIntervalPart entity)
 		{
-			this._DayInterval = default(EntityRef<DayInterval>);
-			OnCreated();
+			this.SendPropertyChanging();
+			entity.DayInterval = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginTime", DbType="Int NOT NULL")]
-		public int BeginTime
+		private void detach_DayIntervalParts(DayIntervalPart entity)
 		{
-			get
-			{
-				return this._BeginTime;
-			}
-			set
-			{
-				if ((this._BeginTime != value))
-				{
-					this.OnBeginTimeChanging(value);
-					this.SendPropertyChanging();
-					this._BeginTime = value;
-					this.SendPropertyChanged("BeginTime");
-					this.OnBeginTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="Int NOT NULL")]
-		public int EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayIntervalUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid DayIntervalUID
-		{
-			get
-			{
-				return this._DayIntervalUID;
-			}
-			set
-			{
-				if ((this._DayIntervalUID != value))
-				{
-					if (this._DayInterval.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDayIntervalUIDChanging(value);
-					this.SendPropertyChanging();
-					this._DayIntervalUID = value;
-					this.SendPropertyChanged("DayIntervalUID");
-					this.OnDayIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayInterval", ThisKey="DayIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public DayInterval DayInterval
-		{
-			get
-			{
-				return this._DayInterval.Entity;
-			}
-			set
-			{
-				DayInterval previousValue = this._DayInterval.Entity;
-				if (((previousValue != value) 
-							|| (this._DayInterval.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DayInterval.Entity = null;
-						previousValue.DayIntervalParts.Remove(this);
-					}
-					this._DayInterval.Entity = value;
-					if ((value != null))
-					{
-						value.DayIntervalParts.Add(this);
-						this._DayIntervalUID = value.UID;
-					}
-					else
-					{
-						this._DayIntervalUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("DayInterval");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			this.SendPropertyChanging();
+			entity.DayInterval = null;
 		}
 	}
 	
@@ -9742,6 +9567,205 @@ namespace StrazhDAL.DataAccess
 						this._AccessTemplateUID = default(System.Guid);
 					}
 					this.SendPropertyChanged("AccessTemplate");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DayIntervalPart")]
+	public partial class DayIntervalPart : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BeginTime;
+		
+		private int _EndTime;
+		
+		private System.Guid _UID;
+		
+		private System.Guid _DayIntervalUID;
+		
+		private int _Type;
+		
+		private EntityRef<DayInterval> _DayInterval;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBeginTimeChanging(int value);
+    partial void OnBeginTimeChanged();
+    partial void OnEndTimeChanging(int value);
+    partial void OnEndTimeChanged();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDayIntervalUIDChanging(System.Guid value);
+    partial void OnDayIntervalUIDChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    #endregion
+		
+		public DayIntervalPart()
+		{
+			this._DayInterval = default(EntityRef<DayInterval>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginTime", DbType="Int NOT NULL")]
+		public int BeginTime
+		{
+			get
+			{
+				return this._BeginTime;
+			}
+			set
+			{
+				if ((this._BeginTime != value))
+				{
+					this.OnBeginTimeChanging(value);
+					this.SendPropertyChanging();
+					this._BeginTime = value;
+					this.SendPropertyChanged("BeginTime");
+					this.OnBeginTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="Int NOT NULL")]
+		public int EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayIntervalUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid DayIntervalUID
+		{
+			get
+			{
+				return this._DayIntervalUID;
+			}
+			set
+			{
+				if ((this._DayIntervalUID != value))
+				{
+					if (this._DayInterval.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDayIntervalUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DayIntervalUID = value;
+					this.SendPropertyChanged("DayIntervalUID");
+					this.OnDayIntervalUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayInterval", ThisKey="DayIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public DayInterval DayInterval
+		{
+			get
+			{
+				return this._DayInterval.Entity;
+			}
+			set
+			{
+				DayInterval previousValue = this._DayInterval.Entity;
+				if (((previousValue != value) 
+							|| (this._DayInterval.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DayInterval.Entity = null;
+						previousValue.DayIntervalParts.Remove(this);
+					}
+					this._DayInterval.Entity = value;
+					if ((value != null))
+					{
+						value.DayIntervalParts.Add(this);
+						this._DayIntervalUID = value.UID;
+					}
+					else
+					{
+						this._DayIntervalUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("DayInterval");
 				}
 			}
 		}

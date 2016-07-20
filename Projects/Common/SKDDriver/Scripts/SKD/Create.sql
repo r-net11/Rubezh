@@ -248,6 +248,7 @@ CREATE TABLE [dbo].DayIntervalPart(
 [EndTime] [int] NOT NULL,
 [UID] [uniqueidentifier] NOT NULL,
 [DayIntervalUID] [uniqueidentifier] NOT NULL,
+[Type] [int] NOT NULL,
 CONSTRAINT [PK_DayIntervalPart] PRIMARY KEY CLUSTERED
 (
 [UID] ASC
@@ -1039,6 +1040,8 @@ INSERT INTO Patches (Id) VALUES
 ('Table_AccessTemplateDeactivatingReader_Added')
 INSERT INTO [dbo].[Patches] (Id) VALUES
 ('Column_AllowedPassCount_Added_In_Table_Card')
+INSERT INTO [dbo].[Patches] (Id) VALUES
+('Column_Type_Added_In_Table_DayIntervalPart')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

@@ -1,4 +1,6 @@
-﻿using StrazhAPI.Extensions;
+﻿using System.Text;
+using Common;
+using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -146,7 +148,6 @@ namespace StrazhAPI.SKD
 		{
 			CalculateDocuments();
 
-			PlannedTimeTrackParts = PlannedTimeTrackParts;
 			CrossNightTimeTrackParts = CrossNightTimeTrackParts.Where(x => RealTimeTrackParts.All(y => y.PassJournalUID != x.PassJournalUID)).ToList();
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
@@ -850,8 +851,10 @@ namespace StrazhAPI.SKD
 				var hasRealTimeTrack = realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
 					.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
-				var hasPlannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
-																		&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
+				var plannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue)
+					.Where(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay 
+						&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay).ToList();
+				var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
 				var documentTimeTrack = documentTimeTrackParts.Where(x => x.ExitDateTime.HasValue).FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 																			&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
@@ -862,7 +865,28 @@ namespace StrazhAPI.SKD
 				if (documentTimeTrack != null)
 				{
 					timeTrackPart.TimeTrackPartType = GetDocumentTimeTrackType(documentTimeTrack, timeTrackPart, hasPlannedTimeTrack, hasRealTimeTrack);
+
+					if (hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
+					{
+						switch (documentTimeTrack.MinTimeTrackDocumentType.DocumentType)
+						{
+							case DocumentType.Overtime:
+								break;
+							case DocumentType.Presence:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+							case DocumentType.Absence:
+							case DocumentType.AbsenceReasonable:
+								if (!documentTimeTrack.IsOutside)
+									timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+						}
+					}
 				}
+
+				// Удаляем все временные интервалы с типом "Перерыв" из результатирующиго графика ИТОГО
+				if (timeTrackPart.TimeTrackPartType == TimeTrackType.Break)
+					timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 			}
 
 			return combinedTimeTrackParts;
@@ -913,24 +937,46 @@ namespace StrazhAPI.SKD
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
 		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
-			var hasRealTimeTrack = realTimeTrackParts
+			var realTimeTrack = realTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
-				.Any(x => combinedInterval.EndTime != null
-				          && (x.ExitDateTime != null
-				              && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+				.Where(x => combinedInterval.EndTime != null
+						  && (x.ExitDateTime != null
+							  && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
 
-			var hasPlannedTimeTrack = plannedTimeTrackParts
+			var hasRealTimeTrack = realTimeTrack.Any();
+
+#if DEBUG
+			if (hasRealTimeTrack && realTimeTrack.Count > 1)
+			{
+				var sb = new StringBuilder();
+				realTimeTrack.ForEach(rtt => sb.Append(string.Format(" {0}({1}-{2})", rtt.TimeTrackPartType, rtt.EnterDateTime.TimeOfDay, rtt.ExitDateTime.Value.TimeOfDay)));
+				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: realTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
+			}
+#endif
+
+			var plannedTimeTrack = plannedTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
-				.Any(x =>
+				.Where(x =>
 					combinedInterval.EndTime != null &&
 					(x.ExitDateTime != null &&
-					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
 
+			var hasPlannedTimeTrack = plannedTimeTrack.Any();
+
+#if DEBUG
+			if (hasPlannedTimeTrack && plannedTimeTrack.Count > 1)
+			{
+				var sb = new StringBuilder();
+				plannedTimeTrack.ForEach(ptt => sb.Append(string.Format(" {0}({1}-{2})", ptt.TimeTrackPartType, ptt.EnterDateTime.TimeOfDay, ptt.ExitDateTime.Value.TimeOfDay)));
+				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: plannedTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
+			}
+#endif
+			
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
-				return TimeTrackType.Presence;
+				return plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break ? TimeTrackType.Break : TimeTrackType.Presence;
 
-			//Если нет интервала проода сотрудника и нет графика, то "Нет данных"
+			//Если нет интервала прохода сотрудника и нет графика, то "Нет данных"
 			if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				return TimeTrackType.None;
 
@@ -940,6 +986,8 @@ namespace StrazhAPI.SKD
 				return TimeTrackType.Overtime;
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
+			if (!hasRealTimeTrack && hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
+				return TimeTrackType.None;
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
@@ -957,7 +1005,8 @@ namespace StrazhAPI.SKD
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) ||
-				realTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay)) return TimeTrackType.Absence;
+				realTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay))
+				return TimeTrackType.Absence;
 
 			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.ExitDateTime.Value.TimeOfDay == timeTrackPart.ExitDateTime.Value.TimeOfDay);
 			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
@@ -1267,7 +1316,7 @@ namespace StrazhAPI.SKD
 					}
 					else
 						LetterCode = SlideTime == TimeSpan.Zero
-							? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F")
+							? PlannedTimeTrackParts.Sum(x => (x.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : x.Delta).TotalHours).ToString("F")
 							: SlideTime.TotalHours.ToString("F");
 				}
 			}

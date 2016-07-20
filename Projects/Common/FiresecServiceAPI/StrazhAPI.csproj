@@ -358,6 +358,7 @@
     <Compile Include="SKD\TimeTrack\DayIntervalCreator.cs" />
     <Compile Include="SKD\TimeTrack\DayIntervalPartExtensions.cs" />
     <Compile Include="SKD\TimeTrack\DayTimeTrackPart.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\DayIntervalPartType.cs" />
     <Compile Include="SKD\TimeTrack\Enums\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\Enums\TimeTrackActions.cs" />

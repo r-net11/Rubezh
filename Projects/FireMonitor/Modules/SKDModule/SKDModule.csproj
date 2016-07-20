@@ -164,6 +164,8 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
@@ -387,6 +389,8 @@
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />

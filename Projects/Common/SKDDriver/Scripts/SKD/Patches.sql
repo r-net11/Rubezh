@@ -1748,3 +1748,17 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_AllowedPassCount_Added_I
 		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_AllowedPassCount_Added_In_Table_Card')
 	END
 GO
+
+-- В таблицу 'DayIntervalPart' добавлено поле 'Type'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_Type_Added_In_Table_DayIntervalPart')
+	BEGIN
+		ALTER TABLE [dbo].[DayIntervalPart] ADD [Type] [int] NULL
+	END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_Type_Added_In_Table_DayIntervalPart')
+	BEGIN
+		UPDATE [dbo].[DayIntervalPart] SET [Type] = 0
+		ALTER TABLE [dbo].[DayIntervalPart] ALTER COLUMN [Type] [int] NOT NULL
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_Type_Added_In_Table_DayIntervalPart')
+	END
+GO
