@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include ../Variables.wxi?>
+    <Fragment>
+		<UI>
+			<Dialog Id="SQLServerDialog" Width="370" Height="270" Title="!(loc.WelcomeDlg_Title)">
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="Description" Type="Text" X="25" Y="23" Width="292" Height="25" Transparent="yes" NoPrefix="yes" Text="!(loc.Shortcuts_Description)" />
+				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}!(loc.Shortcuts_Title)" />
+				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
+				<!-- IP-адрес сервера баз данных -->
+                <Control Id="SqlServerAddressLabel" Type="Text" Width="137" Height="15" X="38" Y="50" Text="!(loc.SQLServer_SqlServerAddressLabel)" />
+                <Control Id="SqlServerAddressEdit" Type="Edit" Width="146" Height="15" X="184" Y="50" Property="SQLSERVER_ADDRESS" />
+                <!-- Порт сервера баз данных -->
+                <Control Id="SqlServerPortLabel" Type="Text" Width="137" Height="15" X="38" Y="70" Text="!(loc.SQLServer_SqlServerPortLabel)" />
+                <Control Id="SqlServerPortEdit" Type="Edit" Width="146" Height="15" X="184" Y="70" Property="SQLSERVER_PORT" />
+                <!-- Название экземпляра сервера БД -->
+                <Control Id="SqlServerInstanceNameLabel" Type="Text" X="38" Y="90" Width="137" Height="14" Text="&amp;!(loc.SQLServer_SqlServerInstanceNameLabel)" TabSkip="no" />
+                <Control Id="SqlServerInstanceNameEdit" Type="Edit" X="184" Y="90" Width="146" Height="15" Property="SQLSERVER_INSTANCENAME" TabSkip="no" />
+                <!-- Аутентификация -->
+                <Control Id="SqlServerAuthenticationModeLabel" Type="Text" X="38" Y="110" Width="334" Height="14" Text="!(loc.SQLServer_SqlServerAuthenticationModeLabel)" TabSkip="no" NoPrefix="yes" />
+                <Control Id="SqlServerAuthenticationModeRadioButtonGroup" Type="RadioButtonGroup" X="38" Y="125" Width="330" Height="34" Property="SQLSERVER_AUTHENTICATIONMODE" TabSkip="no" />
+                <!-- Аутентификация. Логин сервера БД -->
+                <Control Id="SqlServerAuthLoginIDLabel" Type="Text" X="50" Y="170" Width="78" Height="13" Text="&amp;!(loc.SQLServer_SqlServerAuthLoginIDLabel)" TabSkip="no">
+                    <Condition Action="disable">SQLSERVER_AUTHENTICATIONMODE=0</Condition>
+                    <Condition Action="enable">SQLSERVER_AUTHENTICATIONMODE=1</Condition>
+                </Control>
+                <Control Id="SqlServerAuthLoginIDEdit" Type="Edit" X="139" Y="170" Width="188" Height="15" Property="SQLSERVER_LOGIN" TabSkip="no">
+                    <Condition Action="disable">SQLSERVER_AUTHENTICATIONMODE=0</Condition>
+                    <Condition Action="enable">SQLSERVER_AUTHENTICATIONMODE=1</Condition>
+                </Control>
+                <!-- Аутентификация. Пароль сервера БД -->
+                <Control Id="SqlServerAuthPwdLabel" Type="Text" X="50" Y="190" Width="80" Height="13" Text="&amp;!(loc.SQLServer_SqlServerAuthPwdLabel)" TabSkip="no">
+                    <Condition Action="disable">SQLSERVER_AUTHENTICATIONMODE=0</Condition>
+                    <Condition Action="enable">SQLSERVER_AUTHENTICATIONMODE=1</Condition>
+                </Control>
+                <Control Id="SqlServerAuthPwdEdit" Type="Edit" X="139" Y="190" Width="188" Height="15" Property="SQLSERVER_PASSWORD" TabSkip="no" Password="yes">
+                    <Condition Action="disable">SQLSERVER_AUTHENTICATIONMODE=0</Condition>
+                    <Condition Action="enable">SQLSERVER_AUTHENTICATIONMODE=1</Condition>
+                </Control>
+                <Control Id="CheckConnectionPushButton" Type="PushButton" Text="{&amp;MSSWhiteSerif8}!(loc.SQLServer_CheckConnectionPushButton)" Width="100" Height="17" X="228" Y="210" />
+			</Dialog>
+		</UI>
+	</Fragment>
+</Wix>

@@ -20,7 +20,7 @@
 			NETFRAMEWORK40FULL
 		</Condition>
 
-		<Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.licenseRtf)" />
 		<Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
 		<Property Id="SHORTCUT_DESKTOP" Value="1" />
 		<Property Id="CHECKSQLSERVER" Value="0" />
@@ -28,8 +28,6 @@
 		<Property Id="INSTALLLEVEL" Value="1" />
 		<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
 		<Property Id="WixUI_Mode" Value="Mondo" />
-		<Property Id="AgreeToLicense" Value="No" />
-		<Property Id="SETUPCHOICE" Value="Full" />
 		
 		<!-- Значения по умолчанию для свойств соединения с СУБД MS SQL Server -->
 		<Property Id="SQLSERVER_ADDRESS" Value="$(var.SQLServerAddressDefault)" />

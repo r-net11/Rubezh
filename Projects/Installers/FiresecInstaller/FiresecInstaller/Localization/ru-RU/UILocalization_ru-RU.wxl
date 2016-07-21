@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ru-RU" Codepage="1251" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<!-- LicenseAgreementDialog -->
+	<String Id="LicenseAgreement_LicenseAgreementDlgTitle" Overridable="yes">Информация</String>
+	<String Id="LicenseAgreement_LicenseAgreementDlgDescription" Overridable="yes">Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить.</String>
+	<!-- RequirementsDialog -->
+	<String Id="Requirements_Title" Overridable="yes">Информация</String>
+	<String Id="Requirements_Description" Overridable="yes">Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить.</String>
+	<!-- ShortcutsDialog -->
+	<String Id="Shortcuts_Title" Overridable="yes">Установка ярлыков</String>
+	<String Id="Shortcuts_Description" Overridable="yes">Какие ярлыки должны быть установлены?</String>
+	<String Id="Shortcuts_ShortcutDesktop" Overridable="yes">Создать ярлык на рабочем столе</String>
+	<String Id="Shortcuts_ShortcutProgramMenu" Overridable="yes">Создать ярлык в меню Пуск</String>
+	<!-- SQLServerDialog -->
+	<String Id="SQLServer_SqlServerAddressLabel" Overridable="yes">IP-адрес сервера баз данных:</String>
+	<String Id="SQLServer_SqlServerPortLabel" Overridable="yes">Порт сервера баз данных:</String>
+	<String Id="SQLServer_SqlServerInstanceNameLabel" Overridable="yes">Название экземпляра сервера БД:</String>
+	<String Id="SQLServer_SqlServerAuthenticationModeLabel" Overridable="yes">Аутентификация:</String>
+	<String Id="SQLServer_SqlServerAuthLoginIDLabel" Overridable="yes">Логин сервера БД:</String>
+	<String Id="SQLServer_SqlServerAuthPwdLabel" Overridable="yes">Пароль сервера БД:</String>
+	<String Id="SQLServer_CheckConnectionPushButton" Overridable="yes">Проверить соединение</String>
+	<String Id="SQLServer_SQLServerAuthenticationWindows" Overridable="yes">Режим проверки подлинности Windows</String>
+	<String Id="SQLServer_SQLServerAuthenticationMixed" Overridable="yes">Смешанный режим (Режим проверки подлинности Windows и режим проверки подлинности SQL Server)</String>
+</WixLocalization>

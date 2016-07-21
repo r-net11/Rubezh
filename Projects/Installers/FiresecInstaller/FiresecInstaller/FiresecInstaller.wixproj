@@ -61,16 +61,11 @@
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
     <Compile Include="Server\Uninstall.wxs" />
-    <Compile Include="UI\ModulesDialog.wxs" />
-    <Compile Include="UI\DestinationFolderDialog.wxs" />
-    <Compile Include="UI\InstallChangeFolderDialog.wxs" />
     <Compile Include="UI\LicenseAgreementDialog.wxs" />
     <Compile Include="UI\RequirementsDialog.wxs" />
-    <Compile Include="UI\SetupProgressDialog.wxs" />
+    <Compile Include="UI\SetupTypeDialog.wxs" />
     <Compile Include="UI\ShortcutsDialog.wxs" />
-    <Compile Include="UI\SQLLoginDialog.wxs" />
-    <Compile Include="UI\VerifyReadyDialog.wxs" />
-    <Compile Include="UI\WelcomeDialog.wxs" />
+    <Compile Include="UI\SQLServerDialog.wxs" />
     <Compile Include="Uninstall.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
@@ -105,7 +100,6 @@
     <Content Include="Monitor\Filter.xslt" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
-    <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\License.rtf" />
@@ -114,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
+    <Folder Include="Localization" />
+    <Folder Include="Localization\ru-RU" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />
     <Folder Include="Monitor" />
@@ -128,6 +124,9 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\ru-RU\UILocalization_ru-RU.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
