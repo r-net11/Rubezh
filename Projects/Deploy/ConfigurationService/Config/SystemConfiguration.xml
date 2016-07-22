@@ -6,28 +6,65 @@
   </Version>
   <Sounds>
     <Sound>
-      <StateClass>Attention</StateClass>
+      <JournalEventNameType>Потеря_связи</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
       <BeeperType>None</BeeperType>
       <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
     </Sound>
     <Sound>
-      <StateClass>ConnectionLost</StateClass>
+      <JournalEventNameType>Восстановление_связи</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
       <BeeperType>None</BeeperType>
       <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
     </Sound>
     <Sound>
-      <StateClass>Off</StateClass>
+      <JournalEventNameType>Дверь_не_закрыта_начало</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
       <BeeperType>None</BeeperType>
       <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
     </Sound>
     <Sound>
-      <StateClass>On</StateClass>
+      <JournalEventNameType>Взлом</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
       <BeeperType>None</BeeperType>
       <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
+    </Sound>
+    <Sound>
+      <JournalEventNameType>Повторный_проход</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
+    </Sound>
+    <Sound>
+      <JournalEventNameType>Принуждение</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
+    </Sound>
+    <Sound>
+      <JournalEventNameType>Вскрытие_контроллера_начало</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
+    </Sound>
+    <Sound>
+      <JournalEventNameType>Местная_тревога_начало</JournalEventNameType>
+      <StateClass>HasNoLicense</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+      <SoundLibraryType>None</SoundLibraryType>
     </Sound>
   </Sounds>
   <JournalFilters />
   <RviSettings>
+    <VideoIntegrationProvider>RviOperator</VideoIntegrationProvider>
     <Ip>localhost</Ip>
     <Port>8000</Port>
     <Login>strazh</Login>
