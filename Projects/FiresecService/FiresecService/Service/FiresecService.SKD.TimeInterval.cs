@@ -244,14 +244,14 @@ namespace FiresecService.Service
 				operationResult = ScheduleDayIntervalValidator.ValidateAddingOrEditing(item);
 				if (operationResult.HasError)
 					return operationResult;
-				
+
 				// Сохраняем изменения в БД
 				operationResult = databaseService.ScheduleDayIntervalTranslator.Save(item);
 			}
 			// Если ошибок нет, то оставляем соответствующее сообщение в журнале событий
 			if (!operationResult.HasError)
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, name, uid: item.UID);
-			
+
 			return operationResult;
 		}
 
@@ -450,14 +450,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
-		{
-			using(var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.PassJournalTranslator.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate);
-			}
-		}
-
 		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -466,18 +458,8 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
+		private void SetJournalMessageForTimeTrackPart(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, User currentUser)
 		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.PassJournalTranslator.GetMissedIntervals(currentDate, currentEmployee);
-			}
-		}
-
-		private void SetJournalMessageForTimeTrackPart(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, User currentUser, DateTime? resetAdjustmentDate)
-		{
-			if (resetAdjustmentDate.HasValue) return;
-
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Adding) == TimeTrackActions.Adding)
 			{
 				AddJournalMessage(JournalEventNameType.Добавление_интервала,
@@ -518,19 +500,15 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts, DateTime? resetAdjustmentsDate)
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (removedDayTimeTrackParts.Any())
 				{
 					foreach (var removedDayTimeTrackPart in removedDayTimeTrackParts)
-					{
 						if (!DeletePassJournal(removedDayTimeTrackPart.UID).HasError)
-						{
-							SetJournalMessageForTimeTrackPart(removedDayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
-						}
-					}
+							SetJournalMessageForTimeTrackPart(removedDayTimeTrackPart, employee, currentUser);
 				}
 
 				foreach (var dayTimeTrackPart in collectionToSave)
@@ -538,25 +516,14 @@ namespace FiresecService.Service
 					if (dayTimeTrackPart.IsNew)
 					{
 						if (!databaseService.PassJournalTranslator.AddCustomPassJournal(dayTimeTrackPart, employee).HasError)
-						{
-							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
-						}
-
+							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser);
 					}
 					else
 					{
 						if (!databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee).HasError)
-						{
-							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser, resetAdjustmentsDate);
-						}
+							SetJournalMessageForTimeTrackPart(dayTimeTrackPart, employee, currentUser);
 					}
 				}
-
-				if(resetAdjustmentsDate.HasValue)
-					AddJournalMessage(JournalEventNameType.ResetAdjustmentInterval,
-								employee.FIO,
-								descriptionText: "Сброс корректировок " + resetAdjustmentsDate.Value.Date.ToShortDateString(),
-								userName: currentUser.Name);
 
 				return new OperationResult();
 			}
@@ -565,9 +532,7 @@ namespace FiresecService.Service
 		public OperationResult DeletePassJournal(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
-			{
 				return databaseService.PassJournalTranslator.DeletePassJournal(uid);
-			}
 		}
 
 		public OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)

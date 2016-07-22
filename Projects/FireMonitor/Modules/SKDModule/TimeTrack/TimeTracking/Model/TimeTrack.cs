@@ -48,7 +48,7 @@ namespace SKDModule.Model
 					dayTimeTrack.Calculate();
 
 					//Учитыватель в расчётах только проходы по УРВ зонам
-					var urvZones = TimeTrackingHelper.GetMergedZones(ShortEmployee).Where(x => x.IsURV);
+					var urvZones = TimeTrackingHelper.GetAllZones(ShortEmployee).Where(x => x.IsURV);
 					dayTimeTrack.RealTimeTrackPartsForCalculates = dayTimeTrack.RealTimeTrackPartsForCalculates.Where(x => urvZones.Any(y => y.UID == x.ZoneUID)).ToList();
 
 					crossNightNTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;

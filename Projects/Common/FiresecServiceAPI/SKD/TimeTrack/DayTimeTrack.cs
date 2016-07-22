@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using Common;
 using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using Logger = Common.Logger;
 
 namespace StrazhAPI.SKD
 {
@@ -626,8 +626,6 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
@@ -649,8 +647,6 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
@@ -672,9 +668,7 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						IsForURVZone = timeTrackPart.IsForURVZone,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
 						IsForceClosed = timeTrackPart.IsForceClosed
@@ -852,7 +846,7 @@ namespace StrazhAPI.SKD
 					.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
 				var plannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue)
-					.Where(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay 
+					.Where(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 						&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay).ToList();
 				var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
@@ -971,7 +965,7 @@ namespace StrazhAPI.SKD
 				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: plannedTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
 			}
 #endif
-			
+
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
 				return plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break ? TimeTrackType.Break : TimeTrackType.Presence;

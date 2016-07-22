@@ -11,12 +11,12 @@ BEGIN
 		[AllowedEarlyLeave] int NOT NULL,
 		[DayIntervalsString] nvarchar(max) NULL,
 		[Date] [datetime] NOT NULL
-	CONSTRAINT [PK_EmployeeDay] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_EmployeeDay] PRIMARY KEY CLUSTERED
 	(
 		[UID] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 	) ON [PRIMARY]
-	INSERT INTO Patches (Id) VALUES ('EmployeeDay')	
+	INSERT INTO Patches (Id) VALUES ('EmployeeDay')
 END
 
 GO
@@ -112,15 +112,15 @@ BEGIN
 AS
 BEGIN
 DECLARE @ConstraintName nvarchar(200)
-SELECT @ConstraintName = Name 
+SELECT @ConstraintName = Name
 FROM SYS.DEFAULT_CONSTRAINTS
-WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName)
 AND PARENT_COLUMN_ID = (
     SELECT column_id FROM sys.columns
     WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
 IF @ConstraintName IS NOT NULL
     EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
-END'	
+END'
 	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
 END
 GO
@@ -129,5 +129,34 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_PassJournal_NotTakeInCalcu
 BEGIN
 	EXECUTE [dbo].[DropColumnDefaultConstraint] [PassJournal], [NotTakeInCalculationsOriginal]
 	INSERT INTO Patches (Id) VALUES ('Drop_PassJournal_NotTakeInCalculationsOriginal_Default')
+END
+GO
+
+---------------------------------------------Release 1.0.3------------------------------------------------
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEnterTimeOriginalColumn')
+BEGIN
+	ALTER TABLE [PassJournal] DROP COLUMN [EnterTimeOriginal]
+	INSERT INTO Patches (Id) VALUES('RemoveEnterTimeOriginalColumn')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveExitTimeOriginalColumn')
+BEGIN
+	ALTER TABLE [PassJournal] DROP COLUMN [ExitTimeOriginal]
+	INSERT INTO Patches (Id) VALUES('RemoveExitTimeOriginalColumn')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveIsNeedAdjustmentOriginalColumn')
+BEGIN
+	ALTER TABLE [PassJournal] DROP COLUMN [IsNeedAdjustmentOriginal]
+	INSERT INTO Patches (Id) VALUES('RemoveIsNeedAdjustmentOriginalColumn')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveNotTakeInCalculationsOriginalColumn')
+BEGIN
+	ALTER TABLE [PassJournal] DROP COLUMN [NotTakeInCalculationsOriginal]
+	INSERT INTO Patches (Id) VALUES('RemoveNotTakeInCalculationsOriginalColumn')
 END
 GO

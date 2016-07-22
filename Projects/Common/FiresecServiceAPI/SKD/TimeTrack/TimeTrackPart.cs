@@ -32,38 +32,19 @@ namespace StrazhAPI.SKD
 		public bool IsNeedAdjustment { get; set; }
 
 		[DataMember]
-		public bool IsNeedAdjustmentOriginal { get; set; }
-
-		[DataMember]
 		public DateTime? AdjustmentDate { get; set; }
 
 		[DataMember]
 		public Guid? CorrectedByUID { get; set; }
 
-		/// <summary>
-		/// Флаг - показывает открытый интервал или нет
-		/// <example>EnterDateTime = 03.03.2015, ExitDateTime = null</example>
-		/// </summary>
 		[DataMember]
 		public bool IsOpen { get; set; }
 
-		/// <summary>
-		/// Флаг - показывает, когда открытый интервал принудительно закрыт
-		/// </summary>
 		[DataMember]
 		public bool IsForceClosed { get; set; }
 
 		[DataMember]
-		public DateTime? EnterTimeOriginal { get; set; }
-
-		[DataMember]
-		public DateTime? ExitTimeOriginal { get; set; }
-
-		[DataMember]
 		public bool NotTakeInCalculations { get; set; }
-
-		[DataMember]
-		public bool NotTakeInCalculationsOriginal { get; set; }
 
 		[DataMember]
 		public Guid PassJournalUID { get; set; }

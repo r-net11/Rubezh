@@ -114,20 +114,14 @@ namespace StrazhAPI
 		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
 
 		[OperationContract]
-		OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate);
-
-		[OperationContract]
 		OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid);
-
-		[OperationContract]
-		OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee);
 
 		[OperationContract]
 		OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
 			ShortEmployee currentEmployee);
 
 		[OperationContract]
-		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts, DateTime? resetAdjustmentsDate);
+		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts);
 
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);

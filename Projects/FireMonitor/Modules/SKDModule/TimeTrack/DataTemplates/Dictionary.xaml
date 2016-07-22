@@ -11,10 +11,6 @@
 		<Views:ForceClosingQuestionDialogWindowView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ResetAdjustmentsConflictDialogWindowViewModel}">
-		<Views:ResetAdjustmentsConflictView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:WarningIntersectionIntervalDialogWindowViewModel}">
 		<Views:WarningIntersectionIntervalDialogWindowView />
 	</DataTemplate>

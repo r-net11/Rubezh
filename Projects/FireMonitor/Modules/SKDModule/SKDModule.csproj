@@ -424,7 +424,6 @@
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackAttachedDocument.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
-    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\ResetAdjustmentsConflictDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
@@ -445,9 +444,6 @@
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml.cs">
       <DependentUpon>ReportSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml.cs">
-      <DependentUpon>ResetAdjustmentsConflictDialogWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml.cs">
       <DependentUpon>TimeTrackFilterView.xaml</DependentUpon>
@@ -934,10 +930,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -24,8 +24,6 @@ namespace SKDModule.Model
 			get { return _uiChanged.Value; }
 		}
 
-		public bool IsRemoveAllIntersections { get; set; }
-
 		public Guid? CorrectedByUID { get; set; }
 
 		public Guid UID { get; set; }
@@ -65,8 +63,6 @@ namespace SKDModule.Model
 				return false;
 			}
 		}
-
-		public bool NotTakeInCalculationsOriginal { get; set; }
 
 		private bool _isOpen;
 
@@ -156,22 +152,6 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _isForceClosed, value); }
 		}
 
-		private DateTime? _enterTimeOriginal;
-
-		public DateTime? EnterTimeOriginal
-		{
-			get { return _enterTimeOriginal; }
-			set { this.RaiseAndSetIfChanged(ref _enterTimeOriginal, value); }
-		}
-
-		private DateTime? _exitTimeOriginal;
-
-		public DateTime? ExitTimeOriginal
-		{
-			get { return _exitTimeOriginal; }
-			set { this.RaiseAndSetIfChanged(ref _exitTimeOriginal, value); }
-		}
-
 		private DateTime? _adjustmentDate;
 
 		public DateTime? AdjustmentDate
@@ -180,13 +160,6 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _adjustmentDate, value); }
 		}
 
-		private bool _isNeedAdjustmentOriginal;
-
-		public bool IsNeedAdjustmentOriginal
-		{
-			get { return _isNeedAdjustmentOriginal; }
-			set { this.RaiseAndSetIfChanged(ref _isNeedAdjustmentOriginal, value); }
-		}
 
 		private TimeTrackActions _timeTrackActions;
 
@@ -206,35 +179,28 @@ namespace SKDModule.Model
 			if (dayTimeTrackPart == null) return;
 
 			TimeTrackActions = dayTimeTrackPart.TimeTrackActions;
-			IsRemoveAllIntersections = dayTimeTrackPart.IsRemoveAllIntersections;
 			AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
 			CorrectedBy = dayTimeTrackPart.CorrectedBy;
 			CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
 			//CorrectedDate = dayTimeTrackPart.AdjustmentDate.ToString();
 			EnterDateTime = dayTimeTrackPart.EnterDateTime;
 			EnterTime = dayTimeTrackPart.EnterTime;
-			EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal;
 			ExitDateTime = dayTimeTrackPart.ExitDateTime;
 			ExitTime = dayTimeTrackPart.ExitTime;
-			ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal;
 			IsForceClosed = dayTimeTrackPart.IsForceClosed;
 			IsManuallyAdded = dayTimeTrackPart.IsManuallyAdded;
 			IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
-			IsNeedAdjustmentOriginal = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 			IsOpen = dayTimeTrackPart.IsOpen;
 			NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
-			NotTakeInCalculationsOriginal = dayTimeTrackPart.NotTakeInCalculationsOriginal;
-			if (dayTimeTrackPart.TimeTrackZone != null)
-			{
-				TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
-			}
+			TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
+
 			UID = dayTimeTrackPart.UID;
 		}
 
 		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee) : this()
 		{
 			var zone =
-				TimeTrackingHelper.GetMergedZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
+				TimeTrackingHelper.GetAllZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
 				??
 				new TimeTrackZone {Name = "<Нет в конфигурации>", No = default(int)};
 
@@ -250,15 +216,11 @@ namespace SKDModule.Model
 				timeTrackPart.ExitDateTime,
 				zone,
 				timeTrackPart.NotTakeInCalculations,
-				timeTrackPart.NotTakeInCalculationsOriginal,
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.IsNeedAdjustment,
-				timeTrackPart.IsNeedAdjustmentOriginal,
 				timeTrackPart.AdjustmentDate,
 				user.Name,
 				user.UID,
-				timeTrackPart.EnterTimeOriginal,
-				timeTrackPart.ExitTimeOriginal,
 				timeTrackPart.IsOpen,
 				timeTrackPart.IsForceClosed);
 		}
@@ -296,8 +258,8 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool notTakeInCalculationsOriginal, bool isManuallyAdded, bool isNeedAdjustment, bool isNeedAdjustmentOriginal, DateTime? adjustmentDate, string correctedBy,
-			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, DateTime? adjustmentDate, string correctedBy,
+			Guid correctedByUID, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
 			AdjustmentDate = adjustmentDate;
@@ -306,16 +268,12 @@ namespace SKDModule.Model
 			ExitDateTime = exitDateTime;
 			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
 			NotTakeInCalculations = notTakeInCalculations;
-			NotTakeInCalculationsOriginal = notTakeInCalculationsOriginal;
 			IsManuallyAdded = isManuallyAdded;
-			IsNeedAdjustmentOriginal = isNeedAdjustmentOriginal;
 			IsNeedAdjustment = isNeedAdjustment;
 			CorrectedBy = correctedBy;
 			CorrectedByUID = correctedByUID;
 			IsOpen = isOpen;
 			IsForceClosed = isForceClosed;
-			EnterTimeOriginal = enterTimeOriginal;
-			ExitTimeOriginal = exitTimeOriginal;
 		}
 
 		private Lazy<IObservable<object>> GetUiObserver()
@@ -331,7 +289,6 @@ namespace SKDModule.Model
 					, this.ObservableForProperty(x => x.IsManuallyAdded)
 					, this.ObservableForProperty(x => x.IsNeedAdjustment)
 					, this.ObservableForProperty(x => x.TimeTrackZone)
-					, this.ObservableForProperty(x => x.IsRemoveAllIntersections)
 					),
 				true
 				);
@@ -348,19 +305,14 @@ namespace SKDModule.Model
 				CorrectedByUID = CorrectedByUID,
 				EnterDateTime = EnterDateTime,
 				EnterTime = EnterTime,
-				EnterTimeOriginal = EnterTimeOriginal,
 				ExitDateTime = ExitDateTime,
 				ExitTime = ExitTime,
-				ExitTimeOriginal = ExitTimeOriginal,
 				IsForceClosed = IsForceClosed,
 				IsManuallyAdded = IsManuallyAdded,
 				IsNeedAdjustment = IsNeedAdjustment,
-				IsNeedAdjustmentOriginal = IsNeedAdjustmentOriginal,
 				IsOpen = IsOpen,
 				IsNew = IsNew,
-				IsRemoveAllIntersections = IsRemoveAllIntersections,
 				NotTakeInCalculations = NotTakeInCalculations,
-				NotTakeInCalculationsOriginal = NotTakeInCalculationsOriginal,
 				TimeTrackZone = TimeTrackZone.ToDTO()
 			};
 
