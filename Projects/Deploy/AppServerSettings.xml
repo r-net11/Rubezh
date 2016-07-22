@@ -10,6 +10,5 @@
   <DBUseIntegratedSecurity>true</DBUseIntegratedSecurity>
   <DBUserID />
   <DBUserPwd />
-  <CreateNewDBOnOversize>true</CreateNewDBOnOversize>
   <EnableOfflineLog>true</EnableOfflineLog>
 </AppServerSettings>

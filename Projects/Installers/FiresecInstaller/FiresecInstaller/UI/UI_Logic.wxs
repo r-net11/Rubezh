@@ -7,62 +7,49 @@
 			<UIRef Id="UIDialogs"/>
 			<UIRef Id="WixUI_Common"/>
 
-			<Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="RequirementsDialog">1</Publish>
-
-			<Publish Dialog="RequirementsDialog" Control="Next" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
-			<Publish Dialog="RequirementsDialog" Control="Back" Event="NewDialog" Value="WelcomeDialog">1</Publish>
-			<Publish Dialog="RequirementsDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="LicenseAgreementDialog" Control="Next" Event="NewDialog" Value="DestinationFolderDialog">1</Publish>
-			<Publish Dialog="LicenseAgreementDialog" Control="Back" Event="NewDialog" Value="RequirementsDialog">1</Publish>
-			<Publish Dialog="LicenseAgreementDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="DestinationFolderDialog" Control="Next" Event="SetTargetPath" Value="[_BrowseProperty]" Order="1">1</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="Next" Event="NewDialog" Value="ModulesDialog" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="Back" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="ChangeFolder" Event="SpawnDialog" Value="InstallChangeFolderDialog">1</Publish>
-			<Publish Dialog="DestinationFolderDialog" Control="ChangeFolder" Property="_BrowseProperty" Value="INSTALLLOCATION">1</Publish>
-
-			<Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="Reset" Value="0">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="DoAction" Value="WixUIValidatePath">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="EndDialog" Value="Return">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="Up" Event="DirectoryListUp" Value="0">1</Publish>
-			<Publish Dialog="InstallChangeFolderDialog" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
-
-			<Publish Dialog="ModulesDialog" Control="Next" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
-			<Publish Dialog="ModulesDialog" Control="Back" Event="NewDialog" Value="DestinationFolderDialog">1</Publish>
-			<Publish Dialog="ModulesDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="ShortcutsDialog" Control="Next" Event="DoAction" Value="ReadAppServerSettings" Order="1"><![CDATA[&Server.Features = 3]]></Publish>
-			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="SQLLoginDialog" Order="2"><![CDATA[&Server.Features = 3]]></Publish>
-			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog"><![CDATA[&Server.Features <> 3]]></Publish>
-			<Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="ModulesDialog">1</Publish>
-			<Publish Dialog="ShortcutsDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="SQLLoginDialog" Control="CheckConnectionPushButton" Event="DoAction" Value="CheckSqlConnection">1</Publish>
-			<Publish Dialog="SQLLoginDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
-			<Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-			<Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="SQLLoginDialog"><![CDATA[&Server.Features = 3]]></Publish>
-			<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog"><![CDATA[&Server.Features <> 3]]></Publish>
-
-			<Publish Dialog="SetupProgressDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="WriteAppServerSettings" Order="1">1</Publish>
 			<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-			<InstallUISequence>
-				<Show Dialog="SetupProgressDialog" Before="ExecuteAction" Overridable="yes" />
-				<Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">1</Show>
-			</InstallUISequence>
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="RequirementsDialog">NOT Installed AND NOT PATCH</Publish>
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+
+			<Publish Dialog="RequirementsDialog" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+			<Publish Dialog="RequirementsDialog" Control="Next" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
+
+			<Publish Dialog="LicenseAgreementDialog" Control="Back" Event="NewDialog" Value="RequirementsDialog">1</Publish>
+			<Publish Dialog="LicenseAgreementDialog" Control="Next" Event="NewDialog" Value="SetupTypeDialog" Order="2">LicenseAccepted = "1"</Publish>
+
+			<Publish Dialog="SetupTypeDialog" Control="Back" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
+			<Publish Dialog="SetupTypeDialog" Control="CustomButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+			<Publish Dialog="SetupTypeDialog" Control="CompleteButton" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+
+			<Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">WixUI_InstallMode = "Change"</Publish>
+			<Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="SetupTypeDialog" Order="2">WixUI_InstallMode = "InstallCustom"</Publish>
+			<Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+
+			<Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">WixUI_InstallMode = "InstallCustom"</Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="SetupTypeDialog" Order="2">WixUI_InstallMode = "InstallComplete"</Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="3">WixUI_InstallMode = "Change"</Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="DoAction" Value="ReadAppServerSettings" Order="1"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="SQLServerDialog" Order="2"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3"><![CDATA[&Server.Features <> 3]]></Publish>
+
+			<Publish Dialog="SQLServerDialog" Control="CheckConnectionPushButton" Event="DoAction" Value="CheckSqlConnection">1</Publish>
+			<Publish Dialog="SQLServerDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+			<Publish Dialog="SQLServerDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="ShortcutsDialog" Order="1"><![CDATA[&Server.Features <> 3]]></Publish>
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="SQLServerDialog" Order="2"><![CDATA[&Server.Features = 3]]></Publish>
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="3">WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"</Publish>
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">WixUI_InstallMode = "Update"</Publish>
+
+			<Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+			<Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+			<Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+			<Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+			<Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="WriteAppServerSettings"><![CDATA[WixUI_InstallMode <> "Remove" AND &Server.Features = 3]]></Publish>
 		</UI>
 	</Fragment>
 </Wix>
