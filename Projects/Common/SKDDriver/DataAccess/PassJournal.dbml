@@ -12,12 +12,8 @@
       <Column Name="CorrectedByUID" Type="System.Guid" CanBeNull="true" />
       <Column Name="NotTakeInCalculations" Type="System.Boolean" CanBeNull="false" />
       <Column Name="IsAddedManually" Type="System.Boolean" CanBeNull="false" />
-      <Column Name="EnterTimeOriginal" Type="System.DateTime" CanBeNull="true" />
-      <Column Name="ExitTimeOriginal" Type="System.DateTime" CanBeNull="true" />
       <Column Name="IsForceClosed" Type="System.Boolean" CanBeNull="false" />
       <Column Name="IsOpen" Type="System.Boolean" CanBeNull="false" />
-      <Column Name="IsNeedAdjustmentOriginal" Type="System.Boolean" CanBeNull="false" />
-      <Column Name="NotTakeInCalculationsOriginal" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeDay" Member="EmployeeDays">

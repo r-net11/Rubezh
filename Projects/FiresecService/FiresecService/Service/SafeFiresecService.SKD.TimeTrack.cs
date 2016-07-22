@@ -185,24 +185,14 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID));
 		}
 
-		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
-		{
-			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
-		}
-
 		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
 		{
 			return SafeContext.Execute(() => FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid));
 		}
 
-		public OperationResult<List<DayTimeTrackPart>> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
 		{
-			return SafeContext.Execute(() => FiresecService.GetMissedIntervals(currentDate, currentEmployee));
-		}
-
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts, DateTime? resetAdjustmentsDate)
-		{
-			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removedDayTimeTrackParts, resetAdjustmentsDate));
+			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removedDayTimeTrackParts));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)

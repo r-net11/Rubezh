@@ -27,6 +27,8 @@ namespace SKDModule.Model
 
 		public TimeTrackZone(StrazhAPI.SKD.TimeTrackZone timeTrackZone)
 		{
+			if (timeTrackZone == null) return;
+
 			SKDZone = timeTrackZone.SKDZone;
 			UID = timeTrackZone.UID;
 			No = timeTrackZone.No;

@@ -70,10 +70,6 @@
 							Command="{Binding ForceClosingCommand}"
 							ImageSource="Alarm_main_7_Auto"
 							ToolTip="Принудительное закрытие интервала"/>
-						<ToolBarButton
-							Command="{Binding ResetAdjustmentsCommand}"
-							ImageSource="Close"
-							ToolTip="Сброс корректировок"/>
 					</StackPanel>
 					<DataGrid
 						Grid.Row="1"
