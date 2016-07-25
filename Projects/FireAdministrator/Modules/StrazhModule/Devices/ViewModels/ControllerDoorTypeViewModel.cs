@@ -588,6 +588,7 @@ namespace StrazhModule.ViewModels
 			var locks = DeviceViewModel.Device.Children.Where(c => c.DriverType == SKDDriverType.Lock && c.IsEnabled);
 			foreach (var lockDevice in locks)
 			{
+				SKDManager.InvalidateOneLockConfiguration(lockDevice);
 				lockDevice.SKDDoorConfiguration.IsRepeatEnterAlarmEnable = IsAntiPassBackActivated;
 			}
 		}
