@@ -120,9 +120,7 @@ namespace SKDModule.Views
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
 				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackPartsForDrawing, RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
-
-				if (dayTimeTrack.CombinedTimeTrackParts != null)
-					DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
+				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts, CombinedGrid);
 			}
 
 			DrawHoursGrid();

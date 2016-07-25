@@ -155,6 +155,7 @@ namespace StrazhAPI.SKD
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForDrawing, DocumentTrackParts);
+			FilterParts();
 			if (SlideTime != TimeSpan.Zero)
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
@@ -330,28 +331,24 @@ namespace StrazhAPI.SKD
 
 		private List<TimeTrackTotal> GetTotalBalance(List<TimeTrackTotal> totalCollection)
 		{
-			var totalAbsence = new TimeSpan();
 			var abcence = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Late
 			                                         || x.TimeTrackType == TimeTrackType.Absence
 			                                         || x.TimeTrackType == TimeTrackType.EarlyLeave
 			                                         || x.TimeTrackType == TimeTrackType.DocumentAbsence)
 													 .Select(x => x.TimeSpan)
-													 .Aggregate(totalAbsence, (span, timeSpan) => span + timeSpan);
-			var totalOvertime = new TimeSpan();
+													 .Aggregate(default(TimeSpan), (span, timeSpan) => span + timeSpan);
+
 			var overtime = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Overtime
 			                                           || x.TimeTrackType == TimeTrackType.DocumentOvertime)
 													   .Select(x => x.TimeSpan)
-													   .Aggregate(totalOvertime, (span, timeSpan) => span + timeSpan);
+													   .Aggregate(default(TimeSpan), (span, timeSpan) => span + timeSpan);
 
 			var totalBalance = totalCollection.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+
 			if (totalBalance != null)
-			{
 				totalBalance.TimeSpan = overtime - abcence;
-			}
 			else
-			{
 				return new List<TimeTrackTotal>();
-			}
 
 			return totalCollection;
 		}
@@ -609,7 +606,7 @@ namespace StrazhAPI.SKD
 
 			foreach (var timeTrackPart in realTimeTrackParts)
 			{
-				TimeTrackPart timeTrackPartItem = timeTrackPart;
+				var timeTrackPartItem = timeTrackPart;
 
 				if (timeTrackPart.ExitDateTime != null && (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Value.Date > Date))
 				{
@@ -877,13 +874,17 @@ namespace StrazhAPI.SKD
 						}
 					}
 				}
-
-				// Удаляем все временные интервалы с типом "Перерыв" из результатирующиго графика ИТОГО
-				if (timeTrackPart.TimeTrackPartType == TimeTrackType.Break)
-					timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 			}
 
 			return combinedTimeTrackParts;
+		}
+
+		private void FilterParts()
+		{
+			CombinedTimeTrackParts = CombinedTimeTrackParts
+				.Where(x => x.TimeTrackPartType != TimeTrackType.Break)
+				.Where(x => !x.NotTakeInCalculations)
+				.ToList();
 		}
 
 		/// <summary>
