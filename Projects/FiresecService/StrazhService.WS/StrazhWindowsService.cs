@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading.Tasks;
 using Common;
-using FiresecService;
 
 namespace StrazhService.WS
 {
@@ -24,10 +18,59 @@ namespace StrazhService.WS
 
 		protected override void OnStart(string[] args)
 		{
-			Logger.Info("Запускаем службу 'StrazhService'");
-			Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-			Logger.Info(string.Format("Текущий рабочий каталог службы '{0}'", Environment.CurrentDirectory));
-			DoStart();
+			try
+			{
+				// Подписываемся на все неотловленные исключения, включая те, что были сгенерированы не в основном потоке
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+				Logger.Info("Запускаем службу 'StrazhService'");
+				Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+				Logger.Info(string.Format("Текущий рабочий каталог службы '{0}'", Environment.CurrentDirectory));
+				DoStart();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове StrazhWindowsService.OnStart");
+				DoStop();
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Обработать общую ошибку
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
+		{
+			Exception exception = null;
+			var o = args.ExceptionObject as Exception;
+			if (o != null)
+				exception = o;
+
+			if (exception == null)
+				exception = new Exception("UnhandledException!!! Сгенерировалось неидентифицируемое исключение!");
+
+			var errorMessage =
+				String.Format("В процессе работы сервера возникла необработанная ошибка в главном потоке."
+							  + Environment.NewLine + "Exception.Message: {0}"
+							  + Environment.NewLine + "Exception.Source: {1}"
+							  + Environment.NewLine + "Exception.StackTrace: {2}",
+					exception.Message, exception.Source, exception.StackTrace);
+
+			errorMessage += exception.InnerExceptionToString();
+
+			// Пишем сообщение в лог
+			try
+			{
+				Logger.Error(errorMessage);
+			}
+			catch
+			{
+
+			}
+
+			Trace.WriteLine(string.Format("{0}\t{1}", DateTime.Now, errorMessage));
 		}
 
 		protected override void OnStop()
