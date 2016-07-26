@@ -54,26 +54,25 @@ namespace VideoModule.ViewModels
 		public List<Camera> GetCameras()
 		{
 			var cameras = new List<Camera>();
-			foreach (var device in Devices)
+			foreach (var device in Devices.Where(x => x.IsChecked))
 			{
-				if (device.IsChecked)
+				var stream = device.Channel.Streams.FirstOrDefault(x => x.Number == device.StreamNo);
+				if (stream != null)
 				{
-					var stream = device.Channel.Streams[device.StreamNo];
-					if (stream != null)
+					var camera = new Camera
 					{
-						var camera = new Camera();
-						camera.Name = device.DeviceName;
-						camera.StreamNo = device.StreamNo;
-						camera.Ip = device.Device.Ip;
-						camera.RviDeviceUID = device.Device.Guid;
-						camera.RviChannelNo = device.Channel.Number;
-						camera.RviRTSP = stream.Rtsp;
-						camera.RviChannelName = device.Channel.Name;
-						camera.CountPresets = device.Channel.CountPresets;
-						camera.CountTemplateBypass = device.Channel.CountTemplateBypass;
-						camera.CountTemplatesAutoscan = device.Channel.CountTemplatesAutoscan;
-						cameras.Add(camera);
-					}
+						Name = device.DeviceName,
+						StreamNo = device.StreamNo,
+						Ip = device.Device.Ip,
+						RviDeviceUID = device.Device.Guid,
+						RviChannelNo = device.Channel.Number,
+						RviRTSP = stream.Rtsp,
+						RviChannelName = device.Channel.Name,
+						CountPresets = device.Channel.CountPresets,
+						CountTemplateBypass = device.Channel.CountTemplateBypass,
+						CountTemplatesAutoscan = device.Channel.CountTemplatesAutoscan
+					};
+					cameras.Add(camera);
 				}
 			}
 			return cameras;
