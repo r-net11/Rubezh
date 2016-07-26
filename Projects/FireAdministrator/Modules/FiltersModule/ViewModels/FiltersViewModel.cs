@@ -1,8 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -88,6 +90,8 @@ namespace FiltersModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			Logger.Info(String.Format("Удаление фильтра журнала событий GUID='{0}' Название='{1}'", SelectedFilter.Filter.UID, SelectedFilter.Filter.Name));
+			var deletedFilterID = SelectedFilter.Filter.UID;
 			var index = Filters.IndexOf(SelectedFilter);
 			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
@@ -95,6 +99,7 @@ namespace FiltersModule.ViewModels
 			if (index > -1)
 				SelectedFilter = Filters[index];
 			ServiceFactory.SaveService.FilterChanged = true;
+			ServiceFactoryBase.Events.GetEvent<FilterDeletedEvent>().Publish(deletedFilterID);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
