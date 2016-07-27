@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Shapes;
 using DeviceControls;
+using Infrastructure.Events;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -187,6 +188,9 @@ namespace StrazhModule.ViewModels
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			ServiceFactory.SaveService.SKDChanged = true;
+
+			// Уведомляем всех заинтересованных об удалении контроллера
+			ServiceFactoryBase.Events.GetEvent<ControllerDeletedEvent>().Publish(Device.UID);
 		}
 		bool CanRemove()
 		{
