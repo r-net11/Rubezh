@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Events;
 using StrazhAPI.Models.Layouts;
@@ -24,10 +25,13 @@ namespace SKDModule.ViewModels
 			ServiceFactoryBase.Events.GetEvent<ControllerDeletedEvent>().Subscribe((deviceID) =>
 			{
 				// Если был удален контроллер, на считыватель которого мы не ссылались
-				if (SKDManager.Devices.Any(x => x.UID == _properties.ReferenceUID))
+				if (_properties.ReferenceUID == Guid.Empty || SKDManager.Devices.Any(x => x.UID == _properties.ReferenceUID))
 					return;
 				
 				// Если был удален контроллер, на считыватель которого мы ссылались
+				Logger.Info(String.Format("Окно верификации '{0}'. Открепление от считывателя ввиду удаления контроллера GUID='{1}'",
+					Title,
+					deviceID));
 				_properties.ReferenceUID = Guid.Empty;
 				UpdateLayoutPartInternal(null);
 			});

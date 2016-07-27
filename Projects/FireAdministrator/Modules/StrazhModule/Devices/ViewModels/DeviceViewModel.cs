@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Shapes;
+using Common;
 using DeviceControls;
 using Infrastructure.Events;
 using StrazhAPI.Models;
@@ -172,6 +173,7 @@ namespace StrazhModule.ViewModels
 			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить контроллер\n\"{0}\"?", Device.Name)))
 				return;
 
+			Logger.Info(String.Format("Удаление контроллера GUID='{0}'", Device.UID));
 			var allDevices = Device.Children;
 			SKDManager.DeleteDevice(Device);
 			var parent = Parent;
