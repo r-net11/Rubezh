@@ -117,7 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateNewConfigurationMessage" xml:space="preserve">
-    <value>Вы уверены, что хотите перезаписать текущую конфигурацию?</value>
+  <data name="Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="AcceptConfigQuestion" xml:space="preserve">
+    <value>Accept changes in configuration?</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="ConfigOperations" xml:space="preserve">
+    <value>Operations with configuration</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="HideInstrumentPanel" xml:space="preserve">
+    <value>Hide instrument panel</value>
+  </data>
+  <data name="HideMenuPanel" xml:space="preserve">
+    <value>Hide menu panel</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Middle" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NoPermissionSaveConfig" xml:space="preserve">
+    <value>You have not permissions to save configuration</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OverwriteConfigQuestion" xml:space="preserve">
+    <value>Are you sure to overwrite configuration?</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ShowInstrumentPanel" xml:space="preserve">
+    <value>Show instrument panel</value>
+  </data>
+  <data name="ShowMenuPanel" xml:space="preserve">
+    <value>Show menu panel</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
   </data>
 </root>

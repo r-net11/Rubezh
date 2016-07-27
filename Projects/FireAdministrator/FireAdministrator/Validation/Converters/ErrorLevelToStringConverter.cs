@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using Infrastructure.Common.Validation;
+using Localization.FireAdministrator.Errors;
 
 namespace FireAdministrator.Converters
 {
@@ -11,16 +12,16 @@ namespace FireAdministrator.Converters
 			switch ((ValidationErrorLevel)value)
 			{
 				case ValidationErrorLevel.CannotSave:
-					return "Невозможно сохранить";
+					return CommonErrors.UnableToSave_Error;
 
 				case ValidationErrorLevel.CannotWrite:
-					return "Невозможно записать в прибор";
+					return CommonErrors.UnableWriteOnDevice_Error;
 
 				case ValidationErrorLevel.Warning:
-					return "Предупреждение";
+					return CommonErrors.Warning_Error;
 
 				default:
-					return "Неизвестно";
+					return CommonErrors.Unknown_Error;
 			}
 		}
 

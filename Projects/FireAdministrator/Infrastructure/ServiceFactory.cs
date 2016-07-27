@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Models;
+﻿using Localization.Infrastructure;
+using StrazhAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -36,7 +37,7 @@ namespace Infrastructure
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
 			ValidationService = IValidationService;
-			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
+			LoginService = new LoginService(ClientType.Administrator, CommonResources.AdminAuth);
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();

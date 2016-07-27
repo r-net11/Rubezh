@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Localization.FireAdministrator.Common;
+using Localization.FireAdministrator.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -20,7 +22,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base(ClientType.Administrator)
 		{
-			Title = "Администратор";
+			Title = CommonResources.Administator;
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;
@@ -48,7 +50,7 @@ namespace FireAdministrator.ViewModels
 				AlarmPlayerHelper.Dispose();
 				if (ServiceFactory.SaveService.HasChanges)
 				{
-					var result = MessageBoxService.ShowQuestionExtended("Применить изменения в конфигурации?");
+                    var result = MessageBoxService.ShowQuestionExtended(CommonViewModels.AcceptConfigQuestion);
 					switch (result)
 					{
 						case MessageBoxResult.Yes:
@@ -79,21 +81,21 @@ namespace FireAdministrator.ViewModels
 			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "BToolbar");
 			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "BMenu");
 			UpdateToolbarTitle();
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Проект", new ObservableCollection<RibbonMenuItemViewModel>()
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel(CommonViewModels.Project, new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Новый", _menu.CreateNewCommand, "BNew", "Создать новую конфигурацию"),
-				new RibbonMenuItemViewModel("Открыть", _menu.LoadFromFileCommand, "BLoad", "Открыть конфигурацию из файла"),
-				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "BCheck", "Проверить конфигурацию"),
-				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "BDownload", "Применить конфигурацию"),
-				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "BSave", "Сохранить конфигурацию в файл"),
-				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "BSaveAs", "Сохранить как"),
-				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.New, _menu.CreateNewCommand, "BNew", CommonResources.CreateNewConfig),
+				new RibbonMenuItemViewModel(CommonViewModels.Open, _menu.LoadFromFileCommand, "BLoad",CommonResources.FileConfigOpen),
+				new RibbonMenuItemViewModel(CommonViewModels.Check, _menu.ValidateCommand, "BCheck", CommonResources.CheckConfig),
+				new RibbonMenuItemViewModel(CommonViewModels.Accept, _menu.SetNewConfigCommand, "BDownload", CommonResources.AcceptConfig),
+				new RibbonMenuItemViewModel(CommonViewModels.Save, _menu.SaveCommand, "BSave", CommonResources.FileConfigSave),
+				new RibbonMenuItemViewModel(CommonResources.SaveAs, _menu.SaveAsCommand, "BSaveAs", CommonResources.SaveAs),
+				new RibbonMenuItemViewModel(CommonViewModels.View, new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					_showMenu,
 					_showToolbar,
 				}, "BView") { Order = 1000 }, 
-			}, "BConfig", "Операции с конфигурацией") { Order = int.MinValue });
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
+			}, "BConfig", CommonViewModels.ConfigOperations) { Order = int.MinValue });
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel(CommonViewModels.Exit, ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }
@@ -115,8 +117,8 @@ namespace FireAdministrator.ViewModels
 
 		void UpdateToolbarTitle()
 		{
-			_showToolbar.Text = _menu.IsMenuVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
-			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
+            _showToolbar.Text = _menu.IsMenuVisible ? CommonViewModels.HideInstrumentPanel : CommonViewModels.ShowInstrumentPanel;
+            _showMenu.Text = _menu.IsMainMenuVisible ? CommonViewModels.HideMenuPanel : CommonViewModels.ShowMenuPanel;
 		}
 	}
 }
