@@ -86,7 +86,6 @@
 								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="ExportXLSX"  ToolTip="Экспорт в XLSX" />
 								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="ExportCSV"  ToolTip="Экспорт в CSV" />
 								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="ExportTXT"  ToolTip="Экспорт в TXT" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="ExportImage"  ToolTip="Экспорт в Image" />
 								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="ExportXPS"  ToolTip="Экспорт в XPS" />
 							</ItemsControl.Items>
 						</ItemsControl>
