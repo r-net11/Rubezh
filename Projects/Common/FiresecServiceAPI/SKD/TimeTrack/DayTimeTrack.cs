@@ -1,9 +1,11 @@
-﻿using StrazhAPI.Extensions;
+﻿using System.Text;
+using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using Logger = Common.Logger;
 
 namespace StrazhAPI.SKD
 {
@@ -146,7 +148,6 @@ namespace StrazhAPI.SKD
 		{
 			CalculateDocuments();
 
-			PlannedTimeTrackParts = PlannedTimeTrackParts;
 			CrossNightTimeTrackParts = CrossNightTimeTrackParts.Where(x => RealTimeTrackParts.All(y => y.PassJournalUID != x.PassJournalUID)).ToList();
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
@@ -625,8 +626,6 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
@@ -648,8 +647,6 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsForURVZone = timeTrackPart.IsForURVZone,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
@@ -671,9 +668,7 @@ namespace StrazhAPI.SKD
 						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
 						AdjustmentDate = timeTrackPart.AdjustmentDate,
 						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						IsForURVZone = timeTrackPart.IsForURVZone,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
 						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
 						IsForceClosed = timeTrackPart.IsForceClosed
@@ -708,52 +703,59 @@ namespace StrazhAPI.SKD
 			return resultCollection;
 		}
 
+		/// <summary>
+		/// Получает интервал, в пределах которого ведётся расчёт документа, основываясь на времени начала и конца длительности оправдательного документа.
+		/// </summary>
+		/// <param name="document">Оправдательный документ</param>
+		/// <returns>Интервал для расчёта, длительность которого расчитывается на базе интервала длительности оправдательного документа</returns>
+		private TimeTrackPart InitializeTimeTrackPartBasedOnDocument(TimeTrackDocument document)
+		{
+			var isDurationMoreThanOneDay = document.StartDateTime.Date < Date && document.EndDateTime.Date > Date;
+			var isDurationTillTomorrow = document.StartDateTime.Date == Date && document.EndDateTime.Date > Date;
+			var isDurationFromYesterday = document.StartDateTime.Date < Date && document.EndDateTime.Date == Date;
+
+			if (isDurationMoreThanOneDay)
+				return new TimeTrackPart
+				{
+					EnterDateTime = Date.Date,
+					ExitDateTime = Date.AddDays(1).AddTicks(-1)
+				};
+
+			if (isDurationTillTomorrow)
+				return new TimeTrackPart
+				{
+					EnterDateTime = document.StartDateTime,
+					ExitDateTime = document.StartDateTime.AddDays(1).AddTicks(-1)
+				};
+
+			if (isDurationFromYesterday)
+				return new TimeTrackPart
+				{
+					EnterDateTime = Date.Date,
+					ExitDateTime = document.EndDateTime
+				};
+
+			return new TimeTrackPart
+			{
+				EnterDateTime = document.StartDateTime,
+				ExitDateTime = document.EndDateTime
+			};
+		}
+
 		private void CalculateDocuments()
 		{
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
-				TimeTrackPart timeTrackPart = null;
-				//TODO: Move document parts to separete collections for calculating and presentation
-				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
-						ExitDateTime = new DateTime(Date.Year, Date.Month, (Date.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
-					};
-				}
-				if (document.StartDateTime.Date == Date && document.EndDateTime.Date > Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = document.StartDateTime,
-						ExitDateTime = new DateTime(document.StartDateTime.Year, document.StartDateTime.Month, (document.StartDateTime.Day + 1), 0, 0, 0) - TimeSpan.FromTicks(1) //TODO: Could cause errors in balance. Move it to presentation collection
-					};
-				}
-				if (document.StartDateTime.Date == Date && document.EndDateTime.Date == Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = document.StartDateTime,
-						ExitDateTime = document.EndDateTime
-					};
-				}
-				if (document.StartDateTime.Date < Date && document.EndDateTime.Date == Date)
-				{
-					timeTrackPart = new TimeTrackPart
-					{
-						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0),
-						ExitDateTime = document.EndDateTime
-					};
-				}
-				if (timeTrackPart != null)
-				{
-					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
-					timeTrackPart.IsOutside = document.IsOutside;
-					DocumentTrackParts.Add(timeTrackPart);
-				}
+				var timeTrackPart = InitializeTimeTrackPartBasedOnDocument(document);
+
+				if (timeTrackPart == null) continue;
+
+				timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
+				timeTrackPart.IsOutside = document.IsOutside;
+				DocumentTrackParts.Add(timeTrackPart);
 			}
+
 			DocumentTrackParts = DocumentTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
 			var dateTimes = new List<DateTime?>();
@@ -843,8 +845,10 @@ namespace StrazhAPI.SKD
 				var hasRealTimeTrack = realTimeTrackParts.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
 					.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
-				var hasPlannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
-																		&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
+				var plannedTimeTrack = plannedTimeTrackParts.Where(x => x.ExitDateTime.HasValue)
+					.Where(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+						&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay).ToList();
+				var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
 				var documentTimeTrack = documentTimeTrackParts.Where(x => x.ExitDateTime.HasValue).FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 																			&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
@@ -855,7 +859,28 @@ namespace StrazhAPI.SKD
 				if (documentTimeTrack != null)
 				{
 					timeTrackPart.TimeTrackPartType = GetDocumentTimeTrackType(documentTimeTrack, timeTrackPart, hasPlannedTimeTrack, hasRealTimeTrack);
+
+					if (hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
+					{
+						switch (documentTimeTrack.MinTimeTrackDocumentType.DocumentType)
+						{
+							case DocumentType.Overtime:
+								break;
+							case DocumentType.Presence:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+							case DocumentType.Absence:
+							case DocumentType.AbsenceReasonable:
+								if (!documentTimeTrack.IsOutside)
+									timeTrackPart.TimeTrackPartType = TimeTrackType.Break;
+								break;
+						}
+					}
 				}
+
+				// Удаляем все временные интервалы с типом "Перерыв" из результатирующиго графика ИТОГО
+				if (timeTrackPart.TimeTrackPartType == TimeTrackType.Break)
+					timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 			}
 
 			return combinedTimeTrackParts;
@@ -906,24 +931,46 @@ namespace StrazhAPI.SKD
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
 		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
-			var hasRealTimeTrack = realTimeTrackParts
+			var realTimeTrack = realTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
-				.Any(x => combinedInterval.EndTime != null
-				          && (x.ExitDateTime != null
-				              && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+				.Where(x => combinedInterval.EndTime != null
+						  && (x.ExitDateTime != null
+							  && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
 
-			var hasPlannedTimeTrack = plannedTimeTrackParts
+			var hasRealTimeTrack = realTimeTrack.Any();
+
+#if DEBUG
+			if (hasRealTimeTrack && realTimeTrack.Count > 1)
+			{
+				var sb = new StringBuilder();
+				realTimeTrack.ForEach(rtt => sb.Append(string.Format(" {0}({1}-{2})", rtt.TimeTrackPartType, rtt.EnterDateTime.TimeOfDay, rtt.ExitDateTime.Value.TimeOfDay)));
+				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: realTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
+			}
+#endif
+
+			var plannedTimeTrack = plannedTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
-				.Any(x =>
+				.Where(x =>
 					combinedInterval.EndTime != null &&
 					(x.ExitDateTime != null &&
-					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
+
+			var hasPlannedTimeTrack = plannedTimeTrack.Any();
+
+#if DEBUG
+			if (hasPlannedTimeTrack && plannedTimeTrack.Count > 1)
+			{
+				var sb = new StringBuilder();
+				plannedTimeTrack.ForEach(ptt => sb.Append(string.Format(" {0}({1}-{2})", ptt.TimeTrackPartType, ptt.EnterDateTime.TimeOfDay, ptt.ExitDateTime.Value.TimeOfDay)));
+				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: plannedTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
+			}
+#endif
 
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
-				return TimeTrackType.Presence;
+				return plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break ? TimeTrackType.Break : TimeTrackType.Presence;
 
-			//Если нет интервала проода сотрудника и нет графика, то "Нет данных"
+			//Если нет интервала прохода сотрудника и нет графика, то "Нет данных"
 			if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				return TimeTrackType.None;
 
@@ -933,6 +980,8 @@ namespace StrazhAPI.SKD
 				return TimeTrackType.Overtime;
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
+			if (!hasRealTimeTrack && hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
+				return TimeTrackType.None;
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
@@ -950,7 +999,8 @@ namespace StrazhAPI.SKD
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) ||
-				realTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay)) return TimeTrackType.Absence;
+				realTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay))
+				return TimeTrackType.Absence;
 
 			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.ExitDateTime.Value.TimeOfDay == timeTrackPart.ExitDateTime.Value.TimeOfDay);
 			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
@@ -1260,7 +1310,7 @@ namespace StrazhAPI.SKD
 					}
 					else
 						LetterCode = SlideTime == TimeSpan.Zero
-							? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F")
+							? PlannedTimeTrackParts.Sum(x => (x.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : x.Delta).TotalHours).ToString("F")
 							: SlideTime.TotalHours.ToString("F");
 				}
 			}

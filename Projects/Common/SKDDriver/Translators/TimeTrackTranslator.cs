@@ -278,7 +278,8 @@ namespace StrazhDAL
 									EnterDateTime = new DateTime() + new TimeSpan(),  //new TimeSpan(),
 									ExitDateTime = new DateTime() + TimeSpan.FromSeconds(nightInterval.EndTime - 60*60*24),
 									StartsInPreviousDay = true,
-									DayName = previousDayInterval.Name
+									DayName = previousDayInterval.Name,
+									TimeTrackPartType = ((DayIntervalPartType)nightInterval.Type == DayIntervalPartType.Break) ? TimeTrackType.Break : TimeTrackType.Presence
 								};
 							}
 						}
@@ -319,7 +320,8 @@ namespace StrazhDAL
 					var timeTrackPart = new TimeTrackPart
 					{
 						EnterDateTime = new DateTime() + TimeSpan.FromSeconds(tableInterval.BeginTime),
-						ExitDateTime = new DateTime() + TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60*60*24 - 1))
+						ExitDateTime = new DateTime() + TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60*60*24 - 1)),
+						TimeTrackPartType = ((DayIntervalPartType)tableInterval.Type == DayIntervalPartType.Break) ? TimeTrackType.Break : TimeTrackType.Presence
 					};
 					if (tableInterval.EndTime > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;

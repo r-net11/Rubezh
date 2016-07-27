@@ -60,5 +60,8 @@ namespace StrazhAPI.SKD
         //[Description("Отсутствие по уважительной причине")]
         [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DocumentAbsenceReasonable")]
 		DocumentAbsenceReasonable,
+
+		[Description("Перерыв")]
+		Break,
 	}
 }

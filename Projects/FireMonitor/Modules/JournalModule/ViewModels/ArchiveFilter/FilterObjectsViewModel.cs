@@ -19,7 +19,7 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(ArchiveFilter filter)
 		{
-			_allObjects.ForEach(x => x.SetIsChecked(false));
+			_allObjects.ForEach(x => x.IsChecked = false);
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
 				var objectTypeViewModel = _allObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);

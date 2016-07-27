@@ -13,18 +13,6 @@ namespace FiresecClient.SKDHelpers
 			return FiresecManager.FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid).Result;
 		}
 
-		public static List<DayTimeTrackPart> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
-		{
-			var result = FiresecManager.FiresecService.GetMissedIntervals(currentDate, currentEmployee);
-			return Common.ShowErrorIfExists(result);
-		}
-
-		public static Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
-		{
-			var result = FiresecManager.FiresecService.FindConflictIntervals(dayTimeTracks, employeeGuid, currentDate);
-			return Common.ShowErrorIfExists(result);
-		}
-
 		public static IEnumerable<DayTimeTrackPart> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
 			ShortEmployee currentEmployee)
 		{
@@ -54,9 +42,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts, DateTime? resetAdjustmentsDate)
+		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts)
 		{
-			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removeDayTimeTrackParts, resetAdjustmentsDate);
+			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removeDayTimeTrackParts);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

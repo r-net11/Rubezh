@@ -10,18 +10,6 @@
 			<DialogRef Id="PrepareDlg" />
 			<DialogRef Id="ResumeDlg" />
 			<DialogRef Id="UserExit" />
-
-			<DialogRef Id="WelcomeDialog" />
-			<DialogRef Id="LicenseAgreementDialog" />
-			<DialogRef Id="RequirementsDialog" />
-			<DialogRef Id="DestinationFolderDialog" />
-			<DialogRef Id="InstallChangeFolderDialog" />
-			<DialogRef Id="ModulesDialog" />
-			<DialogRef Id="ShortcutsDialog" />
-			<DialogRef Id="VerifyReadyDialog" />
-			<DialogRef Id="SetupProgressDialog" />
-
-			<DialogRef Id="SQLLoginDialog" />
 		</UI>
 	</Fragment>
 </Wix>

@@ -73,6 +73,7 @@ namespace StrazhService.Monitor
 					RaiseStatusChanged(Status);
 				}
 				cancellationToken.ThrowIfCancellationRequested();
+				Thread.Sleep(TimeSpan.FromMilliseconds(250));
 			}
 		}
 

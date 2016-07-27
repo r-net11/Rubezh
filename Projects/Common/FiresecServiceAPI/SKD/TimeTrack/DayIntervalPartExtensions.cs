@@ -30,7 +30,7 @@ namespace StrazhAPI.SKD
 				? otherDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))
 				: otherDayIntervalPart.EndTime;
 
-			if (endTime < otherBeginTime || beginTime > otherEndTime)
+			if (endTime <= otherBeginTime || beginTime >= otherEndTime)
 				return false;
 			return true;
 		}

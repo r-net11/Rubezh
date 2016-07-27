@@ -117,7 +117,6 @@
     <Compile Include="ViewModels\HolidayViewModel.cs" />
     <Compile Include="ViewModels\TimeShedulesViewModel.cs" />
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
-    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="Views\OfflineLogItemsView.xaml.cs">
       <DependentUpon>OfflineLogItemsView.xaml</DependentUpon>
     </Compile>
@@ -152,9 +151,6 @@
     </Compile>
     <Compile Include="Views\InterlockView.xaml.cs">
       <DependentUpon>InterlockView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\JournalView.xaml.cs">
-      <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AlarmLogItemsView.xaml.cs">
       <DependentUpon>AlarmLogItemsView.xaml</DependentUpon>
@@ -212,10 +208,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\InterlockView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -304,9 +296,9 @@
       <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>StrazhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

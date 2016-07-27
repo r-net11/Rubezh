@@ -25,6 +25,7 @@ namespace JournalModule.ViewModels
 			{
 				allJournalEventNameTypes.AddRange(rootFilter.Children.ToList());
 			}
+			allJournalEventNameTypes.ForEach(x => x.IsChecked = false);
 			foreach (var journalEventNameType in filter.JournalEventNameTypes)
 			{
 				var filterNameViewModel = allJournalEventNameTypes.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);

@@ -45,10 +45,7 @@
 			<TabItem Header="Управление" DataContext="{Binding ControlViewModel}">
 				<Views:ControlView />
 			</TabItem>
-			<TabItem Header="Online журнал" DataContext="{Binding JournalViewModel}">
-				<Views:JournalView />
-			</TabItem>
-			<TabItem Header="Нативный журнал" DataContext="{Binding NativeJournalViewModel}">
+			<TabItem Header="Online журнал" DataContext="{Binding NativeJournalViewModel}">
 				<Views:NativeJournalView />
 			</TabItem>
 			<TabItem Header="Общее" DataContext="{Binding CommonViewModel}">

@@ -61,18 +61,9 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="DayInterval_DayIntervalPart" Member="DayIntervalParts" ThisKey="UID" OtherKey="DayIntervalUID" Type="DayIntervalPart" />
       <Association Name="DayInterval_ScheduleDay" Member="ScheduleDays" ThisKey="UID" OtherKey="DayIntervalUID" Type="ScheduleDay" />
+      <Association Name="DayInterval_DayIntervalPart" Member="DayIntervalParts" ThisKey="UID" OtherKey="DayIntervalUID" Type="DayIntervalPart" />
       <Association Name="Organisation_DayInterval" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.DayIntervalPart" Member="DayIntervalParts">
-    <Type Name="DayIntervalPart">
-      <Column Name="BeginTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="DayIntervalUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="DayInterval_DayIntervalPart" Member="DayInterval" ThisKey="DayIntervalUID" OtherKey="UID" Type="DayInterval" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Department" Member="Departments">
@@ -427,6 +418,16 @@
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="DeactivatingReaderUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_AccessTemplateDeactivatingReader" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DayIntervalPart" Member="DayIntervalParts">
+    <Type Name="DayIntervalPart">
+      <Column Name="BeginTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DayIntervalUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DayInterval_DayIntervalPart" Member="DayInterval" ThisKey="DayIntervalUID" OtherKey="UID" Type="DayInterval" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>

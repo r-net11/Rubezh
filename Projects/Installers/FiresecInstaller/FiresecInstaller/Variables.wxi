@@ -15,11 +15,13 @@
 	<?define SoundsFolder="Sounds"?>
 	<?define XslFilesFolder="XslFiles"?>
 	<?define xaml2svgFolder="xaml2svg"?>
-	<!-- Значения по умолчанию для формы SQLLoginDialog -->
+	<!-- Значения по умолчанию для формы SQLServerDialog -->
 	<?define SQLServerAddressDefault="."?>
 	<?define SQLServerPortDefault="1433"?>
 	<?define SQLServerInstanceNameDefault="SQLEXPRESS"?>
 	<?define SQLServerAuthenticationModeDefault="0"?>
 	<?define SQLServerLoginDefault="strazh"?>
 	<?define SQLServerPasswordDefault="strazhstrazh"?>
+	<?define licenseRtf="Data\License.rtf"?>
+	<?define requirementsRtf="Data\Requirements.rtf"?>
 </Include>

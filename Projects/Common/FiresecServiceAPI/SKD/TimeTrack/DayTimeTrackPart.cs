@@ -21,10 +21,8 @@ namespace StrazhAPI.SKD
 		public bool IsOpen { get; set; }
 		[DataMember]
 		public bool IsNeedAdjustment { get; set; }
-
 		[DataMember]
 		public DateTime? AdjustmentDate { get; set; }
-
 		[DataMember]
 		public DateTime? EnterDateTime { get; set; }
 		[DataMember]
@@ -33,7 +31,6 @@ namespace StrazhAPI.SKD
 		public DateTime? ExitDateTime { get; set; }
 		[DataMember]
 		public TimeSpan ExitTime { get; set; }
-
 		[DataMember]
 		public string CorrectedBy { get; set; }
 		[DataMember]
@@ -41,22 +38,7 @@ namespace StrazhAPI.SKD
 		[DataMember]
 		public bool IsForceClosed { get; set; }
 		[DataMember]
-		public DateTime? EnterTimeOriginal { get; set; }
-		[DataMember]
-		public DateTime? ExitTimeOriginal { get; set; }
-
-		[DataMember]
-		public bool IsRemoveAllIntersections { get; set; }
-
-		[DataMember]
 		public Guid? CorrectedByUID { get; set; }
-
-		[DataMember]
-		public bool IsNeedAdjustmentOriginal { get; set; }
-
-		[DataMember]
-		public bool NotTakeInCalculationsOriginal { get; set; }
-
 		[DataMember]
 		public TimeTrackActions TimeTrackActions { get; set; }
 

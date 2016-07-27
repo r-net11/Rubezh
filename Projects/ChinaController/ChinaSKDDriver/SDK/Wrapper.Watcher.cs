@@ -10,15 +10,15 @@ namespace StrazhDeviceSDK
 	{
 		public static event Action<SKDJournalItem> NewJournalItem;
 
-		private static Thread Thread;
-		private static bool IsStopping;
-		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		private static Thread _thread;
+		private static bool _isStopping;
+		private static AutoResetEvent _stopEvent = new AutoResetEvent(false);
 
 		public int LoginID { get; private set; }
 
 		public static void WrapInitialize()
 		{
-			NativeAPI.NativeWrapper.WRAP_Initialize();
+			NativeWrapper.WRAP_Initialize();
 		}
 
 		#region Connct
@@ -78,21 +78,21 @@ namespace StrazhDeviceSDK
 
 		public static void WrapStart()
 		{
-			IsStopping = false;
-			AutoResetEvent = new AutoResetEvent(false);
-			Thread = new Thread(OnStart);
-			Thread.Start();
+			_isStopping = false;
+			_stopEvent = new AutoResetEvent(false);
+			_thread = new Thread(OnStart);
+			_thread.Start();
 		}
 
 		public static void WrapStop()
 		{
-			IsStopping = true;
-			if (AutoResetEvent != null)
+			_isStopping = true;
+			if (_stopEvent != null)
 			{
-				AutoResetEvent.Set();
-				if (Thread != null)
+				_stopEvent.Set();
+				if (_thread != null)
 				{
-					Thread.Join(TimeSpan.FromSeconds(1));
+					_thread.Join(TimeSpan.FromSeconds(1));
 				}
 			}
 		}
@@ -102,9 +102,9 @@ namespace StrazhDeviceSDK
 			var lastIndex = -1;
 			while (true)
 			{
-				if (IsStopping)
+				if (_isStopping)
 					return;
-				if (AutoResetEvent.WaitOne(TimeSpan.FromMilliseconds(100)))
+				if (_stopEvent.WaitOne(TimeSpan.FromMilliseconds(100)))
 				{
 					return;
 				}

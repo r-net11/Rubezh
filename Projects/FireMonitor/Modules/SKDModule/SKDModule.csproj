@@ -164,6 +164,8 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
@@ -387,6 +389,8 @@
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
@@ -420,7 +424,6 @@
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackAttachedDocument.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
-    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\ResetAdjustmentsConflictDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
@@ -441,9 +444,6 @@
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml.cs">
       <DependentUpon>ReportSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml.cs">
-      <DependentUpon>ResetAdjustmentsConflictDialogWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml.cs">
       <DependentUpon>TimeTrackFilterView.xaml</DependentUpon>
@@ -930,10 +930,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

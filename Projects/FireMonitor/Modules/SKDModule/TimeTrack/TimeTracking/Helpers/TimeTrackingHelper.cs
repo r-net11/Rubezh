@@ -10,7 +10,12 @@ namespace SKDModule.Helpers
 {
 	public static class TimeTrackingHelper
 	{
-		public static List<TimeTrackZone> GetMergedZones(ShortEmployee employee)
+		/// <summary>
+		/// Получает список всех зон (урв и неурв)
+		/// </summary>
+		/// <param name="employee">Сотрудник, для которого производится получение всех доступных для него зон</param>
+		/// <returns>Доступные УРВ и неУРВ зоны</returns>
+		public static List<TimeTrackZone> GetAllZones(ShortEmployee employee)
 		{
 			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
 			if (schedule == null) return SKDManager.Zones.Select(x => new TimeTrackZone(x)).ToList();
@@ -18,31 +23,6 @@ namespace SKDModule.Helpers
 			return SKDManager.Zones.Select(zone => schedule.Zones.Any(x => x.ZoneUID == zone.UID)
 				? new TimeTrackZone(zone) { IsURV = true }
 				: new TimeTrackZone(zone)).ToList();
-		}
-
-		public static DayTimeTrackPart ResolveConflictWithSettingBorders(DayTimeTrackPart originalInterval, List<DayTimeTrackPart> conflictedIntervals)
-		{
-			var leftConflictedInterval =
-				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Min(x => x.EnterDateTime);
-			var rightConflictedInterval =
-				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Max(x => x.ExitDateTime);
-
-			if (leftConflictedInterval != null)
-			{
-				originalInterval.ExitDateTime = leftConflictedInterval.Value;
-			}
-
-			if (rightConflictedInterval != null)
-			{
-				originalInterval.EnterDateTime = rightConflictedInterval.Value;
-			}
-
-			originalInterval.NotTakeInCalculations = originalInterval.TimeTrackZone != null && originalInterval.TimeTrackZone.IsURV
-													? originalInterval.NotTakeInCalculationsOriginal
-													: originalInterval.NotTakeInCalculations;
-			originalInterval.IsNeedAdjustment = originalInterval.IsNeedAdjustmentOriginal;
-			originalInterval.IsDirty = true;
-			return originalInterval;
 		}
 	}
 }

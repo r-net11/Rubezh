@@ -124,20 +124,6 @@ namespace FiresecService.Service.Validators
 			if (validationResult.HasError)
 				return validationResult;
 
-			IEnumerable<DayIntervalPart> otherDayIntervalParts;
-			using (var databaseService = new SKDDatabaseService())
-			{
-				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart).ToList();
-			}
-
-			if (otherDayIntervalParts.Any())
-			{
-				// Добавляемый временной интервал заканчивается ранее, чем остальные интервалы?
-				var validationesult = DayIntervalPartCommonValidator.ValidateNewDayIntervalPartOrder(dayIntervalPart, otherDayIntervalParts);
-				if (validationesult.HasError)
-					return new OperationResult(validationesult.Errors);
-			}
-
 			// Если значение в поле "Обязательная продолжительность скользящего графика" > 0, то добавить интервал с переходом на следующие сутки нельзя
 			return ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart);
 		}

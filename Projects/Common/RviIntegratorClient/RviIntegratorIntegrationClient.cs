@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using Common;
 using StrazhAPI.Models;
 using RviCommonClient;
@@ -22,7 +20,7 @@ namespace RviIntegratorClient
 		{
 			var devices = new List<IRviDevice>();
 
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -44,6 +42,11 @@ namespace RviIntegratorClient
 					Session = sessionUID
 				};
 				var perimeterOut = client.GetPerimeter(perimeterIn);
+				
+				Logger.Info("Вызов RviИнтегратор.GetDevices");
+				if (perimeterOut.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.GetDevices: {0}", perimeterOut.Header.HeaderResponseMessage.Information));
+
 				if (perimeterOut.Devices != null)
 				{
 					var perimeterDevices = perimeterOut.Devices.Where(x => !x.IsDeleted).ToList();
@@ -64,7 +67,7 @@ namespace RviIntegratorClient
 
 		public void GetSnapshot(SystemConfiguration systemConfiguration, Camera camera)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -100,7 +103,11 @@ namespace RviIntegratorClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
+
+				Logger.Info("Вызов RviИнтегратор.GetSnapshot");
 				var snapshotImageOut = client.GetSnapshotImage(snapshotImageIn);
+				if (snapshotImageOut.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.GetSnapshot: {0}", snapshotImageOut.Header.HeaderResponseMessage.Information));
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -114,7 +121,7 @@ namespace RviIntegratorClient
 
 		public void SetPtzPreset(SystemConfiguration systemConfiguration, Camera camera, int number)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -137,7 +144,11 @@ namespace RviIntegratorClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
+
+				Logger.Info("Вызов RviИнтегратор.SetPtzPreset");
 				var ptzPresetOut = client.SetPtzPreset(ptzPresetIn);
+				if (ptzPresetOut.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.SetPtzPreset: {0}", ptzPresetOut.Header.HeaderResponseMessage.Information));
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -151,7 +162,7 @@ namespace RviIntegratorClient
 
 		public void VideoRecordStart(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID, int timeout)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -175,10 +186,11 @@ namespace RviIntegratorClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
+
+				Logger.Info("Вызов RviИнтегратор.VideoRecordStart");
 				var videoRecordStartOut = client.VideoRecordStart(videoRecordStartIn);
-#if DEBUG
-				Logger.Info(String.Format("Вызов RviОператор.VideoRecordStart(new VideoRecordStartIn(DeviceGuid='{0}', ChannelNumber={1}, EventGuid='{2}', TimeOut={3}, new HeaderRequest(Request='{4}', Session='{5}'))", videoRecordStartIn.DeviceGuid, videoRecordStartIn.ChannelNumber, videoRecordStartIn.EventGuid, videoRecordStartIn.TimeOut, videoRecordStartIn.Header.Request, videoRecordStartIn.Header.Session));
-#endif
+				if (videoRecordStartOut.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.VideoRecordStart: {0}", videoRecordStartOut.Header.HeaderResponseMessage.Information));
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -192,7 +204,7 @@ namespace RviIntegratorClient
 
 		public void VideoRecordStop(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -215,10 +227,11 @@ namespace RviIntegratorClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
+
+				Logger.Info("Вызов RviИнтегратор.VideoRecordStop");
 				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
-#if DEBUG
-				Logger.Info(String.Format("Вызов RviОператор.VideoRecordStop(new VideoRecordStopIn(DeviceGuid='{0}', ChannelNumber={1}, EventGuid='{2}', new HeaderRequest(Request='{3}', Session='{4}'))", videoRecordStopIn.DeviceGuid, videoRecordStopIn.ChannelNumber, videoRecordStopIn.EventGuid, videoRecordStopIn.Header.Request, videoRecordStopIn.Header.Session));
-#endif
+				if (videoRecordStopOut.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.VideoRecordStop: {0}", videoRecordStopOut.Header.HeaderResponseMessage.Information));
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -235,7 +248,7 @@ namespace RviIntegratorClient
 			var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -249,12 +262,17 @@ namespace RviIntegratorClient
 				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
-				using (IntegrationVideoStreamingClient streaminClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
+				using (var streaminClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
 				{
 					string errorInformation;
 					System.IO.Stream stream = null;
 					var requestUID = new Guid();
+
+					Logger.Info("Вызов RviИнтегратор.GetVideoFile");
 					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
+					if (result != 0)
+						Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.GetVideoFile: {0}", errorInformation));
+
 					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
 				}
@@ -271,7 +289,7 @@ namespace RviIntegratorClient
 
 		public void AlarmRuleExecute(SystemConfiguration systemConfiguration, string ruleName)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -304,10 +322,12 @@ namespace RviIntegratorClient
 							Session = sessionUID
 						};
 						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
+						alarmRuleExecuteIn.ExternalEventGuid = Guid.NewGuid();
+
+						Logger.Info("Вызов RviИнтегратор.AlarmRuleExecute");
 						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
-#if DEBUG
-						Logger.Info(String.Format("Вызов RviОператор.AlarmRuleExecute(new AlarmRuleExecuteIn(Request='{0}', Session='{1}'))", alarmRuleExecuteIn.Header.Request, alarmRuleExecuteIn.Header.Session));
-#endif
+						if (alarmRuleExecuteOut.Header.HeaderResponseMessage.Code != 0)
+							Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.AlarmRuleExecute: {0}", alarmRuleExecuteOut.Header.HeaderResponseMessage.Information));
 					}
 				}
 
@@ -339,7 +359,7 @@ namespace RviIntegratorClient
 
 			vendorId = channel.Vendor;
 
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			using (var client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -354,6 +374,7 @@ namespace RviIntegratorClient
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 
+				Logger.Info("Вызов RviИнтегратор.VideoStreamingStart");
 				var response = client.VideoStreamingStart(new ChannelStreamingStartIn()
 				{
 					Header = new HeaderRequest() { Request = new Guid(), Session = sessionUID },
@@ -361,6 +382,8 @@ namespace RviIntegratorClient
 					ChannelNumber = channel.Number,
 					StreamNumber = camera.StreamNo
 				});
+				if (response.Header.HeaderResponseMessage.Code != 0)
+					Logger.Error(string.Format("Ошибка при вызове RviИнтегратор.VideoStreamingStart: {0}", response.Header.HeaderResponseMessage.Information));
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

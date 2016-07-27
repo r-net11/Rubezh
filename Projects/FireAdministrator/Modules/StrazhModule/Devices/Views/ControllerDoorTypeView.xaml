@@ -43,7 +43,7 @@
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
 					<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
-                    <TextBlock Grid.Column="1" Text="{x:Static lang:CommonViews.ChangeDoor}"  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
+					<TextBlock Grid.Column="1" Text="{x:Static lang:CommonViews.ChangeDoor}"  Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="5"/>
 				</Grid>
 				<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 2">
                     <Button Content="{x:Static lang:CommonViews.Read}" Command="{Binding ReadDoorTypeFromControllerCommand}" BorderBrush="#D8FFFFFF" Width="100" Margin="2" />

@@ -45,6 +45,7 @@ namespace StrazhDAL
 				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
 				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime);
 			}
+			apiItem.Type = (DayIntervalPartType) tableItem.Type;
 			return apiItem;
 		}
 
@@ -60,6 +61,7 @@ namespace StrazhDAL
 			{
 				tableItem.EndTime += DaySeconds;
 			}
+			tableItem.Type = (int) apiItem.Type;
 		}
 
 		public List<DayIntervalPart> TranslateAll(IEnumerable<DataAccess.DayIntervalPart> list)

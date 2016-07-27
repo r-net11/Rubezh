@@ -49,12 +49,15 @@ namespace StrazhDeviceSDK
 				switch (deviceSoftwareInfo.DeviceType.ToUpper())
 				{
 					case "BSC1202B":
+					case "ASC1202B":
 						deviceSoftwareInfo.DeviceType = "SR-NC004";
 						break;
 					case "BSC1201B":
+					case "ASC1201B":
 						deviceSoftwareInfo.DeviceType = "SR-NC002";
 						break;
 					case "BSC1221A":
+					case "ASI1201A-D":
 						deviceSoftwareInfo.DeviceType = "SR-NC101";
 						break;
 				}

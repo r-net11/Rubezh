@@ -17,14 +17,13 @@ namespace SKDModule.ViewModels
 	public class TimeTrackPartDetailsViewModel: SaveCancelDialogViewModel
 	{
 		#region Fields
-		readonly DayTimeTrack _dayTimeTrack;
 		private readonly TimeTrackDetailsViewModel _parent;
 		private IDisposable _subscriber;
 		#endregion
 
 		#region Properties
 
-		public DayTimeTrackPart DayTimeTrackPart { get; set; } //TODO: try to remove it
+		public DayTimeTrackPart DayTimeTrackPart { get; set; }
 
 		private TimeTrackZone CurrentZone { get; set; }
 
@@ -101,10 +100,9 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, DayTimeTrackPart inputTimeTrackPart = null)
 		{
-			_dayTimeTrack = dayTimeTrack;
 			_parent = parent;
 
-			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
+			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetAllZones(employee));
 
 			BuidObservables();
 			DayTimeTrackPart = inputTimeTrackPart;
@@ -162,7 +160,6 @@ namespace SKDModule.ViewModels
 			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
 			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
-			CurrentTimeTrackPart.NotTakeInCalculationsOriginal = NotTakeInCalculations;
 
 			if (!Validate()) return false;
 
@@ -184,8 +181,7 @@ namespace SKDModule.ViewModels
 					DayTimeTrackPart.TimeTrackActions |= TimeTrackActions.TurnOffCalculation;
 			}
 
-			if ((DayTimeTrackPart.EnterDateTime != CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime)
-				||
+			if ((DayTimeTrackPart.EnterDateTime != CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime) ||
 				(DayTimeTrackPart.ExitDateTime != CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime))
 			{
 				DayTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date +

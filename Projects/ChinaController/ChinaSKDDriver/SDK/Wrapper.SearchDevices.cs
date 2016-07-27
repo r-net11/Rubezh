@@ -18,12 +18,15 @@ namespace StrazhDeviceSDK
 			switch (deviceTypeStr.ToUpper())
 			{
 				case "BSC1221A":
+				case "ASI1201A-D":
 					res = DeviceType.DahuaBsc1221A;
 					break;
 				case "BSC1201B":
+				case "ASC1201B":
 					res = DeviceType.DahuaBsc1201B;
 					break;
 				case "BSC1202B":
+				case "ASC1202B":
 					res = DeviceType.DahuaBsc1202B;
 					break;
 				default:

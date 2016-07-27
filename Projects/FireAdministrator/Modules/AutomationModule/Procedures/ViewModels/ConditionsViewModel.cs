@@ -1,9 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using Common;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using StrazhAPI.Automation;
 using Infrastructure.Common;
 
@@ -18,9 +23,32 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			Initialize();
+			
+			ServiceFactoryBase.Events.GetEvent<FilterDeletedEvent>().Subscribe(FilterDeletedEventHandler);
 		}
 
-		void Initialize()
+		private void FilterDeletedEventHandler(Guid filterID)
+		{
+			var filter = Filters.FirstOrDefault(x => x.Filter.UID == filterID);
+			if (filter == null)
+				return;
+
+			DeleteFilter(filter);
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		private void DeleteFilter(FilterViewModel filter)
+		{
+			Logger.Info(String.Format("Процедура автоматизации GUID='{0}' Название='{1}'. Удаление ссылки на фильтр журнала событий GUID='{2}' Название='{3}'",
+				Procedure.Uid,
+				Procedure.Name,
+				filter.Filter.UID,
+				filter.Filter.Name));
+			Procedure.FiltersUids.Remove(filter.Filter.UID);
+			Filters.Remove(filter);
+		}
+
+		private void Initialize()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
 			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters)
@@ -35,7 +63,7 @@ namespace AutomationModule.ViewModels
 
 		public ObservableCollection<FilterViewModel> Filters { get; private set; }
 
-		FilterViewModel _selectedFilter;
+		private FilterViewModel _selectedFilter;
 		public FilterViewModel SelectedFilter
 		{
 			get { return _selectedFilter; }
@@ -46,8 +74,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public ICommand AddCommand { get; private set; }
+		private void OnAdd()
 		{
 			var procedureFilterDetailsViewModel = new FilterSelectionViewModel(Procedure);
 			if (DialogService.ShowModalWindow(procedureFilterDetailsViewModel))
@@ -60,15 +88,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		public ICommand DeleteCommand { get; private set; }
+		private void OnDelete()
 		{
-			Procedure.FiltersUids.Remove(SelectedFilter.Filter.UID);
-			Filters.Remove(SelectedFilter);
+			DeleteFilter(SelectedFilter);
 			SelectedFilter = Filters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
-		bool CanDelete()
+		private bool CanDelete()
 		{
 			return SelectedFilter != null;
 		}

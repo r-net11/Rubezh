@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -54,6 +55,9 @@ namespace StrazhService.WS
 
 					if (Environment.UserInteractive)
 					{
+						// Подписываемся на все неотловленные исключения, включая те, что были сгенерированы не в основном потоке
+						AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
 						Console.WriteLine("Служба Сервера A.C.Tech");
 						Console.WriteLine();
 						Console.WriteLine("StrazhService [/i | /u]");
@@ -82,6 +86,43 @@ namespace StrazhService.WS
 					Logger.Error(e, "Ошибка запуска Windows-службы 'StrazhService'");
 				}
 			}
+		}
+
+		/// <summary>
+		/// Обработать общую ошибку
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
+		{
+			Exception exception = null;
+			var o = args.ExceptionObject as Exception;
+			if (o != null)
+				exception = o;
+
+			if (exception == null)
+				exception = new Exception("UnhandledException!!! Сгенерировалось неидентифицируемое исключение!");
+
+			var errorMessage =
+				String.Format("В процессе работы сервера возникла необработанная ошибка в главном потоке."
+							  + Environment.NewLine + "Exception.Message: {0}"
+							  + Environment.NewLine + "Exception.Source: {1}"
+							  + Environment.NewLine + "Exception.StackTrace: {2}",
+					exception.Message, exception.Source, exception.StackTrace);
+
+			errorMessage += exception.InnerExceptionToString();
+
+			// Пишем сообщение в лог
+			try
+			{
+				Logger.Error(errorMessage);
+			}
+			catch
+			{
+
+			}
+
+			Trace.WriteLine(string.Format("{0}\t{1}", DateTime.Now, errorMessage));
 		}
 	}
 
