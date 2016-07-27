@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using System.Windows.Input;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -56,6 +57,7 @@ namespace StrazhModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal, CanShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowZoneDetailsCommand = new RelayCommand(OnShowZoneDetails, CanShowZone);
 			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
 			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning, CanClearPromptWarning);
 
@@ -96,6 +98,12 @@ namespace StrazhModule.ViewModels
 		bool CanShowZone()
 		{
 			return Device.Zone != null;
+		}
+
+		public ICommand ShowZoneDetailsCommand { get; private set; }
+		private void OnShowZoneDetails()
+		{
+			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone.Zone));
 		}
 
 		#endregion </Zone>
