@@ -17,6 +17,7 @@
         <string>Oper_RemoveFromIgnoreList</string>
         <string>Oper_SecurityZone</string>
       </PermissionStrings>
+      <ShellType>Default</ShellType>
     </User>
     <User>
       <UID>644cd7e2-21ae-4e0d-a12a-4955125102ae</UID>
@@ -26,6 +27,7 @@
       <PermissionStrings>
         <string>Oper_Login</string>
       </PermissionStrings>
+      <ShellType>Default</ShellType>
     </User>
     <User>
       <UID>733fa93a-fafb-4a48-a030-0a373a4c6616</UID>
@@ -51,6 +53,7 @@
         <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
         <HostNameOrAddressList />
       </RemoreAccess>
+      <ShellType>Default</ShellType>
     </User>
     <User>
       <UID>10e591fb-e017-442d-b176-f05756d984bb</UID>
@@ -128,11 +131,16 @@
         <string>Oper_SKD_TimeTrack_Parts_Edit</string>
         <string>Oper_SKD_TimeTrack_Documents_Edit</string>
         <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
+        <string>Oper_SKD</string>
+        <string>Oper_GKSchedules</string>
+        <string>Oper_SKD_Departments_Employees</string>
+        <string>Oper_SKD_Cards_ResetRepeatEnter</string>
       </PermissionStrings>
       <RemoreAccess>
         <RemoteAccessType>RemoteAccessAllowed</RemoteAccessType>
         <HostNameOrAddressList />
       </RemoreAccess>
+      <ShellType>Default</ShellType>
     </User>
   </Users>
   <UserRoles>

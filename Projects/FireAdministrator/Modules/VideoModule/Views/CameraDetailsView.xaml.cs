@@ -77,9 +77,6 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-#if DEBUG
-			Logger.Info("CameraDetailsView.OnUnloaded()");
-#endif
 			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
 
 			videoCellControl.MediaPlayer.Stop();
