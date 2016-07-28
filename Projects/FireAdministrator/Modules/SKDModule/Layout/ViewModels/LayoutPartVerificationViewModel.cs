@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Localization.SKD.Common;
 using Localization.SKD.ViewModels;
+using Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Events;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using StrazhAPI.SKD;
-using StrazhAPI.GK;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -20,20 +22,31 @@ namespace SKDModule.ViewModels
 			Title = CommonResources.Verification;
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
-			DeviceViewModel deviceViewModel = null;
-			var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
-			if (skdDevice != null)
+			UpdateLayoutPartInternal(SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID));
+
+			ServiceFactoryBase.Events.GetEvent<ControllerDeletedEvent>().Subscribe((deviceID) =>
 			{
-				deviceViewModel = new DeviceViewModel(skdDevice);
-			}
-			if (deviceViewModel != null)
-			{
-				UpdateLayoutPart(deviceViewModel.NameAndAddress);
-			}
-			else
+				// Если был удален контроллер, на считыватель которого мы не ссылались
+				if (_properties.ReferenceUID == Guid.Empty || SKDManager.Devices.Any(x => x.UID == _properties.ReferenceUID))
+					return;
+				
+				// Если был удален контроллер, на считыватель которого мы ссылались
+				Logger.Info(String.Format("Окно верификации '{0}'. Открепление от считывателя ввиду удаления контроллера GUID='{1}'",
+					Title,
+					deviceID));
+				_properties.ReferenceUID = Guid.Empty;
+				UpdateLayoutPartInternal(null);
+			});
+		}
+
+		private void UpdateLayoutPartInternal(SKDDevice device)
+		{
+			if (device == null)
 			{
 				UpdateLayoutPart(CommonViewModels.UnknownDevice);
+				return;
 			}
+			UpdateLayoutPart(new DeviceViewModel(device).NameAndAddress);
 		}
 
 		public override ILayoutProperties Properties

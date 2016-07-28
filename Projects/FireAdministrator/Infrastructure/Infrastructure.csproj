@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\BeforeConfigurationSerializeEvent.cs" />
+    <Compile Include="Events\ControllerDeletedEvent.cs" />
     <Compile Include="Events\FilterDeletedEvent.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />

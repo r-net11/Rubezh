@@ -56,7 +56,7 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-										<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<Hyperlink Command="{Binding ShowZoneDetailsCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="2 0" />
 												<Image Source="{Binding Zone.State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0" />
