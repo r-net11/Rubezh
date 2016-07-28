@@ -23,7 +23,7 @@ namespace StrazhAPI.SKD
 		public PreviewImage PreviewImage { get; set; }
 
 		[DataMember]
-		public WatermarkImage WatermarkImage { get; set; } //TODO: try to replace by Attachment type
+		public WatermarkImage WatermarkImage { get; set; }
 
 		[DataMember]
 		public byte[] Report { get; set; }
@@ -71,74 +71,4 @@ namespace StrazhAPI.SKD
 			BackgroundColor = Colors.White;
 		}
 	}
-
-	//[DataContract]
-	//public struct PreviewImage
-	//{
-	//	private readonly StrazhAPI.Color _backgroundColor;
-	//	private readonly StrazhAPI.Color _borderColor;
-	//	private readonly int _borderThikness;
-
-	//	public Color BackgroundColor { get { return _backgroundColor; } }
-	//	public Color BorderColor { get { return _borderColor; } }
-	//	public int BorderThikness { get { return _borderThikness; } }
-
-	//	public PreviewImage(Color backgroundColor, Color borderColor, int borderThikness)
-	//	{
-	//		_backgroundColor = backgroundColor;
-	//		_borderColor = borderColor;
-	//		_borderThikness = borderThikness;
-	//	}
-
-	//	public PreviewImage SetBackgroundColor(Color backgroundColor)
-	//	{
-	//		return new PreviewImage(backgroundColor, _borderColor, _borderThikness);
-	//	}
-
-	//	public PreviewImage SetBorderColor(Color borderColor)
-	//	{
-	//		return new PreviewImage(_backgroundColor, borderColor, _borderThikness);
-	//	}
-
-	//	public PreviewImage SetBorderThikness(int borderThikness)
-	//	{
-	//		return new PreviewImage(_backgroundColor, _borderColor, borderThikness);
-	//	}
-
-	//	public static bool operator ==(PreviewImage x, PreviewImage y)
-	//	{
-	//		return x.BackgroundColor == y.BackgroundColor
-	//			   && x.BorderColor == y.BorderColor
-	//			   && x.BorderThikness == y.BorderThikness;
-	//	}
-	//	public static bool operator !=(PreviewImage x, PreviewImage y)
-	//	{
-	//		return !(x == y);
-	//	}
-
-	//	public override bool Equals(object obj)
-	//	{
-	//		if (! (obj is PreviewImage))
-	//			return false;
-
-	//		var image = (PreviewImage) obj;
-
-	//		return (BackgroundColor == image.BackgroundColor)
-	//			&& (BorderColor == image.BorderColor)
-	//			&& (BorderThikness == image.BorderThikness);
-	//	}
-
-	//	public override int GetHashCode()
-	//	{
-	//		return BorderColor.A
-	//			^ BorderColor.B
-	//			^ BorderColor.G
-	//			^ BorderColor.R
-	//			^ BackgroundColor.A
-	//			^ BackgroundColor.B
-	//			^ BackgroundColor.G
-	//			^ BackgroundColor.R
-	//			^ BorderThikness;
-	//	}
-	//}
 }

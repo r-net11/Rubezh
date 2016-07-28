@@ -97,7 +97,7 @@ namespace FireMonitor
 						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 
-						Task.Factory.StartNew(LoadImages);//TODO: LoadImages
+						Task.Factory.StartNew(LoadImages);
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
@@ -148,7 +148,7 @@ namespace FireMonitor
 		/// <summary>
 		/// Загрузка всех файлов подложек пропусков и копирование их в клиентскую папку Content
 		/// </summary>
-		private void LoadImages()
+		private static void LoadImages()
 		{
 			var images = FiresecManager.FiresecService.UploadPassCardImages().Result; //TODO: Upload file for those organisations wich user have permission
 			if (images == null) return;

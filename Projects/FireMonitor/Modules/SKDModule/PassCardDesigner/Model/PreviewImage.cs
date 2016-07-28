@@ -61,6 +61,8 @@ namespace SKDModule.PassCardDesigner.Model
 			get { return _backgroundColor; }
 			set
 			{
+				if (_backgroundColor == value) return;
+
 				_backgroundColor = value;
 				OnPropertyChanged(() => BackgroundColor);
 			}
@@ -71,6 +73,8 @@ namespace SKDModule.PassCardDesigner.Model
 			get { return _borderColor; }
 			set
 			{
+				if (_borderColor == value) return;
+
 				_borderColor = value;
 				OnPropertyChanged(() => BorderColor);
 			}
@@ -101,6 +105,8 @@ namespace SKDModule.PassCardDesigner.Model
 			get { return _borderBrush; }
 			set
 			{
+				if (Equals(_borderBrush, value)) return;
+
 				_borderBrush = value;
 				OnPropertyChanged(() => BorderBrush);
 			}

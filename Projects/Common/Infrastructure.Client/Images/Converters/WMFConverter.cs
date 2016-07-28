@@ -42,7 +42,6 @@ namespace Infrastructure.Client.Converters
 				PackageStore.AddPackage(packageUri, package);
 				using (var xpsDocument = new XpsDocument(package, CompressionOption.NotCompressed, inMemoryPackageName))
 				{
-					var fixedDocumentSequence = xpsDocument.GetFixedDocumentSequence();
 					var docReference = xpsDocument.GetFixedDocumentSequence().References.First();
 					var doc = docReference.GetDocument(false);
 					var content = doc.Pages[0];
@@ -73,7 +72,10 @@ namespace Infrastructure.Client.Converters
 						else
 							wmf.Canvas.Children.Insert(0, child);
 					}
-					ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
+
+					if (xpsDocument.FixedDocumentSequenceReader != null)
+						ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
+
 					xpsDocument.Close();
 				}
 				package.Close();

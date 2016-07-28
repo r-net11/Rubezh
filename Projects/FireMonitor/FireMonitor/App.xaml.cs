@@ -33,13 +33,6 @@ namespace FireMonitor
 
 		public App()
 		{
-			// Create a new object, representing the German culture.
-			var culture = CultureInfo.CreateSpecificCulture("ru-RU");
-			// The following line provides localization for the application's user interface.
-			Thread.CurrentThread.CurrentUICulture = culture;
-			// The following line provides localization for data formats.
-			Thread.CurrentThread.CurrentCulture = culture;
-
 			IsClosingOnException = false;
 
 			if (UserShellHelper.GetShell() != ShellType.Default)

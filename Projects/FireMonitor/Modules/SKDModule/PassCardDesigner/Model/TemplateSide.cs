@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using Common;
+﻿using Common;
 using DevExpress.XtraReports.UI;
 using FiresecClient;
 using Infrastructure.Client.Converters;
@@ -9,7 +8,6 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using SKDModule.Properties;
 using SKDModule.Reports;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
@@ -19,6 +17,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SKDModule.PassCardDesigner.Model
 {
@@ -80,6 +79,7 @@ namespace SKDModule.PassCardDesigner.Model
 			get { return _backgroundSourceName; }
 			set
 			{
+				if (string.Equals(_backgroundSourceName, value)) return;
 				_backgroundSourceName = value;
 				OnPropertyChanged(() => BackgroundSourceName);
 			}
@@ -107,7 +107,6 @@ namespace SKDModule.PassCardDesigner.Model
 
 			WatermarkImage = new WatermarkImage(side.WatermarkImage);
 			PreviewImage = new PreviewImage(side.PreviewImage) { IsUseImage = !side.WatermarkImage.OriginalImageGuid.IsNullOrEmpty() };
-
 
 			if (WatermarkImage == null) return;
 
@@ -141,7 +140,7 @@ namespace SKDModule.PassCardDesigner.Model
 		/// </summary>
 		/// <param name="templateWidth">Ширина пропуска в миллиметрах</param>
 		/// <param name="templateHeight">Высота пропуска в миллиметрах</param>
-		public void Save(double templateWidth, double templateHeight)
+		public void Save(double templateWidth, double templateHeight) //TODO: Refactoring
 		{
 			//Выполняется генерация изображения подложки, с последующим сохранением оригинального изображения.
 			if (!string.IsNullOrEmpty(BackgroundSourceName) && _tmpGuid.HasValue)
@@ -222,7 +221,7 @@ namespace SKDModule.PassCardDesigner.Model
 			SaveReport(templateWidth, templateHeight);
 		}
 
-		private void SaveReport(double width, double height)
+		private void SaveReport(double width, double height) //TODO: Refactoring
 		{
 			if (WatermarkImage.Image == null)
 				throw new NoNullAllowedException("Image");

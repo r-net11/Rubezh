@@ -8,6 +8,7 @@ using Attribute = System.Attribute;
 
 namespace SKDModule.PassCardDesigner.Model
 {
+	//TODO: Refactoring
 	public partial class PassCardTemplateReport : XtraReport
 	{
 		public PassCardTemplateReport()
