@@ -102,23 +102,23 @@ namespace Infrastructure.Designer.ViewModels
 
 		public void RegisterInstruments(IEnumerable<IInstrument> instruments)
 		{
-			if (instruments != null)
-			{
-				foreach (IInstrument instrument in instruments)
-					if (instrument.GroupIndex > 0)
+			if (instruments == null) return;
+
+			foreach (var instrument in instruments)
+				if (instrument.GroupIndex > 0)
+				{
+					var instrumentGroup = Instruments.OfType<InstrumentGroupViewModel>().FirstOrDefault(item => item.Index == instrument.GroupIndex);
+					if (instrumentGroup == null)
 					{
-						var instrumentGroup = Instruments.OfType<InstrumentGroupViewModel>().FirstOrDefault(item => item.Index == instrument.GroupIndex);
-						if (instrumentGroup == null)
-						{
-							instrumentGroup = new InstrumentGroupViewModel(this, instrument.GroupIndex);
-							Instruments.Add(instrumentGroup);
-						}
-						instrumentGroup.Instruments.Add(instrument);
+						instrumentGroup = new InstrumentGroupViewModel(this, instrument.GroupIndex);
+						Instruments.Add(instrumentGroup);
 					}
-					else
-						Instruments.Add(instrument);
-				SortInstruments();
-			}
+					instrumentGroup.Instruments.Add(instrument);
+				}
+				else
+					Instruments.Add(instrument);
+
+			SortInstruments();
 		}
 		private void RegisterInstruments()
 		{

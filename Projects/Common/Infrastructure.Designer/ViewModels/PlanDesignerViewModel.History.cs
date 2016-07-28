@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ViewModels
 	{
 		private List<HistoryItem> _historyItems;
 		private int _offset;
-		private bool _historyAction = false;
+		private bool _historyAction;
 
 		private void InitializeHistory()
 		{
@@ -33,9 +33,9 @@ namespace Infrastructure.Designer.ViewModels
 			_historyItems = new List<HistoryItem>();
 			_offset = 0;
 		}
-		private void AddHistoryItem(List<ElementBase> elementsBefore, List<ElementBase> elementsAfter, ActionType actionType)
+		private void AddHistoryItem(IEnumerable<ElementBase> elementsBefore, IEnumerable<ElementBase> elementsAfter, ActionType actionType)
 		{
-			var historyItem = new HistoryItem()
+			var historyItem = new HistoryItem
 			{
 				ActionType = actionType
 			};
@@ -59,11 +59,10 @@ namespace Infrastructure.Designer.ViewModels
 		}
 		private void OnElementsRemoved(List<ElementBase> elementsBefore)
 		{
-			if (!_historyAction)
-			{
-				Save();
-				AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
-			}
+			if (_historyAction) return;
+
+			Save();
+			AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
 		}
 		private void OnElementsChanged(List<ElementBase> elementsBefore)
 		{
@@ -118,6 +117,7 @@ namespace Infrastructure.Designer.ViewModels
 			var historyItem = _historyItems[_offset];
 			_historyAction = true;
 			var list = new List<DesignerItem>();
+
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
@@ -144,6 +144,7 @@ namespace Infrastructure.Designer.ViewModels
 					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 			}
+
 			DesignerCanvas.DeselectAll();
 			list.ForEach(item => item.IsSelected = true);
 			_historyAction = false;
@@ -174,12 +175,11 @@ namespace Infrastructure.Designer.ViewModels
 
 		public void RevertLastAction()
 		{
-			if (UndoCommand.CanExecute(null))
-			{
-				UndoCommand.Execute();
-				if (_historyItems.Count > _offset)
-					_historyItems.RemoveAt(_offset);
-			}
+			if (!UndoCommand.CanExecute(null)) return;
+
+			UndoCommand.Execute();
+			if (_historyItems.Count > _offset)
+				_historyItems.RemoveAt(_offset);
 		}
 	}
 

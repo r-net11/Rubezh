@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public class PointPainter : RectanglePainter
 	{
-		private TranslateTransform _transform;
+		private readonly TranslateTransform _transform;
 
 		public PointPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
 			: base(designerCanvas, element)
@@ -39,7 +39,7 @@ namespace Infrustructure.Plans.Painters
 			drawingContext.Pop();
 		}
 
-		public override bool HitTest(System.Windows.Point point)
+		public override bool HitTest(Point point)
 		{
 			return base.HitTest(_transform.Inverse.Transform(point));
 		}

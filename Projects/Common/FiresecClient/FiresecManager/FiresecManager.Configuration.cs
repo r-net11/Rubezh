@@ -40,6 +40,8 @@ namespace FiresecClient
 
 		public static void CopyStream(Stream input, Stream output)
 		{
+			if (input == null) return;
+
 			var buffer = new byte[8 * 1024];
 			int length;
 			while ((length = input.Read(buffer, 0, buffer.Length)) > 0)

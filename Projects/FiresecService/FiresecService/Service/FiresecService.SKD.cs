@@ -1991,12 +1991,13 @@ namespace FiresecService.Service
 
 		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
+
 			using (var databaseService = new SKDDatabaseService())
 			{
-				if (isNew)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
-				else
-					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
@@ -2109,6 +2110,56 @@ namespace FiresecService.Service
 
 		#endregion Export
 
+		public OperationResult<bool> UpdatePassCardOriginalImage(Guid? idToRemove, Attachment attachment)
+		{
+			if (idToRemove.HasValue)
+			{
+				var removeResult = RemoveFile(idToRemove.Value);
+				if(removeResult.HasError)
+					return new OperationResult<bool>(false);
+			}
+
+			if (attachment == null)
+				return new OperationResult<bool>(true);
+
+			var uploadResult = UploadFile(attachment);
+
+			return uploadResult.HasError
+				? new OperationResult<bool>(false)
+				: new OperationResult<bool>(true);
+		}
+
+		public OperationResult<List<Attachment>> UploadPassCardImages()
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				var templates = db.PassCardTemplateTranslator.Get(new PassCardTemplateFilter()).Result;
+
+				var result = new List<Attachment>();
+
+				foreach (var template in templates)
+				{
+					var frontAttachment = GetAttachmentForTemplateSide(template.Front);
+					var backAttachment = GetAttachmentForTemplateSide(template.Back);
+
+					if(frontAttachment != null)
+						result.Add(frontAttachment);
+					if(backAttachment != null)
+						result.Add(backAttachment);
+				}
+
+				return new OperationResult<List<Attachment>>(result);
+			}
+		}
+
+		private Attachment GetAttachmentForTemplateSide(PassCardTemplateSide side)
+		{
+			if (side.WatermarkImage == null || !side.WatermarkImage.OriginalImageGuid.HasValue) return null;
+
+			var result = DownloadFile(side.WatermarkImage.OriginalImageGuid.Value);
+
+			return result.HasError ? null : result.Result;
+		}
 		#region <Attachment>
 
 		/// <summary>

@@ -67,8 +67,6 @@ namespace SKDModule.ViewModels
 
 		protected ViewPartViewModel ParentViewModel;
 
-		public OrganisationElementViewModel() { }
-
 		public virtual void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
@@ -102,7 +100,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : string.Empty; 
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : string.Empty;
 			Update();
 		}
 

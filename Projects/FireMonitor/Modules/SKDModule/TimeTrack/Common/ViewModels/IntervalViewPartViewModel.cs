@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 		where TViewModel : BaseObjectViewModel<TElement>
 		where TElement : OrganisationElementBase
 	{
-		public IntervalViewPartViewModel()
+		protected IntervalViewPartViewModel()
 		{
 			Initialize();
 		}

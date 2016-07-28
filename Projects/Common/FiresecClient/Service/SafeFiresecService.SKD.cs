@@ -614,6 +614,16 @@ namespace FiresecClient
 		}
 		#endregion
 
+		public OperationResult<List<Attachment>> UploadPassCardImages()
+		{
+			return SafeOperationCall(() => FiresecService.UploadPassCardImages(), "UploadImages");
+		}
+
+		public OperationResult<bool> UpdatePassCardOriginalImage(Guid? idToRemove, Attachment attachment)
+		{
+			return SafeOperationCall(() => FiresecService.UpdatePassCardOriginalImage(idToRemove, attachment), "UpdatePassCardOriginalImage");
+		}
+
 
 		/// <summary>
 		/// Выгружает файл на Сервер приложений

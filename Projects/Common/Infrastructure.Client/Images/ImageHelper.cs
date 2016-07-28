@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using Common;
+﻿using Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using System.Windows.Documents;
+using System;
 using System.IO;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Infrastructure.Client.Images
 {
@@ -16,30 +13,33 @@ namespace Infrastructure.Client.Images
 		public static TileBrush GetResourceBrush(Guid? uid, ResourceType type, bool showError = true)
 		{
 			TileBrush brush = null;
-			if (uid.HasValue && uid != Guid.Empty)
-				try
+
+			if (!uid.HasValue || uid == Guid.Empty) return null;
+
+			try
+			{
+				switch (type)
 				{
-					switch (type)
-					{
-						case ResourceType.Image:
-							brush = new ImageBrush(ServiceFactoryBase.ContentService.GetBitmapContent(uid.Value));
-							break;
-						case ResourceType.Visual:
-							var visual = ServiceFactoryBase.ContentService.GetVisual(uid.Value);
-							UpdateReferences(visual);
-							brush = new VisualBrush(visual);
-							break;
-						case ResourceType.Drawing:
-							brush = new DrawingBrush(ServiceFactoryBase.ContentService.GetDrawing(uid.Value));
-							break;
-					}
+					case ResourceType.Image:
+						brush = new ImageBrush(ServiceFactoryBase.ContentService.GetBitmapContent(uid.Value));
+						break;
+					case ResourceType.Visual:
+						var visual = ServiceFactoryBase.ContentService.GetVisual(uid.Value);
+						UpdateReferences(visual);
+						brush = new VisualBrush(visual);
+						break;
+					case ResourceType.Drawing:
+						brush = new DrawingBrush(ServiceFactoryBase.ContentService.GetDrawing(uid.Value));
+						break;
 				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове ImageHelper.GetResourceImage({0},{1})", uid, type);
-					if (showError)
-						MessageBoxService.ShowWarningExtended("Возникла ошибка при загрузке изображения");
-				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ImageHelper.GetResourceImage({0},{1})", uid, type);
+				if (showError)
+					MessageBoxService.ShowWarningExtended("Возникла ошибка при загрузке изображения");
+			}
+
 			return brush;
 		}
 

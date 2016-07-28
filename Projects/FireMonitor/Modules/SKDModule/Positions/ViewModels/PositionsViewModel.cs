@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Add(ShortPosition item)
 		{
-			var position = PositionHelper.GetDetails(_clipboardUID);
+			var position = PositionHelper.GetDetails(ClipboardUID);
 			position.UID = item.UID;
 			position.Description = item.Description;
 			position.Name = item.Name;

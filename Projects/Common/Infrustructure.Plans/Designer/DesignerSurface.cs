@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Linq;
+using Common;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,12 +10,12 @@ namespace Infrustructure.Plans.Designer
 {
 	public class DesignerSurface : Panel
 	{
-		private List<CommonDesignerItem> _visuals;
+		private readonly List<CommonDesignerItem> _visuals;
 		private IVisualItem _visualItemOver;
 		private bool _isDragging;
 		private bool _isZIndexValid;
 		private Point _previousPosition;
-		private CommonDesignerCanvas _designerCanvas;
+		private readonly CommonDesignerCanvas _designerCanvas;
 
 		public Brush BackgroundBrush { get; set; }
 
@@ -122,7 +123,7 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			Point point = e.GetPosition(this);
+			var point = e.GetPosition(this);
 			if (_visualItemOver != null && _visualItemOver.IsEnabled && _isDragging)
 			{
 				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
@@ -173,7 +174,7 @@ namespace Infrustructure.Plans.Designer
 
 		private IVisualItem GetVisualItem(Point point)
 		{
-			for (int i = _visuals.Count - 1; i >= 0; i--)
+			for (var i = _visuals.Count - 1; i >= 0; i--)
 				if (_visuals[i].IsEnabled)
 				{
 					var visualItem = _visuals[i].HitTest(point);
@@ -193,9 +194,10 @@ namespace Infrustructure.Plans.Designer
 				_designerCanvas.RenderBackground(dc);
 				var thickness = Border == null ? 0 : Border.Thickness;
 				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
-				foreach (var item in _visuals)
-					if (item.IsVisibleLayout)
-						item.Render(dc);
+
+				foreach (var item in _visuals.Where(item => item.IsVisibleLayout))
+
+					item.Render(dc);
 				_designerCanvas.RenderForeground(dc);
 			}
 		}

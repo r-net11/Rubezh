@@ -12,13 +12,31 @@
 	<UserControl.Resources>
 		<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter"/>
 		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-		<ContextMenu x:Key="RowMenu" DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-			<IconedMenuItem x:Name="Guard" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}" Text="Снять с охраны" Command="{Binding GuardOffCommand}" />
-			<IconedMenuItem Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}" Text="Поставить на охрану" Command="{Binding GuardOnCommand}" />
+		<ContextMenu
+			x:Key="RowMenu"
+			DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+			<IconedMenuItem
+				x:Name="Guard"
+				Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}"
+				Text="Снять с охраны"
+				Command="{Binding GuardOffCommand}" />
+			<IconedMenuItem
+				Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}"
+				Text="Поставить на охрану"
+				Command="{Binding GuardOnCommand}" />
 			<Separator Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.IsSeparatorEnabled, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-			<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-			<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-			<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+			<IconedMenuItem
+				ImageSource="BMap"
+				Text="Показать на плане"
+				Command="{Binding ShowOnPlanCommand}" />
+			<IconedMenuItem
+				ImageSource="BJournal"
+				Text="Показать связанные события"
+				Command="{Binding ShowJournalCommand}" />
+			<IconedMenuItem
+				ImageSource="BSettings"
+				Text="Свойства"
+				Command="{Binding ShowPropertiesCommand}" />
 		</ContextMenu>
 		<Style
 			x:Key="ContextMenuRowStyle"

@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Add(ShortAdditionalColumnType item)
 		{
-			var additionalColumnType = AdditionalColumnTypeHelper.GetDetails(_clipboardUID);
+			var additionalColumnType = AdditionalColumnTypeHelper.GetDetails(ClipboardUID);
 			additionalColumnType.UID = item.UID;
 			additionalColumnType.Description = item.Description;
 			additionalColumnType.Name = item.Name;

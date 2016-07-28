@@ -10,37 +10,25 @@ namespace Infrastructure.Common
 {
 	public class RegistrySettingsHelper
 	{
-		private static string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
-		private static object locker = new object();
+		private static readonly string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
+		private static readonly object locker = new object();
 
 		public static string GetString(string name)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.StringValue;
-			}
-			return null;
+			return registryData != null ? registryData.StringValue : null;
 		}
 
 		public static int GetInt(string name, int defaultValue = default(int))
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.IntValue;
-			}
-			return defaultValue;
+			return registryData != null ? registryData.IntValue : defaultValue;
 		}
 
 		public static double GetDouble(string name)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.DoubleValue;
-			}
-			return 0;
+			return registryData != null ? registryData.DoubleValue : 0;
 		}
 
 		public static bool GetBool(string name)
@@ -51,46 +39,30 @@ namespace Infrastructure.Common
 		public static bool GetBool(string name, bool defaultValue)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.BoolValue;
-			}
-			return defaultValue;
+			return registryData != null ? registryData.BoolValue : defaultValue;
 		}
 
 		public static List<string> GetStrings(string name)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.StringsValue;
-			}
-			return null;
+			return registryData != null ? registryData.StringsValue : null;
 		}
 
 		public static WindowRect GetWindowRect(string name)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.WindowRectValue;
-			}
-			return null;
+			return registryData != null ? registryData.WindowRectValue : null;
 		}
 
 		public static Color GetColor(string name)
 		{
 			var registryData = GetRegistryData(name);
-			if (registryData != null)
-			{
-				return registryData.ColorValue;
-			}
-			return Colors.White;
+			return registryData != null ? registryData.ColorValue : Colors.White;
 		}
 
 		public static void SetString(string name, string stringValue)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				StringValue = stringValue
@@ -100,7 +72,7 @@ namespace Infrastructure.Common
 
 		public static void SetInt(string name, int intValue)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				IntValue = intValue
@@ -110,7 +82,7 @@ namespace Infrastructure.Common
 
 		public static void SetDouble(string name, double doubleValue)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				DoubleValue = doubleValue
@@ -120,7 +92,7 @@ namespace Infrastructure.Common
 
 		public static void SetBool(string name, bool boolValue)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				BoolValue = boolValue
@@ -130,7 +102,7 @@ namespace Infrastructure.Common
 
 		public static void SetStrings(string name, List<string> stringsValue)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				StringsValue = stringsValue
@@ -140,7 +112,7 @@ namespace Infrastructure.Common
 
 		public static void SetWindowRect(string name, WindowRect windowRect)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				WindowRectValue = windowRect
@@ -150,7 +122,7 @@ namespace Infrastructure.Common
 
 		public static void SetColor(string name, Color color)
 		{
-			var registryData = new RegistryData()
+			var registryData = new RegistryData
 			{
 				Name = name,
 				ColorValue = color
@@ -181,7 +153,7 @@ namespace Infrastructure.Common
 				var registryData = registryDataConfiguration.RegistryDataCollection.FirstOrDefault(x => x.Name == newRegistryData.Name);
 				if (registryData == null)
 				{
-					registryData = new RegistryData()
+					registryData = new RegistryData
 					{
 						Name = newRegistryData.Name
 					};
@@ -209,21 +181,23 @@ namespace Infrastructure.Common
 				//using (var mutex = new Mutex(true, "RegistryDataConfiguration"))
 				//{
 				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
-				for (int i = 0; i < 3; i++)
+				for (var i = 0; i < 3; i++)
 				{
 					var tempFileName = FileName + "." + Guid.NewGuid();
 					try
 					{
 						var registryDataConfiguration = new RegistryDataConfiguration();
-						if (File.Exists(FileName))
+
+						if (!File.Exists(FileName)) return registryDataConfiguration;
+
+						File.Copy(FileName, tempFileName);
+
+						using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 						{
-							File.Copy(FileName, tempFileName);
-							using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-							{
-								var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0];
-								registryDataConfiguration = (RegistryDataConfiguration)xmlSerializer.Deserialize(fileStream);
-							}
+							var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0];
+							registryDataConfiguration = (RegistryDataConfiguration)xmlSerializer.Deserialize(fileStream);
 						}
+
 						return registryDataConfiguration;
 					}
 					catch (Exception e)
@@ -248,7 +222,7 @@ namespace Infrastructure.Common
 		{
 			lock (locker)
 			{
-				for (int i = 0; i < 3; i++)
+				for (var i = 0; i < 3; i++)
 				{
 					var tempFileName = FileName + "." + Guid.NewGuid();
 					try

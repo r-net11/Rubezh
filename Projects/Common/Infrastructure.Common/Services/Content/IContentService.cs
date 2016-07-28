@@ -9,6 +9,8 @@ namespace Infrastructure.Common.Services.Content
 	{
 		string ContentFolder { get; }
 
+		bool CheckIfExists(Guid guid);
+
 		bool CheckIfExists(string guid);
 
 		string GetContentFileName(Guid guid);
@@ -39,7 +41,7 @@ namespace Infrastructure.Common.Services.Content
 
 		Guid AddContent(Stream stream);
 
-		Guid AddContent(byte[] data);
+		Guid AddContent(byte[] data, Guid? uid = null);
 
 		Guid AddContent(object data);
 

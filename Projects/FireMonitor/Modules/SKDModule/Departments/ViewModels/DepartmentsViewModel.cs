@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Add(ShortDepartment item)
 		{
-			var department = DepartmentHelper.GetDetails(_clipboardUID);
+			var department = DepartmentHelper.GetDetails(ClipboardUID);
 			department.UID = item.UID;
 			department.Name = item.Name;
 			department.Description = item.Description;
@@ -145,8 +145,8 @@ namespace SKDModule.ViewModels
 			if (SelectedItem.Parent != null && !SelectedItem.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
 
-			_clipboard.ParentDepartmentUID = parentDepartmentUID;
-			var newItem = CopyModel(_clipboard);
+			Clipboard.ParentDepartmentUID = parentDepartmentUID;
+			var newItem = CopyModel(Clipboard);
 			var newItemChildren = CopyChildren(newItem, _clipboardChildren);
 
 			if (Add(newItem) && SaveMany(newItemChildren))
@@ -166,13 +166,13 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && !SelectedItem.IsDeleted;
+			return SelectedItem != null && Clipboard != null && ParentOrganisation != null && !SelectedItem.IsDeleted;
 		}
 
 		protected override void OnCopy()
 		{
 			base.OnCopy();
-			_clipboardChildren = CopyChildren(_clipboard, SelectedItem.Children.Select(x => x.Model));
+			_clipboardChildren = CopyChildren(Clipboard, SelectedItem.Children.Select(x => x.Model));
 		}
 
 		protected override ShortDepartment CopyModel(ShortDepartment source)

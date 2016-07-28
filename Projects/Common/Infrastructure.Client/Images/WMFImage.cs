@@ -25,7 +25,7 @@ namespace Infrastructure.Client.Images
 				{
 					var path = (Path)child;
 					var geometry = path.Data;
-					var geometryDrawing = new GeometryDrawing()
+					var geometryDrawing = new GeometryDrawing
 					{
 						Geometry = path.Data.Clone(),
 						Brush = path.Fill,

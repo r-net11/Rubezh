@@ -8,31 +8,24 @@ using System.Runtime.Serialization;
 namespace StrazhAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder
+	[KnownType(typeof(PassCardTemplateSide))]
+	public class PassCardTemplate : OrganisationElementBase, IElementRectangle
 	{
 		public PassCardTemplate()
 		{
 			UID = Guid.NewGuid();
-			Caption = "Шаблон пропуска";
 			Width = 210;
 			Height = 297;
-			BackgroundColor = Colors.Transparent;
-			BorderColor = Colors.Black;
-			ImageType = ResourceType.Image;
-			ClearElements();
 		}
 
-		public void ClearElements()
-		{
-			ElementRectangles = new List<ElementRectangle>();
-			ElementEllipses = new List<ElementEllipse>();
-			ElementTextBlocks = new List<ElementTextBlock>();
-			ElementPolygons = new List<ElementPolygon>();
-			ElementPolylines = new List<ElementPolyline>();
-			ElementExtensions = new List<ElementBase>();
-			ElementImageProperties = new List<ElementPassCardImageProperty>();
-			ElementTextProperties = new List<ElementPassCardTextProperty>();
-		}
+		[DataMember]
+		public PassCardTemplateSide Front { get; set; }
+
+		[DataMember]
+		public PassCardTemplateSide Back { get; set; }
+
+		[DataMember]
+		public bool IsDualTemplateEnabled { get; set; }
 
 		[DataMember]
 		public string Caption { get; set; }
@@ -45,52 +38,5 @@ namespace StrazhAPI.SKD
 
 		[DataMember]
 		public double Height { get; set; }
-
-		[DataMember]
-		public Color BorderColor { get; set; }
-
-		[DataMember]
-		public double BorderThickness { get; set; }
-
-		[DataMember]
-		public Color BackgroundColor { get; set; }
-
-		[DataMember]
-		public Guid? BackgroundImageSource { get; set; }
-
-		[DataMember]
-		public string BackgroundSourceName { get; set; }
-
-		[DataMember]
-		public ResourceType ImageType { get; set; }
-
-		[DataMember]
-		public List<ElementRectangle> ElementRectangles { get; set; }
-
-		[DataMember]
-		public List<ElementEllipse> ElementEllipses { get; set; }
-
-		[DataMember]
-		public List<ElementTextBlock> ElementTextBlocks { get; set; }
-
-		[DataMember]
-		public List<ElementPolygon> ElementPolygons { get; set; }
-
-		[DataMember]
-		public List<ElementPolyline> ElementPolylines { get; set; }
-
-		[DataMember]
-		public List<ElementBase> ElementExtensions { get; set; }
-
-		[DataMember]
-		public List<ElementPassCardImageProperty> ElementImageProperties { get; set; }
-
-		[DataMember]
-		public List<ElementPassCardTextProperty> ElementTextProperties { get; set; }
-
-		public bool AllowTransparent
-		{
-			get { return true; }
-		}
 	}
 }
