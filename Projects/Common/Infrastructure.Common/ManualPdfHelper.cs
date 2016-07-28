@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using Common;
 
 namespace Infrastructure.Common
 {
@@ -11,15 +13,16 @@ namespace Infrastructure.Common
 
 			var fileName = AppDataFolderHelper.GetFile(manualName);
 
-			if (File.Exists(fileName))
+			if (!File.Exists(fileName)) return;
+
+			try
 			{
-				try
-				{
-					Process.Start(fileName);
-				}
-				catch
-				{
-				}
+				Process.Start(fileName);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				throw;
 			}
 		}
 	}

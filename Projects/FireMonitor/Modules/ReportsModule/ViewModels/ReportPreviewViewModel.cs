@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Reports;
-using System.Windows.Documents;
-using System.Windows.Controls;
-using System.Printing;
-using System.Windows.Xps;
-using System.Windows;
-using Common;
-using CodeReason.Reports;
-using System.Windows.Resources;
-using Infrastructure.Common;
-using System.IO;
-using System.Windows.Controls.Primitives;
+﻿using CodeReason.Reports;
 using Common.PDF;
-using System.Diagnostics;
+using Infrastructure.Common;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Printing;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Resources;
 
 namespace ReportsModule.ViewModels
 {
 	public class ReportPreviewViewModel : SaveCancelDialogViewModel
 	{
-		private IReportProvider _reportProvider;
+		private readonly IReportProvider _reportProvider;
 
 		public ReportPreviewViewModel(IReportProvider provider)
 		{
@@ -54,15 +47,15 @@ namespace ReportsModule.ViewModels
 		public bool Print()
 		{
 			var printDialog = new PrintDialog();
-			if (printDialog.ShowDialog() == true)
-			{
-				PreparePrinting(printDialog.PrintTicket, DocumentPaginator.PageSize);
-				XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(printDialog.PrintQueue);
-				if (writer != null)
-					writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
-				return true;
-			}
-			return false;
+
+			if (printDialog.ShowDialog() != true) return false;
+
+			PreparePrinting(printDialog.PrintTicket, DocumentPaginator.PageSize);
+			var writer = PrintQueue.CreateXpsDocumentWriter(printDialog.PrintQueue);
+
+			writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
+
+			return true;
 		}
 
 		private DocumentPaginator _documentPaginator;
@@ -73,16 +66,16 @@ namespace ReportsModule.ViewModels
 			{
 				if (DocumentPaginator != null)
 				{
-					DocumentPaginator.GetPageCompleted -= new GetPageCompletedEventHandler(DocumentPaginator_GetPageCompleted);
-					DocumentPaginator.ComputePageCountCompleted -= new AsyncCompletedEventHandler(DocumentPaginator_ComputePageCountCompleted);
-					DocumentPaginator.PagesChanged -= new PagesChangedEventHandler(DocumentPaginator_PagesChanged);
+					DocumentPaginator.GetPageCompleted -= DocumentPaginator_GetPageCompleted;
+					DocumentPaginator.ComputePageCountCompleted -= DocumentPaginator_ComputePageCountCompleted;
+					DocumentPaginator.PagesChanged -= DocumentPaginator_PagesChanged;
 				}
 				_documentPaginator = value;
 				if (DocumentPaginator != null)
 				{
-					DocumentPaginator.GetPageCompleted += new GetPageCompletedEventHandler(DocumentPaginator_GetPageCompleted);
-					DocumentPaginator.ComputePageCountCompleted += new AsyncCompletedEventHandler(DocumentPaginator_ComputePageCountCompleted);
-					DocumentPaginator.PagesChanged += new PagesChangedEventHandler(DocumentPaginator_PagesChanged);
+					DocumentPaginator.GetPageCompleted += DocumentPaginator_GetPageCompleted;
+					DocumentPaginator.ComputePageCountCompleted += DocumentPaginator_ComputePageCountCompleted;
+					DocumentPaginator.PagesChanged += DocumentPaginator_PagesChanged;
 				}
 				PageNumber = 0;
 				Scale = 1;
@@ -95,15 +88,9 @@ namespace ReportsModule.ViewModels
 
 		private void GenerateReport()
 		{
-			using (new TimeCounter("Build report: {0}"))
-			{
-				var reportDocument = new ReportDocument();
-				using (new TimeCounter("\tGet template: {0}"))
-					reportDocument.XamlData = GetXaml();
-				using (new TimeCounter("\tGet paginator: {0}"))
-					DocumentPaginator = GetPaginator(reportDocument);
-				PageNumber = 0;
-			}
+			var reportDocument = new ReportDocument {XamlData = GetXaml()};
+			DocumentPaginator = GetPaginator(reportDocument);
+			PageNumber = 0;
 		}
 		private DocumentPaginator GetPaginator(ReportDocument reportDocument)
 		{
@@ -111,16 +98,21 @@ namespace ReportsModule.ViewModels
 			if (singleReport != null)
 				return new ReportPaginator(reportDocument, singleReport.GetData());
 			var multiReport = _reportProvider as IMultiReportProvider;
-			if (multiReport != null)
-				return new MultipleReportPaginator(reportDocument, multiReport.GetData());
-			return null;
+
+			return multiReport != null 
+				? new MultipleReportPaginator(reportDocument, multiReport.GetData()) 
+				: null;
 		}
 		private string GetXaml()
 		{
-			StreamResourceInfo info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
+			var info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
+			
+			if (info == null) return string.Empty;
+
 			using (var reader = new StreamReader(info.Stream))
 				return reader.ReadToEnd();
 		}
+
 		private void PreparePrinting(PrintTicket printTicket, Size pageSize)
 		{
 			printTicket.PageOrientation = pageSize.Height >= pageSize.Width ? PageOrientation.Portrait : PageOrientation.Landscape;

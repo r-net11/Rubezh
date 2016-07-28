@@ -79,11 +79,38 @@ namespace SKDModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Файл изображения не найден..
+        /// </summary>
+        internal static string ImageNotFoundError {
+            get {
+                return ResourceManager.GetString("ImageNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Размер изображения слишком велик..
+        /// </summary>
+        internal static string ImageOutOfMemoryError {
+            get {
+                return ResourceManager.GetString("ImageOutOfMemoryError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вы уверены, что хотите удалить вид документа?.
         /// </summary>
         internal static string RemoveDocumentTypeMessage {
             get {
                 return ResourceManager.GetString("RemoveDocumentTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Невозможно загрузить изображение на сервер..
+        /// </summary>
+        internal static string UploadImageError {
+            get {
+                return ResourceManager.GetString("UploadImageError", resourceCulture);
             }
         }
     }

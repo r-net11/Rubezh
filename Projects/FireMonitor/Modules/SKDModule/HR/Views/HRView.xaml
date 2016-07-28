@@ -185,7 +185,10 @@
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
 						ToolTip="Редактировать" />
-					<ToolBarButton Command="{Binding OpenDesignerCommand}" ImageSource="GraphicalDesigner" />
+					<ToolBarButton
+						Command="{Binding OpenDesignerCommand}"
+						ImageSource="GraphicalDesigner"
+						ToolTip="Дизайнер пропуска" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"

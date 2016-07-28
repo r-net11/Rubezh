@@ -1,15 +1,13 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Printing;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Resources;
-using CodeReason.Reports;
-using Common;
+﻿using CodeReason.Reports;
 using Common.PDF;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
+using System.IO;
+using System.Printing;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace ReportsModule.ViewModels
 {
@@ -39,13 +37,10 @@ namespace ReportsModule.ViewModels
 
 		public DocumentPaginator GenerateReport()
 		{
-			using (new TimeCounter("Build report: {0}"))
-			{
-				ReportDocument reportDocument = new ReportDocument();
-				reportDocument.XamlData = GetXaml();
-				DocumentPaginator documentPaginator = GetPaginator(reportDocument);
-				return documentPaginator;
-			}
+			var reportDocument = new ReportDocument {XamlData = GetXaml()};
+			var documentPaginator = GetPaginator(reportDocument);
+
+			return documentPaginator;
 		}
 
 		public void Filter(RelayCommand refreshCommand)
@@ -63,16 +58,22 @@ namespace ReportsModule.ViewModels
 		private DocumentPaginator GetPaginator(ReportDocument reportDocument)
 		{
 			var singleReport = _reportProvider as ISingleReportProvider;
+
 			if (singleReport != null)
 				return new ReportPaginator(reportDocument, singleReport.GetData());
+
 			var multiReport = _reportProvider as IMultiReportProvider;
-			if (multiReport != null)
-				return new MultipleReportPaginator(reportDocument, multiReport.GetData());
-			return null;
+
+			return multiReport != null
+				? new MultipleReportPaginator(reportDocument, multiReport.GetData())
+				: null;
 		}
 		private string GetXaml()
 		{
-			StreamResourceInfo info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
+			var info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
+
+			if (info == null) return string.Empty;
+
 			using (var reader = new StreamReader(info.Stream))
 				return reader.ReadToEnd();
 		}

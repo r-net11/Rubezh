@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
-using FiresecClient;
+﻿using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 		where TDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<TModel>, new()
 		where TFilter : OrganisationFilterBase, new()
 	{
-		public OrganisationBaseViewModel()
+		protected OrganisationBaseViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -30,22 +30,22 @@ namespace SKDModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
-			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
-			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
-			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
-			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
-			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
-			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
-			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
-			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
-			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
-			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
+			ServiceFactoryBase.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactoryBase.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactoryBase.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactoryBase.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
+			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+			ServiceFactoryBase.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
+			ServiceFactoryBase.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
+			ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
+			ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
 			_filter = new TFilter();
 		}
 
-		protected TModel _clipboard;
+		protected TModel Clipboard;
 		protected TFilter _filter;
-		protected Guid _clipboardUID;
+		protected Guid ClipboardUID;
 		protected abstract IEnumerable<TModel> GetModels(TFilter filter);
 		protected abstract IEnumerable<TModel> GetModelsByOrganisation(Guid organisationUID);
 		protected abstract bool MarkDeleted(TModel model);
@@ -57,7 +57,7 @@ namespace SKDModule.ViewModels
 
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{
-			TModel result = null;
+			TModel result;
 			var detailsViewModel = new TDetailsViewModel();
 			if (detailsViewModel.Initialize(organisation, model, this) && DialogService.ShowModalWindow(detailsViewModel))
 				result = detailsViewModel.Model;
@@ -98,15 +98,19 @@ namespace SKDModule.ViewModels
 		{
 			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
 			var organisations = OrganisationHelper.Get(organisationFilter);
+
 			if (organisations == null)
 				return false;
+
 			Organisations = new ObservableCollection<TViewModel>();
+
 			foreach (var organisation in organisations)
 			{
 				var organisationViewModel = new TViewModel();
 				organisationViewModel.InitializeOrganisation(organisation, this);
 				Organisations.Add(organisationViewModel);
 			}
+
 			return true;
 		}
 
@@ -139,16 +143,15 @@ namespace SKDModule.ViewModels
 		{
 			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
 			{
-				if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
+				if (Organisations.Any(x => x.Organisation.UID == newOrganisation.UID)) return;
+
+				var organisationViewModel = new TViewModel();
+				organisationViewModel.InitializeOrganisation(newOrganisation, this);
+				Organisations.Add(organisationViewModel);
+				var models = GetModelsByOrganisation(newOrganisation.UID);
+				if (models != null)
 				{
-					var organisationViewModel = new TViewModel();
-					organisationViewModel.InitializeOrganisation(newOrganisation, this);
-					Organisations.Add(organisationViewModel);
-					var models = GetModelsByOrganisation(newOrganisation.UID);
-					if (models != null)
-					{
-						InitializeModels(models);
-					}
+					InitializeModels(models);
 				}
 			}
 			else
@@ -164,17 +167,13 @@ namespace SKDModule.ViewModels
 		protected virtual void OnRemoveOrganisation(Guid organisationUID)
 		{
 			var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
-			if (organisationViewModel != null)
-			{
-				if (IsWithDeleted)
-				{
-					SetIsDeletedByOrganisation(organisationViewModel);
-				}
-				else
-				{
-					Organisations.Remove(organisationViewModel);
-				}
-			}
+
+			if (organisationViewModel == null) return;
+
+			if (IsWithDeleted)
+				SetIsDeletedByOrganisation(organisationViewModel);
+			else
+				Organisations.Remove(organisationViewModel);
 		}
 		protected virtual void SetIsDeletedByOrganisation(TViewModel organisationViewModel)
 		{
@@ -182,8 +181,10 @@ namespace SKDModule.ViewModels
 			{
 				x.IsDeleted = true;
 				x.IsOrganisationDeleted = true;
-				if (x.RemovalDate == null || x.RemovalDate == "")
-					x.RemovalDate = DateTime.Now.ToString();
+
+				if (string.IsNullOrEmpty(x.RemovalDate))
+					x.RemovalDate = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
 				x.Update();
 			});
 		}
@@ -191,62 +192,62 @@ namespace SKDModule.ViewModels
 		protected virtual void OnRestoreOrganisation(Guid organisationUID)
 		{
 			var isInFilter = (_filter.OrganisationUIDs.Count == 0 || _filter.OrganisationUIDs.Any(x => x == organisationUID));
-			if (isInFilter)
+
+			if (!isInFilter) return;
+
+			if (IsWithDeleted)
 			{
-				if (IsWithDeleted)
-				{
-					var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
-					if (organisationViewModel != null)
-					{
-						organisationViewModel.IsDeleted = false;
-						organisationViewModel.RemovalDate = "";
-						var children = organisationViewModel.Children.ToList();
-						foreach (var child in children)
-						{
-							organisationViewModel.RemoveChild(child);
-						}
-						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
-						var models = GetModels(filter);
-						if (models != null)
-						{
-							InitializeModels(models);
-						}
-						OnPropertyChanged(() => Organisations);
-					}
-				}
-				else
-				{
-					var organisation = OrganisationHelper.GetSingle(organisationUID);
-					if (organisation != null)
-					{
-						var organisationViewModel = new TViewModel();
-						organisationViewModel.InitializeOrganisation(organisation, this);
-						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
-						var models = GetModels(filter);
-						if (models != null)
-						{
-							InitializeModels(models);
-						}
-						OnPropertyChanged(() => Organisations);
-					}
-				}
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
+
+				if (organisationViewModel == null) return;
+
+				organisationViewModel.IsDeleted = false;
+				organisationViewModel.RemovalDate = string.Empty;
+				var children = organisationViewModel.Children.ToList();
+
+				foreach (var child in children)
+					organisationViewModel.RemoveChild(child);
+
+				var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
+				var models = GetModels(filter);
+
+				if (models != null)
+					InitializeModels(models);
+
+				OnPropertyChanged(() => Organisations);
+			}
+			else
+			{
+				var organisation = OrganisationHelper.GetSingle(organisationUID);
+
+				if (organisation == null) return;
+
+				var organisationViewModel = new TViewModel();
+				organisationViewModel.InitializeOrganisation(organisation, this);
+				var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
+				var models = GetModels(filter);
+
+				if (models != null)
+					InitializeModels(models);
+
+				OnPropertyChanged(() => Organisations);
 			}
 		}
 
 		protected virtual void OnNewOrganisation(Guid organisationUID)
 		{
 			var isInFilter = (_filter.OrganisationUIDs.Count == 0);
-			if (isInFilter)
-			{
-				var organisation = OrganisationHelper.GetSingle(organisationUID);
-				if (organisation != null)
-				{
-					var organisationViewModel = new TViewModel();
-					organisationViewModel.InitializeOrganisation(organisation, this);
-					Organisations.Add(organisationViewModel);
-					OnPropertyChanged(() => Organisations);
-				}
-			}
+
+			if (!isInFilter) return;
+
+			var organisation = OrganisationHelper.GetSingle(organisationUID);
+
+			if (organisation == null) return;
+
+			var organisationViewModel = new TViewModel();
+			organisationViewModel.InitializeOrganisation(organisation, this);
+			Organisations.Add(organisationViewModel);
+			OnPropertyChanged(() => Organisations);
 		}
 
 		public ObservableCollection<TViewModel> Organisations { get; private set; }
@@ -284,8 +285,10 @@ namespace SKDModule.ViewModels
 		protected virtual void OnAdd()
 		{
 			var model = ShowDetails(SelectedItem.Organisation);
+
 			if (model == null)
 				return;
+
 			if (IsAddViewModel(model))
 			{
 				var itemViewModel = new TViewModel();
@@ -334,20 +337,19 @@ namespace SKDModule.ViewModels
 		}
 		void RemoveSelectedViewModel()
 		{
-			TViewModel OrganisationViewModel = SelectedItem;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedItem.Parent;
+			var organisationViewModel = SelectedItem;
+			if (!organisationViewModel.IsOrganisation)
+				organisationViewModel = SelectedItem.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+			if (organisationViewModel == null || organisationViewModel.Organisation == null)
 				return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
-			OrganisationViewModel.RemoveChild(SelectedItem);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedItem = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedItem = OrganisationViewModel;
+			var index = organisationViewModel.Children.ToList().IndexOf(SelectedItem); //TODO: Remove incorrect logic of choising next Selected item from unsorted list. The sort of backend collection and UI collection is different
+			organisationViewModel.RemoveChild(SelectedItem);
+			index = Math.Min(index, organisationViewModel.Children.Count() - 1);
+			SelectedItem = index > -1
+				? organisationViewModel.Children.ToList()[index]
+				: organisationViewModel;
 		}
 		bool CanRemove()
 		{
@@ -416,8 +418,8 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				_clipboard = CopyModel(SelectedItem.Model);
-				_clipboardUID = SelectedItem.Model.UID;
+				Clipboard = CopyModel(SelectedItem.Model);
+				ClipboardUID = SelectedItem.Model.UID;
 			}
 		}
 		protected virtual bool CanCopy()
@@ -428,7 +430,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		protected virtual void OnPaste()
 		{
-			var newItem = CopyModel(_clipboard);
+			var newItem = CopyModel(Clipboard);
 			newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
 			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
 			if (Add(newItem))
@@ -442,7 +444,7 @@ namespace SKDModule.ViewModels
 		protected virtual bool CanPaste()
 		{
 			return SelectedItem != null
-				&& _clipboard != null
+				&& Clipboard != null
 				&& ParentOrganisation != null
 				&& IsEditAllowed
 				&& !SelectedItem.IsDeleted
@@ -451,11 +453,14 @@ namespace SKDModule.ViewModels
 
 		protected virtual TModel CopyModel(TModel source)
 		{
-			var copy = new TModel();
-			copy.UID = Guid.NewGuid();
-			copy.Name = source.Name;
-			copy.Description = source.Description;
-			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+			var copy = new TModel
+			{
+				UID = Guid.NewGuid(),
+				Name = source.Name,
+				Description = source.Description,
+				OrganisationUID = ParentOrganisation.Organisation.UID
+			};
+
 			return copy;
 		}
 	}

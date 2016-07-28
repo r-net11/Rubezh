@@ -22,12 +22,7 @@ namespace StrazhDAL
 			try
 			{
 				BeforeGetList();
-				var result = new List<TShort>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var employeeListItem = TranslateToShort(tableItem);
-					result.Add(employeeListItem);
-				}
+				var result = GetTableItems(filter).Select(TranslateToShort).ToList();
 				var operationResult = new OperationResult<IEnumerable<TShort>>(result);
 				AfterGetList();
 				return operationResult;
@@ -50,10 +45,9 @@ namespace StrazhDAL
 		{
 			if (uid == null)
 				return null;
-			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
-			if (tableItem == null)
-				return null;
-			return TranslateToShort(tableItem);
+			var tableItem = Table.FirstOrDefault(x => x.UID.Equals(uid.Value));
+
+			return tableItem == null ? null : TranslateToShort(tableItem);
 		}
 
 		protected virtual TShort TranslateToShort(TTableType tableItem)

@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		
+
 		public bool CanShowDocumentTypes
 		{
 			get { return _canShowDocumentTypes; }
@@ -334,16 +334,26 @@ namespace SKDModule.ViewModels
 				Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
 
 			TimeTrackResult timeTrackResult;
+
 			lock (Locker)
 			{
-				using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+				try
 				{
-					using (var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
+					using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
 					{
-						FiresecManager.CopyStream(stream, fileStream);
+						using (
+							var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter,
+								_timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
+						{
+							FiresecManager.CopyStream(stream, fileStream);
+						}
 					}
+					timeTrackResult = Deserialize(resultFileName);
 				}
-				timeTrackResult = Deserialize(resultFileName);
+				catch (Exception)
+				{
+					timeTrackResult = null;
+				}
 			}
 
 			return timeTrackResult;

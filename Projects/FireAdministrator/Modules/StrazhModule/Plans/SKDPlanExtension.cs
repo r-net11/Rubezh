@@ -51,8 +51,7 @@ namespace StrazhModule.Plans
 		public override void Initialize()
 		{
 			base.Initialize();
-			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadCache();
+			PictureCacheSource.SKDDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -186,11 +185,6 @@ namespace StrazhModule.Plans
 			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 25);
 			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 26);
 			LayerGroupService.Instance.RegisterGroup("Doors", "Точки доступа", 27);
-		}
-		public override void ExtensionAttached()
-		{
-			using (new TimeCounter("GKDevice.ExtensionAttached.BuildMap: {0}"))
-				base.ExtensionAttached();
 		}
 
 		public override IEnumerable<ElementError> Validate()

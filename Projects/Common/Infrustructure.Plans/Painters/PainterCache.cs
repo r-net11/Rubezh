@@ -1,5 +1,4 @@
 ﻿using Common;
-using StrazhAPI.Plans;
 using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -19,10 +18,10 @@ namespace Infrustructure.Plans.Painters
 		private static Converter<Guid, BitmapImage> _imageFactory;
 		private static Converter<Guid, Drawing> _drawingFactory;
 		private static Converter<Guid, Visual> _visualFactory;
-		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
-		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
-		private static Dictionary<Guid, Brush> _pictureBrushes = new Dictionary<Guid, Brush>();
-		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
+		private static readonly Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
+		private static readonly Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
+		private static readonly Dictionary<Guid, Brush> _pictureBrushes = new Dictionary<Guid, Brush>();
+		private static readonly Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
 		public static double DefaultPointSize { get; private set; }
 
@@ -72,34 +71,34 @@ namespace Infrustructure.Plans.Painters
 
 		public static void CacheBrush(IElementBackground element)
 		{
-			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
-			{
-				var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
-				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
-			}
+			if (!element.BackgroundImageSource.HasValue || _pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
+				return;
+
+			var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
+			_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 		}
 
 		public static Brush GetBrush(Color color)
 		{
-			if (!_brushes.ContainsKey(color))
-			{
-				var brush = new SolidColorBrush(color.ToWindowsColor());
-				brush.Freeze();
-				_brushes.Add(color, brush);
-			}
+			if (_brushes.ContainsKey(color)) return _brushes[color];
+
+			var brush = new SolidColorBrush(color.ToWindowsColor());
+			brush.Freeze();
+			_brushes.Add(color, brush);
+
 			return _brushes[color];
 		}
 
 		public static Brush GetTransparentBrush(Color color)
 		{
 			var brush = GetBrush(color);
-			if (!_transparentBrushes.ContainsKey(brush))
-			{
-				var transparent = brush.CloneCurrentValue();
-				transparent.Opacity = 0.5;
-				transparent.Freeze();
-				_transparentBrushes.Add(brush, transparent);
-			}
+			if (_transparentBrushes.ContainsKey(brush)) return _transparentBrushes[brush];
+
+			var transparent = brush.CloneCurrentValue();
+			transparent.Opacity = 0.5;
+			transparent.Freeze();
+			_transparentBrushes.Add(brush, transparent);
+
 			return _transparentBrushes[brush];
 		}
 
@@ -107,13 +106,14 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (!_pens.ContainsKey(color))
 				_pens.Add(color, new Dictionary<double, Pen>());
-			if (!_pens[color].ContainsKey(thickness))
-			{
-				var brush = GetBrush(color);
-				var pen = new Pen(brush, thickness);
-				pen.Freeze();
-				_pens[color].Add(thickness, pen);
-			}
+
+			if (_pens[color].ContainsKey(thickness)) return _pens[color][thickness];
+
+			var brush = GetBrush(color);
+			var pen = new Pen(brush, thickness);
+			pen.Freeze();
+			_pens[color].Add(thickness, pen);
+
 			return _pens[color][thickness];
 		}
 
@@ -146,6 +146,7 @@ namespace Infrustructure.Plans.Painters
 					brush = new ImageBrush(bitmap);
 					break;
 			}
+
 			if (brush != null)
 				PainterHelper.FreezeBrush(brush);
 			return brush;
@@ -155,7 +156,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			var bitmapImage = new BitmapImage();
 			bitmapImage.BeginInit();
-			bitmapImage.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
+			bitmapImage.UriSource = new Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
 			bitmapImage.EndInit();
 			var brush = new ImageBrush(bitmapImage)
 			{
@@ -166,7 +167,7 @@ namespace Infrustructure.Plans.Painters
 			return brush;
 		}
 
-		private ImageBrush _transparentBackgroundBrush;
+		private readonly ImageBrush _transparentBackgroundBrush;
 
 		public Pen ZonePen { get; private set; }
 
@@ -181,10 +182,12 @@ namespace Infrustructure.Plans.Painters
 		public PainterCache()
 		{
 			ZonePen = new Pen(BlackBrush, 1);
-			GridLinePen = new Pen(GridLineBrush, 1);
-			GridLinePen.EndLineCap = PenLineCap.Square;
-			GridLinePen.StartLineCap = PenLineCap.Square;
-			GridLinePen.DashStyle = DashStyles.Dash;
+			GridLinePen = new Pen(GridLineBrush, 1)
+			{
+				EndLineCap = PenLineCap.Square,
+				StartLineCap = PenLineCap.Square,
+				DashStyle = DashStyles.Dash
+			};
 			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
 			_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
 		}
@@ -208,22 +211,22 @@ namespace Infrustructure.Plans.Painters
 				return _pictureBrushes[element.BackgroundImageSource.Value];
 				//return GetBrush(element.BackgroundImageSource.Value);
 			}
-			else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
+			if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
 				return UseTransparentImage ? _transparentBackgroundBrush : TransparentBrush;
-			else
-				return GetBrush(element.BackgroundColor);
+			return GetBrush(element.BackgroundColor);
 		}
 
 		public Brush GetTransparentBrush(IElementBackground element)
 		{
 			var brush = GetBrush(element);
-			if (!_transparentBrushes.ContainsKey(brush))
-			{
-				var transparent = brush.CloneCurrentValue();
-				transparent.Opacity = 0.5;
-				transparent.Freeze();
-				_transparentBrushes.Add(brush, transparent);
-			}
+
+			if (_transparentBrushes.ContainsKey(brush)) return _transparentBrushes[brush];
+
+			var transparent = brush.CloneCurrentValue();
+			transparent.Opacity = 0.5;
+			transparent.Freeze();
+			_transparentBrushes.Add(brush, transparent);
+
 			return _transparentBrushes[brush];
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using Infrastructure.Common.Services;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -20,18 +21,18 @@ namespace VideoModule.Plans
 	class PlanExtension : BasePlanExtension
 	{
 		public static PlanExtension Instance { get; private set; }
-		private CamerasViewModel _camerasViewModel;
+		private readonly CamerasViewModel _camerasViewModel;
 
 		public PlanExtension(CamerasViewModel camerasViewModel)
 		{
 			Instance = this;
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_camerasViewModel = camerasViewModel;
-			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.Cameras);
+			Cache.Add(() => FiresecManager.SystemConfiguration.Cameras);
 		}
 
 		#region IPlanExtension Members
@@ -86,9 +87,8 @@ namespace VideoModule.Plans
 		{
 			if (plan.ElementExtensions == null)
 				plan.ElementExtensions = new List<ElementBase>();
-			foreach (var element in plan.ElementExtensions)
-				if (element is ElementCamera)
-					yield return element;
+
+			return plan.ElementExtensions.OfType<ElementCamera>();
 		}
 
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
@@ -96,17 +96,13 @@ namespace VideoModule.Plans
 			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 41);
 		}
-		public override void ExtensionAttached()
-		{
-			using (new TimeCounter("CamerasList.ExtensionAttached.BuildMap: {0}"))
-				base.ExtensionAttached();
-		}
 
 		public override IEnumerable<ElementError> Validate()
 		{
-			List<ElementError> errors = new List<ElementError>();
+			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "/Controls;component/Images/Camera.png", Guid.Empty)));
+
 			return errors;
 		}
 
@@ -120,7 +116,7 @@ namespace VideoModule.Plans
 				designerItem.Title = camera == null ? "Неизвестная камера" : camera.Name;
 			}
 			else
-				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
+				base.UpdateDesignerItemProperties(designerItem, item);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -131,7 +127,8 @@ namespace VideoModule.Plans
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
-			ElementCamera element = e.Element as ElementCamera;
+			var element = e.Element as ElementCamera;
+
 			if (element != null)
 				e.PropertyViewModel = new CameraPropertiesViewModel(_camerasViewModel, element);
 		}

@@ -1,0 +1,61 @@
+<UserControl
+	x:Class="SKDModule.PassCardDesigner.Views.TemplatesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:PassCardTemplateViewModelNameComparer x:Key="PassCardTemplateViewModelNameComparer" />
+		<viewModel:PassCardTemplateViewModelDescriptionComparer x:Key="PassCardTemplateViewModelDescriptionComparer" />
+	</UserControl.Resources>
+	<TreeList
+		Name="_treeList"
+		Focusable="True"
+		ctr:ListViewLayoutManager.Enabled="True"
+		SelectedTreeNode="{Binding SelectedItem}"
+		SortBehavior.CanUserSortColumns="True"
+		SortBehavior.DefaultSortComparer="{StaticResource PassCardTemplateViewModelNameComparer}"
+		Source="{Binding Organisations}">
+		<TreeList.View>
+			<GridView>
+				<GridViewColumn
+					Width="300"
+					Header="Название"
+					SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelNameComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Organisation.png"
+									Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Grid
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Background="{DynamicResource BPassCardDesigner}"
+									Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn
+					Width="300"
+					Header="Примечание"
+					ctr:ProportionalColumn.Width="1"
+					SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Description}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</TreeList.View>
+	</TreeList>
+</UserControl>

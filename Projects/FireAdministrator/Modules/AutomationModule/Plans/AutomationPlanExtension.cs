@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutomationModule.Events;
+using AutomationModule.Plans.InstrumentAdorners;
+using AutomationModule.Plans.ViewModels;
+using AutomationModule.ViewModels;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
-using AutomationModule.ViewModels;
-using Infrastructure;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Services;
 using StrazhAPI.Automation;
-using FiresecClient;
-using Common;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
-using Infrustructure.Plans.Services;
-using AutomationModule.Plans.InstrumentAdorners;
-using AutomationModule.Plans.ViewModels;
-using AutomationModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.Plans
 {
@@ -115,11 +114,6 @@ namespace AutomationModule.Plans
 		{
 			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 42);
-		}
-		public override void ExtensionAttached()
-		{
-			using (new TimeCounter("Automation.ExtensionAttached.BuildMap: {0}"))
-				base.ExtensionAttached();
 		}
 
 		public override IEnumerable<ElementError> Validate()

@@ -31,9 +31,9 @@ namespace StrazhDAL
 
 		protected virtual OperationResult CanSave(ApiT item)
 		{
-			if (item == null)
-				return new OperationResult("Попытка сохранить пустую запись");
-			return new OperationResult();
+			return item == null
+				? new OperationResult("Попытка сохранить пустую запись")
+				: new OperationResult();
 		}
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
@@ -81,8 +81,7 @@ namespace StrazhDAL
 			var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
 			if (tableItem == null)
 			{
-				tableItem = new TableT();
-				tableItem.UID = apiItem.UID;
+				tableItem = new TableT {UID = apiItem.UID};
 				TranslateBack(tableItem, apiItem);
 				Table.InsertOnSubmit(tableItem);
 			}
@@ -99,8 +98,7 @@ namespace StrazhDAL
 			where ApiType : SKDModelBase, new()
 			where TableType : DataAccess.IDatabaseElement
 		{
-			var result = new ApiType();
-			result.UID = tableItem.UID;
+			var result = new ApiType {UID = tableItem.UID};
 			return result;
 		}
 
@@ -120,21 +118,14 @@ namespace StrazhDAL
 		public List<ApiT> GetAllByEmployee<T>(Guid uid, IEnumerable<T> tableItems)
 			where T : class, DataAccess.ILinkedToEmployee, TableT
 		{
-			var result = new List<ApiT>();
-			var table = Context.GetTable<T>();
-			foreach (var tableItem in tableItems.Where(x => x.EmployeeUID.Equals(uid)))
-				result.Add(Translate(tableItem));
-			return result;
+			return tableItems.Where(x => x.EmployeeUID.Equals(uid)).Select(Translate).ToList();
 		}
 
 		public List<ApiT> GetByEmployee<T>(Guid uid)
 			where T : class, DataAccess.ILinkedToEmployee, DataAccess.IIsDeletedDatabaseElement, TableT
 		{
-			var result = new List<ApiT>();
 			var table = Context.GetTable<T>();
-			foreach (var tableItem in table.Where(x => !x.IsDeleted && x.EmployeeUID.Equals(uid)))
-				result.Add(Translate(tableItem));
-			return result;
+			return table.Where(x => !x.IsDeleted && x.EmployeeUID.Equals(uid)).Select(tableItem => Translate(tableItem)).ToList();
 		}
 
 		public OperationResult<ApiT> GetSingle(Guid? uid)
@@ -143,7 +134,7 @@ namespace StrazhDAL
 			{
 				if (uid == null || uid == Guid.Empty)
 					return new OperationResult<ApiT>(null);
-				var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
+				var tableItem = Table.FirstOrDefault(x => x.UID.Equals(uid.Value));
 				if (tableItem == null)
 					return new OperationResult<ApiT>(null);
 				var result = Translate(tableItem);
@@ -159,7 +150,7 @@ namespace StrazhDAL
 		{
 			try
 			{
-				var tableItem = Table.Where(x => x.UID.Equals(uid)).FirstOrDefault();
+				var tableItem = Table.FirstOrDefault(x => x.UID.Equals(uid));
 				if (tableItem != null)
 					Table.DeleteOnSubmit(tableItem);
 				Table.Context.SubmitChanges();
@@ -187,13 +178,10 @@ namespace StrazhDAL
 		public static OperationResult ConcatOperationResults(params OperationResult[] results)
 		{
 			var result = new OperationResult();
-			foreach (var item in results)
+			foreach (var item in results.Where(item => item.HasError))
 			{
-				if (item.HasError)
-				{
-					result.HasError = true;
-					result.Error = string.Format("{0} {1}", result.Error, item.Error);
-				}
+				result.HasError = true;
+				result.Error = string.Format("{0} {1}", result.Error, item.Error);
 			}
 			return result;
 		}

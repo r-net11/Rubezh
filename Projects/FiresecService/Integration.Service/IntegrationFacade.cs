@@ -12,11 +12,11 @@ namespace Integration.Service
 	{
 		private readonly OPCIntegrationService _opcIntegrationService;
 
-		public IntegrationFacade()
+		public IntegrationFacade(OPCSettings settings)
 		{
 			MappingRegistration.RegisterMapping();
 			_opcIntegrationService = new OPCIntegrationService();
-			if(!_opcIntegrationService.StartOPCIntegrationService(SKDManager.SKDConfiguration.OPCSettings))
+			if(!_opcIntegrationService.StartOPCIntegrationService(settings))
 				throw new Exception("Can not start OPC integration service.");
 		}
 

@@ -5,7 +5,7 @@ namespace Common
 {
 	public class MapSource
 	{
-		private Dictionary<Type, object> _sourceMap;
+		private readonly Dictionary<Type, object> _sourceMap;
 
 		public MapSource()
 		{

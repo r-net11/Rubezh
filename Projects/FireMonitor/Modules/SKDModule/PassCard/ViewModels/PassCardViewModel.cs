@@ -1,5 +1,4 @@
-﻿using Common;
-using StrazhAPI.SKD;
+﻿using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -19,29 +18,31 @@ using System.Windows.Controls.Primitives;
 
 namespace SKDModule.PassCard.ViewModels
 {
-	public class PassCardViewModel : SaveCancelDialogViewModel, IPlanDesignerViewModel
+	public class PassCardViewModel : SaveCancelDialogViewModel
 	{
-		private PassCardCanvas _passCardCanvas;
-		private Employee _employee;
-		private Department _department;
-		private Position _position;
-		private OrganisationDetails _organisation;
-		private SKDCard _card;
+		private readonly Employee _employee;
+		private readonly Department _department;
+		private readonly Position _position;
+		private readonly OrganisationDetails _organisation;
+		private readonly SKDCard _card;
 
-		public PassCardViewModel(Guid employeeUID, SKDCard card)
+		public PassCardViewModel(Guid employeeUID, SKDCard card) //TODO: Refactor that class
 		{
 			Title = "Печать удостоверения " + card.Number;
 			_card = card;
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			PrintCommand = new RelayCommand(OnPrint, () => SelectedPassCardTemplate != null);
 			_employee = EmployeeHelper.GetDetails(employeeUID);
 			var shortDepartment = _employee.Department;
+
 			if (shortDepartment != null)
 				_department = DepartmentHelper.GetDetails(shortDepartment.UID);
+
 			var shortPosition = _employee.Position;
+
 			if (shortPosition != null)
 				_position = PositionHelper.GetDetails(shortPosition.UID);
+
 			_organisation = OrganisationHelper.GetDetails(_employee.OrganisationUID);
-			_passCardCanvas = new PassCardCanvas();
 			PassCardTemplates = new ObservableCollection<ShortPassCardTemplate>(PassCardTemplateHelper.GetByOrganisation(_organisation.UID));
 
 			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -59,14 +60,12 @@ namespace SKDModule.PassCard.ViewModels
 			get { return _selectedPassCardTemplate; }
 			set
 			{
-				using (new TimeCounter("PassCardsDesignerViewModel.SelectedPlan: {0}", true, true))
-					if (value != SelectedPassCardTemplate)
-					{
-						_selectedPassCardTemplate = value;
-						OnPropertyChanged(() => SelectedPassCardTemplate);
-						OnPropertyChanged(() => IsNotEmpty);
-						InternalCreatePassCard();
-					}
+				if (value == SelectedPassCardTemplate) return;
+
+				_selectedPassCardTemplate = value;
+				OnPropertyChanged(() => SelectedPassCardTemplate);
+				OnPropertyChanged(() => IsNotEmpty);
+				InternalCreatePassCard();
 			}
 		}
 
@@ -74,68 +73,68 @@ namespace SKDModule.PassCard.ViewModels
 		private void OnPrint()
 		{
 			var dialog = new PrintDialog();
-			if (dialog.ShowDialog() == true)
+
+			if (dialog.ShowDialog() != true) return;
+
+		//	var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
+			var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
+
+			if (capabilities.PageImageableArea != null)
 			{
-				var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
-				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
-				if (capabilities.PageImageableArea != null)
-				{
-					var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
-					var size = new Size(_passCardCanvas.DesiredSize.Width + 2 * _passCardCanvas.CanvasBorder.Thickness, _passCardCanvas.DesiredSize.Height + 2 * _passCardCanvas.CanvasBorder.Thickness);
-					_passCardCanvas.Arrange(new Rect(origin, size));
-				}
-				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employee.LastName);
-				_passCardCanvas.Arrange(rect);
+				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
+				//var size = new Size(_passCardCanvas.DesiredSize.Width + 2 * _passCardCanvas.CanvasBorder.Thickness, _passCardCanvas.DesiredSize.Height + 2 * _passCardCanvas.CanvasBorder.Thickness);
+			//	_passCardCanvas.Arrange(new Rect(origin, size));
 			}
-		}
-		private bool CanPrint()
-		{
-			return SelectedPassCardTemplate != null;
+
+		//	dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employee.LastName);
+		//	_passCardCanvas.Arrange(rect);
 		}
 
 		private void InternalCreatePassCard()
 		{
-			if (SelectedPassCardTemplate != null)
-			{
-				var template = PassCardTemplateHelper.GetDetails(SelectedPassCardTemplate.UID);
-				using (new TimeCounter("\t\tPassCardCanvas.Initialize: {0}"))
-					_passCardCanvas.Initialize(template);
-				using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-					foreach (var elementBase in EnumerateElements(template))
-						_passCardCanvas.CreatePresenterItem(elementBase);
-				using (new TimeCounter("\t\tPassCardViewModel.OnUpdated: {0}"))
-					Update();
-				_passCardCanvas.LoadingFinished();
-				_passCardCanvas.Refresh();
-			}
+			if (SelectedPassCardTemplate == null) return;
+
+			var template = PassCardTemplateHelper.GetDetails(SelectedPassCardTemplate.UID);
+		//	_passCardCanvas.Initialize(template);
+
+			//foreach (var elementBase in EnumerateElements(template))
+			//	_passCardCanvas.CreatePresenterItem(elementBase);
+
+			Update();
+
+			//_passCardCanvas.LoadingFinished();
+			//_passCardCanvas.Refresh();
 		}
+
 		private void Update()
 		{
 			if (Updated != null)
 				Updated(this, EventArgs.Empty);
 		}
+
 		private IEnumerable<ElementBase> EnumerateElements(PassCardTemplate passCardTemplate)
 		{
-			foreach (var elementTextProperty in passCardTemplate.ElementTextProperties)
-			{
-				ResolveTextProperty(elementTextProperty);
-				yield return elementTextProperty;
-			}
-			foreach (var elementImageProperty in passCardTemplate.ElementImageProperties)
-			{
-			//	ResolveImageProperty(elementImageProperty);
-				yield return elementImageProperty;
-			}
-			foreach (var elementRectangle in passCardTemplate.ElementRectangles)
-				yield return elementRectangle;
-			foreach (var elementEllipse in passCardTemplate.ElementEllipses)
-				yield return elementEllipse;
-			foreach (var elementTextBlock in passCardTemplate.ElementTextBlocks)
-				yield return elementTextBlock;
-			foreach (var elementPolygon in passCardTemplate.ElementPolygons)
-				yield return elementPolygon;
-			foreach (var elementPolyline in passCardTemplate.ElementPolylines)
-				yield return elementPolyline;
+			return new List<ElementBase>();
+			//foreach (var elementTextProperty in passCardTemplate.ElementTextProperties) //TODO: Implement elements enumerator for Front and Back sides of PassCard
+			//{
+			//	ResolveTextProperty(elementTextProperty);
+			//	yield return elementTextProperty;
+			//}
+			//foreach (var elementImageProperty in passCardTemplate.ElementImageProperties)
+			//{
+			////	ResolveImageProperty(elementImageProperty);
+			//	yield return elementImageProperty;
+			//}
+			//foreach (var elementRectangle in passCardTemplate.ElementRectangles)
+			//	yield return elementRectangle;
+			//foreach (var elementEllipse in passCardTemplate.ElementEllipses)
+			//	yield return elementEllipse;
+			//foreach (var elementTextBlock in passCardTemplate.ElementTextBlocks)
+			//	yield return elementTextBlock;
+			//foreach (var elementPolygon in passCardTemplate.ElementPolygons)
+			//	yield return elementPolygon;
+			//foreach (var elementPolyline in passCardTemplate.ElementPolylines)
+			//	yield return elementPolyline;
 		}
 
 		private void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
@@ -202,10 +201,10 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			get { return null; }
 		}
-		public CommonDesignerCanvas Canvas
-		{
-			get { return _passCardCanvas; }
-		}
+		//public CommonDesignerCanvas Canvas
+		//{
+		//	get { return _passCardCanvas; }
+		//}
 		public bool AllowScalePoint
 		{
 			get { return false; }
@@ -245,8 +244,8 @@ namespace SKDModule.PassCard.ViewModels
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			if (!Equals(args.DesignerCanvas, _passCardCanvas))
-				return;
+		//	if (!Equals(args.DesignerCanvas, _passCardCanvas))
+		//		return;
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty == null) return;
 
@@ -271,7 +270,7 @@ namespace SKDModule.PassCard.ViewModels
 						photo = columnValue.Photo;
 					break;
 			}
-			args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null || photo.Data == null || photo.Data.Count() == 0 ? null : photo.Data);
+			//args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null || photo.Data == null || photo.Data.Count() == 0 ? null : photo.Data);
 		}
 
 		protected override bool Save()

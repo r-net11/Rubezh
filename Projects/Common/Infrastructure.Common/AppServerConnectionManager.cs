@@ -1,7 +1,6 @@
 ﻿using Common;
 using System;
 using System.Linq;
-using System.Net;
 
 namespace Infrastructure.Common
 {
@@ -62,7 +61,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName);
+				return String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerConstants.ServiceName);
 			}
 		}
 
@@ -73,7 +72,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return String.Format("http://{0}:{1}/{2}/", ServerAddress, ServerPort, AppServerServices.ServiceName);
+				return String.Format("http://{0}:{1}/{2}/", ServerAddress, ServerPort, AppServerConstants.ServiceName);
 			}
 		}
 
@@ -84,7 +83,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ServerPort, AppServerServices.ServiceName);
+				return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ServerPort, AppServerConstants.ServiceName);
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ReportServiceName);
+				return String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerConstants.ReportServiceName);
 			}
 		}
 
@@ -106,7 +105,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportServerPort, AppServerServices.ReportServiceName);
+				return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportServerPort, AppServerConstants.ReportServiceName);
 			}
 		}
 

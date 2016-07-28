@@ -1,10 +1,8 @@
-﻿using Common;
-using StrazhAPI.Models;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common;
+﻿using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
+using StrazhAPI.Models;
 
 namespace PlansModule.ViewModels
 {
@@ -18,7 +16,7 @@ namespace PlansModule.ViewModels
 			PlansViewModel = plansViewModel;
 			DesignerCanvas = new DesignerCanvas(this) {Toolbox = {IsRightPanel = true}};
 			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
-				new InstrumentViewModel()
+				new InstrumentViewModel
 				{
 					ImageSource="Subplan",
 					ToolTip="Ссылка на план",
@@ -34,24 +32,20 @@ namespace PlansModule.ViewModels
 			Plan = plan;
 			OnPropertyChanged(() => Plan);
 			IsNotEmpty = Plan != null;
-			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
+			((DesignerCanvas)DesignerCanvas).Initialize(plan);
+
+			if (Plan != null)
 			{
-				using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-					((DesignerCanvas)DesignerCanvas).Initialize(plan);
-				if (Plan != null)
-				{
-					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-					{
-						foreach (var elementBase in PlanEnumerator.Enumerate(Plan))
-							DesignerCanvas.Create(elementBase);
-						foreach (var element in PlansViewModel.LoadPlan(Plan))
-							DesignerCanvas.Create(element);
-						DesignerCanvas.UpdateZIndex();
-					}
-					using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
-						Update();
-				}
+				foreach (var elementBase in PlanEnumerator.Enumerate(Plan))
+					DesignerCanvas.Create(elementBase);
+
+				foreach (var element in PlansViewModel.LoadPlan(Plan))
+					DesignerCanvas.Create(element);
+
+				DesignerCanvas.UpdateZIndex();
+				Update();
 			}
+
 			ResetHistory();
 		}
 

@@ -1,0 +1,36 @@
+﻿<UserControl
+	x:Class="SKDModule.PassCardDesigner.Views.TemplateDetailsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:views="clr-namespace:SKDModule.PassCardDesigner.Views"
+	xmlns:viewModels="clr-namespace:SKDModule.PassCardDesigner.ViewModels"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:controls="clr-namespace:SKDModule.PassCardDesigner.Views"
+	xmlns:api="clr-namespace:StrazhAPI.Enums;assembly=StrazhAPI"
+	MinWidth="1000"
+	MinHeight="900">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<ComboBox
+			SelectedItem="{Binding SelectedTemplateSide}"
+			IsEnabled="{Binding PassCardTemplate.IsDualTemplateEnabled}"
+			ItemsSource="{Binding Source={x:Type api:PassCardTemplateSideType}, Converter={StaticResource EnumToItemsSourceConverter}}"
+			ItemTemplate="{StaticResource EnumDescriptionTemplate}"
+			Margin="5"
+			Width="140"
+			HorizontalAlignment="Left">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="SelectionChanged">
+					<i:InvokeCommandAction Command="{Binding ReloadTemplateSideCommand}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</ComboBox>
+		<controls:PassCardDesignerControlWrapper
+			Grid.Row="1"
+			Report="{Binding CurrentReport}" />
+	</Grid>
+</UserControl>
