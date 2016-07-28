@@ -90,7 +90,6 @@ namespace StrazhDAL
 			}
 			AttachmentTranslator = new AttachmentTranslator(this);
 			ReportFiltersTranslator = new ReportFiltersTranslator(this);
-			LicenseInfoTranslator = new LicenseInfoTranslator(this);
 			AccessTemplateDeactivatingReaderTranslator = new AccessTemplateDeactivatingReaderTranslator(this);
 		}
 
@@ -145,8 +144,6 @@ namespace StrazhDAL
 		public AttachmentTranslator AttachmentTranslator { get; private set; }
 
 		public ReportFiltersTranslator ReportFiltersTranslator { get; private set; }
-
-		public LicenseInfoTranslator LicenseInfoTranslator { get; private set; }
 
 		public AccessTemplateDeactivatingReaderTranslator AccessTemplateDeactivatingReaderTranslator { get; private set; }
 

@@ -1,6 +1,5 @@
-﻿using System.Linq;
-using Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -89,25 +88,28 @@ namespace Infrustructure.Plans.Designer
 		{
 			var point = e.GetPosition(this);
 			var visualItem = GetVisualItem(point);
-			if (visualItem != null)
+
+			if (visualItem == null) return;
+
+			visualItem.OnMouseDown(point, e);
+
+			if (e.ClickCount == 2)
+				visualItem.OnMouseDoubleClick(point, e);
+			else if (!_isDragging)
 			{
-				visualItem.OnMouseDown(point, e);
-				if (e.ClickCount == 2)
-					visualItem.OnMouseDoubleClick(point, e);
-				else if (!_isDragging)
-				{
-					CaptureMouse();
-					_previousPosition = point;
-					_isDragging = true;
-					visualItem.DragStarted(point);
-				}
-				e.Handled = true;
+				CaptureMouse();
+				_previousPosition = point;
+				_isDragging = true;
+				visualItem.DragStarted(point);
 			}
+
+			e.Handled = true;
 		}
 
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
+
 			if (_isDragging)
 			{
 				e.Handled = true;
@@ -115,6 +117,7 @@ namespace Infrustructure.Plans.Designer
 				if (_visualItemOver != null)
 					_visualItemOver.DragCompleted(point);
 			}
+
 			ReleaseMouseCapture();
 			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
@@ -186,20 +189,17 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnRender(DrawingContext dc)
 		{
-			using (new TimeCounter("=Surface.Render: {0}"))
-			{
-				if (!_isZIndexValid)
-					UpdateZIndex();
-				//base.OnRender(dc);
-				_designerCanvas.RenderBackground(dc);
-				var thickness = Border == null ? 0 : Border.Thickness;
-				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
+			if (!_isZIndexValid)
+				UpdateZIndex();
 
-				foreach (var item in _visuals.Where(item => item.IsVisibleLayout))
+			_designerCanvas.RenderBackground(dc);
+			var thickness = Border == null ? 0 : Border.Thickness;
+			dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
 
-					item.Render(dc);
-				_designerCanvas.RenderForeground(dc);
-			}
+			foreach (var item in _visuals.Where(item => item.IsVisibleLayout))
+
+				item.Render(dc);
+			_designerCanvas.RenderForeground(dc);
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace Infrastructure.Common
 {
 	public class ObservableRangeCollection<T> : ObservableCollection<T>
 	{
-		private bool _suppressNotification = false;
+		private bool _suppressNotification;
 
 		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{

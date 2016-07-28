@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using Common;
-using StrazhAPI.Models;
-using FiresecClient;
-using Infrastructure;
+﻿using FiresecClient;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
+using StrazhAPI.Models;
+using System;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
 	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		public double Zoom = 1;
-		public double DeviceZoom = DesignerItem.DefaultPointSize;
-		private PlansViewModel _plansViewModel;
-		private FlushAdorner _flushAdorner;
+		public double DeviceZoom = CommonDesignerItem.DefaultPointSize;
+		private readonly PlansViewModel _plansViewModel;
+		private readonly FlushAdorner _flushAdorner;
 		public PlanViewModel PlanViewModel { get; private set; }
 		public Plan Plan { get; private set; }
 		private PresenterCanvas DesignerCanvas { get; set; }
@@ -29,30 +27,24 @@ namespace PlansModule.ViewModels
 			_plansViewModel = plansViewModel;
 			DesignerCanvas = new PresenterCanvas();
 			_flushAdorner = new FlushAdorner(DesignerCanvas);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public void SelectPlan(PlanViewModel planViewModel)
 		{
 			_flushAdorner.Hide();
-			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}", true, true))
-			{
-				PlanViewModel = planViewModel;
-				Plan = PlanViewModel == null || PlanViewModel.PlanFolder != null ? null : planViewModel.Plan;
-				OnPropertyChanged(() => Plan);
-				OnPropertyChanged(() => IsNotEmpty);
-				if (Plan != null)
-				{
-					using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-						DesignerCanvas.Initialize(Plan);
-					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-						CreatePresenters();
-					using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
-						Update();
-					DesignerCanvas.LoadingFinished();
-				}
-			}
+			PlanViewModel = planViewModel;
+			Plan = PlanViewModel == null || PlanViewModel.PlanFolder != null ? null : planViewModel.Plan;
+			OnPropertyChanged(() => Plan);
+			OnPropertyChanged(() => IsNotEmpty);
+
+			if (Plan == null) return;
+
+			DesignerCanvas.Initialize(Plan);
+			CreatePresenters();
+			Update();
+			DesignerCanvas.LoadingFinished();
 		}
 
 		private void CreatePresenters()
@@ -69,7 +61,7 @@ namespace PlansModule.ViewModels
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 				foreach (var element in planPresenter.LoadPlan(Plan))
 				{
-					PresenterItem presenterItem = DesignerCanvas.CreatePresenterItem(element);
+					var presenterItem = DesignerCanvas.CreatePresenterItem(element);
 					planPresenter.RegisterPresenterItem(presenterItem);
 				}
 			DesignerCanvas.Refresh();

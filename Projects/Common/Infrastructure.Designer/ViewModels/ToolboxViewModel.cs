@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Common;
-using Infrastructure.Client.Plans;
+﻿using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.InstrumentAdorners;
 using Infrustructure.Plans.Designer;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -79,9 +78,10 @@ namespace Infrastructure.Designer.ViewModels
 		public void Apply(Point? point)
 		{
 			DesignerCanvas.DeselectAll();
+
 			if (ActiveInstrument.Adorner != null)
-				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
 					ActiveInstrument.Adorner.Show(point);
+
 			else if (ActiveInstrument.Command != null)
 			{
 				ExecuteCommand(ActiveInstrument.Command);
@@ -201,7 +201,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Удалить линии привязки",
 					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
-				},
+				}
 			});
 			SortInstruments();
 			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
@@ -252,12 +252,10 @@ namespace Infrastructure.Designer.ViewModels
 							break;
 						case Key.A:
 							if (DesignerCanvas != null)
-								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
 									DesignerCanvas.SelectAll();
 							break;
 						case Key.D:
 							if (DesignerCanvas != null)
-								using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
 									DesignerCanvas.DeselectAll();
 							break;
 					}

@@ -938,17 +938,6 @@ namespace StrazhAPI.SKD
 						  && (x.ExitDateTime != null
 							  && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
 
-			var hasRealTimeTrack = realTimeTrack.Any();
-
-#if DEBUG
-			if (hasRealTimeTrack && realTimeTrack.Count > 1)
-			{
-				var sb = new StringBuilder();
-				realTimeTrack.ForEach(rtt => sb.Append(string.Format(" {0}({1}-{2})", rtt.TimeTrackPartType, rtt.EnterDateTime.TimeOfDay, rtt.ExitDateTime.Value.TimeOfDay)));
-				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: realTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
-			}
-#endif
-
 			var plannedTimeTrack = plannedTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
 				.Where(x =>
@@ -956,36 +945,28 @@ namespace StrazhAPI.SKD
 					(x.ExitDateTime != null &&
 					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay))).ToList();
 
+			var hasRealTimeTrack = realTimeTrack.Any();
 			var hasPlannedTimeTrack = plannedTimeTrack.Any();
 
-#if DEBUG
-			if (hasPlannedTimeTrack && plannedTimeTrack.Count > 1)
-			{
-				var sb = new StringBuilder();
-				plannedTimeTrack.ForEach(ptt => sb.Append(string.Format(" {0}({1}-{2})", ptt.TimeTrackPartType, ptt.EnterDateTime.TimeOfDay, ptt.ExitDateTime.Value.TimeOfDay)));
-				Logger.Warn(string.Format("DayTimeTrack.GetTimeTrackType: plannedTimeTrack.Count > 1 [{0} ], combinedInterval({1})", sb, string.Format("{0}-{1}", combinedInterval.StartTime.TimeOfDay, combinedInterval.EndTime.Value.TimeOfDay)));
-			}
-#endif
-
-			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
-				return plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break ? TimeTrackType.Break : TimeTrackType.Presence;
+				return plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break
+					? TimeTrackType.Break
+					: TimeTrackType.Presence;
 
 			//Если нет интервала прохода сотрудника и нет графика, то "Нет данных"
 			if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				return TimeTrackType.None;
 
-			//Если есть интервал прохода сотрудника, который не попадает в интервал графика работа, то "Сверхурочно"
-			//или, если он попадает в график работ, то "Явка в перерыве"
 			if (hasRealTimeTrack)
 				return TimeTrackType.Overtime;
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
 			if (!hasRealTimeTrack && hasPlannedTimeTrack && plannedTimeTrack[0].TimeTrackPartType == TimeTrackType.Break)
 				return TimeTrackType.None;
-			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
-			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
+			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
+
+			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) &&
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) &&
 				realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.ExitDateTime.Value.TimeOfDay))
 			{
@@ -998,7 +979,7 @@ namespace StrazhAPI.SKD
 					return TimeTrackType.Late;
 			}
 
-			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
+			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) ||
 				realTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay))
 				return TimeTrackType.Absence;

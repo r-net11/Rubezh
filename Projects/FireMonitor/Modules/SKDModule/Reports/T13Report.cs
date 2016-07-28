@@ -90,26 +90,23 @@ namespace SKDModule.Reports
 
 		private ReportData CreateData()
 		{
-			using (new TimeCounter("\t\tPrepareParams: {0}"))
-			{
-				var data = new ReportData();
-				data.ReportDocumentValues.Add("PrintDate", ReportModel.CreationDateTime);
-				data.ReportDocumentValues.Add("StartDate", ReportModel.StartDateTime);
-				data.ReportDocumentValues.Add("EndDate", ReportModel.EndDateTime);
+			var data = new ReportData();
+			data.ReportDocumentValues.Add("PrintDate", ReportModel.CreationDateTime);
+			data.ReportDocumentValues.Add("StartDate", ReportModel.StartDateTime);
+			data.ReportDocumentValues.Add("EndDate", ReportModel.EndDateTime);
 
-				data.ReportDocumentValues.Add("FillName", ReportModel.FillName);
-				data.ReportDocumentValues.Add("HRName", ReportModel.HRName);
-				data.ReportDocumentValues.Add("LeadName", ReportModel.LeadName);
+			data.ReportDocumentValues.Add("FillName", ReportModel.FillName);
+			data.ReportDocumentValues.Add("HRName", ReportModel.HRName);
+			data.ReportDocumentValues.Add("LeadName", ReportModel.LeadName);
 
-				data.ReportDocumentValues.Add("FillPosition", ReportModel.FillPosition);
-				data.ReportDocumentValues.Add("HRPosition", ReportModel.HRPosition);
-				data.ReportDocumentValues.Add("LeadPosition", ReportModel.LeadPosition);
+			data.ReportDocumentValues.Add("FillPosition", ReportModel.FillPosition);
+			data.ReportDocumentValues.Add("HRPosition", ReportModel.HRPosition);
+			data.ReportDocumentValues.Add("LeadPosition", ReportModel.LeadPosition);
 
-				data.ReportDocumentValues.Add("Organization", ReportModel.OrganisationName);
-				data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
+			data.ReportDocumentValues.Add("Organization", ReportModel.OrganisationName);
+			data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
 
-				return data;
-			}
+			return data;
 		}
 		private DataTable BuildTable()
 		{
@@ -117,7 +114,7 @@ namespace SKDModule.Reports
 			table.Columns.AddRange(GetColumns().Select(name => new DataColumn(name, typeof(string))).ToArray());
 			foreach (var employee in ReportModel.EmployeeRepors)
 			{
-				var values = new List<string>()
+				var values = new List<string>
 				{
 					employee.No.ToString(),
 					employee.EmployeeFIO,
