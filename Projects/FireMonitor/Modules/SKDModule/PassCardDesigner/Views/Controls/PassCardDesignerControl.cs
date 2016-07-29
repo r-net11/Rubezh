@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using System;
+using System.ComponentModel.Design;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using DevExpress.XtraReports.UserDesigner.Native;
 using System.Drawing.Design;
@@ -14,7 +16,34 @@ namespace SKDModule.PassCardDesigner.Views
 		{
 			InitializeComponent();
 			reportDesigner1.DesignPanelLoaded += Loaded;
+			//this.propertyGridDockPanel1.ActiveChildChanged += propertyGridDockPanel1_ActiveChildChanged;
+			//this.ControlAdded += OnControlAdded;
 		}
+
+		//private void ActiveDesignPanelOnSelectionChanged(object sender, EventArgs eventArgs)
+		//{
+		//	propertyGridDockPanel1.Refresh();
+		//	propertyGridDockPanel1.Update();
+		//	propertyGridDockPanel1_Container.Refresh();
+		//	propertyGridDockPanel1_Container.Update();
+		//}
+
+		//private void ActiveDesignPanelOnComponentChanged(object sender, ComponentChangedEventArgs componentChangedEventArgs)
+		//{
+		//	propertyGridDockPanel1.Refresh();
+		//	propertyGridDockPanel1_Container.Refresh();
+		//}
+
+		//private void OnControlAdded(object sender, ControlEventArgs controlEventArgs)
+		//{
+		//	propertyGridDockPanel1.Refresh();
+		//	propertyGridDockPanel1_Container.Refresh();
+		//}
+
+		//private void propertyGridDockPanel1_ActiveChildChanged(object sender, DevExpress.XtraBars.Docking.DockPanelEventArgs e)
+		//{
+		//	propertyGridDockPanel1.Refresh();
+		//}
 
 		private void Loaded(object sender, DesignerLoadedEventArgs e)
 		{
@@ -22,7 +51,6 @@ namespace SKDModule.PassCardDesigner.Views
 
 			// Get a collection of toolbox items.
 			ToolboxItemCollection coll = ts.GetToolboxItems();
-
 			// Iterate through toolbox items.
 			foreach (ToolboxItem item in coll)
 			{
@@ -48,6 +76,9 @@ namespace SKDModule.PassCardDesigner.Views
 		public void OpenCurrentReport()
 		{
 			reportDesigner1.OpenReport(CurrentReport);
+			//reportDesigner1.ActiveDesignPanel.ComponentChanged += ActiveDesignPanelOnComponentChanged;
+			//reportDesigner1.ActiveDesignPanel.SelectionChanged += ActiveDesignPanelOnSelectionChanged;
+			//reportDesigner1.ActiveDesignPanel.SelectedToolboxItemChanged += ActiveDesignPanelOnSelectionChanged;
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowHTMLViewTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowDesignerTab, CommandVisibility.None);

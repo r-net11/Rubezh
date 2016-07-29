@@ -26,6 +26,7 @@ namespace SKDModule.PassCardDesigner.Model
 
 			band = Bands.GetBandByType(typeof (BottomMarginBand));
 			if(band != null) Bands.Remove(band);
+
 			FilterComponentProperties += XtraReport_FilterComponentProperties;
 		}
 		public PassCardTemplateReport(Image image) : this()
