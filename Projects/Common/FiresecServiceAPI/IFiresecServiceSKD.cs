@@ -4,6 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 
@@ -394,6 +395,16 @@ namespace StrazhAPI
 		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid);
 
 		[OperationContract]
+		[ServiceKnownType(typeof(PassCardTemplateSide))]
+		[ServiceKnownType(typeof(PassCardTemplate))]
+		[ServiceKnownType(typeof(List<ElementRectangle>))]
+		[ServiceKnownType(typeof(List<ElementEllipse>))]
+		[ServiceKnownType(typeof(List<ElementTextBlock>))]
+		[ServiceKnownType(typeof(List<ElementPolygon>))]
+		[ServiceKnownType(typeof(List<ElementPolyline>))]
+		[ServiceKnownType(typeof(List<ElementBase>))]
+		[ServiceKnownType(typeof(List<ElementPassCardImageProperty>))]
+		[ServiceKnownType(typeof(List<ElementPassCardTextProperty>))]
 		OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew);
 
 		[OperationContract]
@@ -511,6 +522,16 @@ namespace StrazhAPI
 		[ServiceKnownType(typeof(WorkingTimeReportFilter))]
 		OperationResult<List<SKDReportFilter>> GetAllFilters();
 		#endregion
+
+		[OperationContract]
+		OperationResult<bool> UpdatePassCardOriginalImage(Guid? id, Attachment attachment);
+
+		/// <summary>
+		/// Загружает все файлы изображений подложек для шаблона пропуска.
+		/// </summary>
+		/// <returns>Коллекция, содержащая данные об изображениях.</returns>
+		[OperationContract]
+		OperationResult<List<Attachment>> UploadPassCardImages();
 
 		/// <summary>
 		/// Выгружает файл на Сервер приложений

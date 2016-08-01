@@ -153,7 +153,7 @@
     </Compile>
     <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="AppDataFolderHelper.cs" />
-    <Compile Include="AppServerServices.cs" />
+    <Compile Include="AppServerConstants.cs" />
     <Compile Include="CheckBoxList\ChechBoxItemList.cs" />
     <Compile Include="CheckBoxList\CheckBoxItem.cs" />
     <Compile Include="CheckBoxList\ICheckBoxItem.cs" />
@@ -165,8 +165,6 @@
       <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
-    <Compile Include="CloseWindowHelper.cs" />
-    <Compile Include="EncryptHelper.cs" />
     <Compile Include="AppServerSettingsHelper.cs" />
     <Compile Include="Layouts\LayoutPartIdentities.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />

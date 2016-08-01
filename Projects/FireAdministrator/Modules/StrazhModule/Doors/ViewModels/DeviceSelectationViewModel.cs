@@ -13,28 +13,25 @@ namespace StrazhModule.ViewModels
 		{
 			Title = CommonViewModels.Device_Selectation;
 			Devices = new ObservableCollection<SKDDevice>();
-			foreach (var skdDevice in SKDManager.Devices)
+			foreach (var skdDevice in SKDManager.Devices.Where(x => x.DriverType == SKDDriverType.Reader && x.IsEnabled))
 			{
-				if (skdDevice.DriverType == SKDDriverType.Reader)
+				if (skdDevice.Parent != null && skdDevice.Parent.DoorType == doorType)
 				{
-					if (skdDevice.Parent != null && skdDevice.Parent.DoorType == doorType)
+					if (doorType == DoorType.TwoWay)
 					{
-						if (doorType == DoorType.TwoWay)
-						{
-							if (skdDevice.IntAddress % 2 == 1)
-								continue;
-							var outReader = SKDManager.Devices.FirstOrDefault(x => x.Parent != null && skdDevice.Parent != null && x.Parent.UID == skdDevice.Parent.UID && x.IntAddress == skdDevice.IntAddress + 1);
-							if (outReader == null)
-								continue;
-							if (outReader.Door != null)
-								continue;
-						}
-
-						if (skdDevice.Door != null)
+						if (skdDevice.IntAddress % 2 == 1)
 							continue;
-
-						Devices.Add(skdDevice);
+						var outReader = SKDManager.Devices.FirstOrDefault(x => x.Parent != null && skdDevice.Parent != null && x.Parent.UID == skdDevice.Parent.UID && x.IntAddress == skdDevice.IntAddress + 1);
+						if (outReader == null)
+							continue;
+						if (outReader.Door != null)
+							continue;
 					}
+
+					if (skdDevice.Door != null)
+						continue;
+
+					Devices.Add(skdDevice);
 				}
 			}
 			SelectedDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -42,7 +39,7 @@ namespace StrazhModule.ViewModels
 
 		public ObservableCollection<SKDDevice> Devices { get; private set; }
 
-		SKDDevice _selectedDevice;
+		private SKDDevice _selectedDevice;
 		public SKDDevice SelectedDevice
 		{
 			get { return _selectedDevice; }

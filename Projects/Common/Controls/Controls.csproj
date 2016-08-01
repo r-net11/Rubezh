@@ -124,7 +124,6 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
-    <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="Behaviours\InputValidatorHelper.cs" />
     <Compile Include="Behaviours\CustomSortBehaviour.cs" />
     <Compile Include="Behaviours\DatePickerCustomWatermark.cs" />
@@ -133,6 +132,7 @@
     <Compile Include="Behaviours\TextBoxBehavior.cs" />
     <Compile Include="BindingProxy.cs" />
     <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ColorToSystemColorConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
@@ -156,7 +156,6 @@
     <Compile Include="IsDeletedTextBlock.xaml.cs">
       <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
@@ -206,7 +205,6 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
-    <Compile Include="ListViewLayoutManager\ConverterGridViewColumn.cs" />
     <Compile Include="ListViewLayoutManager\DynamicProportionalColumn.cs" />
     <Compile Include="ListViewLayoutManager\FixedColumn.cs" />
     <Compile Include="ListViewLayoutManager\ImageGridViewColumn.cs" />
@@ -278,10 +276,7 @@
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="IconedMenuItem.cs" />
     <Compile Include="IconTextBlock.cs" />
-    <Compile Include="ImageHelper.cs" />
-    <Compile Include="IPValidationRule.cs" />
     <Compile Include="Layout\RubezhTheme.cs" />
-    <Compile Include="Masking.cs" />
     <Compile Include="PhotoSelectation.xaml.cs">
       <DependentUpon>PhotoSelectation.xaml</DependentUpon>
     </Compile>
@@ -304,7 +299,6 @@
     <Compile Include="ToggleButton.cs" />
     <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
-    <Compile Include="DigitalPasswordHelper.cs" />
     <Compile Include="MiddleButtonScrollHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="Converters\BrightnessToColorConverter.cs" />

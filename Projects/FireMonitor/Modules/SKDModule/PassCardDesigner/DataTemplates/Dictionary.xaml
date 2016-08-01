@@ -1,27 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client" xmlns:ViewModels="clr-namespace:SKDModule.PassCardDesigner.ViewModels" xmlns:Views="clr-namespace:SKDModule.PassCardDesigner.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:PassCardDesignerViewModel}">
-		<clientPlans:PlanDesignerView />
+	<DataTemplate DataType="{x:Type ViewModels:TemplatePropertiesViewModel}">
+		<Views:TemplatePropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplatePropertiesViewModel}">
-		<Views:PassCardTemplatePropertiesView />
+	<DataTemplate DataType="{x:Type ViewModels:TemplatesViewModel}">
+		<Views:TemplatesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PassCardTextPropertyViewModel}">
-		<Views:PassCardTextPropertyView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PassCardImagePropertyViewModel}">
-		<Views:PassCardImagePropertyView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplatesViewModel}">
-		<Views:PassCardTemplatesView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplateDetailsViewModel}">
-		<Views:PassCardTemplateDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:TemplateDetailsViewModel}">
+		<Views:TemplateDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

@@ -17,8 +17,8 @@ namespace FiresecService.Report.Export
 		{
 			if (filter == null || string.IsNullOrEmpty(filter.Path))
 			{
-				Logger.Error("Path is empty");
-				return;
+				Logger.Error("Path is empty. Fill path to export report");
+				throw new ArgumentNullException("filter");
 			}
 
 			_filter = filter;
@@ -26,9 +26,9 @@ namespace FiresecService.Report.Export
 
 		public void Execute()
 		{
-			var skdReportFilter = InitializeFilterFromExport(_filter);
 			try
 			{
+				var skdReportFilter = InitializeFilterFromExport(_filter);
 				var report = ReportFactory.CreateReport(_filter.ReportType, skdReportFilter);
 				Directory.CreateDirectory(_filter.Path);
 

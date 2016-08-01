@@ -1,6 +1,8 @@
-﻿using StrazhAPI;
+﻿using System;
+using Common;
+using DevExpress.XtraReports.UI;
+using StrazhAPI;
 using StrazhAPI.SKD;
-using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,7 +11,7 @@ namespace StrazhDAL
 {
 	public class PassCardTemplateTranslator : WithShortTranslator<DataAccess.PassCardTemplate, PassCardTemplate, PassCardTemplateFilter, ShortPassCardTemplate>
 	{
-		private DataContractSerializer _serializer;
+		private readonly DataContractSerializer _serializer;
 
 		public PassCardTemplateTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -20,26 +22,32 @@ namespace StrazhDAL
 		protected override OperationResult CanSave(PassCardTemplate item)
 		{
 			var result = base.CanSave(item);
+
 			if (result.HasError)
 				return result;
-			bool hasSameName = Table.Any(x => x.Name == item.Caption &&
+
+			var hasSameName = Table.Any(x => x.Name == item.Caption &&
 				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				!x.IsDeleted);
-			if (hasSameName)
-                return new OperationResult(Resources.Language.Translators.PassCardTemplateTranslator.CanSave_Error);
-			return new OperationResult();
-		}
 
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			return base.CanDelete(uid);
+			return hasSameName ? new OperationResult("Попытка добавления шаблон пропуска с совпадающим наименованием") : new OperationResult();
 		}
 
 		protected override PassCardTemplate Translate(DataAccess.PassCardTemplate tableItem)
 		{
-			using (var ms = new MemoryStream(tableItem.Data.ToArray()))
-				return (PassCardTemplate)_serializer.ReadObject(ms);
+			try
+			{
+				using (var ms = new MemoryStream(tableItem.Data.ToArray()))
+				{
+					return (PassCardTemplate)_serializer.ReadObject(ms);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				return null;
+			}
 		}
 
 		protected override void TranslateBack(DataAccess.PassCardTemplate tableItem, PassCardTemplate apiItem)

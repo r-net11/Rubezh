@@ -9,7 +9,7 @@ namespace Infrastructure.Common
 
 		public static void Listen(Action<string> logAction)
 		{
-			PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorListener() { _logAction = logAction });
+			PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorListener { _logAction = logAction });
 		}
 
 		public override void Write(string message)

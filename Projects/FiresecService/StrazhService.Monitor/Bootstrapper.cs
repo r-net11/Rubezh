@@ -122,7 +122,7 @@ namespace StrazhService.Monitor
 		private void ConnectToServiceTask(CancellationToken cancellationToken)
 		{
 			Logger.Info("Попытка регистрации на Сервере в качестве Клиента");
-			while (!string.IsNullOrEmpty(FiresecManager.Connect(ClientType.ServiceMonitor, string.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName), null, null)))
+			while (!string.IsNullOrEmpty(FiresecManager.Connect(ClientType.ServiceMonitor, string.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerConstants.ServiceName), null, null)))
 			{
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				cancellationToken.ThrowIfCancellationRequested();
@@ -167,7 +167,7 @@ namespace StrazhService.Monitor
 
 			// Разрегистрируемся на Сервере и прекращаем прием сообщений от него
 			FiresecManager.Disconnect();
-			
+
 			if (_windowThread != null)
 			{
 				_windowThread.Interrupt();

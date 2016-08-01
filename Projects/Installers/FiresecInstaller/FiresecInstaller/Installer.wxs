@@ -28,7 +28,7 @@
 		<Property Id="INSTALLLEVEL" Value="1" />
 		<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
 		<Property Id="WixUI_Mode" Value="Mondo" />
-		
+
 		<!-- Значения по умолчанию для свойств соединения с СУБД MS SQL Server -->
 		<Property Id="SQLSERVER_ADDRESS" Value="$(var.SQLServerAddressDefault)" />
 		<Property Id="SQLSERVER_PORT" Value="$(var.SQLServerPortDefault)" />
@@ -60,6 +60,7 @@
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
 						<Directory Id="Monitor.dll" Name="dll" />
+						<Directory Id="Monitor.Files.ruRU" Name="ru-RU" />
 					</Directory>
 				</Directory>
 			</Directory>

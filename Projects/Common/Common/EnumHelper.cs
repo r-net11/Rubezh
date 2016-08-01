@@ -16,31 +16,23 @@ namespace Common
 		/// <returns>Description string of the input Enum value</returns>
 		public static string GetEnumDescription(Enum value)
 		{
-			FieldInfo fi = value.GetType().GetField(value.ToString());
-			DescriptionAttribute[] attributes =
-			  (DescriptionAttribute[])fi.GetCustomAttributes
-			  (typeof(DescriptionAttribute), false);
+			var fi = value.GetType().GetField(value.ToString());
+			var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 			return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
 		}
 
 		/// <summary>
 		/// Allow to use the Name of enum value
 		/// </summary>
-		public static string GetEnumName(System.Type value, string description)
+		public static string GetEnumName(Type value, string description)
 		{
-			FieldInfo[] fis = value.GetFields();
-			foreach (FieldInfo fi in fis)
+			var fis = value.GetFields();
+			foreach (var fi in fis)
 			{
-				DescriptionAttribute[] attributes =
-				  (DescriptionAttribute[])fi.GetCustomAttributes
-				  (typeof(DescriptionAttribute), false);
+				var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 				if (attributes.Length > 0)
-				{
 					if (attributes[0].Description == description)
-					{
 						return fi.Name;
-					}
-				}
 			}
 			return description;
 		}

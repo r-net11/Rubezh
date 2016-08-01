@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
+using StrazhAPI.Models.Layouts;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
@@ -6,12 +10,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Common;
-using Infrustructure.Plans;
-using StrazhAPI.Models.Layouts;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
@@ -74,23 +72,26 @@ namespace LayoutModule.ViewModels
 					Manager.DocumentClosing -= LayoutPartClosing;
 					Manager.LayoutConfigurationChanged -= LayoutConfigurationChanged;
 				}
+
 				_manager = value;
+
 				if (_serializer != null)
 				{
 					_serializer.LayoutSerializationCallback -= LayoutSerializationCallback;
 					_serializer = null;
 				}
-				if (_manager != null)
-					using (new TimeCounter("Attach to LayoutManager = {0}"))
-					{
-						Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
-						Manager.DocumentClosing += LayoutPartClosing;
-						Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
-						_serializer = new XmlLayoutSerializer(Manager);
-						_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
-						if (_layout != null)
-							Update(_layout);
-					}
+
+				if (_manager != null && Manager != null)
+				{
+					Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
+					Manager.DocumentClosing += LayoutPartClosing;
+					Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
+					_serializer = new XmlLayoutSerializer(Manager);
+					_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
+
+					if (_layout != null)
+						Update(_layout);
+				}
 			}
 		}
 
@@ -116,9 +117,11 @@ namespace LayoutModule.ViewModels
 			Manager.Background = new SolidColorBrush(_layout.BackgroundColor.ToWindowsColor());
 			Manager.Padding = new Thickness(_layout.Padding);
 			Manager.Layout = new LayoutRoot();
+
 			if (!string.IsNullOrEmpty(_layout.Content))
 				using (var tr = new StringReader(_layout.Content))
 					_serializer.Deserialize(tr);
+
 			_loading = false;
 			ActiveLayoutPart = LayoutParts.FirstOrDefault();
 		}
@@ -128,21 +131,23 @@ namespace LayoutModule.ViewModels
 		}
 		public void SaveLayout()
 		{
-			if (_layout != null && _currentLayoutChanged)
-				using (var tw = new StringWriter())
-				{
-					_serializer.Serialize(tw);
-					_layout.Content = tw.ToString();
-				}
+			if (_layout == null || !_currentLayoutChanged) return;
+
+			using (var tw = new StringWriter())
+			{
+				_serializer.Serialize(tw);
+				_layout.Content = tw.ToString();
+			}
 		}
+
 		public void LayoutConfigurationChanged(bool withLayout = true)
 		{
-			if (!_loading)
-			{
-				ServiceFactory.SaveService.LayoutsChanged = true;
-				if (withLayout)
-					_currentLayoutChanged = true;
-			}
+			if (_loading) return;
+
+			ServiceFactory.SaveService.LayoutsChanged = true;
+
+			if (withLayout)
+				_currentLayoutChanged = true;
 		}
 
 		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
@@ -157,11 +162,11 @@ namespace LayoutModule.ViewModels
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{
 			var layoutPartViewModel = e.Document.Content as LayoutPartViewModel;
-			if (layoutPartViewModel != null)
-			{
-				LayoutParts.Remove(layoutPartViewModel);
-				e.Cancel = true;
-			}
+
+			if (layoutPartViewModel == null) return;
+
+			LayoutParts.Remove(layoutPartViewModel);
+			e.Cancel = true;
 		}
 		private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
@@ -194,14 +199,15 @@ namespace LayoutModule.ViewModels
 		}
 		public void KeyPressed(KeyEventArgs e)
 		{
-			if (ActiveLayoutPart != null)
-				switch (e.Key)
-				{
-					case Key.Delete:
-						LayoutParts.Remove(ActiveLayoutPart);
-						e.Handled = true;
-						break;
-				}
+			if (ActiveLayoutPart == null) return;
+
+			switch (e.Key)
+			{
+				case Key.Delete:
+					LayoutParts.Remove(ActiveLayoutPart);
+					e.Handled = true;
+					break;
+			}
 		}
 	}
 }

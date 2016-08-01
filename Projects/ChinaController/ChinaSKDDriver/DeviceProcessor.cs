@@ -47,224 +47,228 @@ namespace StrazhDeviceSDK
 
 		private void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
 		{
-			if (skdJournalItem.LoginID == LoginID)
+			if (skdJournalItem.LoginID != LoginID)
+				return;
+			
+			var journalItem = new JournalItem
 			{
-				var journalItem = new JournalItem();
-				journalItem.JournalItemType = skdJournalItem.JournalItemType;
-				journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
-				journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
-				journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
-				journalItem.DescriptionText = skdJournalItem.Description;
-				journalItem.ErrorCode = (JournalErrorCode)skdJournalItem.ErrorCode;
-				var cardNo = 0;
-				if (Int32.TryParse(skdJournalItem.CardNo, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out cardNo))
-				{
-					journalItem.CardNo = cardNo;
-				}
-
-				SKDDevice device = null;
-
-				switch (skdJournalItem.JournalEventNameType)
-				{
-					case JournalEventNameType.Потеря_связи:
-						if (journalItem.JournalItemType == JournalItemType.Online)
-							OnConnectionChanged(false);
-						return;
-
-					case JournalEventNameType.Восстановление_связи:
-						if (journalItem.JournalItemType == JournalItemType.Online)
-							OnConnectionChanged(true);
-						return;
-
-					case JournalEventNameType.Проход_разрешен:
-					case JournalEventNameType.Проход_запрещен:
-						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
-						if (device != null)
-						{
-							journalItem.ObjectUID = device.UID;
-							journalItem.ObjectName = device.Name;
-						}
-						else
-						{
-							journalItem.ObjectName = "Не найдено в конфигурации";
-						}
-						switch (skdJournalItem.emOpenMethod)
-						{
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Неизвестно;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Пароль;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Карта;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_карта;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_пароль;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_REMOTE:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Удаленно;
-								break;
-
-							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_BUTTON:
-								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Кнопка;
-								var buttonDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
-								if (buttonDevice != null)
-								{
-									journalItem.ObjectUID = buttonDevice.UID;
-									journalItem.ObjectName = buttonDevice.Name;
-								}
-								else
-								{
-									journalItem.ObjectName = "Не найдено в конфигурации";
-								}
-								break;
-						}
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
-
-						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
-						{
-							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
-							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
-						}
-						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
-						{
-							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd));
-							journalItem.CardNo = 0;
-						}
-						break;
-
-					case JournalEventNameType.Дверь_не_закрыта_начало:
-					case JournalEventNameType.Дверь_не_закрыта_конец:
-					case JournalEventNameType.Взлом:
-					case JournalEventNameType.Повторный_проход:
-					case JournalEventNameType.Принуждение:
-						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
-						if (device != null)
-						{
-							journalItem.ObjectUID = device.UID;
-							journalItem.ObjectName = device.Name;
-						}
-						else
-						{
-							journalItem.ObjectName = "Не найдено в конфигурации";
-						}
-
-						if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
-						{
-							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
-						}
-						break;
-
-					case JournalEventNameType.Открытие_замка_двери:
-					case JournalEventNameType.Закрытие_замка_двери:
-						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
-						if (device != null)
-						{
-							journalItem.ObjectUID = device.UID;
-							journalItem.ObjectName = device.Name;
-						}
-						else
-						{
-							journalItem.ObjectName = "Не найдено в конфигурации";
-						}
-						break;
-
-					case JournalEventNameType.Открытие_двери:
-					case JournalEventNameType.Закрытие_двери:
-					case JournalEventNameType.Неизвестный_статус_двери:
-						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
-						if (device != null)
-						{
-							journalItem.ObjectUID = device.UID;
-							journalItem.ObjectName = device.Name;
-
-							// Меняем состояние доменной модели объектов СКД
-							if (journalItem.JournalItemType == JournalItemType.Online)
-							{
-								device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
-								device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-								var skdStates = new SKDStates();
-								skdStates.DeviceStates.Add(device.State);
-								Processor.OnStatesChanged(skdStates);
-							}
-						}
-						else
-						{
-							journalItem.ObjectName = "Не найдено в конфигурации";
-						}
-						break;
-
-					case JournalEventNameType.Вскрытие_контроллера_начало:
-					case JournalEventNameType.Вскрытие_контроллера_конец:
-						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
-						if (device != null)
-						{
-							journalItem.ObjectUID = device.UID;
-							journalItem.ObjectName = device.Name;
-						}
-						else
-						{
-							journalItem.ObjectName = "Не найдено в конфигурации";
-						}
-						break;
-				}
-
-				switch (skdJournalItem.JournalEventNameType)
-				{
-					case JournalEventNameType.Дверь_не_закрыта_начало:
-					case JournalEventNameType.Дверь_не_закрыта_конец:
-					case JournalEventNameType.Взлом:
-					case JournalEventNameType.Открытие_двери:
-					case JournalEventNameType.Закрытие_двери:
-					case JournalEventNameType.Неизвестный_статус_двери:
-						if (device != null)
-						{
-							// Меняем состояние доменной модели объектов СКД
-							if (journalItem.JournalItemType == JournalItemType.Online)
-							{
-								device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
-								device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-								var skdStates = new SKDStates();
-								skdStates.DeviceStates.Add(device.State);
-								Processor.OnStatesChanged(skdStates);
-							}
-						}
-						break;
-				}
-
-				// Фиксируем GUID контроллера, событие которого регистрируем
-				journalItem.ControllerUID = Device.UID;
-
-				if (NewJournalItem != null)
-					NewJournalItem(journalItem);
+				JournalItemType = skdJournalItem.JournalItemType,
+				SystemDateTime = skdJournalItem.SystemDateTime,
+				DeviceDateTime = skdJournalItem.DeviceDateTime,
+				JournalEventNameType = skdJournalItem.JournalEventNameType,
+				DescriptionText = skdJournalItem.Description,
+				ErrorCode = (JournalErrorCode) skdJournalItem.ErrorCode
+			};
+			var cardNo = 0;
+			if (Int32.TryParse(skdJournalItem.CardNo, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out cardNo))
+			{
+				journalItem.CardNo = cardNo;
 			}
+
+			SKDDevice device = null;
+
+			switch (skdJournalItem.JournalEventNameType)
+			{
+				case JournalEventNameType.Потеря_связи:
+					if (journalItem.JournalItemType == JournalItemType.Online)
+						OnConnectionChanged(false);
+					return;
+
+				case JournalEventNameType.Восстановление_связи:
+					if (journalItem.JournalItemType == JournalItemType.Online)
+						OnConnectionChanged(true);
+					return;
+
+				case JournalEventNameType.Проход_разрешен:
+				case JournalEventNameType.Проход_запрещен:
+					journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+					device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
+					if (device != null)
+					{
+						journalItem.ObjectUID = device.UID;
+						journalItem.ObjectName = device.Name;
+					}
+					else
+					{
+						journalItem.ObjectName = "Не найдено в конфигурации";
+					}
+					switch (skdJournalItem.emOpenMethod)
+					{
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Неизвестно;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Пароль;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Карта;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_карта;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_пароль;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_REMOTE:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Удаленно;
+							break;
+
+						case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_BUTTON:
+							journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Кнопка;
+							var buttonDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
+							if (buttonDevice != null)
+							{
+								journalItem.ObjectUID = buttonDevice.UID;
+								journalItem.ObjectName = buttonDevice.Name;
+							}
+							else
+							{
+								journalItem.ObjectName = "Не найдено в конфигурации";
+							}
+							break;
+					}
+					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
+
+					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
+					{
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
+					}
+					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
+					{
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd));
+						journalItem.CardNo = 0;
+					}
+					break;
+
+				case JournalEventNameType.Дверь_не_закрыта_начало:
+				case JournalEventNameType.Дверь_не_закрыта_конец:
+				case JournalEventNameType.Взлом:
+				case JournalEventNameType.Повторный_проход:
+				case JournalEventNameType.Принуждение:
+					journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+					device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
+					if (device != null)
+					{
+						journalItem.ObjectUID = device.UID;
+						journalItem.ObjectName = device.Name;
+					}
+					else
+					{
+						journalItem.ObjectName = "Не найдено в конфигурации";
+					}
+
+					if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
+					{
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
+					}
+					break;
+
+				case JournalEventNameType.Открытие_замка_двери:
+				case JournalEventNameType.Закрытие_замка_двери:
+					journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+					device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
+					if (device != null)
+					{
+						journalItem.ObjectUID = device.UID;
+						journalItem.ObjectName = device.Name;
+					}
+					else
+					{
+						journalItem.ObjectName = "Не найдено в конфигурации";
+					}
+					break;
+
+				case JournalEventNameType.Открытие_двери:
+				case JournalEventNameType.Закрытие_двери:
+				case JournalEventNameType.Неизвестный_статус_двери:
+					journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+					device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
+					if (device != null)
+					{
+						journalItem.ObjectUID = device.UID;
+						journalItem.ObjectName = device.Name;
+
+						// Меняем состояние доменной модели объектов СКД
+						if (journalItem.JournalItemType == JournalItemType.Online)
+						{
+							device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
+							device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(device.State);
+							Processor.OnStatesChanged(skdStates);
+						}
+					}
+					else
+					{
+						journalItem.ObjectName = "Не найдено в конфигурации";
+					}
+					break;
+
+				case JournalEventNameType.Вскрытие_контроллера_начало:
+				case JournalEventNameType.Вскрытие_контроллера_конец:
+					journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+					device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
+					if (device != null)
+					{
+						journalItem.ObjectUID = device.UID;
+						journalItem.ObjectName = device.Name;
+					}
+					else
+					{
+						journalItem.ObjectName = "Не найдено в конфигурации";
+					}
+					break;
+			}
+
+			switch (skdJournalItem.JournalEventNameType)
+			{
+				case JournalEventNameType.Дверь_не_закрыта_начало:
+				case JournalEventNameType.Дверь_не_закрыта_конец:
+				case JournalEventNameType.Взлом:
+				case JournalEventNameType.Открытие_двери:
+				case JournalEventNameType.Закрытие_двери:
+				case JournalEventNameType.Неизвестный_статус_двери:
+					if (device != null)
+					{
+						// Меняем состояние доменной модели объектов СКД
+						if (journalItem.JournalItemType == JournalItemType.Online)
+						{
+							device.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
+							device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(device.State);
+							Processor.OnStatesChanged(skdStates);
+						}
+					}
+					break;
+			}
+
+			// Фиксируем GUID контроллера, событие которого регистрируем
+			journalItem.ControllerUID = Device.UID;
+
+			if (NewJournalItem != null)
+				NewJournalItem(journalItem);
 		}
 
-		private void OnConnectionChanged(bool isConnected, bool fireJournalItem = true)
+		private void OnConnectionChanged(bool isConnected, bool fireJournalItemEvent = true)
 		{
 			IsConnected = isConnected;
-			if (fireJournalItem)
+			if (fireJournalItemEvent)
 			{
-				var journalItem = new JournalItem();
-				journalItem.SystemDateTime = DateTime.Now;
-				journalItem.JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи : JournalEventNameType.Потеря_связи;
-				journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-				journalItem.ObjectUID = Device.UID;
-				journalItem.ObjectName = Device.Name;
+				var journalItem = new JournalItem
+				{
+					SystemDateTime = DateTime.Now,
+					JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи : JournalEventNameType.Потеря_связи,
+					JournalObjectType = JournalObjectType.SKDDevice,
+					ObjectUID = Device.UID,
+					ObjectName = Device.Name
+				};
 				if (NewJournalItem != null)
 					NewJournalItem(journalItem);
 			}

@@ -50,17 +50,16 @@ namespace LayoutModule.ViewModels
 
 		public void Initialize()
 		{
-			using (new TimeCounter("MonitorLayoutsViewModel.Initialize: {0}"))
-			{
-				LayoutUsersViewModel = new LayoutUsersViewModel();
-				Layouts = new ObservableCollection<LayoutViewModel>();
-				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				view.CustomSort = new LayoutViewModelComparer();
-				foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
-					Layouts.Add(new LayoutViewModel(layout));
-				view.MoveCurrentToFirst();
-				SelectedLayout = (LayoutViewModel)view.CurrentItem;
-			}
+			LayoutUsersViewModel = new LayoutUsersViewModel();
+			Layouts = new ObservableCollection<LayoutViewModel>();
+			var view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
+			view.CustomSort = new LayoutViewModelComparer();
+
+			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+				Layouts.Add(new LayoutViewModel(layout));
+
+			view.MoveCurrentToFirst();
+			SelectedLayout = (LayoutViewModel)view.CurrentItem;
 		}
 
 		#endregion
@@ -82,13 +81,11 @@ namespace LayoutModule.ViewModels
 			get { return _selectedLayout; }
 			set
 			{
-				using (new TimeCounter("MonitorLayoutsViewModel.SelectedPlan: {0}", true, true))
-					if (value != SelectedLayout)
-					{
-						_selectedLayout = value;
-						OnPropertyChanged(() => SelectedLayout);
-						MonitorLayoutViewModel.LayoutViewModel = SelectedLayout;
-					}
+				if (value == SelectedLayout) return;
+
+				_selectedLayout = value;
+				OnPropertyChanged(() => SelectedLayout);
+				MonitorLayoutViewModel.LayoutViewModel = SelectedLayout;
 			}
 		}
 
@@ -188,20 +185,16 @@ namespace LayoutModule.ViewModels
 			if (collection.Count > 0)
 				SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
 		}
-		private void RenewLayout(Layout layout)
+		private static void RenewLayout(Layout layout)
 		{
 			layout.UID = Guid.NewGuid();
 		}
 
-		protected override void UpdateRibbonItems()
-		{
-			base.UpdateRibbonItems();
-		}
 		private void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel(CommonViewModels.MonitorLayouts_Edition, new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel(CommonViewModels.MonitorLayouts_Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel(CommonResources.AddLayout, AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
@@ -228,6 +221,7 @@ namespace LayoutModule.ViewModels
 		{
 			if (!e.Handled)
 				LayoutDesignerViewModel.Instance.KeyPressed(e);
+
 			base.KeyPressed(e);
 		}
 	}

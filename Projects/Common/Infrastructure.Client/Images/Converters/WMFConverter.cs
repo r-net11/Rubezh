@@ -17,9 +17,9 @@ namespace Infrastructure.Client.Converters
 		public static WMFImage ReadWMF(string fileName)
 		{
 			var temp = Path.GetTempFileName();
-			using (PrintDocument pdx = new PrintDocument())
+			using (var pdx = new PrintDocument())
 			{
-				pdx.PrintPage += (object printSender, PrintPageEventArgs printE) =>
+				pdx.PrintPage += (printSender, printE) =>
 				{
 					var img = System.Drawing.Image.FromFile(fileName);
 					printE.Graphics.DrawImageUnscaled(img, printE.PageSettings.Bounds);
@@ -34,25 +34,24 @@ namespace Infrastructure.Client.Converters
 				pdx.Print();
 			}
 
-			WMFImage wmf = new WMFImage();
-			using (Package package = Package.Open(temp, FileMode.Open, FileAccess.Read))
+			var wmf = new WMFImage();
+			using (var package = Package.Open(temp, FileMode.Open, FileAccess.Read))
 			{
-				string inMemoryPackageName = "memorystream://miXps.xps";
-				Uri packageUri = new Uri(inMemoryPackageName);
+				const string inMemoryPackageName = "memorystream://miXps.xps";
+				var packageUri = new Uri(inMemoryPackageName);
 				PackageStore.AddPackage(packageUri, package);
-				using (XpsDocument xpsDocument = new XpsDocument(package, CompressionOption.NotCompressed, inMemoryPackageName))
+				using (var xpsDocument = new XpsDocument(package, CompressionOption.NotCompressed, inMemoryPackageName))
 				{
-					FixedDocumentSequence fixedDocumentSequence = xpsDocument.GetFixedDocumentSequence();
-					DocumentReference docReference = xpsDocument.GetFixedDocumentSequence().References.First();
-					FixedDocument doc = docReference.GetDocument(false);
-					PageContent content = doc.Pages[0];
+					var docReference = xpsDocument.GetFixedDocumentSequence().References.First();
+					var doc = docReference.GetDocument(false);
+					var content = doc.Pages[0];
 					var fixedPage = content.GetPageRoot(false);
-					wmf.Canvas = new Canvas()
+					wmf.Canvas = new Canvas
 					{
 						Width = fixedPage.Width,
 						Height = fixedPage.Height,
 					};
-					for (int i = fixedPage.Children.Count - 1; i >= 0; i--)
+					for (var i = fixedPage.Children.Count - 1; i >= 0; i--)
 					{
 						var child = fixedPage.Children[i];
 						fixedPage.Children.Remove(child);
@@ -60,7 +59,7 @@ namespace Infrastructure.Client.Converters
 						{
 							var glyph = (Glyphs)child;
 							var glyphRun = glyph.ToGlyphRun();
-							var path = new System.Windows.Shapes.Path()
+							var path = new System.Windows.Shapes.Path
 							{
 								Fill = glyph.Fill,
 								Data = glyphRun.BuildGeometry(),
@@ -73,32 +72,40 @@ namespace Infrastructure.Client.Converters
 						else
 							wmf.Canvas.Children.Insert(0, child);
 					}
-					ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
+
+					if (xpsDocument.FixedDocumentSequenceReader != null)
+						ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
+
 					xpsDocument.Close();
 				}
 				package.Close();
 				PackageStore.RemovePackage(packageUri);
 			}
 			GC.Collect();
+
 			try
 			{
 				File.Delete(temp);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e);
 			}
+
 			return wmf;
 		}
 		public static DrawingGroup ReadDrawing(string fileName)
 		{
 			var wmf = ReadWMF(fileName);
 			var brush = new VisualBrush(wmf.Canvas);
-			DrawingVisual drawingVisual = new DrawingVisual();
-			using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+			var drawingVisual = new DrawingVisual();
+
+			using (var drawingContext = drawingVisual.RenderOpen())
 			{
 				drawingContext.DrawRectangle(brush, null, brush.Viewport);
 				drawingContext.Close();
 			}
+
 			return drawingVisual.Drawing;
 		}
 
@@ -106,6 +113,7 @@ namespace Infrastructure.Client.Converters
 		{
 			if (wmf.Canvas == null)
 				return;
+
 			foreach (var glyph in wmf.Canvas.FindVisualChildren<Glyphs>())
 			{
 				var guid = new Guid(Path.GetFileNameWithoutExtension(glyph.FontUri.ToString()));
@@ -121,19 +129,20 @@ namespace Infrastructure.Client.Converters
 		{
 			using (var stm = font.GetStream())
 			{
-				byte[] dta = new byte[stm.Length];
+				var dta = new byte[stm.Length];
 				stm.Read(dta, 0, dta.Length);
 				if (font.IsObfuscated)
 				{
 					//string guid = new Guid(font.Uri.GetFileName().Split('.')[0]).ToString("N");
-					string guid = new Guid(System.IO.Path.GetFileNameWithoutExtension(font.Uri.ToString())).ToString("N");
-					byte[] guidBytes = new byte[16];
-					for (int i = 0; i < guidBytes.Length; i++)
+					var guid = new Guid(Path.GetFileNameWithoutExtension(font.Uri.ToString())).ToString("N");
+					var guidBytes = new byte[16];
+
+					for (var i = 0; i < guidBytes.Length; i++)
 						guidBytes[i] = Convert.ToByte(guid.Substring(i * 2, 2), 16);
 
-					for (int i = 0; i < 32; i++)
+					for (var i = 0; i < 32; i++)
 					{
-						int gi = guidBytes.Length - (i % guidBytes.Length) - 1;
+						var gi = guidBytes.Length - (i % guidBytes.Length) - 1;
 						dta[i] ^= guidBytes[gi];
 					}
 				}

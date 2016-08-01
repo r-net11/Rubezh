@@ -1,0 +1,119 @@
+﻿<UserControl
+	x:Class="SKDModule.PassCardDesigner.Views.ImageViewerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="350"
+	d:DesignWidth="400"
+	x:Name="_this">
+	<UserControl.Resources>
+		<converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+	</UserControl.Resources>
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid VerticalAlignment="Center">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="1"
+				Text="Цвет фона"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5"/>
+			<xc:ColorPicker
+				Grid.Row="1"
+				Grid.Column="1"
+				Margin="5"
+				VerticalAlignment="Center"
+				SelectedColor="{Binding Path=PreviewImage.BackgroundColor, UpdateSourceTrigger=PropertyChanged}">
+			</xc:ColorPicker>
+			<TextBlock
+				Grid.Row="2"
+				Foreground="White"
+				Text="Цвет границы"
+				HorizontalAlignment="Right"
+				Margin="5"
+				VerticalAlignment="Center"/>
+			<xc:ColorPicker
+				Grid.Row="2"
+				Grid.Column="1"
+				Margin="5"
+				VerticalAlignment="Center"
+				SelectedColor="{Binding Path=PreviewImage.BorderColor, UpdateSourceTrigger=PropertyChanged}">
+			</xc:ColorPicker>
+			<TextBlock
+				Grid.Row="3"
+				Foreground="White"
+				Text="Ширина границы, пикс."
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5"/>
+			<xc:IntegerUpDown
+				Grid.Row="3"
+				Grid.Column="1"
+				Margin="5"
+				Maximum="100"
+				Minimum="0"
+				VerticalAlignment="Center"
+				Value="{Binding Path=PreviewImage.BorderThickness, UpdateSourceTrigger=PropertyChanged}">
+			</xc:IntegerUpDown>
+			<DockPanel
+				Grid.Row="4"
+				Grid.ColumnSpan="2"
+				HorizontalAlignment="Right"
+				Margin="0 10">
+				<Button
+					x:Name="SelectPictureButton"
+					Command="{Binding SelectPictureCommand}"
+					Content="Выбрать картинку"
+					Width="140"
+					Margin="10 0"/>
+				<Button
+					Command="{Binding RemovePictureCommand}"
+					Content="Очистить картинку"
+					HorizontalAlignment="Right"
+					Width="140"
+					Margin="10 0 5 0"/>
+			</DockPanel>
+		</Grid>
+		<Border
+			Grid.Row="1"
+			Margin="0 10"
+			BorderBrush="{Binding PreviewImage.BorderBrush, UpdateSourceTrigger=PropertyChanged}"
+			BorderThickness="{Binding PreviewImage.BorderThickness, UpdateSourceTrigger=PropertyChanged}"
+			Background="{Binding PreviewImage.ImageBrush, FallbackValue=White, UpdateSourceTrigger=PropertyChanged}"
+			Width="{Binding PreviewImage.PreviewWidth, UpdateSourceTrigger=PropertyChanged}"
+			Height="{Binding PreviewImage.PreviewHeight, UpdateSourceTrigger=PropertyChanged}">
+			<Border.Style>
+				<Style TargetType="{x:Type Border}">
+					<Style.Triggers>
+						<MultiDataTrigger>
+							<MultiDataTrigger.Conditions>
+								<Condition Binding="{Binding ElementName=_this, Path=IsFront}" Value="False" />
+								<Condition Binding="{Binding ElementName=SelectPictureButton, Path=IsEnabled}" Value="False" />
+							</MultiDataTrigger.Conditions>
+							<Setter Property="Visibility" Value="Collapsed" />
+						</MultiDataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
+		</Border>
+	</Grid>
+</UserControl>

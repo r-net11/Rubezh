@@ -176,7 +176,7 @@ namespace FiresecService
 					if (hasChanges)
 					{
 						zone.State.StateClasses = stateClasses;
-						zone.State.StateClass = zone.State.StateClasses.Min();
+						zone.State.StateClass = GetZoneStateClass(zone.State.StateClasses);
 						skdStates.ZoneStates.Add(zone.State);
 					}
 				}
@@ -208,6 +208,122 @@ namespace FiresecService
 			ProcedureRunner.RunOnStateChanged();
 		}
 
+		/// <summary>
+		/// Возвращает состояние зоны в зависимости от состояний точек доступа (замков), ведущих в эту зону
+		/// </summary>
+		/// <param name="stateClasses">Состояния точек доступа (замков), ведущих в эту зону</param>
+		/// <returns>Состояние зоны</returns>
+		private static XStateClass GetZoneStateClass(IEnumerable<XStateClass> stateClasses)
+		{
+			var hasOpened = stateClasses.Any(x => x == XStateClass.On);
+			var hasClosed = stateClasses.Any(x => x == XStateClass.Off);
+			var hasBreaked = stateClasses.Any(x => x == XStateClass.Attention);
+			var hasConnectionLost = stateClasses.Any(x => x == XStateClass.ConnectionLost);
+
+			if (!hasOpened &&
+				!hasClosed &&
+				!hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Unknown;
+
+			if (hasOpened &&
+				!hasClosed &&
+				!hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.On;
+
+			if (!hasOpened &&
+				hasClosed &&
+				!hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Off;
+
+			if (!hasOpened &&
+				!hasClosed &&
+				hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (!hasOpened &&
+				!hasClosed &&
+				!hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.ConnectionLost;
+
+			if (hasOpened &&
+				hasClosed &&
+				!hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.On;
+
+			if (hasOpened &&
+				!hasClosed &&
+				hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (hasOpened &&
+				!hasClosed &&
+				!hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.On;
+
+			if (hasOpened &&
+				hasClosed &&
+				hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (hasOpened &&
+				hasClosed &&
+				!hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.On;
+
+			if (hasOpened &&
+				hasClosed &&
+				hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (!hasOpened &&
+				hasClosed &&
+				hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (!hasOpened &&
+				hasClosed &&
+				!hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.Off;
+
+			if (!hasOpened &&
+				!hasClosed &&
+				hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (!hasOpened &&
+				hasClosed &&
+				hasBreaked &&
+				!hasConnectionLost)
+				return XStateClass.Attention;
+
+			if (hasOpened &&
+				!hasClosed &&
+				hasBreaked &&
+				hasConnectionLost)
+				return XStateClass.Attention;
+
+			return XStateClass.Unknown;
+		}
+
+		/// <summary>
+		/// Возвращает список состояний точек доступа (замков), ведущих в эту зону
+		/// </summary>
+		/// <param name="zone">Зона</param>
+		/// <returns>Список состояний точек доступа (замков), ведущих в эту зону</returns>
 		private static List<XStateClass> GetZoneStateClasses(SKDZone zone)
 		{
 			var stateClasses = new List<XStateClass>();

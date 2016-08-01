@@ -1,5 +1,5 @@
-﻿using Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,12 +9,12 @@ namespace Infrustructure.Plans.Designer
 {
 	public class DesignerSurface : Panel
 	{
-		private List<CommonDesignerItem> _visuals;
+		private readonly List<CommonDesignerItem> _visuals;
 		private IVisualItem _visualItemOver;
 		private bool _isDragging;
 		private bool _isZIndexValid;
 		private Point _previousPosition;
-		private CommonDesignerCanvas _designerCanvas;
+		private readonly CommonDesignerCanvas _designerCanvas;
 
 		public Brush BackgroundBrush { get; set; }
 
@@ -88,25 +88,28 @@ namespace Infrustructure.Plans.Designer
 		{
 			var point = e.GetPosition(this);
 			var visualItem = GetVisualItem(point);
-			if (visualItem != null)
+
+			if (visualItem == null) return;
+
+			visualItem.OnMouseDown(point, e);
+
+			if (e.ClickCount == 2)
+				visualItem.OnMouseDoubleClick(point, e);
+			else if (!_isDragging)
 			{
-				visualItem.OnMouseDown(point, e);
-				if (e.ClickCount == 2)
-					visualItem.OnMouseDoubleClick(point, e);
-				else if (!_isDragging)
-				{
-					CaptureMouse();
-					_previousPosition = point;
-					_isDragging = true;
-					visualItem.DragStarted(point);
-				}
-				e.Handled = true;
+				CaptureMouse();
+				_previousPosition = point;
+				_isDragging = true;
+				visualItem.DragStarted(point);
 			}
+
+			e.Handled = true;
 		}
 
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
+
 			if (_isDragging)
 			{
 				e.Handled = true;
@@ -114,6 +117,7 @@ namespace Infrustructure.Plans.Designer
 				if (_visualItemOver != null)
 					_visualItemOver.DragCompleted(point);
 			}
+
 			ReleaseMouseCapture();
 			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
@@ -122,7 +126,7 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			Point point = e.GetPosition(this);
+			var point = e.GetPosition(this);
 			if (_visualItemOver != null && _visualItemOver.IsEnabled && _isDragging)
 			{
 				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
@@ -173,7 +177,7 @@ namespace Infrustructure.Plans.Designer
 
 		private IVisualItem GetVisualItem(Point point)
 		{
-			for (int i = _visuals.Count - 1; i >= 0; i--)
+			for (var i = _visuals.Count - 1; i >= 0; i--)
 				if (_visuals[i].IsEnabled)
 				{
 					var visualItem = _visuals[i].HitTest(point);
@@ -185,19 +189,17 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnRender(DrawingContext dc)
 		{
-			using (new TimeCounter("=Surface.Render: {0}"))
-			{
-				if (!_isZIndexValid)
-					UpdateZIndex();
-				//base.OnRender(dc);
-				_designerCanvas.RenderBackground(dc);
-				var thickness = Border == null ? 0 : Border.Thickness;
-				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
-				foreach (var item in _visuals)
-					if (item.IsVisibleLayout)
-						item.Render(dc);
-				_designerCanvas.RenderForeground(dc);
-			}
+			if (!_isZIndexValid)
+				UpdateZIndex();
+
+			_designerCanvas.RenderBackground(dc);
+			var thickness = Border == null ? 0 : Border.Thickness;
+			dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
+
+			foreach (var item in _visuals.Where(item => item.IsVisibleLayout))
+
+				item.Render(dc);
+			_designerCanvas.RenderForeground(dc);
 		}
 	}
 }

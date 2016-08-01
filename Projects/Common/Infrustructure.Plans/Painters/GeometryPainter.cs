@@ -20,7 +20,7 @@ namespace Infrustructure.Plans.Painters
 
 		protected Pen Pen { get; private set; }
 
-		public GeometryPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+		protected GeometryPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
 			DesignerCanvas = designerCanvas;
 			Element = element;
@@ -92,7 +92,7 @@ namespace Infrustructure.Plans.Painters
 
 		public virtual bool HitTest(Point point)
 		{
-			return Geometry == null ? false : (Brush != null && Geometry.Bounds.Contains(point) && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute);
+			return Geometry != null && ((Brush != null && Geometry.Bounds.Contains(point) && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute));
 		}
 
 		public virtual object GetToolTip(string title)

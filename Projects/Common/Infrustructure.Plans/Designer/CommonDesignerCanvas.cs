@@ -1,7 +1,6 @@
-﻿using Common;
-using StrazhAPI.Plans.Elements;
-using Infrustructure.Plans.Painters;
+﻿using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
+using StrazhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerCanvas : Decorator
 	{
-		private Dictionary<Guid, CommonDesignerItem> _map;
+		private readonly Dictionary<Guid, CommonDesignerItem> _map;
 
 		protected DesignerSurface DesignerSurface { get; private set; }
 
@@ -30,7 +29,7 @@ namespace Infrustructure.Plans.Designer
 
 		public bool IsLocked { get; set; }
 
-		public CommonDesignerCanvas(IEventAggregator eventAggregator)
+		protected CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
 			PainterCache = new PainterCache();
 			IsLocked = false;
@@ -56,8 +55,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			_map.Clear();
 			DesignerSurface.ClearDesignerItems();
-			using (new TimeCounter("\t\t\tDesignerCanvas.Background: {0}"))
-				Update();
+			Update();
 		}
 
 		public void LoadingFinished()
@@ -148,12 +146,12 @@ namespace Infrustructure.Plans.Designer
 
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get { return DesignerSurface == null ? Enumerable.Empty<DesignerItem>() : from item in DesignerSurface.Items.OfType<DesignerItem>() where item.IsSelected == true select item; }
+			get { return DesignerSurface == null ? Enumerable.Empty<DesignerItem>() : from item in DesignerSurface.Items.OfType<DesignerItem>() where item.IsSelected select item; }
 		}
 
 		public IEnumerable<ElementBase> SelectedElements
 		{
-			get { return DesignerSurface == null ? Enumerable.Empty<ElementBase>() : from item in DesignerSurface.Items.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
+			get { return DesignerSurface == null ? Enumerable.Empty<ElementBase>() : from item in DesignerSurface.Items.OfType<DesignerItem>() where item.IsSelected select item.Element; }
 		}
 
 		public DesignerItem GetDesignerItem(ElementBase elementBase)
@@ -178,16 +176,18 @@ namespace Infrustructure.Plans.Designer
 
 		public void SelectAll()
 		{
-			if (DesignerSurface != null)
-				foreach (var designerItem in Items)
-					designerItem.IsSelected = true;
+			if (DesignerSurface == null) return;
+
+			foreach (var designerItem in Items)
+				designerItem.IsSelected = true;
 		}
 
 		public void DeselectAll()
 		{
-			if (DesignerSurface != null)
-				foreach (DesignerItem item in this.SelectedItems)
-					item.IsSelected = false;
+			if (DesignerSurface == null) return;
+
+			foreach (var item in SelectedItems)
+				item.IsSelected = false;
 		}
 
 		public abstract void Update();

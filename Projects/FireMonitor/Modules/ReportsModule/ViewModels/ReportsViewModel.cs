@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Xps;
-using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {
@@ -103,22 +100,21 @@ namespace ReportsModule.ViewModels
 		void OnRefresh()
 		{
 			if (SelectedReport != null)
-				ApplicationService.BeginInvoke((Action)(() =>
+				ApplicationService.BeginInvoke(() =>
+				{
+					try
 					{
-						using (new TimeCounter("Total: {0}", true, true))
-							try
-							{
-								LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
-								ApplicationService.DoEvents();
-								InProgress = true;
-								DocumentPaginator = SelectedReport.GenerateReport();
-							}
-							finally
-							{
-								LoadingService.Close();
-								InProgress = false;
-							}
-					}));
+						LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
+						ApplicationService.DoEvents();
+						InProgress = true;
+						DocumentPaginator = SelectedReport.GenerateReport();
+					}
+					finally
+					{
+						LoadingService.Close();
+						InProgress = false;
+					}
+				});
 			else
 				DocumentPaginator = null;
 		}
@@ -141,13 +137,12 @@ namespace ReportsModule.ViewModels
 		void OnPrintReport()
 		{
 			var printDialog = new PrintDialog();
-			if (printDialog.ShowDialog() == true)
-			{
-				SelectedReport.PreparePrinting(printDialog.PrintTicket, DocumentPaginator.PageSize);
-				XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(printDialog.PrintQueue);
-				if (writer != null)
-					writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
-			}
+
+			if (printDialog.ShowDialog() != true) return;
+
+			SelectedReport.PreparePrinting(printDialog.PrintTicket, DocumentPaginator.PageSize);
+			var writer = PrintQueue.CreateXpsDocumentWriter(printDialog.PrintQueue);
+			writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
 		}
 		bool CanPrintReport()
 		{

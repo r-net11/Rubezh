@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutomationModule.Events;
+using AutomationModule.Plans.InstrumentAdorners;
+using AutomationModule.Plans.ViewModels;
+using AutomationModule.ViewModels;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
-using AutomationModule.ViewModels;
-using Infrastructure;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Services;
 using StrazhAPI.Automation;
-using FiresecClient;
-using Common;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
-using Infrustructure.Plans.Services;
-using AutomationModule.Plans.InstrumentAdorners;
-using AutomationModule.Plans.ViewModels;
-using AutomationModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Localization.Automation.Common;
 using Localization.Automation.Errors;
 
@@ -116,19 +115,14 @@ namespace AutomationModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-            LayerGroupService.Instance.RegisterGroup("Procedure", CommonResources.Procedures, 42);
-		}
-		public override void ExtensionAttached()
-		{
-			using (new TimeCounter("Automation.ExtensionAttached.BuildMap: {0}"))
-				base.ExtensionAttached();
+			LayerGroupService.Instance.RegisterGroup("Procedure", CommonResources.Procedures, 42);
 		}
 
 		public override IEnumerable<ElementError> Validate()
 		{
 			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-                errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, CommonErrors.UnboundProcedure_Error, "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
+				errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, CommonErrors.UnboundProcedure_Error, "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 
 			return errors;
 		}

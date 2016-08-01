@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Threading.Tasks;
+using Common;
 using FireMonitor.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -96,6 +97,8 @@ namespace FireMonitor
 						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 
+						Task.Factory.StartNew(LoadImages);
+
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
 
@@ -142,6 +145,18 @@ namespace FireMonitor
 			return result;
 		}
 
+		/// <summary>
+		/// Загрузка всех файлов подложек пропусков и копирование их в клиентскую папку Content
+		/// </summary>
+		private static void LoadImages()
+		{
+			var images = FiresecManager.FiresecService.UploadPassCardImages().Result; //TODO: Upload file for those organisations wich user have permission
+			if (images == null) return;
+
+			foreach (var image in images)
+				ServiceFactoryBase.ContentService.AddContent(image.Data, image.UID);
+		}
+
 		private void SetUserShellType(ShellType shellType)
 		{
 			if (UserShellHelper.GetShell() != shellType)
@@ -154,7 +169,7 @@ namespace FireMonitor
 
 				MessageBoxService.ShowWarning("Для продолжения работы требуется перезапустить программу.");
 				ApplicationService.ShutDown();
-				
+
 				UserShellHelper.Shutdown();
 			}
 		}

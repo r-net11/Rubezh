@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Common;
 using Integration.Service.Entities;
 using Integration.Service.Parcers;
@@ -8,8 +7,8 @@ using StrazhAPI.Enums;
 using StrazhAPI.Integration.OPC;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Integration.Service.OPCIntegration
@@ -81,7 +80,6 @@ namespace Integration.Service.OPCIntegration
 
 		public IEnumerable<Script> GetFiresecScripts()
 		{
-			Thread.Sleep(2000);
 			ScriptParser parser;
 			try
 			{
@@ -103,7 +101,6 @@ namespace Integration.Service.OPCIntegration
 
 		public IEnumerable<OPCZone> GetOPCZones()
 		{
-			Thread.Sleep(2000);
 			OPCZoneParser parser;
 			try
 			{

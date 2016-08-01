@@ -1,17 +1,10 @@
-using System.Collections.Generic;
-using Common;
-using StrazhAPI;
-using StrazhAPI.Enums;
-using StrazhAPI.GK;
-using StrazhAPI.Models;
-using StrazhAPI.Models.Layouts;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -19,13 +12,19 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
+using System.Collections.Generic;
 
 namespace PlansModule
 {
 	public class PlansModuleLoader : ModuleBase, ILayoutProviderModule
 	{
-		private List<IPlanPresenter<Plan, XStateClass>> _planPresenters;
-		private List<PlansViewModel> _plansViewModels;
+		private readonly List<IPlanPresenter<Plan, XStateClass>> _planPresenters;
+		private readonly List<PlansViewModel> _plansViewModels;
 		private PlansViewModel _plansViewModel;
 		private NavigationItem _planNavigationItem;
 
@@ -33,12 +32,12 @@ namespace PlansModule
 		{
 			_plansViewModels = new List<PlansViewModel>();
 			_planPresenters = new List<IPlanPresenter<Plan, XStateClass>>();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Subscribe(OnRegisterPlanPresenter);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Subscribe(OnRegisterPlanPresenter);
 		}
 		public override void CreateViewModels()
 		{
 			PainterCache.UseTransparentImage = false;
-			EventService.RegisterEventAggregator(ServiceFactory.Events);
+			EventService.RegisterEventAggregator(ServiceFactoryBase.Events);
 			_plansViewModel = new PlansViewModel(_planPresenters);
 		}
 
@@ -54,17 +53,15 @@ namespace PlansModule
 		{
 			FiresecManager.UpdatePlansConfiguration();
 			FiresecManager.PlansConfiguration.Update();
-			using (new TimeCounter("PlansModuleLoader.Initialize: {0}"))
+
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				using (new TimeCounter("\tPlansModuleLoader.CacheBrushes: {0}"))
-					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					{
-						PainterCache.CacheBrush(plan);
-						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-							PainterCache.CacheBrush(elementBase);
-					}
-				FiresecManager.InvalidatePlans();
+				PainterCache.CacheBrush(plan);
+				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+					PainterCache.CacheBrush(elementBase);
 			}
+			FiresecManager.InvalidatePlans();
+
 			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;
 			_plansViewModel.Initialize();
 			_plansViewModels.ForEach(item => item.Initialize());
@@ -72,7 +69,7 @@ namespace PlansModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, ModuleType.ToDescription(), "Map");
-			return new List<NavigationItem>() { _planNavigationItem };
+			return new List<NavigationItem> { _planNavigationItem };
 		}
 
 		#region ILayoutProviderModule Members

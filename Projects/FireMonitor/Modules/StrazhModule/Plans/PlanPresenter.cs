@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using DeviceControls;
-using StrazhAPI.GK;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
 using FiresecClient;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Events;
 using Infrustructure.Plans;
-using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.SKD;
 using StrazhModule.Plans.Designer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StrazhModule.Plans
 {
@@ -21,19 +21,19 @@ namespace StrazhModule.Plans
 	{
 		public static MapSource Cache { get; private set; }
 
-		private Dictionary<Plan, PlanMonitor> _monitors;
+		private readonly Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add<SKDDevice>(() => SKDManager.Devices);
-			Cache.Add<SKDZone>(() => SKDManager.Zones);
-			Cache.Add<SKDDoor>(() => SKDManager.SKDConfiguration.Doors);
+			Cache.Add(() => SKDManager.Devices);
+			Cache.Add(() => SKDManager.Zones);
+			Cache.Add(() => SKDManager.SKDConfiguration.Doors);
 
-			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
-			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowSKDDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
 		}
 
@@ -76,8 +76,7 @@ namespace StrazhModule.Plans
 		}
 		public void ExtensionAttached()
 		{
-			using (new TimeCounter("SKDDevice.ExtensionAttached.BuildMap: {0}"))
-				Cache.BuildAllSafe();
+			Cache.BuildAllSafe();
 		}
 
 		#endregion
@@ -85,10 +84,8 @@ namespace StrazhModule.Plans
 		public void Initialize()
 		{
 			_monitors.Clear();
-			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadCache();
-			using (new TimeCounter("DevicePictureCache.LoadSKDDynamicCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadDynamicCache();
+			PictureCacheSource.SKDDevicePicture.LoadCache();
+			PictureCacheSource.SKDDevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -101,7 +98,7 @@ namespace StrazhModule.Plans
 				foreach (var element in plan.ElementSKDDevices)
 					if (element.DeviceUID == device.UID)
 					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						ServiceFactoryBase.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 		}
@@ -111,7 +108,7 @@ namespace StrazhModule.Plans
 				foreach (var element in plan.ElementDoors)
 					if (element.DoorUID == door.UID)
 					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						ServiceFactoryBase.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 		}
@@ -122,13 +119,13 @@ namespace StrazhModule.Plans
 				foreach (var element in plan.ElementRectangleSKDZones)
 					if (element.ZoneUID == zone.UID)
 					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						ServiceFactoryBase.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonSKDZones)
 					if (element.ZoneUID == zone.UID)
 					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						ServiceFactoryBase.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 			}

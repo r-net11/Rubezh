@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Infrastructure.Common.Services;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -30,15 +31,15 @@ namespace SKDModule.ViewModels
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
-		public PassCardTemplatesViewModel PassCardTemplatesViewModel { get; private set; }
+		public TemplatesViewModel PassCardTemplatesViewModel { get; private set; }
 		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 
 		public HRViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -46,7 +47,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
-			PassCardTemplatesViewModel = new PassCardTemplatesViewModel();
+			PassCardTemplatesViewModel = new TemplatesViewModel();
 			OrganisationsViewModel = new OrganisationsViewModel();
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
@@ -62,8 +63,7 @@ namespace SKDModule.ViewModels
 			CanSelectPersonType = PersonTypes.Count == 2;
 
 			var userUID = FiresecManager.CurrentUser.UID;
-			Filter = new HRFilter() { UserUID = userUID };
-			Filter.EmployeeFilter.UserUID = userUID;
+			Filter = new HRFilter {UserUID = userUID, EmployeeFilter = {UserUID = userUID}};
 			InitializeFilters();
 		}
 
@@ -244,12 +244,12 @@ namespace SKDModule.ViewModels
 		
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter };
-			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			DepartmentFilter = new DepartmentFilter { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PositionFilter = new PositionFilter { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			CardFilter = new CardFilter { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter };
+			AccessTemplateFilter = new AccessTemplateFilter { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PassCardTemplateFilter = new PassCardTemplateFilter { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);

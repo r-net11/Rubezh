@@ -62,10 +62,10 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName);
+				var serviceAddress = String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerConstants.ServiceName);
 				if (IsRemote)
 				{
-					serviceAddress = String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, RemotePort, AppServerServices.ServiceName);
+					serviceAddress = String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, RemotePort, AppServerConstants.ServiceName);
 				}
 				return serviceAddress;
 			}
@@ -79,8 +79,8 @@ namespace Infrastructure.Common
 			get
 			{
 				return IsRemote
-					? String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, ReportRemotePort, AppServerServices.ReportServiceName)
-					: String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ReportServiceName);
+					? String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, ReportRemotePort, AppServerConstants.ReportServiceName)
+					: String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerConstants.ReportServiceName);
 				//return String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, ReportRemotePort, AppServerServices.ReportServiceName);
 			}
 		}

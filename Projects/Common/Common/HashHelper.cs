@@ -13,17 +13,17 @@ namespace Common
 			var hashTable = new Dictionary<string, string>();
 
 			var directoryInfo = new DirectoryInfo(directory);
-			if (directoryInfo.Exists)
+
+			if (!directoryInfo.Exists) return hashTable;
+
+			foreach (var fileInfo in directoryInfo.EnumerateFiles())
 			{
-				string hash = null;
-				foreach (var fileInfo in directoryInfo.EnumerateFiles())
+				string hash;
+				if ((hash = GetHashFromFile(fileInfo)) != null)
 				{
-					if ((hash = GetHashFromFile(fileInfo)) != null)
-					{
-						hash += fileInfo.Name;
-						if (hashTable.ContainsKey(hash) == false)
-							hashTable.Add(hash, fileInfo.Name);
-					}
+					hash += fileInfo.Name;
+					if (hashTable.ContainsKey(hash) == false)
+						hashTable.Add(hash, fileInfo.Name);
 				}
 			}
 

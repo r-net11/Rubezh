@@ -6,6 +6,7 @@ using Common;
 using FireAdministrator.Properties;
 using Localization.FireAdministrator.Common;
 using Localization.FireAdministrator.Errors;
+using Infrastructure.Common.Services;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Models;
@@ -27,8 +28,8 @@ namespace FireAdministrator
 #if DEBUG
 				Logger.Info("Начата процедура изменения конфигурации");
 #endif
-				ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
-				ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
+				ServiceFactoryBase.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
+				ServiceFactoryBase.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
 				var validationResult = ServiceFactory.ValidationService.Validate();
 				if (validationResult.HasErrors())
@@ -42,9 +43,8 @@ namespace FireAdministrator
 					if (!MessageBoxService.ShowQuestion(CommonResources.ConfigWithErrors))
 						return false;
 				}
-				//	FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
-				LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig, 1);
-
+				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 1);
+				LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig);
 				if (ConnectionSettingsManager.IsRemote)
 				{
 					var tempFileName = SaveConfigToFile(false);
@@ -91,7 +91,7 @@ namespace FireAdministrator
 				if (!Directory.Exists(tempFolderName))
 					Directory.CreateDirectory(tempFolderName);
 
-				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+				_tempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 				if (ServiceFactory.SaveService.PlansChanged)
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
@@ -107,40 +107,34 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
 
 				if (!isLocal)
-				{
-					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
-				}
+					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", _tempZipConfigurationItemsCollection, 1, 1, true);
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
-				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+				if (Directory.Exists(ServiceFactoryBase.ContentService.ContentFolder))
 				{
 					if (Directory.Exists(destinationImagesDirectory))
 						Directory.Delete(destinationImagesDirectory, true);
 					if (!Directory.Exists(destinationImagesDirectory))
 						Directory.CreateDirectory(destinationImagesDirectory);
-					var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+					var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactoryBase.ContentService.ContentFolder);
 					foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
-					{
 						fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
-					}
 				}
 
-				if (!isLocal)
-				{
-					var tempFileName = AppDataFolderHelper.GetTempFileName();
-					if (File.Exists(tempFileName))
-						File.Delete(tempFileName);
+				if (isLocal) return null;
 
-					var zipFile = new ZipFile(tempFileName);
-					zipFile.AddDirectory(tempFolderName);
-					zipFile.Save(tempFileName);
-					zipFile.Dispose();
-					if (Directory.Exists(tempFolderName))
-						Directory.Delete(tempFolderName, true);
+				var tempFileName = AppDataFolderHelper.GetTempFileName();
+				if (File.Exists(tempFileName))
+					File.Delete(tempFileName);
 
-					return tempFileName;
-				}
-				return null;
+				var zipFile = new ZipFile(tempFileName);
+				zipFile.AddDirectory(tempFolderName);
+				zipFile.Save(tempFileName);
+				zipFile.Dispose();
+				if (Directory.Exists(tempFolderName))
+					Directory.Delete(tempFolderName, true);
+
+				return tempFileName;
 			}
 			catch (Exception e)
 			{
@@ -149,17 +143,17 @@ namespace FireAdministrator
 			return null;
 		}
 
-		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+		private static ZipConfigurationItemsCollection _tempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion, bool useXml)
 		{
 			configuration.BeforeSave();
-			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			configuration.Version = new ConfigurationVersion { MinorVersion = minorVersion, MajorVersion = majorVersion };
 			var filePath = Path.Combine(folderName, name);
 			if (File.Exists(filePath))
 				File.Delete(filePath);
 			ZipSerializeHelper.Serialize(configuration, filePath, useXml);
-			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
+			_tempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
 		public static void CreateNew()
@@ -168,7 +162,7 @@ namespace FireAdministrator
 			{
 				if (MessageBoxService.ShowQuestion(CommonResources.CreateNewConfig))
 				{
-					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
+					ServiceFactoryBase.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
@@ -176,7 +170,7 @@ namespace FireAdministrator
 					SKDManager.SetEmptyConfiguration();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
 
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
 					ServiceFactory.SaveService.PlansChanged = true;
 					ServiceFactory.SaveService.CamerasChanged = true;

@@ -1,5 +1,4 @@
-﻿using Common;
-using Localization.Plans.ViewModels;
+﻿using Localization.Plans.ViewModels;
 using Infrastructure.Common.Services;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -7,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
@@ -15,6 +15,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
+using StrazhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -328,18 +329,15 @@ namespace PlansModule.ViewModels
 
 		public override void OnShow()
 		{
-			using (new TimeCounter("PlansViewModel.OnShow: {0}"))
-			{
-				base.OnShow();
-				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
-					FiresecManager.UpdatePlansConfiguration();
-				DesignerCanvas.DeselectAll();
-				ExtensionAttached();
+			base.OnShow();
+			FiresecManager.UpdatePlansConfiguration();
+			DesignerCanvas.DeselectAll();
+			ExtensionAttached();
 
-				if (DesignerCanvas.Toolbox != null)
-					DesignerCanvas.Toolbox.AcceptKeyboard = true;
-				PlanDesignerViewModel.Update();
-			}
+			if (DesignerCanvas.Toolbox != null)
+				DesignerCanvas.Toolbox.AcceptKeyboard = true;
+			PlanDesignerViewModel.Update();
+
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();
 		}
