@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure;
+﻿using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
+using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -49,7 +47,7 @@ namespace SKDModule.ViewModels
 			{
 				AdditionalColumnNames.Add(columnType.Name);
 			}
-			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
+			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
 
 		protected override void Remove()
@@ -148,13 +146,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get
-			{
-				if (PersonType == StrazhAPI.SKD.PersonType.Employee)
-					return "сотрудника";
-				else
-					return "посетителя";
-			}
+			get { return PersonType == PersonType.Employee ? "сотрудника" : "посетителя"; }
 		}
 
 		public string AddCommandToolTip
@@ -174,7 +166,7 @@ namespace SKDModule.ViewModels
 
 		public string TabItemHeader
 		{
-			get { return PersonType == StrazhAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
+			get { return PersonType == PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
 		protected override bool Add(ShortEmployee item)
@@ -196,10 +188,8 @@ namespace SKDModule.ViewModels
 		protected override void OnEdit()
 		{
 			base.OnEdit();
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
-
-
 
 		void OnUpdateIsInGrid(object obj)
 		{

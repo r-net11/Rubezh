@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraPrinting.Drawing;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using System;
 using System.ComponentModel;

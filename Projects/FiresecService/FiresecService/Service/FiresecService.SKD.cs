@@ -1981,6 +1981,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.PassCardTemplateTranslator.GetFullList(filter);
+			}
+		}
+
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())

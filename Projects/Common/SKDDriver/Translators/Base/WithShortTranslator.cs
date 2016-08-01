@@ -33,6 +33,22 @@ namespace StrazhDAL
 			}
 		}
 
+		public virtual OperationResult<IEnumerable<TApiType>> GetFullList(TFilter filter)
+		{
+			try
+			{
+				BeforeGetList();
+				var result = GetTableItems(filter).Select(Translate).ToList();
+				var operationResult = new OperationResult<IEnumerable<TApiType>>(result);
+				AfterGetList();
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return OperationResult<IEnumerable<TApiType>>.FromError(e.Message);
+			}
+		}
+
 		protected virtual void BeforeGetList()
 		{
 		}

@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace StrazhDAL
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
-			if (apiItems == null || apiItems.Count() == 0)
+			if (apiItems == null || !apiItems.Any())
 				return new OperationResult();
 			foreach (var apiItem in apiItems)
 			{
@@ -145,6 +146,24 @@ namespace StrazhDAL
 				return OperationResult<ApiT>.FromError(e.Message);
 			}
 		}
+
+		//public OperationResult<IEnumerable<ApiT>> GetAll(Guid? uid)
+		//{
+		//	try
+		//	{
+		//		if (uid == null || uid == Guid.Empty)
+		//			return new OperationResult<IEnumerable<ApiT>>(null);
+
+		//		var resultCollection = Table.Where(x => x.UID == uid.Value).Select(el => Translate(el)).ToList();
+
+		//		return new OperationResult<IEnumerable<ApiT>>(resultCollection);
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		Logger.Error(e);
+		//		throw;
+		//	}
+		//}
 
 		public virtual OperationResult Delete(Guid uid)
 		{

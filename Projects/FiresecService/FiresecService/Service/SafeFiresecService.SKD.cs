@@ -558,6 +558,11 @@ namespace FiresecService.Service
 
 		#region PassCardTemplate
 
+		public OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.GetFullPassCardTemplateList(filter));
+		}
+
 		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));

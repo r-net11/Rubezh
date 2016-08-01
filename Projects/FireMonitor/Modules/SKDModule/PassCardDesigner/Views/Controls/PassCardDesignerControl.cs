@@ -28,8 +28,9 @@ namespace SKDModule.PassCardDesigner.Views
 			{
 				// Add the "Cool" prefix to all toolbox item names.
 				var itemName = (item as LocalizableToolboxItem).TypeName;
-				if (itemName == typeof(XRGauge).FullName
-					|| itemName == typeof(XRChart).FullName
+				if (//itemName == typeof(XRGauge).FullName
+					//||
+					itemName == typeof(XRChart).FullName
 					|| itemName == typeof(XRBarCode).FullName
 					|| itemName == typeof(XRZipCode).FullName
 					|| itemName == typeof(XRSparkline).FullName

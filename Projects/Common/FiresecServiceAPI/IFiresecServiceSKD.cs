@@ -387,6 +387,8 @@ namespace StrazhAPI
 		#endregion NightSettings
 
 		#region PassCardTemplate
+		[OperationContract]
+		OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);

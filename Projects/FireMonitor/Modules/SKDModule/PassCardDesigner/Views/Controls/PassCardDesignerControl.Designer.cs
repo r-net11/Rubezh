@@ -283,8 +283,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem36),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem42),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem43, true)});
-			this.barSubItem2.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem2.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem2.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem2.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem2.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem2.Name = "barSubItem2";
@@ -357,8 +357,8 @@ namespace SKDModule.PassCardDesigner.Views
 			this.barSubItem3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem4, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem5, true)});
-			this.barSubItem3.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem3.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem3.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem3.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem3.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem3.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem3.Name = "barSubItem3";
@@ -369,8 +369,8 @@ namespace SKDModule.PassCardDesigner.Views
 			this.barSubItem4.Id = 47;
 			this.barSubItem4.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.xrBarToolbarsListItem1)});
-			this.barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem4.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem4.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem4.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem4.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem4.Name = "barSubItem4";
@@ -379,8 +379,8 @@ namespace SKDModule.PassCardDesigner.Views
 			//
 			resources.ApplyResources(this.xrBarToolbarsListItem1, "xrBarToolbarsListItem1");
 			this.xrBarToolbarsListItem1.Id = 48;
-			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.Image")));
 			this.xrBarToolbarsListItem1.Name = "xrBarToolbarsListItem1";
@@ -391,8 +391,8 @@ namespace SKDModule.PassCardDesigner.Views
 			this.barSubItem5.Id = 49;
 			this.barSubItem5.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barDockPanelsListItem1)});
-			this.barSubItem5.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem5.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem5.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem5.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem5.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem5.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem5.Name = "barSubItem5";
@@ -401,8 +401,8 @@ namespace SKDModule.PassCardDesigner.Views
 			//
 			resources.ApplyResources(this.barDockPanelsListItem1, "barDockPanelsListItem1");
 			this.barDockPanelsListItem1.Id = 50;
-			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barDockPanelsListItem1.Name = "barDockPanelsListItem1";
@@ -425,8 +425,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem12),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem13, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem14, true)});
-			this.barSubItem6.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem6.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem6.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem6.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem6.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem6.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem6.Name = "barSubItem6";
@@ -461,8 +461,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem1, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem2),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem3)});
-			this.barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem7.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem7.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem7.Name = "barSubItem7";
@@ -503,8 +503,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem5),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem6),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem7)});
-			this.barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem8.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem8.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem8.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem8.Name = "barSubItem8";
@@ -557,8 +557,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem13),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem14),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem8, true)});
-			this.barSubItem9.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem9.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem9.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem9.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem9.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem9.Name = "barSubItem9";
@@ -635,8 +635,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem16),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem17),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem18)});
-			this.barSubItem10.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem10.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem10.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem10.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem10.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem10.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem10.Name = "barSubItem10";
@@ -686,8 +686,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem20),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem21),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem22)});
-			this.barSubItem11.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem11.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem11.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem11.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem11.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem11.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem11.Name = "barSubItem11";
@@ -737,8 +737,8 @@ namespace SKDModule.PassCardDesigner.Views
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem24),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem25),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem26)});
-			this.barSubItem12.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem12.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem12.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem12.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem12.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem12.Name = "barSubItem12";
@@ -786,8 +786,8 @@ namespace SKDModule.PassCardDesigner.Views
 			this.barSubItem13.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem27, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem28)});
-			this.barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem13.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem13.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem13.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem13.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem13.Name = "barSubItem13";
@@ -817,8 +817,8 @@ namespace SKDModule.PassCardDesigner.Views
 			this.barSubItem14.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem29, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem30)});
-			this.barSubItem14.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
-			this.barSubItem14.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			//this.barSubItem14.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			//this.barSubItem14.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
 			this.barSubItem14.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.GradientMode")));
 			this.barSubItem14.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem14.Name = "barSubItem14";
@@ -890,8 +890,8 @@ namespace SKDModule.PassCardDesigner.Views
 			//
 			resources.ApplyResources(this.recentlyUsedItemsComboBox1, "recentlyUsedItemsComboBox1");
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Font = ((System.Drawing.Font)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.Font")));
-			this.recentlyUsedItemsComboBox1.AppearanceDropDown.FontSizeDelta = ((int)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.FontSizeDelta")));
-			this.recentlyUsedItemsComboBox1.AppearanceDropDown.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.FontStyleDelta")));
+			//this.recentlyUsedItemsComboBox1.AppearanceDropDown.FontSizeDelta = ((int)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.FontSizeDelta")));
+			//this.recentlyUsedItemsComboBox1.AppearanceDropDown.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.FontStyleDelta")));
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode")));
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Image = ((System.Drawing.Image)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.Image")));
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Options.UseFont = true;
@@ -1022,8 +1022,8 @@ namespace SKDModule.PassCardDesigner.Views
 			// barDockControlTop
 			//
 			resources.ApplyResources(this.barDockControlTop, "barDockControlTop");
-			this.barDockControlTop.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlTop.Appearance.FontSizeDelta")));
-			this.barDockControlTop.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlTop.Appearance.FontStyleDelta")));
+			//this.barDockControlTop.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlTop.Appearance.FontSizeDelta")));
+			//this.barDockControlTop.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlTop.Appearance.FontStyleDelta")));
 			this.barDockControlTop.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlTop.Appearance.GradientMode")));
 			this.barDockControlTop.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlTop.Appearance.Image")));
 			this.barDockControlTop.CausesValidation = false;
@@ -1031,8 +1031,8 @@ namespace SKDModule.PassCardDesigner.Views
 			// barDockControlBottom
 			//
 			resources.ApplyResources(this.barDockControlBottom, "barDockControlBottom");
-			this.barDockControlBottom.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlBottom.Appearance.FontSizeDelta")));
-			this.barDockControlBottom.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlBottom.Appearance.FontStyleDelta")));
+			//this.barDockControlBottom.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlBottom.Appearance.FontSizeDelta")));
+			//this.barDockControlBottom.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlBottom.Appearance.FontStyleDelta")));
 			this.barDockControlBottom.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlBottom.Appearance.GradientMode")));
 			this.barDockControlBottom.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlBottom.Appearance.Image")));
 			this.barDockControlBottom.CausesValidation = false;
@@ -1040,8 +1040,8 @@ namespace SKDModule.PassCardDesigner.Views
 			// barDockControlLeft
 			//
 			resources.ApplyResources(this.barDockControlLeft, "barDockControlLeft");
-			this.barDockControlLeft.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlLeft.Appearance.FontSizeDelta")));
-			this.barDockControlLeft.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlLeft.Appearance.FontStyleDelta")));
+			//this.barDockControlLeft.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlLeft.Appearance.FontSizeDelta")));
+			//this.barDockControlLeft.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlLeft.Appearance.FontStyleDelta")));
 			this.barDockControlLeft.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlLeft.Appearance.GradientMode")));
 			this.barDockControlLeft.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlLeft.Appearance.Image")));
 			this.barDockControlLeft.CausesValidation = false;
@@ -1049,8 +1049,8 @@ namespace SKDModule.PassCardDesigner.Views
 			// barDockControlRight
 			//
 			resources.ApplyResources(this.barDockControlRight, "barDockControlRight");
-			this.barDockControlRight.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlRight.Appearance.FontSizeDelta")));
-			this.barDockControlRight.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlRight.Appearance.FontStyleDelta")));
+			//this.barDockControlRight.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlRight.Appearance.FontSizeDelta")));
+			//this.barDockControlRight.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlRight.Appearance.FontStyleDelta")));
 			this.barDockControlRight.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlRight.Appearance.GradientMode")));
 			this.barDockControlRight.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlRight.Appearance.Image")));
 			this.barDockControlRight.CausesValidation = false;

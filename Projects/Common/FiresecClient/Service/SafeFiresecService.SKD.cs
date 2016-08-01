@@ -518,8 +518,14 @@ namespace FiresecClient
 		#region PassCardTemplate
 		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));
+			return SafeContext.Execute(() => FiresecService.GetPassCardTemplateList(filter));
 		}
+
+		public OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.GetFullPassCardTemplateList(filter));
+		}
+
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<PassCardTemplate>>(() => FiresecService.GetPassCardTemplateDetails(uid));
