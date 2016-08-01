@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SKDModule.Employees.Views.DialogWindows
 {
 	/// <summary>
-	/// Interaction logic for PrintingReportDialogView.xaml
+	/// Interaction logic for PreviewReportDialogView.xaml
 	/// </summary>
-	public partial class PrintingReportDialogView : UserControl
+	public partial class PreviewReportDialogView : UserControl
 	{
-		public PrintingReportDialogView()
+		public PreviewReportDialogView()
 		{
 			InitializeComponent();
 		}

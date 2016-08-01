@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 
 		private void OnOpenPrintPreviewWindow() //TODO: Implement printing
 		{
-			var vm = new PrintingReportDialogViewModel(Organisation);
+			var vm = new PreviewReportDialogViewModel(Organisation);
 			if (DialogService.ShowModalWindow(vm))
 			{
 

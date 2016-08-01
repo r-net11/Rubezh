@@ -11,7 +11,7 @@ using StrazhAPI.SKD;
 
 namespace SKDModule.Employees.ViewModels.DialogWindows
 {
-	public class PrintingReportDialogViewModel : SaveCancelDialogViewModel
+	public class PreviewReportDialogViewModel : SaveCancelDialogViewModel
 	{
 		private Template _selectedTemplate;
 		private Organisation _currentOrganisation;
@@ -49,7 +49,7 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 			}
 		}
 
-		public PrintingReportDialogViewModel(Organisation organisation)
+		public PreviewReportDialogViewModel(Organisation organisation)
 		{
 			if(organisation == null)
 				throw new ArgumentNullException("organisation");
