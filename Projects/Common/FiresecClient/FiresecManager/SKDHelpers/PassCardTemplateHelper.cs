@@ -46,10 +46,19 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.GetPassCardTemplateList(new PassCardTemplateFilter
 			{
-				OrganisationUIDs = new List<System.Guid> { organisationUID }
+				OrganisationUIDs = new List<Guid> { organisationUID }
 			});
 			return Common.ShowErrorIfExists(result);
 		}
+		public static IEnumerable<PassCardTemplate> GetFullTemplateByOrganisation(Guid organisationUID)
+		{
+			var result = FiresecManager.FiresecService.GetFullPassCardTemplateList(new PassCardTemplateFilter
+			{
+				OrganisationUIDs = new List<Guid> { organisationUID }
+			});
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static IEnumerable<ShortPassCardTemplate> Get(PassCardTemplateFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetPassCardTemplateList(filter);

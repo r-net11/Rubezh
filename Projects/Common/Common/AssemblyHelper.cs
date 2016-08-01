@@ -27,7 +27,7 @@ namespace Common
 
 			int i = System.BitConverter.ToInt32(b, c_PeHeaderOffset);
 			int secondsSince1970 = System.BitConverter.ToInt32(b, i + c_LinkerTimestampOffset);
-			DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0);
+			DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0); //TODO: ???
 			dt = dt.AddSeconds(secondsSince1970);
 			dt = dt.AddHours(TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours);
 			return dt;

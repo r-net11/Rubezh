@@ -55,8 +55,6 @@ namespace FireMonitor
 		}
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-			Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
 			base.OnStartup(e);
 			try
 			{

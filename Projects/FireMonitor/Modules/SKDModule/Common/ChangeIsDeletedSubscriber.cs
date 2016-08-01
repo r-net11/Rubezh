@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Infrastructure.Common.Services;
+using StrazhAPI.SKD;
 using Infrastructure;
 using SKDModule.Events;
 
@@ -12,13 +13,13 @@ namespace SKDModule
 
 	public class ChangeIsDeletedSubscriber
 	{
-		ITimeTrackItemsViewModel _parent;
+		readonly ITimeTrackItemsViewModel _parent;
 
 		public ChangeIsDeletedSubscriber(ITimeTrackItemsViewModel parent)
 		{
 			_parent = parent;
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Unsubscribe(OnChangeIsDeleted);
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Subscribe(OnChangeIsDeleted);
+			ServiceFactoryBase.Events.GetEvent<ChangeIsDeletedEvent>().Unsubscribe(OnChangeIsDeleted);
+			ServiceFactoryBase.Events.GetEvent<ChangeIsDeletedEvent>().Subscribe(OnChangeIsDeleted);
 		}
 
 		void OnChangeIsDeleted(LogicalDeletationType logicalDeletationType)

@@ -127,14 +127,14 @@
 								ImageSource="Edit"
 								ToolTip="Редактировать пропуск" />
 							<ToolBarButton
-								Command="{Binding SelectedCard.PrintCommand}"
-								ImageSource="Print"
-								ToolTip="Печать удостоверения" />
-							<ToolBarButton
 								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
 								Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 								ImageSource="DropAllApb"
 								ToolTip="Сброс ограничения на повторный проход" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.OpenPrintPreviewWindowCommand}"
+								ImageSource="Preview"
+								ToolTip="Предварительный просмотр пропуска"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>

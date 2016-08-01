@@ -5,12 +5,11 @@ namespace SKDModule.ViewModels
 {
 	public class TextColumnViewModel: BaseViewModel
 	{
-		Employee Employee;
 		public AdditionalColumn AdditionalColumn { get; private set; }
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
-		public string Name 
+		public string Name
 		{
-			get { return AdditionalColumnType.Name; } 
+			get { return AdditionalColumnType.Name; }
 		}
 		public string Text
 		{
@@ -25,9 +24,12 @@ namespace SKDModule.ViewModels
 		public TextColumnViewModel(AdditionalColumnType additionalColumnType, Employee employee, AdditionalColumn additionalColumn = null)
 		{
 			AdditionalColumnType = additionalColumnType;
-			Employee = employee;
-			AdditionalColumn = additionalColumn != null ? additionalColumn : 
-				new AdditionalColumn { AdditionalColumnType = AdditionalColumnType, EmployeeUID = Employee.UID, TextData = "" };
+			AdditionalColumn = additionalColumn ?? new AdditionalColumn
+			{
+				AdditionalColumnType = AdditionalColumnType,
+				EmployeeUID = employee.UID,
+				TextData = string.Empty
+			};
 		}
 	}
 }

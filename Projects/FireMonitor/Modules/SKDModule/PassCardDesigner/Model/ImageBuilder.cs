@@ -112,7 +112,7 @@ namespace SKDModule.PassCardDesigner.Model
 		{
 			const int width = 64;
 			const int height = 64;
-			const int stride = width/8;
+			var stride = width/8;
 
 			var pixels = new byte[height*stride];
 			var colors = new List<Color> { color };

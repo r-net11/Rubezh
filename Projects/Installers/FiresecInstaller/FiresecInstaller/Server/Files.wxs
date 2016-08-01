@@ -57,6 +57,7 @@
 				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
 				<!--<File Id="Server.AutoMapper.Net4.dll" Name="AutoMapper.Net4.dll" Source="$(var.Server.TargetDir)" />-->
 				<File Id="Server.AutoMapper.dll" Name="AutoMapper.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">

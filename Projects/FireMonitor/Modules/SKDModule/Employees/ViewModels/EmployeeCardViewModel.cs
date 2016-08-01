@@ -1,44 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using StrazhAPI.SKD;
+﻿using System.Threading.Tasks;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
-using SKDModule.PassCard.ViewModels;
+using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeCardViewModel : BaseViewModel, IDoorsParent
 	{
+		private bool _isCardSelected;
 		public Organisation Organisation { get; private set; }
 		public SKDCard Card { get; private set; }
 		public EmployeeCardsViewModel EmployeeCardsViewModel { get; private set; }
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
+		public string Name
+		{
+			get { return "Пропуск " + Card.Number; }
+		}
+		public bool IsCardSelected
+		{
+			get { return _isCardSelected; }
+			set
+			{
+				_isCardSelected = value;
+				OnPropertyChanged(() => IsCardSelected);
+			}
+		}
 
 		public EmployeeCardViewModel(Organisation organisation, EmployeeCardsViewModel employeeCardsViewModel, SKDCard card)
 		{
 			RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
 			ResetRepeatEnterCommand = new RelayCommand(OnResetRepeatEnter);
+			OpenPrintPreviewWindowCommand = new RelayCommand(OnOpenPrintPreviewWindow);
 
 			Organisation = organisation;
 			EmployeeCardsViewModel = employeeCardsViewModel;
 			Card = card;
 
 			SetCardDoors();
-		}
-
-		public string Name
-		{
-			get { return "Пропуск " + Card.Number; }
 		}
 
 		private List<CardDoor> GetCardDoors()
@@ -77,7 +86,6 @@ namespace SKDModule.ViewModels
 			CardDoorsViewModel.Update(cardDoors);
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
 			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
@@ -98,7 +106,6 @@ namespace SKDModule.ViewModels
 			EmployeeCardsViewModel.OnSelectEmployee();
 		}
 
-		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
 			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, EmployeeCardsViewModel.Employee, Card);
@@ -112,7 +119,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ResetRepeatEnterCommand { get; set; }
+		private void OnOpenPrintPreviewWindow()
+		{
+			var vm = new PreviewReportDialogViewModel(Organisation, Card.PassCardTemplateUID);
+			if (DialogService.ShowModalWindow(vm))
+			{
+				Card.PassCardTemplateUID = vm.SelectedTemplate.UID;
+				Task.Factory.StartNew(() => CardHelper.Edit(Card, EmployeeCardsViewModel.Employee.Name));
+			}
+		}
 
 		private void OnResetRepeatEnter()
 		{
@@ -152,30 +167,11 @@ namespace SKDModule.ViewModels
 		{
 			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
-
-		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
-		{
-			var passCardViewModel = new PassCardViewModel(EmployeeCardsViewModel.Employee.UID, Card);
-			DialogService.ShowModalWindow(passCardViewModel);
-		}
-
-		public RelayCommand SelectCardCommand { get; private set; }
+		
 		private void OnSelectCard()
 		{
 			EmployeeCardsViewModel.SelectCard(this);
 			IsCardSelected = true;
-		}
-
-		private bool _isCardSelected;
-		public bool IsCardSelected
-		{
-			get { return _isCardSelected; }
-			set
-			{
-				_isCardSelected = value;
-				OnPropertyChanged(() => IsCardSelected);
-			}
 		}
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs, Guid organisationUID) //TODO: Adding Guid organisationUID to fix SKDDEV-625. Check the necessity
@@ -190,5 +186,11 @@ namespace SKDModule.ViewModels
 			Card.StopReason = card.StopReason;
 			Card.AllowedPassCount = card.AllowedPassCount;
 		}
+
+		public RelayCommand RemoveCommand { get; private set; }
+		public RelayCommand SelectCardCommand { get; private set; }
+		public RelayCommand EditCommand { get; private set; }
+		public RelayCommand ResetRepeatEnterCommand { get; set; }
+		public RelayCommand OpenPrintPreviewWindowCommand { get; private set; }
 	}
 }

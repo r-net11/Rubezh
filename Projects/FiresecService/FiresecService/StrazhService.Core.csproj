@@ -240,6 +240,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\ReportSystem.Api\ReportSystem.Api.csproj">
+      <Project>{5322c4da-a0e6-4033-b45f-fce03b8b074e}</Project>
+      <Name>ReportSystem.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
       <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
       <Name>RviClient</Name>

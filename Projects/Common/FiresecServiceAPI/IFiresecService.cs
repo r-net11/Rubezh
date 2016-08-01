@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using ReportSystem.Api.DTO;
 using StrazhAPI.Enums;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
+using StrazhAPI.SKD;
 
 namespace StrazhAPI
 {
@@ -87,6 +89,9 @@ namespace StrazhAPI
 
 		[OperationContract]
 		OperationResult<List<string>> GetAllReportNames();
+
+		[OperationContract]
+		OperationResult<IEnumerable<ReportDTO>> GetCardTemplateReportsForPrint(EmployeeFilter filter, Guid? selectedTemplate);
 		#endregion
 
 		/// <summary>

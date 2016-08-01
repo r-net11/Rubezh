@@ -214,7 +214,13 @@
     <Compile Include="Model\ObjectInfo.cs" />
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
+    <Compile Include="Operations\AppropriateReportSearchOperation.cs" />
+    <Compile Include="Operations\GeneralReportSearchOperation.cs" />
+    <Compile Include="Operations\BaseReportSearchOperation.cs" />
     <Compile Include="ReportFactory.cs" />
+    <Compile Include="Reports\Base.cs" />
+    <Compile Include="Reports\PrintPassCardTemplate.cs" />
+    <Compile Include="Services\SearchReportService.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
@@ -340,6 +346,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\ReportSystem.Api\ReportSystem.Api.csproj">
+      <Project>{5322C4DA-A0E6-4033-B45F-FCE03B8B074E}</Project>
+      <Name>ReportSystem.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
@@ -595,7 +605,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

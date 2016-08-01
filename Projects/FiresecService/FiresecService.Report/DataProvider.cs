@@ -37,8 +37,8 @@ namespace FiresecService.Report
 
 			_employees = new Dictionary<Guid, EmployeeInfo>();
 
-			var organisationResult = DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
-			Organisations = CreateDictionary(organisationResult, organisation => new DeletableObjectInfo<Organisation>()
+			var organisationResult = DatabaseService.OrganisationTranslator.Get(new OrganisationFilter { LogicalDeletationType = LogicalDeletationType.All });
+			Organisations = CreateDictionary(organisationResult, organisation => new DeletableObjectInfo<Organisation>
 			{
 				IsDeleted = organisation.IsDeleted,
 				Name = organisation.Name,
@@ -46,8 +46,8 @@ namespace FiresecService.Report
 				Item = organisation,
 			});
 
-			var departmentResult = DatabaseService.DepartmentTranslator.Get(new DepartmentFilter() { LogicalDeletationType = LogicalDeletationType.All });
-			Departments = CreateDictionary(departmentResult, department => new OrganisationBaseObjectInfo<Department>()
+			var departmentResult = DatabaseService.DepartmentTranslator.Get(new DepartmentFilter { LogicalDeletationType = LogicalDeletationType.All });
+			Departments = CreateDictionary(departmentResult, department => new OrganisationBaseObjectInfo<Department>
 			{
 				IsDeleted = department.IsDeleted,
 				Name = department.Name,
@@ -57,8 +57,8 @@ namespace FiresecService.Report
 				Item = department,
 			});
 
-			var positionResult = DatabaseService.PositionTranslator.Get(new PositionFilter() { LogicalDeletationType = LogicalDeletationType.All });
-			Positions = CreateDictionary(positionResult, position => new OrganisationBaseObjectInfo<Position>()
+			var positionResult = DatabaseService.PositionTranslator.Get(new PositionFilter { LogicalDeletationType = LogicalDeletationType.All });
+			Positions = CreateDictionary(positionResult, position => new OrganisationBaseObjectInfo<Position>
 			{
 				IsDeleted = position.IsDeleted,
 				Name = position.Name,
@@ -71,11 +71,10 @@ namespace FiresecService.Report
 
 		public EmployeeInfo GetEmployee(Guid uid)
 		{
-			if (!_employees.ContainsKey(uid))
-			{
-				var result = DatabaseService.EmployeeTranslator.GetSingle(uid);
-				_employees.Add(uid, result == null ? null : ConvertEmployee(result.Result));
-			}
+			if (_employees.ContainsKey(uid)) return _employees[uid];
+
+			var result = DatabaseService.EmployeeTranslator.GetSingle(uid);
+			_employees.Add(uid, result == null ? null : ConvertEmployee(result.Result));
 			return _employees[uid];
 		}
 
@@ -83,35 +82,38 @@ namespace FiresecService.Report
 		{
 			if (uids.IsEmpty())
 				return new List<EmployeeInfo>();
+
 			LoadCache();
-			int partSize = 2000;
+			var partSize = 2000;
+
 			if (uids.Count() > partSize)
 			{
 				var uidList = uids.ToList();
 				var result = new List<EmployeeInfo>();
-				for (int i = 0; i < uidList.Count; i += partSize)
+				for (var i = 0; i < uidList.Count; i += partSize)
 				{
 					var uidSubList = uidList.GetRange(i, Math.Min(partSize, uidList.Count - i));
 					result.AddRange(GetEmployeesPart(uidSubList));
 				}
 				return result;
 			}
-			else
-			{
-				return GetEmployeesPart(uids);
-			}
+
+			return GetEmployeesPart(uids);
 		}
 
 		private List<EmployeeInfo> GetEmployeesPart(IEnumerable<Guid> uids)
 		{
-			var employeeFilter = new EmployeeFilter()
+			var employeeFilter = new EmployeeFilter
 			{
 				UIDs = uids.ToList(),
 				LogicalDeletationType = LogicalDeletationType.All,
 			};
+
 			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
+
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
 			employees.ForEach(employee =>
 			{
@@ -120,12 +122,12 @@ namespace FiresecService.Report
 				else
 					_employees.Add(employee.UID, employee);
 			});
+
 			return employees;
 		}
 
 		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter, bool isUseFirstOrgByDefault = false)
 		{
-			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
 			return GetEmployees(employeeFilter, filter.IsDefault);
 		}
@@ -139,8 +141,10 @@ namespace FiresecService.Report
 				employeeFilter.OrganisationUIDs = new List<Guid>{ Organisations.OrderBy(x => x.Value.Name).FirstOrDefault().Key };
 
 			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
+
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
 			employees.ForEach(employee =>
 			{
@@ -149,17 +153,17 @@ namespace FiresecService.Report
 				else
 					_employees.Add(employee.UID, employee);
 			});
+
 			return employees;
 		}
 
 		private void CheckIfNoOrgansations(EmployeeFilter employeeFilter, bool isDefault)
 		{
-			if (employeeFilter.OrganisationUIDs.Count == 1 && isDefault)
-			{
-				var organisation = Organisations.FirstOrDefault(x => x.Key == employeeFilter.OrganisationUIDs.FirstOrDefault()).Value.Item;
-				if (organisation == null || organisation.UserUIDs.All(x => x != employeeFilter.UserUID))
-					employeeFilter.OrganisationUIDs = new List<Guid>();
-			}
+			if (employeeFilter.OrganisationUIDs.Count != 1 || !isDefault) return;
+
+			var organisation = Organisations.FirstOrDefault(x => x.Key == employeeFilter.OrganisationUIDs.FirstOrDefault()).Value.Item;
+			if (organisation == null || organisation.UserUIDs.All(x => x != employeeFilter.UserUID))
+				employeeFilter.OrganisationUIDs = new List<Guid>();
 		}
 
 		public EmployeeFilter GetCardEmployeeFilter(SKDReportFilter filter)
@@ -229,22 +233,23 @@ namespace FiresecService.Report
 		{
 			if (employee == null)
 				return null;
-			return new EmployeeInfo()
-				 {
-					 Department = employee.Department == null || employee.Department.IsDeleted ? null : employee.Department.Name,
-					 DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
-					 IsDeleted = employee.IsDeleted,
-					 Name = employee.FIO,
-					 Organisation = Organisations[employee.OrganisationUID].Name,
-					 OrganisationUID = employee.OrganisationUID,
-					 Position = employee.Position == null || employee.Position.IsDeleted ? null : employee.Position.Name,
-					 PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
-					 UID = employee.UID,
-					 Item = employee,
-				 };
+
+			return new EmployeeInfo
+			{
+				Department = employee.Department == null || employee.Department.IsDeleted ? null : employee.Department.Name,
+				DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
+				IsDeleted = employee.IsDeleted,
+				Name = employee.FIO,
+				Organisation = Organisations[employee.OrganisationUID].Name,
+				OrganisationUID = employee.OrganisationUID,
+				Position = employee.Position == null || employee.Position.IsDeleted ? null : employee.Position.Name,
+				PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
+				UID = employee.UID,
+				Item = employee,
+			};
 		}
 
-		private Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<IEnumerable<ApiT>> result, Converter<ApiT, T> converter)
+		private static Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<IEnumerable<ApiT>> result, Converter<ApiT, T> converter)
 			where T : ObjectInfo
 			where ApiT : SKDModelBase
 		{

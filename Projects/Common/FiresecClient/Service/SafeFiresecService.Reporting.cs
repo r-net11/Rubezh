@@ -1,8 +1,10 @@
 ﻿using System;
 using Common;
+using ReportSystem.Api.DTO;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using System.Collections.Generic;
 
@@ -10,6 +12,10 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
     {
+		public OperationResult<IEnumerable<ReportDTO>> GetCardTemplateReportsForPrint(EmployeeFilter filter, Guid? selectedTemplate)
+		{
+			return SafeContext.Execute(() => FiresecService.GetCardTemplateReportsForPrint(filter, selectedTemplate));
+		}
 		public OperationResult<List<string>> GetAllReportNames()
 		{
 			return SafeContext.Execute(() => FiresecService.GetAllReportNames());

@@ -145,7 +145,9 @@ namespace SKDModule.PassCardDesigner.Model
 		public void Save()
 		{
 			Front.Save(Width, Height);
-			Back.Save(Width, Height);
+
+			if(IsDualTemplateEnabled)
+				Back.Save(Width, Height);
 		}
 
 		/// <summary>

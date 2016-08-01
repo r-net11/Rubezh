@@ -17,3 +17,6 @@ Documents/Manual/Ñîñòîÿíèÿ.docx
 /Projects/GenerateKeyApplication/packages
 /Projects/GenerateKeyApplication/*.msi
 /Projects/GenerateKeyApplication/.nuget
+bin/
+obj/
+packages

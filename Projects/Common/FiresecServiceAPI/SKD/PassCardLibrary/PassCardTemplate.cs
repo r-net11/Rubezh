@@ -9,7 +9,7 @@ namespace StrazhAPI.SKD
 {
 	[DataContract]
 	[KnownType(typeof(PassCardTemplateSide))]
-	public class PassCardTemplate : OrganisationElementBase, IElementRectangle
+	public class PassCardTemplate : OrganisationElementBase
 	{
 		public PassCardTemplate()
 		{

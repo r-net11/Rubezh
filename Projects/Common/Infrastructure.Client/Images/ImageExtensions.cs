@@ -49,12 +49,9 @@ namespace Infrastructure.Client.Converters
 		{
 			if (image == null)
 				return null;
-
-			using (var ms = new MemoryStream())
-			{
-				image.Save(ms, format ?? ImageFormat.Bmp);
-				return ms.ToArray();
-			}
+			var imageConverter = new ImageConverter();
+			var xByte = (byte[]) imageConverter.ConvertTo(image, typeof (byte[]));
+			return xByte;
 		}
 	}
 }

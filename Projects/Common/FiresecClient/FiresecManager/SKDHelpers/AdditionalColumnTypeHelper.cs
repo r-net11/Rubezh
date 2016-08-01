@@ -50,14 +50,14 @@ namespace FiresecClient.SKDHelpers
 
 		public static IEnumerable<ShortAdditionalColumnType> GetByCurrentUser()
 		{
-			return Get(new AdditionalColumnTypeFilter() { UserUID = FiresecManager.CurrentUser.UID });
+			return Get(new AdditionalColumnTypeFilter { UserUID = FiresecManager.CurrentUser.UID });
 		}
 
 		public static IEnumerable<ShortAdditionalColumnType> GetShortByOrganisation(Guid organisationUID)
 		{
 			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter
 				{
-					OrganisationUIDs = new List<System.Guid> { organisationUID }
+					OrganisationUIDs = new List<Guid> { organisationUID }
 				});
 			return Common.ShowErrorIfExists(result);
 		}
@@ -66,7 +66,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter
 			{
-				OrganisationUIDs = new List<System.Guid> { organisationUID }
+				OrganisationUIDs = new List<Guid> { organisationUID }
 			});
 			return Common.ShowErrorIfExists(result);
 		}

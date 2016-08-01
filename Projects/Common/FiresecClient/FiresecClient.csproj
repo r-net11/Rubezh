@@ -202,6 +202,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReportSystem.Api\ReportSystem.Api.csproj">
+      <Project>{5322c4da-a0e6-4033-b45f-fce03b8b074e}</Project>
+      <Name>ReportSystem.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

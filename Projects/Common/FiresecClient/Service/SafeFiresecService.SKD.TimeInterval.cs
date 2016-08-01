@@ -101,7 +101,7 @@ namespace FiresecClient
 
 		public OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
-			return IsDisconnecting ? new OperationResult<IEnumerable<Schedule>>() : SafeContext.Execute(() => FiresecService.GetSchedules(filter));
+			return _isDisconnecting ? new OperationResult<IEnumerable<Schedule>>() : SafeContext.Execute(() => FiresecService.GetSchedules(filter));
 		}
 
 		public OperationResult SaveSchedule(Schedule item, bool isNew)

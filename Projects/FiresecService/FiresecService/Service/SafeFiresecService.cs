@@ -1,5 +1,6 @@
 ﻿using Common;
 using Integration.Service;
+using ReportSystem.Api.DTO;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
@@ -11,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using KeyGenerator;
+using StrazhAPI.Printing;
+using StrazhAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -203,6 +206,11 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetAllReportNames(), "GetAllReportNames");
 		}
+
+		public OperationResult<IEnumerable<ReportDTO>> GetCardTemplateReportsForPrint(EmployeeFilter filter, Guid? selectedTemplateId)
+		{
+			return SafeOperationCall(() => FiresecService.GetCardTemplateReportsForPrint(filter, selectedTemplateId), "GetCardTemplateReportsForPrint");
+		}
 		#endregion
 
 		/// <summary>
@@ -249,7 +257,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
 		}
-	
+
 		#endregion
 
 		/// <summary>

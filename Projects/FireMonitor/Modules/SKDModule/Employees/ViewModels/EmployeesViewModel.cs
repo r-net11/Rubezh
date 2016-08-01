@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using StrazhAPI.SKD;
+﻿using DevExpress.XtraReports.UI;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using ReportSystem.Api.DTO;
+using ReportSystem.UI.Data;
+using ReportSystem.UI.Reports;
+using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
+using SKDModule.Reports;
+using StrazhAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -16,12 +23,13 @@ namespace SKDModule.ViewModels
 	{
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
-		public EmployeesViewModel():base()
+		public EmployeesViewModel()
 		{
 			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
 			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
+			PrintTemplatesCommand = new RelayCommand(OnPrintTemplates);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -38,6 +46,22 @@ namespace SKDModule.ViewModels
 			InitializeAdditionalColumns();
 		}
 
+		public void OnPrintTemplates()
+		{
+			var vm = new PrintingTemplatesDialogViewModel(SelectedItem.OrganisationUID);
+			if (DialogService.ShowModalWindow(vm))
+			{
+				var reportDTOs = FiresecManager.FiresecService.GetCardTemplateReportsForPrint(Filter, vm.GetSelectedTemplateId());
+				var reportService = new PassCardTemplateReportService();
+
+				var reportsToPrint = reportService.GetReportsFromDTO(reportDTOs.Result);
+
+				//Print
+				var mergedReport = new MergedReport(reportsToPrint, vm.Settings.SelectedPaperKindSetting);
+				mergedReport.ShowPreviewDialog();
+			}
+		}
+
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
@@ -49,7 +73,7 @@ namespace SKDModule.ViewModels
 			{
 				AdditionalColumnNames.Add(columnType.Name);
 			}
-			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
+			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
 
 		protected override void Remove()
@@ -148,13 +172,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get
-			{
-				if (PersonType == StrazhAPI.SKD.PersonType.Employee)
-					return "сотрудника";
-				else
-					return "посетителя";
-			}
+			get { return PersonType == PersonType.Employee ? "сотрудника" : "посетителя"; }
 		}
 
 		public string AddCommandToolTip
@@ -174,7 +192,7 @@ namespace SKDModule.ViewModels
 
 		public string TabItemHeader
 		{
-			get { return PersonType == StrazhAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
+			get { return PersonType == PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
 		protected override bool Add(ShortEmployee item)
@@ -196,10 +214,8 @@ namespace SKDModule.ViewModels
 		protected override void OnEdit()
 		{
 			base.OnEdit();
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
-
-
 
 		void OnUpdateIsInGrid(object obj)
 		{
@@ -210,5 +226,7 @@ namespace SKDModule.ViewModels
 		{
 			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
+
+		public RelayCommand PrintTemplatesCommand { get; private set; }
 	}
 }
