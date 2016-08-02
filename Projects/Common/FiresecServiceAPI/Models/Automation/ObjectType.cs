@@ -1,40 +1,31 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum ObjectType
 	{
-		//[DescriptionAttribute("СКД-устройство")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "SKDDevice")]
+		[Description("СКД-устройство")]
 		SKDDevice,
 
-		//[DescriptionAttribute("СКД-зона")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "SKDZone")]
-        SKDZone,
+		[Description("СКД-зона")]
+		SKDZone,
 
-		//[DescriptionAttribute("Видеоустройство")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "VideoDevice")]
+		[Description("Видеоустройство")]
 		VideoDevice,
 
-		//[DescriptionAttribute("Точка доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Door")]
-        Door,
+		[Description("Точка доступа")]
+		Door,
 
-		//[DescriptionAttribute("Организация")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Organisation")]
-        Organisation,
+		[Description("Организация")]
+		Organisation,
 
-		//[DescriptionAttribute("Пользователь")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "User")]
-        User,
+		[Description("Пользователь")]
+		User,
 
-		//[DescriptionAttribute("Сотрудник")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Employee")]
-        Employee,
+		[Description("Сотрудник")]
+		Employee,
 
-		//[DescriptionAttribute("Посетитель")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Visitor")]
-        Visitor
+		[Description("Посетитель")]
+		Visitor
 	}
 }

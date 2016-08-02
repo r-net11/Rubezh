@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Localization.Automation.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -8,7 +9,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDDeviceSelectionViewModel(SKDDevice device)
 		{
-			Title = Resources.Language.SKDDeviceSelectionViewModel.Title;
+			Title = CommonViewModels.ChooseDevice;
 			RootDevice = AddDeviceInternal(SKDManager.SKDConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.SKDDevice.UID == device.UID);

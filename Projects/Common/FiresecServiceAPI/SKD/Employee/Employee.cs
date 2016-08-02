@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
@@ -103,23 +102,19 @@ namespace StrazhAPI.SKD
 
 	public enum Gender
 	{
-		//[Description("Мужской")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee),"Male")]
+		[Description("Мужской")]
 		Male,
 
-		//[Description("Женский")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "Female")]
-        Female
+		[Description("Женский")]
+		Female
 	}
 
 	public enum EmployeeDocumentType
 	{
-		//[Description("Паспорт РФ")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "Passport")]
-        Passport,
+		[Description("Паспорт РФ")]
+		Passport,
 
-		//[Description("Паспорт иного государства")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "ForeignPassport")]
-        ForeignPassport,
+		[Description("Паспорт иного государства")]
+		ForeignPassport,
 	}
 }

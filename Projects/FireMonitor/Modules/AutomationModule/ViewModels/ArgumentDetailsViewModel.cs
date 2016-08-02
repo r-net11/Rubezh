@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Automation;
+﻿using Localization.Automation.ViewModels;
+using StrazhAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 
 		public ArgumentDetailsViewModel(Argument argument)
 		{
-			Title = Resources.Language.ArgumentDetailsViewModel.Title;
+			Title = CommonViewModels.EditArgument;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 

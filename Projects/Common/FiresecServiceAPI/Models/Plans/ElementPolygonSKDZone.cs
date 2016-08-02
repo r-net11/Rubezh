@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementPolygonSKDZone()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementPolygonSKDZones.PresentationName;
+			PresentationName = "Зона Страж";
 		}
 
 		[DataMember]

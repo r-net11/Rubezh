@@ -1,6 +1,4 @@
-﻿<UserControl x:Class="Infrastructure.Client.Startup.Views.StartupHeaderView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="Infrastructure.Client.Startup.Views.StartupHeaderView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Button Command="{Binding Content.SettingsCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}">
 		<Grid Height="16" Width="16" Background="{DynamicResource Settings}" />
 	</Button>

@@ -1,7 +1,6 @@
 ﻿using StrazhAPI.Plans.Interfaces;
 using System;
 using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Plans.Elements
 {
@@ -25,7 +24,6 @@ namespace StrazhAPI.Plans.Elements
 	public enum ElementZoneType
 	{
 		[Description("СКД зона")]
-		//[LocalizedDescription(typeof(Resources.Language.Elements.IElementZone), "SKD")]
 		SKD,
 	}
 }

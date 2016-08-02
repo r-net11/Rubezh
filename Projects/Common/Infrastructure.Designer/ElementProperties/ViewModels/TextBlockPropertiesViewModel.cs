@@ -16,7 +16,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock)
 		{
-            Title = Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.Title;
+			Title = "Свойства фигуры: Надпись";
 			ElementTextBlock = elementTextBlock;
 			CopyProperties();
 
@@ -25,15 +25,15 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				Fonts.Add(fontfamily.Name);
 			TextAlignments = new List<string>()
 			{
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Left,
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Center,
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Right,
+				"По левому краю",
+				"По правому краю",
+				"По центру",
 			};
 			VerticalAlignments = new List<string>()
 			{
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Top,
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Center,
-				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Bottom,
+				"По верхнему краю",
+				"По середине",
+				"По нижнему краю",
 			};
 		}
 

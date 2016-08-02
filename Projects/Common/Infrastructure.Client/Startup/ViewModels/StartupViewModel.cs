@@ -243,7 +243,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		}
 		private string GetConnectingMessage()
 		{
-			var message = Resources.Language.Startup.ViewModels.StartupViewModel.GetConnectingMessage;
+			var message = "Соединение с сервером";
 			if (ConnectionSettingsManager.IsRemote && !string.IsNullOrEmpty(ConnectionSettingsManager.RemoteAddress))
 				message += " - " + ConnectionSettingsManager.RemoteAddress;
 			return message;

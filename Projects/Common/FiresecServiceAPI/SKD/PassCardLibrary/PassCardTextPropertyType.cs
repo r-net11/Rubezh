@@ -1,52 +1,40 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum PassCardTextPropertyType
 	{
-		//[Description("Фамилия")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "LastName")]
+		[Description("Фамилия")]
 		LastName,
 
-        //[Description("Имя")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "FirstName")]
+		[Description("Имя")]
 		FirstName,
 
-        //[Description("Отчество")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "SecondName")]
+		[Description("Отчество")]
 		SecondName,
 
-        //[Description("Дата рождения")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "Birthday")]
+		[Description("Дата рождения")]
 		Birthday,
 
-        //[Description("Организация")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "Organisation")]
+		[Description("Организация")]
 		Organisation,
 
-        //[Description("Подразделение")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "Department")]
+		[Description("Подразделение")]
 		Department,
 
-        //[Description("Должность")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "Position")]
+		[Description("Должность")]
 		Position,
 
-        //[Description("Начало срока дейстия")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "StartDate")]
+		[Description("Начало срока дейстия")]
 		StartDate,
 
-        //[Description("Конец срока дейстия")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "EndDate")]
+		[Description("Конец срока дейстия")]
 		EndDate,
 
-        //[Description("Номер карты")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "CardNumber")]
+		[Description("Номер карты")]
 		CardNumber,
 
-        //[Description("Дополнительно")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardTextPropertyType), "Additional")]
+		[Description("Дополнительно")]
 		Additional,
 	}
 }

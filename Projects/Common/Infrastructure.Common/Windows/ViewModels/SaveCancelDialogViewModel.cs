@@ -24,8 +24,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public SaveCancelDialogViewModel()
 		{
 			AllowSave = true;
-			SaveCaption = Resources.Language.Windows.ViewModels.SaveCancelDialogViewModel.SaveCancelDialogViewModel_SaveCaption;
-			CancelCaption = Resources.Language.Windows.ViewModels.SaveCancelDialogViewModel.SaveCancelDialogViewModel_CancelCaption;
+			SaveCaption = "ОК";
+			CancelCaption = "Отмена";
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			CommandPanel = null;

@@ -156,18 +156,18 @@ namespace StrazhDAL
 		{
 			var employee = _Employees.FirstOrDefault(x => x.UID == shortEmployee.UID);
 			if (employee == null)
-                return new TimeTrackEmployeeResult(Resources.Language.Translators.TimeTrackTranslator.GetEmployeeTimeTrack_Employee_Error);
+				return new TimeTrackEmployeeResult("Не найден сотрудник");
 
 			var schedule = _Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
 			if (schedule == null)
-                return new TimeTrackEmployeeResult(Resources.Language.Translators.TimeTrackTranslator.GetEmployeeTimeTrack_Schedule_Error);
+				return new TimeTrackEmployeeResult("Не найден график");
 
 			if (schedule.ScheduleSchemeUID == null)
-                return new TimeTrackEmployeeResult(Resources.Language.Translators.TimeTrackTranslator.GetEmployeeTimeTrack_ScheduleScheme_Error);
+				return new TimeTrackEmployeeResult("Не найдена схема работы");
 
 			var scheduleScheme = _ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
-                return new TimeTrackEmployeeResult(Resources.Language.Translators.TimeTrackTranslator.GetEmployeeTimeTrack_ScheduleScheme_Error);
+				return new TimeTrackEmployeeResult("Не найдена схема работы");
 
 			var days = _ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID).ToList();
 			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
@@ -178,7 +178,7 @@ namespace StrazhDAL
 			{
 				if (employee.ScheduleStartDate.Date > date.Date)
 				{
-                    timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack(Resources.Language.Translators.TimeTrackTranslator.GetEmployeeTimeTrack_Schedule_Start_Error) { Date = date });
+					timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack("До начала действия графика") { Date = date });
 					continue;
 				}
 
@@ -242,7 +242,7 @@ namespace StrazhDAL
 
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
 			if (day == null)
-                return new PlannedTimeTrackPart(Resources.Language.Translators.TimeTrackTranslator.GetPlannedTimeTrackPart_Schedule_Day_Error);
+				return new PlannedTimeTrackPart("Не найден день");
 
 			var intervals = new List<DataAccess.DayIntervalPart>();
 			DataAccess.DayInterval dayInterval = null;
@@ -250,7 +250,7 @@ namespace StrazhDAL
 			{
 				dayInterval = _DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
 				if (dayInterval == null)
-                    return new PlannedTimeTrackPart(Resources.Language.Translators.TimeTrackTranslator.GetPlannedTimeTrackPart_Schedule_DayInterval_Error);
+					return new PlannedTimeTrackPart("Не найден дневной интервал");
 				intervals = _DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 			}
 

@@ -25,7 +25,7 @@ namespace StrazhDAL
 				x.Number == item.Number &&
 				x.UID != item.UID);
 			if (isSameNumber)
-                return new OperationResult(Resources.Language.Translators.CardTranslator.CanSave_Error);
+				return new OperationResult("Попытка добавить карту с повторяющимся номером");
 			else
 				return new OperationResult();
 		}
@@ -133,7 +133,7 @@ namespace StrazhDAL
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
 				if (tableItem == null)
-                    return new OperationResult(Resources.Language.Translators.CardTranslator.SavePassTemplate_Error);
+					return new OperationResult("Карта не найдена в базе данных");
 				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -241,7 +241,7 @@ namespace StrazhDAL
 			{
 				var card = Table.FirstOrDefault(x => x.Number == cardNo);
 				if (card == null)
-                    return OperationResult<SKDCard>.FromError(Resources.Language.Translators.CardTranslator.Get_Error);
+					return OperationResult<SKDCard>.FromError("Карта не найдена");
 
 				return new OperationResult<SKDCard>(Translate(card));
 			}
@@ -263,7 +263,7 @@ namespace StrazhDAL
 						return new OperationResult<Guid>(card.EmployeeUID.Value);
 				}
 				{
-                    return OperationResult<Guid>.FromError(Resources.Language.Translators.CardTranslator.Get_Error);
+					return OperationResult<Guid>.FromError("Карта не найдена");
 				}
 			}
 			catch (Exception e)

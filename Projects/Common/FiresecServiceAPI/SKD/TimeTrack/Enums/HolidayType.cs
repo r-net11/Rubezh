@@ -1,24 +1,20 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public enum HolidayType
 	{
-		//[DescriptionAttribute("Праздник")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "Holiday")]
+		[Description("Праздник")]
 		[EnumMember]
 		Holiday = 0,
 
-        //[DescriptionAttribute("Предпраздничный день")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "BeforeHoliday")]
+		[Description("Предпраздничный день")]
 		[EnumMember]
 		BeforeHoliday = 1,
 
-        //[DescriptionAttribute("Рабочий выходной")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "WorkingHoliday")]
+		[Description("Рабочий выходной")]
 		[EnumMember]
 		WorkingHoliday = 2,
 	}

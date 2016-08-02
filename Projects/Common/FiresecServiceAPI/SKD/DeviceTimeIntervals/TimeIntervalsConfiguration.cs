@@ -7,11 +7,11 @@ namespace StrazhAPI.SKD
 {
 	public class TimeIntervalsConfiguration : VersionedConfiguration
 	{
-		public static readonly string PredefinedIntervalNameNever = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.PredefinedIntervalNameNever;
-        public static readonly string PredefinedIntervalNameAlways = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.PredefinedIntervalNameAlways;
-        public static readonly string PredefinedIntervalNameCard = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.PredefinedIntervalNameCard;
-        public static readonly string PredefinedIntervalNamePassword = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.PredefinedIntervalNamePassword;
-        public static readonly string PredefinedIntervalNameCardAndPassword = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword;
+		public static readonly string PredefinedIntervalNameNever = "<Никогда>";
+		public static readonly string PredefinedIntervalNameAlways = "<Всегда>";
+		public static readonly string PredefinedIntervalNameCard = "<Карта>";
+		public static readonly string PredefinedIntervalNamePassword = "<Пароль замка>";
+		public static readonly string PredefinedIntervalNameCardAndPassword = "<Карта и пароль>";
 
 		/// <summary>
 		/// Конструктор по умолчанию
@@ -61,17 +61,21 @@ namespace StrazhAPI.SKD
 		/// </summary>
 		private void CreatePredefinedHolidays()
 		{
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_NewYear, DateTime = new DateTime(2000, 1, 1) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_NewYear, DateTime = new DateTime(2000, 1, 2) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_NewYear, DateTime = new DateTime(2000, 1, 3) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_NewYear, DateTime = new DateTime(2000, 1, 4) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_Christmas, DateTime = new DateTime(2000, 1, 7) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_23February, DateTime = new DateTime(2000, 2, 23) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_8March, DateTime = new DateTime(2000, 3, 8) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_9May, DateTime = new DateTime(2000, 5, 9) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_12June, DateTime = new DateTime(2000, 6, 12) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_4November, DateTime = new DateTime(2000, 11, 4) });
-            Holidays.Add(new SKDHoliday() { Name = Resources.Language.SKD.DeviceTimeIntervals.TimeIntervalsConfiguration.Holidays_31December, DateTime = new DateTime(2000, 12, 31) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 1) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 2) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 3) });
+			Holidays.Add(new SKDHoliday { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 4) });
+			Holidays.Add(new SKDHoliday { Name = "Рождество", DateTime = new DateTime(2000, 1, 7) });
+			Holidays.Add(new SKDHoliday
+			{
+				Name = "День советской армии и военно-морского флота",
+				DateTime = new DateTime(2000, 2, 23)
+			});
+			Holidays.Add(new SKDHoliday { Name = "Международный женский день", DateTime = new DateTime(2000, 3, 8) });
+			Holidays.Add(new SKDHoliday { Name = "День победы", DateTime = new DateTime(2000, 5, 9) });
+			Holidays.Add(new SKDHoliday { Name = "День России", DateTime = new DateTime(2000, 6, 12) });
+			Holidays.Add(new SKDHoliday { Name = "День примерения", DateTime = new DateTime(2000, 11, 4) });
+			Holidays.Add(new SKDHoliday { Name = "Новый год", DateTime = new DateTime(2000, 12, 31) });
 		}
 
 		/// <summary>

@@ -1,24 +1,19 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD.ReportFilters
 {
 	public enum ReportPeriodType
 	{
-		//[Description("Последние сутки")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.ReportPeriodType), "Day")]
+		[Description("Последние сутки")]
 		Day,
 
-        //[Description("Последняя неделя")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.ReportPeriodType), "Week")]
+		[Description("Последняя неделя")]
 		Week,
 
-        //[Description("Последний месяц")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.ReportPeriodType), "Month")]
+		[Description("Последний месяц")]
 		Month,
 
-        //[Description("Произвольный период")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.ReportPeriodType), "Arbitrary")]
+		[Description("Произвольный период")]
 		Arbitrary
 	}
 }

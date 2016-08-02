@@ -74,7 +74,7 @@ namespace StrazhDAL
 			if (result.HasError)
 				return result;
 			if (item.OrganisationUID == Guid.Empty)
-				return new OperationResult(Resources.Language.Translators.Base.OrganisationElementTranslator.EmptyOrganisation);
+				return new OperationResult("Не указана организация");
 			else
 				return new OperationResult();
 		}

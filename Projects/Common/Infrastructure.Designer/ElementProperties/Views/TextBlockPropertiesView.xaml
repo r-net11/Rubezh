@@ -4,7 +4,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-    xmlns:res="clr-namespace:Infrastructure.Designer.Resources.Language.ElementProperties.Views"
 	MinWidth="400"
 	MinHeight="500">
 	<Border
@@ -34,97 +33,97 @@
 			<TextBlock
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Name}"
+				Text="Название"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="1"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Text}"
+				Text="Текст"
 				Foreground="White"/>
 			<TextBlock
 				Grid.Row="2"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.HorizontalAlign}"
+				Text="Выравнивать"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="3"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.VerticalAlign}"
+				Text="Выравнивать по высоте"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="4"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.FontColor}"
+				Text="Цвет текста"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="5"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.BackgroundColor}"
+				Text="Цвет фона"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="6"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.StrokeColor}"
+				Text="Цвет границы"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="7"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.StrokeThickness}"
+				Text="Ширина границы"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="8"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.FontSize}"
+				Text="Размер шрифта"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="9"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Font}"
+				Text="Шрифт"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="10"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Bold}"
+				Text="Жирный"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="11"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Italic}"
+				Text="Курсив"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="12"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Strech}"
+				Text="Растянуть"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Row="13"
 				Margin="2"
 				HorizontalAlignment="Right"
-				Text="{x:Static res:TextBlockPropertiesView.Hyphenation}"
+				Text="Перенос слов"
 				Foreground="White"
 				VerticalAlignment="Center"/>
 			<TextBox

@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Security.RightsManagement;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -26,16 +24,13 @@ namespace StrazhAPI.Automation
 
 	public enum ChangeType
 	{
-		//[Description("Добавить в конец")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "AddLast")]
+		[Description("Добавить в конец")]
 		AddLast,
 
-		//[Description("Удалить первый")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "RemoveFirst")]
-        RemoveFirst,
+		[Description("Удалить первый")]
+		RemoveFirst,
 
-		//[Description("Удалить все")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "RemoveAll")]
-        RemoveAll
+		[Description("Удалить все")]
+		RemoveAll
 	}
 }

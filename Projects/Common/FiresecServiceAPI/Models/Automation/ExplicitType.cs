@@ -1,36 +1,28 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum ExplicitType
 	{
-		//[Description("Целое")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "Integer")]
+		[Description("Целое")]
 		Integer,
 
-		//[Description("Логическое")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "Boolean")]
-        Boolean,
+		[Description("Логическое")]
+		Boolean,
 
-		//[Description("Дата и время")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "DateTime")]
-        DateTime,
+		[Description("Дата и время")]
+		DateTime,
 
-		//[Description("Время")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "Time")]
-        Time,
+		[Description("Время")]
+		Time,
 
-		//[Description("Строка")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "String")]
-        String,
+		[Description("Строка")]
+		String,
 
-		//[Description("Объектная ссылка")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "Object")]
-        Object,
+		[Description("Объектная ссылка")]
+		Object,
 
-		//[Description("Перечисление")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ExplicitType), "Enum")]
-        Enum
+		[Description("Перечисление")]
+		Enum
 	}
 }

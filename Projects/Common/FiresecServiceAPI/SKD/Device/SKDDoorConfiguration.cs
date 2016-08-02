@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
@@ -122,49 +121,38 @@ namespace StrazhAPI.SKD
 	/// </summary>
 	public enum SKDDoorConfiguration_DoorOpenMethod
 	{
-		//[Description("Неизвестно")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_UNKNOWN")]
+		[Description("Неизвестно")]
 		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
 
-		//[Description("Пароль")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_ONLY")]
-        CFG_DOOR_OPEN_METHOD_PWD_ONLY,
+		[Description("Пароль")]
+		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
 
-		//[Description("Карта")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD")]
-        CFG_DOOR_OPEN_METHOD_CARD,
+		[Description("Карта")]
+		CFG_DOOR_OPEN_METHOD_CARD,
 
-		//[Description("Пароль или карта")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_OR_CARD")]
-        CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
+		[Description("Пароль или карта")]
+		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
 
-		//[Description("Сначала карта")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD_FIRST")]
-        CFG_DOOR_OPEN_METHOD_CARD_FIRST,
+		[Description("Сначала карта")]
+		CFG_DOOR_OPEN_METHOD_CARD_FIRST,
 
-		//[Description("Сначала пароль")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_FIRST")]
-        CFG_DOOR_OPEN_METHOD_PWD_FIRST,
+		[Description("Сначала пароль")]
+		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
 
-		//[Description("График замка")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_SECTION")]
-        CFG_DOOR_OPEN_METHOD_SECTION,
+		[Description("График замка")]
+		CFG_DOOR_OPEN_METHOD_SECTION,
 
-		//[Description("Только отпечаток пальца")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY")]
-        CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
+		[Description("Только отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
 
-		//[Description("Пароль или карта или отпечаток пальца")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT")]
-        CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
+		[Description("Пароль или карта или отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
 
-		//[Description("Карта и отпечаток пальца")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT")]
-        CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
+		[Description("Карта и отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
 
-		//[Description("Multiplayer Unlock")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDDoorConfiguration), "CFG_DOOR_OPEN_METHOD_MULTI_PERSON")]
-        CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
+		[Description("Multiplayer Unlock")]
+		CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 	}
 
 	[DataContract]

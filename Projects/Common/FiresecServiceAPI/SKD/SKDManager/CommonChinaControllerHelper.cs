@@ -10,17 +10,17 @@ namespace StrazhAPI.SKD
 
 			var addressProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Caption,
+				Name = "Address",
+				Caption = "Адрес",
 				DriverPropertyType = SKDDriverType.StringType,
-                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_StringDefault
+				StringDefault = "192.168.0.2"
 			};
 			properties.Add(addressProperty);
 
 			var portProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Caption,
+				Name = "Port",
+				Caption = "Порт",
 				DriverPropertyType = SKDDriverType.IntType,
 				Default = 37777
 			};
@@ -28,37 +28,37 @@ namespace StrazhAPI.SKD
 
 			var loginProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Caption,
+				Name = "Login",
+				Caption = "Логин",
 				DriverPropertyType = SKDDriverType.StringType,
-                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_StringDefault
+				StringDefault = "admin"
 			};
 			properties.Add(loginProperty);
 
 			var passwordProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Caption,
+				Name = "Password",
+				Caption = "Пароль",
 				DriverPropertyType = SKDDriverType.StringType,
-                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_StringDefault
+				StringDefault = "123456"
 			};
 			properties.Add(passwordProperty);
 
 			var maskProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Caption,
+				Name = "Mask",
+				Caption = "Маска подсети",
 				DriverPropertyType = SKDDriverType.StringType,
-                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_StringDefault
+				StringDefault = "255.255.255.0"
 			};
 			properties.Add(maskProperty);
 
 			var gatewayProperty = new SKDDriverProperty
 			{
-                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Name,
-                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Caption,
+				Name = "Gateway",
+				Caption = "Шлюз по умолчанию",
 				DriverPropertyType = SKDDriverType.StringType,
-                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_StringDefault
+				StringDefault = "192.168.0.1"
 			};
 			properties.Add(gatewayProperty);
 

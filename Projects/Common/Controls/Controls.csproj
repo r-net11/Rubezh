@@ -221,56 +221,6 @@
     <Compile Include="Menu\Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\Converters\BoolToMinimizeTooltipConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BoolToMinimizeTooltipConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\BoolToYesConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BoolToYesConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\DoorStateClassToStringConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoorStateClassToStringConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\DoorToStringConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoorToStringConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\IpValidationRule.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IpValidationRule.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\IsOffToStringConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IsOffToStringConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\PhotoSelectation.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PhotoSelectation.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\XStateClassToSKDStringConverter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>XStateClassToSKDStringConverter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\XStateClassToSKDStringConverter2.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>XStateClassToSKDStringConverter2.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Converters\XStateClassToStringConverter2.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>XStateClassToStringConverter2.resx</DependentUpon>
-    </Compile>
     <Compile Include="UIBehavior.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -307,6 +257,11 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -326,45 +281,10 @@
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
-    <EmbeddedResource Include="Resources\Language\Converters\BoolToMinimizeTooltipConverter.resx">
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BoolToMinimizeTooltipConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\BoolToYesConverter.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BoolToYesConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\DoorStateClassToStringConverter.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoorStateClassToStringConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\DoorToStringConverter.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoorToStringConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\IpValidationRule.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>IpValidationRule.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\IsOffToStringConverter.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>IsOffToStringConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PhotoSelectation.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PhotoSelectation.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\XStateClassToSKDStringConverter.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>XStateClassToSKDStringConverter.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\XStateClassToSKDStringConverter2.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>XStateClassToSKDStringConverter2.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Converters\XStateClassToStringConverter2.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>XStateClassToStringConverter2.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1903,10 +1823,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecService\Localization\LocalizationConverters.csproj">
-      <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
-      <Name>LocalizationConverters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>

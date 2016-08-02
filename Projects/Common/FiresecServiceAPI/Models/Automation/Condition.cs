@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -33,40 +32,31 @@ namespace StrazhAPI.Automation
 
 	public enum ConditionType
 	{
-		//[Description("равно")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsEqual")]
+		[Description("равно")]
 		IsEqual,
 
-		//[Description("не равно")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotEqual")]
-        IsNotEqual,
+		[Description("не равно")]
+		IsNotEqual,
 
-		//[Description("больше")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsMore")]
-        IsMore,
+		[Description("больше")]
+		IsMore,
 
-		//[Description("не больше")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotMore")]
-        IsNotMore,
+		[Description("не больше")]
+		IsNotMore,
 
-		//[Description("меньше")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsLess")]
-        IsLess,
+		[Description("меньше")]
+		IsLess,
 
-		//[Description("не меньше")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotLess")]
-        IsNotLess,
+		[Description("не меньше")]
+		IsNotLess,
 
-		//[Description("Начинается с")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "StartsWith")]
-        StartsWith,
+		[Description("Начинается с")]
+		StartsWith,
 
-		//[Description("Заканчивается на")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "EndsWith")]
-        EndsWith,
+		[Description("Заканчивается на")]
+		EndsWith,
 
-		//[Description("Содержит")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "Contains")]
-        Contains
+		[Description("Содержит")]
+		Contains
 	}
 }

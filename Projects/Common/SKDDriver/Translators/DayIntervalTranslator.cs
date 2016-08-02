@@ -28,7 +28,7 @@ namespace StrazhDAL
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-                return new OperationResult(Resources.Language.Translators.DayIntervalTranslator.CanSave_Error);
+				return new OperationResult("Дневной график с таким же названием уже существует");
 			else
 				return new OperationResult();
 		}

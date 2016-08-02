@@ -204,7 +204,7 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
-			IsReportEnabled = Modules.Any(item => item.Name == Resources.Language.Windows.ApplicationService.Reports);
+			IsReportEnabled = Modules.Any(item => item.Name == "Отчёты");
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)

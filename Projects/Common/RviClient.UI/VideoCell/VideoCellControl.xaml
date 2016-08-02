@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
 			 xmlns:rviClientUi="clr-namespace:RviClient.UI.VideoCell"
-             xmlns:res="clr-namespace:RviClient.UI.Resources.Language.VideoCell"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
 			 x:Name="videoCellControl">
@@ -17,12 +16,12 @@
 			VerticalAlignment="Center"
 			Visibility="{Binding ElementName=videoCellControl, Path=ShowReconnectButton, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock
-				Text="{x:Static res:VideoCellControl.Disconnect}"
+				Text="RVi Оператор (Интегратор) не доступен. Проверьте подключение"
 				Foreground="{DynamicResource ForegroundColorLight}"
 				Margin="10"/>
 			<Button
 				Name="reconnectButton"
-				Content="{x:Static res:VideoCellControl.Recconnect}"
+				Content="Перезапустить"
 				Width="150"/>
 		</StackPanel>
 
@@ -51,7 +50,7 @@
 						  Height="28"
 						  Margin="0"
 						  IsChecked="False"
-						  ToolTip="{x:Static res:VideoCellControl.VideoAspectRatio}"
+						  ToolTip="Соотношение сторон кадра"
 						  Checked="VideoAspectRatioToggleButton_OnChecked"
 						  Unchecked="VideoAspectRatioToggleButton_OnUnchecked">
 				<Grid>
@@ -101,7 +100,7 @@
 						  Height="28"
 						  Margin="0"
 						  IsChecked="False"
-						  ToolTip="{x:Static res:VideoCellControl.SoundOnOff}"
+						  ToolTip="Вкл/Выкл звук"
 						  Checked="SoundOnOfToggleButton_OnChecked"
 						  Unchecked="SoundOnOfToggleButton_OnUnchecked">
 				<Grid>

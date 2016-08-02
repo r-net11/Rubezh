@@ -1,67 +1,36 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Journal
 {
 	public enum JournalErrorCode
 	{
-		//[Decription("Нет ошибки")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "None")]
+		[Description("Нет ошибки")]
 		None = 0,
-
-		//[Decription("Неверный идентификатор")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "Unauthorized")]
-        Unauthorized = 16,
-
-		//[Decription("Пропуск заблокирован")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "CardLostOrCancelled")]
-        CardLostOrCancelled = 17,
-
-		//[Decription("Нет прав доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "NoRight")]
-        NoRight = 18,
-
-		//[Decription("Неверный метод открытия замка")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "UnlockModeError")]
-        UnlockModeError = 19,
-
-		//[Decription("Срок действия пропуска истек или не наступил")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "ValidityError")]
-        ValidityError = 20,
-
-		//[Decription("Повторный проход в зону")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "AntipassBack")]
-        AntipassBack = 21,
-
-		//[Decription("Настройки замка не поддерживает пропуск 'Принуждение'")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "IntimidationAlarmNotOn")]
-        IntimidationAlarmNotOn = 22,
-
-		//[Decription("Замок в режиме 'Закрыто'")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "DoorNcStatus")]
-        DoorNcStatus = 23,
-
-		//[Decription("Открыта другая дверь шлюза")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "AbInterlockStatus")]
-        AbInterlockStatus = 24,
-
-
-		//[Description("Замок в состоянии 'Взлом'")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "DeviceIsUnderIntrusionAlam")]
-        DeviceIsUnderIntrusionAlam = 26,
-
-		//[Description("Нарушение графика доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "PeriodError")]
-        PeriodError = 32,
-
-
-		//[Description("Неверный пароль пропуска")]
-		[LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "CardCorrectInputPasswordError")]
+		[Description("Неверный идентификатор")]
+		Unauthorized = 16,
+		[Description("Пропуск заблокирован")]
+		CardLostOrCancelled = 17,
+		[Description("Нет прав доступа")]
+		NoRight = 18,
+		[Description("Неверный метод открытия замка")]
+		UnlockModeError = 19,
+		[Description("Срок действия пропуска истек или не наступил")]
+		ValidityError = 20,
+		[Description("Повторный проход в зону")]
+		AntipassBack = 21,
+		[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
+		IntimidationAlarmNotOn = 22,
+		[Description("Замок в режиме 'Закрыто'")]
+		DoorNcStatus = 23,
+		[Description("Открыта другая дверь шлюза")]
+		AbInterlockStatus = 24,
+		[Description("Замок в состоянии 'Взлом'")]
+		DeviceIsUnderIntrusionAlam = 26,
+		[Description("Нарушение графика доступа")]
+		PeriodError = 32,
+		[Description("Неверный пароль пропуска")]
 		CardCorrectInputPasswordError = 64,
-
-
-		//[Description("Ожидание подтверждения прохода")]
-		[LocalizedDescription(typeof(Resources.Language.Journal.JournalErrorCode), "VerificationPassedControlNotAuthorized")]
+		[Description("Ожидание подтверждения прохода")]
 		VerificationPassedControlNotAuthorized = 96
 	}
 }

@@ -1,20 +1,16 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Models
 {
 	public enum RemoteAccessType
 	{
-        //[DescriptionAttribute("Запрещен")]
-        [LocalizedDescription(typeof(Resources.Language.Security.RemoteAccessType), "RemoteAccessBanned")]
+		[Description("Запрещен")]
 		RemoteAccessBanned,
 
-        //[DescriptionAttribute("Разрешен с любых компьютеров")]
-        [LocalizedDescription(typeof(Resources.Language.Security.RemoteAccessType), "RemoteAccessAllowed")]
+		[Description("Разрешен с любых компьютеров")]
 		RemoteAccessAllowed,
 
-		//[DescriptionAttribute("Разрешен только с указанных компьютеров")]
-        [LocalizedDescription(typeof(Resources.Language.Security.RemoteAccessType), "SelectivelyAllowed")]
+		[Description("Разрешен только с указанных компьютеров")]
 		SelectivelyAllowed
 	}
 }

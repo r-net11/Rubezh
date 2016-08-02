@@ -10,8 +10,8 @@ namespace StrazhAPI.SKD
 			var driver = new SKDDriver
 			{
 				UID = new Guid("5E4050C3-BDFA-4aeb-B66F-2BAD7F5CDF58"),
-				Name = Resources.Language.SKD.SKDManager.ButtonHelper.Name,
-                ShortName = Resources.Language.SKD.SKDManager.ButtonHelper.ShortName,
+				Name = "Кнопка выход",
+				ShortName = "Кнопка выход",
 				DriverType = SKDDriverType.Button,
 				IsPlaceable = true
 			};

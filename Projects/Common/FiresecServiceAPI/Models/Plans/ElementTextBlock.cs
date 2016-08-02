@@ -10,8 +10,8 @@ namespace StrazhAPI.Models
 		public ElementTextBlock()
 		{
 			BackgroundColor = Colors.Transparent;
-            PresentationName = Resources.Language.Models.Plans.ElementTextBlock.PresentationName;
-            Text = Resources.Language.Models.Plans.ElementTextBlock.Text;
+			PresentationName = "Текст";
+			Text = "Надпись";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
 			FontFamilyName = "Arial";

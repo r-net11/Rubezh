@@ -179,7 +179,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ImagePropertiesViewModel.UpdateImage");
-                MessageBoxService.ShowWarning(Resources.Language.ElementProperties.ViewModels.ImportPropertiesViewModel.UpdateImage_Error);
+				MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
 			}
 		}
 	}

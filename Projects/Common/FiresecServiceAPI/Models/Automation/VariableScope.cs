@@ -1,20 +1,16 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum VariableScope
 	{
-		//[Description("Локальная переменная")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.VariableScope), "LocalVariable")]
+		[Description("Локальная переменная")]
 		LocalVariable,
 
-		//[Description("Глобальная переменная")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.VariableScope), "GlobalVariable")]
-        GlobalVariable,
+		[Description("Глобальная переменная")]
+		GlobalVariable,
 
-		//[Description("Явное значение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.VariableScope), "ExplicitValue")]
-        ExplicitValue
+		[Description("Явное значение")]
+		ExplicitValue
 	}
 }

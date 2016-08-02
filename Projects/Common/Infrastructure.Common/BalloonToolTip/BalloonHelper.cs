@@ -12,22 +12,22 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void ShowFromFiresec(string text)
 		{
-			Show(Resources.Language.BalloonToolTip.BalloonHelper.ShowFromFiresec, text);
+			Show("Страж", text);
 		}
 
 		public static void ShowFromAdm(string text)
 		{
-			Show(Resources.Language.BalloonToolTip.BalloonHelper.ShowFromAdm, text);
+			Show("Администратор", text);
 		}
 
 		public static void ShowFromMonitor(string text)
 		{
-			Show(Resources.Language.BalloonToolTip.BalloonHelper.ShowFromMonitor, text);
+			Show("Оперативная задача", text);
 		}
 
 		public static void ShowFromServer(string text)
 		{
-			Show(Resources.Language.BalloonToolTip.BalloonHelper.ShowFromServer, text);
+			Show("Сервер приложений", text);
 		}
 
 		private static void Show(string title, string text)

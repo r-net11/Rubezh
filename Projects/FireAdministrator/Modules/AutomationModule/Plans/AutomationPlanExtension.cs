@@ -65,7 +65,7 @@ namespace AutomationModule.Plans
 					((List<IInstrument>)_instruments).Add(new InstrumentViewModel
 					{
 						ImageSource = "Procedure",
-						ToolTip = "CommonResources.Procedure",
+						ToolTip = CommonResources.Procedure,
 						Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 						Index = 400,
 						Autostart = true

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using StrazhAPI.SKD.Device;
-using LocalizationConveters;
 
 namespace Controls.Converters
 {
@@ -14,11 +13,9 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			var deviceTypeLabel =
-				//(SKDDeviceTypeLabelAttribute)value.GetType().GetMember(value.ToString())
-                (LocalizedDeviceTypeLabel)value.GetType().GetMember(value.ToString())
+				(SKDDeviceTypeLabelAttribute)value.GetType().GetMember(value.ToString())
 					.First()
-                //.GetCustomAttributes(typeof(SKDDeviceTypeLabelAttribute), false)
-                    .GetCustomAttributes(typeof(LocalizedDeviceTypeLabel), false)
+					.GetCustomAttributes(typeof(SKDDeviceTypeLabelAttribute), false)
 					.FirstOrDefault();
 
 			if (deviceTypeLabel == null)

@@ -23,7 +23,7 @@ namespace StrazhDAL
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-                return new OperationResult(Resources.Language.Translators.PositionTranslator.CanSave);
+				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return new OperationResult();
 		}
 

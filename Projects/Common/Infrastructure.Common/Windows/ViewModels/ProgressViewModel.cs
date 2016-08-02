@@ -61,9 +61,9 @@
 			set
 			{
 				if (value)
-					CancelText = Resources.Language.Windows.ViewModels.ProgressViewModel.CancelText_True;
+					CancelText = "Отмена";
 				else
-                    CancelText = Resources.Language.Windows.ViewModels.ProgressViewModel.CancelText_False;
+					CancelText = "Закрыть";
 
 				_canCancel = value;
 				OnPropertyChanged(() => CanCancel);

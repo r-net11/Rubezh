@@ -68,18 +68,18 @@ namespace Infrastructure.Designer.DesignerItems
 				_contextMenu = new ContextMenu();
 
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Copy,
+					"Копировать (Ctrl+C)",
 					"BCopy",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Cut,
+					"Вырезать (Ctrl+X)",
 					"BCut",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
 				);
 
 				var menuItem = DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Paste,
+					"Вставить (Ctrl+V)",
 					"BPaste",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.PasteCommand
 				);
@@ -88,64 +88,64 @@ namespace Infrastructure.Designer.DesignerItems
 
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Delete,
+					"Удалить (Del)",
 					"BDelete",
 					DeleteCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Settings,
+					"Свойства",
 					"BSettings",
 					ShowPropertiesCommand
 				));
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveForward,
+					"Вверх",
 					"BMoveForward",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveBackward,
+					"Вниз",
 					"BMoveBackward",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveFront,
+					"Выше",
 					"BMoveFront",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveBack,
+					"Ниже",
 					"BMoveBack",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
 				));
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignHorizontalLeft,
+					"Выровнять по левому краю",
 					"bshapes-align-hori-left",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignHorizontalCenter,
+					"Выровнять по вертикали",
 					"bshapes-align-hori-center",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignHorizontalRight,
+					"Выровнять по правому краю",
 					"bshapes-align-hori-right",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignVerticalTop,
+					"Выровнять по верхнему краю",
 					"bshapes-align-verti-top",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignVerticalCenter,
+					"Выровнять по горизонтали",
 					"bshapes-align-verti-middle",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.AlignVerticalBottom,
+					"Выровнять по нижнему краю",
 					"bshapes-align-verti-bottom",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand
 				));
@@ -159,45 +159,45 @@ namespace Infrastructure.Designer.DesignerItems
 				_elementContextMenu = new ContextMenu();
 
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Copy,
+					"Копировать (Ctrl+C)",
 					"BCopy",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
 				));
-			    _elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Cut,
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Вырезать (Ctrl+X)",
 					"BCut",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
 				);
 
 				_elementContextMenu.Items.Add(new Separator());
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Delete,
+					"Удалить",
 					"BDelete",
 					DeleteCurrentCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.Settings,
+					"Свойства",
 					"BSettings",
 					ShowPropertiesCommand
 				));
 				_elementContextMenu.Items.Add(new Separator());
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveForward,
+					"Вверх",
 					"BMoveForward",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveBackward,
+					"Вниз",
 					"BMoveBackward",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-                    Resources.Language.DesignerItems.DesignerItemBase.MoveFront,
+					"Выше",
 					"BMoveFront",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-				    Resources.Language.DesignerItems.DesignerItemBase.MoveBack,
+					"Ниже",
 					"BMoveBack",
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
 				));

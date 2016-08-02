@@ -1,24 +1,19 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum DocumentType
 	{
-		//[Description("Переработка")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DocumentType), "Overtime")]
+		[Description("Переработка")]
 		Overtime = 0,
 
-        //[Description("Присутствие")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DocumentType), "Presence")]
+		[Description("Присутствие")]
 		Presence = 1,
 
-        //[Description("Отсутствие по неуважительной причине")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DocumentType), "Absence")]
+		[Description("Отсутствие по неуважительной причине")]
 		Absence = 2,
 
-        //[Description("Отсутствие по уважительной причине")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DocumentType), "AbsenceReasonable")]
+		[Description("Отсутствие по уважительной причине")]
 		AbsenceReasonable = 3,
 	}
 }

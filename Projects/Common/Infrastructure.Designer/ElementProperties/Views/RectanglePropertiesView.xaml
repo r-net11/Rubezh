@@ -1,13 +1,7 @@
-﻿<UserControl x:Class="Infrastructure.Designer.ElementProperties.Views.RectanglePropertiesView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" 
-             xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
-             xmlns:res="clr-namespace:Infrastructure.Designer.Resources.Language.ElementProperties.Views"
-             MinWidth="400" MinHeight="400">
+﻿<UserControl x:Class="Infrastructure.Designer.ElementProperties.Views.RectanglePropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" MinWidth="400" MinHeight="400">
 
 	<TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
-		<TabItem Header="{x:Static res:RectanglePropertiesView.TabItemHeader_Main}">
+		<TabItem Header="Основные">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -21,10 +15,10 @@
 					<RowDefinition Height="288*" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static res:RectanglePropertiesView.PresentationName}" />
-                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static res:RectanglePropertiesView.BackgroundColor}" />
-                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static res:RectanglePropertiesView.StrokeColor}" />
-                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static res:RectanglePropertiesView.StrokeThickness}" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
+				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
 				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
@@ -32,7 +26,7 @@
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="{x:Static res:RectanglePropertiesView.TabItemHeader_Image}">
+		<TabItem Header="Изображение">
 			<ContentPresenter Content="{Binding ImagePropertiesViewModel}" />
 		</TabItem>
 	</TabControl>

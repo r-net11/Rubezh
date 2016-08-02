@@ -1,64 +1,36 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Enums
 {
 	public enum ReportType
 	{
-		//[Description("Сведения о пропусках")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "CardsReport")]
+		[Description("Сведения о пропусках")]
 		CardsReport = 0,
-
-		//[Description("Список подразделений организаций")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "DepartmentsReport")]
+		[Description("Список подразделений организаций")]
 		DepartmentsReport = 1,
-		
-		//[Description("Дисциплинарный отчет")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "DisciplineReport")]
+		[Description("Дисциплинарный отчет")]
 		DisciplineReport = 2,
-		
-		//[Description("Отчет по оправдательным документам")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "DocumentsReport")]
+		[Description("Отчет по оправдательным документам")]
 		DocumentsReport = 3,
-		
-		//[Description("Список точек доступа")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "DoorsReport")]
+		[Description("Список точек доступа")]
 		DoorsReport = 4,
-		
-		//[Description("Доступ в зоны сотрудников / посетителей")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EmployeeAccessReport")]
+		[Description("Доступ в зоны сотрудников / посетителей")]
 		EmployeeAccessReport = 5,
-		
-		//[Description("Права доступа сотрудников / посетителей")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EmployeeDoorsReport")]
+		[Description("Права доступа сотрудников / посетителей")]
 		EmployeeDoorsReport = 6,
-		
-		//[Description("Справка о сотруднике / посетителе")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EmployeeReport")]
+		[Description("Справка о сотруднике / посетителе")]
 		EmployeeReport = 7,
-		
-		//[Description("Маршрут сотрудника / посетителя")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EmployeeRootReport")]
+		[Description("Маршрут сотрудника / посетителя")]
 		EmployeeRootReport = 8,
-		
-		//[Description("Местонахождение сотрудников / посетителей")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EmployeeZonesReport")]
+		[Description("Местонахождение сотрудников / посетителей")]
 		EmployeeZonesReport = 9,
-		
-		//[Description("Отчет по событиям системы контроля доступа")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "EventsReport")]
+		[Description("Отчет по событиям системы контроля доступа")]
 		EventsReport = 10,
-		
-		//[Description("Список должностей организации")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "PositionsReport")]
+		[Description("Список должностей организации")]
 		PositionsReport = 11,
-		
-		//[Description("Отчет по графикам работы")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "SchedulesReport")]
+		[Description("Отчет по графикам работы")]
 		SchedulesReport = 12,
-		
-		//[Description("Справка по отработанному времени")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ReportType), "WorkingTimeReport")]
+		[Description("Справка по отработанному времени")]
 		WorkingTimeReport = 13
 	}
 }

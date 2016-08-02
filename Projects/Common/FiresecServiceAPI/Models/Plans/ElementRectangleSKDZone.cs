@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementRectangleSKDZone()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementRectangleSKDZones.PresentationName;
+			PresentationName = "Зона Страж";
 		}
 
 		[DataMember]

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -7,20 +6,16 @@ namespace Infrastructure.Common.Services.Layout
 	{
 		Root,
 
-		//[Description("Общие")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Common")]
+		[Description("Общие")]
 		Common,
 
-        //[Description("СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "SKD")]
+		[Description("СКД")]
 		SKD,
 
-        //[Description("Видео")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Video")]
+		[Description("Видео")]
 		Video,
 
-        //[Description("Элементы управления")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Control")]
+		[Description("Элементы управления")]
 		Control,
 	}
 }

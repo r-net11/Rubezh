@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 		public ElementCamera()
 		{
 			CameraUID = Guid.Empty;
-            PresentationName = Resources.Language.Models.Plans.ElementCamera.PresentationName;
+			PresentationName = "Камера";
 		}
 
 		[DataMember]

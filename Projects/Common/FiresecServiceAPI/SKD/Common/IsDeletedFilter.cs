@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
@@ -24,18 +23,15 @@ namespace StrazhAPI.SKD
 	public enum LogicalDeletationType
 	{
 		[EnumMember]
-		//[Description("Только активные")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "Active")]
+		[Description("Только активные")]
 		Active,
 
 		[EnumMember]
-        //[Description("Только удаленные")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "Deleted")]
+		[Description("Только удаленные")]
 		Deleted,
 
 		[EnumMember]
-        //[Description("Все")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "All")]
+		[Description("Все")]
 		All
 	}
 }

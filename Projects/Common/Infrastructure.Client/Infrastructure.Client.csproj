@@ -135,75 +135,15 @@
       <DependentUpon>ImageTextStateTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Language\BaseBootstrapper.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseBootstrapper.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Library\BaseFrameViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BaseFrameViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ConnectionIndicator\Views\ConnectionIndicatorView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConnectionIndicatorView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Images\ImageExtensions.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ImageExtensions.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Images\ImageHelper.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ImageHelper.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Login\LoginService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LoginService.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Login\Views\LoginView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LoginView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Plans\Views\PlanDesignerView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PlanDesignerView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Plans\Presenter\PresenterPainterHelper.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PresenterPainterHelper.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Startup\Views\StartupSettingsView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StartupSettingsView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Startup\ViewModels\StartupSettingsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StartupSettingsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Startup\Views\StartupView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StartupView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Startup\ViewModels\StartupViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StartupViewModel.resx</DependentUpon>
     </Compile>
     <Compile Include="Startup\StartupCancellationException.cs" />
     <Compile Include="Startup\StartupService.cs" />
@@ -224,10 +164,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FireAdministrator\Localization\Localization.csproj">
-      <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
-      <Name>Localization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
@@ -328,58 +264,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Language\BaseBootstrapper.resx">
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BaseBootstrapper.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Library\BaseFrameViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BaseFrameViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ConnectionIndicator\Views\ConnectionIndicatorView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConnectionIndicatorView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Images\ImageExtensions.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImageExtensions.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Images\ImageHelper.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImageHelper.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Login\LoginService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LoginService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Login\Views\LoginView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LoginView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Plans\Views\PlanDesignerView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PlanDesignerView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Plans\Presenter\PresenterPainterHelper.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PresenterPainterHelper.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Startup\Views\StartupSettingsView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StartupSettingsView.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Startup\ViewModels\StartupSettingsViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StartupSettingsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Startup\Views\StartupView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StartupView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Startup\ViewModels\StartupViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StartupViewModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,7 @@
 ﻿<UserControl
 	x:Class="Infrastructure.Common.Windows.Views.ApplicationHeaderView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:res="clr-namespace:Infrastructure.Common.Resources.Language.Windows.Views">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
 		<DrawingBrush x:Key="Help" Stretch="Uniform">
 			<DrawingBrush.Drawing>
@@ -113,18 +112,18 @@
 					<MenuItem
 						Command="{Binding Content.ApplicationHelpCommand}"
 						Focusable="False"
-						Header="{x:Static res:ApplicationHeaderView.Help}" />
+						Header="Помощь" />
 					<MenuItem
 						Command="{Binding Content.ApplicationAboutCommand}"
 						Focusable="False"
-						Header="{x:Static res:ApplicationHeaderView.About}" />
+						Header="О программе" />
 				</MenuItem>
 			</Menu>
 			<Button
 				Command="{Binding Content.ApplicationMinimizeCommand}"
 				Focusable="False"
 				Style="{StaticResource ToolBarButtonStyle}"
-				ToolTip="{x:Static res:ApplicationHeaderView.Minimize}"
+				ToolTip="Свернуть"
 				Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid
 					Height="12"
@@ -139,7 +138,7 @@
 					Command="{Binding Content.ApplicationMaximizeCommand}"
 					Focusable="False"
 					Style="{StaticResource ToolBarButtonStyle}"
-					ToolTip="{x:Static res:ApplicationHeaderView.Maximize}"
+					ToolTip="Развернуть"
 					Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid
 						Height="12"
@@ -151,7 +150,7 @@
 					Command="{Binding Content.ApplicationNormalizeCommand}"
 					Focusable="False"
 					Style="{StaticResource ToolBarButtonStyle}"
-					ToolTip="{x:Static res:ApplicationHeaderView.Normilize}"
+					ToolTip="Нормальный размер"
 					Visibility="{Binding Content.IsMaximized, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 					<Grid
 						Height="12"
@@ -164,7 +163,7 @@
 				Command="{Binding Content.ApplicationCloseCommand}"
 				Focusable="False"
 				Style="{StaticResource ToolBarButtonStyle}"
-				ToolTip="{x:Static res:ApplicationHeaderView.Close}"
+				ToolTip="Закрыть"
 				Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid
 					Height="12"

@@ -1,28 +1,22 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum PassCardImagePropertyType
 	{
-		//[Description("Фото сотрудника")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "Photo")]
+		[Description("Фото сотрудника")]
 		Photo,
 
-        //[Description("Логотип организации")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "OrganisationLogo")]
+		[Description("Логотип организации")]
 		OrganisationLogo,
 
-        //[Description("Логотип подразделения")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "DepartmentLogo")]
+		[Description("Логотип подразделения")]
 		DepartmentLogo,
 
-        //[Description("Логотип должности")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "PositionLogo")]
+		[Description("Логотип должности")]
 		PositionLogo,
 
-        //[Description("Дополнительно")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "Additional")]
+		[Description("Дополнительно")]
 		Additional,
 	}
 }

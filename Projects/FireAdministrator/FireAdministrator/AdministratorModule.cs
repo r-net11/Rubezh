@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using FireAdministrator.ViewModels;
 using Localization.FireAdministrator.Common;
@@ -18,6 +21,9 @@ namespace FireAdministrator
 		}
 		public override void Initialize()
 		{
+            var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

@@ -13,7 +13,7 @@ namespace StrazhAPI.SKD
 			return new DayInterval
 			{
 				UID = Guid.Empty,
-				Name = Resources.Language.SKD.TimeTrack.DayIntervalCreator.Name,
+				Name = "Никогда",
 			};
 		}
 	}

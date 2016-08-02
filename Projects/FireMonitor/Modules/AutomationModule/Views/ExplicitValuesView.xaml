@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
-             xmlns:res="clr-namespace:AutomationModule.Resources.Language">
+			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -11,19 +11,19 @@
 		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Stretch">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" HorizontalAlignment="Right" Height="28">
-					<Label Content="{x:Static res:ExplicitValueView.Value}" />
+                    <Label Content="{x:Static lang:CommonViews.Value}" />
 					<extToolkit:IntegerUpDown Width="200" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" HorizontalAlignment="Right" Height="28">
-                    <Label Content="{x:Static res:ExplicitValueView.Value}" HorizontalAlignment="Left" />
+                    <Label Content="{x:Static lang:CommonViews.Value}" HorizontalAlignment="Left" />
 					<CheckBox IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}" HorizontalAlignment="Right" Height="28">
-                    <Label Content="{x:Static res:ExplicitValueView.Value}" />
+                    <Label Content="{x:Static lang:CommonViews.Value}" />
 					<TextBox Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="200" Margin="2" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
-                    <Label Content="{x:Static res:ExplicitValueView.Value}" />
+                    <Label Content="{x:Static lang:CommonViews.Value}" />
 					<extToolkit:DateTimePicker Value = "{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
@@ -47,7 +47,7 @@
 					<TextBlock Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top">
 					<Hyperlink Command="{Binding ChangeCommand}" Style="{StaticResource HyperlinkStyle}">
 						<TextBlock Text="{Binding ExplicitValue.PresentationName}" Visibility="{Binding ExplicitValue.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
-						<TextBlock Text="{x:Static res:ExplicitValueView.ChooseObject}">
+						<TextBlock Text="{x:Static lang:CommonViews.ChooseObject}">
 							<TextBlock.Style>
 								<Style>
 									<Setter Property="TextBlock.Visibility" Value="Collapsed" />

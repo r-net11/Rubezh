@@ -138,7 +138,7 @@ namespace StrazhDAL
 			try
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.Synchronisers.Synchroniser.Import_Error);
+					return new OperationResult("Папка не существует");
 
 				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Move(fileName, NameXml);

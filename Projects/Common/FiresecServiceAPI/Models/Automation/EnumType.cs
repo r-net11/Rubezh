@@ -1,56 +1,43 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum EnumType
 	{
-		//[DescriptionAttribute("Состояние")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "StateType")]
+		[Description("Состояние")]
 		StateType,
 
-		//[DescriptionAttribute("Тип устройства")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "DriverType")]
-        DriverType,
+		[Description("Тип устройства")]
+		DriverType,
 
-		//[DescriptionAttribute("Права пользователя")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "PermissionType")]
-        PermissionType,
+		[Description("Права пользователя")]
+		PermissionType,
 
-		//[DescriptionAttribute("Название события")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "JournalEventNameType")]
-        JournalEventNameType,
+		[Description("Название события")]
+		JournalEventNameType,
 
-		//[DescriptionAttribute("Уточнение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "JournalEventDescriptionType")]
-        JournalEventDescriptionType,
+		[Description("Уточнение")]
+		JournalEventDescriptionType,
 
-		//[DescriptionAttribute("Тип объекта")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "JournalObjectType")]
-        JournalObjectType,
+		[Description("Тип объекта")]
+		JournalObjectType,
 
-		//[DescriptionAttribute("Цвет")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "ColorType")]
-        ColorType,
+		[Description("Цвет")]
+		ColorType,
 
-		//[DescriptionAttribute("Тип пропуска")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "CardType")]
-        CardType,
+		[Description("Тип пропуска")]
+		CardType,
 
-		//[DescriptionAttribute("Режим доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "AccessState")]
-        AccessState,
+		[Description("Режим доступа")]
+		AccessState,
 
-		//[DescriptionAttribute("Статус двери")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "DoorStatus")]
-        DoorStatus,
+		[Description("Статус двери")]
+		DoorStatus,
 
-		//[DescriptionAttribute("Статус по взлому")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "BreakInStatus")]
-        BreakInStatus,
+		[Description("Статус по взлому")]
+		BreakInStatus,
 
-		//[DescriptionAttribute("Статус соединения")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.EnumType), "ConnectionStatus")]
-        ConnectionStatus
+		[Description("Статус соединения")]
+		ConnectionStatus
 	}
 }

@@ -9,7 +9,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementRectangle()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementRectangle.PresentationName;
+			PresentationName = "Прямоугольник";
 		}
 
 		public override ElementBase Clone()

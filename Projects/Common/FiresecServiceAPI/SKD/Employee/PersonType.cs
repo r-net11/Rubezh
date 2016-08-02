@@ -1,16 +1,13 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum PersonType
 	{
-		//[DescriptionAttribute("Сотрудник")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.PersonType), "Employee")]
+		[Description("Сотрудник")]
 		Employee,
 
-		//[DescriptionAttribute("Посетитель")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.PersonType), "Guest")]
-        Guest
+		[Description("Посетитель")]
+		Guest
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -21,28 +20,22 @@ namespace StrazhAPI.Automation
 
 	public enum DoorCommandType
 	{
-		//[Description("Открыть дверь")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "Open")]
+		[Description("Открыть дверь")]
 		Open,
 
-		//[Description("Закрыть дверь")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "Close")]
-        Close,
+		[Description("Закрыть дверь")]
+		Close,
 
-		//[Description("Установить режим \"Открыто\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "AccessStateOpenAlways")]
-        AccessStateOpenAlways,
+		[Description("Установить режим \"Открыто\"")]
+		AccessStateOpenAlways,
 
-		//[Description("Установить режим \"Норма\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "AccessStateNormal")]
-        AccessStateNormal,
+		[Description("Установить режим \"Норма\"")]
+		AccessStateNormal,
 
-		//[Description("Установить режим \"Закрыто\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "AccessStateCloseAlways")]
-        AccessStateCloseAlways,
+		[Description("Установить режим \"Закрыто\"")]
+		AccessStateCloseAlways,
 
-		//[Description("Сброс состояния \"Взлом\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlDoorArguments), "ClearPromptWarning")]
-        ClearPromptWarning
+		[Description("Сброс состояния \"Взлом\"")]
+		ClearPromptWarning
 	}
 }

@@ -111,91 +111,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
-    <Compile Include="Resources\Language\ArgumentDetailsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArgumentDetailsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArgumentView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArgumentView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArgumentViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArgumentViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\AutomationModuleLoader.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AutomationModuleLoader.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\CameraSelectionView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CameraSelectionView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\CameraSelectionViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CameraSelectionViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\DoorSelectionView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoorSelectionView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\DoorSelectionViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoorSelectionViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ExplicitValueView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ExplicitValueView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ExplicitValueViews.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ExplicitValueViews.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ProcedureArgumentsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProcedureArgumentsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ProceduresView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProceduresView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\SKDDeviceSelectionView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SKDDeviceSelectionView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\SKDDeviceSelectionViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SKDDeviceSelectionViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\SKDZoneSelectionView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SKDZoneSelectionView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\SKDZoneSelectionViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SKDZoneSelectionViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ZoneSelectionView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ZoneSelectionView.resx</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
@@ -203,6 +118,7 @@
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
+    <Compile Include="ViewModels\ArgumentViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="ViewModels\LayoutTextBlockPartViewModel.cs" />
@@ -212,7 +128,6 @@
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
-    <Compile Include="ViewModels\ArgumentViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
@@ -399,76 +314,10 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Language\ArgumentDetailsViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArgumentDetailsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArgumentView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArgumentView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArgumentViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArgumentViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\AutomationModuleLoader.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AutomationModuleLoader.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\CameraSelectionView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CameraSelectionView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\CameraSelectionViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CameraSelectionViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DoorSelectionView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoorSelectionView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DoorSelectionViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoorSelectionViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ExplicitValueView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExplicitValueView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ExplicitValueViews.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExplicitValueViews.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ProcedureArgumentsViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ProcedureArgumentsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ProceduresView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ProceduresView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SKDDeviceSelectionView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SKDDeviceSelectionView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SKDDeviceSelectionViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SKDDeviceSelectionViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SKDZoneSelectionView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SKDZoneSelectionView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SKDZoneSelectionViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SKDZoneSelectionViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ZoneSelectionView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ZoneSelectionView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\..\Localization.Monitor\Localization.csproj">
+      <Project>{7b5d3a8b-7868-4d05-96f1-b480f28786fa}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

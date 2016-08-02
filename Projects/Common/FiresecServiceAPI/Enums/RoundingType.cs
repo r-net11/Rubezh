@@ -1,21 +1,16 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
-using StrazhAPI.Properties;
 
 namespace StrazhAPI.Enums
 {
 	public enum RoundingType
 	{
-		//[Description("Не используется")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.RoundingType), "None")]
+		[Description("Не используется")]
 		None,
 
-		//[Description("До минут")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.RoundingType), "RoundToMin")]
+		[Description("До минут")]
 		RoundToMin,
 
-		//[Description("До часов")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.RoundingType), "RoundToHour")]
+		[Description("До часов")]
 		RoundToHour
 	}
 }

@@ -9,7 +9,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementPolygon()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementPolygon.PresentationName;
+			PresentationName = "Многоугольник";
 		}
 
 		public override ElementBase Clone()

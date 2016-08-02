@@ -1,229 +1,173 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum ProcedureStepType
 	{
-		//[Description("Условие")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "If")]
+		[Description("Условие")]
 		If,
 
-		//[Description("Выполняется")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "IfYes")]
-        IfYes,
+		[Description("Выполняется")]
+		IfYes,
 
-		//[Description("Не выполняется")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "IfNo")]
-        IfNo,
+		[Description("Не выполняется")]
+		IfNo,
 
-		//[Description("Цикл по списку")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Foreach")]
-        Foreach,
+		[Description("Цикл по списку")]
+		Foreach,
 
-		//[Description("Цикл со счетчиком (For)")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "For")]
-        For,
+		[Description("Цикл со счетчиком (For)")]
+		For,
 
-		//[Description("Цикл с условием (While)")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "While")]
-        While,
+		[Description("Цикл с условием (While)")]
+		While,
 
-		//[Description("Выйти из цикла")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Break")]
-        Break,
+		[Description("Выйти из цикла")]
+		Break,
 
-		//[Description("Продолжить цикл")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Continue")]
-        Continue,
+		[Description("Продолжить цикл")]
+		Continue,
 
-		//[Description("Тело цикла")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ForeachBody")]
-        ForeachBody,
+		[Description("Тело цикла")]
+		ForeachBody,
 
-		//[Description("Функция выбора процедуры")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ProcedureSelection")]
-        ProcedureSelection,
+		[Description("Функция выбора процедуры")]
+		ProcedureSelection,
 
-		//[Description("Получить значение свойства объекта")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetObjectProperty")]
-        GetObjectProperty,
+		[Description("Получить значение свойства объекта")]
+		GetObjectProperty,
 
-		//[Description("Проигрывание звука")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "PlaySound")]
-        PlaySound,
+		[Description("Проигрывание звука")]
+		PlaySound,
 
-		//[Description("Арифметическая операция")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Arithmetics")]
-        Arithmetics,
+		[Description("Арифметическая операция")]
+		Arithmetics,
 
-		//[Description("Найти объекты")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "FindObjects")]
-        FindObjects,
+		[Description("Найти объекты")]
+		FindObjects,
 
-		//[Description("Изменение списка")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ChangeList")]
-        ChangeList,
+		[Description("Изменение списка")]
+		ChangeList,
 
-		//[Description("Проверка прав")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "CheckPermission")]
-        CheckPermission,
+		[Description("Проверка прав")]
+		CheckPermission,
 
-		//[Description("Получить значение журнала")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetJournalItem")]
-        GetJournalItem,
+		[Description("Получить значение журнала")]
+		GetJournalItem,
 
-		//[Description("Получить размер списка")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetListCount")]
-        GetListCount,
+		[Description("Получить размер списка")]
+		GetListCount,
 
-		//[Description("Получить элемент списка")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetListItem")]
-        GetListItem,
+		[Description("Получить элемент списка")]
+		GetListItem,
 
-		//[Description("Показать сообщение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ShowMessage")]
-        ShowMessage,
+		[Description("Показать сообщение")]
+		ShowMessage,
 
-		//[Description("Добавить запись в журнал")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "AddJournalItem")]
-        AddJournalItem,
+		[Description("Добавить запись в журнал")]
+		AddJournalItem,
 
-		//[Description("Выход из процедуры")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Exit")]
-        Exit,
+		[Description("Выход из процедуры")]
+		Exit,
 
-		//[Description("Задание значения переменной")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "SetValue")]
-        SetValue,
+		[Description("Задание значения переменной")]
+		SetValue,
 
-		//[Description("Запуск программы")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "RunProgram")]
-        RunProgram,
+		[Description("Запуск программы")]
+		RunProgram,
 
-		//[Description("Инкремент значения переменной")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "IncrementValue")]
-        IncrementValue,
+		[Description("Инкремент значения переменной")]
+		IncrementValue,
 
-		//[Description("Отправить сообщение по электронной почте")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "SendEmail")]
-        SendEmail,
+		[Description("Отправить сообщение по электронной почте")]
+		SendEmail,
 
-		//[Description("Пауза")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Pause")]
-        Pause,
+		[Description("Пауза")]
+		Pause,
 
-		//[Description("Случайное значение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Random")]
-        Random,
+		[Description("Случайное значение")]
+		Random,
 
-		//[Description("Управление устройством СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlSKDDevice")]
-        ControlSKDDevice,
+		[Description("Управление устройством СКД")]
+		ControlSKDDevice,
 
-		//[Description("Управление зоной СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlSKDZone")]
-        ControlSKDZone,
+		[Description("Управление зоной СКД")]
+		ControlSKDZone,
 
-		//[Description("Управление точкой доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlDoor")]
-        ControlDoor,
+		[Description("Управление точкой доступа")]
+		ControlDoor,
 
-		//[Description("Чтение свойства визуального элемента")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlVisualGet")]
-        ControlVisualGet,
+		[Description("Чтение свойства визуального элемента")]
+		ControlVisualGet,
 
-		//[Description("Установка свойства визуального элемента")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlVisualSet")]
-        ControlVisualSet,
+		[Description("Установка свойства визуального элемента")]
+		ControlVisualSet,
 
-		//[Description("Чтение свойства элементами плана")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlPlanGet")]
-        ControlPlanGet,
+		[Description("Чтение свойства элементами плана")]
+		ControlPlanGet,
 
-		//[Description("Установка свойства элементами плана")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ControlPlanSet")]
-        ControlPlanSet,
+		[Description("Установка свойства элементами плана")]
+		ControlPlanSet,
 
-		//[Description("Показать диалоговую форму")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ShowDialog")]
-        ShowDialog,
+		[Description("Показать диалоговую форму")]
+		ShowDialog,
 
-		//[Description("Показать свойство объекта")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ShowProperty")]
-        ShowProperty,
+		[Description("Показать свойство объекта")]
+		ShowProperty,
 
-		//[Description("Генерировать идентификатор")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GenerateGuid")]
-        GenerateGuid,
+		[Description("Генерировать идентификатор")]
+		GenerateGuid,
 
-		//[Description("Назначить идентификатор события")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "SetJournalItemGuid")]
-        SetJournalItemGuid,
+		[Description("Назначить идентификатор события")]
+		SetJournalItemGuid,
 
-		//[Description("")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "DoAction")]
-        DoAction,
+		[Description("")]
+		DoAction,
 
-		//[Description("Экспорт организации")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ExportOrganisation")]
-        ExportOrganisation,
+		[Description("Экспорт организации")]
+		ExportOrganisation,
 
-		//[Description("Экспорт списка организаций")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ExportOrganisationList")]
-        ExportOrganisationList,
+		[Description("Экспорт списка организаций")]
+		ExportOrganisationList,
 
-		//[Description("Экспорт конфигурации")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ExportConfiguration")]
-        ExportConfiguration,
+		[Description("Экспорт конфигурации")]
+		ExportConfiguration,
 
-		//[Description("Экспорт журнала")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ExportJournal")]
-        ExportJournal,
+		[Description("Экспорт журнала")]
+		ExportJournal,
 
-		//[Description("Импорт организации")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ImportOrganisation")]
-        ImportOrganisation,
+		[Description("Импорт организации")]
+		ImportOrganisation,
 
-		//[Description("Импорт списка организаций")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ImportOrganisationList")]
-        ImportOrganisationList,
+		[Description("Импорт списка организаций")]
+		ImportOrganisationList,
 
-		//[Description("Управление PTZ камерой")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "Ptz")]
-        Ptz,
+		[Description("Управление PTZ камерой")]
+		Ptz,
 
-		//[Description("Начать запись")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "StartRecord")]
-        StartRecord,
+		[Description("Начать запись")]
+		StartRecord,
 
-		//[Description("Остановить запись")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "StopRecord")]
-        StopRecord,
+		[Description("Остановить запись")]
+		StopRecord,
 
-		//[Description("Вызвать тревогу в RVI Оператор")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "RviAlarm")]
-        RviAlarm,
+		[Description("Вызвать тревогу в RVI Оператор")]
+		RviAlarm,
 
-		//[Description("Экспорт отчета")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "ExportReport")]
-        ExportReport,
+		[Description("Экспорт отчета")]
+		ExportReport,
 
-		//[Description("Получить текущее время")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetDateTimeNow")]
-        GetDateTimeNow,
+		[Description("Получить текущее время")]
+		GetDateTimeNow,
 
-		//[Description("Получение свойства устройства СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetSkdDeviceProperty")]
-        GetSkdDeviceProperty,
+		[Description("Получение свойства устройства СКД")]
+		GetSkdDeviceProperty,
 
-		//[Description("Получение свойства точки доступа")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetDoorProperty")]
-        GetDoorProperty,
+		[Description("Получение свойства точки доступа")]
+		GetDoorProperty,
 
-		//[Description("Получение свойства зоны СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ProcedureStepType), "GetSkdZoneProperty")]
-        GetSkdZoneProperty,
+		[Description("Получение свойства зоны СКД")]
+		GetSkdZoneProperty,
 
 		[Description("Вызов сценария FireSec")]
 		ExecuteFiresecScript,

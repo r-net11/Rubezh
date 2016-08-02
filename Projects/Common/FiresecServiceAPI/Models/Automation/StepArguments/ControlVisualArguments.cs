@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -50,39 +49,31 @@ namespace StrazhAPI.Automation
 
 	public enum ControlElementType
 	{
-		//[Description("Чтение свойства")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Get")]
+		[Description("Чтение свойства")]
 		Get,
 
-		//[Description("Установка свойства")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Set")]
-        Set
+		[Description("Установка свойства")]
+		Set
 	}
 
 	public enum LayoutPartPropertyName
 	{
-		//[Description("Заголовок")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Title")]
-        Title,
+		[Description("Заголовок")]
+		Title,
 
-		//[Description("Отступ")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Margin")]
-        Margin,
+		[Description("Отступ")]
+		Margin,
 
-		//[Description("Цвет фона")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BackgroundColor")]
-        BackgroundColor,
+		[Description("Цвет фона")]
+		BackgroundColor,
 
-		//[Description("Цвет границы")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BorderColor")]
-        BorderColor,
+		[Description("Цвет границы")]
+		BorderColor,
 
-		//[Description("Ширина границы")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BorderThickness")]
-        BorderThickness,
+		[Description("Ширина границы")]
+		BorderThickness,
 
-		//[Description("Текст")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Text")]
-        Text,
+		[Description("Текст")]
+		Text,
 	}
 }

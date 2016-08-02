@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Enums
 {
@@ -11,22 +10,19 @@ namespace StrazhAPI.Enums
 		/// <summary>
 		/// Стандартный рабочий стол Windows
 		/// </summary>
-		//[Description("Стандартный рабочий стол Windows")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ShellType), "Default")]
-        Default = 0,
+		[Description("Стандартный рабочий стол Windows")]
+		Default = 0,
 		
 		/// <summary>
 		/// Заменить рабочий стол Windows на ОЗ
 		/// </summary>
-        //[Description("Оперативная задача")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ShellType), "Monitor")]
+		[Description("Оперативная задача")]
 		Monitor = 1,
 
 		/// <summary>
 		/// Заменить рабочий стол Windows на ОЗ с макетами
 		/// </summary>
-        //[Description("Оперативная задача с макетами")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ShellType), "Layouts")]
+		[Description("Оперативная задача с макетами")]
 		Layouts = 2
 	}
 }

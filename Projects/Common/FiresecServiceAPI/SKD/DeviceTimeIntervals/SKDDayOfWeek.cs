@@ -1,36 +1,28 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum SKDDayOfWeek
 	{
-		//[Description("Воскресенье")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Sunday")]
+		[Description("Воскресенье")]
 		Sunday = 1,
 
-        //[Description("Понедельник")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Monday")]
+		[Description("Понедельник")]
 		Monday = 2,
 
-        //[Description("Вторник")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Tuesday")]
+		[Description("Вторник")]
 		Tuesday = 3,
 
-        //[Description("Среда")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Wednesday")]
+		[Description("Среда")]
 		Wednesday = 4,
 
-        //[Description("Четверг")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Thursday")]
+		[Description("Четверг")]
 		Thursday = 5,
 
-        //[Description("Пятница")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Friday")]
+		[Description("Пятница")]
 		Friday = 6,
 
-        //[Description("Суббота")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Saturday")]
+		[Description("Суббота")]
 		Saturday = 7,
 	}
 }

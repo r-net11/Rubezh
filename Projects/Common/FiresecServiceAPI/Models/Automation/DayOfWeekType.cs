@@ -1,40 +1,31 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
 	public enum DayOfWeekType
 	{
-		//[DescriptionAttribute("Любой")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Any")]
+		[Description("Любой")]
 		Any,
 
-		//[DescriptionAttribute("Понедельник")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Monday")]
-        Monday,
+		[Description("Понедельник")]
+		Monday,
 
-		//[DescriptionAttribute("Вторник")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Tuesday")]
-        Tuesday,
+		[Description("Вторник")]
+		Tuesday,
 
-		//[DescriptionAttribute("Среда")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Wednesday")]
-        Wednesday,
+		[Description("Среда")]
+		Wednesday,
 
-		//[DescriptionAttribute("Четверг")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Thursday")]
-        Thursday,
+		[Description("Четверг")]
+		Thursday,
 
-		//[DescriptionAttribute("Пятница")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Friday")]
-        Friday,
+		[Description("Пятница")]
+		Friday,
 
-		//[DescriptionAttribute("Суббота")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Saturday")]
-        Saturday,
+		[Description("Суббота")]
+		Saturday,
 
-		//[DescriptionAttribute("Воскресенье")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Sunday")]
-        Sunday
+		[Description("Воскресенье")]
+		Sunday
 	}
 }

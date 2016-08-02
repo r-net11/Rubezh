@@ -63,8 +63,8 @@ namespace AutomationModule
 						new List<NavigationItem>
 						{
                             new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, CommonResources.Procedure, "Procedure"),
-                            new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.GlobalVariables, "Shedules"),
-                            new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.Schedules, "GlobalVariables"),
+                            new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.Schedules, "Shedules"),
+                            new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.GlobalVariables, "GlobalVariables"),
 						}) {IsExpanded = true},
 				};
 		}

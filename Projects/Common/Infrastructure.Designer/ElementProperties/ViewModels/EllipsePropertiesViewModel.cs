@@ -12,7 +12,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public EllipsePropertiesViewModel(ElementEllipse elementEllipse)
 		{
-		    Title = Resources.Language.ElementProperties.ViewModels.EllipsePropertiesViewModel.Title;
+			Title = "Свойства фигуры: Эллипс";
 			_elementEllipse = elementEllipse;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementEllipse);
 			CopyProperties();

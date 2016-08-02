@@ -12,7 +12,7 @@ namespace StrazhAPI.Models
 		public ElementProcedure()
 		{
 			BackgroundColor = Colors.Transparent;
-			Text = Resources.Language.Models.Plans.ElementProcedure.Text;
+			Text = "Процедура";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
 			FontFamilyName = "Arial";

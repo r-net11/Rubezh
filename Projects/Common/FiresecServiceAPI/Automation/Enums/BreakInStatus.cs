@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation.Enums
 {
@@ -11,15 +10,13 @@ namespace StrazhAPI.Automation.Enums
 		/// <summary>
 		/// Норма
 		/// </summary>
-		//[Description("Норма")]
-        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.BreakInStatus), "Normal")]
+		[Description("Норма")]
 		Normal,
 		
 		/// <summary>
 		/// Взлом
 		/// </summary>
-		//[Description("Взлом")]
-        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.BreakInStatus), "BreakIn")]
-        BreakIn
+		[Description("Взлом")]
+		BreakIn
 	}
 }

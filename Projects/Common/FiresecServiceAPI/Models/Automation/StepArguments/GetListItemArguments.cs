@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -29,16 +28,13 @@ namespace StrazhAPI.Automation
 
 	public enum PositionType
 	{
-		//[Description("Первый")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "First")]
-        First,
+		[Description("Первый")]
+		First,
 
-		//[Description("Последний")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "Last")]
-        Last,
+		[Description("Последний")]
+		Last,
 
-		//[Description("По индексу")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "ByIndex")]
+		[Description("По индексу")]
 		ByIndex
 	}
 }

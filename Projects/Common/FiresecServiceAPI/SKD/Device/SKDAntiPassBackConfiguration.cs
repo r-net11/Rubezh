@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
@@ -22,16 +21,13 @@ namespace StrazhAPI.SKD
 
 	public enum SKDAntiPassBackMode
 	{
-		//[Description("Считыватель 1 - Вход, Считыватель 2 - Выход")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDAntiPassBackConfiguration), "R1In_R2Out")]
+		[Description("Считыватель 1 - Вход, Считыватель 2 - Выход")]
 		R1In_R2Out = 0,
 
-        //[Description("Считыватель 1 или 3- Вход, Считыватель 2 или 4 - Выход")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDAntiPassBackConfiguration), "R1R3In_R2R4Out")]
+		[Description("Считыватель 1 или 3- Вход, Считыватель 2 или 4 - Выход")]
 		R1R3In_R2R4Out = 1,
 
-        //[Description("Считыватель 3 - Вход, Считыватель 4 - Выход")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Device.SKDAntiPassBackConfiguration), "R3In_R4Out")]
+		[Description("Считыватель 3 - Вход, Считыватель 4 - Выход")]
 		R3In_R4Out = 2
 	}
 }

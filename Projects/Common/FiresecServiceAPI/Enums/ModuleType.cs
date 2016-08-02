@@ -1,80 +1,62 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Enums
 {
 	public enum ModuleType
 	{
-		//[Description("Администратор")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Administrator")]
+		[Description("Администратор")]
 		Administrator,
 
-		//[Description("Автоматизация")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Automation")]
-        Automation,
+		[Description("Автоматизация")]
+		Automation,
 
-		//[Description("Устройства, Зоны")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Devices")]
-        Devices,
+		[Description("Устройства, Зоны")]
+		Devices,
 
-		//[Description("Фильтры журнала событий")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Filters")]
-        Filters,
+		[Description("Фильтры журнала событий")]
+		Filters,
 
-		//[Description("Конфигуратор макетов ОЗ")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Layout")]
-        Layout,
+		[Description("Конфигуратор макетов ОЗ")]
+		Layout,
 
-		//[Description("Библиотека устройств")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Library")]
-        Library,
+		[Description("Библиотека устройств")]
+		Library,
 
-		//[Description("Уведомления")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Notification")]
-        Notification,
+		[Description("Уведомления")]
+		Notification,
 
-		//[Description("Графические планы")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Plans")]
-        Plans,
+		[Description("Графические планы")]
+		Plans,
 
-		//[Description("Права доступа")]
-		[LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Security")]
+		[Description("Права доступа")]
 		Security,
-		//[Description("Настройки")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Settings")]
-        Settings,
 
-		//[Description("СКД")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "SKD")]
-        SKD,
+		[Description("Настройки")]
+		Settings,
 
-		//[Description("Страж")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Strazh")]
-        Strazh,
+		[Description("СКД")]
+		SKD,
 
-		//[Description("Звуки")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Sounds")]
-        Sounds,
+		[Description("Страж")]
+		Strazh,
 
-		//[Description("Видео")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Video")]
-        Video,
+		[Description("Звуки")]
+		Sounds,
 
-		//[Description("Состояния")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Alarm")]
-        Alarm,
+		[Description("Видео")]
+		Video,
 
-		//[Description("Журнал событий и Архив")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Journal")]
-        Journal,
+		[Description("Cостояния")]
+		Alarm,
 
-		//[Description("Отчёты")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Reports")]
-        Reports,
+		[Description("Журнал событий и Архив")]
+		Journal,
 
-		//[Description("Монитор")]
-        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Monitor")]
-        Monitor,
+		[Description("Отчёты")]
+		Reports,
+
+		[Description("Монитор")]
+		Monitor,
 
 		[Description("Зоны ОПС")]
 		IntegrationOPC

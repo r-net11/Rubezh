@@ -9,7 +9,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementEllipse()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementEllipse.PresentationName;
+			PresentationName = "Эллипс";
 		}
 
 		public override ElementBase Clone()

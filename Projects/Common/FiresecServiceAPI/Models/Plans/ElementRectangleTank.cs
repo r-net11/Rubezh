@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementRectangleTank()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementRectangleTank.PresentationName;
+			PresentationName = "Бак";
 		}
 
 		[DataMember]

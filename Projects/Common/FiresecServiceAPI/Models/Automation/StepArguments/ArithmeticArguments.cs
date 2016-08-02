@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -35,47 +34,37 @@ namespace StrazhAPI.Automation
 
 	public enum ArithmeticOperationType
 	{
-		//[Description("Сложение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Add")]
+		[Description("Сложение")]
 		Add,
 
-		//[Description("Вычитание")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Sub")]
-        Sub,
+		[Description("Вычитание")]
+		Sub,
 
-		//[Description("Умножение")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Multi")]
-        Multi,
+		[Description("Умножение")]
+		Multi,
 
-		//[Description("Деление")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Div")]
-        Div,
+		[Description("Деление")]
+		Div,
 
-		//[Description("И")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "And")]
-        And,
+		[Description("И")]
+		And,
 
-		//[Description("Или")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Or")]
-        Or
+		[Description("Или")]
+		Or
 	}
 
 	public enum TimeType
 	{
-		//[Description("секунд")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Sec")]
-        Sec,
+		[Description("секунд")]
+		Sec,
 
-		//[Description("минут")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Min")]
-        Min,
+		[Description("минут")]
+		Min,
 
-		//[Description("часов")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Hour")]
-        Hour,
+		[Description("часов")]
+		Hour,
 
-		//[Description("дней")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Day")]
-        Day
+		[Description("дней")]
+		Day
 	}
 }

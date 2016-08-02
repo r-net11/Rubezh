@@ -21,7 +21,7 @@ namespace StrazhAPI.Models
 			UID = Guid.NewGuid();
 			Children = new List<Plan>();
 			ElementSubPlans = new List<ElementSubPlan>();
-            Caption = Resources.Language.Models.Plans.Plan.Caption;
+			Caption = "Новый план";
 			Width = 297;
 			Height = 210;
 			BackgroundColor = Colors.White;

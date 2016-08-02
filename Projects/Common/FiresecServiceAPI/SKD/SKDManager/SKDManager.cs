@@ -55,8 +55,8 @@ namespace StrazhAPI.SKD
 					SKDConfiguration.RootDevice = new SKDDevice
 					{
 						DriverUID = driver.UID,
-						Name = Resources.Language.SKD.SKDManager.SKDManager.Name
-				};
+						Name = "Система"
+					};
 			}
 
 			SKDConfiguration.Update();

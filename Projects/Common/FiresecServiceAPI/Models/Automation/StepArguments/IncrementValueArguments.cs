@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -21,12 +20,10 @@ namespace StrazhAPI.Automation
 
 	public enum IncrementType
 	{
-		//[Description("Инкремент")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.IncrementValueArguments), "Inc")]
-        Inc,
+		[Description("Инкремент")]
+		Inc,
 
-		//[Description("Декремент")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.IncrementValueArguments), "Dec")]
+		[Description("Декремент")]
 		Dec,
 	}
 }

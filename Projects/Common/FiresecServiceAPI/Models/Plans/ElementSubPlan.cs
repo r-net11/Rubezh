@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementSubPlan()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementSubPlan.PresentationName;
+			PresentationName = "Ссылка на план";
 		}
 
 		[DataMember]

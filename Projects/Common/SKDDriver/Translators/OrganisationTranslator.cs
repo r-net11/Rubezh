@@ -21,7 +21,7 @@ namespace StrazhDAL
 		{
 			bool hasSameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
 			if (hasSameName)
-                return new OperationResult(Resources.Language.Translators.OrganisationTranslator.CanSave_Error);
+				return new OperationResult("Организация таким же именем уже содержится в базе данных");
 			return new OperationResult();
 		}
 

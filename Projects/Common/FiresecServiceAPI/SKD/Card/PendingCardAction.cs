@@ -1,24 +1,19 @@
-﻿using LocalizationConveters;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace StrazhAPI.SKD
 {
 	public enum PendingCardAction
 	{
-        //[Description("Добавление")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.PendingCardAction), "Add")]
+		[Description("Добавление")]
 		Add,
 
-        //[Description("Редактирование")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.PendingCardAction), "Edit")]
+		[Description("Редактирование")]
 		Edit,
 
-        //[Description("Удаление")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.PendingCardAction), "Delete")]
+		[Description("Удаление")]
 		Delete,
 
-        //[Description("Сброс антипессбэка")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.PendingCardAction), "ResetRepeatEnter")]
+		[Description("Сброс антипессбэка")]
 		ResetRepeatEnter,
 	}
 }

@@ -254,7 +254,7 @@ namespace StrazhDAL
 				x.IsDeleted == false);
 
 			return hasSameName
-				? new OperationResult(Resources.Language.Translators.EmployeeTranslator.CanSave_Error)
+				? new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных")
 				: new OperationResult();
 		}
 

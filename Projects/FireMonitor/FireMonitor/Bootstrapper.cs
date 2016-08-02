@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using Common;
 using FireMonitor.ViewModels;
 using StrazhAPI.Enums;
@@ -24,7 +27,15 @@ namespace FireMonitor
 	{
 		private string _login;
 		private string _password;
-
+        /// <summary>
+        /// Устанавливаем культуру по умолчанию при загрузке оболочки
+        /// </summary>
+	    private static void SetUpCulture()
+	    {
+            var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+	    }
 		public bool Initialize()
 		{
 			bool result;
@@ -117,6 +128,8 @@ namespace FireMonitor
 						return false;
 					}
 
+				    SetUpCulture(); // Культура
+
 					if (Process.GetCurrentProcess().ProcessName != "StrazhMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
@@ -176,6 +189,7 @@ namespace FireMonitor
 
 		protected virtual bool Run()
 		{
+
 			var result = true;
 			var shell = CreateShell();
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);

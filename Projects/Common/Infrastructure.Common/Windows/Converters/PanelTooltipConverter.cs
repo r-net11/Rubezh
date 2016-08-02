@@ -10,8 +10,8 @@ namespace Infrastructure.Common.Windows.Converters
 			var isLeftPanel = parameter == null || System.Convert.ToBoolean(parameter);
 			var isVisible = System.Convert.ToBoolean(value);
 			return isLeftPanel ?
-                (isVisible ? Resources.Language.Windows.Converters.PanelTooltipConverter.MinimizeLeftPart : Resources.Language.Windows.Converters.PanelTooltipConverter.MaximizePlans) :
-                (isVisible ? Resources.Language.Windows.Converters.PanelTooltipConverter.MinimizePlans : Resources.Language.Windows.Converters.PanelTooltipConverter.MaximizeLeftPart);
+				(isVisible ? "Свернуть левую часть" : "Развернуть планы") :
+				(isVisible ? "Свернуть планы" : "Развернуть левую часть");
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

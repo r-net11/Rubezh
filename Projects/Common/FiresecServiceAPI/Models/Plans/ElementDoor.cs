@@ -11,7 +11,7 @@ namespace StrazhAPI.Models
 		public ElementDoor()
 		{
 			DoorUID = Guid.Empty;
-            PresentationName = Resources.Language.Models.Plans.ElementDoor.PresentationName;
+			PresentationName = "Точка доступа";
 		}
 
 		[DataMember]

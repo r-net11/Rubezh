@@ -27,7 +27,7 @@ namespace StrazhDAL
 										&& x.OrganisationUID == item.OrganisationUID
 										&& x.ParentDepartmentUID == item.ParentDepartmentUID);
 
-            return hasSameName ? new OperationResult(Resources.Language.Translators.DepartmentTranslator.CanSave_Error) : new OperationResult();
+			return hasSameName ? new OperationResult("Отдел с таким же названием уже содержится в базе данных") : new OperationResult();
 		}
 
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)

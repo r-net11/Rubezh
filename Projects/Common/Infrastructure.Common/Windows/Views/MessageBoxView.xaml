@@ -2,16 +2,15 @@
 	x:Class="Infrastructure.Common.Windows.Views.MessageBoxView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:res="clr-namespace:Infrastructure.Common.Resources.Language.Windows.Views"
 	MinWidth="{Binding Width}"
 	MinHeight="{Binding Height}">
 	<DockPanel LastChildFill="True">
 		<StackPanel Margin="0,11,11,0" HorizontalAlignment="Right" DockPanel.Dock="Bottom" Orientation="Horizontal">
-			<Button Width="100" Margin="10,0,0,0" Command="{Binding CopyCommand}" Content="{x:Static res:MessageBoxView.Copy}" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Button Width="100" Margin="10,0,0,0" Command="{Binding OkCommand}" Content="{x:Static res:MessageBoxView.OK}" IsDefault="True" Visibility="{Binding IsOkButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Button Width="100" Margin="10,0,0,0" Command="{Binding YesCommand}" Content="{x:Static res:MessageBoxView.Yes}" IsDefault="True" Visibility="{Binding IsYesButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Button Width="100" Margin="10,0,0,0" Command="{Binding NoCommand}" Content="{x:Static res:MessageBoxView.No}" Visibility="{Binding IsNoButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Button Width="100" Margin="10,0,0,0" Command="{Binding CancelCommand}" Content="{x:Static res:MessageBoxView.Cancel}" Visibility="{Binding IsCancelButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding CopyCommand}" Content="Копировать" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding OkCommand}" Content="ОК" IsDefault="True" Visibility="{Binding IsOkButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding YesCommand}" Content="Да" IsDefault="True" Visibility="{Binding IsYesButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding NoCommand}" Content="Нет" Visibility="{Binding IsNoButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Button Width="100" Margin="10,0,0,0" Command="{Binding CancelCommand}" Content="Отмена" Visibility="{Binding IsCancelButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 		<Grid>
 			<Grid.ColumnDefinitions>

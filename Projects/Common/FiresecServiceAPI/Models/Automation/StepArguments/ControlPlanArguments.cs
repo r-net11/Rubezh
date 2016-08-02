@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -31,60 +30,46 @@ namespace StrazhAPI.Automation
 
 	public enum ElementPropertyType
 	{
-		//[Description("Высота")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Height")]
+		[Description("Высота")]
 		Height,
 
-		//[Description("Ширина")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Width")]
-        Width,
+		[Description("Ширина")]
+		Width,
 
-		//[Description("Цвет")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Color")]
-        Color,
+		[Description("Цвет")]
+		Color,
 
-		//[Description("Цвет фона")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "BackColor")]
-        BackColor,
+		[Description("Цвет фона")]
+		BackColor,
 
-		//[Description("Толщина границы")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "BorderThickness")]
-        BorderThickness,
+		[Description("Толщина границы")]
+		BorderThickness,
 
-		//[Description("Отступ слева")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Left")]
-        Left,
+		[Description("Отступ слева")]
+		Left,
 
-		//[Description("Отступ сверху")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Top")]
-        Top,
+		[Description("Отступ сверху")]
+		Top,
 
-		//[Description("Текст")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Text")]
-        Text,
+		[Description("Текст")]
+		Text,
 
-		//[Description("Цвет текста")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "ForegroundColor")]
-        ForegroundColor,
+		[Description("Цвет текста")]
+		ForegroundColor,
 
-		//[Description("Размер текста")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "FontSize")]
-        FontSize,
+		[Description("Размер текста")]
+		FontSize,
 
-		//[Description("Курсив")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "FontItalic")]
-        FontItalic,
+		[Description("Курсив")]
+		FontItalic,
 
-		//[Description("Жирный")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "FontBold")]
-        FontBold,
+		[Description("Жирный")]
+		FontBold,
 
-		//[Description("Растягивать")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "Stretch")]
-        Stretch,
+		[Description("Растягивать")]
+		Stretch,
 
-		//[Description("Переносить")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlPlanArguments), "WordWrap")]
-        WordWrap
+		[Description("Переносить")]
+		WordWrap
 	}
 }

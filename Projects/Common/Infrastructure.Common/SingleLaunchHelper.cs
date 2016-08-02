@@ -23,7 +23,7 @@ namespace Infrastructure.Common
 				if (processes.Count() > 1)
 				{
 					if (!force)
-						result = MessageBoxService.ShowQuestion(Resources.Language.SingleLaunchHelper.ShowQuestion);
+						result = MessageBoxService.ShowQuestion("Другой экземпляр программы уже запущен. Завершить?");
 
 					if (result)
 					{
@@ -44,7 +44,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, Resources.Language.SingleLaunchHelper.KillRunningProcess_Exception);
+				Logger.Error(e, "Исключение при вызове SingleLaunchHelper.KillRunningProcess");
 			}
 
 			return result;
@@ -119,7 +119,7 @@ namespace Infrastructure.Common
 		}
 		private bool RequestConfirmation()
 		{
-			return MessageBoxService.ShowConfirmation(Resources.Language.SingleLaunchHelper.ShowQuestion);
+			return MessageBoxService.ShowConfirmation("Другой экземпляр программы уже запущен. Завершить?");
 		}
 		private void WaitingHandler(object startInfo)
 		{

@@ -49,7 +49,7 @@ namespace FiresecClient
 						return SafeOperationCall(func, methodName, false);
 				}
 			}
-			return OperationResult<T>.FromError(Resources.Language.Service.SafeFiresecService.SafeOperationCall);
+			return OperationResult<T>.FromError("Ошибка при вызове операции");
 		}
 
 		T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
@@ -194,7 +194,7 @@ namespace FiresecClient
 				{
 					Logger.Error(e, "Исключение при вызове FiresecService.Connect ");
 				}
-				return OperationResult<bool>.FromError(string.Format(Resources.Language.Service.SafeFiresecService.FailedConnect,_serverAddress), false);
+				return OperationResult<bool>.FromError("Не удается соединиться с сервером " + _serverAddress, false);
 			}, "Connect");
 		}
 

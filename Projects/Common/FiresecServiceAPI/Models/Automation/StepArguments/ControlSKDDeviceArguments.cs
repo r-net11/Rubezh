@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation
 {
@@ -21,28 +20,22 @@ namespace StrazhAPI.Automation
 
 	public enum SKDDeviceCommandType
 	{
-		//[Description("Открыть")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "Open")]
+		[Description("Открыть")]
 		Open,
 
-		//[Description("Закрыть")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "Close")]
-        Close,
+		[Description("Закрыть")]
+		Close,
 
-		//[Description("Установить режим \"Открыто\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateOpenAlways")]
-        AccessStateOpenAlways,
+		[Description("Установить режим \"Открыто\"")]
+		AccessStateOpenAlways,
 
-		//[Description("Установить режим \"Норма\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateNormal")]
-        AccessStateNormal,
+		[Description("Установить режим \"Норма\"")]
+		AccessStateNormal,
 
-		//[Description("Установить режим \"Закрыто\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateCloseAlways")]
-        AccessStateCloseAlways,
+		[Description("Установить режим \"Закрыто\"")]
+		AccessStateCloseAlways,
 
-		//[Description("Сброс состояния \"Взлом\"")]
-        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "ClearPromptWarning")]
-        ClearPromptWarning
+		[Description("Сброс состояния \"Взлом\"")]
+		ClearPromptWarning
 	}
 }

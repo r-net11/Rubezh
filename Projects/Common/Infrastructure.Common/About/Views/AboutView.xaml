@@ -2,7 +2,6 @@
 	x:Class="Infrastructure.Common.About.Views.AboutView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:res="clr-namespace:Infrastructure.Common.Resources.Language.About.Views"
 	MinWidth="310" MinHeight="130">
 	<Border Grid.Column="1" Padding="5">
 		<StackPanel>
@@ -14,15 +13,15 @@
 			</StackPanel.Resources>
 			<TextBlock Text="{Binding Product, Mode=OneWay}" FontWeight="Bold" />
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{x:Static res:AboutView.Version}" Margin="2" />
+				<TextBlock Text="Версия" Margin="2" />
 				<TextBlock Text="{Binding Version, Mode=OneWay}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{x:Static res:AboutView.BuildDate}" Margin="2" />
+				<TextBlock Text="Собрана " Margin="2" />
 				<TextBlock Text="{Binding BuildDate, Mode=OneWay, StringFormat='dd.MM.yyyy в HH:mmm'}" />
 			</StackPanel>
 			<TextBlock Text="{Binding Copyright, Mode=OneWay}" />
-            <TextBlock Text="{x:Static res:AboutView.Copyright}" />
+			<TextBlock Text="Все права защищены." />
 			<TextBlock Text="{Binding Trademark, Mode=OneWay}" />
 		</StackPanel>
 	</Border>

@@ -1,64 +1,49 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum TimeTrackType
 	{
-		//[Description("Нет данных")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "None")]
+		[Description("Нет данных")]
 		None,
 
-        //[Description("Баланс")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Balance")]
+		[Description("Баланс")]
 		Balance,
 
-        //[Description("Явка")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Presence")]
+		[Description("Явка")]
 		Presence,
 
-        //[Description("Отсутствие")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Absence")]
+		[Description("Отсутствие")]
 		Absence,
 
-        //[Description("Опоздание")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Late")]
+		[Description("Опоздание")]
 		Late,
 
-        //[Description("Уход раньше")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "EarlyLeave")]
+		[Description("Уход раньше")]
 		EarlyLeave,
 
-        //[Description("Сверхурочно")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Overtime")]
+		[Description("Сверхурочно")]
 		Overtime,
 
-        //[Description("Работа ночью")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Night")]
+		[Description("Работа ночью")]
 		Night,
 
-        //[Description("Выходной")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DayOff")]
+		[Description("Выходной")]
 		DayOff,
 
-        //[Description("Праздничный день")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "Holiday")]
+		[Description("Праздничный день")]
 		Holiday,
 
-        //[Description("Переработка по документу")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DocumentOvertime")]
+		[Description("Переработка по документу")]
 		DocumentOvertime,
 
-        //[Description("Присутствие по документу")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DocumentPresence")]
+		[Description("Присутствие по документу")]
 		DocumentPresence,
 
-        //[Description("Отсутствие по неуважительной причине")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DocumentAbsence")]
+		[Description("Отсутствие по неуважительной причине")]
 		DocumentAbsence,
 
-        //[Description("Отсутствие по уважительной причине")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackType), "DocumentAbsenceReasonable")]
+		[Description("Отсутствие по уважительной причине")]
 		DocumentAbsenceReasonable,
 
 		[Description("Перерыв")]

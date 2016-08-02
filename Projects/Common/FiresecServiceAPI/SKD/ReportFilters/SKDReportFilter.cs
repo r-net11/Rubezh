@@ -80,7 +80,7 @@ namespace StrazhAPI.SKD.ReportFilters
 
 		public bool IsDefault { get { return Name == DefaultFilterName; } }
 
-        private string DefaultFilterName { get { return Resources.Language.SKD.ReportFilters.SKDReportFilter.DefaultFilterName; } }
+		private string DefaultFilterName { get { return "По умолчанию"; } }
 
 		public override string ToString()
 		{

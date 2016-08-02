@@ -1,19 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public enum DayIntervalPartTransitionType
 	{
-		//[DescriptionAttribute("Нет")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DayIntervalPartTransitionType),"Day")]
+		[Description("Нет")]
 		[EnumMember]
 		Day = 0,
 
-        //[DescriptionAttribute("Переход")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.DayIntervalPartTransitionType), "Night")]
+		[Description("Переход")]
 		[EnumMember]
 		Night = 1,
 	}

@@ -12,7 +12,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public PolygonPropertiesViewModel(ElementPolygon elementPolygon)
 		{
-            Title = Resources.Language.ElementProperties.ViewModels.PolygonPropertiesViewModel.Title;
+			Title = "Свойства фигуры: Полигон";
 			_elementPolygon = elementPolygon;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementPolygon);
 			CopyProperties();

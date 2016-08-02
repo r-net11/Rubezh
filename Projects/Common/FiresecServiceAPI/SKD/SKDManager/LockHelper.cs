@@ -10,8 +10,8 @@ namespace StrazhAPI.SKD
 			var driver = new SKDDriver
 			{
 				UID = new Guid("578537D0-36A9-4916-BC8F-80CDEDC6AE15"),
-                Name = Resources.Language.SKD.SKDManager.LockHelper.Name,
-                ShortName = Resources.Language.SKD.SKDManager.LockHelper.ShortName,
+				Name = "Замок",
+				ShortName = "Замок",
 				DriverType = SKDDriverType.Lock,
 				IsPlaceable = true
 			};

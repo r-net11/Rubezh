@@ -9,7 +9,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementPolyline()
 		{
-            PresentationName = Resources.Language.Models.Plans.ElementPolyline.PresentationName;
+			PresentationName = "Линия";
 		}
 
 		public override ElementBase Clone()

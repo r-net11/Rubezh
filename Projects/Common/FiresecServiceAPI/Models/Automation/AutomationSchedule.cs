@@ -9,7 +9,7 @@ namespace StrazhAPI.Automation
 	{
 		public AutomationSchedule()
 		{
-			Name = Resources.Language.Models.Automation.AutomationSchedule.Name;
+			Name = "Новое расписание";
 			Uid = Guid.NewGuid();
 			Year = -1;
 			Month = -1;

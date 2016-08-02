@@ -82,12 +82,12 @@ namespace StrazhDAL
 				var journalResultItems = journalResult.ToArray();
 				
 				if (journalResultItems.Length != 1)
-                    return OperationResult<DateTime>.FromError(Resources.Language.Translators.JournalTranslator.GetLastJournalItemTimeProducedByController_Empty_Error);
+					return OperationResult<DateTime>.FromError("Нет зарегистрированных событий");
 				
 				var deviceDate = journalResultItems[0].DeviceDate;
 				
 				if  (!deviceDate.HasValue)
-                    return OperationResult<DateTime>.FromError(Resources.Language.Translators.JournalTranslator.GetLastJournalItemTimeProducedByController_DeviceDate_Error);
+					return OperationResult<DateTime>.FromError("Для зарегистрированного события не зафиксировано время на устройстве");
 				
 				return new OperationResult<DateTime>(journalResultItems[0].DeviceDate.Value);
 			}

@@ -42,7 +42,7 @@ namespace Infrastructure.Designer
 			DesignerSurface.AllowDrop = true;
 
 			var menuItem = DesignerCanvasHelper.BuildMenuItem(
-				Designer.Resources.Language.DesignerCanvas.Paste,
+				"Вставить",
 				"BPaste",
 				PlanDesignerViewModel.PasteCommand
 			);

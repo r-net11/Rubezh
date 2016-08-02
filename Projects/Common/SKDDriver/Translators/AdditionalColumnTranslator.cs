@@ -133,7 +133,7 @@ namespace StrazhDAL
 			try
 			{
 				if (typeUID == Guid.Empty)
-					return new OperationResult(Resources.Language.Translators.AdditionalColumnTranslator.DeleteAllByType_Error);
+					return new OperationResult("Не задан идентификатор");
 				var databaseItems = Table.Where(x => x.AdditionalColumnTypeUID.Equals(typeUID));
 				if (databaseItems != null && databaseItems.Count() > 0)
 				{

@@ -1,32 +1,25 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace Infrastructure.Common.Services.Layout
 {
 	public enum LayoutPartPropertyType
 	{
-		//[Description("Целое")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "Integer")]
+		[Description("Целое")]
 		Integer,
 
-        //[Description("Вещественное")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "Double")]
+		[Description("Вещественное")]
 		Double,
 
-        //[Description("Логическое")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "Boolean")]
+		[Description("Логическое")]
 		Boolean,
 
-        //[Description("Дата и время")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "DateTime")]
+		[Description("Дата и время")]
 		DateTime,
 
-        //[Description("Строка")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "String")]
+		[Description("Строка")]
 		String,
 
-        //[Description("Объект")]
-        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartPropertyType), "Object")]
+		[Description("Объект")]
 		Object,
 	}
 }

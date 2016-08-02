@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.Automation.Enums
 {
@@ -11,15 +10,13 @@ namespace StrazhAPI.Automation.Enums
 		/// <summary>
 		/// Норма
 		/// </summary>
-		//[Description("Норма")]
-        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.ConnectionStatus), "Connected")]
+		[Description("Норма")]
 		Connected,
 		
 		/// <summary>
 		/// Потеря связи
 		/// </summary>
-        //[Description("Потеря связи")]
-        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.ConnectionStatus), "Disconnected")]
+		[Description("Потеря связи")]
 		Disconnected
 	}
 }

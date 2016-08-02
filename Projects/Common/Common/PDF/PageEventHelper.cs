@@ -73,7 +73,7 @@ namespace Common.PDF
 			if (PrintPages)
 			{
 				int pageN = writer.PageNumber;
-				string text = string.Format(Resources.Language.PDF.PageEventHelper.text, pageN);
+				String text = "Страница " + pageN + " из ";
 
 				float len = PDFStyle.BaseFont.GetWidthPoint(text, FontSize);
 

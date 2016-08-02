@@ -9,9 +9,9 @@ namespace StrazhAPI.SKD
 		{
 			var driver = new SKDDriver
 			{
-                UID = new Guid("48A0C16E-DEA6-40d2-98B9-A21076BF6F37"),
-                Name = Resources.Language.SKD.SKDManager.ChinaController_4_Helper.Name,
-                ShortName = Resources.Language.SKD.SKDManager.ChinaController_4_Helper.ShortName,
+				UID = new Guid("48A0C16E-DEA6-40d2-98B9-A21076BF6F37"),
+				Name = "Четырехдверный контроллер",
+				ShortName = "Контроллер",
 				DriverType = SKDDriverType.ChinaController_4,
 				IsPlaceable = true,
 			};

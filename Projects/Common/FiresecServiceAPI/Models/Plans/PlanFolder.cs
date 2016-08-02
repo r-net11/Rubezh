@@ -9,7 +9,7 @@ namespace StrazhAPI.Models
 	{
 		public PlanFolder()
 		{
-            Caption = Resources.Language.Models.Plans.PlanFolder.Caption;
+			Caption = "Папка";
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
@@ -11,33 +10,27 @@ namespace StrazhAPI.SKD
 	{
 		None = 0,
 
-		//[Description("Редактирование границ")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "EditBorders")]
+		[Description("Редактирование границ")]
 		[EnumMember]
 		EditBorders = 0x1,
 
-        //[Description("Добавление")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "Adding")]
+		[Description("Добавление")]
 		[EnumMember]
 		Adding = 0x2,
 
-        //[Description("Удаление")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "Remove")]
+		[Description("Удаление")]
 		[EnumMember]
 		Remove = 0x4,
 
-        //[Description("Принудительное закрытие")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "ForceClose")]
+		[Description("Принудительное закрытие")]
 		[EnumMember]
 		ForceClose = 0x8,
 
-        //[Description("Отключение флага Не учитывать в расчетах'")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "TurnOffCalculation")]
+		[Description("Отключение флага Не учитывать в расчетах'")]
 		[EnumMember]
 		TurnOffCalculation = 0x10,
 
-        //[Description("Включение флага 'Не учитывать в расчетах'")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.TimeTrackActions), "TurnOnCalculation")]
+		[Description("Включение флага 'Не учитывать в расчетах'")]
 		[EnumMember]
 		TurnOnCalculation = 0x20
 	}

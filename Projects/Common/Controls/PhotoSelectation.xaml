@@ -1,8 +1,7 @@
 <UserControl x:Class="Controls.PhotoSelectation"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:local="clr-namespace:Controls"
-             xmlns:res="clr-namespace:Controls.Resources.Language">
+			 xmlns:local="clr-namespace:Controls">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -10,11 +9,11 @@
 		</Grid.RowDefinitions>
 		<Image Grid.Row="0" Name="PhotoImage" Stretch="Uniform" />
 		<StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
-			<local:ToolBarButton ImageSource="Webcam"  ToolTip="{x:Static res:PhotoSelectation.Webcam_Tooltip}" Click="WebCamButton_Click" Visibility="Collapsed" />
-            <local:ToolBarButton ImageSource="Scanner"  ToolTip="{x:Static res:PhotoSelectation.Scanner_Tooltip}" Click="ScannerButton_Click" Visibility="Collapsed" />
-            <local:ToolBarButton ImageSource="Paste"  ToolTip="{x:Static res:PhotoSelectation.Paste_Tooltip}" Click="PasteButton_Click" IsEnabled="True" />
-            <local:ToolBarButton ImageSource="Load"  ToolTip="{x:Static res:PhotoSelectation.Load_Tooltip}" Click="OpenButton_Click" IsEnabled="True" />
-            <local:ToolBarButton ImageSource="Close"  ToolTip="{x:Static res:PhotoSelectation.Close_Tooltip}" Click="RemoveButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Webcam"  ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Scanner"  ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Paste"  ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Load"  ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Close"  ToolTip="Очитстить фото" Click="RemoveButton_Click" IsEnabled="True" />
 		</StackPanel>
 	</Grid>
 </UserControl>

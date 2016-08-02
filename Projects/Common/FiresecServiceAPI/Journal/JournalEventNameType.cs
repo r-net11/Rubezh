@@ -3,8 +3,8 @@
 namespace StrazhAPI.Journal
 {
 	public enum JournalEventNameType
-    {
-        [EventName(JournalSubsystemType.System, "NULL", XStateClass.No)]
+	{
+		[EventName(JournalSubsystemType.System, "NULL", XStateClass.No)]
 		NULL = 0,
 
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]

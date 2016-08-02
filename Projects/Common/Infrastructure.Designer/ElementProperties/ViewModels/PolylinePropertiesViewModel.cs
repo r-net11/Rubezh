@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public PolylinePropertiesViewModel(ElementPolyline elementPolyline)
 		{
-            Title = Resources.Language.ElementProperties.ViewModels.PolylinePropertiesViewModel.Title;
+			Title = "Свойства фигуры: Линия";
 			_elementPolyline = elementPolyline;
 			CopyProperties();
 		}

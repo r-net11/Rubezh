@@ -1,24 +1,19 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhAPI.SKD
 {
 	public enum IntervalType
 	{
-        //[DescriptionAttribute("Дневные графики")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.IntervalType), "Time")]
+		[Description("Дневные графики")]
 		Time,
 
-        //[DescriptionAttribute("Недельные графики")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.IntervalType), "Weekly")]
+		[Description("Недельные графики")]
 		Weekly,
 
-        //[DescriptionAttribute("Суточные графики")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.IntervalType), "SlideDay")]
+		[Description("Суточные графики")]
 		SlideDay,
 
-        //[DescriptionAttribute("Скользящие понедельные графики")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.IntervalType), "SlideWeekly")]
+		[Description("Скользящие понедельные графики")]
 		SlideWeekly
 	}
 }

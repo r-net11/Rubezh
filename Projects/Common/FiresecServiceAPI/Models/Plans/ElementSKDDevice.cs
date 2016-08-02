@@ -10,7 +10,7 @@ namespace StrazhAPI.Models
 	{
 		public ElementSKDDevice()
 		{
-			PresentationName = Resources.Language.Models.Plans.ElementSKDDevice.PresentationName;
+			PresentationName = "Устройство Страж";
 		}
 
 		[DataMember]

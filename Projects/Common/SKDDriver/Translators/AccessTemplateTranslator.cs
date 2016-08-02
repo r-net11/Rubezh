@@ -24,7 +24,7 @@ namespace StrazhDAL
 				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.Translators.AccessTemplateTranslator.CanSave_Error);
+				return new OperationResult("Шаблон доступа с таким же названием уже содержится в базе данных");
 			else
 				return new OperationResult();
 		}
@@ -32,7 +32,7 @@ namespace StrazhDAL
 		protected override OperationResult CanDelete(Guid uid)
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid))
-                return new OperationResult(Resources.Language.Translators.AccessTemplateTranslator.CanDelete_Error);
+				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}
 

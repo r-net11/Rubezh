@@ -5,8 +5,8 @@
 	xmlns:views="clr-namespace:AutomationModule.Views"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:res="clr-namespace:AutomationModule.Resources.Language
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	mc:Ignorable="d"
 	d:DesignHeight="300"
 	d:DesignWidth="300">
@@ -30,7 +30,7 @@
 				IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn
-						Header="{x:Static res:ProceduresView.Name}"
+						Header="{x:Static lang:CommonViews.Name}"
 						Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -60,7 +60,7 @@
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Button
-					Content="{x:Static res:ProceduresView.Execute}"
+					Content="{x:Static lang:CommonViews.Execute}"
 					Width="100"
 					Command="{Binding RunCommand}"
 					Margin ="8, 0"

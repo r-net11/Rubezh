@@ -11,8 +11,8 @@ namespace StrazhAPI.SKD
 			var systemDriver = new SKDDriver
 			{
 				UID = new Guid("EC1089D1-7DBC-4797-A5AB-F37104999E91"),
-                Name = Resources.Language.SKD.SKDManager.SKDManagerDrivers.Name,
-                ShortName = Resources.Language.SKD.SKDManager.SKDManagerDrivers.ShortName,
+				Name = "Система",
+				ShortName = "Система",
 				DriverType = SKDDriverType.System,
 			};
 			systemDriver.Children.Add(SKDDriverType.ChinaController_1);
