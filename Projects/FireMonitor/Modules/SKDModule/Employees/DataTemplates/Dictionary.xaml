@@ -2,10 +2,14 @@
                     xmlns:dialogWindows="clr-namespace:SKDModule.Employees.ViewModels.DialogWindows"
                     xmlns:dialogWindows1="clr-namespace:SKDModule.Employees.Views.DialogWindows">
 
+	<DataTemplate DataType="{x:Type dialogWindows:PrintingTemplatesDialogViewModel}">
+		<dialogWindows1:PrintingTemplatesDialogView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type dialogWindows:PreviewReportDialogViewModel}">
 		<dialogWindows1:PreviewReportDialogView />
 	</DataTemplate>
-	
+
 	<DataTemplate DataType="{x:Type ViewModels:EmployeesViewModel}">
 		<Views:EmployeesView />
 	</DataTemplate>

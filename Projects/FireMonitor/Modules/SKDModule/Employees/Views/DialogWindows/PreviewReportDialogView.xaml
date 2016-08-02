@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:controls="clr-namespace:Controls.Converters;assembly=Controls"
+	xmlns:types="clr-namespace:SKDModule.PassCardDesigner.Model"
     xmlns:dialogWindows="clr-namespace:SKDModule.Employees.Views.DialogWindows"
     xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
     mc:Ignorable="d"
@@ -17,6 +18,38 @@
 			</ResourceDictionary.MergedDictionaries>
 			<InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 			<InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+			<DataTemplate x:Key="SingleViewTemplate">
+				<Grid>
+					<dialogWindows:ReportPreviewControlWrapper
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
+						Margin="10 10 5 10"/>
+				</Grid>
+			</DataTemplate>
+			<DataTemplate x:Key="DoubleViewTemplate" DataType="{x:Type types:Template}">
+				<Grid DataContext="{Binding}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<dialogWindows:ReportPreviewControlWrapper
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
+						Margin="10 10 5 10"/>
+					<dialogWindows:ReportPreviewControlWrapper
+						Grid.Column="1"
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Back.Report}"
+						Margin="5 10 10 10"/>
+				</Grid>
+			</DataTemplate>
+			<Style x:Key="SelectationContentStyle" TargetType="{x:Type ContentControl}">
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding IsDualTemplateEnabled}" Value="True">
+						<Setter Property="ContentTemplate" Value="{StaticResource DoubleViewTemplate}" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding IsDualTemplateEnabled}" Value="False">
+						<Setter Property="ContentTemplate" Value="{StaticResource SingleViewTemplate}" />
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid Background="{StaticResource BaseWindowBackgroundBrush}">
@@ -55,7 +88,11 @@
 				Background="White"
 				Height="1"
 				Margin="20 10"/>
-			<Grid Grid.Row="2">
+			<ContentControl
+				Grid.Row="2"
+				DataContext="{Binding SelectedTemplate}"
+				Style="{StaticResource SelectationContentStyle}"/>
+			<!--<Grid Grid.Row="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />
@@ -67,7 +104,7 @@
 					Grid.Column="1"
 					CurrentReport="{Binding SelectedTemplate.Back.Report}"
 					Margin="5 10 10 10"/>
-			</Grid>
+			</Grid>-->
 		</Grid>
 		<customControls:BisyIndicator
 				VerticalAlignment="Center"

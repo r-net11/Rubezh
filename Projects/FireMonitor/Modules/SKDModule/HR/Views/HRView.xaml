@@ -31,6 +31,10 @@
 							ImageSource="Edit"
 							ToolTip="{Binding EditCommandToolTip}" />
 						<ToolBarButton
+							Command="{Binding PrintTemplatesCommand}"
+							ImageSource="Print"
+							ToolTip="Печать пропусков"/>
+						<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="Восстановить"
@@ -64,8 +68,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsPositionsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -94,8 +97,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsAdditionalColumnTypesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -124,8 +126,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -167,8 +168,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsPassCardTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -201,8 +201,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -224,24 +223,20 @@
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="Восстановить"
-							Visibility="{Binding IsWithDeleted,
-						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Add"
 						ToolTip="Отображать архивные сведения"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Delete"
 						ToolTip="Отображать архивные сведения"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
-
 			<ToolBarButton
 				Command="{Binding EditFilterCommand}"
 				ImageSource="{Binding FilterImageSource}"
@@ -262,7 +257,6 @@
 				</Grid>
 			</StackPanel>
 		</StackPanel>
-
 		<TabControl Grid.Row="1">
 			<TabItem
 				Header="{Binding EmployeesViewModel.TabItemHeader}"
@@ -303,15 +297,13 @@
 			<TabItem
 				Header="Шаблоны пропусков"
 				IsSelected="{Binding IsPassCardTemplatesSelected}"
-				Visibility="{Binding CanSelectPassCardTemplates,
-			                              Converter={StaticResource BoolToVisibilityConverter}}">
+				Visibility="{Binding CanSelectPassCardTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
 			</TabItem>
 			<TabItem
 				Header="Организации"
 				IsSelected="{Binding IsOrganisationsSelected}"
-				Visibility="{Binding CanSelectOrganisations,
-			                              Converter={StaticResource BoolToVisibilityConverter}}">
+				Visibility="{Binding CanSelectOrganisations, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
 			</TabItem>
 		</TabControl>

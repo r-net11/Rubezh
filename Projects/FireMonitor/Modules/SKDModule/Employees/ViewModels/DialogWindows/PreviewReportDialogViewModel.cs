@@ -16,6 +16,7 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 		private Template _selectedTemplate;
 		private Organisation _currentOrganisation;
 		private ObservableCollection<Template> _templatesCollection;
+		private Guid? _selectedTemplateGuid;
 		private bool _isBusy;
 
 		public bool IsBusy
@@ -49,11 +50,12 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 			}
 		}
 
-		public PreviewReportDialogViewModel(Organisation organisation)
+		public PreviewReportDialogViewModel(Organisation organisation, Guid? selectedTemplateGuid)
 		{
 			if(organisation == null)
 				throw new ArgumentNullException("organisation");
 
+			_selectedTemplateGuid = selectedTemplateGuid;
 			_currentOrganisation = organisation;
 			GetAllTemplates();
 		}
@@ -66,7 +68,9 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 				.ContinueWith(t =>
 				{
 					TemplatesCollection = new ObservableCollection<Template>(t.Result.Select(x => new Template(x)));
-					SelectedTemplate = TemplatesCollection.FirstOrDefault();
+					SelectedTemplate = _selectedTemplateGuid != null
+						? TemplatesCollection.FirstOrDefault(x => x.UID == _selectedTemplateGuid.Value)
+						: TemplatesCollection.FirstOrDefault();
 					IsBusy = false;
 				});
 

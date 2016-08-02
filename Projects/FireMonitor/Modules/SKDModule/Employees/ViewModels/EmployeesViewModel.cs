@@ -1,6 +1,8 @@
 ﻿using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
 using StrazhAPI.SKD;
 using System;
@@ -14,12 +16,13 @@ namespace SKDModule.ViewModels
 	{
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
-		public EmployeesViewModel():base()
+		public EmployeesViewModel()
 		{
 			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
 			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
+			PrintTemplatesCommand = new RelayCommand(OnPrintTemplates);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -34,6 +37,15 @@ namespace SKDModule.ViewModels
 		{
 			base.OnOrganisationUsersChanged(newOrganisation);
 			InitializeAdditionalColumns();
+		}
+
+		public void OnPrintTemplates()
+		{
+			var vm = new PrintingTemplatesDialogViewModel();
+			if (DialogService.ShowModalWindow(vm))
+			{
+
+			}
 		}
 
 		public void InitializeAdditionalColumns()
@@ -200,5 +212,7 @@ namespace SKDModule.ViewModels
 		{
 			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
+
+		public RelayCommand PrintTemplatesCommand { get; private set; }
 	}
 }

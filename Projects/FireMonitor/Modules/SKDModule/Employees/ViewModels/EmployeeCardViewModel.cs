@@ -1,4 +1,5 @@
-﻿using FiresecClient;
+﻿using System.Threading.Tasks;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -120,12 +121,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private void OnOpenPrintPreviewWindow() //TODO: Implement printing
+		private void OnOpenPrintPreviewWindow()
 		{
-			var vm = new PreviewReportDialogViewModel(Organisation);
+			var vm = new PreviewReportDialogViewModel(Organisation, Card.PassCardTemplateUID);
 			if (DialogService.ShowModalWindow(vm))
 			{
-
+				Card.PassCardTemplateUID = vm.SelectedTemplate.UID;
+				Task.Factory.StartNew(() => CardHelper.Edit(Card, EmployeeCardsViewModel.Employee.Name));
 			}
 		}
 

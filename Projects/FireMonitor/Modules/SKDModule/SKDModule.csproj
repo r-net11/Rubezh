@@ -386,8 +386,12 @@
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Employees\ViewModels\DialogWindows\PreviewReportDialogViewModel.cs" />
+    <Compile Include="Employees\ViewModels\DialogWindows\PrintingTemplatesDialogViewModel.cs" />
     <Compile Include="Employees\Views\DialogWindows\PreviewReportDialogView.xaml.cs">
       <DependentUpon>PreviewReportDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\DialogWindows\PrintingTemplatesDialogView.xaml.cs">
+      <DependentUpon>PrintingTemplatesDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControl.cs">
       <SubType>UserControl</SubType>
@@ -986,6 +990,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\DialogWindows\PreviewReportDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\DialogWindows\PrintingTemplatesDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
