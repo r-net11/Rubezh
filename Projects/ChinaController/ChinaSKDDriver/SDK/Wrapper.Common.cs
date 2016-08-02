@@ -12,7 +12,7 @@ namespace StrazhDeviceSDK
 
 		public static DateTime NET_TIMEToDateTime(NativeWrapper.NET_TIME netTime)
 		{
-			DateTime dateTime = DateTime.MinValue;
+			var dateTime = DateTime.MinValue;
 			try
 			{
 				if (netTime.dwYear <= 0 || netTime.dwMonth <= 0 || netTime.dwDay <= 0)
@@ -81,17 +81,14 @@ namespace StrazhDeviceSDK
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
 			var result = NativeWrapper.WRAP_Get_NetInfo(LoginID, out outResult);
 
-			SKDControllerNetworkSettings controllerNetworkSettings = null;
-			if (result)
-			{
-				controllerNetworkSettings = new SKDControllerNetworkSettings
+			return result
+				? new SKDControllerNetworkSettings
 				{
 					Address = outResult.szIP,
 					Mask = outResult.szSubnetMask,
 					DefaultGateway = outResult.szDefGateway
-				};
-			}
-			return controllerNetworkSettings;
+				}
+				: null;
 		}
 
 		/// <summary>
@@ -101,8 +98,7 @@ namespace StrazhDeviceSDK
 		/// <returns>true - операция завершилась успешно, false - операция завершилась с ошибкой</returns>
 		public bool SetDeviceNetInfo(SKDControllerNetworkSettings controllerNetworkSettings)
 		{
-			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, 1500);
-			return result;
+			return NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, 1500);
 		}
 
 		/// <summary>
@@ -113,24 +109,14 @@ namespace StrazhDeviceSDK
 		{
 			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
 			var result = NativeWrapper.WRAP_GetMacAddress(LoginID, out outResult);
-			if (result)
-			{
-				var macAddress = outResult.szMAC;
-				return macAddress;
-			}
-			return null;
+			return result ? outResult.szMAC : null;
 		}
 
 		public int GetMaxPageSize()
 		{
 			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
 			var result = NativeWrapper.WRAP_GetMaxPageSize(LoginID, out outResult);
-			if (result)
-			{
-				var maxPageSize = outResult.nMaxPageSize;
-				return maxPageSize;
-			}
-			return -1;
+			return result ? outResult.nMaxPageSize : -1;
 		}
 
 		/// <summary>
@@ -161,8 +147,7 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибками</returns>
 		public bool SetDateTime(DateTime dateTime)
 		{
-			var result = NativeWrapper.WRAP_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
-			return result;
+			return NativeWrapper.WRAP_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
 		}
 
 		/// <summary>
@@ -172,8 +157,7 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибкой</returns>
 		public bool Reset()
 		{
-			var result = NativeWrapper.WRAP_DeleteCfgFile(LoginID);
-			return result;
+			return NativeWrapper.WRAP_DeleteCfgFile(LoginID);
 		}
 
 		/// <summary>
@@ -183,8 +167,7 @@ namespace StrazhDeviceSDK
 		/// false- операция завершилась с ошибкой</returns>
 		public bool Reboot()
 		{
-			var result = NativeWrapper.WRAP_ReBoot(LoginID);
-			return result;
+			return NativeWrapper.WRAP_ReBoot(LoginID);
 		}
 
 		/// <summary>
@@ -214,13 +197,12 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerDoorType(DoorType doorType)
 		{
-			NativeWrapper.CFG_ACCESS_PROPERTY_TYPE nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
+			var nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
 			if (doorType == DoorType.TwoWay)
 				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_BIDIRECT;
 			if (doorType == DoorType.OneWay)
 				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
-			var result = NativeWrapper.WRAP_SetControllerDirectionType(LoginID, nativeControllerDirectionType);
-			return result;
+			return NativeWrapper.WRAP_SetControllerDirectionType(LoginID, nativeControllerDirectionType);
 		}
 
 		/// <summary>
@@ -233,8 +215,7 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerPassword(string name, string oldPassword, string password)
 		{
-			var result = NativeWrapper.WRAP_SetControllerPassword(LoginID, name, oldPassword, password);
-			return result;
+			return NativeWrapper.WRAP_SetControllerPassword(LoginID, name, oldPassword, password);
 		}
 
 		/// <summary>
@@ -266,15 +247,16 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerTimeSettings(SKDControllerTimeSettings controllerTimeSettings)
 		{
-			var cfg_NTP_INFO = new NativeAPI.NativeWrapper.CFG_NTP_INFO();
-			cfg_NTP_INFO.bEnable = controllerTimeSettings.IsEnabled;
-			cfg_NTP_INFO.szAddress = controllerTimeSettings.Name;
-			cfg_NTP_INFO.szTimeZoneDesc = controllerTimeSettings.Description;
-			cfg_NTP_INFO.nPort = controllerTimeSettings.Port;
-			cfg_NTP_INFO.nUpdatePeriod = controllerTimeSettings.UpdatePeriod;
-			cfg_NTP_INFO.emTimeZoneType = controllerTimeSettings.TimeZone;
-			var result = NativeWrapper.WRAP_SetControllerTimeConfiguration(LoginID, cfg_NTP_INFO);
-			return result;
+			var cfgNtpInfo = new NativeWrapper.CFG_NTP_INFO
+			{
+				bEnable = controllerTimeSettings.IsEnabled,
+				szAddress = controllerTimeSettings.Name,
+				szTimeZoneDesc = controllerTimeSettings.Description,
+				nPort = controllerTimeSettings.Port,
+				nUpdatePeriod = controllerTimeSettings.UpdatePeriod,
+				emTimeZoneType = controllerTimeSettings.TimeZone
+			};
+			return NativeWrapper.WRAP_SetControllerTimeConfiguration(LoginID, cfgNtpInfo);
 		}
 
 		/// <summary>
@@ -294,7 +276,8 @@ namespace StrazhDeviceSDK
 			Marshal.FreeHGlobal(intPtr);
 			intPtr = IntPtr.Zero;
 
-			if (!result) return null;
+			if (!result)
+				return null;
 
 			var doorConfiguration = new DoorConfiguration();
 
@@ -354,12 +337,14 @@ namespace StrazhDeviceSDK
 				for (var j = 0; j < 4; j++)
 				{
 					var dooropenTimesectionInfo = outResult.stuDoorTimeSection[i * 4 + j];
-					var doorDayIntervalPart = new DoorDayIntervalPart();
-					doorDayIntervalPart.StartHour = dooropenTimesectionInfo.stuTime.stuStartTime.dwHour;
-					doorDayIntervalPart.StartMinute = dooropenTimesectionInfo.stuTime.stuStartTime.dwMinute;
-					doorDayIntervalPart.EndHour = dooropenTimesectionInfo.stuTime.stuEndTime.dwHour;
-					doorDayIntervalPart.EndMinute = dooropenTimesectionInfo.stuTime.stuEndTime.dwMinute;
-					doorDayIntervalPart.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)dooropenTimesectionInfo.emDoorOpenMethod;
+					var doorDayIntervalPart = new DoorDayIntervalPart
+					{
+						StartHour = dooropenTimesectionInfo.stuTime.stuStartTime.dwHour,
+						StartMinute = dooropenTimesectionInfo.stuTime.stuStartTime.dwMinute,
+						EndHour = dooropenTimesectionInfo.stuTime.stuEndTime.dwHour,
+						EndMinute = dooropenTimesectionInfo.stuTime.stuEndTime.dwMinute,
+						DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod) dooropenTimesectionInfo.emDoorOpenMethod
+					};
 					doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
 				}
 				doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
@@ -370,26 +355,29 @@ namespace StrazhDeviceSDK
 			doorConfiguration.IsSensorEnable = outResult.bSensorEnable;
 
 			// First enter info
-			var firstEnterInfo = new DoorFirstEnterInfo();
-			firstEnterInfo.bEnable = outResult.stuFirstEnterInfo.bEnable;
-			firstEnterInfo.emStatus = (DoorFirstEnterStatus)outResult.stuFirstEnterInfo.emStatus;
-			firstEnterInfo.nTimeIndex = outResult.stuFirstEnterInfo.nTimeIndex;
-			doorConfiguration.FirstEnterInfo = firstEnterInfo;
+			doorConfiguration.FirstEnterInfo = new DoorFirstEnterInfo
+			{
+				bEnable = outResult.stuFirstEnterInfo.bEnable,
+				emStatus = (DoorFirstEnterStatus)outResult.stuFirstEnterInfo.emStatus,
+				nTimeIndex = outResult.stuFirstEnterInfo.nTimeIndex
+			};
 
 			// Remote check
 			doorConfiguration.IsRemoteCheck = outResult.bRemoteCheck;
 
 			// Remote detail
-			var remoteDetail = new RemoteDetailInfo();
-			remoteDetail.nTimeOut = outResult.stuRemoteDetail.nTimeOut;
-			remoteDetail.bTimeOutDoorStatus = outResult.stuRemoteDetail.bTimeOutDoorStatus;
-			doorConfiguration.RemoteDetail = remoteDetail;
+			doorConfiguration.RemoteDetail = new RemoteDetailInfo
+			{
+				nTimeOut = outResult.stuRemoteDetail.nTimeOut,
+				bTimeOutDoorStatus = outResult.stuRemoteDetail.bTimeOutDoorStatus
+			};
 
 			// Handicap timeout
-			var handicapTimeout = new HandicapTimeoutInfo();
-			handicapTimeout.nUnlockHoldInterval = outResult.stuHandicapTimeOut.nUnlockHoldInterval;
-			handicapTimeout.nCloseTimeout = outResult.stuHandicapTimeOut.nCloseTimeout;
-			doorConfiguration.HandicapTimeout = handicapTimeout;
+			doorConfiguration.HandicapTimeout = new HandicapTimeoutInfo
+			{
+				nUnlockHoldInterval = outResult.stuHandicapTimeOut.nUnlockHoldInterval,
+				nCloseTimeout = outResult.stuHandicapTimeOut.nCloseTimeout
+			};
 
 			// Закрывать замок при закрытии двери
 			doorConfiguration.IsCloseCheckSensor = outResult.bCloseCheckSensor;
@@ -506,8 +494,7 @@ namespace StrazhDeviceSDK
 		/// false - операция завершилась с ошибкой</returns>
 		public bool UpdateFirmware(string fileName)
 		{
-			var result = NativeWrapper.WRAP_Upgrade(LoginID, fileName);
-			return result;
+			return NativeWrapper.WRAP_Upgrade(LoginID, fileName);
 		}
 
 		#endregion CommonDevice
