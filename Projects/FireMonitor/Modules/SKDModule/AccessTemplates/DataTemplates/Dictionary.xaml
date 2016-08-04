@@ -10,5 +10,13 @@
 	<DataTemplate DataType="{x:Type ViewModels:AccessTemplateFilterViewModel}">
 		<Views:AccessTemplateFilterView />
 	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ApplyAccessTemplateToUserGroupViewModel}">
+		<Views:ApplyAccessTemplateToUserGroupView/>
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ApplyAccessTemplateToUserGroupFilterViewModel}">
+		<Views:ApplyAccessTemplateToUserGroupFilterView/>
+	</DataTemplate>
 
 </ResourceDictionary>

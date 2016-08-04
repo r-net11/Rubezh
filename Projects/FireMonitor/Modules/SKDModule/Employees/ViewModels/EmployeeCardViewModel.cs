@@ -34,6 +34,17 @@ namespace SKDModule.ViewModels
 			Card = card;
 
 			SetCardDoors();
+
+			ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Subscribe(OnCardAccessTemplateChanged);
+		}
+
+		private void OnCardAccessTemplateChanged(SKDCard card)
+		{
+			if (Card.UID != card.UID)
+				return;
+
+			Card.AccessTemplateUID = card.AccessTemplateUID;
+			UpdateCardDoors();
 		}
 
 		public string Name

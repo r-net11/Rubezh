@@ -12,10 +12,10 @@ namespace SKDModule.ViewModels
 	{
 		public CheckBoxItemList<FilterOrganisationItem> Organisations { get; private set; }
 
-		public OrganisationFilterBaseViewModel(T filter, bool allowMultiple = true)
+		public OrganisationFilterBaseViewModel(T filter, bool allowMultiple = true, IOrganisationsProvider organisationsProvider = null)
 			: base(filter)
 		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
+			var organisations = organisationsProvider == null ? new CurrentUserOrganisationsProvider().Get() : organisationsProvider.Get();
 			Organisations = new CheckBoxItemList<FilterOrganisationItem> { IsSingleSelection = !allowMultiple };
 			if (organisations != null)
 			{

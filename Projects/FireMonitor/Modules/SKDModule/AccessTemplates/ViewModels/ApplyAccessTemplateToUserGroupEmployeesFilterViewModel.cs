@@ -7,9 +7,9 @@ using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>
+	public class ApplyAccessTemplateToUserGroupEmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>
 	{
-		public EmployeesFilterViewModel()
+		public ApplyAccessTemplateToUserGroupEmployeesFilterViewModel()
 			: base()
 		{
 			SelectAllCommand = new RelayCommand(OnSelectAll);
@@ -23,33 +23,27 @@ namespace SKDModule.ViewModels
 			Initialize(filter, filter.LogicalDeletationType, filter.PersonType);
 		}
 
-		public void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
+		private void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
 		{
 			_Filter = filter;
-			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType };
+			var emptyFilter = new EmployeeFilter
+			{
+				OrganisationUIDs = filter.OrganisationUIDs,
+				LogicalDeletationType = logicalDeletationType,
+				PersonType = personType
+			};
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;
 			SecondName = filter.SecondName;
-			IsSearch = (FirstName != null && FirstName.Length != 0) ||
-				(LastName != null && LastName.Length != 0) ||
-				(SecondName != null && SecondName.Length != 0);
+			IsSearch = !string.IsNullOrEmpty(FirstName) ||
+				!string.IsNullOrEmpty(LastName) ||
+				!string.IsNullOrEmpty(SecondName);
 			if (filter.UIDs == null)
 				return;
 			var employees = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
 			foreach (var employee in employees)
 				employee.IsChecked = true;
-		}
-
-		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, PersonType personType = PersonType.Employee)
-		{
-			var filter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids, PersonType = personType };
-			Initialize(filter);
-		}
-
-		public void Initialize()
-		{
-			Initialize(_Filter);
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
@@ -113,6 +107,9 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsSelection { get { return !IsSearch; } }
+
+		#region <Поиск>
+
 		private bool _isSearch;
 		public bool IsSearch
 		{
@@ -158,12 +155,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#endregion </Поиск>
 
 		protected override StrazhAPI.Models.PermissionType Permission
 		{
 			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
-
-		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
 	}
 }

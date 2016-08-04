@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="SKDModule.Views.ApplyAccessTemplateToUserGroupFilterView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             Width="800" Height="600">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TabControl
+			Grid.Row="0">
+			<TabItem Header="Подразделения">
+				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
+			</TabItem>
+            <TabItem
+				Header="Должности"
+				Visibility="{Binding ShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
+			</TabItem>
+			<TabItem Header="{Binding EmployeesFilterTitle}">
+				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
+			</TabItem>
+		</TabControl>
+	</Grid>
+</UserControl>

@@ -7,6 +7,8 @@ namespace SKDModule.ViewModels
 	public class FilterBaseViewModel<T> : SaveCancelDialogViewModel
 		where T : IsDeletedFilter
 	{
+		#region <Конструктор>
+
 		public FilterBaseViewModel(T filter)
 		{
 			Title = "Фильтр";
@@ -31,7 +33,11 @@ namespace SKDModule.ViewModels
 			RemovalDatesEnd = Filter.RemovalDates.EndDate;
 		}
 
-		T filter;
+		#endregion </Конструктор>
+
+		#region <Поля и свойства>
+
+		private T filter;
 		public T Filter
 		{
 			get { return filter; }
@@ -42,7 +48,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool withDeleted;
+		private bool withDeleted;
 		public bool WithDeleted
 		{
 			get { return withDeleted; }
@@ -53,7 +59,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool onlyDeleted;
+		private bool onlyDeleted;
 		public bool OnlyDeleted
 		{
 			get { return onlyDeleted; }
@@ -64,7 +70,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime removalDatesStart;
+		private DateTime removalDatesStart;
 		public DateTime RemovalDatesStart
 		{
 			get { return removalDatesStart; }
@@ -75,7 +81,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime removalDatesEnd;
+		private DateTime removalDatesEnd;
 		public DateTime RemovalDatesEnd
 		{
 			get { return removalDatesEnd; }
@@ -85,6 +91,10 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => RemovalDatesEnd);
 			}
 		}
+
+		#endregion </Поля и свойства>
+
+		#region <Методы>
 
 		protected override bool Save()
 		{
@@ -98,5 +108,7 @@ namespace SKDModule.ViewModels
 			Filter.RemovalDates.EndDate = RemovalDatesEnd;
 			return true;
 		}
+
+		#endregion </Методы>
 	}
 }
