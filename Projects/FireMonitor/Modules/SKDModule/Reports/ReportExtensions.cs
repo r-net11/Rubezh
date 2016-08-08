@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SKDModule.PassCardDesigner.Model;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Xsl;
-using DevExpress.XtraReports.UI;
-using SKDModule.PassCardDesigner.Model;
 
 namespace SKDModule.Reports
 {

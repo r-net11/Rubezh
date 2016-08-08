@@ -3,7 +3,6 @@ using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Drawing;
 using Attribute = System.Attribute;
 
@@ -16,7 +15,45 @@ namespace SKDModule.PassCardDesigner.Model
 		{
 			InitializeComponent();
 			this.DrawWatermark = true;
-			var dataSet = new EmployeeDataSet();
+			//var dataSet = new EmployeeDataSet();
+			var dataSet = new Test();
+			//var dataRow = dataSet.Employee.NewEmployeeRow();
+			//dataRow.FirstName = "Test firstName";
+			//dataRow.LastName = "TestLastName";
+			//dataRow.SecondName = "TestSecondName";
+			//dataRow.PhotoUID = Guid.Empty;
+			//dataRow.UID = Guid.NewGuid();
+			//dataRow.PositionUID = Guid.NewGuid();
+			//dataRow.DepartmentUID = Guid.NewGuid();
+			//dataRow.ScheduleUID = Guid.NewGuid();
+			//dataRow.ScheduleStartDate = DateTime.Now;
+			//dataRow.Type = 0;
+			//dataRow.IsDeleted = false;
+			//dataRow.OrganisationUID = Guid.NewGuid();
+			//dataRow.LastEmployeeDayUpdate = DateTime.Now;
+			//dataRow.RemovalDate = DateTime.Now;
+			//dataRow.ExternalKey = "-1";
+
+			//var dataRow2 = dataSet.Employee.NewEmployeeRow();
+			//dataRow2.FirstName = "Test firstName2";
+			//dataRow2.LastName = "TestLastName2";
+			//dataRow2.SecondName = "TestSecondName2";
+			//dataRow2.PhotoUID = Guid.Empty;
+			//dataRow2.UID = Guid.NewGuid();
+			//dataRow2.PositionUID = Guid.NewGuid();
+			//dataRow2.DepartmentUID = Guid.NewGuid();
+			//dataRow2.ScheduleUID = Guid.NewGuid();
+			//dataRow2.ScheduleStartDate = DateTime.Now;
+			//dataRow2.Type = 0;
+			//dataRow2.IsDeleted = false;
+			//dataRow2.OrganisationUID = Guid.NewGuid();
+			//dataRow2.LastEmployeeDayUpdate = DateTime.Now;
+			//dataRow2.RemovalDate = DateTime.Now;
+			//dataRow2.ExternalKey = "-1";
+
+			//dataSet.Employee.AddEmployeeRow(dataRow);
+			//dataSet.Employee.AddEmployeeRow(dataRow2);
+
 			this.DataSource = dataSet;
 			this.DataMember = dataSet.Tables[0].TableName;
 
@@ -29,6 +66,7 @@ namespace SKDModule.PassCardDesigner.Model
 			if(band != null) Bands.Remove(band);
 			FilterComponentProperties += XtraReport_FilterComponentProperties;
 		}
+
 		public PassCardTemplateReport(Image image) : this()
 		{
 			Watermark.Image = image;
@@ -48,34 +86,34 @@ namespace SKDModule.PassCardDesigner.Model
 
 
 		//Удаление смарт тегов отчета и элементов дизайнера пропусков.
-		private void PassCardTemplateReport_DesignerLoaded(object sender, DesignerLoadedEventArgs e)
-		{
-			IDesignerHost host = Site.GetService(typeof(IDesignerHost)) as IDesignerHost;
+		//private void PassCardTemplateReport_DesignerLoaded(object sender, DesignerLoadedEventArgs e)
+		//{
+		//	IDesignerHost host = Site.GetService(typeof(IDesignerHost)) as IDesignerHost;
 
-			if (host == null) return;
+		//	if (host == null) return;
 
-			foreach (IComponent c in host.Container.Components)
-			{
-				ComponentDesigner designer = host.GetDesigner(c) as ComponentDesigner;
-				if (designer != null)
-				{
-					designer.ActionLists.Clear();
-					designer.Verbs.Clear();
-				}
-			}
-			IComponentChangeService serv = Site.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-			if (serv == null) return;
+		//	foreach (IComponent c in host.Container.Components)
+		//	{
+		//		ComponentDesigner designer = host.GetDesigner(c) as ComponentDesigner;
+		//		if (designer != null)
+		//		{
+		//			designer.ActionLists.Clear();
+		//			designer.Verbs.Clear();
+		//		}
+		//	}
+		//	IComponentChangeService serv = Site.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+		//	if (serv == null) return;
 
-			serv.ComponentAdded += (s2, e2) =>
-			{
-				ComponentDesigner designer = host.GetDesigner(e2.Component) as ComponentDesigner;
-				if (designer != null)
-				{
-					designer.ActionLists.Clear();
-					designer.Verbs.Clear();
-				}
-			};
-		}
+		//	serv.ComponentAdded += (s2, e2) =>
+		//	{
+		//		ComponentDesigner designer = host.GetDesigner(e2.Component) as ComponentDesigner;
+		//		if (designer != null)
+		//		{
+		//			designer.ActionLists.Clear();
+		//			designer.Verbs.Clear();
+		//		}
+		//	};
+		//}
 
 		void XtraReport_FilterComponentProperties(object sender,
 		FilterComponentPropertiesEventArgs e)
@@ -117,8 +155,8 @@ namespace SKDModule.PassCardDesigner.Model
 			HideProperty("ScriptLanguage", e);
 			HideProperty("Bands", e);
 			HideProperty("Extensions", e);
-			// The following code hides the ReportSource property,
-			// for subreports to always contain only the pre-defined reports.
+			 //The following code hides the ReportSource property,
+			 //for subreports to always contain only the pre-defined reports.
 			if (e.Component is XRSubreport)
 			{
 				HideProperty("ReportSource", e);

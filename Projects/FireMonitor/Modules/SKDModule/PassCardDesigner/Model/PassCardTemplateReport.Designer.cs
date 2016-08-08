@@ -81,7 +81,7 @@ namespace SKDModule.PassCardDesigner.Model
 			this.Version = "13.2";
 			this.Watermark.ImageViewMode = DevExpress.XtraPrinting.Drawing.ImageViewMode.Stretch;
 			this.Watermark.Text = resources.GetString("PassCardTemplateReport.Watermark.Text");
-			this.DesignerLoaded += new DevExpress.XtraReports.UserDesigner.DesignerLoadedEventHandler(this.PassCardTemplateReport_DesignerLoaded);
+		//	this.DesignerLoaded += new DevExpress.XtraReports.UserDesigner.DesignerLoadedEventHandler(this.PassCardTemplateReport_DesignerLoaded);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 			}
 

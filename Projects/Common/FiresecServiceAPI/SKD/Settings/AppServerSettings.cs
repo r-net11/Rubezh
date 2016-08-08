@@ -31,6 +31,9 @@ namespace StrazhAPI
 		public int ReportServicePort { get; set; }
 
 		[DataMember]
+		public int ReportDataServicePort { get; set; }
+
+		[DataMember]
 		public bool EnableRemoteConnections { get; set; }
 
 		[DataMember]

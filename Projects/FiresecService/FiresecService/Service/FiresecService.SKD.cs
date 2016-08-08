@@ -1,12 +1,12 @@
-﻿using StrazhDeviceSDK;
-using Common;
-using StrazhAPI;
-using StrazhAPI.Journal;
-using StrazhAPI.SKD;
+﻿using Common;
 using FiresecService.Properties;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using StrazhDAL;
+using StrazhDeviceSDK;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,16 +20,22 @@ namespace FiresecService.Service
 		{
 			get
 			{
-				if (CurrentClientCredentials != null)
-					return CurrentClientCredentials.FriendlyUserName;
-				return "<Нет>";
+				return CurrentClientCredentials != null ? CurrentClientCredentials.FriendlyUserName : "<Нет>";
 			}
 		}
 
-		private IList<Guid> _criticalOperationRunningControllerGuids = new List<Guid>();
-		private object _criticalOperationRunningControllerGuidsLock = new object();
+		private readonly IList<Guid> _criticalOperationRunningControllerGuids = new List<Guid>();
+		private readonly object _criticalOperationRunningControllerGuidsLock = new object();
 
 		#region Employee
+
+		public OperationResult<IEnumerable<Employee>> GetFullEmployeeData(EmployeeFilter filter)
+		{
+			using (var ds = new SKDDatabaseService())
+			{
+				return ds.EmployeeTranslator.GetFullList(filter);
+			}
+		}
 
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
@@ -1986,6 +1992,14 @@ namespace FiresecService.Service
 			using (var db = new SKDDatabaseService())
 			{
 				return db.PassCardTemplateTranslator.GetFullList(filter);
+			}
+		}
+
+		public OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.PassCardTemplateTranslator.GetTemplateNames(organisationId);
 			}
 		}
 

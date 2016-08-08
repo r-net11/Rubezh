@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Common;
+﻿using Common;
 using StrazhAPI;
 using StrazhAPI.Models;
-using System.Data;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace FiresecClient
 {
@@ -18,7 +16,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				ClientCredentials = new ClientCredentials()
+				ClientCredentials = new ClientCredentials
 				{
 					UserName = login,
 					Password = password,

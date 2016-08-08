@@ -8,7 +8,7 @@ namespace StrazhAPI.Printing
 	/// <summary>
 	/// Объект, описывающий структуру хранения настроек для разновидности формата листа
 	/// </summary>
-	public class PaperKindSettings
+	internal class UserKindSetting : IPaperKindSetting
 	{
 		public string Name { get; set; }
 		/// <summary>
@@ -19,5 +19,17 @@ namespace StrazhAPI.Printing
 		/// Высота в миллиметрах
 		/// </summary>
 		public int Height { get; set; }
+
+		public bool IsSystem { get { return false; } }
+
+		public UserKindSetting()
+		{
+			Name = "Пользовательский размер листа";
+		}
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

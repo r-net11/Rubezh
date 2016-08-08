@@ -215,6 +215,10 @@
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
     <Compile Include="ReportFactory.cs" />
+    <Compile Include="Reports\Base.cs" />
+    <Compile Include="Reports\PrintPassCardTemplate.cs" />
+    <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\ReportDataService.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
@@ -595,7 +599,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

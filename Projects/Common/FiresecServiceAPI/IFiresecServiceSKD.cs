@@ -5,6 +5,7 @@ using System.ServiceModel;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
+using StrazhAPI.Printing;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 
@@ -14,6 +15,9 @@ namespace StrazhAPI
 	public partial interface IFiresecServiceSKD
 	{
 		#region Employee
+
+		[OperationContract]
+		OperationResult<IEnumerable<Employee>> GetFullEmployeeData(EmployeeFilter filter);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
@@ -387,6 +391,10 @@ namespace StrazhAPI
 		#endregion NightSettings
 
 		#region PassCardTemplate
+
+		[OperationContract]
+		OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId);
+
 		[OperationContract]
 		OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter);
 

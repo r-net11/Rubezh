@@ -5,5 +5,6 @@ namespace Infrastructure.Common
 	{
 		public const string ServiceName = "StrazhService";
 		public const string ReportServiceName = "ReportStrazhService";
+		public const string ReportDataServiceName = "ReportDataService";
 	}
 }

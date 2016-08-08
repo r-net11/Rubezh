@@ -35,6 +35,11 @@ namespace Infrastructure.Common
 		/// </summary>
 		public static int ReportServerPort { get; set; }
 
+		/// <summary>
+		/// Порт сервиса для получения отчётных данных
+		/// </summary>
+		public static int ReportDataServicePort { get; set; }
+
 		static AppServerConnectionManager()
 		{
 			Update();
@@ -47,6 +52,7 @@ namespace Infrastructure.Common
 				ServerAddress = GetIpAddress();
 				ServerPort = AppServerSettingsHelper.AppServerSettings.ServicePort;
 				ReportServerPort = AppServerSettingsHelper.AppServerSettings.ReportServicePort;
+				ReportDataServicePort = AppServerSettingsHelper.AppServerSettings.ReportDataServicePort;
 			}
 			catch (Exception e)
 			{
@@ -106,6 +112,28 @@ namespace Infrastructure.Common
 			get
 			{
 				return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportServerPort, AppServerConstants.ReportServiceName);
+			}
+		}
+
+		/// <summary>
+		/// URI сервиса получения отчётных данных NamedPipes
+		/// </summary>
+		public static string ReportDataServerNamedPipesUri
+		{
+			get
+			{
+				return string.Format("net.tcp://{0}:{1}/ReportDataService/", NetworkHelper.LocalhostIp, AppServerConstants.ReportDataServiceName);
+			}
+		}
+
+		/// <summary>
+		/// URI сервиса получения отчётных данных Tcp
+		/// </summary>
+		public static string ReportDataServiceTcpUri
+		{
+			get
+			{
+				return string.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportDataServicePort, AppServerConstants.ReportDataServiceName);
 			}
 		}
 

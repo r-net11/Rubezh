@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FiresecClient.SKDHelpers;
+﻿using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.PassCardDesigner.Model;
 using StrazhAPI.SKD;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SKDModule.Employees.ViewModels.DialogWindows
 {
 	public class PreviewReportDialogViewModel : SaveCancelDialogViewModel
 	{
 		private Template _selectedTemplate;
-		private Organisation _currentOrganisation;
+		private readonly Organisation _currentOrganisation;
 		private ObservableCollection<Template> _templatesCollection;
 		private Guid? _selectedTemplateGuid;
 		private bool _isBusy;

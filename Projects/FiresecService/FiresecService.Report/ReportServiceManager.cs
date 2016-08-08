@@ -59,15 +59,10 @@ namespace FiresecService.Report
 		private bool Open()
 		{
 			Addresses.Clear();
-			
+
 			try
 			{
 				Close();
-				//Address = AppServerConnectionManager.ReportServerUri;
-				//var binding = BindingHelper.CreateBindingFromAddress(Address);
-				//_serviceHost = new ServiceHost(typeof(FiresecReportService));
-				//_serviceHost.AddServiceEndpoint(typeof(IReportService), binding, Address);
-				//_serviceHost.Open();
 				_serviceHost = new ServiceHost(typeof(FiresecReportService));
 				if (AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
 				{

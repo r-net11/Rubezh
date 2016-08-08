@@ -1,0 +1,189 @@
+﻿<UserControl
+	x:Class="SKDModule.Employees.Views.DialogWindows.PrintingTemplatesDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    mc:Ignorable="d"
+    Height="500"
+	Width="500">
+	<UserControl.Resources>
+		<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+	</UserControl.Resources>
+    <Grid x:Name="Main">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid x:Name="TopSeparator"
+			Margin="0 10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.2*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Separator
+				Style="{x:Null}"
+				Margin="5"
+				BorderBrush="White"
+				BorderThickness="1" />
+			<TextBlock
+				Grid.Column="1"
+				Text="Выбор шаблона пропуска"
+				Margin="5 0"
+				Foreground="White"
+				VerticalAlignment="Center" />
+			<Separator
+				Grid.Column="2"
+				Style="{x:Null}"
+				Margin="5"
+				BorderBrush="White"
+				BorderThickness="1" />
+		</Grid>
+		<Grid x:Name="TemplateChoosing"
+			Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Text="Использовать прикрепленные шаблоны"
+				VerticalAlignment="Center"
+				Foreground="White"
+				Margin="5" />
+			<RadioButton
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				IsChecked="{Binding Settings.IsUseAttachedTemplates}"
+				Margin="5"/>
+			<TextBlock
+				Grid.Row="1"
+				Text="Использовать шаблон пропуска явно"
+				Foreground="White"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<RadioButton
+				Grid.Column="1"
+				Grid.Row="1"
+				IsChecked="{Binding Settings.IsUseAttachedTemplates, Converter={StaticResource InverseBooleanConverter}}"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<ComboBox
+				x:Name="TemplatesList"
+				Grid.Row="1"
+				Grid.Column="2"
+				ItemsSource="{Binding Settings.TemplateNames, IsAsync=True}"
+				SelectedItem="{Binding Settings.SelectedTemplate}"
+				IsEnabled="{Binding Settings.IsUseAttachedTemplates, Converter={StaticResource InverseBooleanConverter}}"
+				VerticalAlignment="Center"
+				Margin="5">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock
+							Text="{Binding Item2}"
+							VerticalAlignment="Center"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</Grid>
+		<Grid x:Name="MiddleSeparator"
+			Grid.Row="2"
+			Margin="0 10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.2*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Separator
+				Style="{x:Null}"
+				Margin="5"
+				BorderBrush="White"
+				BorderThickness="1" />
+			<TextBlock
+				Grid.Column="1"
+				Text="Параметры листа"
+				Margin="5 0"
+				Foreground="White"
+				VerticalAlignment="Center" />
+			<Separator
+				Grid.Column="2"
+				Style="{x:Null}"
+				Margin="5"
+				BorderBrush="White"
+				BorderThickness="1" />
+		</Grid>
+		<Grid
+			Grid.Row="3"
+			HorizontalAlignment="Center">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition MinWidth="150" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Text="Формат листа"
+				Foreground="White"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<ComboBox
+				Grid.Column="1"
+				ItemsSource="{Binding Settings.PaperKindSettings}"
+				SelectedItem="{Binding Settings.SelectedPaperKindSetting}"
+				VerticalAlignment="Center"
+				Margin="5"/>
+			<TextBlock
+				Grid.Row="1"
+				Text="Ширина, мм."
+				Foreground="White"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<xctk:IntegerUpDown
+				Grid.Row="1"
+				Grid.Column="1"
+				Value="{Binding Settings.SelectedPaperKindSetting.Width}"
+				IsEnabled="{Binding Settings.SelectedPaperKindSetting.IsSystem, Converter={StaticResource InverseBooleanConverter}}"
+				Minimum="0"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<TextBlock
+				Grid.Row="2"
+				Text="Высота, мм."
+				Foreground="White"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<xctk:IntegerUpDown
+				Grid.Column="1"
+				Grid.Row="2"
+				Value="{Binding Settings.SelectedPaperKindSetting.Height}"
+				IsEnabled="{Binding Settings.SelectedPaperKindSetting.IsSystem, Converter={StaticResource InverseBooleanConverter}}"
+				VerticalAlignment="Center"
+				Margin="5" />
+			<TextBlock
+				Grid.Row="3"
+				Text="Метки разреза"
+				Foreground="White"
+				Margin="5"
+				VerticalAlignment="Center"/>
+			<CheckBox
+				Grid.Row="3"
+				Grid.Column="1"
+				IsChecked="{Binding Settings.IsUseCutMarks}"
+				Margin="5"
+				VerticalAlignment="Center"/>
+		</Grid>
+    </Grid>
+</UserControl>

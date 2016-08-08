@@ -249,7 +249,12 @@
     <Compile Include="Models\Plans\IPlanPresentable.cs" />
     <Compile Include="Models\Plans\IPrimitive.cs" />
     <Compile Include="Models\Plans\Primitive.cs" />
-    <Compile Include="Printing\PaperKindSettings.cs" />
+    <Compile Include="Printing\AlbumKindSetting.cs" />
+    <Compile Include="Printing\BookOrientationSettings.cs" />
+    <Compile Include="Printing\IPaperKindSetting.cs" />
+    <Compile Include="Printing\PaperKindSettingsFactory.cs" />
+    <Compile Include="Printing\PrintReportSettings.cs" />
+    <Compile Include="Printing\UserKindSetting.cs" />
     <Compile Include="SKDCallbackResult.cs" />
     <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />

@@ -51,6 +51,19 @@
     <Reference Include="DevExpress.Data.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.DataAccess.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\DevExpress 13.2\Components\Bin\Framework\DevExpress.DataAccess.v13.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v13.2.UI, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\DevExpress 13.2\Components\Bin\Framework\DevExpress.DataAccess.v13.2.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Office.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DevExpress.PivotGrid.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\DevExpress 13.2\Components\Bin\Framework\DevExpress.PivotGrid.v13.2.Core.dll</HintPath>
@@ -385,6 +398,7 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Employees\Models\ReportSettings.cs" />
     <Compile Include="Employees\ViewModels\DialogWindows\PreviewReportDialogViewModel.cs" />
     <Compile Include="Employees\ViewModels\DialogWindows\PrintingTemplatesDialogViewModel.cs" />
     <Compile Include="Employees\Views\DialogWindows\PreviewReportDialogView.xaml.cs">
@@ -401,6 +415,13 @@
     </Compile>
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControlWrapper.xaml.cs">
       <DependentUpon>ReportPreviewControlWrapper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Model\AddingSubreportAlgorithm.cs" />
+    <Compile Include="PassCardDesigner\Model\MasterReportFactory.cs" />
+    <Compile Include="PassCardDesigner\Model\Test.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Test.xsd</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
@@ -1385,6 +1406,17 @@
     </None>
     <None Include="PassCardDesigner\Model\EmployeeDataSet.xss">
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PassCardDesigner\Model\Test.xsc">
+      <DependentUpon>Test.xsd</DependentUpon>
+    </None>
+    <None Include="PassCardDesigner\Model\Test.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Test.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="PassCardDesigner\Model\Test.xss">
+      <DependentUpon>Test.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -231,20 +231,18 @@ namespace SKDModule.PassCardDesigner.Model
 				Report = new PassCardTemplateReport(Image.FromStream(ms))
 				{
 					DisplayName = "Шаблон пропуска",
-					WidthF = (float)width,
-					HeightF = (float)height,
-					PageWidth = (int)width,
-					PageHeight = (int)height,
-					PaperKind = PaperKind.Custom,
-					CanGrow = false,
-					CanShrink = false
+					ReportUnit = ReportUnit.TenthsOfAMillimeter,
+					WidthF = (float)width * 10,
+					HeightF = (float)height * 10,
+					PageWidth = (int)width * 10,
+					PageHeight = (int)height * 10,
+					PaperKind = PaperKind.Custom
 				};
-				Report.Bands.GetBandByType(typeof (DetailBand)).Height = (int) height;
-				Report.Bands.GetBandByType(typeof (DetailBand)).Width = (int) width;
-				Report.Bands.GetBandByType(typeof (DetailBand)).WidthF = (float) width;
-				Report.Bands.GetBandByType(typeof (DetailBand)).HeightF = (float) height;
-				Report.Bands.GetBandByType(typeof (DetailBand)).CanShrink = false;
-				Report.Bands.GetBandByType(typeof (DetailBand)).CanGrow = false;
+				Report.Bands.GetBandByType(typeof (DetailBand)).Height = (int) height * 10;
+				Report.Bands.GetBandByType(typeof (DetailBand)).Width = (int) width * 10;
+				Report.Bands.GetBandByType(typeof (DetailBand)).WidthF = (float) width * 10;
+				Report.Bands.GetBandByType(typeof (DetailBand)).HeightF = (float) height * 10;
+				Report.Bands.GetBandByType(typeof (DetailBand)).KeepTogether = true;
 			}
 		}
 

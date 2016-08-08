@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Common;
 using DevExpress.XtraReports.UI;
 using StrazhAPI;
@@ -68,6 +70,16 @@ namespace StrazhDAL
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			return result;
+		}
+
+		public OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId)
+		{
+			return new OperationResult<IEnumerable<Tuple<Guid, string>>>(
+				Table
+				.Where(x => x.OrganisationUID == organisationId && !x.IsDeleted)
+				.Select(x => Tuple.Create(x.UID, x.Name))
+				.ToList()
+			);
 		}
 	}
 }

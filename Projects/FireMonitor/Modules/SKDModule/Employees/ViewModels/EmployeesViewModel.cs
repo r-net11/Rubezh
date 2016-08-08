@@ -1,9 +1,15 @@
-﻿using FiresecClient.SKDHelpers;
+﻿using DevExpress.Office.Internal;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
+using SKDModule.PassCardDesigner.Model;
+using SKDModule.Reports;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -41,11 +47,74 @@ namespace SKDModule.ViewModels
 
 		public void OnPrintTemplates()
 		{
-			var vm = new PrintingTemplatesDialogViewModel();
+			var vm = new PrintingTemplatesDialogViewModel(SelectedItem.OrganisationUID);
 			if (DialogService.ShowModalWindow(vm))
 			{
+				var settings = vm.Settings.ToDTO();
+				if (settings.TemplateGuid.HasValue)
+				{
 
+					var employeeFullData = FiresecManager.FiresecService.GetFullEmployeeData(Filter);
+					var passCardTemplate = FiresecManager.FiresecService.GetPassCardTemplateDetails(settings.TemplateGuid.Value);
+					var xtraReport = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+
+					var ds = new Test();
+
+					foreach (var empl in employeeFullData.Result)
+					{
+						FillDataSet(ds, empl);
+					}
+
+					xtraReport.DataSource = ds;
+					xtraReport.DataMember = ds.Employee.TableName;
+					var report = new MasterReportFactory();
+					report.CreateMasterReport(ds, xtraReport);
+
+					//var myFactory = new MyFactory(employee)
+
+
+
+					//using (ReportPrintTool tool = new ReportPrintTool(xtraReport))
+					//{
+					//	tool.PrintingSystem.StartPrint += printingSystem_StartPrint;
+					//	tool.Print();
+					//}
+				}
+				else
+				{
+
+				}
 			}
+		}
+
+		private void FillDataSet(Test ds, Employee e)
+		{
+			//var ds = new Test();
+			var row = ds.Employee.NewEmployeeRow();
+			row.UID = e.UID;
+			row.FirstName = e.FirstName;
+			row.SecondName = e.SecondName;
+			row.LastName = e.LastName;
+			row.PhotoUID = Guid.Empty;
+			row.PositionUID = Guid.Empty;
+			row.DepartmentUID = Guid.Empty;
+			row.ScheduleUID = e.Schedule.UID;
+			row.ScheduleStartDate = DateTime.Now;
+			row.Type = 0;
+			row.IsDeleted = false;
+			row.RemovalDate = DateTime.Now;
+			row.OrganisationUID = e.OrganisationUID;
+			row.LastEmployeeDayUpdate = DateTime.Now;
+			row.ExternalKey = "-1";
+			ds.Employee.AddEmployeeRow(row);
+		//	return ds;
+		}
+
+		private void printingSystem_StartPrint(object sender, PrintDocumentEventArgs e)
+		{
+			e.PrintDocument.PrinterSettings.FromPage = 1;
+			e.PrintDocument.PrinterSettings.ToPage = 1;
+
 		}
 
 		public void InitializeAdditionalColumns()

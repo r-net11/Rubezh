@@ -33,5 +33,16 @@ namespace SKDModule.Properties {
                 return ((string)(this["ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=WS-SRT01-1370\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True" +
+            "")]
+        public string SKDConnectionString {
+            get {
+                return ((string)(this["SKDConnectionString"]));
+            }
+        }
     }
 }
