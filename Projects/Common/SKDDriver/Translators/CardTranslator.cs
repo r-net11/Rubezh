@@ -176,7 +176,9 @@ namespace StrazhDAL
 			if (filter.AccessTemplateFilter != null)
 			{
 				var accessTemplateUIDs = DatabaseService.AccessTemplateTranslator.GetTableItems(filter.AccessTemplateFilter).Select(x => x.UID);
-				result = result.And(e => e.AccessTemplateUID != null && accessTemplateUIDs.Contains(e.AccessTemplateUID.Value));
+				result = filter.WithEmptyAccessTemplate
+					? result.And(e => e.AccessTemplateUID != null && accessTemplateUIDs.Contains(e.AccessTemplateUID.Value) || e.AccessTemplateUID == null)
+					: result.And(e => e.AccessTemplateUID != null && accessTemplateUIDs.Contains(e.AccessTemplateUID.Value));
 			}
 
 			return result;
