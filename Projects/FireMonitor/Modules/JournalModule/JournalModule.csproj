@@ -160,66 +160,6 @@
     </Compile>
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\JournalReportPdf.cs" />
-    <Compile Include="Resources\Language\ArchiveFilterView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveFilterView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArchiveFilterViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveFilterViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArchiveSettingsView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveSettingsView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArchiveSettingsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveSettingsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArchiveView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ArchiveViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArchiveViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ConfirmationView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConfirmationView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\ConfirmationViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConfirmationViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\JournalItemViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JournalItemViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\JournalModuleLoader.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JournalModuleLoader.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\JournalView.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JournalView.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\VideoViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>VideoViewModel.resx</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDateTimeViewModel.cs" />
@@ -301,6 +241,10 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Localization.Monitor\Localization.csproj">
+      <Project>{7b5d3a8b-7868-4d05-96f1-b480f28786fa}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
@@ -336,56 +280,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Language\ArchiveFilterView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveFilterView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArchiveFilterViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveFilterViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArchiveSettingsView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveSettingsView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArchiveSettingsViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveSettingsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArchiveView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ArchiveViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ArchiveViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ConfirmationView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConfirmationView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ConfirmationViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConfirmationViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\JournalItemViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>JournalItemViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\JournalModuleLoader.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>JournalModuleLoader.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\JournalView.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>JournalView.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\VideoViewModel.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>VideoViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

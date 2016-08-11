@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using Common;
+using Localization.Journal.ViewModels;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
@@ -125,7 +126,7 @@ namespace JournalModule.ViewModels
 			}
 
 			if (ObjectName == null)
-				ObjectName = Resources.Language.JournalItemViewModel.ObjectName_Null;
+				ObjectName = CommonViewModels.NotInConfig;
 
 			//if (JournalItem.EmployeeUID != Guid.Empty)
 			//{
@@ -238,7 +239,7 @@ namespace JournalModule.ViewModels
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(c => c.UID == JournalItem.CameraUID);
 			if (camera == null)
 			{
-				MessageBoxService.ShowWarning(Resources.Language.JournalItemViewModel.VideoDevice_Null);
+				MessageBoxService.ShowWarning(CommonViewModels.EmptyVideoDevice);
 				return;
 			}
 
@@ -251,11 +252,11 @@ namespace JournalModule.ViewModels
 			catch (CommunicationObjectFaultedException e)
 			{
 				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
-				MessageBoxService.ShowError(Resources.Language.JournalItemViewModel.RVi_NotConnected);
+				MessageBoxService.ShowError(CommonViewModels.RViNotConnected);
 			}
 			catch (FileNotFoundException)
 			{
-				MessageBoxService.ShowError(Resources.Language.JournalItemViewModel.FileNotFound);
+				MessageBoxService.ShowError(CommonViewModels.FileNotFound);
 			}
 			catch (Exception e)
 			{

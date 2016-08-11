@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.Journal.ViewModels;
 using StrazhAPI.Journal;
 using FiresecClient;
 using Infrastructure.Common;
@@ -12,7 +13,7 @@ namespace JournalModule.ViewModels
 
 		public ConfirmationViewModel(JournalItem journalItem)
 		{
-			Title = Resources.Language.ConfirmationViewModel.Title;
+			Title = CommonViewModels.AcceptCriticalEvent;
 			ConfirmCommand = new RelayCommand(OnConfirm);
 			JournalItemViewModel = new JournalItemViewModel(journalItem);
 		}
@@ -31,9 +32,7 @@ namespace JournalModule.ViewModels
 			var journalItem = new JournalItem();
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
-			//journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
-		    journalItem.DescriptionText = string.Format(Resources.Language.ConfirmationViewModel.DescriptionText,
-		        JournalItemViewModel.Name, JournalItemViewModel.Description, deltaSeconds);
+		    journalItem.DescriptionText = string.Format(CommonViewModels.ReactionTime, JournalItemViewModel.Name, JournalItemViewModel.Description, deltaSeconds);
 			FiresecManager.FiresecService.AddJournalItem(journalItem);
 		}
 	}

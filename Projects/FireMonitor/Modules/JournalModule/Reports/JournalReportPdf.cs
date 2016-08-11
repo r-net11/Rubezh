@@ -3,6 +3,7 @@ using CodeReason.Reports;
 using Common.PDF;
 using Infrastructure.Common.Reports;
 using iTextSharp.text;
+using Localization.Journal.Common;
 
 namespace JournalModule.Reports
 {
@@ -26,17 +27,17 @@ namespace JournalModule.Reports
 			var table = PDFHelper.CreateTable(document, 5);
 			table.HeaderRows = 2;
 			table.SetWidths(new float[] { 1f, 1f, 1f, 2f, 2f });
-			var cell = PDFHelper.GetCell(string.Format("Журнал событий с {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", ReportData.ReportDocumentValues["StartDate"], ReportData.ReportDocumentValues["EndDate"]), PDFStyle.HeaderFont, PDFStyle.HeaderBackground);
+            var cell = PDFHelper.GetCell(string.Format(CommonResources.JournalFromTo, ReportData.ReportDocumentValues["StartDate"], ReportData.ReportDocumentValues["EndDate"]), PDFStyle.HeaderFont, PDFStyle.HeaderBackground);
 			cell.Colspan = 8;
 			cell.HorizontalAlignment = Element.ALIGN_CENTER;
 			table.AddCell(cell);
 			var headers = new string[]
 			{
-				"Дата на устройстве",
-				"Дата в системе",
-				"Название",
-				"Описание",
-				"Объект"
+				CommonResources.DeviceTime,
+				CommonResources.SystemTime,
+				CommonResources.Name,
+				CommonResources.Description,
+				CommonResources.Object
 			};
 			foreach (var heder in headers)
 			{

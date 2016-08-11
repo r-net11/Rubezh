@@ -1,4 +1,6 @@
-﻿using StrazhAPI.Journal;
+﻿using Localization.Journal.Errors;
+using Localization.Journal.ViewModels;
+using StrazhAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -14,7 +16,7 @@ namespace JournalModule.ViewModels
 
 		public ArchiveFilterViewModel(ArchiveFilter filter)
 		{
-			Title = Resources.Language.ArchiveFilterViewModel.Title;
+			Title = CommonViewModels.FilterSettings;
 			ClearCommand = new RelayCommand(OnClear);
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
@@ -60,7 +62,7 @@ namespace JournalModule.ViewModels
 			{
 				if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
 				{
-					MessageBoxService.ShowWarning(Resources.Language.ArchiveFilterViewModel.SaveCommand_Error);
+					MessageBoxService.ShowWarning(CommonErrors.BeginDate_Error);
 					return;
 				}
 			}

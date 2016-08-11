@@ -8,7 +8,8 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
-    xmlns:res="clr-namespace:JournalModule.Resources.Language"
+	xmlns:lang="clr-namespace:Localization.Journal.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Journal.Common;assembly=Localization"
 	MinWidth="720"
 	MinHeight="400">
 	<UserControl.Resources>
@@ -23,7 +24,7 @@
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Button
-				Content="{x:Static res:ArchiveFilterView.ClearSettings}"
+				Content="{x:Static lang:CommonViews.ClearSettings}"
 				Command="{Binding ClearCommand}"
 				HorizontalAlignment="Left"
 				Width="200" />
@@ -35,23 +36,23 @@
 					Width="100"
 					Command="{Binding SaveCommand}"
 					Margin="2"
-					Content="{x:Static res:ArchiveFilterView.Ok}"
+					Content="{x:Static lang:CommonViews.OK}"
 					IsDefault="True" />
 				<Button
 					Width="100"
 					Margin="2"
 					Command="{Binding CancelCommand}"
-					Content="{x:Static res:ArchiveFilterView.Cancel}" />
+					Content="{x:Static lang:CommonViews.Cancel}" />
 			</StackPanel>
 		</Grid>
 		<TabControl>
 			<TabItem
-				Header="{x:Static res:ArchiveFilterView.TimeInterval}"
+				Header="{x:Static lang:CommonViews.TimeInterval}"
 				DataContext="{Binding ArchiveDateTimeViewModel}">
 				<StackPanel Margin="25">
 					<StackPanel Orientation="Horizontal" Margin="2">
 						<TextBlock
-							Text="{x:Static res:ArchiveFilterView.Interval}"
+							Text="{x:Static lang:CommonViews.Interval}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
@@ -80,13 +81,13 @@
 						Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
 						Margin="5">
 						<TextBlock
-							Text="{x:Static res:ArchiveFilterView.StartDate}"
+							Text="{x:Static lang:CommonViews.StartDate}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
 							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static res:ArchiveFilterView.DateWatermark}"
+							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateWatermark}"
 							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
@@ -102,13 +103,13 @@
 						Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
 						Margin="5">
 						<TextBlock
-							Text="{x:Static res:ArchiveFilterView.EndDate}"
+							Text="{x:Static lang:CommonViews.EndDate}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
 							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static res:ArchiveFilterView.DateWatermark}"
+							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateWatermark}"
 							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
@@ -121,12 +122,12 @@
 					</StackPanel>
 					<CheckBox
 						IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}"
-						Content="{x:Static res:ArchiveFilterView.UseDeviceDate}"
+						Content="{x:Static lang:CommonViews.UseDeviceDate}"
 						Foreground="White"
 						Margin="106 2 0 0" />
 				</StackPanel>
 			</TabItem>
-            <TabItem Header="{x:Static res:ArchiveFilterView.Event}" DataContext="{Binding FilterNamesViewModel}">
+            <TabItem Header="{x:Static lang:CommonViews.Event}" DataContext="{Binding FilterNamesViewModel}">
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
 					Focusable="False"
@@ -139,7 +140,7 @@
 					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-                            <GridViewColumn Header="{x:Static res:ArchiveFilterView.Name}" layout:ProportionalColumn.Width="1">
+                            <GridViewColumn Header="{x:Static lang:CommonViews.Denomination}" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -163,7 +164,7 @@
 					</tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
-            <TabItem Header="{x:Static res:ArchiveFilterView.Object}" DataContext="{Binding FilterObjectsViewModel}">
+            <TabItem Header="{x:Static langCommon:CommonResources.Object}" DataContext="{Binding FilterObjectsViewModel}">
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
 					Focusable="False"
@@ -176,7 +177,7 @@
 					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-                            <GridViewColumn Header="{x:Static res:ArchiveFilterView.Name}" layout:ProportionalColumn.Width="1">
+                            <GridViewColumn Header="{x:Static lang:CommonViews.Denomination}" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
