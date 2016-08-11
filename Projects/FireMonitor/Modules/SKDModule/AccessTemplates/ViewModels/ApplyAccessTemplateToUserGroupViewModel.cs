@@ -3,6 +3,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -51,7 +52,19 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				_filter = filterViewModel.Filter;
-				Employees.Update(_filter);
+				var cardFilter = new CardFilter
+				{
+					EmployeeFilter = _filter.EmployeeFilter,
+					AccessTemplateFilter = new AccessTemplateFilter
+					{
+						LogicalDeletationType = _filter.EmployeeFilter.LogicalDeletationType,
+						OrganisationUIDs = _filter.EmployeeFilter.OrganisationUIDs,
+						UIDs = filterViewModel.AccessTemplatesFilterViewModel.UIDs,
+						UserUID = _filter.EmployeeFilter.UserUID
+					},
+					WithEmptyAccessTemplate = filterViewModel.AccessTemplatesFilterViewModel.ShowCardsWithEmptyAccessTemplate
+				};
+				Employees.Update(_filter, cardFilter);
 			}
 		}
 		
@@ -180,9 +193,9 @@ namespace SKDModule.ViewModels
 
 		#region <Методы>
 
-		public void Update(HRFilter filter)
+		public void Update(HRFilter filter, CardFilter cardFilter = null)
 		{
-			BuildTree(filter.EmployeeFilter);
+			BuildTree(filter.EmployeeFilter, cardFilter);
 			OnPropertyChanged(() => Items);
 			SetPositionOrDescriptionHeaderTitle(filter.EmployeeFilter.PersonType);
 		}
@@ -210,16 +223,32 @@ namespace SKDModule.ViewModels
 			Items.ForEach(x => x.IsChecked = isChecked);
 		}
 
-		private void BuildTree(EmployeeFilter filter)
+		private void BuildTree(EmployeeFilter filter, CardFilter cardFilter)
 		{
-			var filteredEmployees = EmployeeHelper.Get(filter);
+			var filteredEmployees = EmployeeHelper.Get(filter).ToList();
 			Items = new ObservableCollection<EmployeeCardForApplyAccessTemplateToUserGroupViewModel>();
 			filteredEmployees.ForEach(empl =>
 			{
-				var employee = new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(empl);
-				var cards = CardHelper.GetByEmployee(empl.UID);
-				cards.ForEach(card => employee.AddChild(new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(card)));
-				Items.Add(employee);
+				//var employee = new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(empl);
+				//var cards = CardHelper.GetByEmployee(empl.UID);
+				//cards.ForEach(card => employee.AddChild(new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(card)));
+				//Items.Add(employee);
+				IEnumerable<SKDCard> cards;
+				if (cardFilter == null)
+				{
+					cards = CardHelper.GetByEmployee(empl.UID).ToList();
+				}
+				else
+				{
+					cardFilter.EmployeeFilter.UIDs = new List<Guid> { empl.UID };
+					cards = CardHelper.Get(cardFilter).ToList();
+				}
+				if (cards.Any())
+				{
+					var employee = new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(empl);
+					cards.ForEach(card => employee.AddChild(new EmployeeCardForApplyAccessTemplateToUserGroupViewModel(card)));
+					Items.Add(employee);
+				}
 			});
 		}
 

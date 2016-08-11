@@ -186,6 +186,8 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterItemViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplatesFilterViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\ApplyAccessTemplateToUserGroupFilterViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\ApplyAccessTemplateToUserGroupViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
@@ -195,6 +197,9 @@
     </Compile>
     <Compile Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupFilterView.xaml.cs">
       <DependentUpon>ApplyAccessTemplateToUserGroupFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccessTemplates\Views\AccessTemplatesFilterView.xaml.cs">
+      <DependentUpon>AccessTemplatesFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cards\ViewModels\DialogWindowsViewModels\ResetRepeatEnterConfirmationDialogViewModel.cs" />
     <Compile Include="Cards\Views\DialogWindowsViews\ResetRepeatEnterConfirmationDialogView.xaml.cs">
@@ -766,6 +771,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccessTemplates\Views\AccessTemplatesFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

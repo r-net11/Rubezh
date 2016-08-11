@@ -31,5 +31,17 @@ namespace StrazhAPI.SKD
 
 		[DataMember]
 		public bool IsWithInactive { get; set; }
+
+		/// <summary>
+		/// Включить в выборку карты с шаблоном доступа, удовлетворяющим требованиям фильтра AccessTemplateFilter
+		/// </summary>
+		[DataMember]
+		public AccessTemplateFilter AccessTemplateFilter { get; set; }
+
+		/// <summary>
+		/// Включить в выборку карты с пустым шаблоном доступа
+		/// </summary>
+		[DataMember]
+		public bool WithEmptyAccessTemplate { get; set; }
 	}
 }

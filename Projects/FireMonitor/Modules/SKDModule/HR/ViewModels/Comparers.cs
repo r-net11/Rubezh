@@ -319,4 +319,22 @@ namespace SKDModule.ViewModels
 	}
 
 	#endregion
+
+	public class AccessTemplateFilterComparer : TreeNodeComparer<AccessTemplateFilterItemViewModel>
+	{
+		protected override int Compare(AccessTemplateFilterItemViewModel x, AccessTemplateFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+	public class AccessTemplateFilterDescriptionComparer : TreeNodeComparer<AccessTemplateFilterItemViewModel>
+	{
+		protected override int Compare(AccessTemplateFilterItemViewModel x, AccessTemplateFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
 }

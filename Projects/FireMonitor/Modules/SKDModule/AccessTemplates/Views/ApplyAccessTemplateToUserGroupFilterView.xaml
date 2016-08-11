@@ -17,6 +17,9 @@
 				Visibility="{Binding ShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
+			<TabItem Header="Шаблоны доступа">
+				<Views:AccessTemplatesFilterView DataContext="{Binding AccessTemplatesFilterViewModel}"/>
+			</TabItem>
 			<TabItem Header="{Binding EmployeesFilterTitle}">
 				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
 			</TabItem>

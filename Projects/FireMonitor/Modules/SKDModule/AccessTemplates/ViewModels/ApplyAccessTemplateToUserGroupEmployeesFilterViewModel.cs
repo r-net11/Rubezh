@@ -16,8 +16,6 @@ namespace SKDModule.ViewModels
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
 		}
 
-		private EmployeeFilter _Filter;
-
 		public override void Initialize(EmployeeFilter filter)
 		{
 			Initialize(filter, filter.LogicalDeletationType, filter.PersonType);
@@ -25,7 +23,7 @@ namespace SKDModule.ViewModels
 
 		private void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
 		{
-			_Filter = filter;
+			//_Filter = filter;
 			var emptyFilter = new EmployeeFilter
 			{
 				OrganisationUIDs = filter.OrganisationUIDs,
@@ -87,11 +85,11 @@ namespace SKDModule.ViewModels
 			throw new NotImplementedException();
 		}
 
-		public EmployeeFilter Filter
+		public new EmployeeFilter Filter
 		{
 			get
 			{
-				var filter = new EmployeeFilter();
+				var filter = _filter;
 				if (IsSelection)
 				{
 					filter.UIDs = Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList();
