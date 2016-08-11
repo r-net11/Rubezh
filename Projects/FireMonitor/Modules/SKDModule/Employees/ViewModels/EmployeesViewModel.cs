@@ -1,11 +1,13 @@
-﻿using DevExpress.Office.Internal;
+﻿using System.Drawing;
 using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.Design;
 using DevExpress.XtraReports.UI;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using ReportSystem;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.Model;
@@ -53,10 +55,10 @@ namespace SKDModule.ViewModels
 				var settings = vm.Settings.ToDTO();
 				if (settings.TemplateGuid.HasValue)
 				{
-
 					var employeeFullData = FiresecManager.FiresecService.GetFullEmployeeData(Filter);
 					var passCardTemplate = FiresecManager.FiresecService.GetPassCardTemplateDetails(settings.TemplateGuid.Value);
-					var xtraReport = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+					var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+					var xtrareportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 
 					var ds = new Test();
 
@@ -65,14 +67,41 @@ namespace SKDModule.ViewModels
 						FillDataSet(ds, empl);
 					}
 
-					xtraReport.DataSource = ds;
-					xtraReport.DataMember = ds.Employee.TableName;
-					var report = new MasterReportFactory();
-					report.CreateMasterReport(ds, xtraReport);
+					xtraReportFront.DataSource = ds;
+					xtraReportFront.DataMember = ds.Employee.TableName;
+					xtrareportBack.DataSource = ds;
+					xtrareportBack.DataMember = ds.Employee.TableName;
 
-					//var myFactory = new MyFactory(employee)
+					var mergedReport = new MergedReport(new XtraReport[] {xtraReportFront, xtrareportBack});
+					mergedReport.ShowPreviewDialog();
 
+					//xtraReportFront.CreateDocument();
+					//xtrareportBack.CreateDocument();
 
+					//int minPageCount = Math.Min(xtraReportFront.Pages.Count, xtrareportBack.Pages.Count);
+					//for (var i = 0; i < minPageCount; i++)
+					//{
+					//	xtraReportFront.Pages.Insert(i * 2 + 1, xtrareportBack.Pages[i]);
+					//}
+					//if (xtrareportBack.Pages.Count != minPageCount)
+					//{
+					//	for (var i = minPageCount; i < xtrareportBack.Pages.Count; i++)
+					//	{
+					//		xtrareportBack.Pages.Add(xtrareportBack.Pages[i]);
+					//	}
+					//}
+
+					//xtraReportFront.PrintingSystem.ContinuousPageNumbering = true;
+
+					//using (var tool = new ReportPrintTool(xtraReportFront))
+					//{
+					//	tool.ShowPreviewDialog();
+					//}
+
+					//var reportSystem = new ReportSystem.MasterReportFactory(ds, xtraReportFront);
+					//var report = reportSystem.CreateMasterReport();
+
+					//report.ShowPreviewDialog();
 
 					//using (ReportPrintTool tool = new ReportPrintTool(xtraReport))
 					//{
@@ -82,7 +111,35 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
+					var employeeFullData = FiresecManager.FiresecService.GetFullEmployeeData(Filter);
+					//var passCardTemplate = FiresecManager.FiresecService.GetPassCardTemplateDetails(settings.TemplateGuid.Value);
+					var allTemplates = employeeFullData.Result.SelectMany(x => x.Cards.Select(y => y.PassCardTemplateUID)).ToList();
+					var templates = FiresecManager.FiresecService.GetFullPassCardTemplateList(new PassCardTemplateFilter{ UIDs = allTemplates.OfType<Guid>().ToList()});
 
+					foreach (var template in templates.Result)
+					{
+						var frontReport = template.Front.Report.ToXtraReport(template.Front.WatermarkImage.ImageContent);
+						var backReport = template.Back.Report.ToXtraReport(template.Back.WatermarkImage.ImageContent);
+
+						var ds = new Test();
+					}
+					//var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+					//var xtrareportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
+
+					//var ds = new Test();
+
+					//foreach (var empl in employeeFullData.Result)
+					//{
+					//	FillDataSet(ds, empl);
+					//}
+
+					//xtraReportFront.DataSource = ds;
+					//xtraReportFront.DataMember = ds.Employee.TableName;
+					//xtrareportBack.DataSource = ds;
+					//xtrareportBack.DataMember = ds.Employee.TableName;
+
+					//var mergedReport = new MergedReport(new XtraReport[] { xtraReportFront, xtrareportBack });
+					//mergedReport.ShowPreviewDialog();
 				}
 			}
 		}

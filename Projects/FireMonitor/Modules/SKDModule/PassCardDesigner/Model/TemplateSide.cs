@@ -152,8 +152,8 @@ namespace SKDModule.PassCardDesigner.Model
 				});
 
 				var previewImage = new ImageBuilder(BackgroundSourceName)
-					.Height((int)templateHeight)
-					.Width((int)templateWidth)
+					.Height((int)templateHeight * 10)
+					.Width((int)templateWidth * 10)
 					.BorderColor(PreviewImage.BorderColor)
 					.BorderWidth((int)PreviewImage.BorderThickness)
 					.Build()
@@ -174,8 +174,8 @@ namespace SKDModule.PassCardDesigner.Model
 					{
 						var pathToImageFile = Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, WatermarkImage.OriginalImageGuid.Value.ToString());
 						var image = new ImageBuilder(pathToImageFile)
-							.Height((int) templateHeight)
-							.Width((int) templateWidth)
+							.Height((int)templateHeight * 10)
+							.Width((int)templateWidth * 10)
 							.BorderColor(PreviewImage.BorderColor)
 							.BorderWidth((int) PreviewImage.BorderThickness)
 							.Build();
@@ -197,8 +197,8 @@ namespace SKDModule.PassCardDesigner.Model
 				{
 					var image = new ImageBuilder()
 						.Color(PreviewImage.BackgroundColor)
-						.Height((int)templateHeight)
-						.Width((int)templateWidth)
+						.Height((int)templateHeight * 10)
+						.Width((int)templateWidth * 10)
 						.BorderColor(PreviewImage.BorderColor)
 						.BorderWidth((int)PreviewImage.BorderThickness)
 						.Build();

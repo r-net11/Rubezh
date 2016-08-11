@@ -17,6 +17,9 @@ namespace SKDModule.PassCardDesigner.Model
 			this.DrawWatermark = true;
 			//var dataSet = new EmployeeDataSet();
 			var dataSet = new Test();
+			DesignerOptions.ShowExportWarnings = false;
+			DesignerOptions.ShowPrintingWarnings = false;
+			DesignerOptions.ShowDesignerHints = false;
 			//var dataRow = dataSet.Employee.NewEmployeeRow();
 			//dataRow.FirstName = "Test firstName";
 			//dataRow.LastName = "TestLastName";

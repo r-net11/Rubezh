@@ -38,6 +38,7 @@ namespace SKDModule.PassCardDesigner.Model
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.topMarginBand1 = new DevExpress.XtraReports.UI.TopMarginBand();
 			this.bottomMarginBand1 = new DevExpress.XtraReports.UI.BottomMarginBand();
+			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// Detail
@@ -48,14 +49,6 @@ namespace SKDModule.PassCardDesigner.Model
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.Detail.StylePriority.UseBackColor = false;
 			this.Detail.StylePriority.UseBorderDashStyle = false;
-			// 
-			// xrLabel1
-			// 
-			//resources.ApplyResources(this.xrLabel1, "xrLabel1");
-			//this.xrLabel1.Multiline = true;
-			//this.xrLabel1.Name = "xrLabel1";
-			//this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-			//this.xrLabel1.StylePriority.UseForeColor = false;
 			// 
 			// topMarginBand1
 			// 
@@ -69,6 +62,11 @@ namespace SKDModule.PassCardDesigner.Model
 			this.bottomMarginBand1.Name = "bottomMarginBand1";
 			this.bottomMarginBand1.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.BottomMargin_BeforePrint);
 			// 
+			// xrControlStyle1
+			// 
+			this.xrControlStyle1.Name = "xrControlStyle1";
+			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
+			// 
 			// PassCardTemplateReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -78,11 +76,13 @@ namespace SKDModule.PassCardDesigner.Model
 			resources.ApplyResources(this, "$this");
 			this.DrawWatermark = true;
 			this.ShowPrintMarginsWarning = false;
+			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
+            this.xrControlStyle1});
 			this.Version = "13.2";
 			this.Watermark.ImageViewMode = DevExpress.XtraPrinting.Drawing.ImageViewMode.Stretch;
 			this.Watermark.Text = resources.GetString("PassCardTemplateReport.Watermark.Text");
-		//	this.DesignerLoaded += new DevExpress.XtraReports.UserDesigner.DesignerLoadedEventHandler(this.PassCardTemplateReport_DesignerLoaded);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+
 			}
 
 		#endregion
@@ -90,5 +90,6 @@ namespace SKDModule.PassCardDesigner.Model
 		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private TopMarginBand topMarginBand1;
 		private BottomMarginBand bottomMarginBand1;
+		private XRControlStyle xrControlStyle1;
 	}
 }

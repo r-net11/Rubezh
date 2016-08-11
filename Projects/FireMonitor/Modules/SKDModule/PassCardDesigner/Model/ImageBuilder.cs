@@ -108,11 +108,13 @@ namespace SKDModule.PassCardDesigner.Model
 
 	public static class ImageBuilderHelper
 	{
-		public static BitmapSource CreateBitmapSource(Color color)
+		public static BitmapSource CreateBitmapSource(Color color, int width = 64, int height = 64)
 		{
-			const int width = 64;
-			const int height = 64;
-			const int stride = width/8;
+			//const int width = 64;
+			//const int height = 64;
+			width = 640;
+			height = 640;
+			var stride = width/8;
 
 			var pixels = new byte[height*stride];
 			var colors = new List<Color> { color };

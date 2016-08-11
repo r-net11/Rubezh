@@ -273,9 +273,6 @@
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -951,6 +948,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ReportSystem\ReportSystem.csproj">
+      <Project>{646b9ccf-ba30-43b7-9928-ac0d1f3fffb2}</Project>
+      <Name>ReportSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
