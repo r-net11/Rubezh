@@ -6,9 +6,13 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 			 xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+			 xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
              mc:Ignorable="d"
 			 MinWidth="640" MinHeight="480">
 	<UserControl.Resources>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer"/>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer"/>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer"/>
 		<CollectionViewSource
 			x:Key="cvsAccessTemplates"
 			Source="{Binding AccessTemplates}">
@@ -68,13 +72,15 @@
 					Focusable="True"
 					Source="{Binding Employees.Items, Mode=OneWay}"
 					tree:SortBehavior.CanUserSortColumns="True"
+					tree:SortBehavior.DefaultSortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer}"
 					layout:ListViewLayoutManager.Enabled="True">
 					<tree:TreeList.View>
 						<GridView>
 							<!-- Колонка "ФИО" -->
 							<GridViewColumn
 								Header="ФИО"
-								layout:ProportionalColumn.Width="1">
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer}">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -89,7 +95,8 @@
 							<!-- Колонка "Подразделение" -->
 							<GridViewColumn
 								Header="Подразделение"
-								layout:ProportionalColumn.Width="1">
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer}">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Department}" />
@@ -99,7 +106,8 @@
 							<!-- Колонка "Должность" для сотрудника или "Примечание" для посетителя -->
 							<GridViewColumn
 								Header="{Binding Employees.PositionOrDescriptionHeaderTitle}"
-								layout:ProportionalColumn.Width="1">
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer}">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding PositionOrDescription}" />
