@@ -337,7 +337,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public byte abRemoteDetail;
 			public byte abHandicapTimeOut;
 			public byte abCheckCloseSensor;
-			public bool abAutoRemoteCheck;
+			public byte abAutoRemoteCheck;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
 			public byte[] reverse;
 

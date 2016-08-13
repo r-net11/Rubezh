@@ -23,13 +23,13 @@ namespace StrazhDeviceSDK
 
 		public static void Initialize()
 		{
-			fDisConnectDelegate = new NativeWrapper.fDisConnectDelegate(OnDisConnectDelegate);
-			fHaveReConnectDelegate = new NativeWrapper.fHaveReConnectDelegate(OnfHaveReConnectDelegate);
-			fMessCallBackDelegate = new NativeWrapper.fMessCallBackDelegate(OnfMessCallBackDelegate);
+			_fDisConnectDelegate = OnDisConnectDelegate;
+			_fHaveReConnectDelegate = OnfHaveReConnectDelegate;
+			_fMessCallBackDelegate = OnfMessCallBackDelegate;
 
-			var result = NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
-			NativeWrapper.CLIENT_SetAutoReconnect(fHaveReConnectDelegate, 0);
-			NativeWrapper.CLIENT_SetDVRMessCallBack(fMessCallBackDelegate, 0);
+			NativeWrapper.CLIENT_Init(_fDisConnectDelegate, 0);
+			NativeWrapper.CLIENT_SetAutoReconnect(_fHaveReConnectDelegate, 0);
+			NativeWrapper.CLIENT_SetDVRMessCallBack(_fMessCallBackDelegate, 0);
 		}
 
 		public static void Deinitialize()
@@ -39,7 +39,7 @@ namespace StrazhDeviceSDK
 
 		public int Connect(string ipAddress, int port, string login, string password, out string error)
 		{
-			var deviceInfo = new NativeAPI.NativeWrapper.NET_DEVICEINFO();
+			NativeWrapper.NET_DEVICEINFO deviceInfo;
 			int intError;
 			LoginID = NativeWrapper.CLIENT_Login(ipAddress, (UInt16)port, login, password, out deviceInfo, out intError);
 			error = GetError(intError);
@@ -52,9 +52,9 @@ namespace StrazhDeviceSDK
 			NativeWrapper.CLIENT_StopListen(LoginID);
 		}
 
-		private static NativeWrapper.fDisConnectDelegate fDisConnectDelegate;
-		private static NativeWrapper.fHaveReConnectDelegate fHaveReConnectDelegate;
-		private static NativeWrapper.fMessCallBackDelegate fMessCallBackDelegate;
+		private static NativeWrapper.fDisConnectDelegate _fDisConnectDelegate;
+		private static NativeWrapper.fHaveReConnectDelegate _fHaveReConnectDelegate;
+		private static NativeWrapper.fMessCallBackDelegate _fMessCallBackDelegate;
 
 		private static void OnDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
@@ -62,7 +62,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Потеря_связи
+				JournalEventNameType = JournalEventNameType.Потеря_связи
 			};
 			AddJournalItem(journalItem);
 		}
@@ -73,7 +73,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Восстановление_связи
+				JournalEventNameType = JournalEventNameType.Восстановление_связи
 			};
 			AddJournalItem(journalItem);
 
@@ -91,15 +91,15 @@ namespace StrazhDeviceSDK
 
 			switch (lCommand)
 			{
+				// Проход разрешен/запрещен
 				case DH_ALARM_ACCESS_CTL_EVENT:
 					{
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)));
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 
-						if (eventInfo.bStatus)
-							journalItem.JournalEventNameType = JournalEventNameType.Проход_разрешен;
-						else
-							journalItem.JournalEventNameType = JournalEventNameType.Проход_запрещен;
+						journalItem.JournalEventNameType = eventInfo.bStatus
+							? JournalEventNameType.Проход_разрешен
+							: JournalEventNameType.Проход_запрещен;
 
 						journalItem.DoorNo = eventInfo.nDoor;
 						journalItem.emEventType = eventInfo.emEventType;
@@ -114,6 +114,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Тревога по незакрытию двери
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
 					{
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)));
@@ -128,6 +129,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Тревога по взлому
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
 					{
 						journalItem.JournalEventNameType = JournalEventNameType.Взлом;
@@ -137,6 +139,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Повторный проход
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
 					{
 						journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
@@ -147,6 +150,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Тревога по принуждению
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					{
 						journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
@@ -157,6 +161,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Открытие/закрытие двери
 				case DH_ALARM_ACCESS_CTL_STATUS:
 					{
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)));
@@ -184,6 +189,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Тревога при вскрытии контроллера
 				case DH_ALARM_CHASSISINTRUDED:
 					{
 						var eventInfo = (NativeWrapper.ALARM_CHASSISINTRUDED_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CHASSISINTRUDED_INFO)));
@@ -199,6 +205,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Множественный проход
 				case DH_ALARM_OPENDOORGROUP:
 					{
 						journalItem.JournalEventNameType = JournalEventNameType.Множественный_проход;
@@ -208,6 +215,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Проход по отпечатку пальца
 				case DH_ALARM_FINGER_PRINT:
 					{
 						journalItem.JournalEventNameType = JournalEventNameType.Проход_по_отпечатку_пальца;
@@ -218,6 +226,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Местная тревога
 				case DH_ALARM_ALARM_EX2:
 					{
 						var eventInfo = (NativeWrapper.ALARM_ALARM_INFO_EX2)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ALARM_INFO_EX2)));
@@ -231,6 +240,7 @@ namespace StrazhDeviceSDK
 						break;
 					}
 
+				// Статус замка
 				case DH_ALARM_ACCESS_LOCK_STATUS:
 					{
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)));
