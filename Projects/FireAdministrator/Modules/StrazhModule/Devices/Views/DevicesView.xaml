@@ -44,6 +44,7 @@
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
+		<viewModel:DeviceViewModelDoorTypeDescriptionComparer x:Key="DeviceViewModelDoorTypeDescriptionComparer" />
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -54,6 +55,8 @@
 				MinHeight="150"
 				MaxHeight="300" />
 		</Grid.RowDefinitions>
+
+		<!-- Дерево устройств -->
 		<tree:TreeList
 			Focusable="True"
 			SelectedTreeNode="{Binding SelectedDevice}"
@@ -79,6 +82,7 @@
 			</tree:TreeList.Resources>
 			<tree:TreeList.View>
 				<GridView>
+					<!-- Колонка "Устройство" -->
 					<GridViewColumn
 						Width="250"
 						Header="Устройство"
@@ -171,6 +175,8 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+
+					<!-- Колонка "Адрес" -->
 					<GridViewColumn
 						Width="100"
 						Header="Адрес"
@@ -197,6 +203,36 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+
+					<!-- Колонка "Режим" -->
+					<GridViewColumn
+						Width="100"
+						Header="Режим"
+						tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDoorTypeDescriptionComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Controls:EditorPresenter>
+									<Controls:EditorPresenter.ViewTemplate>
+										<ControlTemplate>
+											<TextBlock Text="{Binding DoorTypeDescription}" >
+												<TextBlock.Style>
+													<Style TargetType="TextBlock">
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding IsEnabled}" Value="False">
+																<Setter Property="TextBlock.Foreground" Value="Gray" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</TextBlock.Style>
+											</TextBlock>
+										</ControlTemplate>
+									</Controls:EditorPresenter.ViewTemplate>
+								</Controls:EditorPresenter>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+					<!-- Колонка "Ведет в зону" -->
 					<GridViewColumn ctrl:ProportionalColumn.Width="1" Header="Ведет в зону">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -239,6 +275,8 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
+
+		<!-- Горизонтальный разделитель -->
 		<GridSplitter
 			Grid.Row="1"
 			Height="5"
@@ -246,6 +284,8 @@
 			VerticalAlignment="Stretch"
 			Background="Transparent"
 			Cursor="SizeNS" />
+
+		<!-- Информация о текущем устройстве (выделено в дереве устройств) -->
 		<Border
 			Grid.Row="2"
 			Margin="0, 5, 0, 0"

@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure.Common.TreeList;
+using StrazhAPI;
 
 namespace StrazhModule.ViewModels
 {
@@ -36,6 +37,16 @@ namespace StrazhModule.ViewModels
 			if (result == 0)
 				result = string.Compare(x.Driver.ShortName, y.Driver.ShortName);
 			return result;
+		}
+	}
+	public class DeviceViewModelDoorTypeDescriptionComparer : TreeNodeComparer<DeviceViewModel>
+	{
+		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
+		{
+			if (!x.Device.Driver.IsController || !y.Device.Driver.IsController)
+				return 0;
+
+			return string.Compare(x.DoorTypeDescription, y.DoorTypeDescription);
 		}
 	}
 }
