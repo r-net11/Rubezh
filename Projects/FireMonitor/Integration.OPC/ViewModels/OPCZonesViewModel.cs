@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Integration.OPC.Models;
+using Localization.Integration.Errors;
 using StrazhAPI.Enums;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace Integration.OPC.ViewModels
 
 		public void OnShowOnPlan()
 		{
-			MessageBoxService.ShowError("Данная функция не реализована"); //TODO: Implement show on plan function
+			MessageBoxService.ShowError(CommonErrors.FunctionIsNotRealised_Error); //TODO: Implement show on plan function
 		}
 
 		public void OnShowJournal()

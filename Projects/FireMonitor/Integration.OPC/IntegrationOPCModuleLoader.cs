@@ -4,6 +4,7 @@ using Infrastructure.Common.Navigation;
 using Integration.OPC.Events;
 using Integration.OPC.Models;
 using Integration.OPC.ViewModels;
+using Localization.Integration.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.SKD;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Integration.OPC
 		{
 			return new List<NavigationItem>
 			{
-				new NavigationItem<ShowOPCIntegrationEvent>(_opcZonesViewModel, "Зоны ОПС", "OPCIntegrationMenu")
+				new NavigationItem<ShowOPCIntegrationEvent>(_opcZonesViewModel, CommonResources.OPCZones, "OPCIntegrationMenu")
 			};
 		}
 
