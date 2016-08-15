@@ -92,19 +92,19 @@ namespace StrazhModule
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(_devicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDZoneEvent, Guid>(_zonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDDoorEvent, Guid>(_doorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
-					new NavigationItem("Графики замков", "ShedulesW", new List<NavigationItem>
-					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, "Дневные графики замков", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, "Недельные графики замков", "SheduleWeeklyW", null, null, -1),
-					}),
 					new NavigationItem("Графики доступа", "ShedulesW", new List<NavigationItem>
 					{
 						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, "Дневные графики доступа", "ShedulesDaylyW", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, "Недельные графики доступа", "SheduleWeeklyW", null, null, -1)
 					}),
-					#if DEBUG
+					new NavigationItem("Расписание режимов замков", "ShedulesW", new List<NavigationItem>
+					{
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, "Дневные расписания", "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, "Недельные расписания", "SheduleWeeklyW", null, null, -1),
+					}),
+#if DEBUG
 					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, "Библиотека", "Book"),
-					#endif
+#endif
 				}) {IsExpanded = true},
 			};
 		}

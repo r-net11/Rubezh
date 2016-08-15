@@ -139,7 +139,7 @@ namespace StrazhAPI.SKD
 		[Description("Сначала пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
 
-		[Description("График замка")]
+		[Description("Расписание замка")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
 
 		[Description("Только отпечаток пальца")]
