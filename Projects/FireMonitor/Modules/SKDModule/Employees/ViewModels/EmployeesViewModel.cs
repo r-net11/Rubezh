@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 
 					foreach (var empl in employeeFullData.Result)
 					{
-						FillDataSet(ds, empl);
+						FillDataSet(ds, empl, passCardTemplate.Result.Front.WatermarkImage.ImageContent);
 					}
 
 					xtraReportFront.DataSource = ds;
@@ -116,13 +116,29 @@ namespace SKDModule.ViewModels
 					var allTemplates = employeeFullData.Result.SelectMany(x => x.Cards.Select(y => y.PassCardTemplateUID)).ToList();
 					var templates = FiresecManager.FiresecService.GetFullPassCardTemplateList(new PassCardTemplateFilter{ UIDs = allTemplates.OfType<Guid>().ToList()});
 
+					var xtraReport = new List<XtraReport>();
 					foreach (var template in templates.Result)
 					{
 						var frontReport = template.Front.Report.ToXtraReport(template.Front.WatermarkImage.ImageContent);
 						var backReport = template.Back.Report.ToXtraReport(template.Back.WatermarkImage.ImageContent);
-
 						var ds = new Test();
+						foreach (var empl in employeeFullData.Result.Where(x => x.Cards.Any(card => card.PassCardTemplateUID == template.UID)))
+						{
+							FillDataSet(ds, empl, template.Front.WatermarkImage.ImageContent);
+						}
+						frontReport.DataSource = ds;
+						frontReport.DataMember = ds.Employee.TableName;
+						xtraReport.Add(frontReport);
+						if (backReport != null)
+						{
+							backReport.DataSource = ds;
+							backReport.DataMember = ds.Employee.TableName;
+							xtraReport.Add(backReport);
+						}
 					}
+
+					var mergedReport = new MergedReport(xtraReport.ToArray());
+					mergedReport.ShowPreviewDialog();
 					//var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
 					//var xtrareportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 
@@ -144,7 +160,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private void FillDataSet(Test ds, Employee e)
+		private void FillDataSet(Test ds, Employee e, byte[] imageFront)
 		{
 			//var ds = new Test();
 			var row = ds.Employee.NewEmployeeRow();
@@ -163,6 +179,7 @@ namespace SKDModule.ViewModels
 			row.OrganisationUID = e.OrganisationUID;
 			row.LastEmployeeDayUpdate = DateTime.Now;
 			row.ExternalKey = "-1";
+			row.Image = imageFront;
 			ds.Employee.AddEmployeeRow(row);
 		//	return ds;
 		}
