@@ -21,7 +21,6 @@ namespace SKDModule.Reports
 		{
 			if (bytes == null) return null;
 
-			var report = new PassCardTemplateReport();
 			Image image = null;
 
 			if (imageContent != null)
@@ -30,11 +29,11 @@ namespace SKDModule.Reports
 
 			using (var ms = new MemoryStream(bytes))
 			{
+				var report = new PassCardTemplateReport(image);
 				report.LoadLayout(ms);
 				report.Watermark.Image = image;
+				return report;
 			}
-
-			return report;
 		}
 	}
 }

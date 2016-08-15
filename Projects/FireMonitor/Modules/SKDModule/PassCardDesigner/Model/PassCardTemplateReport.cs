@@ -1,9 +1,11 @@
-﻿using DevExpress.XtraPrinting.Drawing;
+﻿using DevExpress.XtraPrinting;
+using DevExpress.XtraPrinting.Drawing;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using Infrastructure.Client.Converters;
 using Attribute = System.Attribute;
 
 namespace SKDModule.PassCardDesigner.Model
@@ -11,15 +13,24 @@ namespace SKDModule.PassCardDesigner.Model
 	//TODO: Refactoring
 	public partial class PassCardTemplateReport : XtraReport
 	{
-		public PassCardTemplateReport()
+		public PassCardTemplateReport(Image image)
 		{
 			InitializeComponent();
+			ReportUnit = ReportUnit.TenthsOfAMillimeter;
 			this.DrawWatermark = true;
 			//var dataSet = new EmployeeDataSet();
+			xrPictureBox1.SendToBack();
 			var dataSet = new Test();
+
 			DesignerOptions.ShowExportWarnings = false;
 			DesignerOptions.ShowPrintingWarnings = false;
 			DesignerOptions.ShowDesignerHints = false;
+			//Watermark.Image = image;
+			xrPictureBox1.Sizing = ImageSizeMode.AutoSize;
+			xrPictureBox1.Width = image.Width / 10;
+			xrPictureBox1.Height = image.Height / 10;
+			xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
+			CreateDocument();
 			//var dataRow = dataSet.Employee.NewEmployeeRow();
 			//dataRow.FirstName = "Test firstName";
 			//dataRow.LastName = "TestLastName";
@@ -70,12 +81,15 @@ namespace SKDModule.PassCardDesigner.Model
 			FilterComponentProperties += XtraReport_FilterComponentProperties;
 		}
 
-		public PassCardTemplateReport(Image image) : this()
-		{
-			Watermark.Image = image;
-			ReportUnit = ReportUnit.TenthsOfAMillimeter;
-			CreateDocument();
-		}
+		//public PassCardTemplateReport(Image image) : this()
+		//{
+		//	//Watermark.Image = image;
+		//	xrPictureBox1.Width = image.Width;
+		//	xrPictureBox1.Height = image.Height;
+		//	xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
+		//	ReportUnit = ReportUnit.TenthsOfAMillimeter;
+		//	CreateDocument();
+		//}
 
 		private void TopMargin_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
 		{

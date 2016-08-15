@@ -346,6 +346,8 @@ namespace SKDModule.PassCardDesigner.Model {
             
             private global::System.Data.DataColumn columnCountry;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public EmployeeDataTable() {
@@ -621,6 +623,14 @@ namespace SKDModule.PassCardDesigner.Model {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -686,7 +696,8 @@ namespace SKDModule.PassCardDesigner.Model {
                         string Description, 
                         System.DateTime LastEmployeeDayUpdate, 
                         string ExternalKey, 
-                        int Country) {
+                        int Country, 
+                        byte[] Image) {
                 EmployeeRow rowEmployeeRow = ((EmployeeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         UID,
@@ -718,7 +729,8 @@ namespace SKDModule.PassCardDesigner.Model {
                         Description,
                         LastEmployeeDayUpdate,
                         ExternalKey,
-                        Country};
+                        Country,
+                        Image};
                 if ((parentEmployeeRowByFK_Employee_Employee != null)) {
                     columnValuesArray[11] = parentEmployeeRowByFK_Employee_Employee[0];
                 }
@@ -781,6 +793,7 @@ namespace SKDModule.PassCardDesigner.Model {
                 this.columnLastEmployeeDayUpdate = base.Columns["LastEmployeeDayUpdate"];
                 this.columnExternalKey = base.Columns["ExternalKey"];
                 this.columnCountry = base.Columns["Country"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -846,6 +859,8 @@ namespace SKDModule.PassCardDesigner.Model {
                 base.Columns.Add(this.columnExternalKey);
                 this.columnCountry = new global::System.Data.DataColumn("Country", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCountry);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
                 this.columnUID.AllowDBNull = false;
@@ -1459,6 +1474,22 @@ namespace SKDModule.PassCardDesigner.Model {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableEmployee.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'Employee\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableEmployee.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public EmployeeRow EmployeeRowParent {
                 get {
                     return ((EmployeeRow)(this.GetParentRow(this.Table.ParentRelations["FK_Employee_Employee"])));
@@ -1754,6 +1785,18 @@ namespace SKDModule.PassCardDesigner.Model {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCountryNull() {
                 this[this.tableEmployee.CountryColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tableEmployee.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tableEmployee.ImageColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
