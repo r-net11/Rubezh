@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using Infrastructure.Common.Services;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhModule.Events;
@@ -16,6 +15,7 @@ namespace StrazhModule.ViewModels
 	public class SearchDevicesViewModel : SaveCancelDialogViewModel
 	{
 		private readonly SKDDevice _parentDevice;
+
 		public SearchDevicesViewModel(DeviceViewModel parentDeviceViewModel)
 		{
 			Title = "Автопоиск устройств";
@@ -23,8 +23,8 @@ namespace StrazhModule.ViewModels
 			StartSearchCommand = new RelayCommand(OnStartSearch);
 			Devices = new ObservableCollection<SearchDeviceViewModel>();
 			AddedDevices = new List<SKDDevice>();
-			ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>().Unsubscribe(OnNewSearchDevice);
-			ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>().Subscribe(OnNewSearchDevice);
+			ServiceFactoryBase.Events.GetEvent<SKDSearchDeviceEvent>().Unsubscribe(OnNewSearchDevice);
+			ServiceFactoryBase.Events.GetEvent<SKDSearchDeviceEvent>().Subscribe(OnNewSearchDevice);
 			StartSearchDevices();
 		}
 
@@ -50,6 +50,14 @@ namespace StrazhModule.ViewModels
 
 		public List<SKDDevice> AddedDevices;
 
+		/// <summary>
+		/// Признак того, что нашлись устройства, находящиеся в разных подсетях с сервером
+		/// </summary>
+		public bool HasDevicesFromDifferentSubnet
+		{
+			get { return Devices.Any(d => d.IsFromDifferentSubnet); }
+		}
+
 		public override void OnClosed()
 		{
 			StopSearchDevices();
@@ -65,6 +73,7 @@ namespace StrazhModule.ViewModels
 					continue;
 				
 				var device = new SearchDeviceViewModel(deviceSearchInfo);
+				device.IsFromDifferentSubnet = !CheckDeviceSubnetEqualityToHost(device);
 				var deviceInConfig = _parentDevice.Children.FirstOrDefault(x => x.Address == device.IpAddress);
 				
 				// Если найденное устройство уже содержится в конфигурации, то 
@@ -76,13 +85,17 @@ namespace StrazhModule.ViewModels
 					
 					// наследуем параметры устройства из конфигурации
 					device.Name = deviceInConfig.Name;
-					//device.DeviceType = 
-					//device.Gateway = 
-					//device.Port = 
 				}
 				
 				Devices.Add(device);
+				OnPropertyChanged(() => HasDevicesFromDifferentSubnet);
 			}
+		}
+
+		private bool CheckDeviceSubnetEqualityToHost(SearchDeviceViewModel device)
+		{
+			var hostIps = NetworkHelper.GetIp4NetworkInterfacesInfo();
+			return hostIps.Any(hostIp => NetworkHelper.IsSubnetEqual(device.IpAddress, device.Mask, hostIp.Address.ToString(), hostIp.IPv4Mask.ToString()));
 		}
 
 		private SKDDriverType? GetDriverType(SKDDeviceType deviceType)
@@ -134,20 +147,18 @@ namespace StrazhModule.ViewModels
 					Parent = _parentDevice
 				};
 
-				//_parentDevice.Children.Add(device);
-
 				foreach (var autocreationItem in driver.AutocreationItems)
 				{
 					var childDriver = SKDManager.Drivers.FirstOrDefault(x => x.DriverType == autocreationItem.DriverType);
 
-					for (int i = 0; i < autocreationItem.Count; i++)
+					for (var i = 0; i < autocreationItem.Count; i++)
 					{
 						var childDevice = new SKDDevice()
 						{
 							Driver = childDriver,
 							DriverUID = childDriver.UID,
 							IntAddress = i,
-							Name = childDriver.Name + " " + (i + 1).ToString(),
+							Name = String.Format("{0} {1}", childDriver.Name, i + 1),
 							Parent = device
 						};
 						device.Children.Add(childDevice);
@@ -159,11 +170,13 @@ namespace StrazhModule.ViewModels
 					var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 					if (property == null)
 					{
-						property = new SKDProperty();
-						property.DriverProperty = driverProperty;
-						property.Name = driverProperty.Name;
-						property.Value = driverProperty.Default;
-						property.StringValue = driverProperty.StringDefault;
+						property = new SKDProperty
+						{
+							DriverProperty = driverProperty,
+							Name = driverProperty.Name,
+							Value = driverProperty.Default,
+							StringValue = driverProperty.StringDefault
+						};
 						device.Properties.Add(property);
 					}
 					switch (property.Name.ToUpperInvariant())

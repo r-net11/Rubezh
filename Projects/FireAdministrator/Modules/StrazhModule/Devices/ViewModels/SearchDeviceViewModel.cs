@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Controls.Converters;
-using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using StrazhModule.Events;
 
 namespace StrazhModule.ViewModels
 {
@@ -159,6 +150,22 @@ namespace StrazhModule.ViewModels
 					return;
 				_mask = value;
 				OnPropertyChanged(() => Mask);
+			}
+		}
+
+		private bool _isFromDifferentSubnet;
+		/// <summary>
+		/// Признак того, что устройство находится в различных подсетях с сервером
+		/// </summary>
+		public bool IsFromDifferentSubnet
+		{
+			get { return _isFromDifferentSubnet; }
+			set
+			{
+				if (_isFromDifferentSubnet == value)
+					return;
+				_isFromDifferentSubnet = value;
+				OnPropertyChanged(() => IsFromDifferentSubnet);
 			}
 		}
 	}
