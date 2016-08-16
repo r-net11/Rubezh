@@ -1,3 +1,19 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client" xmlns:ViewModels="clr-namespace:SKDModule.ViewModels" xmlns:Views="clr-namespace:SKDModule.Views">
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:views="clr-namespace:SKDModule.Views">
+
+	<DataTemplate DataType="{x:Type viewModels:OrganisationsViewModel}">
+		<views:OrganisationsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type viewModels:OrganisationsMenuViewModel}">
+		<views:OrganisationsMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type viewModels:OrganisationDetailsViewModel}">
+		<views:OrganisationDetailsView />
+	</DataTemplate>
 
 </ResourceDictionary>

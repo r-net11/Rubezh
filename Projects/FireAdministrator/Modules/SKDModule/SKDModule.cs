@@ -1,3 +1,6 @@
+using System;
+using Infrastructure.Client;
+using Infrastructure.Events;
 using StrazhAPI.Enums;
 using StrazhAPI.Models.Layouts;
 using Infrastructure;
@@ -9,22 +12,28 @@ using Infrastructure.Common.Validation;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
 using System.Collections.Generic;
+using StrazhAPI.SKD;
 
 namespace SKDModule
 {
 	public class SKDModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
+		private OrganisationsViewModel _organisationsViewModel;
+
 		public override void CreateViewModels()
 		{
+			_organisationsViewModel = new OrganisationsViewModel();
 		}
 
 		public override void Initialize()
 		{
+			_organisationsViewModel.Initialize(LogicalDeletationType.Active);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
+				new NavigationItem<ShowOrganisationsEvent, Guid>(_organisationsViewModel, "Организации", "Kartoteka2W")
 			};
 		}
 		public override ModuleType ModuleType

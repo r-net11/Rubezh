@@ -657,6 +657,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\ArchiveUnlocked.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlImages\archive.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

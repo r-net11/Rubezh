@@ -94,6 +94,7 @@
     <Compile Include="Events\ShowNotificationEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowSettingsEvent.cs" />
+    <Compile Include="Events\ShowOrganisationsEvent.cs" />
     <Compile Include="Events\ShowSoundsEvent.cs" />
     <Compile Include="Events\ShowUserGroupsEvent.cs" />
     <Compile Include="Events\ShowUsersEvent.cs" />
