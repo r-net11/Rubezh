@@ -3,18 +3,25 @@ using System.Drawing.Printing;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using System.Drawing;
+using StrazhAPI.Printing;
 
 namespace ReportSystem
 {
 	public partial class MergedReport : XtraReport
 	{
 		private int _locationY;
-		private readonly XtraReport[] mergeReports;
+		private readonly XtraReport[] _mergeReports;
 
-		public MergedReport(XtraReport[] reportsToMerge)
+		public MergedReport(XtraReport[] reportsToMerge, IPaperKindSetting paperKindSetting)
 		{
 			InitializeComponent();
-			mergeReports = reportsToMerge;
+			_mergeReports = reportsToMerge;
+			DefaultPrinterSettingsUsing.UseLandscape = false;
+			Landscape = true;
+			PaperKind = PaperKind.Custom;
+			PageWidth = paperKindSetting.Width * 10;
+			PageHeight = paperKindSetting.Height * 10;
+			//DefaultPrinterSettingsUsing.UseLandscape = false;
 		}
 
 		public XRSubreport SetReport(XtraReport report, BandKind band)
@@ -32,11 +39,11 @@ namespace ReportSystem
 			var subreport = SetReport(mergeReport, BandKind.Detail);
 		}
 
-		private void XtraReportMerged_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+		private void XtraReportMerged_BeforePrint(object sender, PrintEventArgs e)
 		{
-			if (mergeReports == null) return;
+			if (_mergeReports == null) return;
 
-			foreach (var mr in mergeReports)
+			foreach (var mr in _mergeReports)
 				MergeReport(mr);
 		}
 	}
