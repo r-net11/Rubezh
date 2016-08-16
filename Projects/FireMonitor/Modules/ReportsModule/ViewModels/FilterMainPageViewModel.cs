@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.Reports.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -23,7 +24,7 @@ namespace ReportsModule.ViewModels
 		public FilterMainPageViewModel(FilterModel model, SKDReportFilter filter, Action<SKDReportFilter> loadFilterAction, Action<SKDReportFilter> updateFilterAction)
 		{
 			_isLoaded = false;
-			Title = "Настройки";
+			Title = CommonViewModels.Settings;
 			_filter = filter;
 			_loadFilterAction = loadFilterAction;
 			_updateFilterAction = updateFilterAction;

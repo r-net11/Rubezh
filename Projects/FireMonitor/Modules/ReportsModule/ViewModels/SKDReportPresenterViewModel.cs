@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using Common;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
+using Localization.Reports.Errors;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure;
@@ -147,7 +148,7 @@ namespace ReportsModule.ViewModels
 				{
 					Logger.Error(ex);
 					if (ApplicationService.ApplicationActivated)
-						MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
+						MessageBoxService.ShowException(ex, CommonErrors.BuildingReport_Error);
 					if (ex is CommunicationException)
 						CreateClient();
 				}
