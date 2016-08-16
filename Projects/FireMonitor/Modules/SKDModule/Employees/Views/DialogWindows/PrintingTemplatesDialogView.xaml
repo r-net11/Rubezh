@@ -6,11 +6,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     mc:Ignorable="d"
     Height="500"
 	Width="500">
 	<UserControl.Resources>
 		<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+		<CollectionViewSource x:Key="cvsTemplateNames" Source="{Binding Settings.TemplateNames, IsAsync=True}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription  PropertyName="Item2" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
     <Grid x:Name="Main">
 		<Grid.RowDefinitions>
@@ -81,7 +87,7 @@
 				x:Name="TemplatesList"
 				Grid.Row="1"
 				Grid.Column="2"
-				ItemsSource="{Binding Settings.TemplateNames, IsAsync=True}"
+				ItemsSource="{Binding Source={StaticResource cvsTemplateNames}}"
 				SelectedItem="{Binding Settings.SelectedTemplate}"
 				IsEnabled="{Binding Settings.IsUseAttachedTemplates, Converter={StaticResource InverseBooleanConverter}}"
 				VerticalAlignment="Center"

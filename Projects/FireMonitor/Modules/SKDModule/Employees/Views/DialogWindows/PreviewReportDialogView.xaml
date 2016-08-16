@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:types="clr-namespace:SKDModule.PassCardDesigner.Model"
+	xmlns:sys="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:dialogWindows="clr-namespace:SKDModule.Employees.Views.DialogWindows"
     xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
     mc:Ignorable="d"
@@ -49,6 +50,11 @@
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
+			<CollectionViewSource x:Key="cvsTemplatesCollection" Source="{Binding TemplatesCollection, IsAsync=True}">
+				<CollectionViewSource.SortDescriptions>
+					<sys:SortDescription PropertyName="Caption" />
+				</CollectionViewSource.SortDescriptions>
+			</CollectionViewSource>
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid Background="{StaticResource BaseWindowBackgroundBrush}">
@@ -69,17 +75,12 @@
 					Foreground="White"
 					Margin="5"/>
 				<ComboBox
-					ItemsSource="{Binding TemplatesCollection, IsAsync=True}"
+					ItemsSource="{Binding Source={StaticResource cvsTemplatesCollection}}"
 					SelectedItem="{Binding SelectedTemplate}"
 					VerticalAlignment="Center"
+					DisplayMemberPath="Caption"
 					Width="120"
-					Margin="5">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Caption}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+					Margin="5" />
 			</StackPanel>
 			<Separator
 				Grid.Row="1"
@@ -97,6 +98,7 @@
 			HorizontalAlignment="Center"
 			Width="50"
 			Height="50"
-			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged,
+						Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 	</Grid>
 </UserControl>
