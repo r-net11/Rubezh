@@ -36,10 +36,10 @@ namespace SKDModule.PassCardDesigner.Model
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PassCardTemplateReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+			this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
 			this.topMarginBand1 = new DevExpress.XtraReports.UI.TopMarginBand();
 			this.bottomMarginBand1 = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
-			this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// Detail
@@ -52,6 +52,11 @@ namespace SKDModule.PassCardDesigner.Model
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.Detail.StylePriority.UseBackColor = false;
 			this.Detail.StylePriority.UseBorderDashStyle = false;
+			// 
+			// xrPictureBox1
+			// 
+			resources.ApplyResources(this.xrPictureBox1, "xrPictureBox1");
+			this.xrPictureBox1.Name = "xrPictureBox1";
 			// 
 			// topMarginBand1
 			// 
@@ -69,11 +74,6 @@ namespace SKDModule.PassCardDesigner.Model
 			// 
 			this.xrControlStyle1.Name = "xrControlStyle1";
 			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
-			// 
-			// xrPictureBox1
-			// 
-			resources.ApplyResources(this.xrPictureBox1, "xrPictureBox1");
-			this.xrPictureBox1.Name = "xrPictureBox1";
 			// 
 			// PassCardTemplateReport
 			// 

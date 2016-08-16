@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraPrinting;
+﻿using System.Net;
+using DevExpress.XtraPrinting;
 using DevExpress.XtraPrinting.Drawing;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
@@ -17,8 +18,7 @@ namespace SKDModule.PassCardDesigner.Model
 		{
 			InitializeComponent();
 			ReportUnit = ReportUnit.TenthsOfAMillimeter;
-			this.DrawWatermark = true;
-			//var dataSet = new EmployeeDataSet();
+			DrawWatermark = true;
 			xrPictureBox1.SendToBack();
 			var dataSet = new Test();
 
@@ -26,56 +26,18 @@ namespace SKDModule.PassCardDesigner.Model
 			DesignerOptions.ShowPrintingWarnings = false;
 			DesignerOptions.ShowDesignerHints = false;
 			//Watermark.Image = image;
-			xrPictureBox1.Sizing = ImageSizeMode.AutoSize;
-			xrPictureBox1.Width = image.Width / 10;
-			xrPictureBox1.Height = image.Height / 10;
+			xrPictureBox1.Sizing = ImageSizeMode.StretchImage;
+			xrPictureBox1.Size = new Size(image.Width, image.Height);
 			xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
 			CreateDocument();
-			//var dataRow = dataSet.Employee.NewEmployeeRow();
-			//dataRow.FirstName = "Test firstName";
-			//dataRow.LastName = "TestLastName";
-			//dataRow.SecondName = "TestSecondName";
-			//dataRow.PhotoUID = Guid.Empty;
-			//dataRow.UID = Guid.NewGuid();
-			//dataRow.PositionUID = Guid.NewGuid();
-			//dataRow.DepartmentUID = Guid.NewGuid();
-			//dataRow.ScheduleUID = Guid.NewGuid();
-			//dataRow.ScheduleStartDate = DateTime.Now;
-			//dataRow.Type = 0;
-			//dataRow.IsDeleted = false;
-			//dataRow.OrganisationUID = Guid.NewGuid();
-			//dataRow.LastEmployeeDayUpdate = DateTime.Now;
-			//dataRow.RemovalDate = DateTime.Now;
-			//dataRow.ExternalKey = "-1";
 
-			//var dataRow2 = dataSet.Employee.NewEmployeeRow();
-			//dataRow2.FirstName = "Test firstName2";
-			//dataRow2.LastName = "TestLastName2";
-			//dataRow2.SecondName = "TestSecondName2";
-			//dataRow2.PhotoUID = Guid.Empty;
-			//dataRow2.UID = Guid.NewGuid();
-			//dataRow2.PositionUID = Guid.NewGuid();
-			//dataRow2.DepartmentUID = Guid.NewGuid();
-			//dataRow2.ScheduleUID = Guid.NewGuid();
-			//dataRow2.ScheduleStartDate = DateTime.Now;
-			//dataRow2.Type = 0;
-			//dataRow2.IsDeleted = false;
-			//dataRow2.OrganisationUID = Guid.NewGuid();
-			//dataRow2.LastEmployeeDayUpdate = DateTime.Now;
-			//dataRow2.RemovalDate = DateTime.Now;
-			//dataRow2.ExternalKey = "-1";
-
-			//dataSet.Employee.AddEmployeeRow(dataRow);
-			//dataSet.Employee.AddEmployeeRow(dataRow2);
-
-			this.DataSource = dataSet;
-			this.DataMember = dataSet.Tables[0].TableName;
+			DataSource = dataSet;
+			DataMember = dataSet.Tables[0].TableName;
 
 			ReportPrintOptions.PrintOnEmptyDataSource = true;
 
 			var band = Bands.GetBandByType(typeof (TopMarginBand));
 			if(band != null) Bands.Remove(band);
-
 			band = Bands.GetBandByType(typeof (BottomMarginBand));
 			if(band != null) Bands.Remove(band);
 			FilterComponentProperties += XtraReport_FilterComponentProperties;
@@ -189,8 +151,7 @@ namespace SKDModule.PassCardDesigner.Model
 			}
 		}
 
-		static void HideProperty(String propertyName,
-			FilterComponentPropertiesEventArgs filterComponentProperties)
+		static void HideProperty(String propertyName, FilterComponentPropertiesEventArgs filterComponentProperties)
 		{
 			var oldPropertyDescriptor = filterComponentProperties.Properties[propertyName] as PropertyDescriptor;
 			if (oldPropertyDescriptor != null)
