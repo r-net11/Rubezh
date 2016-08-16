@@ -167,5 +167,12 @@ namespace StrazhAPI
 		/// </summary>
 		[OperationContract]
 		void NotifyCoreLoadingLogChanged();
+
+		/// <summary>
+		/// Возвращает список информации по ip4-адресам для всех сетевых адаптеров сервера
+		/// </summary>
+		/// <returns>Информация по ip4-адресам для всех сетевых адаптеров сервера</returns>
+		[OperationContract]
+		OperationResult<List<Ip4AddressInfo>> GetIp4NetworkInterfacesInfo();
 	}
 }

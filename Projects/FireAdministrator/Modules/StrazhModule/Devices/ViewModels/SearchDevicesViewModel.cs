@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Services;
+using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
 using FiresecClient;
@@ -15,6 +16,7 @@ namespace StrazhModule.ViewModels
 	public class SearchDevicesViewModel : SaveCancelDialogViewModel
 	{
 		private readonly SKDDevice _parentDevice;
+		private List<Ip4AddressInfo> _serverHostIp4NetworkInterfacesInfo;
 
 		public SearchDevicesViewModel(DeviceViewModel parentDeviceViewModel)
 		{
@@ -36,8 +38,20 @@ namespace StrazhModule.ViewModels
 			StartSearchDevices();
 		}
 
+		/// <summary>
+		/// Обновляет инормацию об ip4-адресам всех сетевых адаптеров сервера
+		/// </summary>
+		private void UpdateServerHostIp4NetworkInterfacesInfo()
+		{
+			var operationResult = FiresecManager.FiresecService.GetIp4NetworkInterfacesInfo();
+			_serverHostIp4NetworkInterfacesInfo = operationResult.HasError
+				? new List<Ip4AddressInfo>()
+				: operationResult.Result;
+		}
+
 		private void StartSearchDevices()
 		{
+			UpdateServerHostIp4NetworkInterfacesInfo();
 			FiresecManager.FiresecService.SKDStartSearchDevices();
 		}
 
@@ -73,7 +87,7 @@ namespace StrazhModule.ViewModels
 					continue;
 				
 				var device = new SearchDeviceViewModel(deviceSearchInfo);
-				device.IsFromDifferentSubnet = !CheckDeviceSubnetEqualityToHost(device);
+				device.IsFromDifferentSubnet = !CheckDeviceSubnetEqualityToServerHost(device);
 				var deviceInConfig = _parentDevice.Children.FirstOrDefault(x => x.Address == device.IpAddress);
 				
 				// Если найденное устройство уже содержится в конфигурации, то 
@@ -92,10 +106,15 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		private bool CheckDeviceSubnetEqualityToHost(SearchDeviceViewModel device)
+		/// <summary>
+		/// Проверяет имеет ли устройство подсеть, доступную для сервера
+		/// </summary>
+		/// <param name="device">Устройство</param>
+		/// <returns>true, если подсеть устройства совпадает с доступной подсетью сервера,
+		/// false - в противном случае</returns>
+		private bool CheckDeviceSubnetEqualityToServerHost(SearchDeviceViewModel device)
 		{
-			var hostIps = NetworkHelper.GetIp4NetworkInterfacesInfo();
-			return hostIps.Any(hostIp => NetworkHelper.IsSubnetEqual(device.IpAddress, device.Mask, hostIp.Address.ToString(), hostIp.IPv4Mask.ToString()));
+			return _serverHostIp4NetworkInterfacesInfo.Any(hostIp => NetworkHelper.IsSubnetEqual(device.IpAddress, device.Mask, hostIp.Address, hostIp.Mask));
 		}
 
 		private SKDDriverType? GetDriverType(SKDDeviceType deviceType)

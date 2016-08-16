@@ -446,5 +446,21 @@ namespace FiresecService.Service
 		{
 			return new OperationResult<string>(Notifier.GetLogs());
 		}
+
+		/// <summary>
+		/// Возвращает список информации по ip4-адресам для всех сетевых адаптеров сервера
+		/// </summary>
+		/// <returns>Информация по ip4-адресам для всех сетевых адаптеров сервера</returns>
+		public OperationResult<List<Ip4AddressInfo>> GetIp4NetworkInterfacesInfo()
+		{
+			var hostIps = NetworkHelper.GetIp4NetworkInterfacesInfo();
+			var ip4AddressInfos = hostIps.Select(hostIp => new Ip4AddressInfo
+			{
+				Address = hostIp.Address.ToString(),
+				Mask = hostIp.IPv4Mask.ToString()
+			}).ToList();
+
+			return new OperationResult<List<Ip4AddressInfo>>(ip4AddressInfos);
+		}
 	}
 }

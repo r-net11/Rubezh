@@ -52,15 +52,23 @@ namespace Infrastructure.Common
 		/// false - в противном случае</returns>
 		public static bool IsSubnetEqual(string ip1, string mask1, string ip2, string mask2)
 		{
-			var ip1Address = IPAddress.Parse(ip1).Address;
-			var mask1Address = IPAddress.Parse(mask1).Address;
-			ip1Address &= mask1Address;
+			try
+			{
+				var ip1Address = IPAddress.Parse(ip1).Address;
+				var mask1Address = IPAddress.Parse(mask1).Address;
+				ip1Address &= mask1Address;
 
-			var ip2Address = IPAddress.Parse(ip2).Address;
-			var mask2Address = IPAddress.Parse(mask2).Address;
-			ip2Address &= mask2Address;
+				var ip2Address = IPAddress.Parse(ip2).Address;
+				var mask2Address = IPAddress.Parse(mask2).Address;
+				ip2Address &= mask2Address;
 
-			return ip1Address == ip2Address;
+				return ip1Address == ip2Address;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				return false;
+			}
 		}
 
 		/// <summary>
