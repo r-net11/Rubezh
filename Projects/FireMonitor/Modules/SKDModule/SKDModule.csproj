@@ -413,11 +413,6 @@
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControlWrapper.xaml.cs">
       <DependentUpon>ReportPreviewControlWrapper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Model\Test.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Test.xsd</DependentUpon>
-    </Compile>
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
@@ -522,11 +517,6 @@
     <Compile Include="Common\ViewModels\EmployeeSelectionViewModel.cs" />
     <Compile Include="Common\Views\EmployeeSelectionView.xaml.cs">
       <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PassCardDesigner\Model\EmployeeDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="PassCardDesigner\Model\ImageBuilder.cs" />
     <Compile Include="PassCardDesigner\Model\PassCardTemplateReport.cs">
@@ -1395,28 +1385,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PassCardDesigner\Model\EmployeeDataSet.xsc">
-      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PassCardDesigner\Model\EmployeeDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="PassCardDesigner\Model\EmployeeDataSet.xss">
-      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PassCardDesigner\Model\Test.xsc">
-      <DependentUpon>Test.xsd</DependentUpon>
-    </None>
-    <None Include="PassCardDesigner\Model\Test.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Test.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="PassCardDesigner\Model\Test.xss">
-      <DependentUpon>Test.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

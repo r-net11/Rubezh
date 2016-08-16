@@ -1,57 +1,55 @@
-﻿using System.Net;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraPrinting.Drawing;
+﻿using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
+using ReportSystem.DataSets;
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using Infrastructure.Client.Converters;
 using Attribute = System.Attribute;
 
 namespace SKDModule.PassCardDesigner.Model
 {
-	//TODO: Refactoring
 	public partial class PassCardTemplateReport : XtraReport
 	{
 		public PassCardTemplateReport(Image image)
 		{
 			InitializeComponent();
+			InitializeReport(image);
+			RemoveBands();
+			FilterComponentProperties += XtraReport_FilterComponentProperties;
+		}
+
+		private void InitializeReport(Image image)
+		{
 			ReportUnit = ReportUnit.TenthsOfAMillimeter;
 			DrawWatermark = true;
-			xrPictureBox1.SendToBack();
+
 			var dataSet = new Test();
+			DataSource = dataSet;
+			DataMember = dataSet.Tables[0].TableName;
 
 			DesignerOptions.ShowExportWarnings = false;
 			DesignerOptions.ShowPrintingWarnings = false;
 			DesignerOptions.ShowDesignerHints = false;
-			//Watermark.Image = image;
+			ReportPrintOptions.PrintOnEmptyDataSource = true;
+
+			xrPictureBox1.SendToBack();
 			xrPictureBox1.Sizing = ImageSizeMode.StretchImage;
 			xrPictureBox1.Size = new Size(image.Width, image.Height);
 			xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
 			CreateDocument();
-
-			DataSource = dataSet;
-			DataMember = dataSet.Tables[0].TableName;
-
-			ReportPrintOptions.PrintOnEmptyDataSource = true;
-
-			var band = Bands.GetBandByType(typeof (TopMarginBand));
-			if(band != null) Bands.Remove(band);
-			band = Bands.GetBandByType(typeof (BottomMarginBand));
-			if(band != null) Bands.Remove(band);
-			FilterComponentProperties += XtraReport_FilterComponentProperties;
 		}
 
-		//public PassCardTemplateReport(Image image) : this()
-		//{
-		//	//Watermark.Image = image;
-		//	xrPictureBox1.Width = image.Width;
-		//	xrPictureBox1.Height = image.Height;
-		//	xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
-		//	ReportUnit = ReportUnit.TenthsOfAMillimeter;
-		//	CreateDocument();
-		//}
+		private void RemoveBands()
+		{
+			var band = Bands.GetBandByType(typeof(TopMarginBand));
+			if (band != null)
+				Bands.Remove(band);
+
+			band = Bands.GetBandByType(typeof(BottomMarginBand));
+			if (band != null)
+				Bands.Remove(band);
+		}
 
 		private void TopMargin_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
 		{
@@ -94,10 +92,9 @@ namespace SKDModule.PassCardDesigner.Model
 		//	};
 		//}
 
-		void XtraReport_FilterComponentProperties(object sender,
-		FilterComponentPropertiesEventArgs e)
+		private void XtraReport_FilterComponentProperties(object sender, FilterComponentPropertiesEventArgs e)
 		{
-			// The following line hides the Scripts property for all report elements.
+			//Hiding properties of all elements
 			HideProperty("Scripts", e);
 			HideProperty("Watermark", e);
 			HideProperty("DrawWatermark", e);
@@ -134,15 +131,8 @@ namespace SKDModule.PassCardDesigner.Model
 			HideProperty("ScriptLanguage", e);
 			HideProperty("Bands", e);
 			HideProperty("Extensions", e);
-			 //The following code hides the ReportSource property,
-			 //for subreports to always contain only the pre-defined reports.
-			if (e.Component is XRSubreport)
-			{
-				HideProperty("ReportSource", e);
-				HideProperty("ReportSourceUrl", e);
-			}
 
-			// The following code hides some properties for a specific report element.
+			//Hiding properties of concrete elements.
 			if (sender is PassCardTemplateReport && e.Component is XRControl &&
 				((XRControl)e.Component).Name == "label1")
 			{

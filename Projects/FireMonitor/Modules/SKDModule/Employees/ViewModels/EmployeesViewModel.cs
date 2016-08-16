@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraReports.Design;
+﻿using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -8,9 +6,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using ReportSystem;
+using ReportSystem.DataSets;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
-using SKDModule.PassCardDesigner.Model;
 using SKDModule.Reports;
 using StrazhAPI.SKD;
 using System;
@@ -73,8 +71,11 @@ namespace SKDModule.ViewModels
 
 					xtraReportFront.DataSource = dsFront;
 					xtraReportFront.DataMember = dsFront.Employee.TableName;
-					xtraReportBack.DataSource = dsBack;
-					xtraReportBack.DataMember = dsBack.Employee.TableName;
+					if (xtraReportBack != null)
+					{
+						xtraReportBack.DataSource = dsBack;
+						xtraReportBack.DataMember = dsBack.Employee.TableName;
+					}
 
 					var mergedReport = new MergedReport(new XtraReport[] { xtraReportFront, xtraReportBack }, settings.PaperKindSetting);
 					mergedReport.ShowPreviewDialog();
