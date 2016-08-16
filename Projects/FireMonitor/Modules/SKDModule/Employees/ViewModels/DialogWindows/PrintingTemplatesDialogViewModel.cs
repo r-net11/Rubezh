@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Employees.Models;
-using StrazhAPI.SKD;
+using System;
 
 namespace SKDModule.Employees.ViewModels.DialogWindows
 {

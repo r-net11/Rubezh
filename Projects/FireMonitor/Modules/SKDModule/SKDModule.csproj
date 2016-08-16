@@ -413,8 +413,6 @@
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControlWrapper.xaml.cs">
       <DependentUpon>ReportPreviewControlWrapper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PassCardDesigner\Model\AddingSubreportAlgorithm.cs" />
-    <Compile Include="PassCardDesigner\Model\MasterReportFactory.cs" />
     <Compile Include="PassCardDesigner\Model\Test.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -71,7 +71,6 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 						: TemplatesCollection.FirstOrDefault();
 					IsBusy = false;
 				});
-
 		}
 	}
 }

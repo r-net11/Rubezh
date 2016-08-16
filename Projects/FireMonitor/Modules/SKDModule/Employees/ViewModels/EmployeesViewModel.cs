@@ -58,21 +58,25 @@ namespace SKDModule.ViewModels
 					var employeeFullData = FiresecManager.FiresecService.GetFullEmployeeData(Filter);
 					var passCardTemplate = FiresecManager.FiresecService.GetPassCardTemplateDetails(settings.TemplateGuid.Value);
 					var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
-					var xtrareportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
+					var xtraReportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 
-					var ds = new Test();
+					var dsFront = new Test();
+					var dsBack = new Test();
 
 					foreach (var empl in employeeFullData.Result)
 					{
-						FillDataSet(ds, empl, passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+						FillDataSet(dsFront, empl, passCardTemplate.Result.Front.WatermarkImage.ImageContent);
+
+						if (passCardTemplate.Result.Back != null)
+							FillDataSet(dsBack, empl, passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 					}
 
-					xtraReportFront.DataSource = ds;
-					xtraReportFront.DataMember = ds.Employee.TableName;
-					xtrareportBack.DataSource = ds;
-					xtrareportBack.DataMember = ds.Employee.TableName;
+					xtraReportFront.DataSource = dsFront;
+					xtraReportFront.DataMember = dsFront.Employee.TableName;
+					xtraReportBack.DataSource = dsBack;
+					xtraReportBack.DataMember = dsBack.Employee.TableName;
 
-					var mergedReport = new MergedReport(new XtraReport[] {xtraReportFront, xtrareportBack});
+					var mergedReport = new MergedReport(new XtraReport[] { xtraReportFront, xtraReportBack }, settings.PaperKindSetting);
 					mergedReport.ShowPreviewDialog();
 
 					//xtraReportFront.CreateDocument();
@@ -112,7 +116,6 @@ namespace SKDModule.ViewModels
 				else
 				{
 					var employeeFullData = FiresecManager.FiresecService.GetFullEmployeeData(Filter);
-					//var passCardTemplate = FiresecManager.FiresecService.GetPassCardTemplateDetails(settings.TemplateGuid.Value);
 					var allTemplates = employeeFullData.Result.SelectMany(x => x.Cards.Select(y => y.PassCardTemplateUID)).ToList();
 					var templates = FiresecManager.FiresecService.GetFullPassCardTemplateList(new PassCardTemplateFilter{ UIDs = allTemplates.OfType<Guid>().ToList()});
 
@@ -121,23 +124,27 @@ namespace SKDModule.ViewModels
 					{
 						var frontReport = template.Front.Report.ToXtraReport(template.Front.WatermarkImage.ImageContent);
 						var backReport = template.Back.Report.ToXtraReport(template.Back.WatermarkImage.ImageContent);
-						var ds = new Test();
+						var dsFront = new Test();
+						var dsBack = new Test();
 						foreach (var empl in employeeFullData.Result.Where(x => x.Cards.Any(card => card.PassCardTemplateUID == template.UID)))
 						{
-							FillDataSet(ds, empl, template.Front.WatermarkImage.ImageContent);
+							FillDataSet(dsFront, empl, template.Front.WatermarkImage.ImageContent);
+
+							if(template.Back != null)
+								FillDataSet(dsBack, empl, template.Back.WatermarkImage.ImageContent);
 						}
-						frontReport.DataSource = ds;
-						frontReport.DataMember = ds.Employee.TableName;
+						frontReport.DataSource = dsFront;
+						frontReport.DataMember = dsFront.Employee.TableName;
 						xtraReport.Add(frontReport);
 						if (backReport != null)
 						{
-							backReport.DataSource = ds;
-							backReport.DataMember = ds.Employee.TableName;
+							backReport.DataSource = dsBack;
+							backReport.DataMember = dsBack.Employee.TableName;
 							xtraReport.Add(backReport);
 						}
 					}
 
-					var mergedReport = new MergedReport(xtraReport.ToArray());
+					var mergedReport = new MergedReport(xtraReport.ToArray(), settings.PaperKindSetting);
 					mergedReport.ShowPreviewDialog();
 					//var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
 					//var xtrareportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
