@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using DevExpress.XtraReports.UI;
 
-namespace SKDModule.PassCardDesigner.Model
+namespace ReportSystem.Reports
 {
 	partial class PassCardTemplateReport
 	{
@@ -41,9 +41,9 @@ namespace SKDModule.PassCardDesigner.Model
 			this.bottomMarginBand1 = new DevExpress.XtraReports.UI.BottomMarginBand();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-			// 
+			//
 			// Detail
-			// 
+			//
 			resources.ApplyResources(this.Detail, "Detail");
 			this.Detail.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
@@ -52,31 +52,31 @@ namespace SKDModule.PassCardDesigner.Model
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.Detail.StylePriority.UseBackColor = false;
 			this.Detail.StylePriority.UseBorderDashStyle = false;
-			// 
+			//
 			// xrPictureBox1
-			// 
+			//
 			resources.ApplyResources(this.xrPictureBox1, "xrPictureBox1");
 			this.xrPictureBox1.Name = "xrPictureBox1";
-			// 
+			//
 			// topMarginBand1
-			// 
+			//
 			resources.ApplyResources(this.topMarginBand1, "topMarginBand1");
 			this.topMarginBand1.Name = "topMarginBand1";
 			this.topMarginBand1.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.TopMargin_BeforePrint);
-			// 
+			//
 			// bottomMarginBand1
-			// 
+			//
 			resources.ApplyResources(this.bottomMarginBand1, "bottomMarginBand1");
 			this.bottomMarginBand1.Name = "bottomMarginBand1";
 			this.bottomMarginBand1.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.BottomMargin_BeforePrint);
-			// 
+			//
 			// xrControlStyle1
-			// 
+			//
 			this.xrControlStyle1.Name = "xrControlStyle1";
 			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
-			// 
+			//
 			// PassCardTemplateReport
-			// 
+			//
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail,
             this.topMarginBand1,

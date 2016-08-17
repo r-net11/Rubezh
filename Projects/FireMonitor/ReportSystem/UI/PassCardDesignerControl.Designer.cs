@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using DevExpress.XtraReports.UserDesigner;
 
-namespace SKDModule.PassCardDesigner.Views
+namespace ReportSystem.UI
 {
 	partial class PassCardDesignerControl
 	{

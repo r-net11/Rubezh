@@ -404,12 +404,6 @@
     <Compile Include="Employees\Views\DialogWindows\PrintingTemplatesDialogView.xaml.cs">
       <DependentUpon>PrintingTemplatesDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\Views\DialogWindows\ReportPreviewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Employees\Views\DialogWindows\ReportPreviewControl.Designer.cs">
-      <DependentUpon>ReportPreviewControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControlWrapper.xaml.cs">
       <DependentUpon>ReportPreviewControlWrapper.xaml</DependentUpon>
     </Compile>
@@ -519,12 +513,6 @@
       <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PassCardDesigner\Model\ImageBuilder.cs" />
-    <Compile Include="PassCardDesigner\Model\PassCardTemplateReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PassCardDesigner\Model\PassCardTemplateReport.Designer.cs">
-      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
-    </Compile>
     <Compile Include="PassCardDesigner\Model\PreviewImage.cs" />
     <Compile Include="PassCardDesigner\Model\ProportionHelper.cs" />
     <Compile Include="PassCardDesigner\Model\Template.cs" />
@@ -537,12 +525,6 @@
     <Compile Include="PassCardDesigner\ViewModels\TemplateViewModel.cs" />
     <Compile Include="PassCardDesigner\Views\Controls\ImageViewerControl.xaml.cs">
       <DependentUpon>ImageViewerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.Designer.cs">
-      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="PassCardDesigner\Views\Controls\PassCardDesignerControlWrapper.xaml.cs">
       <DependentUpon>PassCardDesignerControlWrapper.xaml</DependentUpon>
@@ -583,7 +565,6 @@
     <Compile Include="Reports\Providers\EmployeeDoorsReportProvider.cs" />
     <Compile Include="Reports\Providers\EmployeeAccessReportProvider.cs" />
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
-    <Compile Include="Reports\ReportExtensions.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemComparer.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
@@ -1362,21 +1343,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Employees\Views\DialogWindows\ReportPreviewControl.resx">
-      <DependentUpon>ReportPreviewControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PassCardDesigner\Model\PassCardTemplateReport.resx">
-      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PassCardDesigner\Model\PassCardTemplateReport.ru-RU.resx">
-      <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.resx">
-      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PassCardDesigner\Views\Controls\PassCardDesignerControl.ru-RU.resx">
-      <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

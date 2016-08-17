@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraReports.UI;
-using SKDModule.PassCardDesigner.Model;
+using ReportSystem.Reports;
 
-namespace SKDModule.Employees.Views.DialogWindows
+namespace ReportSystem.UI
 {
 	public partial class ReportPreviewControl : UserControl
 	{

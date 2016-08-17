@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Attribute = System.Attribute;
 
-namespace SKDModule.PassCardDesigner.Model
+namespace ReportSystem.Reports
 {
 	public partial class PassCardTemplateReport : XtraReport
 	{

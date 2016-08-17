@@ -1,4 +1,4 @@
-﻿using SKDModule.PassCardDesigner.Model;
+﻿using ReportSystem.Reports;
 using System.Drawing;
 using System.IO;
 

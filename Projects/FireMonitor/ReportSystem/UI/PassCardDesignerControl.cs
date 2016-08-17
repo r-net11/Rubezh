@@ -1,10 +1,12 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using DevExpress.XtraReports.UserDesigner.Native;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using CommandVisibility = DevExpress.XtraReports.UserDesigner.CommandVisibility;
 
-namespace SKDModule.PassCardDesigner.Views
+namespace ReportSystem.UI
 {
 	public partial class PassCardDesignerControl : UserControl
 	{

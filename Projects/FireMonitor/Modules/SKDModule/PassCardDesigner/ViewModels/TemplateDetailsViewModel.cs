@@ -1,16 +1,14 @@
-using System.CodeDom;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
+using ReportSystem.Reports;
 using SKDModule.PassCardDesigner.Model;
 using SKDModule.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.SKD;
 using System;
+using System.Threading.Tasks;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
