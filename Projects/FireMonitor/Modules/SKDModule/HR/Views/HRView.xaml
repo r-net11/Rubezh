@@ -342,15 +342,6 @@
 			                              Converter={StaticResource BoolToVisibilityConverter}}">
 				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
 			</TabItem>
-
-			<!-- Вкладка "Организации" -->
-			<TabItem
-				Header="Организации"
-				IsSelected="{Binding IsOrganisationsSelected}"
-				Visibility="{Binding CanSelectOrganisations,
-			                              Converter={StaticResource BoolToVisibilityConverter}}">
-				<Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
-			</TabItem>
 		</TabControl>
 	</Grid>
 </UserControl>

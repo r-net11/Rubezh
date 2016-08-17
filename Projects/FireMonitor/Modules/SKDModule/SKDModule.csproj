@@ -548,12 +548,6 @@
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Organisations\ViewModels\IOrganisationItemViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationItemsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
     <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
@@ -660,15 +654,6 @@
       <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="Organisations\Views\OrganisationDetailsView.xaml.cs">
-      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
-      <DependentUpon>OrganisationsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
       <DependentUpon>DepartmentsView.xaml</DependentUpon>
@@ -1071,14 +1056,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Organisations\Views\OrganisationsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Positions\Views\PositionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1124,10 +1101,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Verification\Views\VerificationlView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Organisations\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
