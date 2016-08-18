@@ -103,6 +103,7 @@
 				<File Id="Monitor.DevExpress.PivotGrid.v13.2.Core.dll" Name="DevExpress.PivotGrid.v13.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Sparkline.v13.2.Core.dll" Name="DevExpress.Sparkline.v13.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Utils.v13.2.dll" Name="DevExpress.Utils.v13.2.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Utils.v13.2.UI.dll" Name="DevExpress.Utils.v13.2.UI.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraBars.v13.2.dll" Name="DevExpress.XtraBars.v13.2.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraCharts.v13.2.dll" Name="DevExpress.XtraCharts.v13.2.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.XtraEditors.v13.2.dll" Name="DevExpress.XtraEditors.v13.2.dll" Source="$(var.Monitor.TargetDir)" />
