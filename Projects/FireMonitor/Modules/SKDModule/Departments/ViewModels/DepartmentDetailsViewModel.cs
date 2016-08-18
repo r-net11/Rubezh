@@ -14,11 +14,11 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortDepartment>
 	{
-		Guid OrganisationUID { get; set; }
-		Department Department { get; set; }
+		private Guid OrganisationUID { get; set; }
+		private Department Department { get; set; }
 		public EmployeeSelectationViewModel ChiefViewModel { get; private set; }
 		public bool IsNew { get; private set; }
-		Dictionary<Guid, string> _childDepartments;
+		private Dictionary<Guid, string> _childDepartments;
 
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
@@ -45,6 +45,9 @@ namespace SKDModule.ViewModels
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
+			SelectAccessTemplateCommand = new RelayCommand(OnSelectAccessTemplate);
+			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
+			SelectPassCardTemplateCommand = new RelayCommand(OnSelectPassCardTemplate);
 			return true;
 		}
 
@@ -75,7 +78,7 @@ namespace SKDModule.ViewModels
 				PhotoData = Department.Photo.Data;
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -87,7 +90,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -99,7 +102,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _phone;
+		private string _phone;
 		public string Phone
 		{
 			get { return _phone; }
@@ -111,7 +114,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		byte[] _photoData;
+		private byte[] _photoData;
 		public byte[] PhotoData
 		{
 			get { return _photoData; }
@@ -122,7 +125,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ShortDepartment _selectedDepartment;
+		private ShortDepartment _selectedDepartment;
 		public ShortDepartment SelectedDepartment
 		{
 			get { return _selectedDepartment; }
@@ -137,6 +140,57 @@ namespace SKDModule.ViewModels
 		public bool HasSelectedDepartment
 		{
 			get { return SelectedDepartment != null; }
+		}
+
+		private AccessTemplate _selectedAccessTemplate;
+		public AccessTemplate SelectedAccessTemplate
+		{
+			get { return _selectedAccessTemplate; }
+			set
+			{
+				_selectedAccessTemplate = value;
+				OnPropertyChanged(() => SelectedAccessTemplate);
+				OnPropertyChanged(() => HasSelectedAccessTemplate);
+			}
+		}
+
+		public bool HasSelectedAccessTemplate
+		{
+			get { return SelectedAccessTemplate != null; }
+		}
+
+		private Schedule _selectedSchedule;
+		public Schedule SelectedSchedule
+		{
+			get { return _selectedSchedule; }
+			set
+			{
+				_selectedSchedule = value;
+				OnPropertyChanged(() => SelectedSchedule);
+				OnPropertyChanged(() => HasSelectedSchedule);
+			}
+		}
+
+		public bool HasSelectedSchedule
+		{
+			get { return SelectedSchedule != null; }
+		}
+
+		private PassCardTemplate _selectedPassCardTemplate;
+		public PassCardTemplate SelectedPassCardTemplate
+		{
+			get { return _selectedPassCardTemplate; }
+			set
+			{
+				_selectedPassCardTemplate = value;
+				OnPropertyChanged(() => SelectedPassCardTemplate);
+				OnPropertyChanged(() => HasSelectedPassCardTemplate);
+			}
+		}
+
+		public bool HasSelectedPassCardTemplate
+		{
+			get { return SelectedPassCardTemplate != null; }
 		}
 
 		protected override bool CanSave()
@@ -162,7 +216,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand SelectDepartmentCommand { get; private set; }
-		void OnSelectDepartment()
+		private void OnSelectDepartment()
 		{
 			var departmentSelectionViewModel = new DepartmentParentSelectionViewModel(OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty, Department.UID);
 			departmentSelectionViewModel.Initialize();
@@ -170,6 +224,21 @@ namespace SKDModule.ViewModels
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
 			}
+		}
+
+		public RelayCommand SelectAccessTemplateCommand { get; private set; }
+		private void OnSelectAccessTemplate()
+		{
+		}
+
+		public RelayCommand SelectScheduleCommand { get; private set; }
+		private void OnSelectSchedule()
+		{
+		}
+
+		public RelayCommand SelectPassCardTemplateCommand { get; private set; }
+		private void OnSelectPassCardTemplate()
+		{
 		}
 
 		protected override bool Save()
