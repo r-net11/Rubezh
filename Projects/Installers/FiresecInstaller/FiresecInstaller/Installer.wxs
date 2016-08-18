@@ -60,6 +60,7 @@
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
 						<Directory Id="Monitor.dll" Name="dll" />
+						<Directory Id="Monitor.Files.ruRU" Name="ru-RU" />
 					</Directory>
 				</Directory>
 			</Directory>

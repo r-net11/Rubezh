@@ -22,6 +22,7 @@
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
 			<ComponentRef Id="Monitor.Files.dll" />
 			<ComponentRef Id="Monitor.Files.ru" />
+			<ComponentRef Id="Monitor.Files.ruRU" />
 			<ComponentRef Id="Monitor.Integrate" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
@@ -48,6 +49,7 @@
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
 			<ComponentRef Id="Monitor.Files.dll" />
 			<ComponentRef Id="Monitor.Files.ru" />
+			<ComponentRef Id="Monitor.Files.ruRU" />
 			<ComponentRef Id="Monitor.Integrate" />
 			<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
 			<ComponentRef Id="Monitor.DesktopLayoutShortcut" />

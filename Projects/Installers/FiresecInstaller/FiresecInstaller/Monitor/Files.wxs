@@ -82,10 +82,38 @@
 				<File Id="Monitor.DevExpress.Mvvm.v14.1.dll" Name="DevExpress.Mvvm.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Printing.v14.1.Core.dll" Name="DevExpress.Printing.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.dll" Name="DevExpress.Xpf.Core.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraReports.v14.1.dll" Name="DevExpress.XtraReports.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Docking.v14.1.dll" Name="DevExpress.Xpf.Docking.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Layout.v14.1.Core.dll" Name="DevExpress.Xpf.Layout.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraBars.v14.1.dll" Name="DevExpress.XtraBars.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraCharts.v14.1.dll" Name="DevExpress.XtraCharts.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraCharts.v14.1.Extensions.dll" Name="DevExpress.XtraCharts.v14.1.Extensions.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraCharts.v14.1.Wizard.dll" Name="DevExpress.XtraCharts.v14.1.Wizard.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraGauges.v14.1.Core.dll" Name="DevExpress.XtraGauges.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraGrid.v14.1.dll" Name="DevExpress.XtraGrid.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraReports.v14.1.Extensions.dll" Name="DevExpress.XtraReports.v14.1.Extensions.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraPivotGrid.v14.1.dll" Name="DevExpress.XtraPivotGrid.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraEditors.v14.1.dll" Name="DevExpress.XtraEditors.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraLayout.v14.1.dll" Name="DevExpress.XtraLayout.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraRichEdit.v14.1.dll" Name="DevExpress.XtraRichEdit.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraTreeList.v14.1.dll" Name="DevExpress.XtraTreeList.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraVerticalGrid.v14.1.dll" Name="DevExpress.XtraVerticalGrid.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraWizard.v14.1.dll" Name="DevExpress.XtraWizard.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraNavBar.v14.1.dll" Name="DevExpress.XtraNavBar.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Utils.v14.1.dll" Name="DevExpress.Utils.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.XtraPrinting.v14.1.dll" Name="DevExpress.XtraPrinting.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Utils.v14.1.UI.dll" Name="DevExpress.Utils.v14.1.UI.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Charts.v14.1.Core.dll" Name="DevExpress.Charts.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.CodeParser.v14.1.dll" Name="DevExpress.CodeParser.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.DataAccess.v14.1.dll" Name="DevExpress.DataAccess.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.DataAccess.v14.1.UI.dll" Name="DevExpress.DataAccess.v14.1.UI.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Office.v14.1.Core.dll" Name="DevExpress.Office.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.PivotGrid.v14.1.Core.dll" Name="DevExpress.PivotGrid.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.RichEdit.v14.1.Core.dll" Name="DevExpress.RichEdit.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Sparkline.v14.1.Core.dll" Name="DevExpress.Sparkline.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
 
@@ -243,7 +271,38 @@
 				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.resources.dll" Name="DevExpress.Xpf.Core.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.resources.dll" Name="DevExpress.Xpf.Printing.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.Xpf.Docking.v14.1.resources.dll" Name="DevExpress.Xpf.Docking.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.DataAccess.v14.1.resources.dll" Name="DevExpress.DataAccess.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.DataAccess.v14.1.UI.resources.dll" Name="DevExpress.DataAccess.v14.1.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Office.v14.1.Core.resources.dll" Name="DevExpress.Office.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.PivotGrid.v14.1.Core.resources.dll" Name="DevExpress.PivotGrid.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.RichEdit.v14.1.Core.resources.dll" Name="DevExpress.RichEdit.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Sparkline.v14.1.Core.resources.dll" Name="DevExpress.Sparkline.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Utils.v14.1.resources.dll" Name="DevExpress.Utils.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Utils.v14.1.UI.resources.dll" Name="DevExpress.Utils.v14.1.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.resources.dll" Name="DevExpress.Xpf.Ribbon.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Xpo.v14.1.resources.dll" Name="DevExpress.Xpo.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraBars.v14.1.resources.dll" Name="DevExpress.XtraBars.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraCharts.v14.1.resources.dll" Name="DevExpress.XtraCharts.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraCharts.v14.1.Wizard.resources.dll" Name="DevExpress.XtraCharts.v14.1.Wizard.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraEditors.v14.1.resources.dll" Name="DevExpress.XtraEditors.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraGauges.v14.1.Core.resources.dll" Name="DevExpress.XtraGauges.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraGrid.v14.1.resources.dll" Name="DevExpress.XtraGrid.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraLayout.v14.1.resources.dll" Name="DevExpress.XtraLayout.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraNavBar.v14.1.resources.dll" Name="DevExpress.XtraNavBar.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraPivotGrid.v14.1.resources.dll" Name="DevExpress.XtraPivotGrid.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraPrinting.v14.1.resources.dll" Name="DevExpress.XtraPrinting.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraReports.v14.1.Extensions.resources.dll" Name="DevExpress.XtraReports.v14.1.Extensions.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraReports.v14.1.resources.dll" Name="DevExpress.XtraReports.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraRichEdit.v14.1.resources.dll" Name="DevExpress.XtraRichEdit.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraTreeList.v14.1.resources.dll" Name="DevExpress.XtraTreeList.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraVerticalGrid.v14.1.resources.dll" Name="DevExpress.XtraVerticalGrid.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.XtraWizard.v14.1.resources.dll" Name="DevExpress.XtraWizard.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="Monitor.Files.ruRU">
+			<Component Id="Monitor.Files.ruRU" Guid="*">
+				<File Id="Monitor.SKDModule.resources.dll" Name="SKDModule.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
