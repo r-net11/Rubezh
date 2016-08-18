@@ -247,12 +247,6 @@
 			</Component>
 		</DirectoryRef>
 
-		<DirectoryRef Id="Monitor.Files.ruRU">
-			<Component Id="Monitor.Files.ruRU" Guid="*">
-				<File Id="Monitor.SKDModule.resources.dll" Name="SKDModule.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
-			</Component>
-		</DirectoryRef>
-
 		<DirectoryRef Id="Monitor.ShellFolder">
 			<Component Id="Monitor.Integrate" Guid="2D8C468D-304E-438B-AED3-90B731E00081">
 				<File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />
