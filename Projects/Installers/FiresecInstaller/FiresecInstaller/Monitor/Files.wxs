@@ -262,7 +262,7 @@
 
 		<DirectoryRef Id="Monitor.Files.ruRU">
 			<Component Id="Monitor.Files.ruRU" Guid="*">
-				<File Id="Monitor.SKDModule.resources.dll" Name="SKDModule.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
+				<File Id="Monitor.ReportSystem.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
