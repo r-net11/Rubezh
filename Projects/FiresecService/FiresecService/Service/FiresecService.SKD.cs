@@ -22,7 +22,7 @@ namespace FiresecService.Service
 			{
 				if (CurrentClientCredentials != null)
 					return CurrentClientCredentials.FriendlyUserName;
-				return Resources.Language.Service.FiresecServiceSKD.NoUserName;
+				return "<Нет>";
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace FiresecService.Service
 				{
 					foreach (var card in getEmployeeOperationResult.Result.Cards)
 					{
-						var operationResult = DeleteCardFromEmployee(card, Resources.Language.Service.FiresecServiceSKD.DeleteEmployee);
+						var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
 						if (operationResult.HasError)
 						{
 							errors.AddRange(operationResult.Errors);
@@ -88,7 +88,7 @@ namespace FiresecService.Service
 				var markdDletedOperationResult = databaseService.EmployeeTranslator.MarkDeleted(uid);
 				if (markdDletedOperationResult.HasError)
 				{
-					errors.Add(string.Format(Resources.Language.Service.FiresecServiceSKD.DBError,markdDletedOperationResult.Error));
+					errors.Add("Ошибка БД: " + markdDletedOperationResult.Error);
 				}
 			}
 
@@ -354,7 +354,7 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (!_licenseManager.CanAddCard(databaseService.CardTranslator.GetCardsCount()))
-                    return OperationResult<bool>.FromError(string.Format(Resources.Language.Service.FiresecServiceSKD.LicenseAddCardMessage, _licenseManager.CurrentLicense.TotalUsers));
+					return	OperationResult<bool>.FromError(string.Format(Resources.LicenseAddCardMessage, _licenseManager.CurrentLicense.TotalUsers));
 
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
@@ -408,7 +408,7 @@ namespace FiresecService.Service
 				}
 				else
 				{
-					errors.Add(Resources.Language.Service.FiresecServiceSKD.LostLastCard);
+					errors.Add("Не найдена предыдущая карта");
 				}
 
 				var saveResult = databaseService.CardTranslator.Save(card);
@@ -453,7 +453,7 @@ namespace FiresecService.Service
 				}
 				else
 				{
-					errors.Add(Resources.Language.Service.FiresecServiceSKD.LostLastCard);
+					errors.Add("Не найдена предыдущая карта");
 				}
 
 				var cardToDelete = new SKDCard
@@ -636,7 +636,8 @@ namespace FiresecService.Service
 				var markDeleledResult = databaseService.OrganisationTranslator.MarkDeleted(uid);
 				if (markDeleledResult.HasError)
 				{
-				    errors.Add(string.Format(Resources.Language.Service.FiresecServiceSKD.DBError, markDeleledResult.Error));
+					errors.Add("Ошибка БД:");
+					errors.Add(markDeleledResult.Error);
 				}
 
 				return errors.Count > 0 ? new OperationResult(String.Join("\n", errors)) : new OperationResult();
@@ -805,7 +806,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
 				return Processor.GetDeviceInfo(deviceUID);
 			}
-			return OperationResult<SKDDeviceInfo>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDDeviceInfo>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -822,7 +823,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
 				return Processor.SynchronizeTime(deviceUID);
 			}
-            return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDResetController(Guid deviceUID)
@@ -836,7 +837,7 @@ namespace FiresecService.Service
 					// Проверяем признак выполнения на данном устройстве опасной операции
 					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
 					if (!isDisallowedHere)
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ControllerIsBusy);
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
 
 					// Выполняем критическую операцию
 					AddSKDJournalMessage(JournalEventNameType.Сброс_Контроллера, device);
@@ -849,7 +850,7 @@ namespace FiresecService.Service
 						AllowRunCriticalOperationOnDevice(deviceUID);
 				}
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDRebootController(Guid deviceUID)
@@ -863,7 +864,7 @@ namespace FiresecService.Service
 					// Проверяем признак выполнения на данном устройстве опасной операции
 					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
 					if (!isDisallowedHere)
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ControllerIsBusy);
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
 
 					// Выполняем критическую операцию
 					AddSKDJournalMessage(JournalEventNameType.Перезагрузка_Контроллера, device);
@@ -876,7 +877,7 @@ namespace FiresecService.Service
 						AllowRunCriticalOperationOnDevice(deviceUID);
 				}
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -892,7 +893,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 				return Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -907,7 +908,7 @@ namespace FiresecService.Service
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
 
 			// Показываем прогресс хода выполнения операции
-			var progressCallback = Processor.StartProgress(Resources.Language.Service.FiresecServiceSKD.WriteScheduleOnAllController, null, devicesCount, true, SKDProgressClientType.Administrator);
+			var progressCallback = Processor.StartProgress("Запись графиков доступа на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
 
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
@@ -918,12 +919,12 @@ namespace FiresecService.Service
 					Logger.Info("Запись графиков доступа на все контроллеры отменена");
 #endif
 					Processor.StopProgress(progressCallback);
-                    return OperationResult<List<Guid>>.FromCancel(Resources.Language.Service.FiresecServiceSKD.WriteScheduleOnAllController_Cancel);
+					return OperationResult<List<Guid>>.FromCancel("Запись графиков доступа на все контроллеры отменена");
 				}
 
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 #if DEBUG
-				Logger.Info(String.Format(Resources.Language.Service.FiresecServiceSKD.WriteScheduleOnController, device.Name));
+				Logger.Info(String.Format("Запись графиков доступа на контроллер \"{0}\"", device.Name));
 #endif
 				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
 				if (result.HasError)
@@ -987,7 +988,7 @@ namespace FiresecService.Service
 					// Проверяем признак выполнения на данном устройстве опасной операции
 					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
 					if (!isDisallowedHere)
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ControllerIsBusy);
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
 
 					// Выполняем критическую операцию
 					using (var databaseService = new SKDDatabaseService())
@@ -1001,7 +1002,7 @@ namespace FiresecService.Service
 						}
 						else
 						{
-							return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.GetCardsError);
+							return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
 						}
 					}
 				}
@@ -1012,7 +1013,7 @@ namespace FiresecService.Service
 						AllowRunCriticalOperationOnDevice(deviceUID);
 				}
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -1027,7 +1028,7 @@ namespace FiresecService.Service
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
 
 			// Показываем прогресс хода выполнения операции
-			var progressCallback = Processor.StartProgress(Resources.Language.Service.FiresecServiceSKD.WriteCardsOnAllController, null, devicesCount, true, SKDProgressClientType.Administrator);
+			var progressCallback = Processor.StartProgress("Запись пропусков на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
 
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
@@ -1038,7 +1039,7 @@ namespace FiresecService.Service
 					Logger.Info("Запись пропусков на все контроллеры отменена");
 #endif
 					Processor.StopProgress(progressCallback);
-					return OperationResult<List<Guid>>.FromCancel(Resources.Language.Service.FiresecServiceSKD.WriteCardsOnAllController_Cancel);
+					return OperationResult<List<Guid>>.FromCancel("Запись пропусков на все контроллеры отменена");
 				}
 
 				OperationResult<bool> result = null;
@@ -1046,7 +1047,7 @@ namespace FiresecService.Service
 				{
 					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
 #if DEBUG
-					Logger.Info(String.Format(Resources.Language.Service.FiresecServiceSKD.WriteCardsOnController, device.Name));
+					Logger.Info(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name));
 #endif
 					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
@@ -1056,7 +1057,7 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						result = OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.GetCardsError);
+						result = OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
 					}
 				}
 				if (result.HasError)
@@ -1081,9 +1082,9 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Обновление_ПО_Контроллера, device);
-                return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.UpdateSoftwareNotAvailable);
+				return OperationResult<bool>.FromError("Функция обновления ПО не доступна");
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID)
@@ -1094,7 +1095,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_двери, device);
 				return StrazhDeviceSDK.Processor.GetDoorConfiguration(deviceUID);
 			}
-			return OperationResult<SKDDoorConfiguration>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDDoorConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
@@ -1105,7 +1106,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_конфигурации_двери, device);
 				return StrazhDeviceSDK.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
@@ -1116,7 +1117,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
 				return StrazhDeviceSDK.Processor.GetControllerDoorType(deviceUID);
 			}
-			return OperationResult<DoorType>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<DoorType>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
@@ -1127,7 +1128,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
 				return StrazhDeviceSDK.Processor.SetControllerDoorType(deviceUID, doorType);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
@@ -1138,7 +1139,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_пароля_контроллера, device);
 				return StrazhDeviceSDK.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
@@ -1149,7 +1150,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_временных_настроек_контроллера, device);
 				return StrazhDeviceSDK.Processor.GetControllerTimeSettings(deviceUID);
 			}
-			return OperationResult<SKDControllerTimeSettings>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDControllerTimeSettings>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
@@ -1160,7 +1161,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_временных_настроек_контроллера, device);
 				return StrazhDeviceSDK.Processor.SetControllerTimeSettings(deviceUID, controllerTimeSettings);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
@@ -1171,7 +1172,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_сетевых_настроек_контроллера, device);
 				return StrazhDeviceSDK.Processor.GetControllerNetworkSettings(deviceUID);
 			}
-			return OperationResult<SKDControllerNetworkSettings>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDControllerNetworkSettings>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
@@ -1182,7 +1183,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_сетевых_настроек_контроллера, device);
 				return StrazhDeviceSDK.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerTimeSchedulesAndLocksPasswords(Guid deviceUID, IEnumerable<SKDLocksPassword> locksPasswords)
@@ -1193,7 +1194,7 @@ namespace FiresecService.Service
 				// Проверяем признак выполнения на данном устройстве опасной операции
 				isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
 				if (!isDisallowedHere)
-					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ControllerIsBusy);
+					return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
 
 				// Выполняем критическую операцию
 				// 1. Записываем графики доступа на контроллер
@@ -1226,7 +1227,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.GetControllerLocksPasswords, device);
 				return Processor.GetControllerLocksPasswords(deviceUid);
 			}
-			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -1243,7 +1244,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
 				return Processor.SetControllerLocksPasswords(deviceUid, locksPasswords);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		/// <summary>
@@ -1258,7 +1259,7 @@ namespace FiresecService.Service
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
 
 			// Показываем прогресс хода выполнения операции
-            var progressCallback = Processor.StartProgress(Resources.Language.Service.FiresecServiceSKD.WriteLockPasswordOnAllController, null, devicesCount, true, SKDProgressClientType.Administrator);
+			var progressCallback = Processor.StartProgress("Запись паролей замков на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
 
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
@@ -1269,12 +1270,12 @@ namespace FiresecService.Service
 					Logger.Info("Запись паролей замков на все контроллеры отменена");
 #endif
 					Processor.StopProgress(progressCallback);
-                    return OperationResult<List<Guid>>.FromCancel(Resources.Language.Service.FiresecServiceSKD.WriteLockPasswordOnAllController_Cancel);
+					return OperationResult<List<Guid>>.FromCancel("Запись паролей замков на все контроллеры отменена");
 				}
 
 				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
 #if DEBUG
-				Logger.Info(String.Format(Resources.Language.Service.FiresecServiceSKD.WriteLockPasswordOnController, device.Name));
+				Logger.Info(String.Format("Запись паролей замков на контроллер \"{0}\"", device.Name));
 #endif
 				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), false);
 				if (result.HasError)
@@ -1307,7 +1308,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -1321,7 +1322,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -1341,14 +1342,14 @@ namespace FiresecService.Service
 			// Замок может не перейти в требуемый режим, поэтому запрашиваем результатирующую конфигурацию замка
 			var checkResult = Processor.GetDoorConfiguration(device.UID);
 			if (checkResult.HasError)
-				return OperationResult<bool>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.ChangeLockModeNotConfirmed, device.Name));
+				return OperationResult<bool>.FromError(String.Format("Перевод в режим замка \"{0}\" не подтвержден контроллером", device.Name));
 			//return new OperationResult<bool>(false);
 
 			// Замок не перешел в требуемый режим
 			if (checkResult.Result.AccessState != accessState)
 			{
 				device.SKDDoorConfiguration.AccessState = prevAccessState;
-				return OperationResult<bool>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.CouldNotChangeLockMode, device.Name));
+				return OperationResult<bool>.FromError(String.Format("Нельзя перевести замок \"{0}\" в данный режим", device.Name));
 				//return new OperationResult<bool>(false);
 			}
 
@@ -1378,7 +1379,7 @@ namespace FiresecService.Service
 
 			// Если замок не найден в конфигурации, возвращаем ошибку
 			if (device == null)
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 
 			// Фиксируем в журнале событий намерение на преревод замка в требуемый режим
 			AddSKDJournalMessage(eventNameType, device);
@@ -1447,7 +1448,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 
 			if (device == null)
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 
 			// Фиксируем в журнале событий факт отправки команды на сброс состояния "Взлом" замка
 			AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_замка, device);
@@ -1504,7 +1505,7 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneWithoutLock);
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				//if (errors.Count > 0)
@@ -1513,7 +1514,7 @@ namespace FiresecService.Service
 				//}
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
@@ -1541,7 +1542,7 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneWithoutLock);
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				//if (errors.Count > 0)
@@ -1550,7 +1551,7 @@ namespace FiresecService.Service
 				//}
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		/// <summary>
@@ -1586,7 +1587,7 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneWithoutLock);
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
@@ -1595,7 +1596,7 @@ namespace FiresecService.Service
 				}
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		/// <summary>
@@ -1692,7 +1693,7 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneWithoutLock);
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
@@ -1705,7 +1706,7 @@ namespace FiresecService.Service
 
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.ZoneNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		#endregion </Зона>
@@ -1732,17 +1733,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutLock);
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutEntrance);
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 
@@ -1766,17 +1767,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutLock);
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutEntrance);
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointNotFoundInConfiguration);
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 
@@ -1803,11 +1804,11 @@ namespace FiresecService.Service
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 						return ChangeLockAccessState(lockDevice, accessState);
-					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutLock);
+					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 				}
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutEntrance);
+				return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 		}
 
 		/// <summary>
@@ -1905,11 +1906,11 @@ namespace FiresecService.Service
 						}
 						return result;
 					}
-					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutLock);
+					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 				}
-				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointWithoutEntrance);
+				return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.AccessPointNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 		}
 
 		#endregion </Точка доступа>
@@ -1922,7 +1923,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_antipassback_настройки_контроллера, device);
 				return StrazhDeviceSDK.Processor.GetAntiPassBackConfiguration(deviceUID);
 			}
-			return OperationResult<SKDAntiPassBackConfiguration>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
@@ -1933,7 +1934,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_antipassback_настройки_контроллера, device);
 				return StrazhDeviceSDK.Processor.SetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDInterlockConfiguration> SKDGetInterlockConfiguration(Guid deviceUID)
@@ -1944,7 +1945,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_interlock_настройки_контроллера, device);
 				return StrazhDeviceSDK.Processor.GetInterlockConfiguration(deviceUID);
 			}
-			return OperationResult<SKDInterlockConfiguration>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<SKDInterlockConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
@@ -1955,7 +1956,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_interlock_настройки_контроллера, device);
 				return Processor.SetInterlockConfiguration(deviceUID, interlockConfiguration);
 			}
-			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeviceNotFoundInConfiguration);
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDStartSearchDevices()
@@ -2184,11 +2185,11 @@ namespace FiresecService.Service
 					operationResult = databaseService.AttachmentTranslator.Save(attachment);
 				}
 				if (operationResult.HasError)
-                    return OperationResult<Guid>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.SendFileError, attachment.FileName));
+					return OperationResult<Guid>.FromError(String.Format("Ошибка передачи файла '{0}'", attachment.FileName));
 			}
 			catch (Exception e)
 			{
-				return OperationResult<Guid>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.SendFileException, attachment.FileName, e.Message));
+				return OperationResult<Guid>.FromError(String.Format("В процессе передачи файла '{0}' произошла ошибка:\n{1}", attachment.FileName, e.Message));
 			}
 			return new OperationResult<Guid>(attachment.UID);
 		}
@@ -2208,7 +2209,7 @@ namespace FiresecService.Service
 				{
 					var operationResult = databaseService.AttachmentTranslator.GetSingle(attachmentUID);
 					if (operationResult.HasError)
-						return OperationResult<Attachment>.FromError(Resources.Language.Service.FiresecServiceSKD.RecieveFile);
+						return OperationResult<Attachment>.FromError("Ошибка получения файла");
 					attachment = operationResult.Result;
 				}
 				attachment.Data = File.ReadAllBytes(fileName);
@@ -2238,18 +2239,18 @@ namespace FiresecService.Service
 				{
 					var getSingleOperationResult = databaseService.AttachmentTranslator.GetSingle(attachmentUID);
 					if (getSingleOperationResult.HasError)
-						return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceSKD.DeleteFile);
+						return OperationResult<bool>.FromError("Ошибка удаления файла");
 
 					var attachmentFileName = getSingleOperationResult.Result.FileName;
 
 					var deleteOperationResult = databaseService.AttachmentTranslator.Delete(attachmentUID);
 					if (deleteOperationResult.HasError)
-						return OperationResult<bool>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.DeleteFileError, attachmentFileName));
+						return OperationResult<bool>.FromError(String.Format("Ошибка удаления файла '{0}'", attachmentFileName));
 				}
 			}
 			catch (Exception e)
 			{
-				return OperationResult<bool>.FromError(String.Format(Resources.Language.Service.FiresecServiceSKD.DeleteFileException, e.Message));
+				return OperationResult<bool>.FromError(String.Format("В процессе удаления файла возника ошибка:\n{0}", e.Message));
 			}
 			return new OperationResult<bool>();
 		}

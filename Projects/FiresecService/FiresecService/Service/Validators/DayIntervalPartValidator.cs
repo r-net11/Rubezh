@@ -109,7 +109,7 @@ namespace FiresecService.Service.Validators
 				dayInterval = databaseService.DayIntervalTranslator.GetDayInterval(dayIntervalPart);
 			}
 			if (dayInterval == null)
-                return new OperationResult(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateDayIntervalPartWithTransitionOnAddingOrEditing_Error);
+				return new OperationResult("Ошибка валидации временного интервала дневного графика");
 
 			var operationResult = DayIntervalPartCommonValidator.ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart, dayInterval.SlideTime);
 			if (operationResult.HasError)
@@ -130,7 +130,7 @@ namespace FiresecService.Service.Validators
 
 		private static OperationResult ValidateAddingComplex(DayIntervalPart dayIntervalPart)
 		{
-            var error = String.Format(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateAddingComplex_Error);
+			var error = String.Format("Ошибка валидации по связям при добавлении временного интервала дневного графика");
 
 			DayInterval dayInterval;
 			IEnumerable<ScheduleScheme> scheduleSchemes;
@@ -163,7 +163,7 @@ namespace FiresecService.Service.Validators
 					weekOrMonthScheduleSchemesStr.AppendLine(String.Format("{0} ({1}{2})", weekOrMonthScheduleScheme.Name, weekOrMonthScheduleScheme.Type.ToDescription().ToLower(), weekOrMonthScheduleScheme.IsDeleted ? ", архивный" : null));
 				}
 					return new OperationResult(String.Format(
-                        Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateAddingComplex,
+						"Для добавления интервала с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:\n\n{0}",
 						weekOrMonthScheduleSchemesStr));
 			}
 			return new OperationResult();
@@ -192,7 +192,7 @@ namespace FiresecService.Service.Validators
 					var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
 					if (validationResult.HasError)
 					{
-                        sb.AppendLine(String.Format(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateDayIntervalsIntersectionOnAdding, scheduleScheme.Name));
+						sb.AppendLine(String.Format("Пересечение дневных графиков в схеме графика работы '{0}'", scheduleScheme.Name));
 						sb.AppendLine(validationResult.Error);
 					}
 				}
@@ -236,7 +236,7 @@ namespace FiresecService.Service.Validators
 
 		private static OperationResult ValidateEditingComplex(DayIntervalPart dayIntervalPart)
 		{
-            var error = String.Format(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateEditingComplex);
+			var error = String.Format("Ошибка валидации по связям при редактировании временного интервала дневного графика");
 
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -265,10 +265,10 @@ namespace FiresecService.Service.Validators
 					{
 						weekOrMonthScheduleSchemesStr.AppendLine(String.Format("{0} ({1}{2})", weekOrMonthScheduleScheme.Name,
 							weekOrMonthScheduleScheme.Type.ToDescription().ToLower(),
-                            weekOrMonthScheduleScheme.IsDeleted ? Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateEditingComplex_archive : null));
+							weekOrMonthScheduleScheme.IsDeleted ? ", архивный" : null));
 					}
 					return new OperationResult(String.Format(
-                        Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateAddingComplex,
+						"Для добавления интервала с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:\n\n{0}",
 						weekOrMonthScheduleSchemesStr));
 				}
 
@@ -300,7 +300,7 @@ namespace FiresecService.Service.Validators
 					var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
 					if (validationResult.HasError)
 					{
-                        sb.AppendLine(String.Format(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateDayIntervalsIntersectionOnAdding, scheduleScheme.Name));
+						sb.AppendLine(String.Format("Пересечение дневных графиков в схеме графика работы '{0}'", scheduleScheme.Name));
 						sb.AppendLine(validationResult.Error);
 					}
 				}
@@ -320,7 +320,7 @@ namespace FiresecService.Service.Validators
 		/// <returns></returns>
 		public static OperationResult ValidateDeleting(Guid dayIntervalPartUID)
 		{
-            var error = String.Format(Resources.Language.Service.Validators.DayIntervalPartValidator.ValidateDeleting, dayIntervalPartUID);
+			var error = String.Format("Ошибка валидации временного интервала UID='{0}", dayIntervalPartUID);
 			OperationResult<DayInterval> dayIntervalOperationResult;
 			DayInterval dayInterval;
 			using (var databaseService = new SKDDatabaseService())

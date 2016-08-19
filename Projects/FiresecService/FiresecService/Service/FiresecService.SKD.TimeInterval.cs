@@ -463,39 +463,39 @@ namespace FiresecService.Service
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Adding) == TimeTrackActions.Adding)
 			{
 				AddJournalMessage(JournalEventNameType.Добавление_интервала,
-								string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.WorkInterval,employee.FIO),
-                                JournalEventDescriptionType.NULL,
-                    string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalAdded, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.EditBorders) == TimeTrackActions.EditBorders)
 			{
-                AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
-                                string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.WorkInterval, employee.FIO),
-                                JournalEventDescriptionType.NULL,
-                    string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalChanged, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
+				AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Remove) == TimeTrackActions.Remove)
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_интервала,
-                    null, JournalEventDescriptionType.Удаление,
-                    string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalRemoved, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name));
+					null, JournalEventDescriptionType.Удаление,
+					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOffCalculation) == TimeTrackActions.TurnOffCalculation)
 			{
-                AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
-                                string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.WorkInterval, employee.FIO),
-                                JournalEventDescriptionType.NULL,
-                    string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalAddedToCalculations, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
+				AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOnCalculation) == TimeTrackActions.TurnOnCalculation)
 			{
-                AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
-                                string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.WorkInterval, employee.FIO),
-                                JournalEventDescriptionType.NULL,
-                    string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalRemovedFromCalculations, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
+				AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
+								"Интервал рабочего времени (" + employee.FIO + ")",
+								JournalEventDescriptionType.NULL,
+								"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 								currentUser.Name);
 			}
 		}
@@ -544,7 +544,7 @@ namespace FiresecService.Service
 			}
 			if (!operationResult.HasError)
 				AddJournalMessage(JournalEventNameType.Удаление_интервала, null, JournalEventDescriptionType.Удаление,
-					string.Format(Resources.Language.Service.FiresecServiceSKDTimeIntervals.IntervalRemoved,dayTimeTrackPart.EnterDateTime,dayTimeTrackPart.ExitDateTime,dayTimeTrackPart.TimeTrackZone.Name));
+					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
 			return operationResult;
 		}
 
