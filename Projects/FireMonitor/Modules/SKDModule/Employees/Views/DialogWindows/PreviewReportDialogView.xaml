@@ -10,7 +10,7 @@
     xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
     mc:Ignorable="d"
     Height="600"
-	Width="600">
+	Width="700">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -22,7 +22,7 @@
 				<Grid>
 					<dialogWindows:ReportPreviewControlWrapper
 						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
-						Margin="10 10 5 10"/>
+						Margin="20 5 20 10"/>
 				</Grid>
 			</DataTemplate>
 			<DataTemplate x:Key="DoubleViewTemplate" DataType="{x:Type types:Template}">
@@ -33,11 +33,11 @@
 					</Grid.ColumnDefinitions>
 					<dialogWindows:ReportPreviewControlWrapper
 						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
-						Margin="10 10 5 10"/>
+						Margin="20 5 5 10"/>
 					<dialogWindows:ReportPreviewControlWrapper
 						Grid.Column="1"
 						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Back.Report}"
-						Margin="5 10 10 10"/>
+						Margin="5 5 20 10"/>
 				</Grid>
 			</DataTemplate>
 			<Style x:Key="SelectationContentStyle" TargetType="{x:Type ContentControl}">
@@ -58,47 +58,60 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid Background="{StaticResource BaseWindowBackgroundBrush}">
-		<Grid
-			x:Name="Grid"
-			IsEnabled="{Binding IsBusy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition />
-			</Grid.RowDefinitions>
-			<StackPanel
-				Orientation="Horizontal"
-				HorizontalAlignment="Center">
-				<TextBlock
-					Text="Шаблон пропуска"
+		<Border BorderBrush="{StaticResource BorderButtonBrush}" BorderThickness="1">
+			<Grid Background="{StaticResource BackgroundBrush}">
+				<Grid
+					x:Name="Grid"
+					IsEnabled="{Binding IsBusy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<StackPanel
+						Orientation="Horizontal"
+						HorizontalAlignment="Center">
+						<TextBlock
+							Text="Шаблон пропуска"
+							VerticalAlignment="Center"
+							Foreground="White"
+							Margin="5 10"/>
+						<ComboBox
+							ItemsSource="{Binding Source={StaticResource cvsTemplatesCollection}}"
+							SelectedItem="{Binding SelectedTemplate}"
+							VerticalAlignment="Center"
+							DisplayMemberPath="Caption"
+							Width="120"
+							Margin="5 10" />
+					</StackPanel>
+					<Separator
+						Grid.Row="1"
+						Style="{x:Null}"
+						Background="White"
+						Height="1"
+						Margin="20 10"/>
+					<ContentControl
+						Grid.Row="2"
+						DataContext="{Binding SelectedTemplate}"
+						Style="{StaticResource SelectationContentStyle}"/>
+				</Grid>
+				<StackPanel
+					Orientation="Vertical"
 					VerticalAlignment="Center"
-					Foreground="White"
-					Margin="5"/>
-				<ComboBox
-					ItemsSource="{Binding Source={StaticResource cvsTemplatesCollection}}"
-					SelectedItem="{Binding SelectedTemplate}"
-					VerticalAlignment="Center"
-					DisplayMemberPath="Caption"
-					Width="120"
-					Margin="5" />
-			</StackPanel>
-			<Separator
-				Grid.Row="1"
-				Style="{x:Null}"
-				Background="White"
-				Height="1"
-				Margin="20 10"/>
-			<ContentControl
-				Grid.Row="2"
-				DataContext="{Binding SelectedTemplate}"
-				Style="{StaticResource SelectationContentStyle}"/>
-		</Grid>
-		<customControls:BisyIndicator
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center"
-			Width="50"
-			Height="50"
-			Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged,
-						Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+					Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged,
+								Converter={StaticResource InversedBoolToVisibilityConverter}}">
+					<customControls:BisyIndicator
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Width="50"
+						Height="50" />
+					<TextBlock
+						Text="Получение данных от сервера..."
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Foreground="White"/>
+				</StackPanel>
+			</Grid>
+		</Border>
 	</Grid>
 </UserControl>

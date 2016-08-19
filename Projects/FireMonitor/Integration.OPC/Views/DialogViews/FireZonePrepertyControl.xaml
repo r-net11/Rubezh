@@ -12,7 +12,6 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/ButtonStyle.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
