@@ -1,0 +1,20 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Preview" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing
+						Brush="{DynamicResource ButtonBackgroundColor}"
+						Geometry="F1 M 0,0 C -26.59,0 -48.22,21.62 -48.22,48.2 -48.22,74.78 -26.59,96.4 0,96.4
+							26.6,96.4 48.23,74.78 48.23,48.2 48.23,21.62 26.6,0 0,0 z
+							M 0,-89.37 C -127.84,-89.37 -256.49,49.64 -256.49,49.64 -256.49,49.64 -127.84,188.49 0,188.49
+							127.85,188.49 256.5,49.64 256.5,49.64 256.5,49.64 127.85,-89.37 0,-89.37 z
+							M 0,146.53 C -54.31,146.53 -98.36,102.49 -98.36,48.2 -98.36,-6.09 -54.31,-50.13 0,-50.13
+							54.31,-50.13 98.37,-6.09 98.37,48.2 98.37,102.49 54.31,146.53 0,146.53 z" />
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
