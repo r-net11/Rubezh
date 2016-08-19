@@ -179,7 +179,10 @@ namespace SKDModule.ViewModels
 			row.PhotoUID = Guid.Empty;
 			row.PositionUID = Guid.Empty;
 			row.DepartmentUID = Guid.Empty;
-			row.ScheduleUID = e.Schedule.UID;
+
+			if(e.Schedule != null)
+				row.ScheduleUID = e.Schedule.UID;
+
 			row.ScheduleStartDate = DateTime.Now;
 			row.Type = 0;
 			row.IsDeleted = false;
