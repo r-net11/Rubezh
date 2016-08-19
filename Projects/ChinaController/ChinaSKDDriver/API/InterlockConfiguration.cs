@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhDeviceSDK.API
 {
@@ -42,32 +41,25 @@ namespace StrazhDeviceSDK.API
 	/// </summary>
 	public enum InterlockMode
 	{
-		//[Description("Замок 1+2")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration),"L1L2")]
+		[Description("Замок 1+2")]
 		L1L2,
 
-        //[Description("Замок 1+2+3")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L1L2L3")]
+		[Description("Замок 1+2+3")]
 		L1L2L3,
 
-        //[Description("Замок 1+2+3+4")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L1L2L3L4")]
+		[Description("Замок 1+2+3+4")]
 		L1L2L3L4,
 
-        //[Description("Замок 2+3+4")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L2L3L4")]
+		[Description("Замок 2+3+4")]
 		L2L3L4,
 
-        //[Description("Замок 1+3 и 2+4")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L1L3_L2L4")]
+		[Description("Замок 1+3 и 2+4")]
 		L1L3_L2L4,
 
-        //[Description("Замок 1+4 и 2+3")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L1L4_L2L3")]
+		[Description("Замок 1+4 и 2+3")]
 		L1L4_L2L3,
 
-        //[Description("Замок 3+4")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.InterlockConfiguration), "L3L4")]
+		[Description("Замок 3+4")]
 		L3L4
 	}
 

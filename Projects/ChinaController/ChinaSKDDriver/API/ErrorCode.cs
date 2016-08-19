@@ -1,54 +1,40 @@
 ﻿using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhDeviceSDK.API
 {
     public enum ErrorCode
     {
-		//[Description("Нет ошибки")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "None")]
+		[Description("Нет ошибки")]
 		None = 0,
-        //[Description("Неверный идентификатор")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "Unauthorized")]
+		[Description("Неверный идентификатор")]
 		Unauthorized = 16,
-        //[Description("Пропуск заблокирован")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "CardLostOrCancelled")]
+		[Description("Пропуск заблокирован")]
 		CardLostOrCancelled = 17,
-        //[Description("Нет прав доступа")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "NoRight")]
+		[Description("Нет прав доступа")]
 		NoRight = 18,
-        //[Description("Неверный метод открытия замка")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "UnlockModeError")]
+		[Description("Неверный метод открытия замка")]
 		UnlockModeError = 19,
-        //[Description("Срок действия пропуска истек или не наступил")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "ValidityError")]
+		[Description("Срок действия пропуска истек или не наступил")]
 		ValidityError = 20,
-        //[Description("Повторный проход в зону")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "AntipassBack")]
+		[Description("Повторный проход в зону")]
 		AntipassBack = 21,
-        //[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "IntimidationAlarmNotOn")]
+		[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
 		IntimidationAlarmNotOn = 22,
-        //[Description("Замок в режиме 'Закрыто'")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "DoorNcStatus")]
+		[Description("Замок в режиме 'Закрыто'")]
 		DoorNcStatus = 23,
-        //[Description("Открыта другая дверь шлюза")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "AbInterlockStatus")]
+		[Description("Открыта другая дверь шлюза")]
 		AbInterlockStatus = 24,
 		//[Description("Патрульные карты")]
 		//PatrolCards = 25,
-        //[Description("Замок в состоянии 'Взлом'")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "DeviceIsUnderIntrusionAlam")]
+		[Description("Замок в состоянии 'Взлом'")]
 		DeviceIsUnderIntrusionAlam = 26,
-        //[Description("Нарушение графика доступа")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "PeriodError")]
+		[Description("Нарушение графика доступа")]
 		PeriodError = 32,
 		//[Description("Ошибочный временной диапазон для нерабочего дня")]
 		//TimeRangeErrorInHoliday = 33,
 		//[Description("")]
 		//NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
-        //[Description("Неверный пароль пропуска")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "CardCorrectInputPasswordError")]
+		[Description("Неверный пароль пропуска")]
 		CardCorrectInputPasswordError = 64,
 		//[Description("Карта верная, вышло время ввода пароля")]
 		//CardCorrectPasswordInputTimeout = 65,
@@ -64,8 +50,7 @@ namespace StrazhDeviceSDK.API
 		//CombinedOrderToOpenTheDoorError = 80,
 		//[Description("Требуется проверка при совместной попытке открыть дверь")]
 		//CombinedOrderToOpenTheDoorNeedVerified = 81,
-        //[Description("Ожидание подтверждения прохода")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.ErrorCode), "VerificationPassedControlNotAuthorized")]
+		[Description("Ожидание подтверждения прохода")]
 		VerificationPassedControlNotAuthorized = 96
 	}
 }

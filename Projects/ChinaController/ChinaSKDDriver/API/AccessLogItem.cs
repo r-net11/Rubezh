@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhDeviceSDK.API
 {
@@ -29,32 +28,25 @@ namespace StrazhDeviceSDK.API
 
 	public enum AccessMethodType
 	{
-		//[Description("Неизвестно")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_UNKNOWN")]
+		[Description("Неизвестно")]
 		NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
 
-        //[Description("Только пароль")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY")]
+		[Description("Только пароль")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-        //[Description("Карта")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_CARD")]
+		[Description("Карта")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD,
 
-        //[Description("Сначала карта")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST")]
+		[Description("Сначала карта")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
 
-        //[Description("Сначала пароль")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST")]
+		[Description("Сначала пароль")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
 
-        //[Description("Удаленно")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_REMOTE")]
+		[Description("Удаленно")]
 		NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
-        //[Description("Кнопка")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AccessLogItem), "NET_ACCESS_DOOROPEN_METHOD_BUTTON")]
+		[Description("Кнопка")]
 		NET_ACCESS_DOOROPEN_METHOD_BUTTON
 	}
 }

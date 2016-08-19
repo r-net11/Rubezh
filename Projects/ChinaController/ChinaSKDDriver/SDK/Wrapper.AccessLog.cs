@@ -1,5 +1,5 @@
-﻿using ChinaSKDDriverNativeApi;
-using StrazhDeviceSDK.API;
+﻿using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;

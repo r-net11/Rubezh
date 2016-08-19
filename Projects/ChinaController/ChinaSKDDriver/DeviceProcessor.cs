@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
 using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using Common;
 using StrazhAPI;
 using StrazhAPI.GK;

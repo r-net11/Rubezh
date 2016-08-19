@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using LocalizationConveters;
 
 namespace StrazhDeviceSDK.API
 {
@@ -64,18 +63,14 @@ namespace StrazhDeviceSDK.API
 
 	public enum DeviceType
 	{
-        //[DeviceTypeLabel("Не известно")]
-        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "Unknown")]
+		[DeviceTypeLabel("Не известно")]
 		Unknown = 0,
 		#region <Контроллер Dahua>
-		//[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
-        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC101")]
+		[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
 		DahuaBsc1221A,
-        //[DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
-        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC002")]
+		[DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
 		DahuaBsc1201B,
-        //[DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
-        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC004")]
+		[DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
 		DahuaBsc1202B
 		#endregion </Контроллер Dahua>
 	}

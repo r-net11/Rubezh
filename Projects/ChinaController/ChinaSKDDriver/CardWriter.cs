@@ -180,7 +180,7 @@ namespace StrazhDeviceSDK
 
 			// Показываем индикатор выполнения операции
 			if (doProgress)
-                progressCallback = Processor.StartProgress(String.Format(Resources.Language.CardWriter.RewriteAllCards_progressCallback, device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
+				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
 			foreach (var card in cards)
@@ -203,7 +203,7 @@ namespace StrazhDeviceSDK
 
 				// Пользователь отменил операцию
 				if (progressCallback != null && progressCallback.IsCanceled)
-					return new List<string> { Resources.Language.CardWriter.RewriteAllCards_progressCallback_Cancel };
+					return new List<string> { "Операция отменена" };
 
 				// Обновляем индикатор выполнения операции
 				if (progressCallback != null)
@@ -215,7 +215,7 @@ namespace StrazhDeviceSDK
 				{
 					if (controllerCardItem.HasError)
 					{
-						errors.Add(string.Format(Resources.Language.CardWriter.RewriteAllCards_progressCallback_Error,controllerCardItem.Card.Number,device.Name));
+						errors.Add("Ошибка при записи карты " + controllerCardItem.Card.Number + " в контроллер " + device.Name);
 					}
 				}
 			}
@@ -326,7 +326,7 @@ namespace StrazhDeviceSDK
 							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							if (cardInfo == null)
 							{
-								controllerCardItem.Error = string.Format(Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_ResetRepeatEnter_Error, deviceProcessor.Device.Name);
+								controllerCardItem.Error = string.Format("Отсутствует связь с контроллером {0}", deviceProcessor.Device.Name);
 							}
 							break;
 					}
@@ -335,21 +335,20 @@ namespace StrazhDeviceSDK
 					{
 						var operationName = "";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
-							operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Add;
+							operationName = "добавления";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Edit)
-                            operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Edit;
+							operationName = "редактирования";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
-                            operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Delete;
+							operationName = "удаления";
 						//if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
 						//	operationName = "сброса ограничения на повторный проход";
 
-						controllerCardItem.Error = string.Format(Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Error,
-                                                                    operationName, controllerCardItem.Card.Number, deviceProcessor.Device.Name);
+						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
 					}
 				}
 				else
 				{
-					controllerCardItem.Error = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItem_Error;
+					controllerCardItem.Error = "Не найден контроллер в конфигурации";
 				}
 			}
 		}

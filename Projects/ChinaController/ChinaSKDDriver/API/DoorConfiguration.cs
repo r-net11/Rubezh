@@ -1,6 +1,5 @@
 ﻿using StrazhAPI.SKD;
 using System.ComponentModel;
-using LocalizationConveters;
 
 namespace StrazhDeviceSDK.API
 {
@@ -177,93 +176,73 @@ namespace StrazhDeviceSDK.API
 
 	public enum AccessState
 	{
-		//[Description("Нормальный")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_STATE_NORMAL")]
+		[Description("Нормальный")]
 		ACCESS_STATE_NORMAL,
 
-        //[Description("Всегда закрыто")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_STATE_CLOSEALWAYS")]
+		[Description("Всегда закрыто")]
 		ACCESS_STATE_CLOSEALWAYS,
 
-        //[Description("Всегда открыто")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_STATE_OPENALWAYS")]
+		[Description("Всегда открыто")]
 		ACCESS_STATE_OPENALWAYS
 	}
 
 	public enum AccessMode
 	{
-        //[Description("Под защитой")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_MODE_HANDPROTECTED")]
+		[Description("Под защитой")]
 		ACCESS_MODE_HANDPROTECTED,
 
-        //[Description("Безопасная комната")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_MODE_SAFEROOM")]
+		[Description("Безопасная комната")]
 		ACCESS_MODE_SAFEROOM,
 
-        //[Description("Прочее")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_MODE_OTHER")]
+		[Description("Прочее")]
 		ACCESS_MODE_OTHER
 	}
 
 	public enum DoorOpenMethod
 	{
-        //[Description("Не известно")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_UNKNOWN")]
+		[Description("Не известно")]
 		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
 
-        //[Description("Только пароль")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_ONLY")]
+		[Description("Только пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
 
-        //[Description("Карта")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD")]
+		[Description("Карта")]
 		CFG_DOOR_OPEN_METHOD_CARD,
 
-        //[Description("Пароль или карта")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_OR_CARD")]
+		[Description("Пароль или карта")]
 		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
 
-        //[Description("Сначала карта")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD_FIRST")]
+		[Description("Сначала карта")]
 		CFG_DOOR_OPEN_METHOD_CARD_FIRST,
 
-        //[Description("Сначала пароль")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_FIRST")]
+		[Description("Сначала пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
 
-        //[Description("Секция")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_SECTION")]
+		[Description("Секция")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
 
-        //[Description("Только отпечаток пальца")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY")]
+		[Description("Только отпечаток пальца")]
 		CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
 
-        //[Description("Пароль или карта или отпечаток пальца")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT")]
+		[Description("Пароль или карта или отпечаток пальца")]
 		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
 
-        //[Description("Карта и отпечаток пальца")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT")]
+		[Description("Карта и отпечаток пальца")]
 		CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
 
-        //[Description("Multiplayer Unlock")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "CFG_DOOR_OPEN_METHOD_MULTI_PERSON")]
+		[Description("Multiplayer Unlock")]
 		CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 	}
 
 	public enum DoorFirstEnterStatus
 	{
-        //[Description("Не известно")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_FIRSTENTER_STATUS_UNKNOWN")]
+		[Description("Не известно")]
 		ACCESS_FIRSTENTER_STATUS_UNKNOWN = 0,
 
-        //[Description("Держать открытой")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_FIRSTENTER_STATUS_KEEPOPEN")]
+		[Description("Держать открытой")]
 		ACCESS_FIRSTENTER_STATUS_KEEPOPEN = 1,
 
-        //[Description("Нормальный")]
-        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.DoorConfiguration), "ACCESS_FIRSTENTER_STATUS_NORMAL")]
+		[Description("Нормальный")]
 		ACCESS_FIRSTENTER_STATUS_NORMAL = 2
 	}
 

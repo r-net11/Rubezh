@@ -1,4 +1,4 @@
-﻿using ChinaSKDDriverNativeApi;
+﻿using StrazhDeviceSDK.NativeAPI;
 
 namespace StrazhDeviceSDK
 {
