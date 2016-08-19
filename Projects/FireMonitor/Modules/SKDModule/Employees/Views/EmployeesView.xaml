@@ -137,7 +137,7 @@
 								ToolTip="Сброс ограничения на повторный проход" />
 							<ToolBarButton
 								Command="{Binding SelectedCard.OpenPrintPreviewWindowCommand}"
-								ImageSource="DropAllApb"
+								ImageSource="Preview"
 								ToolTip="Предварительный просмотр пропуска"/>
 						</StackPanel>
 					</StackPanel>
