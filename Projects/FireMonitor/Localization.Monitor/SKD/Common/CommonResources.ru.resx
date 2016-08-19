@@ -1,101 +1,468 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
-		Microsoft ResX Schema
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
-	
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDeniedPasscard" xml:space="preserve">
+    <value>Пропуск, доступ по которому запрещен</value>
+  </data>
+  <data name="AccessTemplate" xml:space="preserve">
+    <value>Шаблон доступа</value>
+  </data>
+  <data name="ActiveAndNotActive" xml:space="preserve">
+    <value>Активные и не активные</value>
+  </data>
+  <data name="AddEmpl" xml:space="preserve">
+    <value>Добавить сотрудника</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>&lt;Всегда&gt;</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="BoundedPasscard" xml:space="preserve">
+    <value>Пропуск, позволяющий выполнить не более заданного количества проходов</value>
+  </data>
+  <data name="CardCatalog" xml:space="preserve">
+    <value>Картотека</value>
+  </data>
+  <data name="ConfigurationDeviceList" xml:space="preserve">
+    <value>Список устройств конфигурации</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>Контроллер</value>
+  </data>
+  <data name="CurrentMonth" xml:space="preserve">
+    <value>Текущий месяц</value>
+  </data>
+  <data name="CurrentWeek" xml:space="preserve">
+    <value>Текущую неделю</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DaySchedule" xml:space="preserve">
+    <value>Дневной график</value>
+  </data>
+  <data name="DaySchedules" xml:space="preserve">
+    <value>Дневные графики</value>
+  </data>
+  <data name="DeactivationReason" xml:space="preserve">
+    <value>Причина деактивации</value>
+  </data>
+  <data name="DeleteDate" xml:space="preserve">
+    <value>Дата удаления</value>
+  </data>
+  <data name="DeleteDocConfirm" xml:space="preserve">
+    <value>Вы действительно хотите удалить файл оправдательного документа?</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Подразделения</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Подразделение</value>
+  </data>
+  <data name="DeviceDate" xml:space="preserve">
+    <value>Дата и время на устройстве</value>
+  </data>
+  <data name="DisciplineReport" xml:space="preserve">
+    <value>Дисциплинарный отчет</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Название документа</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="DocumentsReport" xml:space="preserve">
+    <value>Отчет по оправдательным документам</value>
+  </data>
+  <data name="DoorList" xml:space="preserve">
+    <value>Список точек доступа</value>
+  </data>
+  <data name="DoorNumber" xml:space="preserve">
+    <value>№ точки доступа</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Точки доступа</value>
+  </data>
+  <data name="EmplAccessPermissions" xml:space="preserve">
+    <value>Права доступа сотрудников/посетителей</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Сотрудник</value>
+  </data>
+  <data name="EmployeeInfo" xml:space="preserve">
+    <value>Справка о сотруднике/посетителе</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Дата окончания</value>
+  </data>
+  <data name="Enter" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="EnterDate" xml:space="preserve">
+    <value>Введите дату</value>
+  </data>
+  <data name="EnterDate1" xml:space="preserve">
+    <value>Дата и время входа</value>
+  </data>
+  <data name="EnterDateExitDate" xml:space="preserve">
+    <value>Дата входа не может быть больше даты выхода</value>
+  </data>
+  <data name="EnterTimeExitTime" xml:space="preserve">
+    <value>Время входа не может быть больше времени выхода</value>
+  </data>
+  <data name="EventsReport" xml:space="preserve">
+    <value>Отчет по событиям системы контроля доступа</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="ForcedAlarmPasscard" xml:space="preserve">
+    <value>Использование пропуска вызывает тревогу по принуждению</value>
+  </data>
+  <data name="ForcedClose" xml:space="preserve">
+    <value>Принудительное закрытие интервала</value>
+  </data>
+  <data name="FromZone" xml:space="preserve">
+    <value>Из зоны</value>
+  </data>
+  <data name="FutureDate" xml:space="preserve">
+    <value>Дата не может быть установлена в будущее время</value>
+  </data>
+  <data name="Holidays" xml:space="preserve">
+    <value>Праздничные дни</value>
+  </data>
+  <data name="IntervalEndDayLater" xml:space="preserve">
+    <value>Интервал заканчивается днем позже</value>
+  </data>
+  <data name="IntervalStartDayEarlier" xml:space="preserve">
+    <value>Интервал начинается днем рашьше</value>
+  </data>
+  <data name="IPAddress" xml:space="preserve">
+    <value>IP - адрес</value>
+  </data>
+  <data name="LimitedPasscard" xml:space="preserve">
+    <value>Пропуск с ограниченным сроком действия</value>
+  </data>
+  <data name="LiteralCode" xml:space="preserve">
+    <value>Буквенный код</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Местонахождение сотрудников/посетителей</value>
+  </data>
+  <data name="Maintainer" xml:space="preserve">
+    <value>Сопровождающий</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>&lt;Никогда&gt;</value>
+  </data>
+  <data name="NightIntervalSetting" xml:space="preserve">
+    <value>Настройка интервала ночного времени</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>Только не активные</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Примечание</value>
+  </data>
+  <data name="NotInConfig" xml:space="preserve">
+    <value>&lt;Нет в конфигурации&gt;</value>
+  </data>
+  <data name="NullStay" xml:space="preserve">
+    <value>Невозможно добавить нулевое пребывание в зоне</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="NumericCode" xml:space="preserve">
+    <value>Числовой код</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Объект</value>
+  </data>
+  <data name="OnlyActive" xml:space="preserve">
+    <value>Только активные</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Организация</value>
+  </data>
+  <data name="OrganizationDepartmentList" xml:space="preserve">
+    <value>Список подразделений организации</value>
+  </data>
+  <data name="OrganizationPositionList" xml:space="preserve">
+    <value>Список должностей организации</value>
+  </data>
+  <data name="Organizations" xml:space="preserve">
+    <value>Организации</value>
+  </data>
+  <data name="PasscardDetails" xml:space="preserve">
+    <value>Сведения о пропусках</value>
+  </data>
+  <data name="PasscardNumber" xml:space="preserve">
+    <value>Номер пропуска</value>
+  </data>
+  <data name="PasscardTemplate" xml:space="preserve">
+    <value>Шаблон пропуска</value>
+  </data>
+  <data name="PasscardType" xml:space="preserve">
+    <value>Тип пропуска</value>
+  </data>
+  <data name="PassNumber" xml:space="preserve">
+    <value>Число проходов</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="PersonalNumber" xml:space="preserve">
+    <value>Табельный номер (Примечание)</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Должности</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Должность</value>
+  </data>
+  <data name="PositionsMaintainer" xml:space="preserve">
+    <value>Должность (Сопровождающий)</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>Предыдущий месяц</value>
+  </data>
+  <data name="PreviousWeek" xml:space="preserve">
+    <value>Предыдущую неделю</value>
+  </data>
+  <data name="Reader1" xml:space="preserve">
+    <value>Считыватель 1</value>
+  </data>
+  <data name="Reader2" xml:space="preserve">
+    <value>Считыватель 2</value>
+  </data>
+  <data name="ResetAntiPassBack" xml:space="preserve">
+    <value>Сброс ограничения на повторный проход</value>
+  </data>
+  <data name="Route" xml:space="preserve">
+    <value>Маршрут сотрудника/посетителя</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>График</value>
+  </data>
+  <data name="Schedules" xml:space="preserve">
+    <value>Графики</value>
+  </data>
+  <data name="SecondName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="SKD" xml:space="preserve">
+    <value>СКД</value>
+  </data>
+  <data name="SKDDeviceList" xml:space="preserve">
+    <value>Список устройств СКД</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Дата начала</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Subsystem" xml:space="preserve">
+    <value>Подсистема</value>
+  </data>
+  <data name="SystemDate" xml:space="preserve">
+    <value>Дата и время в системе</value>
+  </data>
+  <data name="T13" xml:space="preserve">
+    <value>Унифицированная форма №T-13 за период с {0:dd.MM.yyyy} по {1:dd.MM.yyyy}</value>
+  </data>
+  <data name="ThirdName" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="Timesheet" xml:space="preserve">
+    <value>Учет рабочего времени</value>
+  </data>
+  <data name="ToZone" xml:space="preserve">
+    <value>В зону</value>
+  </data>
+  <data name="TransferDate" xml:space="preserve">
+    <value>Дата переноса</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="UnlimitedPasscard" xml:space="preserve">
+    <value>Пропуск с неограниченным сроком действия</value>
+  </data>
+  <data name="UploadFileSize" xml:space="preserve">
+    <value>Размер загружаемого файла не должен превышать 50 мб</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="Validaty" xml:space="preserve">
+    <value>Срок действия</value>
+  </data>
+  <data name="Verification" xml:space="preserve">
+    <value>Верификация</value>
+  </data>
+  <data name="Visitor" xml:space="preserve">
+    <value>Сотрудник (Посетитель)</value>
+  </data>
+  <data name="WorkSchedule" xml:space="preserve">
+    <value>График работы</value>
+  </data>
+  <data name="WorkSchedules" xml:space="preserve">
+    <value>Графики работ</value>
+  </data>
+  <data name="WorkSchedulesReport" xml:space="preserve">
+    <value>Отчет по графикам работы</value>
+  </data>
+  <data name="WorkTimeInfo" xml:space="preserve">
+    <value>Справка по отработанному времени</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Зона</value>
+  </data>
+  <data name="Zone1" xml:space="preserve">
+    <value>Зона 1</value>
+  </data>
+  <data name="Zone2" xml:space="preserve">
+    <value>Зона 2</value>
+  </data>
+  <data name="ZoneAccess" xml:space="preserve">
+    <value>Доступ в зоны сотрудников/посетителей</value>
+  </data>
 </root>

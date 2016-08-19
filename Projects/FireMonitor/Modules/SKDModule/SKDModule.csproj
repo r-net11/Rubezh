@@ -366,11 +366,6 @@
       <DependentUpon>TemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -745,6 +740,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Localization.Monitor\Localization.csproj">
+      <Project>{7b5d3a8b-7868-4d05-96f1-b480f28786fa}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1168,11 +1167,6 @@
       <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="PassCardDesigner\Model\EmployeeDataSet.xsc">

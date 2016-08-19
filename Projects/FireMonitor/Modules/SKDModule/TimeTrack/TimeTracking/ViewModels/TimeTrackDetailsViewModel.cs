@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using ReactiveUI;
 using SKDModule.Events;
 using SKDModule.Model;
@@ -506,7 +507,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanCancel
 		{
-			get { return !IsDirty || MessageBoxService.ShowQuestion(Resources.CanCancelEditIntervals); }
+			get { return !IsDirty || MessageBoxService.ShowQuestion(CommonViewModels.CanCancelEditIntervals); }
 		}
 
 		protected override bool Save()
@@ -522,7 +523,7 @@ namespace SKDModule.ViewModels
 			if (!DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel())
 			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID))
 			{
-				MessageBoxService.ShowConfirmation(Resources.ForceClosingFailedMessage);
+                MessageBoxService.ShowConfirmation(CommonViewModels.ForceClosingFailed);
 				return;
 			}
 

@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -165,7 +166,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (!MessageBoxService.ShowQuestion(Resources.RemoveDocumentTypeMessage)) return;
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.DeleteDocumentType)) return;
 
 			var organisationViewModel = SelectedDocumentType;
 			if (!organisationViewModel.IsOrganisation)
