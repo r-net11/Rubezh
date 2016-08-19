@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Resources;
 
-namespace LocalizationConveters
+namespace Localization.Converters
 {
     public class ResourceHelper
     {

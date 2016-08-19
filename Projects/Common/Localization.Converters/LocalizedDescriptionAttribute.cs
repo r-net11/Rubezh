@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
-using System.Resources;
 
-namespace LocalizationConveters
+namespace Localization.Converters
 {
     public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
