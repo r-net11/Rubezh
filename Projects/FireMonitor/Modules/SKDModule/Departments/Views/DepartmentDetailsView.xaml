@@ -213,7 +213,7 @@
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectPassCardTemplateCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock
-								Text="{Binding SelectedPassCardTemplate.Caption}"
+								Text="{Binding SelectedPassCardTemplate.Name}"
 								TextDecorations="Underline"
 								Visibility="{Binding HasSelectedPassCardTemplate, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<TextBlock

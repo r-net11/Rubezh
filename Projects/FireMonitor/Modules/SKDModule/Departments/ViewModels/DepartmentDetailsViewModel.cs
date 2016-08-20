@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Linq;
+using FiresecClient;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -76,6 +77,27 @@ namespace SKDModule.ViewModels
 
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
+
+			SelectedAccessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter
+			{
+				LogicalDeletationType = LogicalDeletationType.Active,
+				OrganisationUIDs = new List<Guid> { OrganisationUID },
+				UserUID = FiresecManager.CurrentUser.UID
+			}).FirstOrDefault(x => x.UID == Department.AccessTemplateUID);
+
+			SelectedSchedule = ScheduleHelper.Get(new ScheduleFilter
+			{
+				LogicalDeletationType = LogicalDeletationType.Active,
+				OrganisationUIDs = new List<Guid> { OrganisationUID },
+				UserUID = FiresecManager.CurrentUser.UID
+			}).FirstOrDefault(x => x.UID == Department.ScheduleUID);
+
+			SelectedPassCardTemplate = PassCardTemplateHelper.Get(new PassCardTemplateFilter
+			{
+				LogicalDeletationType = LogicalDeletationType.Active,
+				OrganisationUIDs = new List<Guid> { OrganisationUID },
+				UserUID = FiresecManager.CurrentUser.UID
+			}).FirstOrDefault(x => x.UID == Department.PassCardTemplateUID);
 		}
 
 		private string _name;
@@ -176,8 +198,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedSchedule != null; }
 		}
 
-		private PassCardTemplate _selectedPassCardTemplate;
-		public PassCardTemplate SelectedPassCardTemplate
+		private ShortPassCardTemplate _selectedPassCardTemplate;
+		public ShortPassCardTemplate SelectedPassCardTemplate
 		{
 			get { return _selectedPassCardTemplate; }
 			set
@@ -229,16 +251,34 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectAccessTemplateCommand { get; private set; }
 		private void OnSelectAccessTemplate()
 		{
+			var accessTemplateSelectionViewModel = new DepartmentAccessTemplateSelectionViewModel();
+			accessTemplateSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedAccessTemplate);
+			if (DialogService.ShowModalWindow(accessTemplateSelectionViewModel))
+			{
+				SelectedAccessTemplate = accessTemplateSelectionViewModel.SelectedItem;
+			}
 		}
 
 		public RelayCommand SelectScheduleCommand { get; private set; }
 		private void OnSelectSchedule()
 		{
+			var scheduleSelectionViewModel = new DepartmentScheduleSelectionViewModel();
+			scheduleSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedSchedule);
+			if (DialogService.ShowModalWindow(scheduleSelectionViewModel))
+			{
+				SelectedSchedule = scheduleSelectionViewModel.SelectedItem;
+			}
 		}
 
 		public RelayCommand SelectPassCardTemplateCommand { get; private set; }
 		private void OnSelectPassCardTemplate()
 		{
+			var passCardTemplateSelectionViewModel = new DepartmentPassCardTemplateSelectionViewModel();
+			passCardTemplateSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedPassCardTemplate);
+			if (DialogService.ShowModalWindow(passCardTemplateSelectionViewModel))
+			{
+				SelectedPassCardTemplate = passCardTemplateSelectionViewModel.SelectedItem;
+			}
 		}
 
 		protected override bool Save()
@@ -251,6 +291,15 @@ namespace SKDModule.ViewModels
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			Department.ParentDepartmentUID = SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty;
 			Department.Phone = Phone;
+			Department.AccessTemplateUID = HasSelectedAccessTemplate
+				? SelectedAccessTemplate.UID
+				: (Guid?) null;
+			Department.ScheduleUID = HasSelectedSchedule
+				? SelectedSchedule.UID
+				: (Guid?) null;
+			Department.PassCardTemplateUID = HasSelectedPassCardTemplate
+				? SelectedPassCardTemplate.UID
+				: (Guid?) null;
 
 			var saveResult = DepartmentHelper.Save(Department, IsNew);
 			if (saveResult)

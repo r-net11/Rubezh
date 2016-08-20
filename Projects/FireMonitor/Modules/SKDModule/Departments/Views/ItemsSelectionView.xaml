@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="SKDModule.Views.ItemsSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             MinWidth="500" MinHeight="300">
+	<UserControl.Resources>
+		<CollectionViewSource
+			x:Key="cvsItems"
+			Source="{Binding Items}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="Name"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<DataGrid
+			Grid.Row="0"
+			ItemsSource="{Binding Source={StaticResource cvsItems}, IsAsync=True}"
+			SelectedItem="{Binding SelectedItem}"
+			CanUserSortColumns="True">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn
+					Header="Название"
+					Width="*"
+					SortMemberPath="Name">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock
+									Text="{Binding Name}"
+									Margin="2"/>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal"
+			HorizontalAlignment="Right"
+			Margin="0 5">
+			<Button
+				Command="{Binding ReleaseItemCommand}"
+				Content="{Binding ReleaseItemCommandText}"
+				Width="230"
+				Margin="2"/>
+			<Button
+				Command="{Binding AddItemCommand}"
+				Content="{Binding AddItemCommandText}"
+				Width="230"
+				Margin="2"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

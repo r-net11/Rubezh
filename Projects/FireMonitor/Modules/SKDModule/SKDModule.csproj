@@ -234,6 +234,13 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentPassCardTemplateSelectionViewModel.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentAccessTemplateSelectionViewModel.cs" />
+    <Compile Include="Departments\ViewModels\ItemsSelectionBaseViewModel.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentScheduleSelectionViewModel.cs" />
+    <Compile Include="Departments\Views\ItemsSelectionView.xaml.cs">
+      <DependentUpon>ItemsSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\CardAccessTemplateChangedEvent.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
@@ -784,6 +791,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\Views\PositionsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Departments\Views\ItemsSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

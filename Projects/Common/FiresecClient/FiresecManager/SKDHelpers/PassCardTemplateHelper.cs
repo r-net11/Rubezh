@@ -46,7 +46,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.GetPassCardTemplateList(new PassCardTemplateFilter
 			{
-				OrganisationUIDs = new List<System.Guid> { organisationUID }
+				OrganisationUIDs = new List<Guid> { organisationUID }
 			});
 			return Common.ShowErrorIfExists(result);
 		}
