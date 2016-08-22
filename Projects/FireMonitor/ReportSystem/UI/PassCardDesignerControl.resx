@@ -118,20 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="&gt;&gt;commandBarItem19.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;commandBarItem17.Name" xml:space="preserve">
-    <value>commandBarItem17</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
   <data name="barSubItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;barSubItem13.Name" xml:space="preserve">
     <value>barSubItem13</value>
-  </data>
-  <data name="barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
   </data>
   <data name="commandBarItem7.Hint" xml:space="preserve">
     <value>Justify the control's text</value>
@@ -153,6 +150,9 @@
   </data>
   <data name="propertyGridDockPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 220</value>
+  </data>
+  <data name="commandBarItem18.Hint" xml:space="preserve">
+    <value>Make the selected controls the same size</value>
   </data>
   <data name="commandBarItem1.Caption" xml:space="preserve">
     <value>&amp;Bold</value>
@@ -185,8 +185,14 @@
   <data name="&gt;&gt;xrBarToolbarsListItem1.Name" xml:space="preserve">
     <value>xrBarToolbarsListItem1</value>
   </data>
+  <data name="&gt;&gt;panelContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
   <data name="&gt;&gt;commandBarItem29.Name" xml:space="preserve">
     <value>commandBarItem29</value>
+  </data>
+  <data name="&gt;&gt;panelContainer1.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Docking.DockPanel, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarCheckItem1.Caption" xml:space="preserve">
     <value>&amp;Tabbed Interface</value>
@@ -206,14 +212,11 @@
   <data name="&gt;&gt;commandBarItem45.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barSubItem7.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
   <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
   <data name="&gt;&gt;barSubItem3.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandColorBarItem1.Glyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -228,12 +231,6 @@
         mUoOhgNsksRgOMAmSQRmYAAAg/SLEdVFq1IAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="&gt;&gt;commandColorBarItem2.Name" xml:space="preserve">
-    <value>commandColorBarItem2</value>
-  </data>
-  <data name="&gt;&gt;barEditItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
   <data name="&gt;&gt;reportExplorerDockPanel1_Container.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
@@ -244,7 +241,7 @@
     <value>commandBarItem4</value>
   </data>
   <data name="&gt;&gt;commandBarItem36.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem6.Name" xml:space="preserve">
     <value>barSubItem6</value>
@@ -252,17 +249,20 @@
   <data name="&gt;&gt;commandBarItem39.Name" xml:space="preserve">
     <value>commandBarItem39</value>
   </data>
-  <data name="barSubItem15.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="barSubItem8.Caption" xml:space="preserve">
+    <value>&amp;Justify</value>
   </data>
   <data name="barSubItem9.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="&gt;&gt;barSubItem12.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="commandBarItem40.Hint" xml:space="preserve">
+    <value>Save the report with a new name</value>
   </data>
-  <data name="barDockControlBottom.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="&gt;&gt;barSubItem12.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;commandBarItem13.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem5.Caption" xml:space="preserve">
     <value>&amp;Center</value>
@@ -276,8 +276,14 @@
   <data name="commandBarItem43.Hint" xml:space="preserve">
     <value>Select all the controls in the document</value>
   </data>
+  <data name="commandBarItem23.Caption" xml:space="preserve">
+    <value>Make &amp;Equal</value>
+  </data>
   <data name="&gt;&gt;reportDesigner1.Name" xml:space="preserve">
     <value>reportDesigner1</value>
+  </data>
+  <data name="barDockControlBottom.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="&gt;&gt;groupAndSortDockPanel1_Container.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
@@ -297,8 +303,11 @@
   <data name="commandBarItem3.Hint" xml:space="preserve">
     <value>Underline the font</value>
   </data>
-  <data name="barSubItem10.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="&gt;&gt;commandBarItem1.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;barDockControlLeft.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem5.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -316,7 +325,7 @@
     <value>&amp;Horizontal Spacing</value>
   </data>
   <data name="&gt;&gt;fieldListDockPanel1_Container.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem1.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
@@ -331,7 +340,7 @@
     <value>883, 84</value>
   </data>
   <data name="&gt;&gt;commandBarItem16.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="barDockControlRight.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
@@ -346,8 +355,8 @@
   <data name="barReportTabButtonsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
-  <data name="commandBarItem19.Caption" xml:space="preserve">
-    <value>Make &amp;Equal</value>
+  <data name="&gt;&gt;xrDesignBarManager1.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignBarManager, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem19.Name" xml:space="preserve">
     <value>commandBarItem19</value>
@@ -359,10 +368,7 @@
     <value>1</value>
   </data>
   <data name="&gt;&gt;commandBarItem21.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="barDockControlBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 525</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem48.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
@@ -371,10 +377,13 @@
     <value>barSubItem11</value>
   </data>
   <data name="&gt;&gt;bar2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barEditItem2.Hint" xml:space="preserve">
     <value>Font Size</value>
+  </data>
+  <data name="&gt;&gt;barEditItem2.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="fieldListDockPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
@@ -383,13 +392,13 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;barSubItem6.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem2.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;commandBarItem34.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="barDockControlTop.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -413,10 +422,10 @@
     <value>4, 23</value>
   </data>
   <data name="&gt;&gt;designBar3.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem42.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem13.Hint" xml:space="preserve">
     <value>Align the centers of the selected controls horizontally</value>
@@ -430,6 +439,9 @@
   <data name="fieldListDockPanel1_Container.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 166</value>
   </data>
+  <data name="barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;propertyGridDockPanel1_Container.Name" xml:space="preserve">
     <value>propertyGridDockPanel1_Container</value>
   </data>
@@ -440,19 +452,19 @@
     <value>Left align the selected controls</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;panelContainer2.Name" xml:space="preserve">
     <value>panelContainer2</value>
   </data>
   <data name="&gt;&gt;commandBarItem28.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;xrZoomBarEditItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRZoomBarEditItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRZoomBarEditItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="barSubItem3.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="&gt;&gt;barSubItem15.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barMdiChildrenListItem1.Caption" xml:space="preserve">
     <value>Windows</value>
@@ -464,19 +476,19 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;designBar2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="designBar1.BarAppearance.Hovered.BackColor" type="System.Drawing.Color, System.Drawing">
     <value>Lime</value>
   </data>
   <data name="&gt;&gt;commandBarItem15.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem12.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
   <data name="&gt;&gt;barDockPanelsListItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.BarDockPanelsListItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.BarDockPanelsListItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem27.Hint" xml:space="preserve">
     <value>Horizontally center the selected controls within a band</value>
@@ -488,7 +500,7 @@
     <value>0</value>
   </data>
   <data name="&gt;&gt;commandBarItem22.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -499,8 +511,8 @@
   <data name="propertyGridDockPanel1_Container.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 193</value>
   </data>
-  <data name="commandBarItem6.Hint" xml:space="preserve">
-    <value>Align the control's text to the right</value>
+  <data name="commandBarItem40.Caption" xml:space="preserve">
+    <value>Save &amp;As...</value>
   </data>
   <data name="commandBarItem20.Hint" xml:space="preserve">
     <value>Increase the spacing between the selected controls</value>
@@ -508,14 +520,14 @@
   <data name="xrBarToolbarsListItem1.Caption" xml:space="preserve">
     <value>&amp;Toolbars</value>
   </data>
-  <data name="&gt;&gt;barSubItem15.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="commandBarItem46.Caption" xml:space="preserve">
+    <value>Tile &amp;Horizontal</value>
+  </data>
+  <data name="&gt;&gt;panelContainer1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="designBar1.Text" xml:space="preserve">
     <value>Main Menu</value>
-  </data>
-  <data name="commandBarItem5.Hint" xml:space="preserve">
-    <value>Align the control's text to the center</value>
   </data>
   <data name="reportExplorerDockPanel1_Container.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -524,7 +536,7 @@
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barStaticItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarStaticItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarStaticItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem10.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
@@ -545,13 +557,13 @@
     <value>commandBarItem10</value>
   </data>
   <data name="&gt;&gt;commandBarItem9.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barEditItem1.Name" xml:space="preserve">
     <value>barEditItem1</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -565,14 +577,17 @@
   <data name="commandBarItem13.Caption" xml:space="preserve">
     <value>&amp;Middles</value>
   </data>
-  <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
+  <data name="commandBarItem10.Caption" xml:space="preserve">
+    <value>&amp;Centers</value>
   </data>
   <data name="barEditItem1.Hint" xml:space="preserve">
     <value>Font Name</value>
   </data>
   <data name="&gt;&gt;barSubItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="commandBarItem47.Caption" xml:space="preserve">
+    <value>Tile &amp;Vertical</value>
   </data>
   <data name="&gt;&gt;commandBarItem32.Name" xml:space="preserve">
     <value>commandBarItem32</value>
@@ -582,6 +597,9 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="commandBarItem15.Hint" xml:space="preserve">
+    <value>Make the selected controls have the same width</value>
   </data>
   <data name="&gt;&gt;propertyGridDockPanel1.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.PropertyGridDockPanel, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
@@ -595,11 +613,8 @@
   <data name="commandBarItem26.Hint" xml:space="preserve">
     <value>Remove the spacing between the selected controls</value>
   </data>
-  <data name="&gt;&gt;commandBarItem29.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
   <data name="&gt;&gt;commandBarItem18.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -613,23 +628,14 @@
   <data name="commandColorBarItem2.Hint" xml:space="preserve">
     <value>Set the background color of the control</value>
   </data>
-  <data name="barSubItem8.Caption" xml:space="preserve">
-    <value>&amp;Justify</value>
-  </data>
-  <data name="commandColorBarItem1.Caption" xml:space="preserve">
-    <value>For&amp;eground Color</value>
-  </data>
   <data name="commandColorBarItem1.Hint" xml:space="preserve">
     <value>Set the foreground color of the control</value>
-  </data>
-  <data name="&gt;&gt;commandBarItem10.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;reportExplorerDockPanel1_Container.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;commandBarItem8.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;commandBarItem48.Name" xml:space="preserve">
+    <value>commandBarItem48</value>
   </data>
   <data name="barSubItem9.Caption" xml:space="preserve">
     <value>&amp;Align</value>
@@ -650,16 +656,10 @@
     <value />
   </data>
   <data name="&gt;&gt;barSubItem13.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem42.Caption" xml:space="preserve">
     <value>&amp;Delete</value>
-  </data>
-  <data name="&gt;&gt;designBar4.Name" xml:space="preserve">
-    <value>designBar4</value>
-  </data>
-  <data name="fieldListDockPanel1_Container.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
   </data>
   <data name="barSubItem10.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -697,14 +697,8 @@
   <data name="&gt;&gt;barMdiChildrenListItem1.Name" xml:space="preserve">
     <value>barMdiChildrenListItem1</value>
   </data>
-  <data name="&gt;&gt;propertyGridDockPanel1.Name" xml:space="preserve">
-    <value>propertyGridDockPanel1</value>
-  </data>
-  <data name="commandBarItem23.Caption" xml:space="preserve">
-    <value>Make &amp;Equal</value>
-  </data>
-  <data name="&gt;&gt;xrDesignDockManager1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignDockManager, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;designBar4.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem44.Name" xml:space="preserve">
     <value>commandBarItem44</value>
@@ -715,17 +709,14 @@
   <data name="&gt;&gt;reportExplorerDockPanel1.Name" xml:space="preserve">
     <value>reportExplorerDockPanel1</value>
   </data>
-  <data name="commandBarItem36.Caption" xml:space="preserve">
-    <value>&amp;Paste</value>
-  </data>
   <data name="groupAndSortDockPanel1_Container.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;commandBarItem35.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
   <data name="commandBarItem45.Caption" xml:space="preserve">
     <value>&amp;Cascade</value>
-  </data>
-  <data name="&gt;&gt;reportExplorerDockPanel1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.ReportExplorerDockPanel, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barEditItem2.Name" xml:space="preserve">
     <value>barEditItem2</value>
@@ -737,7 +728,7 @@
     <value>barDockControlTop</value>
   </data>
   <data name="&gt;&gt;recentlyUsedItemsComboBox1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem1.Hint" xml:space="preserve">
     <value>Make the font bold</value>
@@ -748,20 +739,17 @@
   <data name="barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="commandBarItem40.Caption" xml:space="preserve">
-    <value>Save &amp;As...</value>
-  </data>
   <data name="barReportTabButtonsListItem1.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
   <data name="&gt;&gt;barDockControlBottom.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem41.Name" xml:space="preserve">
     <value>commandBarItem41</value>
   </data>
-  <data name="&gt;&gt;barDockControlTop.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
   </data>
   <data name="barDockControlBottom.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -773,19 +761,16 @@
     <value>New via &amp;Wizard...</value>
   </data>
   <data name="&gt;&gt;commandBarItem24.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barSubItem15.Name" xml:space="preserve">
-    <value>barSubItem15</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
-  <assembly alias="DevExpress.Utils.v14.1" name="DevExpress.Utils.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-  <data name="xrDesignDockManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v14.1" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <assembly alias="DevExpress.Utils.v13.2" name="DevExpress.Utils.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+  <data name="xrDesignDockManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v13.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxNC4xLCBWZXJzaW9uPTE0LjEu
-        NS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxMy4yLCBWZXJzaW9uPTEzLjIu
+        OS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
         eXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRv
         a2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAAChEZXZFeHByZXNzLlV0aWxzLkltYWdlQ29sbGVjdGlvblN0
         cmVhbWVyAgAAAAlJbWFnZVNpemUERGF0YQQHE1N5c3RlbS5EcmF3aW5nLlNpemUDAAAAAgIAAAAF/P//
@@ -877,6 +862,9 @@
   <data name="commandBarItem12.Caption" xml:space="preserve">
     <value>&amp;Tops</value>
   </data>
+  <data name="barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="commandBarItem2.Caption" xml:space="preserve">
     <value>&amp;Italic</value>
   </data>
@@ -889,29 +877,35 @@
   <data name="barSubItem15.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
+  <data name="commandBarItem34.Hint" xml:space="preserve">
+    <value>Delete the control and copy it to the clipboard</value>
+  </data>
   <data name="&gt;&gt;groupAndSortDockPanel1.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.GroupAndSortDockPanel, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem11.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="commandBarItem18.Hint" xml:space="preserve">
-    <value>Make the selected controls the same size</value>
+  <data name="barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="commandBarItem44.Hint" xml:space="preserve">
+    <value>Save all reports</value>
   </data>
   <data name="&gt;&gt;barDockControlRight.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="barDockControlLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 84</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;reportExplorerDockPanel1_Container.Parent" xml:space="preserve">
     <value>reportExplorerDockPanel1</value>
   </data>
-  <data name="&gt;&gt;designBar4.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;commandBarItem34.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem24.Name" xml:space="preserve">
     <value>commandBarItem24</value>
+  </data>
+  <data name="&gt;&gt;commandBarItem38.Name" xml:space="preserve">
+    <value>commandBarItem38</value>
   </data>
   <data name="barSubItem3.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -923,7 +917,7 @@
     <value>DevExpress.XtraReports.UserDesigner.CommandBarCheckItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;bar1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem46.Name" xml:space="preserve">
     <value>commandBarItem46</value>
@@ -934,11 +928,8 @@
   <data name="commandBarItem49.Hint" xml:space="preserve">
     <value>Zoom out the design surface</value>
   </data>
-  <data name="commandBarItem47.Caption" xml:space="preserve">
-    <value>Tile &amp;Vertical</value>
-  </data>
-  <data name="commandBarItem43.Caption" xml:space="preserve">
-    <value>Select &amp;All</value>
+  <data name="barDockControlBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 525</value>
   </data>
   <data name="commandBarItem50.Hint" xml:space="preserve">
     <value>Zoom in the design surface</value>
@@ -964,23 +955,20 @@
   <data name="commandBarItem42.Hint" xml:space="preserve">
     <value>Delete the control</value>
   </data>
-  <data name="&gt;&gt;barSubItem4.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;commandBarItem8.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designBar1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="designBar1.BarAppearance.Normal.BackColor" type="System.Drawing.Color, System.Drawing">
     <value>Lime</value>
   </data>
-  <data name="commandBarItem24.Hint" xml:space="preserve">
-    <value>Increase the spacing between the selected controls</value>
-  </data>
-  <data name="&gt;&gt;barSubItem10.Name" xml:space="preserve">
-    <value>barSubItem10</value>
-  </data>
   <data name="commandBarItem32.Caption" xml:space="preserve">
     <value>&amp;Open...</value>
+  </data>
+  <data name="&gt;&gt;commandBarItem23.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="designBar4.Text" xml:space="preserve">
     <value>Layout Toolbar</value>
@@ -1010,10 +998,13 @@
     <value>0</value>
   </data>
   <data name="&gt;&gt;barDockControlRight.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem14.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;barSubItem2.Name" xml:space="preserve">
+    <value>barSubItem2</value>
   </data>
   <data name="commandBarItem21.Caption" xml:space="preserve">
     <value>&amp;Decrease</value>
@@ -1021,8 +1012,11 @@
   <data name="barSubItem4.Caption" xml:space="preserve">
     <value>&amp;Toolbars</value>
   </data>
+  <data name="&gt;&gt;barSubItem11.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
   <data name="&gt;&gt;commandBarItem14.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
@@ -1035,6 +1029,9 @@
   </data>
   <data name="barMdiChildrenListItem1.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
+  </data>
+  <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="barDockControlTop.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -1066,9 +1063,6 @@
   <data name="barDockControlTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="barDockControlLeft.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
-  </data>
   <data name="&gt;&gt;barDockControlLeft.Name" xml:space="preserve">
     <value>barDockControlLeft</value>
   </data>
@@ -1078,6 +1072,9 @@
   <data name="commandBarItem48.Hint" xml:space="preserve">
     <value>Close the report</value>
   </data>
+  <data name="&gt;&gt;commandBarItem43.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
   <data name="reportExplorerDockPanel1_Container.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 166</value>
   </data>
@@ -1085,22 +1082,16 @@
     <value>0</value>
   </data>
   <data name="&gt;&gt;commandBarItem6.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem1.Name" xml:space="preserve">
     <value>commandColorBarItem1</value>
   </data>
-  <data name="commandBarItem44.Hint" xml:space="preserve">
-    <value>Save all reports</value>
-  </data>
   <data name="&gt;&gt;designRepositoryItemComboBox2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem36.Name" xml:space="preserve">
     <value>commandBarItem36</value>
-  </data>
-  <data name="&gt;&gt;commandBarItem27.Name" xml:space="preserve">
-    <value>commandBarItem27</value>
   </data>
   <data name="commandBarItem49.Caption" xml:space="preserve">
     <value>Zoom Out</value>
@@ -1114,6 +1105,9 @@
   <data name="barSubItem11.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="designBar2.Text" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
   <data name="&gt;&gt;commandBarItem11.Name" xml:space="preserve">
     <value>commandBarItem11</value>
   </data>
@@ -1126,11 +1120,17 @@
   <data name="groupAndSortDockPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>452, 145</value>
   </data>
+  <data name="commandBarItem6.Caption" xml:space="preserve">
+    <value>&amp;Rights</value>
+  </data>
   <data name="groupAndSortDockPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
   </data>
   <data name="&gt;&gt;commandBarItem7.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="designRepositoryItemComboBox1.AutoHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="barSubItem11.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1141,20 +1141,17 @@
   <data name="barSubItem14.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
-  <data name="groupAndSortDockPanel1_Container.Size" type="System.Drawing.Size, System.Drawing">
-    <value>452, 145</value>
-  </data>
   <data name="&gt;&gt;commandBarItem40.Name" xml:space="preserve">
     <value>commandBarItem40</value>
   </data>
   <data name="&gt;&gt;commandBarItem50.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;xrDesignBarManager1.Name" xml:space="preserve">
+    <value>xrDesignBarManager1</value>
   </data>
   <data name="barDockControlBottom.Size" type="System.Drawing.Size, System.Drawing">
     <value>883, 25</value>
-  </data>
-  <data name="&gt;&gt;commandBarItem13.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem37.Caption" xml:space="preserve">
     <value>&amp;Undo</value>
@@ -1175,7 +1172,7 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;commandBarItem4.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -1186,32 +1183,32 @@
   <data name="&gt;&gt;xrZoomBarEditItem1.Name" xml:space="preserve">
     <value>xrZoomBarEditItem1</value>
   </data>
-  <data name="commandBarItem10.Caption" xml:space="preserve">
-    <value>&amp;Centers</value>
+  <data name="&gt;&gt;designBar4.Name" xml:space="preserve">
+    <value>designBar4</value>
   </data>
   <data name="&gt;&gt;commandBarItem16.Name" xml:space="preserve">
     <value>commandBarItem16</value>
   </data>
-  <data name="designBar1.BarAppearance.Hovered.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
+  <data name="barSubItem15.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="commandBarItem27.Caption" xml:space="preserve">
     <value>&amp;Horizontally</value>
   </data>
   <data name="&gt;&gt;commandBarItem20.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;reportDesigner1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignMdiController, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignMdiController, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem45.Hint" xml:space="preserve">
     <value>Arrange all open documents cascaded, so that they overlap each other</value>
   </data>
   <data name="&gt;&gt;xrBarToolbarsListItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRBarToolbarsListItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRBarToolbarsListItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;commandBarItem48.Name" xml:space="preserve">
-    <value>commandBarItem48</value>
+  <data name="barDockControlRight.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="&gt;&gt;commandBarItem33.Name" xml:space="preserve">
     <value>commandBarItem33</value>
@@ -1225,53 +1222,50 @@
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PassCardDesignerControl</value>
   </data>
-  <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="commandBarItem19.Caption" xml:space="preserve">
+    <value>Make &amp;Equal</value>
   </data>
   <data name="&gt;&gt;barSubItem10.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="barReportTabButtonsListItem1.Caption" xml:space="preserve">
-    <value>Tab Buttons</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlBottom.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;propertyGridDockPanel1_Container.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="barSubItem3.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="&gt;&gt;propertyGridDockPanel1.Parent" xml:space="preserve">
     <value>panelContainer1</value>
+  </data>
+  <data name="commandBarItem8.Caption" xml:space="preserve">
+    <value>to &amp;Grid</value>
   </data>
   <data name="barSubItem5.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
   <data name="&gt;&gt;commandBarItem30.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;reportExplorerDockPanel1.Parent" xml:space="preserve">
     <value>panelContainer1</value>
   </data>
   <data name="&gt;&gt;barDockControlTop.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;xrDesignBarManager1.Name" xml:space="preserve">
-    <value>xrDesignBarManager1</value>
+  <data name="barSubItem10.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="&gt;&gt;commandBarItem47.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designBar5.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem45.Name" xml:space="preserve">
     <value>commandBarItem45</value>
   </data>
   <data name="&gt;&gt;designRepositoryItemComboBox1.Name" xml:space="preserve">
     <value>designRepositoryItemComboBox1</value>
-  </data>
-  <data name="propertyGridDockPanel1.Text" xml:space="preserve">
-    <value>Property Grid</value>
   </data>
   <data name="barDockControlBottom.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
@@ -1282,14 +1276,20 @@
   <data name="panelContainer1.Text" xml:space="preserve">
     <value>panelContainer1</value>
   </data>
-  <data name="designBar2.Text" xml:space="preserve">
-    <value>Toolbar</value>
+  <data name="&gt;&gt;reportExplorerDockPanel1.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.ReportExplorerDockPanel, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;bar2.Name" xml:space="preserve">
     <value>bar2</value>
   </data>
-  <data name="&gt;&gt;barEditItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;commandBarItem6.Name" xml:space="preserve">
+    <value>commandBarItem6</value>
+  </data>
+  <data name="&gt;&gt;barSubItem10.Name" xml:space="preserve">
+    <value>barSubItem10</value>
+  </data>
+  <data name="panelContainer2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 221</value>
   </data>
   <data name="&gt;&gt;fieldListDockPanel1.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -1297,14 +1297,14 @@
   <data name="&gt;&gt;barReportTabButtonsListItem1.Name" xml:space="preserve">
     <value>barReportTabButtonsListItem1</value>
   </data>
-  <data name="recentlyUsedItemsComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.1">
+  <data name="recentlyUsedItemsComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
     <value>Combo</value>
   </data>
   <data name="reportExplorerDockPanel1_Container.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;commandBarItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandColorBarItem2.Caption" xml:space="preserve">
     <value>Bac&amp;kground Color</value>
@@ -1328,13 +1328,13 @@
     <value />
   </data>
   <data name="&gt;&gt;commandBarItem25.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem20.Caption" xml:space="preserve">
     <value>&amp;Increase</value>
   </data>
-  <data name="barSubItem4.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="groupAndSortDockPanel1_Container.Size" type="System.Drawing.Size, System.Drawing">
+    <value>452, 145</value>
   </data>
   <data name="&gt;&gt;panelContainer2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -1355,16 +1355,19 @@
     <value />
   </data>
   <data name="&gt;&gt;commandBarItem27.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem4.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
   <data name="&gt;&gt;commandBarItem3.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem32.Hint" xml:space="preserve">
     <value>Open a report</value>
+  </data>
+  <data name="commandBarItem33.Hint" xml:space="preserve">
+    <value>Save the report</value>
   </data>
   <data name="commandBarItem21.Hint" xml:space="preserve">
     <value>Decrease the spacing between the selected controls</value>
@@ -1375,11 +1378,14 @@
   <data name="&gt;&gt;barReportTabButtonsListItem1.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.BarReportTabButtonsListItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barSubItem2.Name" xml:space="preserve">
-    <value>barSubItem2</value>
+  <data name="commandBarItem24.Hint" xml:space="preserve">
+    <value>Increase the spacing between the selected controls</value>
   </data>
   <data name="&gt;&gt;panelContainer2.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Docking.DockPanel, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
   </data>
   <data name="designBar1.BarAppearance.Normal.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
@@ -1393,8 +1399,8 @@
   <data name="&gt;&gt;commandBarItem25.Name" xml:space="preserve">
     <value>commandBarItem25</value>
   </data>
-  <data name="&gt;&gt;commandBarItem38.Name" xml:space="preserve">
-    <value>commandBarItem38</value>
+  <data name="&gt;&gt;commandBarItem10.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem25.Hint" xml:space="preserve">
     <value>Decrease the spacing between the selected controls</value>
@@ -1402,8 +1408,8 @@
   <data name="&gt;&gt;groupAndSortDockPanel1_Container.Parent" xml:space="preserve">
     <value>groupAndSortDockPanel1</value>
   </data>
-  <data name="barSubItem7.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
-    <value>Regular</value>
+  <data name="commandBarItem36.Caption" xml:space="preserve">
+    <value>&amp;Paste</value>
   </data>
   <data name="propertyGridDockPanel1_Container.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1415,10 +1421,10 @@
     <value>&amp;Underline</value>
   </data>
   <data name="&gt;&gt;commandBarItem37.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designRepositoryItemComboBox1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem29.Hint" xml:space="preserve">
     <value>Bring the selected controls to the front</value>
@@ -1426,19 +1432,19 @@
   <data name="commandBarItem35.Caption" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
-  <data name="&gt;&gt;xrDesignBarManager1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignBarManager, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+  <data name="barMdiChildrenListItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
+  </data>
+  <data name="&gt;&gt;commandColorBarItem2.Name" xml:space="preserve">
+    <value>commandColorBarItem2</value>
   </data>
   <data name="barSubItem6.Caption" xml:space="preserve">
     <value>Фо&amp;рмат</value>
   </data>
-  <data name="xrDesignBarManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v14.1" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="xrDesignBarManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v13.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxNC4xLCBWZXJzaW9uPTE0LjEu
-        NS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxMy4yLCBWZXJzaW9uPTEzLjIu
+        OS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
         eXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRv
         a2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAAChEZXZFeHByZXNzLlV0aWxzLkltYWdlQ29sbGVjdGlvblN0
         cmVhbWVyAgAAAAlJbWFnZVNpemUERGF0YQQHE1N5c3RlbS5EcmF3aW5nLlNpemUDAAAAAgIAAAAF/P//
@@ -1958,14 +1964,11 @@
         nk2U+IoHrA2hKAp2n2S2Fs/fJGEuG1P5vq4zaaydlX8AqQrT2q1M8rUAAAAASUVORK5CYIIL
 </value>
   </data>
-  <data name="xrZoomBarEditItem1.Hint" xml:space="preserve">
-    <value>Select or input the zoom factor</value>
-  </data>
   <data name="commandBarItem4.Caption" xml:space="preserve">
     <value>&amp;Left</value>
   </data>
-  <data name="panelContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 221</value>
+  <data name="&gt;&gt;commandBarItem17.Name" xml:space="preserve">
+    <value>commandBarItem17</value>
   </data>
   <data name="&gt;&gt;commandBarItem35.Name" xml:space="preserve">
     <value>commandBarItem35</value>
@@ -1982,8 +1985,8 @@
   <data name="&gt;&gt;commandBarItem12.Name" xml:space="preserve">
     <value>commandBarItem12</value>
   </data>
-  <data name="&gt;&gt;barSubItem4.Name" xml:space="preserve">
-    <value>barSubItem4</value>
+  <data name="&gt;&gt;propertyGridDockPanel1_Container.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;fieldListDockPanel1.Parent" xml:space="preserve">
     <value>panelContainer2</value>
@@ -1994,11 +1997,11 @@
   <data name="barSubItem9.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
-  <data name="designRepositoryItemComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.1">
+  <data name="designRepositoryItemComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
     <value>Combo</value>
   </data>
-  <data name="&gt;&gt;commandBarItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="designBar1.BarAppearance.Hovered.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
   </data>
   <data name="commandBarItem17.Hint" xml:space="preserve">
     <value>Make the selected controls have the same height</value>
@@ -2016,7 +2019,7 @@
     <value>Status Bar</value>
   </data>
   <data name="&gt;&gt;commandBarItem49.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="designBar1.BarAppearance.Hovered.ForeColor" type="System.Drawing.Color, System.Drawing">
     <value>Yellow</value>
@@ -2040,13 +2043,13 @@
     <value>commandBarItem18</value>
   </data>
   <data name="&gt;&gt;barSubItem9.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>883, 550</value>
   </data>
   <data name="&gt;&gt;commandBarItem38.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem3.Caption" xml:space="preserve">
     <value>&amp;Просмотр</value>
@@ -2057,17 +2060,14 @@
   <data name="&gt;&gt;commandBarItem50.Name" xml:space="preserve">
     <value>commandBarItem50</value>
   </data>
-  <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
-  </data>
   <data name="&gt;&gt;commandBarItem26.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
-    <value>Regular</value>
+  <data name="commandColorBarItem1.Caption" xml:space="preserve">
+    <value>For&amp;eground Color</value>
   </data>
   <data name="&gt;&gt;barDockControlLeft.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2081,20 +2081,20 @@
   <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="&gt;&gt;barDockControlLeft.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;barSubItem8.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="commandBarItem15.Hint" xml:space="preserve">
-    <value>Make the selected controls have the same width</value>
+  <data name="&gt;&gt;barSubItem4.Name" xml:space="preserve">
+    <value>barSubItem4</value>
   </data>
   <data name="&gt;&gt;barSubItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem17.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem15.Name" xml:space="preserve">
     <value>commandBarItem15</value>
@@ -2102,14 +2102,14 @@
   <data name="commandBarItem28.Hint" xml:space="preserve">
     <value>Vertically center the selected controls within a band</value>
   </data>
-  <data name="commandBarItem8.Caption" xml:space="preserve">
-    <value>to &amp;Grid</value>
+  <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
   </data>
-  <data name="designRepositoryItemComboBox2.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.1">
+  <data name="designRepositoryItemComboBox2.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
     <value>Combo</value>
   </data>
-  <data name="&gt;&gt;panelContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;barSubItem15.Name" xml:space="preserve">
+    <value>barSubItem15</value>
   </data>
   <data name="barDockControlLeft.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -2129,14 +2129,14 @@
   <data name="barDockControlRight.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
   </data>
-  <data name="commandBarItem33.Hint" xml:space="preserve">
-    <value>Save the report</value>
+  <data name="commandBarItem6.Hint" xml:space="preserve">
+    <value>Align the control's text to the right</value>
   </data>
   <data name="barDockControlRight.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 441</value>
   </data>
-  <data name="barDockControlRight.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="&gt;&gt;commandBarItem29.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem25.Caption" xml:space="preserve">
     <value>&amp;Decrease</value>
@@ -2145,16 +2145,16 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;barDockControlBottom.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="designBar1.BarAppearance.Normal.ForeColor" type="System.Drawing.Color, System.Drawing">
     <value>Aqua</value>
   </data>
   <data name="&gt;&gt;barSubItem14.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="barSubItem13.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="commandBarItem43.Caption" xml:space="preserve">
+    <value>Select &amp;All</value>
   </data>
   <data name="commandBarItem28.Caption" xml:space="preserve">
     <value>&amp;Vertically</value>
@@ -2171,8 +2171,8 @@
   <data name="commandBarItem16.Hint" xml:space="preserve">
     <value>Size the selected controls to the grid</value>
   </data>
-  <data name="designRepositoryItemComboBox1.AutoHeight" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;commandBarItem27.Name" xml:space="preserve">
+    <value>commandBarItem27</value>
   </data>
   <data name="&gt;&gt;commandBarItem37.Name" xml:space="preserve">
     <value>commandBarItem37</value>
@@ -2180,11 +2180,11 @@
   <data name="reportExplorerDockPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 166</value>
   </data>
-  <data name="&gt;&gt;commandBarItem43.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="xrZoomBarEditItem1.Hint" xml:space="preserve">
+    <value>Select or input the zoom factor</value>
   </data>
-  <data name="&gt;&gt;panelContainer1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;barSubItem7.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem13.Caption" xml:space="preserve">
     <value>&amp;Center in Form</value>
@@ -2195,14 +2195,14 @@
   <data name="&gt;&gt;barSubItem14.Name" xml:space="preserve">
     <value>barSubItem14</value>
   </data>
-  <data name="barSubItem7.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="fieldListDockPanel1_Container.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="&gt;&gt;commandBarItem39.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barDockControlTop.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem6.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
     <value>Regular</value>
@@ -2213,8 +2213,8 @@
   <data name="commandBarItem47.Hint" xml:space="preserve">
     <value>Arrange all open documents from left to right</value>
   </data>
-  <data name="commandBarItem34.Hint" xml:space="preserve">
-    <value>Delete the control and copy it to the clipboard</value>
+  <data name="propertyGridDockPanel1.Text" xml:space="preserve">
+    <value>Property Grid</value>
   </data>
   <data name="&gt;&gt;commandBarItem31.Name" xml:space="preserve">
     <value>commandBarItem31</value>
@@ -2225,8 +2225,8 @@
   <data name="&gt;&gt;groupAndSortDockPanel1.Name" xml:space="preserve">
     <value>groupAndSortDockPanel1</value>
   </data>
-  <data name="commandBarItem46.Caption" xml:space="preserve">
-    <value>Tile &amp;Horizontal</value>
+  <data name="barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
   </data>
   <data name="commandBarItem22.Hint" xml:space="preserve">
     <value>Remove the spacing between the selected controls</value>
@@ -2234,8 +2234,8 @@
   <data name="commandBarItem23.Hint" xml:space="preserve">
     <value>Make the spacing between the selected controls equal</value>
   </data>
-  <data name="&gt;&gt;panelContainer1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.Docking.DockPanel, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="barDockControlLeft.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
   </data>
   <data name="fieldListDockPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 166</value>
@@ -2244,10 +2244,10 @@
     <value>reportExplorerDockPanel1_Container</value>
   </data>
   <data name="&gt;&gt;commandBarItem12.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="commandBarItem40.Hint" xml:space="preserve">
-    <value>Save the report with a new name</value>
+  <data name="&gt;&gt;barSubItem4.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem9.Caption" xml:space="preserve">
     <value>&amp;Lefts</value>
@@ -2255,14 +2255,14 @@
   <data name="barSubItem3.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
-  <data name="barMdiChildrenListItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
-    <value>Horizontal</value>
+  <data name="&gt;&gt;barDockControlTop.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="commandBarItem39.Hint" xml:space="preserve">
     <value>Create a new report using the Wizard</value>
   </data>
-  <data name="&gt;&gt;commandBarItem35.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="barDockControlLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 84</value>
   </data>
   <data name="&gt;&gt;commandBarItem46.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
@@ -2291,8 +2291,8 @@
   <data name="bar1.Text" xml:space="preserve">
     <value>Zoom Toolbar</value>
   </data>
-  <data name="&gt;&gt;commandBarItem23.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;barEditItem1.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlLeft.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2300,8 +2300,8 @@
   <data name="panelContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 441</value>
   </data>
-  <data name="commandBarItem6.Caption" xml:space="preserve">
-    <value>&amp;Rights</value>
+  <data name="&gt;&gt;propertyGridDockPanel1.Name" xml:space="preserve">
+    <value>propertyGridDockPanel1</value>
   </data>
   <data name="commandBarItem10.Hint" xml:space="preserve">
     <value>Align the centers of the selected controls vertically</value>
@@ -2309,17 +2309,17 @@
   <data name="fieldListDockPanel1.Text" xml:space="preserve">
     <value>Field List</value>
   </data>
-  <data name="barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="commandBarItem5.Hint" xml:space="preserve">
+    <value>Align the control's text to the center</value>
   </data>
   <data name="&gt;&gt;barSubItem7.Name" xml:space="preserve">
     <value>barSubItem7</value>
   </data>
   <data name="&gt;&gt;commandBarItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.1.Extensions, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barSubItem11.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;xrDesignDockManager1.Type" xml:space="preserve">
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignDockManager, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandColorBarItem2.Glyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2348,8 +2348,8 @@
   <data name="barSubItem8.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="&gt;&gt;commandBarItem6.Name" xml:space="preserve">
-    <value>commandBarItem6</value>
+  <data name="barReportTabButtonsListItem1.Caption" xml:space="preserve">
+    <value>Tab Buttons</value>
   </data>
   <data name="&gt;&gt;commandBarItem33.Type" xml:space="preserve">
     <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
