@@ -5,6 +5,7 @@ using Common;
 using DeviceControls;
 using Localization.Strazh.ViewModels;
 using Infrastructure.Events;
+using StrazhAPI;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -65,6 +66,7 @@ namespace StrazhModule.ViewModels
 			OnPropertyChanged(() => EditingPresentationZone);
 			OnPropertyChanged(() => Door);
 			OnPropertyChanged(() => HasDoor);
+			OnPropertyChanged(() => DoorTypeDescription);
 		}
 
 		public void UpdateProperties()
@@ -98,6 +100,27 @@ namespace StrazhModule.ViewModels
 				OnPropertyChanged(() => Name);
 				SKDManager.EditDevice(Device);
 				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+
+		/// <summary>
+		/// Режим (односторонний / двухсторонний)
+		/// </summary>
+		public string DoorTypeDescription
+		{
+			get
+			{
+				if (Driver.IsController)
+				{
+					switch (Device.DoorType)
+					{
+						case DoorType.OneWay:
+							return "Односторонний";
+						case DoorType.TwoWay:
+							return "Двухсторонний";
+					}
+				}
+				return string.Empty;
 			}
 		}
 

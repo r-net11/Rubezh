@@ -295,5 +295,14 @@ namespace FiresecClient
 			Logger.Info("Запрашиваем у Сервера логи загрузки");
 			return SafeOperationCall(() => FiresecService.GetLogs(), "GetLogs");
 		}
+
+		/// <summary>
+		/// Возвращает список информации по ip4-адресам для всех сетевых адаптеров сервера
+		/// </summary>
+		/// <returns>Информация по ip4-адресам для всех сетевых адаптеров сервера</returns>
+		public OperationResult<List<Ip4AddressInfo>> GetIp4NetworkInterfacesInfo()
+		{
+			return SafeOperationCall(() => FiresecService.GetIp4NetworkInterfacesInfo(), "GetIp4NetworkInterfacesInfo");
+		}
 	}
 }

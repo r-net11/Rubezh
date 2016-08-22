@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="SKDModule.Views.ApplyAccessTemplateToUserGroupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+			 xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+			 xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+             mc:Ignorable="d"
+			 MinWidth="640" MinHeight="480">
+	<UserControl.Resources>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer"/>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer"/>
+		<viewModels:EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer x:Key="EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer"/>
+		<CollectionViewSource
+			x:Key="cvsAccessTemplates"
+			Source="{Binding AccessTemplates}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="Name"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Инструментальная панель -->
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<!-- Кнопка "Фильтр" -->
+			<ToolBarButton
+				Command="{Binding EditFilterCommand}"
+				ImageSource="Filter"
+				ToolTip="Фильтр" />
+			<!-- Кнопка переключения режима просмотра "Сотрудник/Посетитель" -->
+			<ComboBox
+				Width="100"
+				ItemsSource="{Binding PersonTypes}"
+				SelectedItem="{Binding SelectedPersonType}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+		
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Text="Отметьте сотрудников и выберите шаблон доступа, который будет им назначен:"
+				Foreground="{DynamicResource ForegroundColorLight}"
+				Margin="0 10"
+				TextWrapping="Wrap"/>
+			<!-- Дерево сотрудников и пропусков, а также список шаблонов доступа -->
+			<Grid Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="70*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="30*"/>
+				</Grid.ColumnDefinitions>
+				<!-- Дерево сотрудников и пропусков -->
+				<tree:TreeList
+					Grid.Column="0"
+					Focusable="True"
+					Source="{Binding Employees.Items, Mode=OneWay}"
+					tree:SortBehavior.CanUserSortColumns="True"
+					tree:SortBehavior.DefaultSortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer}"
+					layout:ListViewLayoutManager.Enabled="True">
+					<tree:TreeList.View>
+						<GridView>
+							<!-- Колонка "ФИО" -->
+							<GridViewColumn
+								Header="ФИО"
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<CheckBox
+												Margin="2"
+												IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBlock Text="{Binding Name}" />
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<!-- Колонка "Подразделение" -->
+							<GridViewColumn
+								Header="Подразделение"
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Department}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<!-- Колонка "Должность" для сотрудника или "Примечание" для посетителя -->
+							<GridViewColumn
+								Header="{Binding Employees.PositionOrDescriptionHeaderTitle}"
+								layout:ProportionalColumn.Width="1"
+								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding PositionOrDescription}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+				<!-- Вертикальный разделитель -->
+				<GridSplitter
+					Grid.Column="1"
+					Width="5"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Background="Transparent"
+					Cursor="SizeWE"/>
+				<!-- Список шаблонов доступа -->
+				<DataGrid
+					Grid.Column="2"
+					ItemsSource="{Binding Source={StaticResource cvsAccessTemplates}, IsAsync=True}"
+					SelectedItem="{Binding SelectedAccessTemplate}"
+					CanUserSortColumns="True">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn
+							Header="Шаблон доступа"
+							Width="*"
+							SortMemberPath="Name">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock
+										Text="{Binding Name}"
+										Margin="5 2"
+										VerticalAlignment="Center"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+			<!-- Нижняя инструментальная панель для дерева сотрудников и пропусков -->
+			<StackPanel
+				Grid.Row="2"
+				Orientation="Horizontal">
+				<ToolBarButton
+					Command="{Binding SelectAllCommand}"
+					ImageSource="SelectAll"
+					ToolTip="Выбрать все" />
+				<ToolBarButton
+					Command="{Binding SelectNoneCommand}"
+					ImageSource="SelectNone"
+					ToolTip="Отменить выбор" />
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

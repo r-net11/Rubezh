@@ -7,61 +7,161 @@
 			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
 			 mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="580"
-			 MinHeight="200" MinWidth="580">
+             d:DesignHeight="350" d:DesignWidth="580"
+			 MinHeight="350" MinWidth="580">
+	<UserControl.Resources>
+		<Style x:Key="GrayedTextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsFromDifferentSubnet}" Value="True">
+					<Setter Property="Foreground" Value="Gray" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-            <ToolBarButton Command="{Binding StartSearchCommand}" ImageSource="Refresh" ToolTip="{x:Static lang:CommonViews.Update}" HorizontalAlignment="Left"/>
+		<!-- Инструментальная панель -->
+		<StackPanel
+			Grid.Row="0"
+			Orientation="Horizontal">
+			<!-- Клавиша "Обновить" -->
+			<ToolBarButton
+				Command="{Binding StartSearchCommand}"
+				ImageSource="Refresh"
+				ToolTip="{x:Static lang:CommonViews.Update}"
+				HorizontalAlignment="Left"/>
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Devices}">
+		<!-- Список найденных контроллеров -->
+		<DataGrid
+			Grid.Row="1"
+			ItemsSource="{Binding Devices}">
 			<DataGrid.Columns>
-                <DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Add}" Width="Auto" >
+				<!-- Колонка "Добавить" -->
+				<DataGridTemplateColumn
+					Header="{x:Static langCommon:CommonResources.Add}"
+					Width="Auto" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Center"/>
+							<CheckBox
+								IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								IsEnabled="{Binding IsEnabled}"
+								HorizontalAlignment="Center"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Denomination}" Width="*">
+				<!-- Колонка "Наименование" -->
+				<DataGridTemplateColumn
+					Header="{x:Static lang:CommonViews.Denomination}"
+					Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock
+									Grid.Column="0"
+									Style="{StaticResource GrayedTextBlock}"
+									Text="{Binding Name}"
+									VerticalAlignment="Center"
+									Margin="2" />
+								<Image
+									Grid.Column="1"
+									Visibility="{Binding IsFromDifferentSubnet, Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="16"
+									Height="16"
+									Source="/Controls;component/StateClassIcons/Attention.png"
+									ToolTip="Устройство и сервер находятся в разных подсетях"
+									HorizontalAlignment="Right"
+									Margin="2"/>
+							</Grid>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Type}" Width="100">
+				<!-- Колонка "Тип" -->
+				<DataGridTemplateColumn
+					Header="{x:Static lang:CommonViews.Type}"
+					Width="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding DeviceType, Converter={StaticResource SKDDeviceTypeEnumToAttributeValueConverter}, ConverterParameter=label}" VerticalAlignment="Center" Margin="2" />
+							<TextBlock
+								Style="{StaticResource GrayedTextBlock}"
+								Text="{Binding DeviceType, Converter={StaticResource SKDDeviceTypeEnumToAttributeValueConverter}, ConverterParameter=label}"
+								VerticalAlignment="Center"
+								Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.IPaddress}" Width="80">
+				<!-- Колонка "IP-адрес" -->
+				<DataGridTemplateColumn
+					Header="{x:Static lang:CommonViews.IPaddress}"
+					Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding IpAddress}" VerticalAlignment="Center" Margin="2" />
+							<TextBlock
+								Style="{StaticResource GrayedTextBlock}"
+								Text="{Binding IpAddress}"
+								VerticalAlignment="Center"
+								Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Gateway}" Width="80">
+				<!-- Колонка "Шлюз" -->
+				<DataGridTemplateColumn
+					Header="{x:Static lang:CommonViews.Gateway}"
+					Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Gateway}" VerticalAlignment="Center" Margin="2" />
+							<TextBlock
+								Style="{StaticResource GrayedTextBlock}"
+								Text="{Binding Gateway}"
+								VerticalAlignment="Center"
+								Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Port}" Width="50">
+				<!-- Колонка "Порт" -->
+				<DataGridTemplateColumn
+					Header="{x:Static lang:CommonViews.Port}"
+					Width="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Port}" VerticalAlignment="Center" Margin="2" />
+							<TextBlock
+								Style="{StaticResource GrayedTextBlock}"
+								Text="{Binding Port}"
+								VerticalAlignment="Center"
+								Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
+		<!-- Текст предупреждения -->
+		<Grid
+			Grid.Row="2"
+			Visibility="{Binding HasDevicesFromDifferentSubnet, Converter={StaticResource BoolToVisibilityConverter}}"
+			Margin="0 5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Image
+				Grid.Column="0"
+				Source="/Controls;component/Images/MessageBox/warning.png"
+				Width="30"
+				Height="30"
+				Margin="2"/>
+			<TextBlock
+				Grid.Column="1"
+				Text="Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно"
+				Foreground="{DynamicResource ForegroundColorLight}"
+				VerticalAlignment="Center"
+				TextWrapping="Wrap" Margin="5 2"/>
+		</Grid>
 	</Grid>
 </UserControl>

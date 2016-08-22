@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
 		}
 
-		EmployeeFilter _Filter;
+		private EmployeeFilter _Filter;
 
 		public override void Initialize(EmployeeFilter filter)
 		{
@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
-		void OnSelectAll()
+		private void OnSelectAll()
 		{
 			var employees = Organisations.SelectMany(x => x.Children);
 			foreach (var employee in employees)
@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand SelectNoneCommand { get; private set; }
-		void OnSelectNone()
+		private void OnSelectNone()
 		{
 			var employees = Organisations.SelectMany(x => x.Children);
 			foreach (var employee in employees)
@@ -113,7 +113,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsSelection { get { return !IsSearch; } }
-		bool _isSearch;
+		private bool _isSearch;
 		public bool IsSearch
 		{
 			get { return _isSearch; }
@@ -125,7 +125,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _firstName;
+		private string _firstName;
 		public string FirstName
 		{
 			get { return _firstName; }
@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _lastName;
+		private string _lastName;
 		public string LastName
 		{
 			get { return _lastName; }
@@ -147,7 +147,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _secondName;
+		private string _secondName;
 		public string SecondName
 		{
 			get { return _secondName; }

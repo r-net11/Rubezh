@@ -149,7 +149,7 @@
 								<TextBlock
 									Margin="2"
 									VerticalAlignment="Center"
-									Text="Сотрудник">
+									Text="{Binding PersonType, Converter={StaticResource EnumToDescriptionConverter}}">
 									<TextBlock.Style>
 										<Style>
 											<Style.Triggers>

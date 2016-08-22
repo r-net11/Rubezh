@@ -186,13 +186,30 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterItemViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplatesFilterViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\ApplyAccessTemplateToUserGroupFilterViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\ApplyAccessTemplateToUserGroupViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
+    <Compile Include="AccessTemplates\ViewModels\ApplyAccessTemplateToUserGroupEmployeesFilterViewModel.cs" />
+    <Compile Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupView.xaml.cs">
+      <DependentUpon>ApplyAccessTemplateToUserGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupFilterView.xaml.cs">
+      <DependentUpon>ApplyAccessTemplateToUserGroupFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccessTemplates\Views\AccessTemplatesFilterView.xaml.cs">
+      <DependentUpon>AccessTemplatesFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cards\ViewModels\DialogWindowsViewModels\ResetRepeatEnterConfirmationDialogViewModel.cs" />
     <Compile Include="Cards\Views\DialogWindowsViews\ResetRepeatEnterConfirmationDialogView.xaml.cs">
       <DependentUpon>ResetRepeatEnterConfirmationDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
+    <Compile Include="Common\CurrentUserFilteredOrganisationsProvider.cs" />
+    <Compile Include="Common\CurrentUserOrganisationsProvider.cs" />
+    <Compile Include="Common\IOrganisationsProvider.cs" />
     <Compile Include="Common\UpdateOrganisationDoorsEventSubscriber.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
@@ -217,6 +234,7 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Events\CardAccessTemplateChangedEvent.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
@@ -525,12 +543,6 @@
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Organisations\ViewModels\IOrganisationItemViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationItemsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
     <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
@@ -637,15 +649,6 @@
       <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="Organisations\Views\OrganisationDetailsView.xaml.cs">
-      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
-      <DependentUpon>OrganisationsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
       <DependentUpon>DepartmentsView.xaml</DependentUpon>
@@ -747,6 +750,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccessTemplates\Views\ApplyAccessTemplateToUserGroupFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccessTemplates\Views\AccessTemplatesFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Cards\Views\DialogWindowsViews\ResetRepeatEnterConfirmationDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1040,14 +1055,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Organisations\Views\OrganisationsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Positions\Views\PositionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1093,10 +1100,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Verification\Views\VerificationlView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Organisations\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -249,6 +249,7 @@
     <Compile Include="Models\Plans\IPlanPresentable.cs" />
     <Compile Include="Models\Plans\IPrimitive.cs" />
     <Compile Include="Models\Plans\Primitive.cs" />
+    <Compile Include="Models\System\Ip4AddressInfo.cs" />
     <Compile Include="SKDCallbackResult.cs" />
     <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />

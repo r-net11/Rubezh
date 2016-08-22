@@ -1,31 +1,29 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Infrastructure.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationsViewModel : BaseViewModel
+	public class OrganisationsViewModel : MenuViewPartViewModel
 	{
-		LogicalDeletationType _logicalDeletationType;
+		private LogicalDeletationType _logicalDeletationType;
+
 		public bool IsWithDeleted { get { return _logicalDeletationType == LogicalDeletationType.All; } }
 
 		public OrganisationsViewModel()
 		{
+			Menu = new OrganisationsMenuViewModel(this);
+
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ShowOrHideDeletedCommand = new RelayCommand(OnShowOrHideDeleted);
 		}
 
 		public void Initialize(LogicalDeletationType logicalDeletationType)
@@ -33,7 +31,7 @@ namespace SKDModule.ViewModels
 			_logicalDeletationType = logicalDeletationType;
 			OnPropertyChanged(() => IsWithDeleted);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
-			var organisations = OrganisationHelper.Get(new OrganisationFilter {LogicalDeletationType = _logicalDeletationType });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = _logicalDeletationType });
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
@@ -45,7 +43,7 @@ namespace SKDModule.ViewModels
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 
-		ObservableCollection<OrganisationViewModel> _organisation;
+		private ObservableCollection<OrganisationViewModel> _organisation;
 		public ObservableCollection<OrganisationViewModel> Organisations
 		{
 			get { return _organisation; }
@@ -56,7 +54,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		OrganisationViewModel _selectedOrganisation;
+		private OrganisationViewModel _selectedOrganisation;
 		public OrganisationViewModel SelectedOrganisation
 		{
 			get { return _selectedOrganisation; }
@@ -80,7 +78,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		OrganisationDoorsViewModel _OrganisationDoorsViewModel;
+		private OrganisationDoorsViewModel _OrganisationDoorsViewModel;
 		public OrganisationDoorsViewModel OrganisationDoorsViewModel
 		{
 			get { return _OrganisationDoorsViewModel; }
@@ -91,7 +89,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		OrganisationUsersViewModel _organisationUsersViewModel;
+		private OrganisationUsersViewModel _organisationUsersViewModel;
 		public OrganisationUsersViewModel OrganisationUsersViewModel
 		{
 			get { return _organisationUsersViewModel; }
@@ -102,7 +100,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool _hasOrganisationDoors;
+		private bool _hasOrganisationDoors;
 		public bool HasOrganisationDoors
 		{
 			get { return _hasOrganisationDoors; }
@@ -113,13 +111,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEditRemove()
+		private bool CanEditRemove()
 		{
 			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
@@ -133,26 +131,24 @@ namespace SKDModule.ViewModels
 				{
 					currentUserViewModel.SetWithoutSave(true);
 				}
-				ServiceFactoryBase.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить организацию?")) return;
 
 			if (SelectedOrganisation == null) return;
 
 			if (OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) &&
-			    !MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?")) return;
+				!MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?")) return;
 
 			OrganisationHelper.MarkDeleted(SelectedOrganisation.Organisation);
-			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 
 			if (_logicalDeletationType == LogicalDeletationType.All)
 			{
@@ -167,7 +163,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RestoreCommand { get; private set; }
-		void OnRestore()
+		private void OnRestore()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить организацию?"))
 			{
@@ -176,16 +172,15 @@ namespace SKDModule.ViewModels
 					return;
 				SelectedOrganisation.IsDeleted = false;
 				SetItemsCanSelect(true);
-				ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
 		}
-		bool CanRestore()
+		private bool CanRestore()
 		{
 			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this, SelectedOrganisation.Organisation);
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
@@ -193,23 +188,31 @@ namespace SKDModule.ViewModels
 				var organisation = organisationDetailsViewModel.Organisation;
 				SelectedOrganisation.Organisation = organisation;
 				SelectedOrganisation.Update();
-				ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Publish(organisation);
 			}
 		}
 
-		void SetItemsCanSelect(bool canSelect)
+		public RelayCommand ShowOrHideDeletedCommand { get; private set; }
+		private void OnShowOrHideDeleted()
+		{
+			Initialize(IsWithDeleted ? LogicalDeletationType.Active : LogicalDeletationType.All);
+			OnPropertyChanged(() => ShowOrHideDeletedCommandTooltip);
+			OnPropertyChanged(() => ShowOrHideDeletedCommandImageSource);
+		}
+
+		public string ShowOrHideDeletedCommandTooltip
+		{
+			get { return IsWithDeleted ? "Скрыть архивные сведения" : "Показать архивные сведения"; }
+		}
+
+		public string ShowOrHideDeletedCommandImageSource
+		{
+			get { return IsWithDeleted ? "ArchiveUnlocked" : "Archive"; }
+		}
+
+		private void SetItemsCanSelect(bool canSelect)
 		{
 			OrganisationDoorsViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
-		}
-
-		void OnUserChanged(UserChangedEventArgs args)
-		{
-			foreach (var organisation in Organisations.Select(x => x.Organisation))
-			{
-				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(organisation);
-			}
-
 		}
 	}
 }

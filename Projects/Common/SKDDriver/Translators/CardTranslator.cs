@@ -172,12 +172,23 @@ namespace StrazhDAL
 					result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
 			}
 
+			// Фильтрация по параметрам шаблона доступа для карты
+			if (filter.AccessTemplateFilter != null)
+			{
+				var accessTemplateUIDs = DatabaseService.AccessTemplateTranslator.GetTableItems(filter.AccessTemplateFilter).Select(x => x.UID);
+				result = filter.WithEmptyAccessTemplate
+					? result.And(e => e.AccessTemplateUID != null && accessTemplateUIDs.Contains(e.AccessTemplateUID.Value) || e.AccessTemplateUID == null)
+					: result.And(e => e.AccessTemplateUID != null && accessTemplateUIDs.Contains(e.AccessTemplateUID.Value));
+			}
+
 			return result;
 		}
 
 		public override IEnumerable<DataAccess.Card> GetTableItems(CardFilter filter)
 		{
 			var result = base.GetTableItems(filter);
+			
+			// Фильтрация по параметрам владельца карты
 			if (filter.EmployeeFilter != null)
 			{
 				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
@@ -186,6 +197,14 @@ namespace StrazhDAL
 				else
 					result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 			}
+			
+			// Фильтрация по параметрам шаблона доступа для карты
+			if (filter.AccessTemplateFilter != null)
+			{
+				var accessTemplateUIDs = DatabaseService.AccessTemplateTranslator.GetTableItems(filter.AccessTemplateFilter).Select(x => x.UID);
+				result = result.Where(c => c.AccessTemplateUID != null && accessTemplateUIDs.Contains(c.AccessTemplateUID.Value));
+			}
+
 			return result;
 		}
 

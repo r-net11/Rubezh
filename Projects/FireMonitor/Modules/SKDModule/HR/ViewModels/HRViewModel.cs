@@ -32,7 +32,6 @@ namespace SKDModule.ViewModels
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
 		public TemplatesViewModel PassCardTemplatesViewModel { get; private set; }
-		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 
 		public HRViewModel()
 		{
@@ -48,7 +47,6 @@ namespace SKDModule.ViewModels
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			PassCardTemplatesViewModel = new TemplatesViewModel();
-			OrganisationsViewModel = new OrganisationsViewModel();
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
 			CardFilter = new CardFilter();
@@ -257,7 +255,6 @@ namespace SKDModule.ViewModels
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
-			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
 
 			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);

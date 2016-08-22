@@ -319,4 +319,52 @@ namespace SKDModule.ViewModels
 	}
 
 	#endregion
+
+	public class AccessTemplateFilterComparer : TreeNodeComparer<AccessTemplateFilterItemViewModel>
+	{
+		protected override int Compare(AccessTemplateFilterItemViewModel x, AccessTemplateFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+	public class AccessTemplateFilterDescriptionComparer : TreeNodeComparer<AccessTemplateFilterItemViewModel>
+	{
+		protected override int Compare(AccessTemplateFilterItemViewModel x, AccessTemplateFilterItemViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
+	#region <Компараторы для EmployeeCardForApplyAccessTemplateToUserGroupViewModel>
+
+	public class EmployeeCardForApplyAccessTemplateToUserGroupViewModelNameComparer : TreeNodeComparer<EmployeeCardForApplyAccessTemplateToUserGroupViewModel>
+	{
+		protected override int Compare(EmployeeCardForApplyAccessTemplateToUserGroupViewModel x, EmployeeCardForApplyAccessTemplateToUserGroupViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer : TreeNodeComparer<EmployeeCardForApplyAccessTemplateToUserGroupViewModel>
+	{
+		protected override int Compare(EmployeeCardForApplyAccessTemplateToUserGroupViewModel x, EmployeeCardForApplyAccessTemplateToUserGroupViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.Department, y.Department);
+		}
+	}
+
+	public class EmployeeCardForApplyAccessTemplateToUserGroupViewModelPositionOrDescriptionComparer : TreeNodeComparer<EmployeeCardForApplyAccessTemplateToUserGroupViewModel>
+	{
+		protected override int Compare(EmployeeCardForApplyAccessTemplateToUserGroupViewModel x, EmployeeCardForApplyAccessTemplateToUserGroupViewModel y)
+		{
+			if (x == null || y == null) return 0;
+			return string.Compare(x.PositionOrDescription, y.PositionOrDescription);
+		}
+	}
+
+	#endregion </Компараторы для EmployeeCardForApplyAccessTemplateToUserGroupViewModel>
 }

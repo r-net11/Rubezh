@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 
@@ -9,13 +10,36 @@ namespace SKDModule.ViewModels
 {
 	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>, ICardDoorsParentList<AccessTemplateViewModel>
 	{
+		public RelayCommand ApplyToUserGroupCommand { get; private set; }
+		private void OnApplyToUserGroup()
+		{
+			var organisationID = Guid.Empty;
+			var accessTemplateID = Guid.Empty;
+
+			if (SelectedItem != null)
+			{
+				organisationID = SelectedItem.OrganisationUID;
+				if (!SelectedItem.IsOrganisation)
+					accessTemplateID = SelectedItem.UID;
+			}
+			var dialog = new ApplyAccessTemplateToUserGroupViewModel(organisationID, accessTemplateID);
+			if (DialogService.ShowModalWindow(dialog))
+			{
+			}
+		}
+		private bool CanApplyToUserGroup()
+		{
+			return SelectedItem != null;
+		}
+
 		public override void Initialize(AccessTemplateFilter filter)
 		{
 			base.Initialize(filter);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<AccessTemplateViewModel>(this);
+			ApplyToUserGroupCommand = new RelayCommand(OnApplyToUserGroup, CanApplyToUserGroup);
 		}
 
-		UpdateOrganisationDoorsEventSubscriber<AccessTemplateViewModel> _updateOrganisationDoorsEventSubscriber;
+		private UpdateOrganisationDoorsEventSubscriber<AccessTemplateViewModel> _updateOrganisationDoorsEventSubscriber;
 
 		protected override IEnumerable<AccessTemplate> GetModels(AccessTemplateFilter filter)
 		{

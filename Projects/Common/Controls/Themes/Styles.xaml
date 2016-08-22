@@ -73,6 +73,7 @@
 		<ResourceDictionary Source="../XamlImages/Alarm_MPT.xaml" />
 		<ResourceDictionary Source="../XamlImages/AllParameters.xaml" />
 		<ResourceDictionary Source="../XamlImages/archive.xaml" />
+		<ResourceDictionary Source="../XamlImages/ArchiveUnlocked.xaml" />
 		<ResourceDictionary Source="../XamlImages/Arrow-down-right.xaml" />
 		<ResourceDictionary Source="../XamlImages/arrow-left-right.xaml" />
 		<ResourceDictionary Source="../XamlImages/Arrow-up-left.xaml" />

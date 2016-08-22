@@ -14,7 +14,9 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
+		<!-- Инструментальная панель для Картотеки -->
 		<StackPanel Orientation="Horizontal">
+			<!-- Набор инструментальных кнопок для вкладки "Сотрудники/Посетители" -->
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding EmployeesViewModel}" Orientation="Horizontal">
 					<StackPanel Orientation="Horizontal">
@@ -38,6 +40,8 @@
 					</StackPanel>
 				</StackPanel>
 			</StackPanel>
+
+			<!-- Набор инструментальных кнопок для вкладки "Подразделения" -->
 			<Grid Visibility="{Binding IsDepartmentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding DepartmentsViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -68,6 +72,8 @@
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Должности" -->
 			<Grid Visibility="{Binding IsPositionsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding PositionsViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -98,6 +104,8 @@
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Дополнительные колонки" -->
 			<Grid Visibility="{Binding IsAdditionalColumnTypesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding AdditionalColumnTypesViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -128,6 +136,8 @@
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Пропуска" -->
 			<Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding CardsViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -141,6 +151,8 @@
 						ToolTip="Сброс ограничения на повторный прохов для ВСЕХ пропусков организации" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Шаблоны доступа" -->
 			<Grid Visibility="{Binding IsAccessTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding AccessTemplatesViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -167,10 +179,15 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="Восстановить"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<ToolBarButton
+						Command="{Binding ApplyToUserGroupCommand}"
+						ImageSource="Users"
+						ToolTip="Назначить шаблон доступа группе сотрудников (посетителей)" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Шаблоны пропусков" -->
 			<Grid Visibility="{Binding IsPassCardTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding PassCardTemplatesViewModel}" Orientation="Horizontal">
 					<ToolBarButton
@@ -205,6 +222,8 @@
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
+
+			<!-- Набор инструментальных кнопок для вкладки "Организации" -->
 			<Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<StackPanel DataContext="{Binding OrganisationsViewModel}" Orientation="Horizontal">
@@ -242,11 +261,14 @@
 				</StackPanel>
 			</Grid>
 
+			<!-- Кнопка "Фильтр" общая для всех вкладок кроме вкладки "Организации" -->
 			<ToolBarButton
 				Command="{Binding EditFilterCommand}"
 				ImageSource="{Binding FilterImageSource}"
 				ToolTip="Фильтр"
 				Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+
+			<!-- Кнопка переключения режима просмотра "Сотрудник/Посетитель" для вкладки "Сотрудники/Посетители" -->
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ComboBox
@@ -264,55 +286,61 @@
 		</StackPanel>
 
 		<TabControl Grid.Row="1">
+			<!-- Вкладка "Сотрудники/Посетители" -->
 			<TabItem
 				Header="{Binding EmployeesViewModel.TabItemHeader}"
 				IsSelected="{Binding IsEmployeesSelected}"
 				Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Подразделения" -->
 			<TabItem
 				Header="Подразделения"
 				IsSelected="{Binding IsDepartmentsSelected}"
 				Visibility="{Binding CanSelectDepartments, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Должности" -->
 			<TabItem
 				Header="Должности"
 				IsSelected="{Binding IsPositionsSelected}"
 				Visibility="{Binding CanSelectPositions, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:PositionsView DataContext="{Binding PositionsViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Дополнительные колонки" -->
 			<TabItem
 				Header="Дополнительные колонки"
 				IsSelected="{Binding IsAdditionalColumnTypesSelected}"
 				Visibility="{Binding CanSelectAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Пропуска" -->
 			<TabItem
 				Header="Пропуска"
 				IsSelected="{Binding IsCardsSelected}"
 				Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:CardsView DataContext="{Binding CardsViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Шаблоны доступа" -->
 			<TabItem
 				Header="Шаблоны доступа"
 				IsSelected="{Binding IsAccessTemplatesSelected}"
 				Visibility="{Binding CanSelectAccessTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
 			</TabItem>
+
+			<!-- Вкладка "Шаблоны пропусков" -->
 			<TabItem
 				Header="Шаблоны пропусков"
 				IsSelected="{Binding IsPassCardTemplatesSelected}"
 				Visibility="{Binding CanSelectPassCardTemplates,
 			                              Converter={StaticResource BoolToVisibilityConverter}}">
 				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
-			</TabItem>
-			<TabItem
-				Header="Организации"
-				IsSelected="{Binding IsOrganisationsSelected}"
-				Visibility="{Binding CanSelectOrganisations,
-			                              Converter={StaticResource BoolToVisibilityConverter}}">
-				<Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
 			</TabItem>
 		</TabControl>
 	</Grid>

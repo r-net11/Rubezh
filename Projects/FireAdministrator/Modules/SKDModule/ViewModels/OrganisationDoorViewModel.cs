@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationDoorViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
-		Organisation Organisation;
-		Guid DoorUID;
+		private readonly Organisation _organisation;
+		private readonly Guid _doorUid;
+
 		public string Name { get; private set; }
 		public int No { get; private set; }
 
 		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
 		{
-			Organisation = organisation;
-			DoorUID = door.UID;
+			_organisation = organisation;
+			_doorUid = door.UID;
 			Name = door.Name;
 			No = door.No;
-			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
+			_isChecked = _organisation != null && _organisation.DoorUIDs.Contains(door.UID);
 		}
 
 		internal bool _isChecked;
@@ -35,14 +33,13 @@ namespace SKDModule.ViewModels
 			{
 				if (value)
 				{
-					if (!Organisation.DoorUIDs.Contains(DoorUID))
-						Organisation.DoorUIDs.Add(DoorUID);
-					var saveResult = OrganisationHelper.SaveDoors(Organisation);
+					if (!_organisation.DoorUIDs.Contains(_doorUid))
+						_organisation.DoorUIDs.Add(_doorUid);
+					var saveResult = OrganisationHelper.SaveDoors(_organisation);
 					if (saveResult)
 					{
 						_isChecked = value;
 						OnPropertyChanged(() => IsChecked);
-						ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
 					}
 				}
 				else
@@ -51,33 +48,33 @@ namespace SKDModule.ViewModels
 					var cardsHelper = CardHelper.Get(new CardFilter());
 					if (cardsHelper != null)
 					{
-						linkedCards = cardsHelper.Where(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
+						linkedCards = cardsHelper.Where(x => x.OrganisationUID == _organisation.UID && x.CardDoors.Any(y => y.DoorUID == _doorUid)).ToList();
 					}
 
 					var linkedAccessTemplates = new List<AccessTemplate>();
 					var accessTemplatesHelper = AccessTemplateHelper.Get(new AccessTemplateFilter());
 					if (accessTemplatesHelper != null)
 					{
-						linkedAccessTemplates = accessTemplatesHelper.Where(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
+						linkedAccessTemplates = accessTemplatesHelper.Where(x => !x.IsDeleted && x.OrganisationUID == _organisation.UID && x.CardDoors.Any(y => y.DoorUID == _doorUid)).ToList();
 					}
 
 					var schedules = ScheduleHelper.Get(new ScheduleFilter());
-					var hasLinkedSchedules = schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
+					var hasLinkedSchedules = schedules.Any(x => x.OrganisationUID == _organisation.UID && x.Zones.Any(y => y.DoorUID == _doorUid));
 
-					bool canRemove = true;
+					var canRemove = true;
 					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules)
 					{
 						if (MessageBoxService.ShowQuestion("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
 						{
 							foreach (var card in linkedCards)
 							{
-								card.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
-								CardHelper.Edit(card, Organisation.Name);
+								card.CardDoors.RemoveAll(x => x.DoorUID == _doorUid);
+								CardHelper.Edit(card, _organisation.Name);
 							}
 
 							foreach (var accessTemplate in linkedAccessTemplates)
 							{
-								accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
+								accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == _doorUid);
 								AccessTemplateHelper.Save(accessTemplate, false);
 							}
 						}
@@ -89,16 +86,15 @@ namespace SKDModule.ViewModels
 
 					if (canRemove)
 					{
-						if (Organisation.DoorUIDs.Contains(DoorUID))
+						if (_organisation.DoorUIDs.Contains(_doorUid))
 						{
-							Organisation.DoorUIDs.Remove(DoorUID);
+							_organisation.DoorUIDs.Remove(_doorUid);
 						}
-						var saveResult = OrganisationHelper.SaveDoors(Organisation);
+						var saveResult = OrganisationHelper.SaveDoors(_organisation);
 						if (saveResult)
 						{
 							_isChecked = value;
 							OnPropertyChanged(() => IsChecked);
-							ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
 						}
 					}
 				}

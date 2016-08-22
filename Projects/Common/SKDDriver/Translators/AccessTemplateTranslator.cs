@@ -82,13 +82,13 @@ namespace StrazhDAL
 			return result;
 		}
 
-		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)
-		{
-			var result = base.IsInFilter(filter);
-			var names = filter.Names;
-			if (names != null && names.Count != 0)
-				result = result.And(e => names.Contains(e.Name));
-			return result;
-		}
+		//protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)
+		//{
+		//	var result = base.IsInFilter(filter);
+		//	var names = filter.Names;
+		//	if (names != null && names.Count != 0)
+		//		result = result.And(e => names.Contains(e.Name));
+		//	return result;
+		//}
 	}
 }

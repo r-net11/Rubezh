@@ -39,4 +39,14 @@ namespace StrazhModule.ViewModels
 			return result;
 		}
 	}
+	public class DeviceViewModelDoorTypeDescriptionComparer : TreeNodeComparer<DeviceViewModel>
+	{
+		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
+		{
+			if (!x.Device.Driver.IsController || !y.Device.Driver.IsController)
+				return 0;
+
+			return string.Compare(x.DoorTypeDescription, y.DoorTypeDescription);
+		}
+	}
 }

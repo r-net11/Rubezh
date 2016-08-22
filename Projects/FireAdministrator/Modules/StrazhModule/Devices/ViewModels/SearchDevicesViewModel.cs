@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using Infrastructure.Common.Services;
+using StrazhAPI.Models;
 using Localization.Strazh.Common;
 using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhModule.Events;
@@ -18,6 +18,8 @@ namespace StrazhModule.ViewModels
 	public class SearchDevicesViewModel : SaveCancelDialogViewModel
 	{
 		private readonly SKDDevice _parentDevice;
+		private List<Ip4AddressInfo> _serverHostIp4NetworkInterfacesInfo;
+
 		public SearchDevicesViewModel(DeviceViewModel parentDeviceViewModel)
 		{
 			Title = CommonViewModels.AutosearchDevices;
@@ -25,8 +27,8 @@ namespace StrazhModule.ViewModels
 			StartSearchCommand = new RelayCommand(OnStartSearch);
 			Devices = new ObservableCollection<SearchDeviceViewModel>();
 			AddedDevices = new List<SKDDevice>();
-			ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>().Unsubscribe(OnNewSearchDevice);
-			ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>().Subscribe(OnNewSearchDevice);
+			ServiceFactoryBase.Events.GetEvent<SKDSearchDeviceEvent>().Unsubscribe(OnNewSearchDevice);
+			ServiceFactoryBase.Events.GetEvent<SKDSearchDeviceEvent>().Subscribe(OnNewSearchDevice);
 			StartSearchDevices();
 		}
 
@@ -38,8 +40,20 @@ namespace StrazhModule.ViewModels
 			StartSearchDevices();
 		}
 
+		/// <summary>
+		/// Обновляет инормацию об ip4-адресам всех сетевых адаптеров сервера
+		/// </summary>
+		private void UpdateServerHostIp4NetworkInterfacesInfo()
+		{
+			var operationResult = FiresecManager.FiresecService.GetIp4NetworkInterfacesInfo();
+			_serverHostIp4NetworkInterfacesInfo = operationResult.HasError
+				? new List<Ip4AddressInfo>()
+				: operationResult.Result;
+		}
+
 		private void StartSearchDevices()
 		{
+			UpdateServerHostIp4NetworkInterfacesInfo();
 			FiresecManager.FiresecService.SKDStartSearchDevices();
 		}
 
@@ -51,6 +65,14 @@ namespace StrazhModule.ViewModels
 		public ObservableCollection<SearchDeviceViewModel> Devices { get; private set; }
 
 		public List<SKDDevice> AddedDevices;
+
+		/// <summary>
+		/// Признак того, что нашлись устройства, находящиеся в разных подсетях с сервером
+		/// </summary>
+		public bool HasDevicesFromDifferentSubnet
+		{
+			get { return Devices.Any(d => d.IsFromDifferentSubnet); }
+		}
 
 		public override void OnClosed()
 		{
@@ -67,6 +89,7 @@ namespace StrazhModule.ViewModels
 					continue;
 				
 				var device = new SearchDeviceViewModel(deviceSearchInfo);
+				device.IsFromDifferentSubnet = !CheckDeviceSubnetEqualityToServerHost(device);
 				var deviceInConfig = _parentDevice.Children.FirstOrDefault(x => x.Address == device.IpAddress);
 				
 				// Если найденное устройство уже содержится в конфигурации, то 
@@ -78,13 +101,22 @@ namespace StrazhModule.ViewModels
 					
 					// наследуем параметры устройства из конфигурации
 					device.Name = deviceInConfig.Name;
-					//device.DeviceType = 
-					//device.Gateway = 
-					//device.Port = 
 				}
 				
 				Devices.Add(device);
+				OnPropertyChanged(() => HasDevicesFromDifferentSubnet);
 			}
+		}
+
+		/// <summary>
+		/// Проверяет имеет ли устройство подсеть, доступную для сервера
+		/// </summary>
+		/// <param name="device">Устройство</param>
+		/// <returns>true, если подсеть устройства совпадает с доступной подсетью сервера,
+		/// false - в противном случае</returns>
+		private bool CheckDeviceSubnetEqualityToServerHost(SearchDeviceViewModel device)
+		{
+			return _serverHostIp4NetworkInterfacesInfo.Any(hostIp => NetworkHelper.IsSubnetEqual(device.IpAddress, device.Mask, hostIp.Address, hostIp.Mask));
 		}
 
 		private SKDDriverType? GetDriverType(SKDDeviceType deviceType)
@@ -136,20 +168,18 @@ namespace StrazhModule.ViewModels
 					Parent = _parentDevice
 				};
 
-				//_parentDevice.Children.Add(device);
-
 				foreach (var autocreationItem in driver.AutocreationItems)
 				{
 					var childDriver = SKDManager.Drivers.FirstOrDefault(x => x.DriverType == autocreationItem.DriverType);
 
-					for (int i = 0; i < autocreationItem.Count; i++)
+					for (var i = 0; i < autocreationItem.Count; i++)
 					{
 						var childDevice = new SKDDevice()
 						{
 							Driver = childDriver,
 							DriverUID = childDriver.UID,
 							IntAddress = i,
-							Name = childDriver.Name + " " + (i + 1).ToString(),
+							Name = String.Format("{0} {1}", childDriver.Name, i + 1),
 							Parent = device
 						};
 						device.Children.Add(childDevice);
@@ -161,11 +191,13 @@ namespace StrazhModule.ViewModels
 					var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 					if (property == null)
 					{
-						property = new SKDProperty();
-						property.DriverProperty = driverProperty;
-						property.Name = driverProperty.Name;
-						property.Value = driverProperty.Default;
-						property.StringValue = driverProperty.StringDefault;
+						property = new SKDProperty
+						{
+							DriverProperty = driverProperty,
+							Name = driverProperty.Name,
+							Value = driverProperty.Default,
+							StringValue = driverProperty.StringDefault
+						};
 						device.Properties.Add(property);
 					}
 					switch (property.Name.ToUpperInvariant())

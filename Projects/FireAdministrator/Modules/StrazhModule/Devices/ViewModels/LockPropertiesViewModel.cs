@@ -465,7 +465,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && WeeklyInterval == null)
 			{
-                MessageBoxService.ShowWarning(CommonViewModels.LockSchedule_NotSelect);
+				MessageBoxService.ShowWarning("Расписание замка не выбрано");
 				return false;
 			}
 			return true;

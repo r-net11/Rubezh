@@ -73,6 +73,25 @@
     <Compile Include="SKDModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="ViewModels\IOrganisationItemViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationDoorsViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationDoorViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationItemsViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationsMenuViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationsViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationUsersViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationUserViewModel.cs" />
+    <Compile Include="ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Views\OrganisationDetailsView.xaml.cs">
+      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrganisationsMenuView.xaml.cs">
+      <DependentUpon>OrganisationsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrganisationsView.xaml.cs">
+      <DependentUpon>OrganisationsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -132,6 +151,18 @@
     <Page Include="Layout\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OrganisationDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrganisationsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrganisationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

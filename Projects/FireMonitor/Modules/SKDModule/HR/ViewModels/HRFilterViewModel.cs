@@ -11,6 +11,16 @@ namespace SKDModule.ViewModels
 		public bool ShowEmployeeFilter { get; private set; }
 		public bool IsShowPositions { get; private set; }
 
+		public string EmployeesFilterHeaderTitle
+		{
+			get
+			{
+				return Filter.EmployeeFilter.PersonType == PersonType.Employee
+					? "Сотрудники"
+					: "Посетители";
+			}
+		}
+
 		public HRFilterViewModel(HRFilter filter, bool showEmployeeFilter, bool isShowPositions)
 			: base(filter)
 		{
@@ -20,7 +30,7 @@ namespace SKDModule.ViewModels
 			InitializeFilter(filter);
 		}
 
-		void InitializeFilter(HRFilter filter)
+		private void InitializeFilter(HRFilter filter)
 		{
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel();
 			DepartmentsFilterViewModel.Initialize(filter.EmployeeFilter.DepartmentUIDs, filter.LogicalDeletationType);
@@ -42,7 +52,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		bool _isWithDeleted;
+		private bool _isWithDeleted;
 		public bool IsWithDeleted
 		{
 			get { return _isWithDeleted; }
@@ -58,7 +68,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
-		void OnReset()
+		private void OnReset()
 		{
 			Filter = new HRFilter();
 			InitializeFilter(Filter);

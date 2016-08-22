@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
@@ -229,5 +230,26 @@ namespace StrazhModule.ViewModels
 		}
 
 		#endregion </Door>
+
+		/// <summary>
+		/// Режим (односторонний / двухсторонний)
+		/// </summary>
+		public string DoorTypeDescription
+		{
+			get
+			{
+				if (Device.Driver.IsController)
+				{
+					switch (Device.DoorType)
+					{
+						case DoorType.OneWay:
+							return "Односторонний";
+						case DoorType.TwoWay:
+							return "Двухсторонний";
+					}
+				}
+				return string.Empty;
+			}
+		}
 	}
 }

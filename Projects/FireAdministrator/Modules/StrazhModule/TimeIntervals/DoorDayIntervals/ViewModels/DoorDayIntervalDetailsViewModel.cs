@@ -24,10 +24,10 @@ namespace StrazhModule.ViewModels
 
 			if (dayInterval == null)
 			{
-				Title = CommonViewModels.DaySchedule_Creation;
+				Title = "Создание нового дневного расписания";
 				DayInterval = new SKDDoorDayInterval()
 				{
-					Name = CommonViewModels.NewDaySchedule,
+					Name = "Новое дневное расписание",
 				};
 				DayInterval.DayIntervalParts.Add(new SKDDoorDayIntervalPart()
 				{
@@ -38,7 +38,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format(CommonViewModels.DaySchedule_Properties, dayInterval.Name);
+				Title = string.Format("Свойства дневного расписания: {0}", dayInterval.Name);
 				DayInterval = dayInterval;
 			}
 			CopyProperties();
@@ -82,7 +82,7 @@ namespace StrazhModule.ViewModels
 			// Проверяем что заданное название дневного графика замка не совпадает с названием других дневных графиков замка
 			if (_dayIntervalViewModels.FirstOrDefault(x => x.Name == Name) != null)
 			{
-				MessageBoxService.ShowWarning(CommonViewModels.DayLockSchedule_Exist);
+				MessageBoxService.ShowWarning("Дневное расписание замка с таким названием уже существует");
 				return false;
 			}
 			DayInterval.Name = Name;

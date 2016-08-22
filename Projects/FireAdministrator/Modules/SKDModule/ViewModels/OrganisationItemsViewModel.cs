@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; protected set; }
 		protected abstract PermissionType Permission { get; }
 
-		public OrganisationItemsViewModel(Organisation organisation)
+		protected OrganisationItemsViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
 			CanSelect = !organisation.IsDeleted && FiresecManager.CheckPermission(Permission);
@@ -21,28 +21,28 @@ namespace SKDModule.ViewModels
 			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
 		}
 
-		ObservableCollection<T> items;
+		private ObservableCollection<T> _items;
 		public ObservableCollection<T> Items
 		{
-			get { return items; }
+			get { return _items; }
 			protected set
 			{
-				items = value;
+				_items = value;
 				OnPropertyChanged(() => Items);
 			}
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
-		void OnSelectAll()
+		private void OnSelectAll()
 		{
 			foreach (var item in Items)
 			{
 				item.IsChecked = true;
 			}
 		}
-		
+
 		public RelayCommand SelectNoneCommand { get; private set; }
-		void OnSelectNone()
+		private void OnSelectNone()
 		{
 			foreach (var item in Items)
 			{
@@ -50,10 +50,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool _canSelect;
-		public bool CanSelect 
-		{ 
-			get { return _canSelect; } 
+		private bool _canSelect;
+		public bool CanSelect
+		{
+			get { return _canSelect; }
 			set
 			{
 				_canSelect = value;

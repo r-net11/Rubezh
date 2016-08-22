@@ -93,19 +93,19 @@ namespace StrazhModule
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(_devicesViewModel, CommonResources.Devices, "Tree", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDZoneEvent, Guid>(_zonesViewModel, CommonResources.Zones, "Zones", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDDoorEvent, Guid>(_doorsViewModel, CommonResources.Doors, "DoorW", null, null, Guid.Empty),
-					new NavigationItem(CommonResources.LockSchedules, "ShedulesW", new List<NavigationItem>
-					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
-					}),
 					new NavigationItem(CommonResources.AccessSchedules, "ShedulesW", new List<NavigationItem>
 					{
 						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
-					#if DEBUG
+					new NavigationItem("Расписание режимов замков", "ShedulesW", new List<NavigationItem>
+					{
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, "Дневные расписания", "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, "Недельные расписания", "SheduleWeeklyW", null, null, -1),
+					}),
+#if DEBUG
 					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, CommonResources.Library, "Book"),
-					#endif
+#endif
 				}) {IsExpanded = true},
 			};
 		}

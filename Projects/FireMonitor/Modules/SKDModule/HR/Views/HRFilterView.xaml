@@ -20,7 +20,7 @@
             <TabItem Header="Должности" Visibility="{Binding IsShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
-			<TabItem Header="Сотрудники">
+			<TabItem Header="{Binding EmployeesFilterHeaderTitle}">
 				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
 			</TabItem>
 		</TabControl>

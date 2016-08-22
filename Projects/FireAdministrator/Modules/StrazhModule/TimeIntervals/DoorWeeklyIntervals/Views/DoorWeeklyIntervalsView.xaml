@@ -51,7 +51,8 @@
 		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<DataGrid IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.DayOfWeek}">
+					<DataGridTemplateColumn Width="*" Header="День недели">
+					<DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.DayOfWeek}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -61,7 +62,8 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.DaySchedule}">
+					<DataGridTemplateColumn Width="*" Header="Дневной график">
+					<DataGridTemplateColumn Width="*" Header="Дневное расписание">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

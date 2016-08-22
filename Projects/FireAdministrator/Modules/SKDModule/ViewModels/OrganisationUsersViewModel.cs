@@ -6,7 +6,8 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationUsersViewModel : OrganisationItemsViewModel<OrganisationUserViewModel>
 	{
-		public OrganisationUsersViewModel(Organisation organisation):base(organisation)
+		public OrganisationUsersViewModel(Organisation organisation)
+			: base(organisation)
 		{
 			Items = new ObservableCollection<OrganisationUserViewModel>();
 			foreach (var user in FiresecManager.SecurityConfiguration.Users)

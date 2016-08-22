@@ -15,7 +15,7 @@ namespace StrazhModule.ViewModels
 {
 	public class ControllerDoorTypeViewModel : SaveCancelDialogViewModel
 	{
-		DeviceViewModel DeviceViewModel { get; set; }
+		private DeviceViewModel DeviceViewModel { get; set; }
 
 		public ControllerDoorTypeViewModel(DeviceViewModel deviceViewModel)
 		{
@@ -576,6 +576,8 @@ namespace StrazhModule.ViewModels
 			{
 				return false;
 			}
+			
+			DeviceViewModel.UpdateProperties();
 			return base.Save();
 		}
 

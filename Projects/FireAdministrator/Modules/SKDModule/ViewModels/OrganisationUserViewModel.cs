@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -44,9 +42,7 @@ namespace SKDModule.ViewModels
 					if (Organisation.UserUIDs.Contains(User.UID))
 						Organisation.UserUIDs.Remove(User.UID);
 				}
-				var saveResult = OrganisationHelper.SaveUsers(Organisation);
-				if(saveResult)
-					ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
+				OrganisationHelper.SaveUsers(Organisation);
 			}
 		}
 

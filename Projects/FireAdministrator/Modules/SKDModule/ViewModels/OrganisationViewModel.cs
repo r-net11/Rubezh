@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Organisation);
 		}
 
-		bool _isDeleted;
+		private bool _isDeleted;
 		public bool IsDeleted
 		{
 			get { return _isDeleted; }
