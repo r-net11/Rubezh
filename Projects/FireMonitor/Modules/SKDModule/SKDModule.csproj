@@ -506,8 +506,6 @@
     <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
-    <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
     <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
       <DependentUpon>AccessDoorsSelectationView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -555,9 +553,6 @@
       <DependentUpon>DepartmentDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeDetailsViewModel.cs" />
-    <Compile Include="PassCard\Views\PassCardView.xaml.cs">
-      <DependentUpon>PassCardView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Events\ShowHolidaysEvent.cs" />
     <Compile Include="Events\ShowSKDJournalEvent.cs" />
     <Compile Include="Events\ShowSlideDayIntervalsEvent.cs" />
@@ -1000,14 +995,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PassCard\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PassCard\Views\PassCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

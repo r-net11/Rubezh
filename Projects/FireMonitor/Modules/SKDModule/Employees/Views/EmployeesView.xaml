@@ -127,10 +127,6 @@
 								ImageSource="Edit"
 								ToolTip="Редактировать пропуск" />
 							<ToolBarButton
-								Command="{Binding SelectedCard.PrintCommand}"
-								ImageSource="Print"
-								ToolTip="Печать удостоверения" />
-							<ToolBarButton
 								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
 								Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 								ImageSource="DropAllApb"

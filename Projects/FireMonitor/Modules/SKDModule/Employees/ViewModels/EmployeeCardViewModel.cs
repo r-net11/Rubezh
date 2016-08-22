@@ -7,7 +7,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
-using SKDModule.PassCard.ViewModels;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -40,7 +39,6 @@ namespace SKDModule.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
 			ResetRepeatEnterCommand = new RelayCommand(OnResetRepeatEnter);
 			OpenPrintPreviewWindowCommand = new RelayCommand(OnOpenPrintPreviewWindow);
@@ -169,13 +167,7 @@ namespace SKDModule.ViewModels
 		{
 			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
-
-		private void OnPrint()
-		{
-			var passCardViewModel = new PassCardViewModel(EmployeeCardsViewModel.Employee.UID, Card);
-			DialogService.ShowModalWindow(passCardViewModel);
-		}
-
+		
 		private void OnSelectCard()
 		{
 			EmployeeCardsViewModel.SelectCard(this);
@@ -196,7 +188,6 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		public RelayCommand PrintCommand { get; private set; }
 		public RelayCommand SelectCardCommand { get; private set; }
 		public RelayCommand EditCommand { get; private set; }
 		public RelayCommand ResetRepeatEnterCommand { get; set; }
