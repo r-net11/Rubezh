@@ -118,7 +118,7 @@
 				<File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<!-- Конвертер Description для локализации-->
-				<File Id="Monitor.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Monitor.TargetDir)" />
+				<!--<File Id="Monitor.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Monitor.TargetDir)" />-->
 				<!-- Библиотека локализации-->
 				<File Id="Monitor.Localization.dll" Name="Localization.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
