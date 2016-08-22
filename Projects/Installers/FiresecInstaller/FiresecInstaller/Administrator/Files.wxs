@@ -46,6 +46,11 @@
 
 				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Administrator.TargetDir)" />
+
+				<!-- Конвертер Description для локализации-->
+				<File Id="Administrator.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Administrator.TargetDir)" />
+				<!-- Библиотека локализации-->
+				<File Id="Administrator.Localization.dll" Name="Localization.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
 			<Component Id="Administrator.DB" Guid="76B6255A-2D45-4909-B52A-C53822E10671">
@@ -209,6 +214,12 @@
 				<File Id="Administrator.vcomp.dll" Name="vcomp.dll" Source="$(var.Administrator.TargetDir)dll\" />
 			</Component>
 		</DirectoryRef>
-
+		<!-- Локализация-->
+		<DirectoryRef Id="Administrator.ru">
+			<Component Id="Administrator.Files.ru" Guid="*">
+			<!-- Библиотека локализации-->
+			<File Id="Administrator.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />
+			</Component>
+		</DirectoryRef>
 	</Fragment>
 </Wix>

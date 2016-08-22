@@ -54,6 +54,7 @@
 							</Directory>
 						</Directory>
 						<Directory Id="Administrator.dll" Name="dll" />
+						<Directory Id="Administrator.ru" Name="ru" />
 					</Directory>
 					<Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
 						<Directory Id="Monitor.ShellFolder" Name="Shell" />
