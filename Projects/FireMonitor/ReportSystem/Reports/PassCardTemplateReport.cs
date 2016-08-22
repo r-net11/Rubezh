@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraPrinting;
+﻿using System.ComponentModel.Design;
+using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using ReportSystem.DataSets;
@@ -17,6 +18,30 @@ namespace ReportSystem.Reports
 			InitializeReport(image);
 			RemoveBands();
 			FilterComponentProperties += XtraReport_FilterComponentProperties;
+			DesignerLoaded += OnDesignerLoaded;
+		}
+
+		private void OnDesignerLoaded(object sender, DesignerLoadedEventArgs designerLoadedEventArgs)
+		{
+			var detailBand = designerLoadedEventArgs.DesignerHost.GetService(typeof (IComponentChangeService)) as IComponentChangeService;
+
+			if (detailBand == null) return;
+
+			detailBand.ComponentChanged += DetailBandOnComponentChanged;
+		}
+
+		private void DetailBandOnComponentChanged(object sender, ComponentChangedEventArgs e)
+		{
+			if (e == null || e.Member == null) return;
+
+			var detailBand = e.Component as DetailBand;
+
+			if (detailBand == null) return;
+
+			if (e.Member.DisplayName == "Высота" && e.Member.Category == "Макет") //TODO: Add localized elements
+				detailBand.HeightF = (float) e.OldValue;
+			else if (e.Member.DisplayName == "Ширина страницы" && e.Member.Category == "Параметры страницы")
+				detailBand.WidthF = (float) e.OldValue;
 		}
 
 		private void InitializeReport(Image image)
@@ -60,7 +85,6 @@ namespace ReportSystem.Reports
 		{
 			e.Cancel = true;
 		}
-
 
 		//Удаление смарт тегов отчета и элементов дизайнера пропусков.
 		//private void PassCardTemplateReport_DesignerLoaded(object sender, DesignerLoadedEventArgs e)
