@@ -135,6 +135,9 @@
   <data name="HolidaysPanel" xml:space="preserve">
     <value>Holidays panel</value>
   </data>
+  <data name="Organizations" xml:space="preserve">
+    <value>Organizations</value>
+  </data>
   <data name="Plans" xml:space="preserve">
     <value>Plans</value>
   </data>

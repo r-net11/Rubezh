@@ -115,9 +115,9 @@ namespace StrazhModule.ViewModels
 					switch (Device.DoorType)
 					{
 						case DoorType.OneWay:
-							return "Односторонний";
+							return CommonViewModels.OneWay;
 						case DoorType.TwoWay:
-							return "Двухсторонний";
+                            return CommonViewModels.TwoWay;
 					}
 				}
 				return string.Empty;

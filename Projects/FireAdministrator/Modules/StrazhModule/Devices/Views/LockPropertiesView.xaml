@@ -53,7 +53,7 @@
 								</ComboBox>
 							</Grid>
 
-							<TextBlock Grid.Row="1" Grid.Column="0" Text="Расписание замка" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.LockSchedule}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 							<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableWeeklyIntervals}" SelectedItem="{Binding WeeklyInterval}" IsEnabled="{Binding CanSetTimeIntervals}" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -68,7 +68,7 @@
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 								<Image Grid.Column="0" Source="/Controls;component/Images/MessageBox/warning.png" Width="50" Height="50"/>
-								<TextBlock Grid.Column="1" Text="Имя расписания, назначенного для замка, хранится в конфигурации и не считывается с контроллера" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
+                                <TextBlock Grid.Column="1" Text="{x:Static lang:CommonViews.ScheduleNameNotRead}" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
 							</Grid>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:CommonViews.RetentionTime}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />

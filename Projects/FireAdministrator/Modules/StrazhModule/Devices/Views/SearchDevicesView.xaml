@@ -76,7 +76,7 @@
 									Width="16"
 									Height="16"
 									Source="/Controls;component/StateClassIcons/Attention.png"
-									ToolTip="Устройство и сервер находятся в разных подсетях"
+									ToolTip="{x:Static lang:CommonViews.DifferentNets}"
 									HorizontalAlignment="Right"
 									Margin="2"/>
 							</Grid>
@@ -158,7 +158,7 @@
 				Margin="2"/>
 			<TextBlock
 				Grid.Column="1"
-				Text="Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно"
+				Text="{x:Static lang:CommonViews.DifferentNetsDevices}"
 				Foreground="{DynamicResource ForegroundColorLight}"
 				VerticalAlignment="Center"
 				TextWrapping="Wrap" Margin="5 2"/>

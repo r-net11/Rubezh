@@ -148,7 +148,7 @@
     <value>Дневные графики доступа</value>
   </data>
   <data name="DayLockSchedules" xml:space="preserve">
-    <value>Дневные графики замков</value>
+    <value>Дневные расписания</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
@@ -190,7 +190,7 @@
     <value>Пароль замка</value>
   </data>
   <data name="LockSchedules" xml:space="preserve">
-    <value>Графики замков</value>
+    <value>Расписание режимов замков</value>
   </data>
   <data name="LocksPassword" xml:space="preserve">
     <value>Пароли замков</value>
@@ -232,7 +232,7 @@
     <value>Недельные графики доступа</value>
   </data>
   <data name="WeekLockSchedules" xml:space="preserve">
-    <value>Недельные графики замков</value>
+    <value>Недельные расписания</value>
   </data>
   <data name="WriteConfigAllControllers" xml:space="preserve">
     <value>Запись конфигурации на все контроллеры</value>

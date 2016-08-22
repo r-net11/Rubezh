@@ -190,13 +190,13 @@
     <value>Дневной график замка "{0}" используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график "Карта". Вы действительно хотите его удалить?</value>
   </data>
   <data name="DayLockSchedule_Exist" xml:space="preserve">
-    <value>Дневной график замка с таким названием уже существует</value>
+    <value>Дневное расписание замка с таким названием уже существует</value>
   </data>
   <data name="DaySchedule_Creation" xml:space="preserve">
-    <value>Создание нового дневного графика</value>
+    <value>Создание нового дневного расписания</value>
   </data>
   <data name="DaySchedule_Properties" xml:space="preserve">
-    <value>Свойства дневного графика: {0}</value>
+    <value>Свойства дневного расписания: {0}</value>
   </data>
   <data name="Deactivate" xml:space="preserve">
     <value>Деактивировать</value>
@@ -260,7 +260,7 @@
     <value>Задание интервала</value>
   </data>
   <data name="LockSchedule_NotSelect" xml:space="preserve">
-    <value>График замка не выбран</value>
+    <value>Расписание замка не выбрано</value>
   </data>
   <data name="Lock_EmptyOpenMethod" xml:space="preserve">
     <value>Для замка на контроллере не установлен метод открытия двери</value>
@@ -269,7 +269,7 @@
     <value>Понедельник</value>
   </data>
   <data name="NewDaySchedule" xml:space="preserve">
-    <value>Новый дневной график</value>
+    <value>Новое дневное расписание</value>
   </data>
   <data name="NewDevice" xml:space="preserve">
     <value>Новое устройство</value>
@@ -285,6 +285,9 @@
   </data>
   <data name="NumberIsPositive" xml:space="preserve">
     <value>Номер должен быть положительным числом</value>
+  </data>
+  <data name="OneWay" xml:space="preserve">
+    <value>Односторонний</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Открыто</value>
@@ -324,6 +327,9 @@
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Вторник</value>
+  </data>
+  <data name="TwoWay" xml:space="preserve">
+    <value>Двухсторонний</value>
   </data>
   <data name="UnknownDay" xml:space="preserve">
     <value>Неизвестный день</value>

@@ -3,10 +3,11 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	MinWidth="600" MinHeight="450">
 
 	<TabControl>
-		<TabItem Header="Основные">
+		<TabItem Header="{x:Static lang:CommonViews.Main}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -20,7 +21,7 @@
 				<Label
 					Grid.Row="0"
 					Grid.Column="0"
-					Content="Название"
+					Content="{x:Static lang:CommonViews.Name}"
 					HorizontalAlignment="Right"
 					Margin="2" />
 				<TextBox
@@ -33,7 +34,7 @@
 				<Label
 					Grid.Row="1"
 					Grid.Column="0"
-					Content="Примечание"
+					Content="{x:Static lang:CommonViews.Note}"
 					HorizontalAlignment="Right"
 					Margin="2"/>
 				<TextBox
@@ -46,7 +47,7 @@
 				<Label
 					Grid.Row="2"
 					Grid.Column="0"
-					Content="Телефон"
+					Content="{x:Static lang:CommonViews.Phone}"
 					HorizontalAlignment="Right"
 					Margin="2"/>
 				<TextBox
@@ -57,7 +58,7 @@
 					Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Логотип">
+        <TabItem Header="{x:Static lang:CommonViews.Logo}">
 			<controls:PhotoSelectation Data="{Binding PhotoData}" />
 		</TabItem>
 	</TabControl>

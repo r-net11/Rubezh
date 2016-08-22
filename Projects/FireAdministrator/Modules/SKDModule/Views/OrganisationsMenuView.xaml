@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-             mc:Ignorable="d" 
+			 xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+			 mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<UserControl.Resources>
 		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -12,19 +13,19 @@
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<ToolBarButton
 			Command="{Binding AddCommand}"
-			ToolTip="Добавить"
+			ToolTip="{x:Static lang:CommonViews.Add}"
 			ImageSource="Add"  />
 		<ToolBarButton
 			Command="{Binding EditCommand}"
-			ToolTip="Редактировать"
+			ToolTip="{x:Static lang:CommonViews.Edit}"
 			ImageSource="Edit"  />
 		<ToolBarButton
 			Command="{Binding RemoveCommand}"
-			ToolTip="Удалить"
+			ToolTip="{x:Static lang:CommonViews.Delete}"
 			ImageSource="Delete"  />
 		<ToolBarButton
 			Command="{Binding RestoreCommand}"
-			ToolTip="Восстановить"
+			ToolTip="{x:Static lang:CommonViews.Restore}"
 			ImageSource="Redo"
 			Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ToolBarButton

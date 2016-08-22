@@ -209,7 +209,7 @@
 					<!-- Колонка "Режим" -->
 					<GridViewColumn
 						Width="100"
-						Header="Режим"
+						Header="{x:Static lang:CommonViews.Mode}"
 						tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDoorTypeDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>

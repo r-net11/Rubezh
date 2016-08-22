@@ -117,6 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArchiveBoundObjects_Question" xml:space="preserve">
+    <value>Objects bound to the organization will be archived. Continue?</value>
+  </data>
+  <data name="DeleteOrganization_Question" xml:space="preserve">
+    <value>Are you sure you want to delete an organization?</value>
+  </data>
+  <data name="HideArchive" xml:space="preserve">
+    <value>Hide archive</value>
+  </data>
+  <data name="NewOrganizationCreation" xml:space="preserve">
+    <value>Creating a new organization</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="OrganizationProperties" xml:space="preserve">
+    <value>Organization properties: {0}</value>
+  </data>
+  <data name="RemoveRightsFromAccessPoint_Question" xml:space="preserve">
+    <value>There are passcards, access patterns or schedules that are linked to a given access point.
+Are you sure you want to get down rights of the access point?</value>
+  </data>
+  <data name="RestoreOrganization_Question" xml:space="preserve">
+    <value>Are you sure you want to restore the organization?</value>
+  </data>
+  <data name="SameOrganizationName" xml:space="preserve">
+    <value>Name of the organization is already exists</value>
+  </data>
+  <data name="ShowArchive" xml:space="preserve">
+    <value>Show archive</value>
+  </data>
   <data name="UnknownDevice" xml:space="preserve">
     <value>Unknown device</value>
   </data>

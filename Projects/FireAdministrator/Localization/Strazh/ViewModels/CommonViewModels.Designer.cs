@@ -277,7 +277,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневной график замка с таким названием уже существует.
+        ///   Looks up a localized string similar to Дневное расписание замка с таким названием уже существует.
         /// </summary>
         public static string DayLockSchedule_Exist {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание нового дневного графика.
+        ///   Looks up a localized string similar to Создание нового дневного расписания.
         /// </summary>
         public static string DaySchedule_Creation {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства дневного графика: {0}.
+        ///   Looks up a localized string similar to Свойства дневного расписания: {0}.
         /// </summary>
         public static string DaySchedule_Properties {
             get {
@@ -494,7 +494,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to График замка не выбран.
+        ///   Looks up a localized string similar to Расписание замка не выбрано.
         /// </summary>
         public static string LockSchedule_NotSelect {
             get {
@@ -512,7 +512,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новый дневной график.
+        ///   Looks up a localized string similar to Новое дневное расписание.
         /// </summary>
         public static string NewDaySchedule {
             get {
@@ -562,6 +562,15 @@ namespace Localization.Strazh.ViewModels {
         public static string NumberIsPositive {
             get {
                 return ResourceManager.GetString("NumberIsPositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Односторонний.
+        /// </summary>
+        public static string OneWay {
+            get {
+                return ResourceManager.GetString("OneWay", resourceCulture);
             }
         }
         
@@ -679,6 +688,15 @@ namespace Localization.Strazh.ViewModels {
         public static string Tuesday {
             get {
                 return ResourceManager.GetString("Tuesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Двухсторонний.
+        /// </summary>
+        public static string TwoWay {
+            get {
+                return ResourceManager.GetString("TwoWay", resourceCulture);
             }
         }
         

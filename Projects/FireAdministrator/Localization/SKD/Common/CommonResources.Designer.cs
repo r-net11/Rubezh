@@ -115,6 +115,15 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Organizations.
+        /// </summary>
+        public static string Organizations {
+            get {
+                return ResourceManager.GetString("Organizations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plans.
         /// </summary>
         public static string Plans {

@@ -151,7 +151,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневные графики замков.
+        ///   Looks up a localized string similar to Дневные расписания.
         /// </summary>
         public static string DayLockSchedules {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Графики замков.
+        ///   Looks up a localized string similar to Расписание режимов замков.
         /// </summary>
         public static string LockSchedules {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недельные графики замков.
+        ///   Looks up a localized string similar to Недельные расписания.
         /// </summary>
         public static string WeekLockSchedules {
             get {

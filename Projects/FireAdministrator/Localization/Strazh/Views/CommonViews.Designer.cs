@@ -61,6 +61,15 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Активировать.
+        /// </summary>
+        public static string Activate {
+            get {
+                return ResourceManager.GetString("Activate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Активировать синхронизацию с NTP-сервером.
         /// </summary>
         public static string ActivateSynchronisation {
@@ -322,7 +331,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневной график.
+        ///   Looks up a localized string similar to Дневное расписание.
         /// </summary>
         public static string DaySchedule {
             get {
@@ -462,6 +471,24 @@ namespace Localization.Strazh.Views {
         public static string DeviceType {
             get {
                 return ResourceManager.GetString("DeviceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Устройство и сервер находятся в разных подсетях.
+        /// </summary>
+        public static string DifferentNets {
+            get {
+                return ResourceManager.GetString("DifferentNets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно.
+        /// </summary>
+        public static string DifferentNetsDevices {
+            get {
+                return ResourceManager.GetString("DifferentNetsDevices", resourceCulture);
             }
         }
         
@@ -745,7 +772,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to График замка.
+        ///   Looks up a localized string similar to Расписание замка.
         /// </summary>
         public static string LockSchedule {
             get {
@@ -786,6 +813,15 @@ namespace Localization.Strazh.Views {
         public static string Mask {
             get {
                 return ResourceManager.GetString("Mask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Режим.
+        /// </summary>
+        public static string Mode {
+            get {
+                return ResourceManager.GetString("Mode", resourceCulture);
             }
         }
         
@@ -997,7 +1033,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Имя графика, назначенного для замка, хранится в конфигурации и не считывается с контроллера.
+        ///   Looks up a localized string similar to Имя расписания, назначенного для замка, хранится в конфигурации и не считывается с контроллера.
         /// </summary>
         public static string ScheduleNameNotRead {
             get {

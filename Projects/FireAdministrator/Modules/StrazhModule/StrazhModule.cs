@@ -98,10 +98,10 @@ namespace StrazhModule
 						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
-					new NavigationItem("Расписание режимов замков", "ShedulesW", new List<NavigationItem>
+					new NavigationItem(CommonResources.LockSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, "Дневные расписания", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, "Недельные расписания", "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
 #if DEBUG
 					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, CommonResources.Library, "Book"),

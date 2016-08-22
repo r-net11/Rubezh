@@ -61,6 +61,97 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Objects bound to the organization will be archived. Continue?.
+        /// </summary>
+        public static string ArchiveBoundObjects_Question {
+            get {
+                return ResourceManager.GetString("ArchiveBoundObjects_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete an organization?.
+        /// </summary>
+        public static string DeleteOrganization_Question {
+            get {
+                return ResourceManager.GetString("DeleteOrganization_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide archive.
+        /// </summary>
+        public static string HideArchive {
+            get {
+                return ResourceManager.GetString("HideArchive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating a new organization.
+        /// </summary>
+        public static string NewOrganizationCreation {
+            get {
+                return ResourceManager.GetString("NewOrganizationCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization.
+        /// </summary>
+        public static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization properties: {0}.
+        /// </summary>
+        public static string OrganizationProperties {
+            get {
+                return ResourceManager.GetString("OrganizationProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are passcards, access patterns or schedules that are linked to a given access point.
+        ///Are you sure you want to get down rights of the access point?.
+        /// </summary>
+        public static string RemoveRightsFromAccessPoint_Question {
+            get {
+                return ResourceManager.GetString("RemoveRightsFromAccessPoint_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to restore the organization?.
+        /// </summary>
+        public static string RestoreOrganization_Question {
+            get {
+                return ResourceManager.GetString("RestoreOrganization_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of the organization is already exists.
+        /// </summary>
+        public static string SameOrganizationName {
+            get {
+                return ResourceManager.GetString("SameOrganizationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show archive.
+        /// </summary>
+        public static string ShowArchive {
+            get {
+                return ResourceManager.GetString("ShowArchive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown device.
         /// </summary>
         public static string UnknownDevice {

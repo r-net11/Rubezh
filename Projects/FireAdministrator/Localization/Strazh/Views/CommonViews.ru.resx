@@ -205,7 +205,7 @@
     <value>День недели</value>
   </data>
   <data name="DaySchedule" xml:space="preserve">
-    <value>Дневной график</value>
+    <value>Дневное расписание</value>
   </data>
   <data name="DefaultGateway" xml:space="preserve">
     <value>Шлюз по умолчанию</value>
@@ -343,7 +343,7 @@
     <value>Замок 4</value>
   </data>
   <data name="LockSchedule" xml:space="preserve">
-    <value>График замка</value>
+    <value>Расписание замка</value>
   </data>
   <data name="LockStateExpiredTime" xml:space="preserve">
     <value>Состояние замка по истечению времени</value>
@@ -427,7 +427,7 @@
     <value>Первый день графика</value>
   </data>
   <data name="ScheduleNameNotRead" xml:space="preserve">
-    <value>Имя графика, назначенного для замка, хранится в конфигурации и не считывается с контроллера</value>
+    <value>Имя расписания, назначенного для замка, хранится в конфигурации и не считывается с контроллера</value>
   </data>
   <data name="SelectCamera" xml:space="preserve">
     <value>Нажмите для выбора камеры</value>
@@ -491,5 +491,17 @@
   </data>
   <data name="DoorDetails" xml:space="preserve">
     <value>При сохранении настроек привязка считывателей к точке доступа будет удалена!</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Активировать</value>
+  </data>
+  <data name="DifferentNets" xml:space="preserve">
+    <value>Устройство и сервер находятся в разных подсетях</value>
+  </data>
+  <data name="DifferentNetsDevices" xml:space="preserve">
+    <value>Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Режим</value>
   </data>
 </root>

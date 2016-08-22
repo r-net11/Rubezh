@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -64,7 +65,7 @@ namespace SKDModule.ViewModels
 					var canRemove = true;
 					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules)
 					{
-						if (MessageBoxService.ShowQuestion("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
+						if (MessageBoxService.ShowQuestion(CommonViewModels.RemoveRightsFromAccessPoint_Question))
 						{
 							foreach (var card in linkedCards)
 							{

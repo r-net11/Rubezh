@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -22,16 +23,16 @@ namespace SKDModule.ViewModels
 			if (organisation == null)
 			{
 				IsNew = true;
-				Title = "Создание новой организации";
+				Title = CommonViewModels.NewOrganizationCreation;
 				OrganisationDetails = new OrganisationDetails
 				{
-					Name = "Организация",
+					Name = CommonViewModels.Organization,
 				};
 				OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
 			}
 			else
 			{
-				Title = string.Format("Свойства организации: {0}", organisation.Name);
+				Title = string.Format(CommonViewModels.OrganizationProperties, organisation.Name);
 				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
 			}
 			CopyProperties();
@@ -120,7 +121,7 @@ namespace SKDModule.ViewModels
 		{
 			if (_organisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != OrganisationDetails.UID && !x.Organisation.IsDeleted))
 			{
-				MessageBoxService.ShowWarning("Название организации совпадает с введенным ранее");
+				MessageBoxService.ShowWarning(CommonViewModels.SameOrganizationName);
 				return false;
 			}
 

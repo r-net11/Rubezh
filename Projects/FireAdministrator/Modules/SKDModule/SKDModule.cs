@@ -34,7 +34,7 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowOrganisationsEvent, Guid>(_organisationsViewModel, "Организации", "Kartoteka2W")
+				new NavigationItem<ShowOrganisationsEvent, Guid>(_organisationsViewModel, CommonResources.Organizations, "Kartoteka2W")
 			};
 		}
 		public override ModuleType ModuleType

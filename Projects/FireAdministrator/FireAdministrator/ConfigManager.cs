@@ -43,7 +43,7 @@ namespace FireAdministrator
 					if (!MessageBoxService.ShowQuestion(CommonResources.ConfigWithErrors))
 						return false;
 				}
-				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 1);
+                LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig, 1);
 				LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig);
 				if (ConnectionSettingsManager.IsRemote)
 				{
