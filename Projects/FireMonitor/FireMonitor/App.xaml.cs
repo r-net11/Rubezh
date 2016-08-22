@@ -55,11 +55,11 @@ namespace FireMonitor
 			return new Bootstrapper();
 		}
 		protected override void OnStartup(StartupEventArgs e)
-		{
+        {
             var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
-			base.OnStartup(e);
+            base.OnStartup(e);
 			try
 			{
 				if (CheckIntegrateCommandLineArguments(e.Args))
