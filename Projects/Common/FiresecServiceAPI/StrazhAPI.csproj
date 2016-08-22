@@ -443,7 +443,6 @@
     <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
     <Compile Include="SKD\Organisation\Organisation.cs" />
     <Compile Include="SKD\Common\OrganisationElementBase.cs" />
-    <Compile Include="SKD\PassCardLibrary\PassCardImagePropertyType.cs" />
     <Compile Include="SKD\Photo\Photo.cs" />
     <Compile Include="SKD\Photo\PhotoFilter.cs" />
     <Compile Include="SKD\Position\ShortPosition.cs" />
@@ -468,9 +467,6 @@
     <Compile Include="SKD\TimeTrack\ScheduleZone.cs" />
     <Compile Include="SKD\TimeTrack\Enums\ScheduleSchemeType.cs" />
     <Compile Include="SKD\Card\AccessTemplateFilter.cs" />
-    <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
-    <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
-    <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Position\Position.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />

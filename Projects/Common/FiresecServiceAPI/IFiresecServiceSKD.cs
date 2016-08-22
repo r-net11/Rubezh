@@ -407,14 +407,6 @@ namespace StrazhAPI
 		[OperationContract]
 		[ServiceKnownType(typeof(PassCardTemplateSide))]
 		[ServiceKnownType(typeof(PassCardTemplate))]
-		[ServiceKnownType(typeof(List<ElementRectangle>))]
-		[ServiceKnownType(typeof(List<ElementEllipse>))]
-		[ServiceKnownType(typeof(List<ElementTextBlock>))]
-		[ServiceKnownType(typeof(List<ElementPolygon>))]
-		[ServiceKnownType(typeof(List<ElementPolyline>))]
-		[ServiceKnownType(typeof(List<ElementBase>))]
-		[ServiceKnownType(typeof(List<ElementPassCardImageProperty>))]
-		[ServiceKnownType(typeof(List<ElementPassCardTextProperty>))]
 		OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew);
 
 		[OperationContract]
