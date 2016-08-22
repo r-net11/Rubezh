@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using FiresecClient;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -347,6 +348,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _needApplyAccessTemplateFromDepartment;
+		private Guid? _accessTemplateUID;
+
 		#region Document
 		string _number;
 		public string DocumentNumber
@@ -538,11 +542,34 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
+			{
+				ShowApplyToEmployeeSettings = true,
+				IsEmployee = IsEmployee
+			};
 			departmentSelectionViewModel.Initialize();
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
+				if (departmentSelectionViewModel.SelectedDepartment != null &&
+					(departmentSelectionViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.NeedApplyScheduleToEmployee))
+				{
+					var department = DepartmentHelper.GetDetails(departmentSelectionViewModel.SelectedDepartment.Department.UID);
+					
+					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
+					if (departmentSelectionViewModel.NeedApplyScheduleToEmployee &&
+						department.ScheduleUID.HasValue)
+					{
+						SelectedSchedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
+					}
+					
+					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
+					if (departmentSelectionViewModel.NeedApplyScheduleToEmployee && department.AccessTemplateUID.HasValue)
+					{
+						_needApplyAccessTemplateFromDepartment = true;
+						_accessTemplateUID = department.AccessTemplateUID;
+					}
+				}
 			}
 		}
 
@@ -635,10 +662,27 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
+			ApplyAccessTemplateFromDepartment();
+
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);
 			if (saveResult && isLaunchEvent)
 				ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
 			return saveResult;
+		}
+
+		private void ApplyAccessTemplateFromDepartment()
+		{
+			if (!_needApplyAccessTemplateFromDepartment)
+				return;
+
+			Employee.Cards.ForEach(card =>
+			{
+				card.AccessTemplateUID = _accessTemplateUID;
+				if (CardHelper.Edit(card, Employee.Name))
+				{
+					ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Publish(card);
+				}
+			});
 		}
 
 		bool IsLaunchEvent()

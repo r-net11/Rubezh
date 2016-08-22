@@ -14,14 +14,15 @@
         <Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<!-- Дерево подразделений -->
 		<tree:TreeList
+			Grid.Row="0"
 			Focusable="True"
 			Source="{Binding RootDepartments}"
 			SelectedItem="{Binding SelectedDepartment}"
 			listViewLayoutManager:ListViewLayoutManager.Enabled="True"
-			UIBehavior.ShowSelectionMark="True"
-			UIBehavior.IsActiveSelectionMark="True"
 			tree:SortBehavior.CanUserSortColumns="True">
             <tree:TreeList.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -52,7 +53,39 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+		<!-- Панель настроек, применяемых для сотрудника/посетителя -->
+		<StackPanel
+			Grid.Row="1"
+			Visibility="{Binding ShowApplyToEmployeeSettings, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TextBlock
+				Text="Применить для сотрудника настройки подразделения по умолчанию:"
+				Foreground="{DynamicResource ForegroundColorLight}"
+				TextWrapping="Wrap"
+				Margin="2"/>
+			<CheckBox
+				IsChecked="{Binding NeedApplyAccessTemplateToEmployee}"
+				Margin="2">
+				<TextBlock
+					Text="Шаблон доступа"
+					Foreground="{DynamicResource ForegroundColorLight}"
+					Margin="2"/>
+			</CheckBox>
+			<CheckBox
+				Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsChecked="{Binding NeedApplyScheduleToEmployee}"
+				Margin="2">
+				<TextBlock
+					Text="График работы"
+					Foreground="{DynamicResource ForegroundColorLight}"
+					Margin="2"/>
+			</CheckBox>
+		</StackPanel>
+        <!-- Инструментальная панель -->
+		<StackPanel
+			Grid.Row="2"
+			Orientation="Horizontal"
+			HorizontalAlignment="Right"
+			Margin="0 5">
             <Button Content="Открепить от подразделения" Command="{Binding ClearCommand}" Width="205" Margin="2" />
             <Button Content="Добавить новое подразделение" Command="{Binding AddCommand}" Width="205" Margin="2" />
         </StackPanel>
