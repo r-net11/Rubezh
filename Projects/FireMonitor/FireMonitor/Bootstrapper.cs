@@ -27,15 +27,7 @@ namespace FireMonitor
 	{
 		private string _login;
 		private string _password;
-        /// <summary>
-        /// Устанавливаем культуру по умолчанию при загрузке оболочки
-        /// </summary>
-	    private static void SetUpCulture()
-	    {
-            var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-	    }
+
 		public bool Initialize()
 		{
 			bool result;
@@ -127,8 +119,6 @@ namespace FireMonitor
 							Application.Current.Shutdown();
 						return false;
 					}
-
-				    SetUpCulture(); // Культура
 
 					if (Process.GetCurrentProcess().ProcessName != "StrazhMonitor.vshost")
 					{
