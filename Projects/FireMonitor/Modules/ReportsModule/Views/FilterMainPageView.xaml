@@ -4,9 +4,10 @@
 			 xmlns:API="clr-namespace:StrazhAPI.SKD.ReportFilters;assembly=StrazhAPI"
 			 xmlns:Converters="clr-namespace:ReportsModule.Converters"
 			 xmlns:SimpleConverters="clr-namespace:Controls.Converters;assembly=Controls"
-			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls">
+			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+			 xmlns:lang="clr-namespace:Localization.Reports.Views;assembly=Localization">
 	<UserControl.Resources>
-		<IfConverter x:Key="AdditionalLinkText" FalseValue="Показать настройки отображения отчёта" TrueValue="Скрыть настройки отображения отчёта" />
+        <IfConverter x:Key="AdditionalLinkText" FalseValue="{x:Static lang:CommonViews.ShowReportViewSettings}" TrueValue="{x:Static lang:CommonViews.HideReportViewSettings}" />
 		<Style x:Key="label" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="Foreground" Value="White" />
@@ -34,7 +35,7 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock
 				Style="{StaticResource label}"
-				Text="Фильтр" />
+				Text="{x:Static lang:CommonViews.Filter}" />
 			<StackPanel
 				Grid.Column="1"
 				Orientation="Horizontal">
@@ -49,11 +50,11 @@
 				<ToolBarButton
 					ImageSource="Save"
 					Command="{Binding SaveFilterCommand}"
-					ToolTip="Сохранить" />
+					ToolTip="{x:Static lang:CommonViews.Save}" />
 				<ToolBarButton
 					ImageSource="Close"
 					Command="{Binding RemoveFilterCommand}"
-					ToolTip="Удалить" />
+					ToolTip="{x:Static lang:CommonViews.Delete}" />
 			</StackPanel>
 		</Grid>
 		<Grid Grid.Row="1" Visibility="{Binding HasPeriod, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -68,15 +69,15 @@
 			</Grid.RowDefinitions>
 			<TextBlock
 				Style="{StaticResource label}"
-				Text="Период формирования" />
+				Text="{x:Static lang:CommonViews.FormationPeriod}" />
 			<TextBlock
 				Grid.Row="1"
 				Style="{StaticResource label}"
-				Text="Дата начала" />
+				Text="{x:Static lang:CommonViews.StartDate}" />
 			<TextBlock
 				Grid.Row="2"
 				Style="{StaticResource label}"
-				Text="Дата окончания" />
+				Text="{x:Static lang:CommonViews.EndDate}" />
 			<ComboBox
 				Grid.Column="1"
 				Width="240"
@@ -87,7 +88,7 @@
 				SelectedItem="{Binding SelectedReportPeriod}" />
 			<DatePicker
 				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-				behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+				behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 				Validation.ErrorTemplate="{x:Null}"
 				DisplayDateStart="{Binding MinDate}"
 				DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
@@ -103,7 +104,7 @@
 				Width="150"/>
 			<DatePicker
 				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-				behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+				behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 				Validation.ErrorTemplate="{x:Null}"
 				DisplayDateStart="{Binding MinDate, Mode=OneWay}"
 				DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
@@ -122,16 +123,16 @@
 			Margin="5"
 			Visibility="{Binding HasBalanceVariation, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock
-				Text="Вариант расчета баланса:"
+				Text="{x:Static lang:CommonViews.BalanceCalculate}"
 				Foreground="White"
 				Margin="0 5"/>
 			<RadioButton
-				Content="Учитывать переработки, не подтвержденные документами"
+				Content="{x:Static lang:CommonViews.ConsiderOvertimeWithoutDoc}"
 				Foreground="White"
 				Margin="5"
 				IsChecked="{Binding AllowOnlyAcceptedOvertime, Converter={StaticResource InverseBooleanConverter}}"/>
 			<RadioButton
-				Content="Учитывать только сверхурочные (переработки по документам)"
+				Content="{x:Static lang:CommonViews.ConsiderOvertimeWithDoc}"
 				Foreground="White"
 				Margin="5"
 				IsChecked="{Binding AllowOnlyAcceptedOvertime}"/>
@@ -139,7 +140,7 @@
 		<CheckBox
 			Grid.Row="3"
 			VerticalAlignment="Center"
-			Content="Отображать архивные сведения"
+			Content="{x:Static lang:CommonViews.ShowArchiveInfo}"
 			Foreground="White"
 			IsChecked="{Binding UseArchive}"
 			Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -154,7 +155,7 @@
 				Style="{StaticResource HyperlinkStyle}">
 				<TextBlock
 					Margin="2"
-					Text="Показать настройки отображения отчёта"
+					Text="{x:Static lang:CommonViews.ShowReportViewSettings}"
 					TextDecorations="Underline" />
 			</Hyperlink>
 		</TextBlock>
@@ -169,7 +170,7 @@
 						Style="{StaticResource HyperlinkStyle}">
 						<TextBlock
 							Margin="2"
-							Text="Скрыть настройки отображения отчёта"
+							Text="{x:Static lang:CommonViews.HideReportViewSettings}"
 							TextDecorations="Underline" />
 					</Hyperlink>
 				</TextBlock>
@@ -177,28 +178,28 @@
 			<StackPanel>
 				<CheckBox
 					Margin="4"
-					Content="Отображать название фильтра"
+					Content="{x:Static lang:CommonViews.ShowFilterName}"
 					Foreground="White"
 					IsChecked="{Binding PrintFilterName}" />
 				<CheckBox
 					Margin="4"
-					Content="Отображать название фильтра в заголовке"
+					Content="{x:Static lang:CommonViews.ShowFilterNameInTitle}"
 					Foreground="White"
 					IsChecked="{Binding PrintFilterNameInHeader}" />
 				<CheckBox
 					Margin="4"
-					Content="Отображать границы периода формирования отчёта"
+					Content="{x:Static lang:CommonViews.FormationPeriod}"
 					Foreground="White"
 					IsChecked="{Binding PrintPeriod}"
 					Visibility="{Binding HasPeriod, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneTime}" />
 				<CheckBox
 					Margin="4"
-					Content="Отображать дату и время формирования отчёта"
+					Content="{x:Static lang:CommonViews.ShowFormationDate}"
 					Foreground="White"
 					IsChecked="{Binding PrintDate}" />
 				<CheckBox
 					Margin="4"
-					Content="Отображать сведения о пользователе, сформировавшем отчёт"
+					Content="{x:Static lang:CommonViews.ShowUserInfo}"
 					Foreground="White"
 					IsChecked="{Binding PrintUser}" />
 			</StackPanel>

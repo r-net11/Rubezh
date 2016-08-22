@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessSchedules" xml:space="preserve">
+    <value>Графики доступа</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Активировать</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddDevice" xml:space="preserve">
+    <value>Добавить устройство</value>
+  </data>
+  <data name="AddState" xml:space="preserve">
+    <value>Добавить состояние</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>Контроллер</value>
+  </data>
+  <data name="ControllerMainSettings" xml:space="preserve">
+    <value>Основные настройки контроллера</value>
+  </data>
+  <data name="ControllerTimeSettings" xml:space="preserve">
+    <value>Временные настройки контроллера</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="DayAccessSchedules" xml:space="preserve">
+    <value>Дневные графики доступа</value>
+  </data>
+  <data name="DayLockSchedules" xml:space="preserve">
+    <value>Дневные расписания</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteEmployeeConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить запись о сотруднике?</value>
+  </data>
+  <data name="DeleteEmployeeFailed" xml:space="preserve">
+    <value>Произошла ошибка - удалить запись о сотруднике не удалось!</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="Door" xml:space="preserve">
+    <value>Точка доступа </value>
+  </data>
+  <data name="DoorPanel" xml:space="preserve">
+    <value>Панель точек доступа</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Точки доступа</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="EmployeeCard" xml:space="preserve">
+    <value>Карточка сотрудника</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Библиотека</value>
+  </data>
+  <data name="LockParameters" xml:space="preserve">
+    <value>Параметры замка</value>
+  </data>
+  <data name="LockPassword" xml:space="preserve">
+    <value>Пароль замка</value>
+  </data>
+  <data name="LockSchedules" xml:space="preserve">
+    <value>Расписание режимов замков</value>
+  </data>
+  <data name="LocksPassword" xml:space="preserve">
+    <value>Пароли замков</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SaveConfigurationControllerWarning" xml:space="preserve">
+    <value>Параметры не были записаны на контроллер. Сохранить изменение настроек в конфигурации?</value>
+  </data>
+  <data name="SKDDevicePanel" xml:space="preserve">
+    <value>Панель СКД устройства</value>
+  </data>
+  <data name="SKDDevices" xml:space="preserve">
+    <value>СКД устройства</value>
+  </data>
+  <data name="SKDZone" xml:space="preserve">
+    <value>СКД зона</value>
+  </data>
+  <data name="SKDZonePanel" xml:space="preserve">
+    <value>Панель СКД зоны</value>
+  </data>
+  <data name="SKDZones" xml:space="preserve">
+    <value>СКД зоны</value>
+  </data>
+  <data name="UnknownDevice" xml:space="preserve">
+    <value>Неизвестное устройство</value>
+  </data>
+  <data name="UnknownDoor" xml:space="preserve">
+    <value>Неизвестная точка доступа</value>
+  </data>
+  <data name="UnrelatedZone" xml:space="preserve">
+    <value>Несвязанная зона</value>
+  </data>
+  <data name="WeekAccessSchedules" xml:space="preserve">
+    <value>Недельные графики доступа</value>
+  </data>
+  <data name="WeekLockSchedules" xml:space="preserve">
+    <value>Недельные расписания</value>
+  </data>
+  <data name="WriteConfigAllControllers" xml:space="preserve">
+    <value>Запись конфигурации на все контроллеры</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Зона</value>
+  </data>
+  <data name="Zones" xml:space="preserve">
+    <value>Зоны</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+</root>

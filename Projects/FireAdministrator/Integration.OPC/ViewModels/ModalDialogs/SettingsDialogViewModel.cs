@@ -3,7 +3,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
-using Integration.OPC.Properties;
+using Localization.IntegrationOPC.Common;
+using Localization.IntegrationOPC.ViewModels;
 
 namespace Integration.OPC.ViewModels
 {
@@ -17,7 +18,7 @@ namespace Integration.OPC.ViewModels
 
 		public SettingsViewModel(bool isActiveNow)
 		{
-			Title = "Настройки";
+			Title = CommonResources.Settings;
 			_isActiveNow = isActiveNow;
 			PingCommand = new RelayCommand(OnPing);
 		}
@@ -29,12 +30,12 @@ namespace Integration.OPC.ViewModels
 				var result = FiresecManager.FiresecService.PingOPCServer();
 
 				if (result.Result)
-					MessageBoxService.ShowExtended(Resources.MessagePingSuccessfulContent);
+					MessageBoxService.ShowExtended(CommonViewModels.MessagePingSuccessfulContent);
 				else
-					MessageBoxService.ShowWarning(Resources.MessagePingTimeoutContent);
+                    MessageBoxService.ShowWarning(CommonViewModels.MessagePingTimeoutContent);
 			}
 			else
-				MessageBoxService.ShowWarning(Resources.MessagePingWithNotActiveServerContent);
+                MessageBoxService.ShowWarning(CommonViewModels.MessagePingWithNotActiveServerContent);
 		}
 
 		protected override bool CanSave()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Localization.Strazh.Errors;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Validation;
 
@@ -14,7 +15,7 @@ namespace StrazhModule.Validation
 			{
 				if (string.IsNullOrEmpty(holiday.Name))
 				{
-					Errors.Add(new HolidayValidationError(holiday, "Отсутствует название праздника", ValidationErrorLevel.CannotSave));
+					Errors.Add(new HolidayValidationError(holiday,CommonErrors.ValidateHolidays_EmptyNameError, ValidationErrorLevel.CannotSave));
 				}
 			}
 		}
@@ -26,7 +27,7 @@ namespace StrazhModule.Validation
 			{
 				if (!holidays.Add(new DateTime(2000, holiday.DateTime.Month, holiday.DateTime.Day)))
 				{
-					Errors.Add(new HolidayValidationError(holiday, "Дублируется дата праздника", ValidationErrorLevel.CannotSave));
+					Errors.Add(new HolidayValidationError(holiday, CommonErrors.ValidateHolidays_DublicateError, ValidationErrorLevel.CannotSave));
 				}
 			}
 		}

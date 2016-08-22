@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Localization.Settings.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using Infrastructure;
@@ -29,7 +30,7 @@ namespace SettingsModule
 		public override void AfterInitialize()
 		{
 			base.AfterInitialize();
-			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), _settingsViewModel.ShowSettingsCommand, "BSettings", "Настройка приложения")
+			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), _settingsViewModel.ShowSettingsCommand, "BSettings", CommonResources.AppSetting)
 			{
 				Order = int.MaxValue - 1
 			});

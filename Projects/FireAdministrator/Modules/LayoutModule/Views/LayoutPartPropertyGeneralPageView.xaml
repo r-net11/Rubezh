@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="LayoutModule.Views.LayoutPartPropertyGeneralPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
+﻿<UserControl x:Class="LayoutModule.Views.LayoutPartPropertyGeneralPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="UnitTypeConverter" Else="{x:Null}">
-			<SwitchCase Then="Авто" When="Auto" />
-			<SwitchCase Then="Пиксели" When="Pixel" />
-			<SwitchCase Then="Все свободное" When="Star" />
+            <SwitchCase Then="{x:Static lang:CommonViews.Auto}" When="Auto" />
+            <SwitchCase Then="{x:Static lang:CommonViews.Pixels}" When="Pixel" />
+            <SwitchCase Then="{x:Static lang:CommonViews.AllFree}" When="Star" />
 		</SwitchConverter>
 		<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
 			<Setter Property="ItemTemplate">
@@ -35,19 +36,19 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Заголовок" />
-			<Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="Ширина" />
-			<Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Content="Высота" />
+			<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Header}" />
+            <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="{x:Static lang:CommonViews.Width}" />
+            <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Content="{x:Static lang:CommonViews.Height}" />
 
-			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Тип" />
-			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Размер" />
-			<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Минимальный" />
-			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Фиксированный" />
+            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Type}" />
+            <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Size}" />
+            <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Minimal}" />
+            <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Fix}" />
 
-			<Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
-			<Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
-			<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
-			<Label Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
+            <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderWidth}" />
+            <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderColor}" />
+            <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BackgroungColor}" />
+            <Label Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Indent}" />
 
 			<TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
 

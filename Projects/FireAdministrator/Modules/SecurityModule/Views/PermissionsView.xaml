@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Security.Views;assembly=Localization"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -31,7 +32,7 @@
 			</tree:TreeList.Resources>
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="700" Header="Права">
+                    <GridViewColumn Width="700" Header="{x:Static lang:CommonViews.Rights}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>

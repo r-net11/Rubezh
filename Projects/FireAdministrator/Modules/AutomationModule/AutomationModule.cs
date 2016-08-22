@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Resources;
 using AutomationModule.Events;
 using AutomationModule.Layout.ViewModels;
 using AutomationModule.Plans;
@@ -18,6 +20,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
+using Localization.Automation.Common;
 
 namespace AutomationModule
 {
@@ -59,9 +62,9 @@ namespace AutomationModule
 					new NavigationItem(ModuleType.ToDescription(), "tree",
 						new List<NavigationItem>
 						{
-							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables")
+                            new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, CommonResources.Procedure, "Procedure"),
+                            new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.Schedules, "Shedules"),
+                            new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.GlobalVariables, "GlobalVariables"),
 						}) {IsExpanded = true},
 				};
 		}
@@ -92,12 +95,12 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, CommonResources.Procedure, CommonResources.ExecuteProcedure, "BProcedures.png")
 			{
 				Factory = p => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 #if DEBUG
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, CommonResources.Procedures, CommonResources.ProcedurePanel, "BProcedures.png");
 #endif
 		}
 

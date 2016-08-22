@@ -5,6 +5,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Localization.FireAdministrator.ViewModels;
 using StrazhAPI.Models;
 using System.ComponentModel;
 
@@ -97,7 +98,7 @@ namespace FireAdministrator.ViewModels
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+                MessageBoxService.Show(CommonViewModels.NoPermissionSaveConfig);
 				e.Cancel = true;
 				return;
 			}
@@ -108,7 +109,7 @@ namespace FireAdministrator.ViewModels
 		{
 			if (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig)) return ConfigManager.SetNewConfig();
 
-			MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+            MessageBoxService.Show(CommonViewModels.NoPermissionSaveConfig);
 			return false;
 		}
 
@@ -154,11 +155,11 @@ namespace FireAdministrator.ViewModels
 
 		private static void OnSetNewConfig()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?")) return;
+            if (!MessageBoxService.ShowQuestion(CommonViewModels.OverwriteConfigQuestion)) return;
 
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+                MessageBoxService.Show(CommonViewModels.NoPermissionSaveConfig);
 				return;
 			}
 			ConfigManager.SetNewConfig();

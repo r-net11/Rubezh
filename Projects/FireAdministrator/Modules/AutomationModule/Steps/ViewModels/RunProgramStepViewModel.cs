@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Путь к программе: " + PathArgument.Description + " Параметры запуска: " + ParametersArgument.Description;
+				return string.Format(StepCommonViewModel.RunProgram, PathArgument.Description,ParametersArgument.Description);
 			}
 		}
 	}

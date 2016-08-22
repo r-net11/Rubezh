@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using Localization.Strazh.ViewModels;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Plans.Elements;
@@ -21,7 +22,7 @@ namespace StrazhModule.Plans.ViewModels
 			_elementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, () => SelectedZone != null);
-			Title = "Свойства фигуры: Зона СКД";
+			Title = CommonViewModels.FigureProperties_SKDZone;
 			SetSelectedZone();
 		}
 

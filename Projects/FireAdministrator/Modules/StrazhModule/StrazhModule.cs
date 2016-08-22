@@ -1,3 +1,4 @@
+using Localization.Strazh.Common;
 using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -89,21 +90,21 @@ namespace StrazhModule
 			{
 				new NavigationItem(ModuleType.ToDescription(), "SKDW", new List<NavigationItem>
 				{
-					new NavigationItem<ShowSKDDeviceEvent, Guid>(_devicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDZoneEvent, Guid>(_zonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-					new NavigationItemEx<ShowSKDDoorEvent, Guid>(_doorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
-					new NavigationItem("Графики доступа", "ShedulesW", new List<NavigationItem>
+					new NavigationItem<ShowSKDDeviceEvent, Guid>(_devicesViewModel, CommonResources.Devices, "Tree", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDZoneEvent, Guid>(_zonesViewModel, CommonResources.Zones, "Zones", null, null, Guid.Empty),
+					new NavigationItemEx<ShowSKDDoorEvent, Guid>(_doorsViewModel, CommonResources.Doors, "DoorW", null, null, Guid.Empty),
+					new NavigationItem(CommonResources.AccessSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, "Дневные графики доступа", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, "Недельные графики доступа", "SheduleWeeklyW", null, null, -1)
+						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(_dayIntervalsViewModel, CommonResources.DayAccessSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(_weeklyIntervalsViewModel, CommonResources.WeekAccessSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
-					new NavigationItem("Расписание режимов замков", "ShedulesW", new List<NavigationItem>
+					new NavigationItem(CommonResources.LockSchedules, "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, "Дневные расписания", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, "Недельные расписания", "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(_doorDayIntervalsViewModel, CommonResources.DayLockSchedules, "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(_doorWeeklyIntervalsViewModel, CommonResources.WeekLockSchedules, "SheduleWeeklyW", null, null, -1),
 					}),
 #if DEBUG
-					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, "Библиотека", "Book"),
+					new NavigationItem<ShowSKDLidraryEvent, object>(_libraryViewModel, CommonResources.Library, "Book"),
 #endif
 				}) {IsExpanded = true},
 			};
@@ -158,9 +159,9 @@ namespace StrazhModule
 		#region ILayoutDeclarationModule Members
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 301, "СКД устройства", "Панель СКД устройства", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 302, "СКД зоны", "Панель СКД зоны", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDoors, 303, "Точки доступа", "Панель точек доступа", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 301, CommonResources.SKDDevices, CommonResources.SKDDevicePanel, "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 302, CommonResources.SKDZones, CommonResources.SKDZonePanel, "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDoors, 303, CommonResources.Doors, CommonResources.DoorPanel, "BTree.png");
 		}
 		#endregion
 	}

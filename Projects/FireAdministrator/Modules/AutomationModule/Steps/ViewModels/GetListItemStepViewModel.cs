@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using StrazhAPI;
 using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -47,7 +48,10 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description + " Позиция: " + SelectedPositionType.ToDescription() + (SelectedPositionType == PositionType.ByIndex ? "  [" + IndexArgument.Description + "]" : "");
+				return string.Format(StepCommonViewModel.GetListItem,
+                                    ListArgument.Description,
+                                    ItemArgument.Description,
+                                    SelectedPositionType.ToDescription() + (SelectedPositionType == PositionType.ByIndex ? "  [" + IndexArgument.Description + "]" : ""));
 			}
 		}
 	}

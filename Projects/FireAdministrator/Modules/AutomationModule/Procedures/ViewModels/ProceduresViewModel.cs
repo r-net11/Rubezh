@@ -7,6 +7,7 @@ using AutomationModule.Plans;
 using Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -237,17 +238,17 @@ namespace AutomationModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel(CommonViewModels.Procedures_Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "BCut"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Cut, CutCommand, "BCut"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Paste, PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(CommonViewModels.Procedures_Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
+        }
 		private void SubscribeEvents()
 		{
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);

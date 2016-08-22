@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using Common;
 using DeviceControls;
+using Localization.Strazh.ViewModels;
 using Infrastructure.Events;
 using StrazhAPI;
 using StrazhAPI.Models;
@@ -114,9 +115,9 @@ namespace StrazhModule.ViewModels
 					switch (Device.DoorType)
 					{
 						case DoorType.OneWay:
-							return "Односторонний";
+							return CommonViewModels.OneWay;
 						case DoorType.TwoWay:
-							return "Двухсторонний";
+                            return CommonViewModels.TwoWay;
 					}
 				}
 				return string.Empty;
@@ -193,7 +194,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить контроллер\n\"{0}\"?", Device.Name)))
+			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.Controller_DeleteConfirm, Device.Name)))
 				return;
 
 			Logger.Info(String.Format("Удаление контроллера GUID='{0}'", Device.UID));
@@ -365,7 +366,7 @@ namespace StrazhModule.ViewModels
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (Driver.HasZone)
-						presentationZone = "Нажмите для выбора зон";
+						presentationZone = CommonViewModels.Zone_Select;
 				}
 				return presentationZone;
 			}

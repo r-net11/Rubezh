@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Strazh.Errors;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Validation;
 
@@ -13,11 +14,11 @@ namespace StrazhModule.Validation
 			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 			{
 				if (string.IsNullOrEmpty(slideWeeklyInterval.Name))
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствует название скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, CommonErrors.ValidateSlideWeeklyIntervals_EmptyNameError, ValidationErrorLevel.CannotWrite));
 				if (slideWeeklyInterval.WeeklyIntervalIDs.Count == 0)
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствуют составляющие части скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, CommonErrors.ValidateSlideWeklyIntervals_EmptyPartError, ValidationErrorLevel.CannotWrite));
 				else if (slideWeeklyInterval.WeeklyIntervalIDs.All(item => item == 0))
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Все составляющие части скользящего понедельного графика пустые", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, CommonErrors.ValidateSlideWeklyIntervals_EmptyError, ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -26,7 +27,7 @@ namespace StrazhModule.Validation
 			var slideWeeklyIntervals = new HashSet<string>();
 			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 				if (!slideWeeklyIntervals.Add(slideWeeklyInterval.Name))
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Дублируется название скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, CommonErrors.ValidateSlideWeklyIntervals_DublicateError, ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

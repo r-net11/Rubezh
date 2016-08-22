@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using StrazhAPI.Automation;
 using StrazhAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -36,7 +37,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Переменная: " + ResultArgument.Description + " Значение: " + SelectedIncrementType.ToDescription();
+				return string.Format(StepCommonViewModel.IncrementValue, ResultArgument.Description,SelectedIncrementType.ToDescription());
 			}
 		}
 	}

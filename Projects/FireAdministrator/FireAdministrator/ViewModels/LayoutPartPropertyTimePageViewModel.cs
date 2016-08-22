@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Media;
+using Localization.FireAdministrator.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.Generic;
@@ -22,15 +23,15 @@ namespace FireAdministrator.ViewModels
 			_layoutPartTimeViewModel = layoutPartTimeViewModel;
 			HorizontalAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По центру",
-				"По правому краю",
+				CommonViewModels.Left,
+				CommonViewModels.Center,
+				CommonViewModels.Right,
 			};
 			VerticalAlignments = new List<string>()
 			{
-				"По верхему краю",
-				"По середине",
-				"По нижнему краю",
+				CommonViewModels.Top,
+				CommonViewModels.Center,
+				CommonViewModels.Bottom,
 			};
 			Formats = new List<string>()
 			{
@@ -196,7 +197,7 @@ namespace FireAdministrator.ViewModels
 
 		public override string Header
 		{
-			get { return "Стиль"; }
+            get { return CommonViewModels.Style; }
 		}
 		public override void CopyProperties()
 		{

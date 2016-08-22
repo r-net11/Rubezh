@@ -3,43 +3,44 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 			 mc:Ignorable="d" x:Class="StrazhModule.Views.ControllerPropertiesView"
 			 MinWidth="380" MinHeight="340"
 			 MaxWidth="400" MaxHeight="500"
 			 d:DesignHeight="340" d:DesignWidth="380">
 
 	<TabControl>
-		<TabItem Header="Информация">
+        <TabItem Header="{x:Static lang:CommonViews.Information}">
 			<Border CornerRadius="5" Background="White" Margin="5">
 				<StackPanel DataContext="{Binding DeviceInfo}" Margin="5">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Тип устройства" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.DeviceType}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding DeviceType}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Дата выпуска ПО" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.ReleaseDate}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding SoftwareBuildDate, StringFormat=dd-MM-yyyy}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Версия ПО" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.SoftwareVersion}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding SoftwareVersion}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="IP-адрес" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.IPaddress}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding IP}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Маска подсети" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.Mask}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding SubnetMask}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Основной шлюз" Width="200" HorizontalAlignment="Right" Margin="2" />
+                        <TextBlock Text="{x:Static lang:CommonViews.MainGateway}" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding DefaultGateway}" Margin="2" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
 		</TabItem>
-		<TabItem Header="Настройки">
+        <TabItem Header="{x:Static lang:CommonViews.Settings}">
 			<Border CornerRadius="5" Background="White" Margin="5">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -49,7 +50,7 @@
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
-					<GroupBox Grid.Row="0" Grid.Column="0" Header="Команды записи на контроллер" Margin="5">
+                    <GroupBox Grid.Row="0" Grid.Column="0" Header="{x:Static lang:CommonViews.ControllerWritesCommands}" Margin="5">
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*"/>
@@ -59,12 +60,12 @@
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="Auto"/>
 							</Grid.RowDefinitions>
-							<Button Grid.Row="0" Grid.Column="0" Content="Запись пропусков" Command="{Binding RewriteAllCardsCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5"/>
-							<Button Grid.Row="1" Grid.Column="0" Content="Запись конфигурации" Command="{Binding RewriteConfigurationCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5" />
-							<TextBlock  Grid.Row="2" Grid.Column="0" Text="При записи конфигурации на котроллер, на него будут записаны графики доступа, пароли замков" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="{x:Static lang:CommonViews.CardsWrite}" Command="{Binding RewriteAllCardsCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5"/>
+                            <Button Grid.Row="1" Grid.Column="0" Content="{x:Static lang:CommonViews.ConfigWrite}" Command="{Binding RewriteConfigurationCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5" />
+                            <TextBlock  Grid.Row="2" Grid.Column="0" Text="{x:Static lang:CommonViews.WriteAccessSchedules}" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
 						</Grid>
 					</GroupBox>
-					<GroupBox Grid.Row="1" Grid.Column="0" Header="Сервисные команды" Margin="5">
+                    <GroupBox Grid.Row="1" Grid.Column="0" Header="{x:Static lang:CommonViews.ServiceCommands}" Margin="5">
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*"/>
@@ -74,9 +75,9 @@
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="Auto"/>
 							</Grid.RowDefinitions>
-							<Button Grid.Row="0" Grid.Column="0" Content="Перезагрузить" Command="{Binding RebootCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5"/>
-							<Button Grid.Row="1" Grid.Column="0" Content="Сбросить настройки" Command="{Binding ResetCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5" />
-							<TextBlock  Grid.Row="2" Grid.Column="0" Text="При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="{x:Static lang:CommonViews.Reload}" Command="{Binding RebootCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5"/>
+                            <Button Grid.Row="1" Grid.Column="0" Content="{x:Static lang:CommonViews.ResetSettings}" Command="{Binding ResetCommand}" IsEnabled="{Binding IsCriticalOperationsEnabled}" Width="150" Margin="5" />
+                            <TextBlock  Grid.Row="2" Grid.Column="0" Text="{x:Static lang:CommonViews.ResetAllParameters}" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
 						</Grid>
 					</GroupBox>
 				</Grid>

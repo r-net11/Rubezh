@@ -8,6 +8,8 @@ using StrazhAPI.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using StrazhAPI;
+using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -159,8 +161,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "План: " + (SelectedPlan != null ? SelectedPlan.Caption : "<пусто>") + "; Элемент: " + (SelectedElement != null ? SelectedElement.PresentationName : "<пусто>") +
-					"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + ControlElementType.ToDescription() + "; Значение: " + ValueArgument.Description;
+				return string.Format(StepCommonViewModel.ControlPlan,(SelectedPlan != null ? SelectedPlan.Caption : CommonResources.Empty),
+                                                            (SelectedElement != null ? SelectedElement.PresentationName : CommonResources.Empty),
+                                                            SelectedElementPropertyType.ToDescription(),
+                                                            ControlElementType.ToDescription(),
+                                                            ValueArgument.Description);
 			}
 		}
 	}

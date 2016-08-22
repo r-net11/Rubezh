@@ -1,4 +1,6 @@
-<UserControl x:Class="ReportsModule.Views.ReportPreviewView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="800" Height="800">
+<UserControl x:Class="ReportsModule.Views.ReportPreviewView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lang="clr-namespace:Localization.Reports.Views;assembly=Localization"
+             Width="800" Height="800">
 	<Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -11,23 +13,23 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать отчета" />
-					<ToolBarButton Command="{Binding PdfPrintCommand}" ImageSource="Pdf"  ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
-					<ToolBarButton x:Name="_previousButton" Command="{Binding PreviousPageCommand}" ImageSource="left"  ToolTip="Предыдущая страница" />
+                    <ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="{x:Static lang:CommonViews.PrintReport}" />
+                    <ToolBarButton Command="{Binding PdfPrintCommand}" ImageSource="Pdf"  ToolTip="{x:Static lang:CommonViews.SaveInPDF}" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="leftLeft"  ToolTip="{x:Static lang:CommonViews.StartPage}" />
+                    <ToolBarButton x:Name="_previousButton" Command="{Binding PreviousPageCommand}" ImageSource="left"  ToolTip="{x:Static lang:CommonViews.PreviousPage}" />
 					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
 					<TextBlock Text="/" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
 					<TextBlock Text="{Binding TotalPageNumber}" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
-					<ToolBarButton x:Name="_nextButton"  Command="{Binding NextPageCommand}" ImageSource="right"  ToolTip="Следующая страница" />
-					<ToolBarButton Command="{Binding LastPageCommand}" ImageSource="rightRight"  ToolTip="Последняя страница" />
-					<ToolBarButton Command="{Binding FitToWidthCommand}" CommandParameter="{Binding ViewportWidth, ElementName=_scrollViewer}" ImageSource="WidthToPage"  ToolTip="По ширине страницы" />
-					<ToolBarButton Command="{Binding FitlToHeightCommand}" CommandParameter="{Binding ViewportHeight, ElementName=_scrollViewer}"  ImageSource="HeightToPage"  ToolTip="По высоте страницы" />
-					<ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="FidthToPage"  ToolTip="Исходный размер" />
+                    <ToolBarButton x:Name="_nextButton"  Command="{Binding NextPageCommand}" ImageSource="right"  ToolTip="{x:Static lang:CommonViews.NextPage}" />
+                    <ToolBarButton Command="{Binding LastPageCommand}" ImageSource="rightRight"  ToolTip="{x:Static lang:CommonViews.LastPage}" />
+                    <ToolBarButton Command="{Binding FitToWidthCommand}" CommandParameter="{Binding ViewportWidth, ElementName=_scrollViewer}" ImageSource="WidthToPage"  ToolTip="{x:Static lang:CommonViews.AtWidthOfPage}" />
+                    <ToolBarButton Command="{Binding FitlToHeightCommand}" CommandParameter="{Binding ViewportHeight, ElementName=_scrollViewer}"  ImageSource="HeightToPage"  ToolTip="{x:Static lang:CommonViews.AtHeightOfPage}" />
+                    <ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="FidthToPage"  ToolTip="{x:Static lang:CommonViews.InitialSize}" />
 				</StackPanel>
 				<DockPanel Grid.Column="1" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}">
-					<ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="ZoomOut"  ToolTip="Уменьшить масштаб" />
-					<ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="ZoomIn"  ToolTip="Увеличить масштаб" />
-					<Slider x:Name="slider" VerticalAlignment="Center" Maximum="{Binding MaxScale}" Minimum="{Binding MinScale}" Orientation="Horizontal" ToolTip="Изменить масштаб" Value="{Binding Scale}" />
+                    <ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="ZoomOut"  ToolTip="{x:Static lang:CommonViews.DecreaseScale}" />
+                    <ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="ZoomIn"  ToolTip="{x:Static lang:CommonViews.IncreaseScale}" />
+                    <Slider x:Name="slider" VerticalAlignment="Center" Maximum="{Binding MaxScale}" Minimum="{Binding MinScale}" Orientation="Horizontal" ToolTip="{x:Static lang:CommonViews.ChangeScale}" Value="{Binding Scale}" />
 				</DockPanel>
 			</Grid>
 			<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" PreviewMouseWheel="OnPreviewMouseWheel">

@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,7 +26,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Проверка прав: " + PermissionArgument.Description + " Результат: " + ResultArgument.Description;
+                return string.Format(StepCommonViewModel.CheckPermission, PermissionArgument.Description, ResultArgument.Description);
 			}
 		}
 	}

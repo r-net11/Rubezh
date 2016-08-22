@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:SecurityModule.Converters"
 			 xmlns:Views="clr-namespace:SecurityModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Security.Views;assembly=Localization"
 			 MinWidth="600" MinHeight="600">
 	<Grid>
 		<Border CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
@@ -12,7 +13,7 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<DockPanel>
-					<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Label DockPanel.Dock="Left" Content="{x:Static lang:CommonViews.Title}" FontWeight="Bold" VerticalAlignment="Center" />
 					<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" VerticalAlignment="Center" Margin="2" />
 				</DockPanel>
 				<Views:PermissionsView Grid.Row="1" DataContext="{Binding PermissionsViewModel}" Margin="2" />

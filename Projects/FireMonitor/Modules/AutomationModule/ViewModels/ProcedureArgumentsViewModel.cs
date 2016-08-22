@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common;
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 		public ProcedureArgumentsViewModel(Procedure procedure)
 		{
 			Title = procedure.Name;
-			SaveCaption = "Выполнить";
+			SaveCaption = CommonViewModels.Execute;
 			ArgumentViewModels = new ArgumentsViewModel(procedure);
 		}
 

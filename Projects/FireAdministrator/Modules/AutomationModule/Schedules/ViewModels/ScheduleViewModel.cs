@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Localization.Automation.Common;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ScheduleViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+        public static string DefaultName = CommonResources.NO_DefaultName;
 		public AutomationSchedule Schedule { get; set; }
 		public ObservableCollection<ScheduleProcedureViewModel> ScheduleProcedures { get; private set; }
 		

@@ -4,8 +4,10 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	MinWidth="500"
 	MinHeight="500">
+    
 	<tree:TreeList
 		Focusable="True"
 		SelectedTreeNode="{Binding SelectedStepType}"
@@ -22,7 +24,7 @@
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Width="350" Header="Наименование">
+                <GridViewColumn Width="350" Header="{x:Static lang:CommonViews.Denomination}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

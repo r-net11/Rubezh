@@ -4,14 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
+    xmlns:langCommon="clr-namespace:Localization.IntegrationOPC.Common;assembly=Localization"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
 		<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
-			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
-			<ToolBarButton Command="{Binding SettingsCommand}" ToolTip="Настройки" ImageSource="Settings2"  />
+            <ToolBarButton Command="{Binding AddCommand}" ToolTip="{x:Static lang:CommonViews.Add}" ImageSource="Add"  />
+            <ToolBarButton Command="{Binding EditCommand}" ToolTip="{x:Static lang:CommonViews.Edit}" ImageSource="Edit"  />
+            <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="{x:Static lang:CommonViews.Delete}" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding SettingsCommand}" ToolTip="{x:Static langCommon:CommonResources.Settings}" ImageSource="Settings2"  />
 		</StackPanel>
 	</Grid>
 </UserControl>

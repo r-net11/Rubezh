@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -14,7 +16,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
-		public const string EmptyText = "<пусто>";
+		public static string EmptyText = CommonResources.Empty;
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 		Action UpdateContentHandler { get; set; }
@@ -108,11 +110,11 @@ namespace AutomationModule.ViewModels
 		void OnAddVariable()
 		{
 			var defaultName = SelectedVariableScope == VariableScope.LocalVariable
-				? "локальная переменная"
-				: "глобальная переменная";
+                ? CommonViewModels.LocalVariable_DefaultName
+                : CommonViewModels.GlobalVariable_DefaultName;
 			var title = SelectedVariableScope == VariableScope.LocalVariable
-				? "Добавить локальную переменную"
-				: "Добавить глобальную переменную";
+                ? CommonViewModels.LocalVariable_Add
+                : CommonViewModels.GlobalVariable_Add;
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{
 				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes)

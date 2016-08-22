@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Камера: " + CameraArgument.Description + " Номер команды: " + PtzNumberArgument.Description;
+				return string.Format(StepCommonViewModel.PTZ,CameraArgument.Description,PtzNumberArgument.Description);
 			}
 		}
 	}

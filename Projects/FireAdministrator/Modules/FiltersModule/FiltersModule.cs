@@ -12,6 +12,7 @@ using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
+using Localization.Filter.Common;
 
 namespace FiltersModule
 {
@@ -50,8 +51,8 @@ namespace FiltersModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Journal, 120, "Журнал", "Панель журнал", "BLevels.png") { Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartReferenceProperties), };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Archive, 121, "Архив", "Панель архив", "BLevels.png", false);
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Journal, 120, CommonResources.Journal, CommonResources.JournalPanel, "BLevels.png") { Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartReferenceProperties), };
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Archive, 121, CommonResources.Archive, CommonResources.ArchivePanel, "BLevels.png", false);
 		}
 
 		#endregion

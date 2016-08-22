@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="ReportsModule.Views.FilterSortPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="ReportsModule.Views.FilterSortPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lang="clr-namespace:Localization.Reports.Views;assembly=Localization">
 	<Grid Margin="0,20,0,20" HorizontalAlignment="Center" VerticalAlignment="Top">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
@@ -34,8 +35,8 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<StackPanel Grid.Column="2" Margin="3">
-			<RadioButton Margin="5" Content="По возрастанию" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource True}}" />
-			<RadioButton Margin="5" Content="По убыванию" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource False}}" />
+            <RadioButton Margin="5" Content="{x:Static lang:CommonViews.Ascending}" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource True}}" />
+            <RadioButton Margin="5" Content="{x:Static lang:CommonViews.Descending}" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource False}}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

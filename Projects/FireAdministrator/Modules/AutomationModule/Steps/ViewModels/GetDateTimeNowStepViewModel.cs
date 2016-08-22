@@ -1,6 +1,7 @@
 ﻿using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Enums;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -35,7 +36,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return string.Format("Результат: {0}. Отсечение: {1}", Result.Description, SelectedRoundingType.ToDescription()); }
+			get { return string.Format(StepCommonViewModel.GetDateTimeNow, Result.Description, SelectedRoundingType.ToDescription()); }
 		}
 	}
 }

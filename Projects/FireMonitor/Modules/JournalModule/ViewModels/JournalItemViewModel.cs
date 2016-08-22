@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using Common;
+using Localization.Journal.ViewModels;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
@@ -125,7 +126,7 @@ namespace JournalModule.ViewModels
 			}
 
 			if (ObjectName == null)
-				ObjectName = "<Нет в конфигурации>";
+				ObjectName = CommonViewModels.NotInConfig;
 
 			//if (JournalItem.EmployeeUID != Guid.Empty)
 			//{
@@ -238,7 +239,7 @@ namespace JournalModule.ViewModels
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(c => c.UID == JournalItem.CameraUID);
 			if (camera == null)
 			{
-				MessageBoxService.ShowWarning("Отсутствует видеоустройство, связанное с событием");
+				MessageBoxService.ShowWarning(CommonViewModels.EmptyVideoDevice);
 				return;
 			}
 
@@ -251,11 +252,11 @@ namespace JournalModule.ViewModels
 			catch (CommunicationObjectFaultedException e)
 			{
 				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
-				MessageBoxService.ShowError("Проверьте запущено ли приложение RVi Оператор и настройки соединения с ним");
+				MessageBoxService.ShowError(CommonViewModels.RViNotConnected);
 			}
 			catch (FileNotFoundException)
 			{
-				MessageBoxService.ShowError("Не найден файл видеозаписи в архиве");
+				MessageBoxService.ShowError(CommonViewModels.FileNotFound);
 			}
 			catch (Exception e)
 			{

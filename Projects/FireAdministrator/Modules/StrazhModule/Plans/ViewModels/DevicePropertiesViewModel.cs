@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -15,7 +16,7 @@ namespace StrazhModule.Plans.ViewModels
 
 		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementSKDDevice elementDevice)
 		{
-			Title = "Свойства фигуры: Устройство СКД";
+			Title = CommonViewModels.FigureProperties_SKDDevice;
 			_elementSKDDevice = elementDevice;
 			_devicesViewModel = devicesViewModel;
 

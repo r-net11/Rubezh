@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using StrazhAPI.Automation;
 using StrazhAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -52,7 +53,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ResultArgument.Description + " = " + ObjectArgument.Description + " Свойство: " + SelectedProperty.ToDescription(); }
+			get { return string.Format(StepCommonViewModel.GetObjectProperty ,ResultArgument.Description,ObjectArgument.Description,SelectedProperty.ToDescription()); }
 		}
 
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }

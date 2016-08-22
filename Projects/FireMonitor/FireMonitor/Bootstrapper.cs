@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using Common;
 using FireMonitor.ViewModels;
 using StrazhAPI.Enums;
@@ -176,6 +179,7 @@ namespace FireMonitor
 
 		protected virtual bool Run()
 		{
+
 			var result = true;
 			var shell = CreateShell();
 			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);

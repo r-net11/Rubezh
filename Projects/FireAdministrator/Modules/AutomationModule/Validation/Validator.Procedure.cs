@@ -5,6 +5,7 @@ using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Validation;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.Validation
 {
@@ -22,14 +23,14 @@ namespace AutomationModule.Validation
 					ValidateStep(procedureStep);
 
 				if (nameList.Contains(procedure.Name))
-					Errors.Add(new ProcedureValidationError(procedure, "Процедура с таким именем уже существует " + procedure.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new ProcedureValidationError(procedure, string.Format(CommonErrors.ValidatorProcedureSameNameProcedure_Error,procedure.Name), ValidationErrorLevel.CannotSave));
 				nameList.Add(procedure.Name);
 
 				var varList = new List<string>();
 				foreach (var variable in procedure.Variables)
 				{
 					if (varList.Contains(variable.Name))
-						Errors.Add(new VariableValidationError(variable, "Переменная с таким именем уже существует " + variable.Name, ValidationErrorLevel.CannotSave));
+						Errors.Add(new VariableValidationError(variable, string.Format(CommonErrors.ValidatorProcedureSameNameVariable_Error,variable.Name), ValidationErrorLevel.CannotSave));
 					varList.Add(variable.Name);
 				}
 
@@ -37,7 +38,7 @@ namespace AutomationModule.Validation
 				foreach (var argument in procedure.Arguments)
 				{
 					if (argList.Contains(argument.Name))
-						Errors.Add(new VariableValidationError(argument, "Аргумент с таким именем уже существует " + argument.Name, ValidationErrorLevel.CannotSave));
+						Errors.Add(new VariableValidationError(argument, string.Format(CommonErrors.ValidatorProcedureSameNameArgument_Error,argument.Name), ValidationErrorLevel.CannotSave));
 					argList.Add(argument.Name);
 				}
 			}
@@ -54,7 +55,7 @@ namespace AutomationModule.Validation
 					{
 						var soundArguments = step.SoundArguments;
 						if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.All(x => x.Uid != soundArguments.SoundUid))
-							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+							Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error + step.Name, ValidationErrorLevel.CannotSave));
 					}
 					break;
 
@@ -144,7 +145,7 @@ namespace AutomationModule.Validation
 					{
 						var procedureSelectionArguments = step.ProcedureSelectionArguments;
 						if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
-							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+                            Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error + step.Name, ValidationErrorLevel.CannotSave));
 						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
 							ValidateArgument(step, argument);
 					}
@@ -306,20 +307,20 @@ namespace AutomationModule.Validation
 					if (!ValidateArgument(step, controlVisualArguments.Argument))
 						break;
 					if (controlVisualArguments.Layout == Guid.Empty)
-						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureLayout_Error, ValidationErrorLevel.CannotSave));
 					else if (controlVisualArguments.LayoutPart == Guid.Empty)
-						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент макета", ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureLayoutElement_Error, ValidationErrorLevel.CannotSave));
 					else if (!controlVisualArguments.Property.HasValue)
-						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureProperty_Error, ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.ControlPlanGet:
 				case ProcedureStepType.ControlPlanSet:
 					var controlPlanArguments = step.ControlPlanArguments;
 					ValidateArgument(step, controlPlanArguments.ValueArgument);
 					if (controlPlanArguments.PlanUid == Guid.Empty)
-						Errors.Add(new ProcedureStepValidationError(step, "Не выбран план", ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedurePlan_Error, ValidationErrorLevel.CannotSave));
 					else if (controlPlanArguments.ElementUid == Guid.Empty)
-						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedurePlanElement_Error, ValidationErrorLevel.CannotSave));
 					break;
 				case ProcedureStepType.ShowDialog:
 					break;
@@ -437,7 +438,7 @@ namespace AutomationModule.Validation
 		{
 			if (ServiceFactory.ConfigurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType))
 			{
-				Errors.Add(new ProcedureStepValidationError(procedureStep, "Функция не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
+                Errors.Add(new ProcedureStepValidationError(procedureStep, CommonErrors.ValidatorProcedureLicense_Error, ValidationErrorLevel.CannotSave));
 			}
 		}
 
@@ -448,13 +449,13 @@ namespace AutomationModule.Validation
 			if (argument.VariableScope == VariableScope.GlobalVariable)
 				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 				{
-					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
+                    Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error, ValidationErrorLevel.CannotSave));
 					return false;
 				}
 			if (argument.VariableScope == VariableScope.LocalVariable)
 				if (localVariables.All(x => x.Uid != argument.VariableUid))
 				{
-					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
+                    Errors.Add(new ProcedureStepValidationError(step, CommonErrors.ValidatorProcedureVariables_Error, ValidationErrorLevel.CannotSave));
 					return false;
 				}
 			return true;

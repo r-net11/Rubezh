@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.ServiceModel;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Video.Errors;
+using Localization.Video.ViewModels;
 using RviClient;
 using Infrastructure.Common.Windows;
 using StrazhAPI.Models;
@@ -17,7 +16,7 @@ namespace VideoModule.ViewModels
 	{
 		public DeviceSelectionViewModel()
 		{
-			Title = "Устройства";
+			Title = CommonViewModels.Devices;
 			Devices = new ObservableCollection<DeviceViewModel>();
 
 			List<IRviDevice> devices = null;
@@ -27,7 +26,7 @@ namespace VideoModule.ViewModels
 			}
 			catch
 			{
-				MessageBoxService.ShowWarning("Возникла ошибка при получении списка устройств");
+				MessageBoxService.ShowWarning(CommonErrors.GetListDevice_Error);
 				return;
 			}
 			foreach (var device in devices)

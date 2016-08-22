@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Localization.Reports.Common;
 
 namespace ReportsModule.DocumentPaginatorModel
 {
@@ -49,9 +50,9 @@ namespace ReportsModule.DocumentPaginatorModel
 					m_Typeface = new Typeface("Times New Roman");
 				}
 				LineSegment line = new LineSegment(new Point(100, 570), false);
-				FormattedText titleText = new FormattedText("Список устройств конфигурации", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+				FormattedText titleText = new FormattedText(CommonResources.DeviceList, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
 					m_Typeface, 20, Brushes.Black);
-				FormattedText text = new FormattedText("Страница " + (pageNumber + 1), CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+				FormattedText text = new FormattedText(string.Format(CommonResources.Page,pageNumber+1), CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
 					m_Typeface, 14, Brushes.Black);
 				FormattedText textDate = new FormattedText(_dateTime.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
 					m_Typeface, 14, Brushes.Black);

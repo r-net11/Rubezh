@@ -1,21 +1,22 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ForStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Начальное значение" Width="150" />
+            <Label Content="{x:Static lang:CommonViews.InitialValue}" Width="150" />
 			<Views:ArgumentView DataContext="{Binding InitialValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Счетчик" Width="150" />
+            <Label Content="{x:Static lang:CommonViews.Indexer}" Width="150" />
 			<Views:ArgumentView DataContext="{Binding IndexerArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Условие" Width="150" />
+            <Label Content="{x:Static lang:CommonViews.Condition}" Width="150" />
 			<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -25,11 +26,11 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Конечное значение" Width="150" />
+            <Label Content="{x:Static lang:CommonViews.EndValue}" Width="150" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Шаг изменения счетчика" Width="150" />
+            <Label Content="{x:Static lang:CommonViews.Iterator}" Width="150" />
 			<Views:ArgumentView DataContext="{Binding IteratorArgument}" />
 		</StackPanel>
 	</StackPanel>

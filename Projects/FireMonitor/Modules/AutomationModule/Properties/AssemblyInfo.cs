@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 [assembly: AssemblyTitle("AutomationModule")]
 [assembly: AssemblyDescription("")]
@@ -12,3 +13,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.1.5.0")]
 [assembly: AssemblyFileVersion("2.1.5.0")]
+[assembly: NeutralResourcesLanguageAttribute("")]

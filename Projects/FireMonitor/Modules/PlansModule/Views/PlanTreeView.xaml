@@ -5,7 +5,8 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:LacalConverters="clr-namespace:PlansModule.Converters"
-	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Plans.Views;assembly=Localization">
 	<UserControl.Resources>
 		<LacalConverters:XStateClassToPlanColorConverter x:Key="XStateClassToPlanColorConverter" />
 	</UserControl.Resources>
@@ -13,7 +14,7 @@
 	<tree:TreeList SelectedTreeNode="{Binding SelectedPlan}" Source="{Binding Plans}">
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Width="300" Header="Название">
+				<GridViewColumn Width="300" Header="{x:Static lang:CommonViews.Name}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel

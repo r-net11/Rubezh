@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using Common;
 using FireAdministrator.Properties;
+using Localization.FireAdministrator.Common;
+using Localization.FireAdministrator.Errors;
 using Infrastructure.Common.Services;
 using StrazhAPI;
 using StrazhAPI.Automation;
@@ -34,15 +36,15 @@ namespace FireAdministrator
 				{
 					if (validationResult.CannotSave())
 					{
-						MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+                        MessageBoxService.ShowWarning(CommonErrors.OperationAborted_Error);
 						return false;
 					}
 
-					if (!MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?"))
+					if (!MessageBoxService.ShowQuestion(CommonResources.ConfigWithErrors))
 						return false;
 				}
-				LoadingService.Show("Применение конфигурации", "Применение конфигурации");
-
+                LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig, 1);
+				LoadingService.Show(CommonResources.AcceptionConfig, CommonResources.AcceptionConfig);
 				if (ConnectionSettingsManager.IsRemote)
 				{
 					var tempFileName = SaveConfigToFile(false);
@@ -75,7 +77,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.SetNewConfig");
-				MessageBoxService.ShowError(e.Message, "Ошибка при выполнении операции");
+                MessageBoxService.ShowError(e.Message, CommonErrors.ExecuteOperation_Error);
 				return false;
 			}
 		}
@@ -158,7 +160,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				if (MessageBoxService.ShowQuestion(Resources.CreateNewConfigurationMessage))
+				if (MessageBoxService.ShowQuestion(CommonResources.CreateNewConfig))
 				{
 					ServiceFactoryBase.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
@@ -181,7 +183,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.CreateNew");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+				MessageBox.Show(e.Message, CommonErrors.ExecuteOperation_Error);
 			}
 		}
 

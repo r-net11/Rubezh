@@ -6,6 +6,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
 	xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
+	xmlns:langViews="clr-namespace:Localization.Video.Views;assembly=Localization"
 	MinWidth="545"
 	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
@@ -18,7 +19,7 @@
 		</Style>
 	</UserControl.Resources>
 	<TabControl>
-		<TabItem Header="Основные">
+        <TabItem Header="{x:Static langViews:CommonViews.Main}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -35,19 +36,19 @@
 					Grid.Column="0"
 					Margin="5 5 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Название устройства" />
+					Text="{x:Static langViews:CommonViews.DeviceName}" />
 				<TextBlock
 					Grid.Row="0"
 					Grid.Column="1"
 					Margin="10 5 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{Binding Camera.Name, FallbackValue=Название}" />
+					Text="{Binding Camera.Name, FallbackValue={x:Static langViews:CommonViews.Name}}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Адрес устройства" />
+					Text="{x:Static langViews:CommonViews.DeviceAddress}" />
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="1"
@@ -59,7 +60,7 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Номер канала" />
+					Text="{x:Static langViews:CommonViews.ChannelNumber}" />
 				<TextBlock
 					Grid.Row="2"
 					Grid.Column="1"
@@ -71,22 +72,22 @@
 					Grid.Column="0"
 					Margin="5 10 10 10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="Название канала" />
+					Text="{x:Static langViews:CommonViews.ChannelName}" />
 				<TextBlock
 					Grid.Row="3"
 					Grid.Column="1"
 					Margin="10"
 					Style="{StaticResource TextBlockCameraStyle}"
-					Text="{Binding Camera.RviChannelName, FallbackValue=Rvi_Имя}" />
+					Text="{Binding Camera.RviChannelName, FallbackValue={x:Static langViews:CommonViews.RviName}}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Предпросмотр">
+        <TabItem Header="{x:Static langViews:CommonViews.Preview}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
+                <Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="{x:Static langViews:CommonViews.VideoView}" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
 				<rviClientUi:VideoCellControl
 					Grid.Row="1"
 					x:Name="videoCellControl"

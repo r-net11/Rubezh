@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -120,7 +121,7 @@ namespace AutomationModule.ViewModels
 				}
 				var end = string.Empty;
 				if (Conditions.Count > 1)
-					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
+                    end = JoinOperator == JoinOperator.And ? StepCommonViewModel.Condition_AND : StepCommonViewModel.Condition_OR;
 
 				return var1 + " " + op + " " + var2 + " " + end;
 			}

@@ -6,6 +6,7 @@ using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public VisitorSelectionViewModel(ShortEmployee visitor)
 		{
-			Title = "Выбор посетителя";
+            Title = CommonViewModels.VisitorSelectionViewModel_Title;
 
 			BuildTreeAndSelect(visitor);
 		}

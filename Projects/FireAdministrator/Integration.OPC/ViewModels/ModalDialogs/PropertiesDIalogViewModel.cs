@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
-using Integration.OPC.Properties;
+using Localization.IntegrationOPC.ViewModels;
 using StrazhAPI.Enums;
 
 namespace Integration.OPC.ViewModels
@@ -13,7 +13,7 @@ namespace Integration.OPC.ViewModels
 
 		public PropertiesDialogViewModel(OPCZone currentZone)
 		{
-			Title = string.Format(Resources.TitlePropertiesDialog, currentZone.Name);
+			Title = string.Format(CommonViewModels.ZoneProperties, currentZone.Name);
 			CurrentZone = currentZone;
 		}
 	}

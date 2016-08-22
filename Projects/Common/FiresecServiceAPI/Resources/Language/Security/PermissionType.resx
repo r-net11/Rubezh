@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Adm_All" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Adm_ChangeDevicesSoft" xml:space="preserve">
+    <value>Изменение ПО в устройствах</value>
+  </data>
+  <data name="Adm_Security" xml:space="preserve">
+    <value>Управление правами пользователей</value>
+  </data>
+  <data name="Adm_SetNewConfig" xml:space="preserve">
+    <value>Применение конфигурации</value>
+  </data>
+  <data name="Adm_ViewConfig" xml:space="preserve">
+    <value>Просмотр конфигурации"</value>
+  </data>
+  <data name="Adm_WriteDeviceConfig" xml:space="preserve">
+    <value>Запись конфигурации в устройства</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Oper_All" xml:space="preserve">
+    <value>ОЗ</value>
+  </data>
+  <data name="Oper_Archive_Settings" xml:space="preserve">
+    <value>Настройка отображения архива"</value>
+  </data>
+  <data name="Oper_Archive_View" xml:space="preserve">
+    <value>Просмотр архива</value>
+  </data>
+  <data name="Oper_ChangeView" xml:space="preserve">
+    <value>Управление интерфейсом</value>
+  </data>
+  <data name="Oper_ControlDevices" xml:space="preserve">
+    <value>Управление устройствами, зонами</value>
+  </data>
+  <data name="Oper_GKSchedules" xml:space="preserve">
+    <value>Управление графиками СКД</value>
+  </data>
+  <data name="Oper_Journal_View" xml:space="preserve">
+    <value>Просмотр журнала</value>
+  </data>
+  <data name="Oper_Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Oper_Logout" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Oper_LogoutWithoutPassword" xml:space="preserve">
+    <value>Выход без пароля</value>
+  </data>
+  <data name="Oper_MayNotConfirmCommands" xml:space="preserve">
+    <value>Разрешить не подтверждать команды паролем</value>
+  </data>
+  <data name="Oper_NoAlarmConfirm" xml:space="preserve">
+    <value>Не требуется подтверждение тревог</value>
+  </data>
+  <data name="Oper_Reports_Cards" xml:space="preserve">
+    <value>Сведения о пропусках</value>
+  </data>
+  <data name="Oper_Reports_Departments" xml:space="preserve">
+    <value>Список подразделений организации</value>
+  </data>
+  <data name="Oper_Reports_Discipline" xml:space="preserve">
+    <value>Дисциплинарный отчет</value>
+  </data>
+  <data name="Oper_Reports_Documents" xml:space="preserve">
+    <value>Отчет по оправдательным документам</value>
+  </data>
+  <data name="Oper_Reports_Doors" xml:space="preserve">
+    <value>Список точек доступа</value>
+  </data>
+  <data name="Oper_Reports_Employee" xml:space="preserve">
+    <value>Справка о сотруднике/посетителе</value>
+  </data>
+  <data name="Oper_Reports_EmployeeRoot" xml:space="preserve">
+    <value>Маршрут сотрудника/посетителя</value>
+  </data>
+  <data name="Oper_Reports_Employees_Access" xml:space="preserve">
+    <value>Доступ в зоны сотрудников/посетителей</value>
+  </data>
+  <data name="Oper_Reports_Employees_Rights" xml:space="preserve">
+    <value>Права доступа сотрудников/посетителей</value>
+  </data>
+  <data name="Oper_Reports_EmployeeZone" xml:space="preserve">
+    <value>Местонахождение сотрудников/посетителей</value>
+  </data>
+  <data name="Oper_Reports_Events" xml:space="preserve">
+    <value>Отчет по событиям системы контроля доступа</value>
+  </data>
+  <data name="Oper_Reports_Positions" xml:space="preserve">
+    <value>Список должностей организации</value>
+  </data>
+  <data name="Oper_Reports_Schedules" xml:space="preserve">
+    <value>Отчет по графикам работ</value>
+  </data>
+  <data name="Oper_Reports_T13" xml:space="preserve">
+    <value>Табель учета рабочего времени (форма Т-13)</value>
+  </data>
+  <data name="Oper_Reports_WorkTime" xml:space="preserve">
+    <value>Справка по отработанному времени</value>
+  </data>
+  <data name="Oper_SKD" xml:space="preserve">
+    <value>СКД</value>
+  </data>
+  <data name="Oper_SKD_AccessTemplates_Etit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление шаблонов доступа</value>
+  </data>
+  <data name="Oper_SKD_AccessTemplates_View" xml:space="preserve">
+    <value>Просмотр шаблонов доступа</value>
+  </data>
+  <data name="Oper_SKD_AdditionalColumns_Etit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление дополнительных колонок</value>
+  </data>
+  <data name="Oper_SKD_AdditionalColumns_View" xml:space="preserve">
+    <value>Просмотр списка дополнительных колонок</value>
+  </data>
+  <data name="Oper_SKD_Cards_Etit" xml:space="preserve">
+    <value>Архивирование, восстановление пропусков</value>
+  </data>
+  <data name="Oper_SKD_Cards_ResetRepeatEnter" xml:space="preserve">
+    <value>Сброс флага запрета повторного прохода</value>
+  </data>
+  <data name="Oper_SKD_Cards_View" xml:space="preserve">
+    <value>Просмотр пропусков</value>
+  </data>
+  <data name="Oper_SKD_Departments_Employees" xml:space="preserve">
+    <value>Добавление сотрудника в подразделение, удаление сотрудника из подразделения</value>
+  </data>
+  <data name="Oper_SKD_Departments_Etit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление подразделения</value>
+  </data>
+  <data name="Oper_SKD_Departments_View" xml:space="preserve">
+    <value>Просмотр подразделений</value>
+  </data>
+  <data name="Oper_SKD_Employees_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление сотрудника</value>
+  </data>
+  <data name="Oper_SKD_Employees_View" xml:space="preserve">
+    <value>Просмотр сотрудников</value>
+  </data>
+  <data name="Oper_SKD_Guests_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление посетителя</value>
+  </data>
+  <data name="Oper_SKD_Guests_View" xml:space="preserve">
+    <value>Просмотр посетителей</value>
+  </data>
+  <data name="Oper_SKD_Organisations_Doors" xml:space="preserve">
+    <value>Привязка точек доступа к организации, открепление точек доступа от организации</value>
+  </data>
+  <data name="Oper_SKD_Organisations_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление организации</value>
+  </data>
+  <data name="Oper_SKD_Organisations_Users" xml:space="preserve">
+    <value>Привязка пользователей к организации, открепление пользователей от организации</value>
+  </data>
+  <data name="Oper_SKD_Organisations_View" xml:space="preserve">
+    <value>Просмотр организаций</value>
+  </data>
+  <data name="Oper_SKD_PassCards_Etit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление шаблонов пропусков</value>
+  </data>
+  <data name="Oper_SKD_PassCards_View" xml:space="preserve">
+    <value>Просмотр шаблонов пропусков</value>
+  </data>
+  <data name="Oper_SKD_Positions_Etit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление должности</value>
+  </data>
+  <data name="Oper_SKD_Positions_View" xml:space="preserve">
+    <value>Просмотра должностей</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_DaySchedules_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление дневных графиков</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_DaySchedules_View" xml:space="preserve">
+    <value>Просмотр дневных графиков</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Documents_Edit" xml:space="preserve">
+    <value>Создание, редактирование, удаление, оправдательных документов</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_DocumentTypes_Edit" xml:space="preserve">
+    <value>Ведение справочника видов оправдательных документов</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Holidays_Edit" xml:space="preserve">
+    <value>Добавление, редактирование, архивирование, восстановление сокращённых дней</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Holidays_View" xml:space="preserve">
+    <value>Просмотр сокращённых дней</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Parts_Edit" xml:space="preserve">
+    <value>Ручное редактирование графика проходов</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Report_View" xml:space="preserve">
+    <value>Просмотр журнала учета рабочего времени</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_ScheduleSchemes_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление графиков</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_ScheduleSchemes_View" xml:space="preserve">
+    <value>Просмотр графиков</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Schedules_Edit" xml:space="preserve">
+    <value>Создание, редактирование, архивирование, восстановление графиков работ</value>
+  </data>
+  <data name="Oper_SKD_TimeTrack_Schedules_View" xml:space="preserve">
+    <value>Просмотр графиков работ</value>
+  </data>
+  <data name="Oper_Strazh_Devices_Control" xml:space="preserve">
+    <value>Управление замками</value>
+  </data>
+  <data name="Oper_Strazh_Devices_View" xml:space="preserve">
+    <value>Просмотр устройств</value>
+  </data>
+  <data name="Oper_Strazh_Doors_Control" xml:space="preserve">
+    <value>Управление замками</value>
+  </data>
+  <data name="Oper_Strazh_Doors_View" xml:space="preserve">
+    <value>Просмотр точек доступа</value>
+  </data>
+  <data name="Oper_Strazh_Zones_Control" xml:space="preserve">
+    <value>Управление замками</value>
+  </data>
+  <data name="Oper_Strazh_Zones_View" xml:space="preserve">
+    <value>Просмотр зон</value>
+  </data>
+</root>

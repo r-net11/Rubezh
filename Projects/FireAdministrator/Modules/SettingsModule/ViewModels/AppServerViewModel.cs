@@ -9,6 +9,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Settings.ViewModels;
 
 namespace SettingsModule.ViewModels
 {
@@ -195,7 +196,7 @@ namespace SettingsModule.ViewModels
 			var operationResult = FiresecManager.FiresecService.CheckSqlServerConnection(DBServerAddress, DBServerPort,
 				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd);
 
-			var msg = String.Format("Соединение с сервером {0} {1}", DBServerName, operationResult.HasError ? String.Format("установить не удалось по причине ошибки: \n\n{0}", operationResult.Error) : "успешно установлено");
+            var msg = String.Format(CommonViewModels.AppServer_Connection, DBServerName, operationResult.HasError ? String.Format(CommonViewModels.AppServer_ConnectionError, operationResult.Error) : CommonViewModels.AppServer_ConnectionSuccess);
 
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(msg);

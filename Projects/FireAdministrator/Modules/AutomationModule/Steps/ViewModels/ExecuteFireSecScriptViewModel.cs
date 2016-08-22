@@ -1,7 +1,7 @@
-﻿using AutomationModule.Properties;
-using AutomationModule.ViewModels;
+﻿using AutomationModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Localization.Automation.ViewModels;
 using StrazhAPI.Automation;
 using StrazhAPI.Automation.Enums;
 
@@ -60,7 +60,7 @@ namespace AutomationModule.Steps.ViewModels
 			{
 				return ExecuteFireSecScriptArguments.CurrentScript == null
 					? null
-					: string.Format(Resources.LabelScenarioInfo, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
+                    : string.Format(CommonViewModels.ScenarioInfoLabel, ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace AutomationModule.Steps.ViewModels
 		{
 			CurrentScript = arguments.CurrentScript != null
 				? string.Format("{0}. {1}", ExecuteFireSecScriptArguments.CurrentScript.Id, ExecuteFireSecScriptArguments.CurrentScript.Name)
-				: Resources.LabelPressToSelectOPCScenario;
+                : CommonViewModels.PressToSelectOPCScenarioLabel;
 		}
 	}
 }

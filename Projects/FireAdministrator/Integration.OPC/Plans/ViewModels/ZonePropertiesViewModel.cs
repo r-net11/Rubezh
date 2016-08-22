@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
+using Localization.IntegrationOPC.ViewModels;
 using StrazhAPI.Plans.Elements;
 using StrazhAPI.SKD;
 using System;
@@ -34,7 +35,7 @@ namespace Integration.OPC.ViewModels
 		{
 			_extension = extension;
 			ShowPropertyCommand = new RelayCommand(OnShowPropertyCommand, () => SelectedZone != null);
-			Title = "Свойства фигуры: Зона ОПС";
+			Title = CommonViewModels.FigureProperties_OPCZone;
 			_zoneElement = zoneElement;
 			Zones = new ObservableCollection<OPCZone>(zones);
 			SetSelectedZone();

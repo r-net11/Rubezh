@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Windows.Media;
 using Infrustructure.Plans;
+using Localization.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using System.Windows.Controls;
 
@@ -27,22 +28,22 @@ namespace LayoutModule.LayoutParts.ViewModels
 			IsEditable = isEditable;
 			TextAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По правому краю",
-				"По центру",
-				"Растянуть",
+				CommonViewModels.LayoutPartPropertyTextPage_LeftAlign,
+                CommonViewModels.LayoutPartPropertyTextPage_HorizontalAlign,
+				CommonViewModels.LayoutPartPropertyTextPage_RightAlign,
+				CommonViewModels.LayoutPartPropertyTextPage_Stretch,
 			};
 			HorizontalAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По центру",
-				"По правому краю",
+				CommonViewModels.LayoutPartPropertyTextPage_LeftAlign,
+                CommonViewModels.LayoutPartPropertyTextPage_HorizontalAlign,
+				CommonViewModels.LayoutPartPropertyTextPage_RightAlign,
 			};
 			VerticalAlignments = new List<string>()
 			{
-				"По верхему краю",
-				"По середине",
-				"По нижнему краю",
+				CommonViewModels.LayoutPartPropertyTextPage_TopAlign,
+                CommonViewModels.LayoutPartPropertyTextPage_VerticalAlign,
+				CommonViewModels.LayoutPartPropertyTextPage_BottomAlign,
 			};
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}
@@ -219,7 +220,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 
 		public override string Header
 		{
-			get { return "Формат"; }
+			get { return CommonViewModels.LayoutPartPropertyTextPage_Header; }
 		}
 		public override void CopyProperties()
 		{

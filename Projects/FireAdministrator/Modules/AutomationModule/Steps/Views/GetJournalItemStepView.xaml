@@ -1,17 +1,18 @@
 ﻿<UserControl x:Class="AutomationModule.Views.GetJournalItemStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Результат" />
+            <Label Content="{x:Static lang:CommonViews.Result}" />
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип колонки" />
+            <Label Content="{x:Static lang:CommonViews.ColumnType}" />
 			<ComboBox ItemsSource="{Binding JournalColumnTypes}" SelectedItem="{Binding SelectedJournalColumnType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

@@ -3,6 +3,7 @@ using System.Linq;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public OrganisationSelectionViewModel(Organisation organisation)
 		{
-			Title = "Выбор организации";
+            Title = CommonViewModels.OrganisationSelectionViewModel_Title;
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			var userOrganisations = OrganisationHelper.GetByCurrentUser();
 			foreach (var userOrganisation in userOrganisations)

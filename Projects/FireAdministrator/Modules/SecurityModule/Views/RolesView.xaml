@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="SecurityModule.Views.RolesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:lang="clr-namespace:Localization.Security.Views;assembly=Localization">
 
 	<Controls:XDataGrid
 		CanUserSortColumns="True"
@@ -9,7 +10,7 @@
 		SelectedItem="{Binding SelectedRole}">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn 
-				Header="Название"
+				Header="{x:Static lang:CommonViews.Title}"
 				SortMemberPath="Role.Name"
 				Width="*" >
 				<DataGridTemplateColumn.CellTemplate>

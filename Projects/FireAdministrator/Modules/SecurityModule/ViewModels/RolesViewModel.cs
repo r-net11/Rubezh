@@ -12,6 +12,8 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Localization.Security.Common;
+using Localization.Security.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
@@ -75,7 +77,7 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить шаблон прав\n\"{0}\"?", SelectedRole.Role.Name)))
+			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.Roles_DeleteCommand, SelectedRole.Role.Name)))
 				return;
 			FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
 			Roles.Remove(SelectedRole);
@@ -112,11 +114,11 @@ namespace SecurityModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel(CommonViewModels.Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

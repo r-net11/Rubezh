@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,11 +27,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var result = "Импортировать ";
+				var result = StepCommonViewModel.ImportOrganisation;
 				if (IsWithDeleted.ExplicitValue.BoolValue)
-					result += " с архивированными объектами ";
+					result += StepCommonViewModel.Archive;
 				if (!PathArgument.IsEmpty)
-					result += "в " + PathArgument.Description;
+					result += StepCommonViewModel.In + PathArgument.Description;
 				return result;
 			}
 		}

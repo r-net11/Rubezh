@@ -1,5 +1,4 @@
-﻿using AutomationModule.Properties;
-using StrazhAPI.Automation;
+﻿using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -8,6 +7,8 @@ using Infrastructure.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Automation.Errors;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -56,13 +57,13 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
+            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModels.LocalVariable_DefaultName, CommonViewModels.LocalVariable_Add);
 
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.ErrorVariableExist);
+				MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
 				return;
 			}
 
@@ -95,7 +96,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
+            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModels.LocalVariable_DefaultName, CommonViewModels.LocalVariable_Edit);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);

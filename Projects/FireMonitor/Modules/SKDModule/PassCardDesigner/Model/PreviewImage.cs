@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
+using Localization.SKD.Errors;
 using ReactiveUI;
 using System;
 using System.Windows.Media;
@@ -164,7 +165,7 @@ namespace SKDModule.PassCardDesigner.Model
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowError(Resources.ImageNotFoundError);
+				MessageBoxService.ShowError(CommonErrors.ImageNotFound_Error);
 				Logger.Error(e);
 				return false;
 			}

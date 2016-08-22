@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans;
+using Localization.Plans.ViewModels;
 using StrazhAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -15,7 +16,7 @@ namespace PlansModule.ViewModels
 
 		public DesignerPropertiesViewModel(Plan plan)
 		{
-			Title = "Свойства элемента: План";
+			Title = CommonViewModels.ElementPropertiesPlan;
 			if (plan == null)
 			{
 				plan = new Plan();

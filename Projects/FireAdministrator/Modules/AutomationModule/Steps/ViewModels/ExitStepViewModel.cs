@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,7 +24,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Код выхода: " + ExitCodeArgument.Description;
+                return string.Format(StepCommonViewModel.Exit, ExitCodeArgument.Description);
 			}
 		}
 	}

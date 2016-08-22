@@ -10,6 +10,8 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using Integration.OPC.Plans.InstrumentAdorners;
 using Integration.OPC.ViewModels;
+using Localization.IntegrationOPC.Errors;
+using Localization.IntegrationOPC.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Integration.OPC;
 using StrazhAPI.Models;
@@ -45,7 +47,7 @@ namespace Integration.OPC.Plans
 
 		public override string Title
 		{
-			get { return "ОПС Зоны"; }
+			get { return CommonViewModels.OPCZones; }
 		}
 
 		public override bool ElementAdded(Plan plan, ElementBase element)
@@ -101,7 +103,7 @@ namespace Integration.OPC.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("OPCZone", "ОПС Зоны", 43);
+			LayerGroupService.Instance.RegisterGroup("OPCZone", CommonViewModels.OPCZones, 43);
 		}
 
 		public override IEnumerable<IInstrument> Instruments
@@ -114,7 +116,7 @@ namespace Integration.OPC.Plans
 						new InstrumentViewModel
 						{
 							ImageSource = "ZoneRectangle",
-							ToolTip = "ОПС Зона",
+							ToolTip = CommonViewModels.OPCZone,
 							Adorner = new OPCZoneRectangleAdorner(DesignerCanvas, _zonesViewModel, this),
 							Index = 300,
 							Autostart = true,
@@ -123,7 +125,7 @@ namespace Integration.OPC.Plans
 						new InstrumentViewModel
 						{
 							ImageSource = "ZonePolygon",
-							ToolTip = "ОПС Зона",
+							ToolTip = CommonViewModels.OPCZone,
 							Adorner = new OPCZonePolygonAdorner(DesignerCanvas, _zonesViewModel, this),
 							Index = 301,
 							Autostart = true,
@@ -138,8 +140,8 @@ namespace Integration.OPC.Plans
 			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 			{
-				errors.AddRange(FindUnbindedErrors<ElementRectangleOPCZone, ShowZonesOPCEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleOPCZones, plan.UID, "Несвязанная ОПС зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
-				errors.AddRange(FindUnbindedErrors<ElementPolygonOPCZone, ShowZonesOPCEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonOPCZones, plan.UID, "Несвязанная ОПС зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
+                errors.AddRange(FindUnbindedErrors<ElementRectangleOPCZone, ShowZonesOPCEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleOPCZones, plan.UID, CommonViewModels.UnboundZone, "/Controls;component/Images/SKDZone.png", Guid.Empty));
+                errors.AddRange(FindUnbindedErrors<ElementPolygonOPCZone, ShowZonesOPCEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonOPCZones, plan.UID, CommonViewModels.UnboundZone, "/Controls;component/Images/SKDZone.png", Guid.Empty));
 			});
 			return errors;
 		}
@@ -150,7 +152,7 @@ namespace Integration.OPC.Plans
 			if (typeof(TItem) != typeof(OPCZone)) return;
 
 			var zone = item as OPCZone;
-			designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
+            designerItem.Title = zone == null ? CommonErrors.UnboundZone_Error : zone.Name;
 			designerItem.Index = zone == null ? default(int) : zone.No;
 		}
 

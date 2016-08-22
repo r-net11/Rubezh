@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Localization.Layout.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models.Layouts;
@@ -53,7 +54,7 @@ namespace LayoutModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			LoadingService.DoStep("Загрузка конфигурации макетов ОЗ");
+			LoadingService.DoStep(CommonResources.LoadLayoutConfig);
 			FiresecManager.LayoutsConfiguration.Update();
 			return true;
 		}
@@ -67,23 +68,23 @@ namespace LayoutModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TemplateContainer, 0, "Макет", "Вложенный макет", "BTemplateContainer.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TemplateContainer, 0, CommonResources.Layout, CommonResources.NestedLayout, "BTemplateContainer.png")
 			{
 				Factory = (p) => new LayoutPartTemplateContainerViewModel(p as LayoutPartReferenceProperties),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Пространство", "Свободное пространство", "BExit.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, CommonResources.Space, CommonResources.FreeSpace, "BExit.png")
 			{
 				Factory = (p) => new LayoutPartEmptyViewModel(),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Image, 4, "Картинка", "Показывает статическое изображение", "BView.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Image, 4, CommonResources.Picture, CommonResources.ShowStaticPicture, "BView.png")
 			{
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBlock, 1001, "Метка", "Метка", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBlock, 1001, CommonResources.Label, CommonResources.Label, "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
 			{
 				Factory = (p) => new LayoutPartTextViewModel(p as LayoutPartTextProperties, false),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBox, 1002, "Текстовое поле", "Текстовое поле", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBox, 1002, CommonResources.TextBox, CommonResources.TextBox, "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
 			{
 				Factory = (p) => new LayoutPartTextViewModel(p as LayoutPartTextProperties, true),
 			};

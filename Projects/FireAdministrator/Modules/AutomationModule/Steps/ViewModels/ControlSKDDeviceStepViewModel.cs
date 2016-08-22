@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using StrazhAPI;
 using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -39,7 +40,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Устройство: " + SKDDeviceArgument.Description + " Команда: " + SelectedCommand.ToDescription();
+				return string.Format(StepCommonViewModel.ControlSKDDevice, SKDDeviceArgument.Description, SelectedCommand.ToDescription());
 			}
 		}
 	}

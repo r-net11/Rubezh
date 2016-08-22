@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="String1" xml:space="preserve">
+    <value>Продолжительность работы в дневное время</value>
+  </data>
+  <data name="String10" xml:space="preserve">
+    <value>Ежегодный дополнительный оплачиваемый отпуск</value>
+  </data>
+  <data name="String10_Code" xml:space="preserve">
+    <value>ОД</value>
+  </data>
+  <data name="String11" xml:space="preserve">
+    <value>Дополнительный отпуск в связи с обучением с сохранением среднего заработка работникам, совмещающим работу с обучением</value>
+  </data>
+  <data name="String11_Code" xml:space="preserve">
+    <value>У</value>
+  </data>
+  <data name="String12" xml:space="preserve">
+    <value>Сокращенная продолжительность рабочего времени для обучающихся без отрыва от производства с частичным сохранением заработной платы</value>
+  </data>
+  <data name="String12_Code" xml:space="preserve">
+    <value>УВ</value>
+  </data>
+  <data name="String13" xml:space="preserve">
+    <value>Дополнительный отпуск в связи с обучением без сохранения заработной платы</value>
+  </data>
+  <data name="String13_Code" xml:space="preserve">
+    <value>УД</value>
+  </data>
+  <data name="String14" xml:space="preserve">
+    <value>Отпуск по беременности и родам (отпуск в связи с усыновлением новорожденного ребенка)</value>
+  </data>
+  <data name="String14_Code" xml:space="preserve">
+    <value>Р</value>
+  </data>
+  <data name="String15" xml:space="preserve">
+    <value>Отпуск по уходу за ребенком до достижения им возраста трех лет</value>
+  </data>
+  <data name="String15_Code" xml:space="preserve">
+    <value>ОЖ</value>
+  </data>
+  <data name="String16" xml:space="preserve">
+    <value>Отпуск без сохранения заработной платы, предоставляемый работнику по разрешению работодателя</value>
+  </data>
+  <data name="String16_Code" xml:space="preserve">
+    <value>ДО</value>
+  </data>
+  <data name="String17" xml:space="preserve">
+    <value>Отпуск без сохранения заработной платы при условиях, предусмотренных действующим законодательством Российской Федерации</value>
+  </data>
+  <data name="String17_Code" xml:space="preserve">
+    <value>ОЗ</value>
+  </data>
+  <data name="String18" xml:space="preserve">
+    <value>Ежегодный дополнительный отпуск без сохранения заработной платы</value>
+  </data>
+  <data name="String18_Code" xml:space="preserve">
+    <value>ДБ</value>
+  </data>
+  <data name="String19" xml:space="preserve">
+    <value>Временная нетрудоспособность (кроме случаев, предусмотренных кодом 'Т') с назначением пособия согласно законодательству</value>
+  </data>
+  <data name="String19_Code" xml:space="preserve">
+    <value>Б</value>
+  </data>
+  <data name="String1_Code" xml:space="preserve">
+    <value>Я</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value>Продолжительность работы в ночное время</value>
+  </data>
+  <data name="String20" xml:space="preserve">
+    <value>Временная нетрудоспособность без назначения пособия в случаях, предусмотренных законодательством</value>
+  </data>
+  <data name="String20_Code" xml:space="preserve">
+    <value>Т</value>
+  </data>
+  <data name="String21" xml:space="preserve">
+    <value>Сокращенная продолжительность рабочего времени против нормальной продолжительности рабочего дня в случаях, предусмотренных законодательством</value>
+  </data>
+  <data name="String21_Code" xml:space="preserve">
+    <value>ЛЧ</value>
+  </data>
+  <data name="String22" xml:space="preserve">
+    <value>Время вынужденного прогула в случае признания увольнения, перевода на другую работу или отстранения от работы незаконным и с восстановлением на прежней работе</value>
+  </data>
+  <data name="String22_Code" xml:space="preserve">
+    <value>ПВ</value>
+  </data>
+  <data name="String23" xml:space="preserve">
+    <value>Невыходы на время исполнения государственных или общественных обязанностей согласно законодательству</value>
+  </data>
+  <data name="String23_Code" xml:space="preserve">
+    <value>Г</value>
+  </data>
+  <data name="String24" xml:space="preserve">
+    <value>Прогулы (отсутствие на рабочем месте без уважительных причин в течение времени, установленного законодательством)</value>
+  </data>
+  <data name="String24_Code" xml:space="preserve">
+    <value>ПР</value>
+  </data>
+  <data name="String25" xml:space="preserve">
+    <value>Продолжительность работы в режиме неполного рабочего времени по инициативе работодателя в случаях, предусмотренных законодательством</value>
+  </data>
+  <data name="String25_Code" xml:space="preserve">
+    <value>НС</value>
+  </data>
+  <data name="String26" xml:space="preserve">
+    <value>Выходные дни (еженедельный отпуск) и нерабочие праздничные дни</value>
+  </data>
+  <data name="String26_Code" xml:space="preserve">
+    <value>В</value>
+  </data>
+  <data name="String27" xml:space="preserve">
+    <value>Дополнительные выходные дни (оплачиваемые)</value>
+  </data>
+  <data name="String27_Code" xml:space="preserve">
+    <value>ОВ</value>
+  </data>
+  <data name="String28" xml:space="preserve">
+    <value>Дополнительные выходные дни (без сохранения заработной платы)</value>
+  </data>
+  <data name="String28_Code" xml:space="preserve">
+    <value>НВ</value>
+  </data>
+  <data name="String29" xml:space="preserve">
+    <value>Забастовка (при условиях и в порядке, предусмотренных законом)</value>
+  </data>
+  <data name="String29_Code" xml:space="preserve">
+    <value>ЗБ</value>
+  </data>
+  <data name="String2_Code" xml:space="preserve">
+    <value>Н</value>
+  </data>
+  <data name="String3" xml:space="preserve">
+    <value>Продолжительность работы в выходные и нерабочие праздничные дни</value>
+  </data>
+  <data name="String30" xml:space="preserve">
+    <value>Неявки по невыясненным причинам (до выяснения обстоятельств)</value>
+  </data>
+  <data name="String30_Code" xml:space="preserve">
+    <value>НН</value>
+  </data>
+  <data name="String31" xml:space="preserve">
+    <value>Время простоя по вине работодателя</value>
+  </data>
+  <data name="String31_Code" xml:space="preserve">
+    <value>РП</value>
+  </data>
+  <data name="String32" xml:space="preserve">
+    <value>Время простоя по причинам, не зависящим от работодателя и работника</value>
+  </data>
+  <data name="String32_Code" xml:space="preserve">
+    <value>НП</value>
+  </data>
+  <data name="String33" xml:space="preserve">
+    <value>Время простоя по вине работника</value>
+  </data>
+  <data name="String33_Code" xml:space="preserve">
+    <value>ВП</value>
+  </data>
+  <data name="String34" xml:space="preserve">
+    <value>Отстранение от работы (недопущение к работе) с оплатой (пособием) в соответствии с законодательством</value>
+  </data>
+  <data name="String34_Code" xml:space="preserve">
+    <value>НО</value>
+  </data>
+  <data name="String35" xml:space="preserve">
+    <value>Отстранение от работы (недопущение к работе) по причинам, предусмотренным законодательством, без начисления заработной платы</value>
+  </data>
+  <data name="String35_Code" xml:space="preserve">
+    <value>НБ</value>
+  </data>
+  <data name="String36" xml:space="preserve">
+    <value>Время приостановки работы в случае задержки выплаты заработной платы</value>
+  </data>
+  <data name="String36_Code" xml:space="preserve">
+    <value>НЗ</value>
+  </data>
+  <data name="String3_Code" xml:space="preserve">
+    <value>РВ</value>
+  </data>
+  <data name="String4" xml:space="preserve">
+    <value>Продолжительность сверхурочной работы</value>
+  </data>
+  <data name="String4_Code" xml:space="preserve">
+    <value>С</value>
+  </data>
+  <data name="String5" xml:space="preserve">
+    <value>Продолжительность работы вахтовым методом</value>
+  </data>
+  <data name="String5_Code" xml:space="preserve">
+    <value>ВМ</value>
+  </data>
+  <data name="String6" xml:space="preserve">
+    <value>Служебная командировка</value>
+  </data>
+  <data name="String6_Code" xml:space="preserve">
+    <value>К</value>
+  </data>
+  <data name="String7" xml:space="preserve">
+    <value>Повышение квалификации с отрывом от работы</value>
+  </data>
+  <data name="String7_Code" xml:space="preserve">
+    <value>ПК</value>
+  </data>
+  <data name="String8" xml:space="preserve">
+    <value>Повышение квалификации с отрывом от работы в другой местности</value>
+  </data>
+  <data name="String8_Code" xml:space="preserve">
+    <value>ПМ</value>
+  </data>
+  <data name="String9" xml:space="preserve">
+    <value>Ежегодный основной оплачиваемый отпуск</value>
+  </data>
+  <data name="String9_Code" xml:space="preserve">
+    <value>ОТ</value>
+  </data>
+</root>

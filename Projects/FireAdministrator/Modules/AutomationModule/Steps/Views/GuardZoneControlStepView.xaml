@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="clr-namespace:StrazhAPI.Enums;assembly=StrazhAPI"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
     mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
@@ -18,7 +19,7 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Text="Охранная зона"
+			Text="{x:Static lang:CommonViews.GuardZone}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5"/>
@@ -38,7 +39,7 @@
 		</TextBlock>
 		<TextBlock
 			Grid.Row="1"
-			Text="Команда"
+			Text="{x:Static lang:CommonViews.Command}"
 			Foreground="White"
 			VerticalAlignment="Center"
 			Margin="5" />

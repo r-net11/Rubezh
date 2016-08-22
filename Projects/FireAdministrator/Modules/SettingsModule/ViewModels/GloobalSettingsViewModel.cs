@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Localization.Settings.ViewModels;
 using StrazhAPI;
 using FiresecClient;
 using Infrastructure.Common;
@@ -21,7 +22,7 @@ namespace SettingsModule.ViewModels
 
 		public GloobalSettingsViewModel()
 		{
-			Title = "Параметры";
+			Title = CommonViewModels.GlobalSettings_Parameters;
 			Curent = this;
 
 			SaveLogsCommand = new RelayCommand(OnSaveLogs);
@@ -36,7 +37,7 @@ namespace SettingsModule.ViewModels
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 		}
 
-		public string ServerAutoLabel { get { return "Сервер приложений"; } }
+		public string ServerAutoLabel { get { return CommonViewModels.GlobalSettings_ApplicationServer; } }
 		public bool IsServerAuto
 		{
 			get
@@ -147,7 +148,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetDatabaseCommand { get; private set; }
 		void OnResetDatabase()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
+			if (MessageBoxService.ShowQuestion(CommonViewModels.GlobalSettings_ResetDB))
 			{
 				var result = FiresecManager.FiresecService.ResetSKDDatabase();
 				if (result.HasError)
@@ -158,7 +159,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetConfigurationCommand { get; private set; }
 		void OnResetConfiguration()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
+            if (MessageBoxService.ShowQuestion(CommonViewModels.GlobalSettings_ResetConfig))
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
 			}
@@ -167,7 +168,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetSKDLibaryCommand { get; private set; }
 		void OnResetSKDLibary()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?"))
+            if (MessageBoxService.ShowQuestion(CommonViewModels.GlobalSettings_ResetSKD))
 			{
 				DeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
 			}
@@ -176,7 +177,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetSettingsCommand { get; private set; }
 		void OnResetSettings()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки?"))
+            if (MessageBoxService.ShowQuestion(CommonViewModels.GlobalSettings_ResetSettings))
 			{
 				GlobalSettingsHelper.Reset();
 				AppServerSettingsHelper.Reset();

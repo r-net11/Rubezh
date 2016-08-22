@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -14,7 +15,7 @@ namespace StrazhModule.ViewModels
 	{
 		public ZoneSelectationViewModel(Guid zoneUID)
 		{
-			Title = "Выбор зоны";
+			Title = CommonViewModels.Zone_Selectation;
 			CreateCommand = new RelayCommand(OnCreate);
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in SKDManager.Zones.OrderBy(x => x.No))

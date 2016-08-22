@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             mc:Ignorable="d" 
+			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
+			 mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="580"
 			 MinHeight="350" MinWidth="580">
 	<UserControl.Resources>
@@ -30,7 +32,7 @@
 			<ToolBarButton
 				Command="{Binding StartSearchCommand}"
 				ImageSource="Refresh"
-				ToolTip="Обновить"
+				ToolTip="{x:Static lang:CommonViews.Update}"
 				HorizontalAlignment="Left"/>
 		</StackPanel>
 		<!-- Список найденных контроллеров -->
@@ -40,7 +42,7 @@
 			<DataGrid.Columns>
 				<!-- Колонка "Добавить" -->
 				<DataGridTemplateColumn
-					Header="Добавить"
+					Header="{x:Static langCommon:CommonResources.Add}"
 					Width="Auto" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -53,7 +55,7 @@
 				</DataGridTemplateColumn>
 				<!-- Колонка "Наименование" -->
 				<DataGridTemplateColumn
-					Header="Наименование"
+					Header="{x:Static lang:CommonViews.Denomination}"
 					Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -74,7 +76,7 @@
 									Width="16"
 									Height="16"
 									Source="/Controls;component/StateClassIcons/Attention.png"
-									ToolTip="Устройство и сервер находятся в разных подсетях"
+									ToolTip="{x:Static lang:CommonViews.DifferentNets}"
 									HorizontalAlignment="Right"
 									Margin="2"/>
 							</Grid>
@@ -83,7 +85,7 @@
 				</DataGridTemplateColumn>
 				<!-- Колонка "Тип" -->
 				<DataGridTemplateColumn
-					Header="Тип"
+					Header="{x:Static lang:CommonViews.Type}"
 					Width="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -97,7 +99,7 @@
 				</DataGridTemplateColumn>
 				<!-- Колонка "IP-адрес" -->
 				<DataGridTemplateColumn
-					Header="IP-адрес"
+					Header="{x:Static lang:CommonViews.IPaddress}"
 					Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -111,7 +113,7 @@
 				</DataGridTemplateColumn>
 				<!-- Колонка "Шлюз" -->
 				<DataGridTemplateColumn
-					Header="Шлюз"
+					Header="{x:Static lang:CommonViews.Gateway}"
 					Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -125,7 +127,7 @@
 				</DataGridTemplateColumn>
 				<!-- Колонка "Порт" -->
 				<DataGridTemplateColumn
-					Header="Порт"
+					Header="{x:Static lang:CommonViews.Port}"
 					Width="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -156,7 +158,7 @@
 				Margin="2"/>
 			<TextBlock
 				Grid.Column="1"
-				Text="Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно"
+				Text="{x:Static lang:CommonViews.DifferentNetsDevices}"
 				Foreground="{DynamicResource ForegroundColorLight}"
 				VerticalAlignment="Center"
 				TextWrapping="Wrap" Margin="5 2"/>

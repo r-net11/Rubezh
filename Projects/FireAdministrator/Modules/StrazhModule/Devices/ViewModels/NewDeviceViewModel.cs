@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -9,7 +10,7 @@ namespace StrazhModule.ViewModels
 	{
 		public NewDeviceViewModel(DeviceViewModel parentDeviceViewModel)
 		{
-			Title = "Новое устройство";
+			Title = CommonViewModels.NewDevice;
 			ParentDevice = parentDeviceViewModel.Device;
 			Drivers = new ObservableCollection<SKDDriver>();
 

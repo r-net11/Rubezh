@@ -3,6 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
 	xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+	xmlns:lang="clr-namespace:Localization.Journal.Views;assembly=Localization"
+    
 	ColumnWidth="29.7cm"
 	PageHeight="21cm"
 	PageWidth="29.7cm">
@@ -38,11 +40,14 @@
 					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Right">
-							Страница
-							<xrd:InlineContextValue FontWeight="Bold" Type="PageNumber" />
-							из
-							<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
-						</Paragraph>
+                            <!--{x:Static lang:CommonViews.Page}
+                            <xrd:InlineContextValue FontWeight="Bold" Type="PageNumber" />
+                            {x:Static lang:CommonViews.Of}-->
+                            Страница
+                            <xrd:InlineContextValue FontWeight="Bold" Type="PageNumber" />
+                            из
+                            <xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
+                        </Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>

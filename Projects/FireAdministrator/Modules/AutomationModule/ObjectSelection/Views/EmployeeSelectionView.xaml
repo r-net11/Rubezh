@@ -1,14 +1,16 @@
 ﻿<UserControl
-		x:Class="AutomationModule.Views.EmployeeSelectionView"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-		xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-		mc:Ignorable="d" 
-		d:DesignHeight="300" d:DesignWidth="300"
-		MinWidth="400" MinHeight="400">
+	x:Class="AutomationModule.Views.EmployeeSelectionView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
+	mc:Ignorable="d" 
+	d:DesignHeight="300" d:DesignWidth="300"
+	MinWidth="400" MinHeight="400">
+    
     <Grid>
 		<tree:TreeList
 				Focusable="True"
@@ -20,7 +22,7 @@
 				<GridView>
 					<GridViewColumn
 							Width="300"
-							Header="Сотрудник">
+							Header="{x:Static lang:CommonViews.Employee}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -43,7 +45,7 @@
 					</GridViewColumn>
 					<GridViewColumn
 							Width="150"
-							Header="Табельный номер">
+							Header="{x:Static lang:CommonViews.Number}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TabelNo}" />

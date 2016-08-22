@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
@@ -13,7 +14,7 @@ namespace StrazhModule.ViewModels
 
 		public LayoutPartVerificationViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Верификация";
+			Title = CommonViewModels.Verification;
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);

@@ -1,4 +1,5 @@
-<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:FireAdministrator.Converters">
+<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:FireAdministrator.Converters"
+             xmlns:lang="clr-namespace:Localization.FireAdministrator.Views;assembly=Localization">
 
 	<UserControl.Resources>
 		<Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
@@ -12,7 +13,7 @@
 		</Grid.ColumnDefinitions>
 		<DataGrid Grid.Column="0" CanUserSortColumns="True" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Источник" SortMemberPath="Source">
+				<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Source}" SortMemberPath="Source">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -26,7 +27,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Адрес" SortMemberPath="Address">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Address}" SortMemberPath="Address">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock>
@@ -37,7 +38,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Ошибка" SortMemberPath="Error">
+                <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.Error}" SortMemberPath="Error">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Margin="2 0">
@@ -48,7 +49,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="30" MaxWidth="200" Header="Уровень" SortMemberPath="ErrorLevel">
+                <DataGridTemplateColumn MinWidth="30" MaxWidth="200" Header="{x:Static lang:CommonViews.Level}" SortMemberPath="ErrorLevel">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid Height="20" Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}" ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}">
@@ -63,7 +64,7 @@
 			</DataGrid.InputBindings>
 		</DataGrid>
 		<StackPanel Grid.Column="1">
-			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" ImageSource="Delete"  IsEnabled="True" ToolTip="Закрыть панель валидации" />
+            <ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" ImageSource="Delete"  IsEnabled="True" ToolTip="{x:Static lang:CommonViews.CloseValidationPanel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

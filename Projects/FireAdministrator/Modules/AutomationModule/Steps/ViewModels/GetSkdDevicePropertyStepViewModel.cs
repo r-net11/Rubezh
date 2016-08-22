@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using StrazhAPI.Automation;
 using StrazhAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -57,7 +58,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get	{ return string.Format("Устройство: {0} Свойство: {1} Значение: {2}", ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description);	}
+			get	{ return string.Format(StepCommonViewModel.GetSKDDeviceProperty, ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description);	}
 		}
 
 		public ObjectType SelectedObjectType

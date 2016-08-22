@@ -8,6 +8,7 @@ using System.IO;
 using System.Printing;
 using System.Windows;
 using System.Windows.Documents;
+using Localization.Reports.ViewModels;
 
 namespace ReportsModule.ViewModels
 {
@@ -100,9 +101,9 @@ namespace ReportsModule.ViewModels
 		}
 		private void AddReportHeader(iTextSharp.text.Document document)
 		{
-			document.AddAuthor("Рубеж / Оперативные задачи");
+            document.AddAuthor(CommonViewModels.RubezhOperTask);
 			document.AddTitle(_reportProvider.Title);
-			document.AddCreator("ОЗ");
+            document.AddCreator(CommonViewModels.OperativeTask);
 		}
 	}
 }

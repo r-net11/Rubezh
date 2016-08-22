@@ -2,6 +2,8 @@
 using System.Linq;
 using StrazhAPI.Automation;
 using FiresecClient;
+using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -48,7 +50,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Процедура: " + (SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>"); 
+				return string.Format(StepCommonViewModel.ProcedureSelection ,(SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : CommonResources.Empty)); 
 			}
 		}
 	}

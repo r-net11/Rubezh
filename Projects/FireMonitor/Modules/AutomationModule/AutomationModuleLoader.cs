@@ -5,6 +5,7 @@ using System.Linq;
 using AutomationModule.Events;
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
+using Localization.Automation.Common;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
@@ -23,7 +24,6 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure.Models;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
 
@@ -104,11 +104,11 @@ namespace AutomationModule
 					{
 						if (messageArguments.WithConfirmation)
 						{
-							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
+							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, CommonResources.Message);
 							FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, confirm);
 						}
 						else
-							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
+                            MessageBoxService.ShowExtended(messageArguments.Message, CommonResources.Message, messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:
@@ -153,11 +153,11 @@ namespace AutomationModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 #if DEBUG
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, "Процедураы", "Procedure.png", p => ProceduresViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, CommonResources.Procedures, "Procedure.png", p => ProceduresViewModel);
 #endif
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
+            yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, CommonResources.Procedure, "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
+            yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, CommonResources.Label, "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
+            yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, CommonResources.TextBlock, "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
 		}
 		#endregion
 	}

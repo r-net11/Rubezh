@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
+using Localization.Converters;
+using Localization.Strazh.ViewModels;
+using Localization.Strazh.Common;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace StrazhModule.ViewModels
 
 		public LockPropertiesViewModel(SKDDevice device)
 		{
-			Title = "Параметры замка";
+			Title = CommonResources.LockParameters;
 			Device = device;
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
@@ -354,7 +355,7 @@ namespace StrazhModule.ViewModels
 				var doorConfiguration = result.Result;
 				if (!DoorOpenMethods.Any(doorOpenMethod => doorOpenMethod.Equals(doorConfiguration.DoorOpenMethod)))
 				{
-					MessageBoxService.ShowWarning("Для замка на контроллере не установлен метод открытия двери");
+                    MessageBoxService.ShowWarning(CommonViewModels.Lock_EmptyOpenMethod);
 				}
 				Update(doorConfiguration);
 				HasChanged = false;
@@ -464,7 +465,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && WeeklyInterval == null)
 			{
-				MessageBoxService.ShowWarning("Расписание замка не выбрано");
+				MessageBoxService.ShowWarning(CommonViewModels.LockSchedule_NotSelect);
 				return false;
 			}
 			return true;
@@ -477,7 +478,7 @@ namespace StrazhModule.ViewModels
 
 			if (HasChanged)
 			{
-				if (!MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
+                if (!MessageBoxService.ShowConfirmation(CommonResources.SaveConfigurationControllerWarning))
 					return false;
 			}
 			
@@ -488,9 +489,9 @@ namespace StrazhModule.ViewModels
 
 	public enum RemoteTimeoutDoorStatus
 	{
-		[Description("Закрыто")]
-		Close,
-		[Description("Открыто")]
+        [LocalizedDescription(typeof(CommonViewModels),"Close")]
+        Close,
+        [LocalizedDescription(typeof(CommonViewModels), "Open")]
 		Open
 	}
 }

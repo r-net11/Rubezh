@@ -7,6 +7,7 @@
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
 	xmlns:models="clr-namespace:Integration.OPC.Models"
+	xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
 	mc:Ignorable="d"
     Height="300"
 	Width="600">
@@ -44,7 +45,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Наименование" Width="1.5*">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Denomination}" Width="1.5*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
@@ -54,7 +55,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Назначение" Width="*">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Purpose}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
@@ -64,7 +65,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" Width="*">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Note}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:OPCZone}">
 							<TextBlock
@@ -85,7 +86,7 @@
 				Width="50"
 				Height="50"/>
 			<TextBlock
-				Text="Получение данных от сервера..."
+				Text="{x:Static lang:CommonViews.RecieveDataFromServer}"
 				HorizontalAlignment="Center"/>
 		</StackPanel>
     </Grid>

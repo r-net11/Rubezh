@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.Plans.Common;
+using Localization.Plans.ViewModels;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure.Client.Layout.ViewModels;
@@ -14,7 +16,7 @@ namespace PlansModule.ViewModels
 
 		public LayoutPartPlansViewModel(LayoutPartPlansProperties properties)
 		{
-			Title = "Планы";
+			Title = CommonResources.Plans;
 			IconSource = LayoutPartDescription.IconPath + "CMap.png";
 			_properties = properties ?? new LayoutPartPlansProperties();
 			UpdateLayoutPart();
@@ -39,7 +41,7 @@ namespace PlansModule.ViewModels
 			switch (_properties.Type)
 			{
 				case LayoutPartPlansType.All:
-					PlansTitle = "(Все планы)";
+					PlansTitle = CommonViewModels.AllPlans;
 					break;
 				case LayoutPartPlansType.Selected:
 				case LayoutPartPlansType.Single:

@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.Strazh.ViewModels;
+using StrazhAPI.SKD;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
@@ -13,15 +14,15 @@ namespace StrazhModule.ViewModels
 		{
 			if (dayInterval == null)
 			{
-				Title = "Создание нового дневного графика";
+                Title = CommonViewModels.DaySchedule_Creation;
 				DayInterval = new SKDDayInterval()
 				{
-					Name = "Новый дневной график",
+					Name = CommonViewModels.NewDaySchedule,
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства дневного графика: {0}", dayInterval.Name);
+				Title = string.Format(CommonViewModels.DaySchedule_Properties, dayInterval.Name);
 				DayInterval = dayInterval;
 			}
 			CopyProperties();
@@ -64,7 +65,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever || Name == TimeIntervalsConfiguration.PredefinedIntervalNameAlways)
 			{
-				MessageBoxService.ShowWarning("Запрещенное назваине");
+				MessageBoxService.ShowWarning(CommonViewModels.ForbiddenName);
 				return false;
 			}
 			DayInterval.Name = Name;

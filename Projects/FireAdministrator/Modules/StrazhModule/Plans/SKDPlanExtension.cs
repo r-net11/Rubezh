@@ -7,6 +7,8 @@ using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using Localization.Strazh.Common;
+using Localization.Strazh.Errors;
 using StrazhAPI;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
@@ -62,7 +64,7 @@ namespace StrazhModule.Plans
 		}
 		public override string Title
 		{
-			get { return "СКД Устройства"; }
+			get { return CommonResources.SKDDevices; }
 		}
 
 		public override IEnumerable<IInstrument> Instruments
@@ -75,7 +77,7 @@ namespace StrazhModule.Plans
 					new InstrumentViewModel
 					{
 						ImageSource = "ZoneRectangle",
-						ToolTip = "СКД Зона",
+						ToolTip = CommonResources.SKDZone,
 						Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 						Index = 300,
 						Autostart = true,
@@ -84,7 +86,7 @@ namespace StrazhModule.Plans
 					new InstrumentViewModel
 					{
 						ImageSource = "ZonePolygon",
-						ToolTip = "СКД Зона",
+						ToolTip = CommonResources.SKDZone,
 						Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 						Index = 301,
 						Autostart = true,
@@ -182,9 +184,9 @@ namespace StrazhModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 25);
-			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 26);
-			LayerGroupService.Instance.RegisterGroup("Doors", "Точки доступа", 27);
+			LayerGroupService.Instance.RegisterGroup("SKD", CommonResources.SKDDevices, 25);
+            LayerGroupService.Instance.RegisterGroup("SKDZone", CommonResources.SKDZones, 26);
+            LayerGroupService.Instance.RegisterGroup("Doors", CommonResources.Doors, 27);
 		}
 
 		public override IEnumerable<ElementError> Validate()
@@ -192,10 +194,10 @@ namespace StrazhModule.Plans
 			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 			{
-				errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, "Несвязанное СКД устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-				errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
-				errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
-				errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/Door.png", Guid.Empty));
+				errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, CommonErrors.UnrelatedSKDDeviceError, "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
+                errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, CommonErrors.UnrelatedSKDZoneError, "/Controls;component/Images/SKDZone.png", Guid.Empty));
+                errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, CommonErrors.UnrelatedSKDZoneError, "/Controls;component/Images/SKDZone.png", Guid.Empty));
+                errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, CommonErrors.UnrelatedDoorError, "/Controls;component/Images/Door.png", Guid.Empty));
 			});
 			return errors;
 		}
@@ -207,19 +209,19 @@ namespace StrazhModule.Plans
 			if (typeof(TItem) == typeof(SKDDevice))
 			{
 				var device = item as SKDDevice;
-				designerItem.Title = device == null ? "Неизвестное устройство" : device.Name;
+				designerItem.Title = device == null ? CommonResources.UnknownDevice : device.Name;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
 			else if (typeof(TItem) == typeof(SKDZone))
 			{
 				var zone = item as SKDZone;
-				designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
+				designerItem.Title = zone == null ? CommonResources.UnrelatedZone : zone.Name;
 				designerItem.Index = zone == null ? default(int) : zone.No;
 			}
 			else if (typeof(TItem) == typeof(SKDDoor))
 			{
 				var door = item as SKDDoor;
-				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
+				designerItem.Title = door == null ? CommonResources.UnknownDoor : door.Name;
 				designerItem.Index = door == null ? default(int) : door.No;
 			}
 			else

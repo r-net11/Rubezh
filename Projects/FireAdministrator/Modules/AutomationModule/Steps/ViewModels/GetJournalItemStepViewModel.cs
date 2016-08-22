@@ -1,6 +1,7 @@
 ﻿using StrazhAPI;
 using StrazhAPI.Automation;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -75,7 +76,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Получить значение колонки: " + SelectedJournalColumnType.ToDescription() + " Результат: " + ResultArgument.Description;
+				return string.Format(StepCommonViewModel.GetJournalItem, SelectedJournalColumnType.ToDescription(),ResultArgument.Description);
 			}
 		}
 	}

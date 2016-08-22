@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Automation.ViewModels;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDZoneSelectionViewModel(SKDZone zone)
 		{
-			Title = "Выбор зоны";
+		    Title = CommonViewModels.ChooseZone;
 			Zones = new ObservableCollection<ZoneViewModel>();
 			SKDManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)

@@ -3,9 +3,10 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:Views="clr-namespace:SecurityModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Security.Views;assembly=Localization"
 			 MinWidth="600" MinHeight="600">
 	<TabControl>
-		<TabItem Header="Общее">
+        <TabItem Header="{x:Static lang:CommonViews.Main}">
 			<StackPanel>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -17,13 +18,13 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Имя пользователя" HorizontalAlignment="Right" VerticalAlignment="Center" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label Grid.Column="0" Grid.Row="0" Content="{x:Static lang:CommonViews.Username}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label Grid.Column="0" Grid.Row="1" Content="{x:Static lang:CommonViews.Login}" HorizontalAlignment="Right" VerticalAlignment="Center" />
 
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Login}" IsEnabled="{Binding CanChangeLogin}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 
-					<CheckBox Grid.Column="1" Grid.Row="2" Content="Сменить пароль" Foreground="{DynamicResource ForegroundColorLight}"
+                    <CheckBox Grid.Column="1" Grid.Row="2" Content="{x:Static lang:CommonViews.ChangePassword}" Foreground="{DynamicResource ForegroundColorLight}"
 						Visibility="{Binding IsNotNew, Converter={StaticResource BoolToVisibilityConverter}}"
 						IsChecked="{Binding IsChangePassword}" />
 				</Grid>
@@ -36,8 +37,8 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Пароль" HorizontalAlignment="Right" VerticalAlignment="Center" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Подтверждение" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label Grid.Column="0" Grid.Row="0" Content="{x:Static lang:CommonViews.Password}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label Grid.Column="0" Grid.Row="1" Content="{x:Static lang:CommonViews.Confirm}" HorizontalAlignment="Right" VerticalAlignment="Center" />
 					<Controls:PasswordBoxControl Grid.Column="1" Grid.Row="0" Password="{Binding Password}" VerticalAlignment="Center" Margin="5" />
 					<Controls:PasswordBoxControl Grid.Column="1" Grid.Row="1" Password="{Binding PasswordConfirmation}" VerticalAlignment="Center" Margin="5" />
 				</Grid>
@@ -48,7 +49,7 @@
 					</Grid.ColumnDefinitions>
 					<TextBlock
 						Grid.Column="0"
-						Text="В качестве оболочки использовать"
+						Text="{x:Static lang:CommonViews.Shell}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						TextWrapping="Wrap"
 						VerticalAlignment="Center"
@@ -70,7 +71,7 @@
 				</Grid>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Права">
+        <TabItem Header="{x:Static lang:CommonViews.Rights}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -81,7 +82,7 @@
 					Margin="2" />
 				<Button
 					Grid.Row="1"
-					Content="Применить права из шаблона"
+					Content="{x:Static lang:CommonViews.ApplyTemplateRights}"
 					Command="{Binding SetRolePermissionsCommand}"
 					HorizontalAlignment="Left"
 					BorderBrush="#D8FFFFFF"
@@ -90,7 +91,7 @@
 					Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Удаленный доступ">
+        <TabItem Header="{x:Static lang:CommonViews.RemoteAccess}">
 			<Views:RemoteAccessView DataContext="{Binding RemoteAccess}" HorizontalAlignment="Left" Margin="2" />
 		</TabItem>
 	</TabControl>

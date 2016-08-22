@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.Reports;
 using JournalModule.ViewModels;
+using Localization.Journal.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
@@ -45,7 +46,7 @@ namespace JournalModule
 			{
 				_unreadJournalCount = value;
 				if (_journalNavigationItem != null)
-					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+                    _journalNavigationItem.Title = UnreadJournalCount == 0 ? CommonResources.Journal : string.Format(CommonResources.JournalWithVariable, UnreadJournalCount);
 			}
 		}
 
@@ -75,12 +76,12 @@ namespace JournalModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(_journalViewModel, "Журнал событий", "Book");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(_journalViewModel, CommonResources.Journal, "Book");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(_archiveViewModel, "Архив", "Archive")
+				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(_archiveViewModel, CommonResources.Archive, "Archive")
 			};
 		}
 		public override ModuleType ModuleType
@@ -163,7 +164,7 @@ namespace JournalModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", p =>
+            yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, CommonResources.Journal, "Book.png", p =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
 				var filter = FiresecManager.SystemConfiguration.JournalFilters .FirstOrDefault(x => layoutPartJournalProperties != null && x.UID == layoutPartJournalProperties.ReferenceUID)
@@ -179,7 +180,7 @@ namespace JournalModule
 
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", p => _archiveViewModel);
+            yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, CommonResources.Archive, "Archive.png", (p) => _archiveViewModel);
 		}
 
 		#endregion

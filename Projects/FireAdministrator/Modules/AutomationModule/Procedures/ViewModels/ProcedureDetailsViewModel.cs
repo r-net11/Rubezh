@@ -2,6 +2,8 @@
 using StrazhAPI.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -14,12 +16,12 @@ namespace AutomationModule.ViewModels
 			if (procedure == null)
 			{
 				Procedure = new Procedure();
-				Title = "Создание процедуры";
+                Title = CommonViewModels.ProcedureDetails_Create;
 			}
 			else
 			{
 				Procedure = procedure;
-				Title = "Редактирование процедуры";
+                Title = CommonViewModels.ProcedureDetails_Edit;
 			}
 			Name = Procedure.Name;
 			Description = Procedure.Description;
@@ -101,7 +103,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(CommonResources.SaveEmpty);
 				return false;
 			}
 			Procedure.Name = Name;

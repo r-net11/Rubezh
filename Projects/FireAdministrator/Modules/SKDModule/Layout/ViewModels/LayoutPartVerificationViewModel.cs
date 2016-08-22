@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Events;
@@ -17,7 +19,7 @@ namespace SKDModule.ViewModels
 
 		public LayoutPartVerificationViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Верификация";
+			Title = CommonResources.Verification;
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			UpdateLayoutPartInternal(SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID));
@@ -41,7 +43,7 @@ namespace SKDModule.ViewModels
 		{
 			if (device == null)
 			{
-				UpdateLayoutPart("Устройство не указано");
+				UpdateLayoutPart(CommonViewModels.UnknownDevice);
 				return;
 			}
 			UpdateLayoutPart(new DeviceViewModel(device).NameAndAddress);

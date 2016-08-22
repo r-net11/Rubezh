@@ -3,7 +3,8 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Views="clr-namespace:AutomationModule.Views"
-	xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI">
+	xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -14,7 +15,7 @@
 
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Макет" />
+            <Label Content="{x:Static lang:CommonViews.Layout}" />
 			<ComboBox ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -25,7 +26,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Элемент" />
+            <Label Content="{x:Static lang:CommonViews.Element}" />
 			<ComboBox IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -36,7 +37,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Свойство" />
+            <Label Content="{x:Static lang:CommonViews.Property}" />
 			<ComboBox IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -47,7 +48,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" />
+			<Label Content="{x:Static lang:CommonViews.Value}" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
 		</StackPanel>
 	</StackPanel>

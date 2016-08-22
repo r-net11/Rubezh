@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
@@ -34,15 +35,15 @@ namespace StrazhModule.ViewModels
 			{
 				if (State.StateClass == XStateClass.No)
 				{
-					return "Базовый рисунок";
+					return CommonViewModels.BaseImage;
 				}
 				if (State.StateClass == XStateClass.On)
 				{
-					return "Открыто";
+					return CommonViewModels.Open;
 				}
 				if (State.StateClass == XStateClass.Off)
 				{
-					return "Закрыто";
+					return CommonViewModels.Close;
 				}
 				return State.StateClass.ToDescription();
 			}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
+using Localization.Strazh.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -10,7 +10,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -20,7 +19,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerDoorTypeViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Основные настройки контроллера";
+			Title = CommonResources.ControllerMainSettings;
 			DeviceViewModel = deviceViewModel;
 
 			ReadDoorTypeFromControllerCommand = new RelayCommand(OnReadDoorTypeFromController);
@@ -573,7 +572,7 @@ namespace StrazhModule.ViewModels
 				DeviceViewModel.Device.InterlockConfiguration = new SKDInterlockConfiguration { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode };
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
-			if (NeedSaveChangesToController && !MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
+			if (NeedSaveChangesToController && !MessageBoxService.ShowConfirmation(CommonResources.SaveConfigurationControllerWarning))
 			{
 				return false;
 			}

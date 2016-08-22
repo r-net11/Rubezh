@@ -2,6 +2,7 @@
 	x:Class="StrazhModule.Views.ControllerPaswordView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="300">
 	<Border Background="{DynamicResource BackgroundBrush}">
@@ -17,7 +18,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Пользователь" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.User}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableLogins}" SelectedItem="{Binding SelectedLogin}" Margin="2">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -26,16 +27,16 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 
-			<TextBlock Grid.Row="1" Grid.Column="0" Text="Действующий пароль" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.CurrentPassword}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding OldPassword}" Margin="2" />
 
-			<TextBlock Grid.Row="2" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static lang:CommonViews.Password}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Password}" Margin="2" />
 
-			<TextBlock Grid.Row="3" Grid.Column="0" Text="Подтверждение пароля" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:CommonViews.PasswordConfirmation}" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PasswordConfirmation}" Margin="2" />
 
-			<Button Grid.Row="4" Grid.Column="1" Command="{Binding SetPasswordCommand}" BorderBrush="#D8FFFFFF" Content="Изменить пароль" Width="150" HorizontalAlignment="Right" Margin="2" />
+            <Button Grid.Row="4" Grid.Column="1" Command="{Binding SetPasswordCommand}" BorderBrush="#D8FFFFFF" Content="{x:Static lang:CommonViews.ChangePassword}" Width="150" HorizontalAlignment="Right" Margin="2" />
 		</Grid>
 	</Border>
 </UserControl>

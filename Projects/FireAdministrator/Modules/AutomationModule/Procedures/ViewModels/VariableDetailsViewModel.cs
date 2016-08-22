@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Automation;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using Localization.Automation.Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -114,7 +115,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(CommonResources.SaveEmpty);
 				return false;
 			}
 			Variable = new Variable

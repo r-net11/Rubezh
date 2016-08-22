@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:lang="clr-namespace:Localization.IntegrationOPC.Views;assembly=Localization"
     mc:Ignorable="d"
 	MinHeight="260"
 	MaxHeight="260"
@@ -39,7 +40,7 @@
 				<TextBlock
 					Grid.Column="1"
 					VerticalAlignment="Center"
-					Text="Параметры запуска интеграционного модуля"
+					Text="{x:Static lang:CommonViews.IntegrationParameters}"
 					Foreground="White"
 					Margin="5"/>
 				<Separator
@@ -62,7 +63,7 @@
 				<ColumnDefinition Width="250" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Text="Активно"
+				Text="{x:Static lang:CommonViews.Active}"
 				Foreground="White"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
@@ -83,14 +84,14 @@
 					Width="10"
 					VerticalAlignment="Center"/>
 				<TextBlock
-					Text="Модуль интеграции запускается с IP-адресом сервера приложений"
+					Text="{x:Static lang:CommonViews.StartModule}"
 					Foreground="White"
 					Margin="5"
 					VerticalAlignment="Center"/>
 			</StackPanel>
 			<TextBlock
 				Grid.Row="2"
-				Text="Порт"
+				Text="{x:Static lang:CommonViews.Port}"
 				Foreground="White"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
@@ -116,7 +117,7 @@
 				VerticalAlignment="Center"/>
 			<TextBlock
 				Grid.Column="1"
-				Text="Настройки подключения к серверу ОПС"
+				Text="{x:Static lang:CommonViews.OPCConnectSettings}"
 				Margin="5"
 				Foreground="White"/>
 			<Separator
@@ -137,7 +138,7 @@
 				<ColumnDefinition Width="250" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Text="IP-адрес"
+				Text="{x:Static lang:CommonViews.IpAddress}"
 				Foreground="White"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
@@ -149,7 +150,7 @@
 				Margin="5"/>
 			<TextBlock
 				Grid.Row="1"
-				Text="Порт"
+				Text="{x:Static lang:CommonViews.Port}"
 				HorizontalAlignment="Right"
 				Foreground="White"
 				Margin="5"
@@ -195,7 +196,7 @@
 			</Border>
 			<Button
 				Command="{Binding PingCommand}"
-				Content="Проверка соединения"
+				Content="{x:Static lang:CommonViews.CheckConnection}"
 				HorizontalAlignment="Right"
 				Width="170"
 				VerticalAlignment="Center" />

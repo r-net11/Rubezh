@@ -1,4 +1,5 @@
 ﻿using System.Windows.Navigation;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -25,11 +26,11 @@ namespace SKDModule.ViewModels
 			_isNew = accessTemplate == null;
 			if (_isNew)
 			{
-				Title = "Создание шаблона доступа";
-				accessTemplate = new AccessTemplate {Name = "Новый шаблон доступа"};
+				Title = CommonViewModels.CreateAccessTempl;
+				accessTemplate = new AccessTemplate {Name = CommonViewModels.NewAccessTemplate};
 			}
 			else if (accessTemplate != null)
-				Title = string.Format("Свойства шаблона доступа: {0}", accessTemplate.Name);
+				Title = string.Format(CommonViewModels.AccessTemplProperties, accessTemplate.Name);
 
 			Model = accessTemplate;
 			CopyProperties();
@@ -77,9 +78,9 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Model.Name == "НЕТ")
+			if (Model.Name == CommonViewModels.NO)
 			{
-				MessageBoxService.ShowWarning("Запрещенное название");
+				MessageBoxService.ShowWarning(CommonViewModels.ForbiddenName);
 				return false;
 			}
 

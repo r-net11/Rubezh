@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Значение: " + NameArgument.Description;
+                return string.Format(StepCommonViewModel.Value, NameArgument.Description);
 			}
 		}
 	}

@@ -143,7 +143,7 @@ namespace FiresecService.Report.Export
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+                Logger.Error(e, "ExportReport");
 				throw;
 			}
 		}

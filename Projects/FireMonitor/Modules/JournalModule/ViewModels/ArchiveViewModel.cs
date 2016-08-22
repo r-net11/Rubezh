@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
+using Localization.Journal.ViewModels;
 using StrazhAPI.Journal;
 using FiresecClient;
 using Infrastructure;
@@ -254,12 +255,12 @@ namespace JournalModule.ViewModels
 
 		public bool IsLoading
 		{
-			get { return Status == "Загрузка данных"; }
+			get { return Status == CommonViewModels.LoadData; }
 		}
 
 		public void Update()
 		{
-			Status = "Загрузка данных";
+            Status = CommonViewModels.LoadData;
 			JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
 
 			Pages = new ObservableCollection<ArchivePageViewModel>();
@@ -317,7 +318,7 @@ namespace JournalModule.ViewModels
 				TotalPageNumber = Pages.Count;
 				if (CurrentPageNumber == 0)
 					CurrentPageNumber = 1;
-				Status = "Количество записей: " + ((TotalPageNumber - 1) * ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+			    Status = string.Format(CommonViewModels.RecordNumbers,((TotalPageNumber - 1)*ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()));
 			}
 		}
 

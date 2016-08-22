@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
-using Integration.OPC.Properties;
+using Localization.IntegrationOPC.ViewModels;
 using Microsoft.Practices.Prism;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
@@ -86,7 +86,7 @@ namespace Integration.OPC.ViewModels
 
 		public void OnDelete()
 		{
-			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
+            if (!MessageBoxService.ShowConfirmation(string.Format(CommonViewModels.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
 
 			var removedItem = SKDManager.SKDConfiguration.OPCZones.FirstOrDefault(x => x.No == SelectedZoneOPC.No);
 			if (removedItem != null)

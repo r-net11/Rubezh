@@ -1,4 +1,5 @@
-﻿using Infrastructure.Client.Plans;
+﻿using Localization.Plans.ViewModels;
+using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
@@ -19,7 +20,7 @@ namespace PlansModule.ViewModels
 				new InstrumentViewModel
 				{
 					ImageSource="Subplan",
-					ToolTip="Ссылка на план",
+					ToolTip=CommonViewModels.ReferenceToPlan,
 					Index = 1000,
 					Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});

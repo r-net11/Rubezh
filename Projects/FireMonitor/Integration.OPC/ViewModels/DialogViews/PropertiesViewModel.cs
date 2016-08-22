@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
+using Localization.Integration.Errors;
 using StrazhAPI.Enums;
 
 namespace Integration.OPC.ViewModels
@@ -16,7 +17,7 @@ namespace Integration.OPC.ViewModels
 		{
 			if (zone == null)
 			{
-				MessageBoxService.ShowError("Выберите зону.");
+				MessageBoxService.ShowError(CommonErrors.ChooseZone_Error);
 				return;
 			}
 

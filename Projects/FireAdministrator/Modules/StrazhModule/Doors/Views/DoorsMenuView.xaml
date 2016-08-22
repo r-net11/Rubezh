@@ -1,9 +1,10 @@
 <UserControl x:Class="StrazhModule.Views.DoorsMenuView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
-		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit"  />
-		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
+        <ToolBarButton Command="{Binding AddCommand}" ToolTip="{x:Static langCommon:CommonResources.Add}" ImageSource="Add"  />
+        <ToolBarButton Command="{Binding EditCommand}" ToolTip="{x:Static langCommon:CommonResources.Edit}" ImageSource="Edit"  />
+        <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="{x:Static langCommon:CommonResources.Delete}" ImageSource="Delete"  />
 	</StackPanel>
 </UserControl>

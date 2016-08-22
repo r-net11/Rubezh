@@ -2,6 +2,7 @@
 using Common;
 using FireAdministrator.ViewModels;
 using Infrastructure.Common.Services;
+using Localization.FireAdministrator.Common;
 using StrazhAPI;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -39,14 +40,14 @@ namespace FireAdministrator
 					SafeFiresecService.DisconnectClientCommandEvent += showNotification =>
 					{
 						if (showNotification)
-							ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+                            ApplicationService.Invoke(() => MessageBoxService.ShowWarning(CommonResources.ServerConnectionRefused));
 						ApplicationService.ShutDown();
 					};
 
 					// При получении от сервера уведомления о смене лицензии выводим соответствующее предупреждение и завершаем работу
 					SafeFiresecService.LicenseChangedEvent += () =>
 					{
-						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
+                        ApplicationService.Invoke(() => MessageBoxService.ShowWarning(CommonResources.ServerConnectionRefused_License));
 						ApplicationService.ShutDown();
 					};
 
@@ -55,27 +56,27 @@ namespace FireAdministrator
 					ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);
 					ServiceFactory.ConfigurationElementsAvailabilityService.Initialize(licenseData);
 
-					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
+                    ServiceFactory.StartupService.ShowLoading(CommonResources.ModulesLoad, 5);
 					CreateModules();
 
-					ServiceFactory.StartupService.DoStep("Чтение конфигурации");
+                    ServiceFactory.StartupService.DoStep(CommonResources.ReadingConfig);
 					ServiceFactory.StartupService.AddCount(GetModuleCount() + 6);
 
-					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
+                    ServiceFactory.StartupService.DoStep(CommonResources.FileSynchronisation);
 					FiresecManager.UpdateFiles();
 
-					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
+                    ServiceFactory.StartupService.DoStep(CommonResources.ServerConfigLoad);
 					FiresecManager.GetConfiguration("Administrator/Configuration");
 
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
+                    ServiceFactory.StartupService.DoStep(CommonResources.ClientSettingsLoad);
 					ClientSettings.LoadSettings();
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
+                    ServiceFactory.StartupService.DoStep(CommonResources.CheckUserPermission);
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false) //TODO: Переместить конструкцию выше. Допускается использование сервера до проверки прав пользователя
 					{
-						MessageBoxService.Show("Нет прав на работу с программой");
+                        MessageBoxService.Show(CommonResources.NoWorkPermissions);
 						FiresecManager.Disconnect();
 					}
 					else if (Application.Current != null)

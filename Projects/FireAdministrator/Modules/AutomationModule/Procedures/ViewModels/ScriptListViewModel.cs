@@ -1,5 +1,4 @@
 ﻿using AutomationModule.Models;
-using AutomationModule.Properties;
 using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.ViewModels
 {
@@ -70,7 +70,7 @@ namespace AutomationModule.ViewModels
 						ex = (AggregateException) ex.InnerException;
 						Logger.Error(ex);
 					}
-					MessageBoxService.ShowError(Resources.ErrorOPCScriptConnectionContent);
+					MessageBoxService.ShowError(CommonErrors.OPCScriptConnectionContent_Error);
 				}
 				else
 				{

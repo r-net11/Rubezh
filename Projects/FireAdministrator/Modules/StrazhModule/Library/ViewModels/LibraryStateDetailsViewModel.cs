@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.Strazh.Common;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -12,7 +13,7 @@ namespace StrazhModule.ViewModels
 		public LibraryStateDetailsViewModel(SKDLibraryDevice skdLibraryDevice)
 			: base()
 		{
-			Title = "Добавить состояние";
+			Title = CommonResources.AddState;
 
 			var skdLibraryStates = new List<SKDLibraryState>();
 			foreach (XStateClass stateClass in Enum.GetValues(typeof(XStateClass)))

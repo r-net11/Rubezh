@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Infrastructure.Common.Services.Layout;
+using Localization.Layout.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -166,7 +167,7 @@ namespace LayoutModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Общее"; }
+			get { return CommonViewModels.LayoutPartPropertyGeneralPage_Header; }
 		}
 		public override void CopyProperties()
 		{

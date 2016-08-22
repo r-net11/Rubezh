@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Security.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace SecurityModule.ViewModels
 	{
 		public RoleSelectationViewModel()
 		{
-			Title = "Выбор шаблона прав";
+			Title = CommonViewModels.RolesSelectation_Title;
 
 			Roles = new ObservableCollection<RoleViewModel>();
 			foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)

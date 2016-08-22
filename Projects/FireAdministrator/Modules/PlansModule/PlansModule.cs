@@ -1,4 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using FiresecClient;
+using Localization.Plans.Common;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
@@ -88,7 +94,7 @@ namespace PlansModule
 		#region ILayoutDeclarationModule Members
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Plans, 150, CommonResources.Plans, CommonResources.Plans, "CMap.png")
 			{
 				Factory = p => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
 			};

@@ -1,6 +1,8 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Localization.Automation.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace SoundsModule.ViewModels
 {
@@ -10,7 +12,7 @@ namespace SoundsModule.ViewModels
 
 		public SoundFileDetailsViewModel(AutomationSound sound)
 		{
-			Title = "Свойства звукового элемента";
+            Title = CommonViewModels.SoundDetailsViewModel_Title;
 			Sound = sound;
 			Name = Sound.Name;
 		}
@@ -30,7 +32,7 @@ namespace SoundsModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(CommonResources.SaveEmpty);
 				return false;
 			}
 			Sound.Name = Name;

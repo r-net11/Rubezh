@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Localization.Security.Common;
 using System.Linq;
 using Common;
 using Infrastructure;
@@ -41,8 +42,8 @@ namespace SecurityModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem(ModuleType.ToDescription(), "users", new List<NavigationItem>(){
-					new NavigationItem<ShowUsersEvent>(_usersViewModel, "Пользователи", "user"),
-					new NavigationItem<ShowUserGroupsEvent>(_rolesViewModel, "Шаблоны прав", "users"),
+					new NavigationItem<ShowUsersEvent>(_usersViewModel, CommonResources.Users, "user"),
+					new NavigationItem<ShowUserGroupsEvent>(_rolesViewModel, CommonResources.RightsTemplate, "users"),
 				}),
 			};
 		}

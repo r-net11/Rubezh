@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Media;
 using Infrustructure.Plans;
+using Localization.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -19,7 +20,7 @@ namespace LayoutModule.ViewModels
 
 		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel)
 		{
-			Title = "Свойства элемента: Макет интерфейса ОЗ";
+			Title = CommonViewModels.LayoutProperties_Title;
 			Layout = layout ?? new Layout();
 			LayoutUsersViewModel = layoutUsersViewModel;
 			LayoutUsersViewModel.Update(Layout);

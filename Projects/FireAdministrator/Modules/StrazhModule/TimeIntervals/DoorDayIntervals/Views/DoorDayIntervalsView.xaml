@@ -4,6 +4,8 @@
 			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+             xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600">
 	<UserControl.Resources>
@@ -28,7 +30,7 @@
 				<DataGridTemplateColumn
 					Width="*"
 					SortMemberPath="Name"
-					Header="Название">
+					Header="{x:Static lang:CommonViews.Name}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -44,7 +46,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Описание">
+					Header="{x:Static lang:CommonViews.Description}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" Style="{StaticResource ActiveStyle}" />
@@ -60,27 +62,27 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<StackPanel Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить (Ctrl+N)" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
-					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить (Ctrl+Del)" />
+                    <ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="{x:Static langCommon:CommonResources.Add}" />
+                    <ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="{x:Static langCommon:CommonResources.Edit}" />
+                    <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="{x:Static langCommon:CommonResources.Delete}" />
 				</StackPanel>
 				<DataGrid Grid.Row="1" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="*" Header="Начало">
+                        <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.Start}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Path=StartTime}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Окончание">
+                        <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.End}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Path=EndTime}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Метод открытия">
+                        <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.OpenMethod}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Path=DoorOpenMethod, Converter={StaticResource EnumToDescriptionConverter}}" />

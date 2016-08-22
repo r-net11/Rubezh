@@ -1,18 +1,24 @@
-﻿<UserControl x:Class="AutomationModule.Views.ChangeListStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views">
+﻿<UserControl 
+    x:Class="AutomationModule.Views.ChangeListStepView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Views="clr-namespace:AutomationModule.Views"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
+    
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Список" />
+            <Label Content="{x:Static lang:CommonViews.List}" />
 			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Элемнент" />
+            <Label Content="{x:Static lang:CommonViews.Element}" />
 			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Команда" />
+            <Label Content="{x:Static lang:CommonViews.Command}" />
 			<ComboBox ItemsSource="{Binding ChangeTypes}" SelectedItem="{Binding SelectedChangeType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

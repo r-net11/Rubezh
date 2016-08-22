@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -19,7 +20,7 @@ namespace StrazhModule.Plans.ViewModels
 
 		public DoorPropertiesViewModel(DoorsViewModel doorsViewModel, ElementDoor elementDoor)
 		{
-			Title = "Свойства фигуры: Точка доступа";
+			Title = CommonViewModels.FigureProperties_SKDDoor;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 	{
 		public CameraSelectationViewModel(Camera selectedCamera)
 		{
-			Title = "Выбор камеры";
+		    Title = CommonViewModels.Camera_Selectation;
 
 			Cameras = new ObservableCollection<Camera>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)

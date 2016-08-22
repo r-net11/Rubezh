@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Validation;
 using FiresecClient;
+using Localization.Layout.Errors;
 using StrazhAPI.Models.Layouts;
 
 namespace LayoutModule.Validation
@@ -25,14 +26,14 @@ namespace LayoutModule.Validation
 			var isContentExist = layout.GetLayoutPartByType(LayoutPartIdentities.Content) != null;
 			var isNavigationExist = layout.GetLayoutPartByType(LayoutPartIdentities.Navigation) != null;
 			if (isContentExist && !isNavigationExist)
-				yield return new LayoutValidationError(layout, "Макет не должен содержать контейнер отдельно от панели навигации", ValidationErrorLevel.Warning);
+				yield return new LayoutValidationError(layout, CommonErrors.ValidateLayoutIsContentExist_Error, ValidationErrorLevel.Warning);
 			if (!isContentExist && isNavigationExist)
-				yield return new LayoutValidationError(layout, "Макет не должен содержать панель навигации отдельно от контейнера", ValidationErrorLevel.Warning);
+                yield return new LayoutValidationError(layout, CommonErrors.ValidateLayoutIsNavigationExist_Error, ValidationErrorLevel.Warning);
 
 			// Проверяем разрешение присутствия элемента "Верификация" в макете на основе данных лицензии
 			if (!ServiceFactory.ConfigurationElementsAvailabilityService.IsLayoutVerificationElementsAvailable &&
 				layout.GetLayoutPartByType(LayoutPartIdentities.SKDVerification) != null)
-				yield return new LayoutValidationError(layout, "Элемент 'Верификация' в макете не может быть загружен по причине лицензионных ограничений", ValidationErrorLevel.CannotSave);
+                yield return new LayoutValidationError(layout, CommonErrors.ValidateLayoutIsLayoutVerificationElementsAvailable_Error, ValidationErrorLevel.CannotSave);
 		}
 	}
 }

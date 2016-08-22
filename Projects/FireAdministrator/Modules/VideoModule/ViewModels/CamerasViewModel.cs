@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -85,7 +86,7 @@ namespace VideoModule.ViewModels
 		void OnDelete()
 		{
 			var camera = SelectedCamera.Camera;
-			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить видеокамеру\n\"{0}\"?", camera.Name)))
+			if (!MessageBoxService.ShowConfirmation(String.Format(CommonViewModels.DeleteCamConfirm, camera.Name)))
 				return;
 			Cameras.Remove(SelectedCamera);
 			FiresecManager.SystemConfiguration.Cameras.Remove(camera);

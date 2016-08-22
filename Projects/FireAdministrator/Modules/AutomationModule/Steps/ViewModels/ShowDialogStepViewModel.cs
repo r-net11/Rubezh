@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using StrazhAPI.Automation;
 using FiresecClient;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -145,7 +146,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)");
+				return string.Format(StepCommonViewModel.ShowDialog, SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? StepCommonViewModel.ShowDialog_Modal : StepCommonViewModel.ShowDialog_NotModal);
 			}
 		}
 		public override void UpdateContent()

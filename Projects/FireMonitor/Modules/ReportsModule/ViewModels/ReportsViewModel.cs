@@ -7,6 +7,7 @@ using System.Linq;
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using Localization.Reports.ViewModels;
 
 namespace ReportsModule.ViewModels
 {
@@ -104,7 +105,7 @@ namespace ReportsModule.ViewModels
 				{
 					try
 					{
-						LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
+                        LoadingService.Show(CommonViewModels.ReportBuilding, CommonViewModels.ReportBuilding, 0);
 						ApplicationService.DoEvents();
 						InProgress = true;
 						DocumentPaginator = SelectedReport.GenerateReport();

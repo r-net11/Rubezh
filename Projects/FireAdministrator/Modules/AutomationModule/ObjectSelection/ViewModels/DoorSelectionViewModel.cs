@@ -2,6 +2,7 @@
 using System.Linq;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public DoorSelectionViewModel(SKDDoor door)
 		{
-			Title = "Выбор точки доступа";
+            Title = CommonViewModels.DoorSelectionViewModel_Title;
 			Doors = new ObservableCollection<DoorViewModel>();
 			SKDManager.Doors.ForEach(x => Doors.Add(new DoorViewModel(x)));
 			if (door != null)

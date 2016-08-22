@@ -4,7 +4,9 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Loaded="UserControl_Loaded"
+    xmlns:langCommon="clr-namespace:Localization.Journal.Common;assembly=Localization"
+    xmlns:lang="clr-namespace:Localization.Journal.Views;assembly=Localization"
+    Loaded="UserControl_Loaded"
 	d:DesignHeight="350"
 	d:DesignWidth="650"
 	mc:Ignorable="d">
@@ -27,7 +29,7 @@
 			ItemsSource="{Binding JournalItems, IsAsync=True}"
 			SelectedItem="{Binding SelectedJournal}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="150" Header="Дата на устройстве">
+				<DataGridTemplateColumn Width="150" Header="{x:Static langCommon:CommonResources.DeviceTime}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -38,7 +40,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="150" Header="Дата в системе">
+                <DataGridTemplateColumn MinWidth="150" Header="{x:Static langCommon:CommonResources.SystemTime}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -49,7 +51,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Название">
+                <DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Name}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -69,7 +71,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Уточнение">
+                <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.Specification}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -92,7 +94,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="150" Header="Объект">
+                <DataGridTemplateColumn Width="150" Header="{x:Static langCommon:CommonResources.Object}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -114,14 +116,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Пользователь">
+                <DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.User}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Margin="5 0 0 0" Text="{Binding JournalItem.UserName}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Подсистема">
+                <DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Subsystem}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -146,15 +148,15 @@
 									<IconedMenuItem
 										Command="{Binding ShowOnPlanCommand}"
 										ImageSource="BMap"
-										Text="Показать на плане" />
+										Text="{x:Static lang:CommonViews.ShowOnPlan}" />
 									<IconedMenuItem
 										Command="{Binding ShowObjectCommand}"
 										ImageSource="BTree"
-										Text="Показать" />
+										Text="{x:Static lang:CommonViews.Show}" />
 									<IconedMenuItem
 										Command="{Binding ShowPropertiesCommand}"
 										ImageSource="BSettings"
-										Text="Свойства" />
+										Text="{x:Static langCommon:CommonResources.Settings}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>
@@ -216,7 +218,7 @@
 						Grid.Row="0"
 						Grid.Column="0"
 						Margin="2"
-						Text="Дата в системе" />
+						Text="{x:Static langCommon:CommonResources.SystemTime}" />
 					<TextBlock
 						Grid.Row="0"
 						Grid.Column="1"
@@ -228,7 +230,7 @@
 						Grid.Row="1"
 						Grid.Column="0"
 						Margin="2"
-						Text="Дата на устройстве" />
+						Text="{x:Static langCommon:CommonResources.DeviceTime}" />
 					<TextBlock
 						Grid.Row="1"
 						Grid.Column="1"
@@ -240,7 +242,7 @@
 						Grid.Row="2"
 						Grid.Column="0"
 						Margin="2"
-						Text="Событие" />
+						Text="{x:Static lang:CommonViews.Event}" />
 					<StackPanel
 						Grid.Row="2"
 						Grid.Column="1"
@@ -263,7 +265,7 @@
 						Grid.Row="3"
 						Grid.Column="0"
 						Margin="2"
-						Text="Уточнение" />
+						Text="{x:Static lang:CommonViews.Specification}" />
 					<TextBlock
 						Grid.Row="3"
 						Grid.Column="1"
@@ -284,7 +286,7 @@
 						Grid.Row="5"
 						Grid.Column="0"
 						Margin="2"
-						Text="Пользователь" />
+						Text="{x:Static langCommon:CommonResources.User}" />
 					<TextBlock
 						Grid.Row="5"
 						Grid.Column="1"
@@ -295,7 +297,7 @@
 						Grid.Row="6"
 						Grid.Column="0"
 						Margin="2"
-						Text="Подсистема" />
+						Text="{x:Static langCommon:CommonResources.Subsystem}" />
 					<StackPanel
 						Grid.Row="6"
 						Grid.Column="1"
@@ -315,7 +317,7 @@
 						Width="100"
 						Margin="2"
 						Command="{Binding ShowVideoCommand}"
-						Content="Показать видео" />
+						Content="{x:Static lang:CommonViews.ShowVideo}" />
 				</Grid>
 				<!--  Правая панель  -->
 				<StackPanel Grid.Column="1">

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Common;
+using Localization.Security.Errors;
+using Localization.Security.ViewModels;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -27,14 +29,14 @@ namespace SecurityModule.ViewModels
 
 			if (user != null)
 			{
-				Title = string.Format("Свойства учетной записи: {0}", user.Name);
+				Title = string.Format(CommonViewModels.UserDetailsAccount_Title, user.Name);
 				IsNew = false;
 				IsChangePassword = false;
 				User = user;
 			}
 			else
 			{
-				Title = "Создание новой учетной записи";
+				Title = CommonViewModels.UserDetailsNewAccount_Title;
 				IsNew = true;
 				IsChangePassword = true;
 
@@ -141,12 +143,12 @@ namespace SecurityModule.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(Login))
 			{
-				MessageBoxService.Show("Логин не может быть пустым");
+                MessageBoxService.Show(CommonErrors.UserDetailsIsNullOrWhiteSpace_Error);
 				return false;
 			}
 			else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
 			{
-				MessageBoxService.Show("Пользователь с таким логином уже существует");
+				MessageBoxService.Show(CommonErrors.UserDetailsSameName_Error);
 				return false;
 			}
 			return true;
@@ -156,7 +158,7 @@ namespace SecurityModule.ViewModels
 		{
 			if (Password != PasswordConfirmation)
 			{
-				MessageBoxService.Show("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+                MessageBoxService.Show(CommonErrors.UserDetailsCheckPassword_Error);
 				return false;
 			}
 			return true;

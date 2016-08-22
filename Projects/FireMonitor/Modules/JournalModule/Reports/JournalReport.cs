@@ -4,6 +4,7 @@ using JournalModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
+using Localization.Journal.Common;
 using StrazhAPI.Journal;
 using System;
 
@@ -78,7 +79,7 @@ namespace JournalModule.Reports
 
 		public string Title
 		{
-			get { return "Журнал событий"; }
+            get { return CommonResources.Journal; }
 		}
 
 		public bool IsEnabled

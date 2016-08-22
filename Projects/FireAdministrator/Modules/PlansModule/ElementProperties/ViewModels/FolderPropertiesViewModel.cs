@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Models;
+﻿using Localization.Plans.ViewModels;
+using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
@@ -10,7 +11,7 @@ namespace PlansModule.ViewModels
 
 		public FolderPropertiesViewModel(PlanFolder planFolder)
 		{
-			Title = "Свойства элемента: Папка";
+			Title = CommonViewModels.ElementPropertiesFolder;
 			PlanFolder = planFolder ?? new PlanFolder();
 			CopyProperties();
 		}

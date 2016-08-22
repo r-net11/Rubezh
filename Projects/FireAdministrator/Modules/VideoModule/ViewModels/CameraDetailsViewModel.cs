@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RviClient;
 
@@ -43,7 +37,7 @@ namespace VideoModule.ViewModels
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
-			Title = "Свойства камеры";
+			Title = CommonViewModels.CameraProperties;
 			Camera = camera ?? new Camera();
 			_canPlay = true;
 			PlayCommand = new RelayCommand(OnPlay, CanPlay);

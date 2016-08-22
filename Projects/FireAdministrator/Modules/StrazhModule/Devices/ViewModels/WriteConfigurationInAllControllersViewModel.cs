@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Strazh.Common;
 
 namespace StrazhModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 	{
 		public WriteConfigurationInAllControllersViewModel()
 		{
-			Title = "Запись конфигурации на все контроллеры";
+			Title = CommonResources.WriteConfigAllControllers;
 
 			IsTimeSchedules = true;
 			IsLockPasswords = true;

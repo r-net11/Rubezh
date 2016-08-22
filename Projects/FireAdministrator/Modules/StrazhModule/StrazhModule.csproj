@@ -215,11 +215,6 @@
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalsMenuViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalsViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
@@ -397,9 +392,17 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Localization.Converters\Localization.Converters.csproj">
+      <Project>{a99daac1-2126-4279-a463-40e4ce63e8bc}</Project>
+      <Name>Localization.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Localization\Localization.csproj">
+      <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -647,12 +650,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

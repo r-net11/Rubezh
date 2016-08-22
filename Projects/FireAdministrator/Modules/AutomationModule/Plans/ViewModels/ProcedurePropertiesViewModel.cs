@@ -4,6 +4,7 @@ using StrazhAPI.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels
 {
@@ -16,7 +17,7 @@ namespace AutomationModule.Plans.ViewModels
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
-			Title = "Свойства фигуры: Процедура";
+			Title = CommonViewModels.ProcedurePropertiesViewModel_Title;
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}

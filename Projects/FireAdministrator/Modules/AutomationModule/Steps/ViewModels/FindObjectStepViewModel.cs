@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhAPI;
 using System.Linq.Expressions;
+using Localization.Automation.Common;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -86,7 +88,7 @@ namespace AutomationModule.ViewModels
 			{
 				var conditionViewModel = FindObjectConditions.FirstOrDefault();
 				if (conditionViewModel == null)
-					return "Результат: " + ResultArgument.Description + " Условие поиска: <пусто>";
+                    return string.Format(StepCommonViewModel.FindObject ,ResultArgument.Description, CommonResources.Empty);
 
 				var var2 = conditionViewModel.SourceArgument.Description;
 				var op = "";
@@ -113,8 +115,8 @@ namespace AutomationModule.ViewModels
 				}
 				var end = "";
 				if (FindObjectConditions.Count > 1)
-					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
-				return "Результат: " + ResultArgument.Description + " Условие поиска: " + conditionViewModel.SelectedProperty.ToDescription() + " " + op + " " + var2 + " " + end;
+                    end = JoinOperator == JoinOperator.And ? StepCommonViewModel.Condition_AND : StepCommonViewModel.Condition_OR;
+                return string.Format(StepCommonViewModel.FindObject,ResultArgument.Description,(conditionViewModel.SelectedProperty.ToDescription() + " " + op + " " + var2 + " " + end));
 			}
 		}
 

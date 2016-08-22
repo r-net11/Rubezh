@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using StrazhAPI.Automation;
 using FiresecClient;
 using StrazhAPI.Models.Layouts;
+using Localization.Automation.Common;
 
 namespace AutomationModule.Layout.ViewModels
 {
@@ -44,7 +45,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public override string Header
 		{
-			get { return "Процедура"; }
+			get { return CommonResources.Procedure; }
 		}
 		public override void CopyProperties()
 		{

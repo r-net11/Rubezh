@@ -10,6 +10,7 @@ using FiresecClient;
 using StrazhAPI.Models.Layouts;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Layout.ViewModels
 {
@@ -26,9 +27,9 @@ namespace AutomationModule.Layout.ViewModels
 			_layoutPartViewModel = layoutPartViewModel;
 			TextAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По правому краю",
-				"По центру",
+				CommonViewModels.LayoutPartPropertyProcedure_Left,
+				CommonViewModels.LayoutPartPropertyProcedure_Center,
+				CommonViewModels.LayoutPartPropertyProcedure_Right,
 			};
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}
@@ -180,7 +181,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public override string Header
 		{
-			get { return "Стиль"; }
+            get { return CommonViewModels.Style; }
 		}
 		public override void CopyProperties()
 		{

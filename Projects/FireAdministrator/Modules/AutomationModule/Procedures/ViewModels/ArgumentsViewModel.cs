@@ -1,10 +1,11 @@
 ﻿using System.Linq;
-using AutomationModule.Properties;
 using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,13 +27,13 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
+            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModels.Argument_Title, CommonViewModels.Argument_Add);
 
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.ErrorArgumentExistContent);
+				MessageBoxService.ShowError(CommonErrors.ArgumentExist_Error);
 				return;
 			}
 
@@ -64,7 +65,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
+            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModels.Argument_Title, CommonViewModels.Argument_Edit);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);

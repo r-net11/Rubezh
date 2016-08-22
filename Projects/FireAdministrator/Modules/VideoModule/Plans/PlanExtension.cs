@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using Localization.Video.Common;
+using Localization.Video.Errors;
 using Infrastructure.Common.Services;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -43,7 +45,7 @@ namespace VideoModule.Plans
 		}
 		public override string Title
 		{
-			get { return "Видеокамера"; }
+			get { return CommonResources.Videocam; }
 		}
 
 		public override IEnumerable<IInstrument> Instruments
@@ -94,14 +96,14 @@ namespace VideoModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 41);
+			LayerGroupService.Instance.RegisterGroup("CameraVideo", CommonResources.Cameras, 41);
 		}
 
 		public override IEnumerable<ElementError> Validate()
 		{
 			var errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "/Controls;component/Images/Camera.png", Guid.Empty)));
+				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, CommonErrors.UnrelatedCamera_Error, "/Controls;component/Images/Camera.png", Guid.Empty)));
 
 			return errors;
 		}
@@ -113,7 +115,7 @@ namespace VideoModule.Plans
 			if (typeof(TItem) == typeof(Camera))
 			{
 				var camera = item as Camera;
-				designerItem.Title = camera == null ? "Неизвестная камера" : camera.Name;
+                designerItem.Title = camera == null ? CommonErrors.UnknownCamera_Error : camera.Name;
 			}
 			else
 				base.UpdateDesignerItemProperties(designerItem, item);

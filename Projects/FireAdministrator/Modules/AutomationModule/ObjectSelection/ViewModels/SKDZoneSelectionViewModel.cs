@@ -3,6 +3,7 @@ using System.Linq;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDZoneSelectionViewModel(SKDZone zone)
 		{
-			Title = "Выбор зоны";
+            Title = CommonViewModels.SKDZoneSelectionViewModel_Title;
 			Zones = new ObservableCollection<ZoneViewModel>();
 			SKDManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)

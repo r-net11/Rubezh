@@ -1,4 +1,5 @@
 ﻿using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -32,15 +33,15 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var result = "Экспортировать конфигурацию ";
+				var result = StepCommonViewModel.ExportConfiguration;
 				if (IsExportDevices.ExplicitValue.BoolValue)
-					result += " устройства ";
+                    result += StepCommonViewModel.ExportConfiguration_Device;
 				if (IsExportZones.ExplicitValue.BoolValue)
-					result += " зоны ";
+                    result += StepCommonViewModel.ExportConfiguration_Zone;
 				if (IsExportDoors.ExplicitValue.BoolValue)
-					result += " точки доступа ";
+                    result += StepCommonViewModel.ExportConfiguration_Door;
 				if (!PathArgument.IsEmpty)
-					result += "в " + PathArgument.Description;
+                    result += StepCommonViewModel.In + PathArgument.Description;
 				return result;
 			}
 		}

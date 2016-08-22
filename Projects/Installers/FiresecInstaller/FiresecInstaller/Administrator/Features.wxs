@@ -15,6 +15,7 @@
 			<ComponentRef Id="Administrator.xaml2svg" />
 			<ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
 			<ComponentRef Id="Administrator.Files.dll" />
+			<ComponentRef Id="Administrator.Files.ru" />
 			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />
 			<ComponentRef Id="Administrator.DesktopShortcut" />
 		</Feature>

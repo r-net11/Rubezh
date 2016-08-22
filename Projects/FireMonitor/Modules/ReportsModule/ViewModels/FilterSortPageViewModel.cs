@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
+using Localization.Reports.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 
 namespace ReportsModule.ViewModels
@@ -11,7 +12,7 @@ namespace ReportsModule.ViewModels
 	{
 		public FilterSortPageViewModel(Dictionary<string, string> columns)
 		{
-			Title = "Сортировка";
+			Title = CommonViewModels.Sort;
 			Columns = columns;
 			if (Columns.Any())
 				SortColumn = Columns.First().Key;

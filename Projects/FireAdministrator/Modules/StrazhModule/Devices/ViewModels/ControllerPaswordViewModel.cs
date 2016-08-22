@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -19,7 +20,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerPaswordViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Задание пароля контроллера";
+			Title = CommonViewModels.ControllerPasword_Title;
 			DeviceViewModel = deviceViewModel;
 			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			AvailableLogins = new ObservableCollection<string>();
@@ -90,12 +91,12 @@ namespace StrazhModule.ViewModels
 		{
 			if (String.IsNullOrEmpty(Password))
 			{
-				MessageBoxService.ShowWarning("Пустой пароль");
+				MessageBoxService.ShowWarning(CommonViewModels.ControllerPasword_EmptyPass);
 				return;
 			}
 			if (Password != PasswordConfirmation)
 			{
-				MessageBoxService.ShowWarning("Пароль не совпадает");
+				MessageBoxService.ShowWarning(CommonViewModels.ControllerPasword_PassNotConfirm);
 				return;
 			}
 
@@ -118,19 +119,19 @@ namespace StrazhModule.ViewModels
 				var loginProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Login");
 				if (loginProperty == null)
 				{
-					MessageBoxService.ShowWarning("У контроллера отсутствует логин");
+                    MessageBoxService.ShowWarning(CommonViewModels.ControllerPasword_NoLogin);
 					return false;
 				}
 				var passwordProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Password");
 				if (passwordProperty == null)
 				{
-					MessageBoxService.ShowWarning("У контроллера отсутствует пароль");
+                    MessageBoxService.ShowWarning(CommonViewModels.ControllerPasword_NoPass);
 					return false;
 				}
 
 				if (loginProperty.StringValue == SelectedLogin)
 				{
-					if (MessageBoxService.ShowQuestion("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
+                    if (MessageBoxService.ShowQuestion(CommonViewModels.ControllerPasword_Save))
 					{
 						passwordProperty.StringValue = Password;
 						DeviceViewModel.UpdateProperties();

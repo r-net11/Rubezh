@@ -215,6 +215,11 @@
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
     <Compile Include="ReportFactory.cs" />
+    <Compile Include="Resources\Language\ReportServiceManager.Designer.cs">
+      <DependentUpon>ReportServiceManager.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
@@ -347,6 +352,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Language\ReportServiceManager.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReportServiceManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\BaseReport.resx">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -595,7 +604,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

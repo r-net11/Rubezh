@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Common;
+using Localization.Layout.Common;
+using Localization.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
@@ -116,7 +118,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (MessageBoxService.ShowConfirmation(string.Format("Вы действительно хотите удалить макет\n\"{0}\"?", SelectedLayout.Caption)))
+            if (MessageBoxService.ShowConfirmation(string.Format(CommonViewModels.MonitorLayouts_OnRemove, SelectedLayout.Caption)))
 				OnLayoutRemove();
 		}
 		public RelayCommand EditCommand { get; private set; }
@@ -192,14 +194,14 @@ namespace LayoutModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel(CommonViewModels.MonitorLayouts_Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "BCopy") {IsNewGroup=true},
-					new RibbonMenuItemViewModel("Вырезать", LayoutCutCommand, "BCut"),
-					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "BPaste"),
+					new RibbonMenuItemViewModel(CommonResources.AddLayout, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(CommonResources.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(CommonResources.Delete, RemoveCommand, "BDelete"),
+					new RibbonMenuItemViewModel(CommonResources.Copy, LayoutCopyCommand, "BCopy") {IsNewGroup=true},
+					new RibbonMenuItemViewModel(CommonResources.Cut, LayoutCutCommand, "BCut"),
+					new RibbonMenuItemViewModel(CommonResources.Paste, LayoutPasteCommand, true, "BPaste"),
 				}, "BLayouts") { Order = 2 }
 			};
 		}

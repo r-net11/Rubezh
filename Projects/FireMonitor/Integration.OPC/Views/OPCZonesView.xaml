@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.Integration.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300"
 	x:Name="ZonesWindow">
@@ -18,24 +19,24 @@
 			<IconedMenuItem
 				x:Name="Guard"
 				Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}"
-				Text="Снять с охраны"
+				Text="{x:Static lang:CommonViews.Disarm}"
 				Command="{Binding GuardOffCommand}" />
 			<IconedMenuItem
 				Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Self}}"
-				Text="Поставить на охрану"
+				Text="{x:Static lang:CommonViews.Arm}"
 				Command="{Binding GuardOnCommand}" />
 			<Separator Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.IsSeparatorEnabled, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
 			<IconedMenuItem
 				ImageSource="BMap"
-				Text="Показать на плане"
+				Text="{x:Static lang:CommonViews.ShowOnPlan}"
 				Command="{Binding ShowOnPlanCommand}" />
 			<IconedMenuItem
 				ImageSource="BJournal"
-				Text="Показать связанные события"
+				Text="{x:Static lang:CommonViews.ShowRelatedEvents}"
 				Command="{Binding ShowJournalCommand}" />
 			<IconedMenuItem
 				ImageSource="BSettings"
-				Text="Свойства"
+				Text="{x:Static lang:CommonViews.Properties}"
 				Command="{Binding ShowPropertiesCommand}" />
 		</ContextMenu>
 		<Style
@@ -73,7 +74,7 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
-				Header="Наименование"
+				Header="{x:Static lang:CommonViews.Denomination}"
 				Width="*"
 				SortMemberPath="Name">
 				<DataGridTemplateColumn.CellTemplate>
@@ -99,7 +100,7 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
-				Header="Назначение"
+				Header="{x:Static lang:CommonViews.Purpose}"
 				Width="*"
 				SortMemberPath="Type">
 				<DataGridTemplateColumn.CellTemplate>
@@ -112,7 +113,7 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
-				Header="Примечание"
+				Header="{x:Static lang:CommonViews.Note}"
 				Width="*"
 				SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>

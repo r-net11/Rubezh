@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.ViewModels;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -141,12 +142,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить организацию?")) return;
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.DeleteOrganization_Question)) return;
 
 			if (SelectedOrganisation == null) return;
 
 			if (OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) &&
-				!MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?")) return;
+				!MessageBoxService.ShowQuestion(CommonViewModels.ArchiveBoundObjects_Question)) return;
 
 			OrganisationHelper.MarkDeleted(SelectedOrganisation.Organisation);
 
@@ -165,7 +166,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RestoreCommand { get; private set; }
 		private void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить организацию?"))
+			if (MessageBoxService.ShowQuestion(CommonViewModels.RestoreOrganization_Question))
 			{
 				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
 				if (!restoreResult)
@@ -201,7 +202,7 @@ namespace SKDModule.ViewModels
 
 		public string ShowOrHideDeletedCommandTooltip
 		{
-			get { return IsWithDeleted ? "Скрыть архивные сведения" : "Показать архивные сведения"; }
+			get { return IsWithDeleted ? CommonViewModels.ShowArchive : CommonViewModels.HideArchive; }
 		}
 
 		public string ShowOrHideDeletedCommandImageSource

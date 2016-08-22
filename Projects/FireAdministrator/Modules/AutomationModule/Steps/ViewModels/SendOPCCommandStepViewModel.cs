@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.Automation.ViewModels;
+using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models.Automation.StepArguments;
 
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Команда: {0}", SelectedCommandType.ToDescription());
+				return string.Format(StepCommonViewModel.Command, SelectedCommandType.ToDescription());
 			}
 		}
 	}

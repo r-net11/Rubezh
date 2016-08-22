@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using Localization.Plans.Common;
 using StrazhAPI.Models;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
@@ -78,7 +79,7 @@ namespace PlansModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Планы"; }
+			get { return CommonResources.Plans; }
 		}
 		public override void CopyProperties()
 		{

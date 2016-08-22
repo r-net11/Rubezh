@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Video.Common;
 using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure.Common.Services.Layout;
@@ -52,7 +53,7 @@ namespace VideoModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Видеокамера"; }
+			get { return CommonResources.Videocam; }
 		}
 		public override void CopyProperties()
 		{

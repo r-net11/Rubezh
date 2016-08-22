@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using FiresecClient;
 using Infrastructure;
@@ -7,6 +10,7 @@ using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
+using Localization.FireAdministrator.Errors;
 
 namespace FireAdministrator
 {
@@ -18,6 +22,10 @@ namespace FireAdministrator
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+
+            var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
 			base.OnStartup(e);
 			try
 			{
@@ -49,7 +57,7 @@ namespace FireAdministrator
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
-			if (MessageBoxService.ShowQuestion("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл"))
+			if (MessageBoxService.ShowQuestion(CommonErrors.CloseWithException_Error))
 			{
 				FileConfigurationHelper.SaveToFile();
 			}

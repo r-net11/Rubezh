@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -36,7 +37,7 @@ namespace StrazhModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = IsActive ? Model.Name : string.Format("Понедельный график {0}", Index);
+			Name = IsActive ? Model.Name : string.Format(CommonViewModels.WeekSchedule, Index);
 			Description = IsActive ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
@@ -129,9 +130,9 @@ namespace StrazhModule.ViewModels
 			return hasReference
 				? MessageBoxService.ShowQuestion(
 					String.Format(
-						"Недельный график замка \"{0}\"назначен для одного или нескольких замков. При его удалении для замка будет назначен недельный график замка \"Карта\". Вы действительно хотите его удалить?",
+						CommonViewModels.WeekLockSchedule_DeleteForLocksConfirm,
 						Name), null, MessageBoxImage.Warning)
-				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить недельный график замка \"{0}\"?", Name));
+				: MessageBoxService.ShowQuestion(String.Format(CommonViewModels.WeekLockSchedule_DeleteConfirm, Name));
 		}
 
 		IEnumerable<SKDDevice> GetLinkedLocks()

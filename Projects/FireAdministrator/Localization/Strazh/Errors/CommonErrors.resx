@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ControllerPassword_Error" xml:space="preserve">
+    <value>Пароль замка должен соответствовать следующим ограничениям:
+*Не может быть пустым
+*Может состоять только из цифр
+*Количество знаков от 3 до 6
+*Не должен начинаться на 0
+*Не должен совпадать с уже имеющимся паролем</value>
+  </data>
+  <data name="DeviceCommands_ControllerError" xml:space="preserve">
+    <value>Операция не выполнена на следующих контроллерах:
+{0}</value>
+  </data>
+  <data name="GatewayError" xml:space="preserve">
+    <value>Не верно задан шлюз по умолчанию</value>
+  </data>
+  <data name="IPAddressError" xml:space="preserve">
+    <value>Не верно задан IP-адрес</value>
+  </data>
+  <data name="MaskError" xml:space="preserve">
+    <value>Не верно задана маска подсети</value>
+  </data>
+  <data name="OperationError" xml:space="preserve">
+    <value>Ошибка во время операции</value>
+  </data>
+  <data name="UnrelatedDoorError" xml:space="preserve">
+    <value>Несвязанная точка доступа</value>
+  </data>
+  <data name="UnrelatedSKDDeviceError" xml:space="preserve">
+    <value>Несвязанное СКД устройство</value>
+  </data>
+  <data name="UnrelatedSKDZoneError" xml:space="preserve">
+    <value>Несвязанная СКД зона</value>
+  </data>
+  <data name="ValidateDevicesEqualityicate_DublicateError" xml:space="preserve">
+    <value>Дублируется название устройства</value>
+  </data>
+  <data name="ValidateDevices_DoorError" xml:space="preserve">
+    <value>Неактивный считыватель участвует в точке доступа</value>
+  </data>
+  <data name="ValidateDevices_DoorNullError" xml:space="preserve">
+    <value>Считыватель не участвует в точке доступа</value>
+  </data>
+  <data name="ValidateDevices_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название устройства</value>
+  </data>
+  <data name="ValidateDevices_ZoneError" xml:space="preserve">
+    <value>Неактивный считыватель ведет в зону</value>
+  </data>
+  <data name="ValidateDevices_ZoneNullError" xml:space="preserve">
+    <value>Считыватель не ведет в зону</value>
+  </data>
+  <data name="ValidateDoors_DeviceTypeError" xml:space="preserve">
+    <value>Тип контроллер не совпадает с типом точки доступа</value>
+  </data>
+  <data name="ValidateDoors_DublicateNameError" xml:space="preserve">
+    <value>Дублируется название точки доступа</value>
+  </data>
+  <data name="ValidateDoors_DublicateNumberError" xml:space="preserve">
+    <value>Дублируется номер</value>
+  </data>
+  <data name="ValidateDoors_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название точки доступа</value>
+  </data>
+  <data name="ValidateDoors_InDeviceError" xml:space="preserve">
+    <value>У точки доступа отсутствует входное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutDeviceEmptyError" xml:space="preserve">
+    <value>У точки доступа отсутствует выходное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutDeviceError" xml:space="preserve">
+    <value>У точки доступа неверно указано выходное устройство</value>
+  </data>
+  <data name="ValidateDoors_OutReaderError" xml:space="preserve">
+    <value>У точки доступа выходным устройством может быть только считыватель</value>
+  </data>
+  <data name="ValidateDoors_SameDeviceError" xml:space="preserve">
+    <value>Одно и то же устройство привязано к разным точкам доступа</value>
+  </data>
+  <data name="ValidateDoorTimeIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название дневного графика</value>
+  </data>
+  <data name="ValidateDoorWeeklyIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название недельного графика</value>
+  </data>
+  <data name="ValidateDoorWeeklyIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части недельного графика пустые</value>
+  </data>
+  <data name="ValidateHolidays_DublicateError" xml:space="preserve">
+    <value>Дублируется дата праздника</value>
+  </data>
+  <data name="ValidateHolidays_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название праздника</value>
+  </data>
+  <data name="ValidateIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название дневного графика</value>
+  </data>
+  <data name="ValidateIntervals_StartLessEndError" xml:space="preserve">
+    <value>Начало интервала меньше конца интервала</value>
+  </data>
+  <data name="ValidateIPAddresses_DublicateError" xml:space="preserve">
+    <value>Дублируется IP-адрес устройства</value>
+  </data>
+  <data name="ValidateIPAddresses_LoginError" xml:space="preserve">
+    <value>Не задан логин</value>
+  </data>
+  <data name="ValidateIPAddresses_PasswordError" xml:space="preserve">
+    <value>Не задан пароль</value>
+  </data>
+  <data name="ValidateIPAddresses_PortError" xml:space="preserve">
+    <value>Не задан порт</value>
+  </data>
+  <data name="ValidatePlans_DublicateError" xml:space="preserve">
+    <value>{0} дублируется на плане {1}</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части скользящего посуточного графика пустые</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideDayIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части скользящего посуточного графика</value>
+  </data>
+  <data name="ValidateSlideWeeklyIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_DublicateError" xml:space="preserve">
+    <value>Дублируется название скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_EmptyError" xml:space="preserve">
+    <value>Все составляющие части скользящего понедельного графика пустые</value>
+  </data>
+  <data name="ValidateSlideWeklyIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части скользящего понедельного графика</value>
+  </data>
+  <data name="ValidateTimeIntervals_EmptyPartError" xml:space="preserve">
+    <value>Отсутствуют составляющие части дневного графика</value>
+  </data>
+  <data name="ValidateTimeIntervals_IntersectError" xml:space="preserve">
+    <value>Последовательность интервалов не должна быть пересекающейся</value>
+  </data>
+  <data name="ValidateWeeklyIntervals_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название недельного графика</value>
+  </data>
+  <data name="ValidateZones_DublicateError" xml:space="preserve">
+    <value>Дублируется название зоны</value>
+  </data>
+  <data name="ValidateZones_EmptyNameError" xml:space="preserve">
+    <value>Отсутствует название зоны</value>
+  </data>
+</root>

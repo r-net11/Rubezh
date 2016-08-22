@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
 using StrazhAPI.Models.Layouts;
@@ -55,28 +56,28 @@ namespace SKDModule
 		{
 			var items = new List<NavigationItem>
 			{
-				new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W")
+				new NavigationItem<ShowHREvent>(HRViewModel, CommonResources.CardCatalog, "Kartoteka2W")
 			};
 
 			if (ServiceFactory.UiElementsVisibilityService.IsMainMenuSkdUrvElementVisible)
 				items.Add(BuildUrvItem());
 
-			return new NavigationItem("СКД", "SKDW", items);
+            return new NavigationItem(CommonResources.SKD, "SKDW", items);
 		}
 
 		private NavigationItem BuildUrvItem()
 		{
-			return new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
+            return new NavigationItem(CommonResources.Timesheet, "TimeTrackingW", new List<NavigationItem>()
 			{
-				new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null,
+				new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, CommonResources.DaySchedules, "ShedulesDaylyW", null,
 					PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
-				new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null,
+				new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, CommonResources.Schedules, "SheduleWeeklyW", null,
 					PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
-				new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null,
+				new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, CommonResources.Holidays, "HolidaysW", null,
 					PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
-				new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "График работы", "ShedulesW", null,
+				new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, CommonResources.WorkSchedule, "ShedulesW", null,
 					PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
-				new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null,
+				new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, CommonResources.Timesheet, "TimeTrackingW", null,
 					PermissionType.Oper_SKD_TimeTrack_Report_View),
 			});
 		}
@@ -151,13 +152,13 @@ namespace SKDModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Дневные графики", "Tree.png", (p) => DayIntervalsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Графики", "Tree.png", (p) => ScheduleSchemesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Графики работ", "Tree.png", (p) => SchedulesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, CommonResources.CardCatalog, "Levels.png", (p) => HRViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, CommonResources.Verification, "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, CommonResources.DaySchedules, "Tree.png", (p) => DayIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, CommonResources.Schedules, "Tree.png", (p) => ScheduleSchemesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, CommonResources.Holidays, "Tree.png", (p) => HolidaysViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, CommonResources.WorkSchedules, "Tree.png", (p) => SchedulesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, CommonResources.Timesheet, "Tree.png", (p) => TimeTrackingViewModel);
 		}
 		#endregion
 

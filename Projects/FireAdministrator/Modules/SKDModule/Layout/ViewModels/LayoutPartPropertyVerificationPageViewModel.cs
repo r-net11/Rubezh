@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.Models.Layouts;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
@@ -30,7 +31,7 @@ namespace SKDModule.ViewModels
 
 		public override string Header
 		{
-			get { return "Настройка верификации"; }
+			get { return CommonViewModels.VerificationSettings; }
 		}
 		public override void CopyProperties()
 		{
@@ -67,7 +68,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				properties.ReferenceUID = Guid.Empty;
-				_layoutPartVerificationViewModel.UpdateLayoutPart("Устройство не указано");
+				_layoutPartVerificationViewModel.UpdateLayoutPart(CommonViewModels.UnknownDevice);
 			}
 			return true;
 		}

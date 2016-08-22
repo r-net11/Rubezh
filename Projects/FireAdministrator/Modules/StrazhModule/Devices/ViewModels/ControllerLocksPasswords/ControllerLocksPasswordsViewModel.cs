@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Localization.Strazh.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
 using FiresecClient;
@@ -38,7 +39,7 @@ namespace StrazhModule.ViewModels
 		{
 			_deviceViewModel = deviceViewModel;
 
-			Title = "Пароли замков";
+			Title = CommonResources.LocksPassword;
 
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);

@@ -3,6 +3,7 @@
 			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 			MinWidth="600" MinHeight="500">
 
 	<Grid>
@@ -24,7 +25,7 @@
 			<ListView.View>
 				<GridView>
 					<GridView.Columns>
-						<GridViewColumn Header="Обозначение" Width="150">
+						<GridViewColumn Header="{x:Static lang:CommonViews.Designation}" Width="150">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -34,14 +35,14 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="{x:Static lang:CommonViews.Denomination}" />
 					</GridView.Columns>
 				</GridView>
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Margin="2">
 			<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-				<Label Content="Название" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
+                <Label Content="{x:Static lang:CommonViews.Name}" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
 				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left" />
 			</StackPanel>
 		</StackPanel>

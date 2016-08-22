@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:views="clr-namespace:AutomationModule.Views"
     xmlns:enums="clr-namespace:StrazhAPI.Enums;assembly=StrazhAPI"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
     mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
@@ -19,7 +20,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TextBlock
-			Text="Результат"
+			Text="{x:Static lang:CommonViews.Result}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5" />
@@ -29,7 +30,7 @@
 			Margin="3 5" />
 		<TextBlock
 			Grid.Row="1"
-			Text="Отсечение"
+			Text="{x:Static lang:CommonViews.Round}"
 			Foreground="White"
 			VerticalAlignment="Center"
 			Margin="5" />

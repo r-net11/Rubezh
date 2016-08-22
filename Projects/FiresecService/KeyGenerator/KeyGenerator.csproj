@@ -47,6 +47,11 @@
     <Compile Include="LicenseFileManager.cs" />
     <Compile Include="ILicenseManager.cs" />
     <Compile Include="LicenseManager.cs" />
+    <Compile Include="Resources\Language\LicenseEntity.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LicenseEntity.resx</DependentUpon>
+    </Compile>
     <Compile Include="SecretFile.cs" />
     <Compile Include="UserKeyGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ACTechCert.cer" />
+    <EmbeddedResource Include="Resources\Language\LicenseEntity.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LicenseEntity.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
@@ -67,6 +76,10 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Localization.Converters\Localization.Converters.csproj">
+      <Project>{a99daac1-2126-4279-a463-40e4ce63e8bc}</Project>
+      <Name>Localization.Converters</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>

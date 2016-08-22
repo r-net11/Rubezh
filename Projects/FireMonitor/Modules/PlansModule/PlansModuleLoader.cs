@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using Localization.Plans.Common;
 using PlansModule.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Enums;
@@ -75,7 +76,7 @@ namespace PlansModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", CreatePlansViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, CommonResources.Plans, "Map.png", CreatePlansViewModel);
 		}
 		#endregion
 

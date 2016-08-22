@@ -1,6 +1,7 @@
 ﻿using System;
 using Infrastructure.Common.Windows.ViewModels;
 using System.IO;
+using Localization.Journal.ViewModels;
 
 namespace JournalModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace JournalModule.ViewModels
 		public VideoViewModel(string videoPath)
 		{
 			VideoPath = videoPath;
-			Title = "Видеофрагмент, связанный с событием";
+			Title = CommonViewModels.Videoclip;
 		}
 
 		public override bool OnClosing(bool isCanceled)

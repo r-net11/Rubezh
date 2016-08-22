@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using Common;
+using Localization.FireAdministrator.Errors;
 using StrazhAPI;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
@@ -42,7 +43,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.SaveToFile");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+				MessageBox.Show(e.Message, CommonErrors.ExecuteOperation_Error);
 			}
 			return null;
 		}
@@ -114,7 +115,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.LoadFromFile");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+				MessageBox.Show(e.Message, CommonErrors.ExecuteOperation_Error);
 			}
 			return null;
 		}
@@ -137,7 +138,7 @@ namespace FireAdministrator
 				SKDManager.UpdateConfiguration();
 
 				if (LoadingErrorManager.HasError)
-					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
+					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), CommonErrors.LoadConfig_Error);
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ConfigManager.ShowFirstDevice();
@@ -148,7 +149,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.LoadFromFile");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+				MessageBox.Show(e.Message, CommonErrors.ExecuteOperation_Error);
 			}
 			return null;
 		}

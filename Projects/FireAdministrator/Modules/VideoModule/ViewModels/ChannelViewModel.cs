@@ -1,5 +1,6 @@
 ﻿using Entities.DeviceOriented;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Video.ViewModels;
 
 namespace VideoModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace VideoModule.ViewModels
 		public ChannelViewModel(int no)
 		{
 			No = no;
-			Name = "Канал " + no;
+			Name = CommonViewModels.Channel + no;
 		}
 
 		public IChannel Channel { get; private set; }

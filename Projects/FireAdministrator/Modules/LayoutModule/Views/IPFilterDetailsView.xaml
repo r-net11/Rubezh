@@ -2,6 +2,7 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 xmlns:lang="clr-namespace:Localization.Layout.Views;assembly=Localization"
 			 MinWidth="350" MinHeight="100">
 	
 	<Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -15,9 +16,9 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<RadioButton Grid.Column="0" Grid.Row="0" IsChecked="{Binding IsDnsName}" Content="Имя" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+				<RadioButton Grid.Column="0" Grid.Row="0" IsChecked="{Binding IsDnsName}" Content="{x:Static lang:CommonViews.Name}" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
 				<TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding HostNameOrAddress}" IsEnabled="{Binding IsDnsName}" Margin="2" />
-				<RadioButton Grid.Column="0" Grid.Row="1" IsChecked="{Binding IsIpAddress}" Content="IP адрес" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+                <RadioButton Grid.Column="0" Grid.Row="1" IsChecked="{Binding IsIpAddress}" Content="{x:Static lang:CommonViews.IpAddress}" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
 				<TextBox Grid.Column="1" Grid.Row="1" Margin="2"
 					Name="addressEditor"
 					PreviewKeyDown="OnPreviewKeyDown"

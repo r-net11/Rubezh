@@ -3,6 +3,7 @@ using Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
@@ -51,7 +52,7 @@ namespace StrazhModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = IsActive ? Model.Name : string.Format("Скользящий понедельный график {0}", Index);
+			Name = IsActive ? Model.Name : string.Format(CommonViewModels.SlideWeekSchedule, Index);
 			Description = IsActive ? Model.Description : string.Empty;
 			StartDate = IsActive ? (DateTime?)Model.StartDate : null;
 		}

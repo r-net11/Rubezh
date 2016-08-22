@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure;
 using FiresecClient;
+using Localization.Strazh.Errors;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 
 namespace StrazhModule.ViewModels
@@ -20,7 +22,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerNetSettingsViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Сетевые настройки контроллера";
+			Title = CommonViewModels.ControllerNetSettings_Title;
 			DeviceViewModel = deviceViewModel;
 
 			WriteCommand = new RelayCommand(OnWrite);
@@ -96,11 +98,11 @@ namespace StrazhModule.ViewModels
 		{
 			var sb = new StringBuilder();
 			if (!SKDManager.ValidateIPAddress(Address))
-				sb.AppendLine("Не верно задан адрес");
+				sb.AppendLine(CommonErrors.IPAddressError);
 			if (!SKDManager.ValidateIPAddress(Mask))
-				sb.AppendLine("Не верно задана маска подсети");
+                sb.AppendLine(CommonErrors.MaskError);
 			if (!SKDManager.ValidateIPAddress(DefaultGateway))
-				sb.AppendLine("Не верно задан шлюз по умолчанию");
+                sb.AppendLine(CommonErrors.GatewayError);
 			if (sb.Length > 0)
 			{
 				MessageBoxService.ShowWarning(sb.ToString());
@@ -145,11 +147,11 @@ namespace StrazhModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDRebootController(DeviceViewModel.Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+				MessageBoxService.Show(CommonViewModels.Controller_Reboot);
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+				MessageBoxService.ShowWarning(CommonErrors.OperationError, result.Error);
 			}
 		}
 
@@ -160,7 +162,7 @@ namespace StrazhModule.ViewModels
 				return base.Save();
 
 			// Есть изменения, но они не записаны на контроллер и пользователь отказался от сохранения изменений в конфигурации, поэтому не закрываем окно
-			if (NeedSaveChangesToController && !MessageBoxService.ShowQuestion("Сетевые настройки не были записаны на контроллер. Изменить сетевые настройки в конфигурации?"))
+			if (NeedSaveChangesToController && !MessageBoxService.ShowQuestion(CommonViewModels.ControllerNetSettings_Save))
 				return false;
 
 			// Сохраняем изменения в конфигурации

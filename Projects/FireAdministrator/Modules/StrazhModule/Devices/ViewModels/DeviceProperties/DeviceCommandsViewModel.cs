@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Text;
 using Common;
+using Localization.Strazh.Errors;
+using Localization.Strazh.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -154,7 +156,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
-				MessageBoxService.ShowWarning("Перед выполнением операции необходимо применить конфигурацию.");
+                MessageBoxService.ShowWarning(CommonViewModels.AcceptConfigBeforeOperation);
 				return;
 			}
 
@@ -162,7 +164,7 @@ namespace StrazhModule.ViewModels
 			if (!DialogService.ShowModalWindow(writeConfigurationInAllControllersViewModel))
 				return;
 			if (writeConfigurationInAllControllersViewModel.IsCards
-				&& !MessageBoxService.ShowQuestion("Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.\nПродолжить?"))
+                && !MessageBoxService.ShowQuestion(CommonViewModels.Device_WriteCardsOnController))
 				return;
 			
 			//if (!CheckNeedSave())
@@ -225,7 +227,7 @@ namespace StrazhModule.ViewModels
 						LoadingService.Close();
 						var sb = new StringBuilder();
 						failedDevicesUids.ForEach(x => sb.AppendLine(SKDManager.Devices.FirstOrDefault(device => device.UID == x).Name));
-						MessageBoxService.ShowWarning(String.Format("Операция не выполнена на следующих контроллерах:\n\n{0}", sb));
+                        MessageBoxService.ShowWarning(String.Format(CommonErrors.DeviceCommands_ControllerError, sb));
 					}
 
 					var oldHasMissmath = HasMissmath;
@@ -269,7 +271,7 @@ namespace StrazhModule.ViewModels
 			{
 				if (validationResult.CannotSave(ModuleType.SKD) || validationResult.CannotWrite(ModuleType.SKD))
 				{
-					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+                    MessageBoxService.ShowWarning(CommonViewModels.Operation_Error);
 					return false;
 				}
 			}
@@ -285,7 +287,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
-				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
+                if (MessageBoxService.ShowQuestion(CommonViewModels.AcceptConfig))
 				{
 					_configurationChangedWaitHandle = new AutoResetEvent(false);
 					var cancelEventArgs = new CancelEventArgs();

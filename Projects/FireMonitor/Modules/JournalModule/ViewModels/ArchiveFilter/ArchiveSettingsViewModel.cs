@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
 using JournalModule.Events;
+using Localization.Journal.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace JournalModule.ViewModels
 	{
 		public ArchiveSettingsViewModel()
 		{
-			Title = "Настройки";
+			Title = CommonResources.Settings;
 
 			AdditionalColumns = new List<JournalColumnTypeViewModel>();
 			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))

@@ -4,7 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI"
 	xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
-	xmlns:Views="clr-namespace:AutomationModule.Views">
+	xmlns:Views="clr-namespace:AutomationModule.Views"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
@@ -42,18 +43,18 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" Content="Макет окна" />
-			<Label Grid.Row="1" Grid.Column="0" Content="Заголовок" />
-			<Label Grid.Row="2" Grid.Column="0" Content="Модальное окно" />
-			<Label Grid.Row="2" Grid.Column="2" Content="Всем клиентам" />
-			<Label Grid.Row="3" Grid.Column="0" Content="Можно закрывать" />
-			<Label Grid.Row="3" Grid.Column="2" Content="Можно разворачивать" />
-			<Label Grid.Row="4" Grid.Column="0" Content="Поверх всех" />
-			<Label Grid.Row="4" Grid.Column="2" Content="Фиксированный размер" />
-			<Label Grid.Row="5" Grid.Column="2" Content="Ширина" />
-			<Label Grid.Row="6" Grid.Column="2" Content="Высота" />
-			<Label Grid.Row="5" Grid.Column="0" Content="Мин. ширина" />
-			<Label Grid.Row="6" Grid.Column="0" Content="Мин. высота" />
+			<Label Grid.Row="0" Grid.Column="0" Content="{x:Static lang:CommonViews.WindowLayout}" />
+            <Label Grid.Row="1" Grid.Column="0" Content="{x:Static lang:CommonViews.Header}" />
+            <Label Grid.Row="2" Grid.Column="0" Content="{x:Static lang:CommonViews.ModalWindow}" />
+            <Label Grid.Row="2" Grid.Column="2" Content="{x:Static lang:CommonViews.AllClients}" />
+            <Label Grid.Row="3" Grid.Column="0" Content="{x:Static lang:CommonViews.CanClose}" />
+            <Label Grid.Row="3" Grid.Column="2" Content="{x:Static lang:CommonViews.CanMaximize}" />
+            <Label Grid.Row="4" Grid.Column="0" Content="{x:Static lang:CommonViews.OnTop}" />
+            <Label Grid.Row="4" Grid.Column="2" Content="{x:Static lang:CommonViews.FixSize}" />
+            <Label Grid.Row="5" Grid.Column="2" Content="{x:Static lang:CommonViews.Width}" />
+            <Label Grid.Row="6" Grid.Column="2" Content="{x:Static lang:CommonViews.Height}" />
+            <Label Grid.Row="5" Grid.Column="0" Content="{x:Static lang:CommonViews.MinWidth}" />
+            <Label Grid.Row="6" Grid.Column="0" Content="{x:Static lang:CommonViews.MinHeight}" />
 			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -76,7 +77,7 @@
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
 			<DataGrid ItemsSource="{Binding LayoutItems}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="Наименование макета">
+                    <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.LayoutName}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -86,7 +87,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="Auto" Header="Использовать">
+                    <DataGridTemplateColumn Width="Auto" Header="{x:Static lang:CommonViews.Use}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Plans.ViewModels;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
 using Infrastructure;
@@ -80,7 +81,7 @@ namespace PlansModule.ViewModels
 			if (minNamedStateClass.StateClass == XStateClass.No || minNamedStateClass.StateClass == XStateClass.Off)
 			{
 				minNamedStateClass.StateClass = XStateClass.Norm;
-				minNamedStateClass.Name = "Норма";
+				minNamedStateClass.Name = CommonViewModels.Norm;
 			}
 			SelfNamedStateClass = minNamedStateClass;
 		}

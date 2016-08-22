@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="StrazhModule.Views.WeeklyIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+﻿<UserControl x:Class="StrazhModule.Views.WeeklyIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization">
 	<UserControl.Resources>
 		<Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
@@ -21,7 +22,7 @@
 				<DataGridTemplateColumn
 					Width="*"
 					SortMemberPath="Name"
-					Header="Название">
+					Header="{x:Static lang:CommonViews.Name}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -34,7 +35,7 @@
 				<DataGridTemplateColumn
 					SortMemberPath="Description"
 					Width="*"
-					Header="Описание">
+					Header="{x:Static lang:CommonViews.Description}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Style="{StaticResource ActiveStyle}" Text="{Binding Description}" />
@@ -46,7 +47,7 @@
 		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<DataGrid IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="День недели">
+                    <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.DayOfWeek}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -56,7 +57,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" Header="Дневной график">
+                    <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.DaySchedule}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

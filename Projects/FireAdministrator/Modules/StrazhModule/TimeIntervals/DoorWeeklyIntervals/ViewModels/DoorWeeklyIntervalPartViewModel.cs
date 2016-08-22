@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using StrazhModule.Intervals.Base.ViewModels;
@@ -60,21 +61,21 @@ namespace StrazhModule.ViewModels
 			switch (dayNo)
 			{
 				case 1:
-					return "Понедельник";
+					return CommonViewModels.Monday;
 				case 2:
-					return "Вторник";
+					return CommonViewModels.Tuesday;
 				case 3:
-					return "Среда";
+					return CommonViewModels.Wednesday;
 				case 4:
-					return "Четверг";
+					return CommonViewModels.Thursday;
 				case 5:
-					return "Пятница";
+					return CommonViewModels.Friday;
 				case 6:
-					return "Суббота";
+					return CommonViewModels.Saturday;
 				case 7:
-					return "Воскресенье";
+					return CommonViewModels.Sunday;
 			}
-			return "Неизвестный день";
+			return CommonViewModels.UnknownDay;
 		}
 	}
 }

@@ -9,6 +9,7 @@
 	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="500"
 	mc:Ignorable="d">
@@ -34,7 +35,7 @@
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn
-						Header="Название"
+						Header="{x:Static langCommon:CommonResources.Name}"
 						Width="300"
 						tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
@@ -60,7 +61,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn
-						Header="Примечание"
+						Header="{x:Static langCommon:CommonResources.Note}"
 						Width="300"
 						ctr:ProportionalColumn.Width="1"
 						tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">

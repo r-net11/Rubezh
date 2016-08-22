@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using Controls.Menu.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Plans.Common;
+using Localization.Plans.ViewModels;
 
 namespace PlansModule.ViewModels
 {
@@ -11,22 +13,22 @@ namespace PlansModule.ViewModels
 		{
 			Items = new ObservableCollection<BaseViewModel>()
 			{
-				new MenuButtonViewModel(context.AddFolderCommand, "FolderOpen" , "Добавить папку"),
-				new MenuButtonViewModel(context.AddCommand, "Add" , "Добавить план"),
-				new MenuButtonViewModel(context.EditCommand, "Edit" , "Редактировать план"),
-				new MenuButtonViewModel(context.RemoveCommand, "Delete" , "Удалить план"),
+				new MenuButtonViewModel(context.AddFolderCommand, "FolderOpen" , CommonViewModels.AddFolder),
+				new MenuButtonViewModel(context.AddCommand, "Add" , CommonViewModels.AddPlan),
+				new MenuButtonViewModel(context.EditCommand, "Edit" , CommonResources.EditPlan),
+				new MenuButtonViewModel(context.RemoveCommand, "Delete" , CommonViewModels.DeletePlan),
 				new MenuSeparatorViewModel(),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.CopyCommand, "Copy" , "Копировать"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.CutCommand, "Cut" , "Вырезать"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.PasteCommand, "Paste" , "Вставить"),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.CopyCommand, "Copy" , CommonResources.Copy),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.CutCommand, "Cut" , CommonResources.Cut),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.PasteCommand, "Paste" , CommonResources.Paste),
 				new MenuSeparatorViewModel(),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.UndoCommand, "Undo" , "Отменить"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.RedoCommand, "Redo" , "Применить"),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.UndoCommand, "Undo" , CommonViewModels.Cancel),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.RedoCommand, "Redo" , CommonViewModels.Apply),
 				new MenuSeparatorViewModel(),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveToFrontCommand, "MoveForward" , "Вверх"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.SendToBackCommand, "MoveBackward" , "Вниз"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveForwardCommand, "MoveFront" , "Выше"),
-				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveBackwardCommand, "MoveBack" , "Ниже"),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveToFrontCommand, "MoveForward" , CommonViewModels.MoveToFront),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.SendToBackCommand, "MoveBackward" , CommonViewModels.SendToBack),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveForwardCommand, "MoveFront" , CommonViewModels.MoveForward),
+				new MenuButtonViewModel(context.PlanDesignerViewModel.MoveBackwardCommand, "MoveBack" , CommonViewModels.MoveBackward),
 				new MenuSeparatorViewModel(),
 				//context.DesignerCanvas.Toolbox
 				
@@ -35,12 +37,12 @@ namespace PlansModule.ViewModels
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "shapes-rotate-anticlockwise" , "Ниже"),
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "shapes-rotate-clockwise" , "Ниже"),
 			};
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
-			Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", CommonViewModels.AlignHorizontalLeft));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", CommonViewModels.AlignHorizontalCenter));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", CommonViewModels.AlignHorizontalRight));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", CommonViewModels.AlignVerticalTop));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", CommonViewModels.AlignVerticalCenter));
+            Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", CommonViewModels.AlignVerticalBottom));
 		}
 	}
 }

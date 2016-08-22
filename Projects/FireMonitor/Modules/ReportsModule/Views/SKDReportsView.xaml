@@ -4,7 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:viewModel="clr-namespace:ReportsModule.ViewModels">
+	xmlns:viewModel="clr-namespace:ReportsModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.Reports.Views;assembly=Localization">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="300" MinWidth="100" />
@@ -28,7 +29,7 @@
 			</TreeList.ItemContainerStyle>
 			<TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Отчет">
+					<GridViewColumn Header="{x:Static lang:CommonViews.Report}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Grid.Column="1" Orientation="Horizontal">

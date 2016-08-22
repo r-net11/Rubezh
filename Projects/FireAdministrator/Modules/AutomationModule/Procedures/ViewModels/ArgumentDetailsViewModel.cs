@@ -1,6 +1,7 @@
 ﻿using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 		public ArgumentDetailsViewModel(Argument argument)
 		{
 			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			Title = "Редактировать аргумент";
+            Title = CommonViewModels.ArgumentDetailsViewModel_Title;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Archive" xml:space="preserve">
+    <value>с архивированными объектами </value>
+  </data>
+  <data name="Arithmetic_AND" xml:space="preserve">
+    <value>И</value>
+  </data>
+  <data name="Arithmetic_OR" xml:space="preserve">
+    <value>ИЛИ</value>
+  </data>
+  <data name="ChangeList" xml:space="preserve">
+    <value>Список: {0}  Элемент: {1} Операция: {2}</value>
+  </data>
+  <data name="CheckPermission" xml:space="preserve">
+    <value>Проверка прав: {0} Результат: {1}</value>
+  </data>
+  <data name="Condition_AND" xml:space="preserve">
+    <value>и ...</value>
+  </data>
+  <data name="Condition_OR" xml:space="preserve">
+    <value>или ...</value>
+  </data>
+  <data name="ControlDoor" xml:space="preserve">
+    <value>Точка доступа: {0}  Команда: {1}</value>
+  </data>
+  <data name="ControlPlan" xml:space="preserve">
+    <value>План: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}</value>
+  </data>
+  <data name="ControlSKDDevice" xml:space="preserve">
+    <value>Устройство: {0} Команда: {1}</value>
+  </data>
+  <data name="ControlSKDZone" xml:space="preserve">
+    <value>Зона: {0} Команда: {1}</value>
+  </data>
+  <data name="ControlVisual" xml:space="preserve">
+    <value>Макет: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Код выхода: {0}</value>
+  </data>
+  <data name="ExportConfiguration" xml:space="preserve">
+    <value>Экспортировать конфигурацию </value>
+  </data>
+  <data name="ExportConfiguration_Device" xml:space="preserve">
+    <value>устройства </value>
+  </data>
+  <data name="ExportConfiguration_Door" xml:space="preserve">
+    <value>точки доступа </value>
+  </data>
+  <data name="ExportConfiguration_Zone" xml:space="preserve">
+    <value>зоны </value>
+  </data>
+  <data name="ExportJournal" xml:space="preserve">
+    <value>Экспортировать </value>
+  </data>
+  <data name="ExportJournal_Event" xml:space="preserve">
+    <value>журнал событий </value>
+  </data>
+  <data name="ExportJournal_EventAndPass" xml:space="preserve">
+    <value>журнал событий и журнал проходов </value>
+  </data>
+  <data name="ExportJournal_From" xml:space="preserve">
+    <value>с </value>
+  </data>
+  <data name="ExportJournal_Pass" xml:space="preserve">
+    <value>журнал проходов </value>
+  </data>
+  <data name="ExportJournal_To" xml:space="preserve">
+    <value> до </value>
+  </data>
+  <data name="ExportOrganisation" xml:space="preserve">
+    <value>Экспортировать </value>
+  </data>
+  <data name="ExportOrganisationList" xml:space="preserve">
+    <value>Экспортировать список организаций </value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>Экспорт отчета: {0}. Фильтр: {1}.</value>
+  </data>
+  <data name="FindObject" xml:space="preserve">
+    <value>Результат: {0} Условие поиска: {1}</value>
+  </data>
+  <data name="Foreach" xml:space="preserve">
+    <value>Список:  {0} Элемент: {1}</value>
+  </data>
+  <data name="GenerateGuid" xml:space="preserve">
+    <value>Результат: {0}</value>
+  </data>
+  <data name="GetDateTimeNow" xml:space="preserve">
+    <value>Результат: {0}. Отсечение: {1}</value>
+  </data>
+  <data name="GetDoorProperty" xml:space="preserve">
+    <value>Точка доступа: {0} Свойство: {1} Значение: {2}</value>
+  </data>
+  <data name="GetJournalItem" xml:space="preserve">
+    <value>Получить значение колонки: {0} Результат: {1}</value>
+  </data>
+  <data name="GetListCount" xml:space="preserve">
+    <value>Список: {0} Размер: {1}</value>
+  </data>
+  <data name="GetListItem" xml:space="preserve">
+    <value>Список: {0} Элемент: {1} Позиция: {2} </value>
+  </data>
+  <data name="GetObjectProperty" xml:space="preserve">
+    <value>{0} = {1} Свойство: {2}</value>
+  </data>
+  <data name="GetSKDDeviceProperty" xml:space="preserve">
+    <value>Устройство: {0} Свойство: {1} Значение: {2}</value>
+  </data>
+  <data name="GetSKDZoneProperty" xml:space="preserve">
+    <value>Зона: {0} Свойство: {1} Значение: {2}</value>
+  </data>
+  <data name="ImportOrganisation" xml:space="preserve">
+    <value>Импортировать </value>
+  </data>
+  <data name="ImportOrganisationList" xml:space="preserve">
+    <value>Импортировать список организаций </value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>в </value>
+  </data>
+  <data name="IncrementValue" xml:space="preserve">
+    <value>Переменная: {0} Значение: {1}</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Сообщение: {0}</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Значение: {0} {1}</value>
+  </data>
+  <data name="ProcedureSelection" xml:space="preserve">
+    <value>Процедура: {0}</value>
+  </data>
+  <data name="PTZ" xml:space="preserve">
+    <value>Камера: {0} Номер команды: {1}</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Максимальное значение:</value>
+  </data>
+  <data name="RunProgram" xml:space="preserve">
+    <value>Путь к программе: {0} Параметры запуска: {1}</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>От кого: {0} Кому: {1} Адрес сервера: {2} Порт: {3}</value>
+  </data>
+  <data name="ShowDialog" xml:space="preserve">
+    <value>Открыть диалог: {0} {1}</value>
+  </data>
+  <data name="ShowDialog_Modal" xml:space="preserve">
+    <value>(модальный)</value>
+  </data>
+  <data name="ShowDialog_NotModal" xml:space="preserve">
+    <value>(не модальный)</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Сообщение: {0}</value>
+  </data>
+  <data name="ShowProperty" xml:space="preserve">
+    <value>Показать свойство объекта:</value>
+  </data>
+  <data name="Sound" xml:space="preserve">
+    <value>Звук:</value>
+  </data>
+  <data name="StartRecord" xml:space="preserve">
+    <value>Камера: {0} Идентификатор: {1} Таймаут: {2}</value>
+  </data>
+  <data name="StopRecord" xml:space="preserve">
+    <value>Камера: {0} Идентификатор: {1}</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение: {0}</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Команда: {0}</value>
+  </data>
+  <data name="LabelGuardZoneInfo" xml:space="preserve">
+    <value>№, название охранной зоны: {0} {1} Команда: {2}</value>
+  </data>
+  <data name="LabelPressToSelectOPCScenario" xml:space="preserve">
+    <value>Нажмите для выбора сценария</value>
+  </data>
+  <data name="LabelPressToSelectOPCZone" xml:space="preserve">
+    <value>Нажмите для выбора охранной зоны</value>
+  </data>
+  <data name="LabelScenarioInfo" xml:space="preserve">
+    <value>№ Сценария: {0} Название: {1}</value>
+  </data>
+</root>

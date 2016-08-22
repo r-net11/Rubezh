@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="StrazhModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:StrazhModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:StrazhModule.ViewModels" xmlns:Views="clr-namespace:StrazhModule.Views">
+﻿<UserControl x:Class="StrazhModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:StrazhModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:StrazhModule.ViewModels" xmlns:Views="clr-namespace:StrazhModule.Views"
+             xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization">
 	<UserControl.Resources>
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
-			<Conv:SwitchCase Then="Точка доступа может быть размещена на плане" When="Multiple" />
-			<Conv:SwitchCase Then="Точка доступа не размещена на плане" When="NotPresent" />
-			<Conv:SwitchCase Then="Точку доступа нельзя размещать на плане" When="Prohibit" />
-			<Conv:SwitchCase Then="Точка доступа уже размещена на плане" When="Single" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DoorCanPlacedOnPlan}" When="Multiple" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DoorNotOnPlan}" When="NotPresent" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DoorShouldNotPlacedOnPlan}" When="Prohibit" />
+            <Conv:SwitchCase Then="{x:Static lang:CommonViews.DoorAvailableOnPlan}" When="Single" />
 		</Conv:SwitchConverter>
 	</UserControl.Resources>
 	<Grid>
@@ -27,10 +28,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="{x:Static lang:CommonViews.Denomination}" />
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Устройство входа"
+					Header="{x:Static lang:CommonViews.DeviceIn}"
 					SortMemberPath="InDeviceName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -59,7 +60,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Устройство выхода"
+					Header="{x:Static lang:CommonViews.DeviceOut}"
 					SortMemberPath="OutDevice.NameWithParent">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -76,12 +77,12 @@
 		<Border Grid.Row="2" Margin="0 5 0 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5 0 0 5" DataContext="{Binding SelectedDoor}">
 			<StackPanel Margin="5">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Входное устройство" />
+                    <TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.InputDevice}" />
 					<Image Width="16" Height="16" Margin="2" Source="{Binding InDevice.Driver.ImageSource}" />
 					<TextBlock Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding InDevice.Name}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Выходное устройство" />
+                    <TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{x:Static lang:CommonViews.OutputDevice}" />
 					<Image Width="16" Height="16" Margin="2" Source="{Binding OutDevice.Driver.ImageSource}" />
 					<TextBlock Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding OutDevice.Name}" />
 				</StackPanel>

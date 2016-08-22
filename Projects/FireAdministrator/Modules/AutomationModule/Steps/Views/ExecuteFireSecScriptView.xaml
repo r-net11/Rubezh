@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:enums="clr-namespace:StrazhAPI.Automation.Enums;assembly=StrazhAPI"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="100"
 	d:DesignWidth="300">
     <Grid>
@@ -18,7 +19,7 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Text="Сценарий FireSec"
+			Text="{x:Static lang:CommonViews.FiresecScenario}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5"/>
@@ -38,7 +39,7 @@
 		</TextBlock>
 		<TextBlock
 			Grid.Row="1"
-			Text="Команда"
+			Text="{x:Static lang:CommonViews.Command}"
 			Foreground="White"
 			VerticalAlignment="Center"
 			Margin="5" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 	{
 		public DeviceSelectationViewModel(Guid deviceUID, DoorType doorType)
 		{
-			Title = "Выбор устройства";
+			Title = CommonViewModels.Device_Selectation;
 			Devices = new ObservableCollection<SKDDevice>();
 			foreach (var skdDevice in SKDManager.Devices.Where(x => x.DriverType == SKDDriverType.Reader && x.IsEnabled))
 			{

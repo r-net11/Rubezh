@@ -2,6 +2,7 @@
 	x:Class="StrazhModule.Views.ZoneDetailsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
 	MinWidth="600"
 	MinHeight="300">
 	<Border Background="{DynamicResource BackgroundBrush}">
@@ -15,13 +16,13 @@
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+            <Label Grid.Row="0" Grid.Column="0" Content="{x:Static lang:CommonViews.Number}" HorizontalAlignment="Right" Margin="2" />
 			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-			<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+			<Label Grid.Row="1" Grid.Column="0" Content="{x:Static lang:CommonViews.Denomination}" HorizontalAlignment="Right" />
 			<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-			<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+            <Label Grid.Row="2" Grid.Column="0" Content="{x:Static lang:CommonViews.Note}" HorizontalAlignment="Right" />
 			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 		</Grid>
 	</Border>

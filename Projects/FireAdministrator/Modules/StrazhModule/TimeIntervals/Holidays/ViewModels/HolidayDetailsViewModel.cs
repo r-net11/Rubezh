@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -13,15 +14,15 @@ namespace StrazhModule.ViewModels
 		{
 			if (holiday == null)
 			{
-				Title = "Новый праздничный день";
+				Title = CommonViewModels.NewHoliday;
 				holiday = new SKDHoliday()
 				{
-					Name = "Праздничный день",
+					Name = CommonViewModels.Holiday,
 				};
 			}
 			else
 			{
-				Title = "Редактирование праздничного дня";
+				Title = CommonViewModels.Holiday_Edition;
 			}
 
 			AvailableTypeNos = new ObservableCollection<int>();

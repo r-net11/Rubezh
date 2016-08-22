@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.Reports.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
@@ -13,7 +14,7 @@ namespace ReportsModule.ViewModels
 
 		public SKDReportFilterViewModel(SKDReportFilter filter, FilterModel model)
 		{
-			Title = "Настройки отчета";
+            Title = CommonViewModels.ReportSettings;
 			_model = model;
 			Filter = filter;
 			Pages = new ObservableCollection<FilterContainerViewModel>

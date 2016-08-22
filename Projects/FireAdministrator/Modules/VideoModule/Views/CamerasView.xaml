@@ -2,38 +2,40 @@
 	x:Class="VideoModule.Views.CamerasView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
+	xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+    xmlns:langViews="clr-namespace:Localization.Video.Views;assembly=Localization"
+    xmlns:langCommon="clr-namespace:Localization.Video.Common;assembly=Localization">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
-			<SwitchCase Then="Камера может быть размещена на плане" When="Multiple" />
-			<SwitchCase Then="Камера не размещена на плане" When="NotPresent" />
-			<SwitchCase Then="Камеру нельзя размещать на плане" When="Prohibit" />
-			<SwitchCase Then="Камера уже размещена на плане" When="Single" />
+            <SwitchCase Then="{x:Static langViews:CommonViews.CameraCanPlacedOnPlan}" When="Multiple" />
+            <SwitchCase Then="{x:Static langViews:CommonViews.CameraNotPlacedOnPlan}" When="NotPresent" />
+            <SwitchCase Then="{x:Static langViews:CommonViews.CameraCanNotPlacedOnPlan}" When="Prohibit" />
+            <SwitchCase Then="{x:Static langViews:CommonViews.CameraPlacedOnPlan}" When="Single" />
 		</SwitchConverter>
 		<ContextMenu x:Key="CameraContextMenu">
 			<IconedMenuItem
 				Command="{Binding AddCommand}"
 				ImageSource="BAdd"
-				Text="Добавить (Ctrl+N)" />
+				Text="{x:Static langViews:CommonViews.Add}" />
 			<IconedMenuItem
 				Command="{Binding DeleteCommand}"
 				ImageSource="BDelete"
-				Text="Удалить (Ctrl+Del)" />
+				Text="{x:Static langViews:CommonViews.Delete}" />
 			<IconedMenuItem
 				Command="{Binding EditCommand}"
 				ImageSource="BEdit"
-				Text="Редактировать (Ctrl+E)" />
+				Text="{x:Static langViews:CommonViews.Edit}" />
 			<Separator />
 			<IconedMenuItem
 				Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}"
 				CommandParameter="{StaticResource True}"
 				ImageSource="Eye2"
-				Text="Разрешить множественную визуализацию" />
+				Text="{x:Static langViews:CommonViews.AllowMultipleVisualization}" />
 			<IconedMenuItem
 				Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}"
 				CommandParameter="{StaticResource False}"
 				ImageSource="Eye3"
-				Text="Запретить множественную визуализацию" />
+				Text="{x:Static langViews:CommonViews.DenyMultipleVisualization}" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<XDataGrid
@@ -42,7 +44,7 @@
 		ItemsSource="{Binding Cameras}"
 		SelectedItem="{Binding SelectedCamera}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="*" Header="Камера">
+			<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Camera}">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -76,7 +78,7 @@
 			<DataGridTextColumn
 				Width="*"
 				Binding="{Binding PresentationAddress}"
-				Header="Адрес" />
+				Header="{x:Static langViews:CommonViews.Address}" />
 		</DataGrid.Columns>
 	</XDataGrid>
 </UserControl>

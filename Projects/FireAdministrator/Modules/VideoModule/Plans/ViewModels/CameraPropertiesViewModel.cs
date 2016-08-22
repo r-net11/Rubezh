@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Video.ViewModels;
 using StrazhAPI.Models;
-using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.ViewModels;
 using System;
@@ -15,7 +15,7 @@ namespace VideoModule.Plans.ViewModels
 
 		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, ElementCamera elementCamera)
 		{
-			Title = "Свойства фигуры: Камера";
+			Title = CommonViewModels.CameraFigureProperties;
 			_elementCamera = elementCamera;
 			_camerasViewModel = camerasViewModel;
 

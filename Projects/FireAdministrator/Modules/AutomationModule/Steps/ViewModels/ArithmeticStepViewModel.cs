@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using StrazhAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -51,10 +52,10 @@ namespace AutomationModule.ViewModels
 						op = "*";
 						break;
 					case ArithmeticOperationType.And:
-						op = "И";
+						op = StepCommonViewModel.Arithmetic_AND;
 						break;
 					case ArithmeticOperationType.Or:
-						op = "Или";
+                        op = StepCommonViewModel.Arithmetic_OR;
 						break;
 				}
 

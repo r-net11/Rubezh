@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -54,10 +55,11 @@ namespace FireMonitor
 			return new Bootstrapper();
 		}
 		protected override void OnStartup(StartupEventArgs e)
-		{
-			Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-			Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
-			base.OnStartup(e);
+        {
+            var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            base.OnStartup(e);
 			try
 			{
 				if (CheckIntegrateCommandLineArguments(e.Args))

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Localization.Video.ViewModels;
 using RviCommonClient;
 
 namespace VideoModule.ViewModels
@@ -11,8 +12,8 @@ namespace VideoModule.ViewModels
 			Channel = channel;
 			StreamNo = streamNo;
 
-			DeviceName = device.Name + " (" + "канал " + "\"" + channel.Name + "\"" + ", поток " + StreamNo + ")";
-			DeviceIP = device.Ip;
+		    DeviceName = string.Format(CommonViewModels.DeviceViewName, device.Name, channel.Name, StreamNo);
+            DeviceIP = device.Ip;
 			ChannalNumber = channel.Number;
 			ChannalName = channel.Name;
 			IsEnabled = isEnabled;

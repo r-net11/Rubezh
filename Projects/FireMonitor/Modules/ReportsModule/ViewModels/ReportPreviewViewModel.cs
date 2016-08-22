@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Resources;
+using Localization.Reports.ViewModels;
 
 namespace ReportsModule.ViewModels
 {
@@ -23,8 +24,8 @@ namespace ReportsModule.ViewModels
 		{
 			_reportProvider = provider;
 			Title = provider.Title;
-			SaveCaption = "Печать";
-			CancelCaption = "Отмена";
+			SaveCaption = CommonViewModels.Print;
+			CancelCaption = CommonViewModels.Cancel;
 			PrintCommand = new RelayCommand(OnPrint);
 			PdfPrintCommand = new RelayCommand(OnPdfPrint, CanPdfPrint);
 			FirstPageCommand = new RelayCommand(OnFirstPage, CanFirstPage);
@@ -149,9 +150,9 @@ namespace ReportsModule.ViewModels
 				using (var fs = new FileStream(fileName, FileMode.Create))
 				using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
 				{
-					pdf.Document.AddAuthor("Рубеж / Оперативные задачи");
+					pdf.Document.AddAuthor(CommonViewModels.RubezhOperTask);
 					pdf.Document.AddTitle(_reportProvider.Title);
-					pdf.Document.AddCreator("ОЗ");
+					pdf.Document.AddCreator(CommonViewModels.OperativeTask);
 					_reportProvider.PdfProvider.Print(pdf.Document);
 #if DEBUG
 					Process.Start(fileName);

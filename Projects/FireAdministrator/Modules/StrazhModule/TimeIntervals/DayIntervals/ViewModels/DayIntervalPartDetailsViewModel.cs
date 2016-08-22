@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +11,7 @@ namespace StrazhModule.ViewModels
 
 		public DayIntervalPartDetailsViewModel(SKDDayIntervalPart dayIntervalPart = null)
 		{
-			Title = "Задание интервала";
+			Title = CommonViewModels.Interval_Creation;
 			DayIntervalPart = dayIntervalPart ?? new SKDDayIntervalPart();
 
 			StartTime = TimeSpan.FromMilliseconds(DayIntervalPart.StartMilliseconds);

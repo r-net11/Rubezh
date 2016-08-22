@@ -2,7 +2,9 @@
 	x:Class="StrazhModule.Views.ZonesView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization">
 	<XDataGrid
 		Focusable="True"
 		ItemsSource="{Binding Zones}"
@@ -41,9 +43,9 @@
 			<DataGridTextColumn
 				Width="*"
 				Binding="{Binding Zone.Name}"
-				Header="Наименование" />
+				Header="{x:Static lang:CommonViews.Denomination}" />
 			<DataGridTemplateColumn
-				Header="Примечание"
+				Header="{x:Static lang:CommonViews.Description}"
 				Width="*"
 				SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
