@@ -551,7 +551,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
 				if (departmentSelectionViewModel.SelectedDepartment != null &&
-					(departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee))
+					(departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee))
 				{
 					var department = DepartmentHelper.GetDetails(departmentSelectionViewModel.SelectedDepartment.Department.UID);
 					
@@ -563,7 +563,8 @@ namespace SKDModule.ViewModels
 					}
 					
 					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
-					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee && department.AccessTemplateUID.HasValue)
+					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee &&
+						department.AccessTemplateUID.HasValue)
 					{
 						_needApplyAccessTemplateFromDepartment = true;
 						_accessTemplateUID = department.AccessTemplateUID;

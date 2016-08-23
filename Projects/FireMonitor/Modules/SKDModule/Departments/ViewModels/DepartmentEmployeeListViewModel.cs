@@ -123,7 +123,7 @@ namespace SKDModule.ViewModels
 				}
 
 				// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
-				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee
+				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee
 					&& department.AccessTemplateUID.HasValue)
 				{
 					employee.Cards.ForEach(card =>
