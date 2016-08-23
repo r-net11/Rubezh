@@ -43,7 +43,10 @@ namespace ReportSystem.UI
 					|| itemName == typeof(XRPageBreak).FullName
 					|| itemName == typeof(XRCrossBandLine).FullName
 					|| itemName == typeof(XRCrossBandBox).FullName
-					|| itemName == typeof(XRCheckBox).FullName)
+					|| itemName == typeof(XRCheckBox).FullName
+					|| itemName == typeof(XRRichText).FullName
+					|| itemName == typeof(XRTable).FullName
+					|| itemName == typeof(XRPanel).FullName)
 					ts.RemoveToolboxItem(item);
 			}
 		}
