@@ -1,4 +1,11 @@
-﻿using DevExpress.XtraPrinting;
+﻿using System.Globalization;
+using System.Resources;
+using System.Runtime.Versioning;
+using System.Threading;
+using DevExpress.XtraBars.Localization;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.Design;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using DevExpress.XtraReports.UserDesigner.Native;
@@ -28,11 +35,9 @@ namespace ReportSystem.UI
 			// Iterate through toolbox items.
 			foreach (ToolboxItem item in coll)
 			{
-				// Add the "Cool" prefix to all toolbox item names.
 				var itemName = (item as LocalizableToolboxItem).TypeName;
-				if (//itemName == typeof(XRGauge).FullName
-					//||
-					itemName == typeof(XRChart).FullName
+
+				if (itemName == typeof(XRChart).FullName
 					|| itemName == typeof(XRBarCode).FullName
 					|| itemName == typeof(XRZipCode).FullName
 					|| itemName == typeof(XRSparkline).FullName
@@ -48,6 +53,17 @@ namespace ReportSystem.UI
 					|| itemName == typeof(XRTable).FullName
 					|| itemName == typeof(XRPanel).FullName)
 					ts.RemoveToolboxItem(item);
+
+				if (itemName == typeof (XRPictureBox).FullName) //TODO: Add localized strings
+					item.DisplayName = "Изображение";
+				if (itemName == typeof (XRLabel).FullName)
+					item.DisplayName = "Текст";
+				if (itemName == typeof (XRLine).FullName)
+					item.DisplayName = "Линия";
+				if (itemName == typeof (XRShape).FullName)
+					item.DisplayName = "Фигура";
+				if (itemName == typeof (XRCursors).FullName)
+					item.DisplayName = "Курсор";
 			}
 		}
 
