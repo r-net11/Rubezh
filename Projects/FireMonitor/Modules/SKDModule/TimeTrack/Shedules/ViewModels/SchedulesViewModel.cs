@@ -26,6 +26,19 @@ namespace SKDModule.ViewModels
 			ServiceFactoryBase.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel>(this);
+			ServiceFactoryBase.Events.GetEvent<NewScheduleEvent>().Unsubscribe(OnNewSchedule);
+			ServiceFactoryBase.Events.GetEvent<NewScheduleEvent>().Subscribe(OnNewSchedule);
+		}
+
+		private void OnNewSchedule(Schedule schedule)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == schedule.OrganisationUID);
+			if (organisation != null)
+			{
+				var viewModel = new ScheduleViewModel();
+				viewModel.InitializeModel(organisation.Organisation, schedule, this);
+				organisation.AddChild(viewModel);
+			}
 		}
 
 		UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel> _updateOrganisationDoorsEventSubscriber;

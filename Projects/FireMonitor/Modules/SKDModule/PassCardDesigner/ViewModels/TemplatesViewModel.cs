@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms.VisualStyles;
+using Infrastructure.Common.Services;
+using SKDModule.Events;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -14,6 +17,19 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public TemplatesViewModel()
 		{
 			OpenDesignerCommand = new RelayCommand(OnOpenDesignerCommand, CanOpenDesignerCommand);
+			ServiceFactoryBase.Events.GetEvent<NewPassCardTemplateEvent>().Unsubscribe(OnNewPassCardTemplate);
+			ServiceFactoryBase.Events.GetEvent<NewPassCardTemplateEvent>().Subscribe(OnNewPassCardTemplate);
+		}
+
+		private void OnNewPassCardTemplate(ShortPassCardTemplate shortPassCardTemplate)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == shortPassCardTemplate.OrganisationUID);
+			if (organisation != null)
+			{
+				var viewModel = new TemplateViewModel();
+				viewModel.InitializeModel(organisation.Organisation, shortPassCardTemplate, this);
+				organisation.AddChild(viewModel);
+			}
 		}
 
 		#region Commands

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using SKDModule.Events;
 using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
@@ -40,6 +42,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
 				Items.Add(scheduleDetailsViewModel.Model);
+				ServiceFactoryBase.Events.GetEvent<NewScheduleEvent>().Publish(scheduleDetailsViewModel.Model);
 			}
 		}
 

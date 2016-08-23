@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using SKDModule.Events;
 using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
@@ -40,6 +43,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(accessTemplateDetailsViewModel))
 			{
 				Items.Add(accessTemplateDetailsViewModel.Model);
+				ServiceFactoryBase.Events.GetEvent<NewAccessTemplateEvent>().Publish(accessTemplateDetailsViewModel.Model);
 			}
 		}
 

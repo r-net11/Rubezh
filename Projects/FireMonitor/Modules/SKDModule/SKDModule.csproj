@@ -246,6 +246,9 @@
       <DependentUpon>ItemsSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CardAccessTemplateChangedEvent.cs" />
+    <Compile Include="Events\NewScheduleEvent.cs" />
+    <Compile Include="Events\NewPassCardTemplateEvent.cs" />
+    <Compile Include="Events\NewAccessTemplateEvent.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
