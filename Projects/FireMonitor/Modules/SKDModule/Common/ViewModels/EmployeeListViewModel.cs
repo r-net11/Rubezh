@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(EmptyFilter);
+			var employeeSelectionViewModel = BuildAddDialog();
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
 				var viewModel = new TItem();
@@ -97,8 +97,20 @@ namespace SKDModule.ViewModels
 				Employees.Add(viewModel);
 				SelectedEmployee = viewModel;
 				ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
+				AfterAdd(viewModel, employeeSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel);
 			}
 		}
+
+		protected virtual EmployeeSelectionDialogViewModel BuildAddDialog()
+		{
+			return new EmployeeSelectionDialogViewModel(EmptyFilter);
+		}
+
+		protected virtual void AfterAdd(TItem viewModel, DepartmentParamsApplyableToEmployeeViewModel departmentParamsApplyableToEmployeeViewModel)
+		{
+			// Ничего не делаем
+		}
+
 		bool CanAdd()
 		{
 			return !Parent.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);

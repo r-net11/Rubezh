@@ -544,27 +544,26 @@ namespace SKDModule.ViewModels
 		{
 			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
 			{
-				ShowApplyToEmployeeSettings = true,
-				IsEmployee = IsEmployee
+				DepartmentParamsApplyableToEmployeeViewModel = {ShowApplyToEmployeeSettings = true, IsEmployee = IsEmployee}
 			};
 			departmentSelectionViewModel.Initialize();
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
 				if (departmentSelectionViewModel.SelectedDepartment != null &&
-					(departmentSelectionViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.NeedApplyScheduleToEmployee))
+					(departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee))
 				{
 					var department = DepartmentHelper.GetDetails(departmentSelectionViewModel.SelectedDepartment.Department.UID);
 					
 					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
-					if (departmentSelectionViewModel.NeedApplyScheduleToEmployee &&
+					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
 						department.ScheduleUID.HasValue)
 					{
 						SelectedSchedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
 					}
 					
 					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
-					if (departmentSelectionViewModel.NeedApplyScheduleToEmployee && department.AccessTemplateUID.HasValue)
+					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee && department.AccessTemplateUID.HasValue)
 					{
 						_needApplyAccessTemplateFromDepartment = true;
 						_accessTemplateUID = department.AccessTemplateUID;

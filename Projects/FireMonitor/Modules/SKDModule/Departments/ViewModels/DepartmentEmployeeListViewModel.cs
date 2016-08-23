@@ -97,6 +97,47 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => CanSetChief);
 			OnPropertyChanged(() => CanUnSetChief);
 		}
+
+		protected override EmployeeSelectionDialogViewModel BuildAddDialog()
+		{
+			var addDialog = base.BuildAddDialog();
+			addDialog.DepartmentParamsApplyableToEmployeeViewModel.ShowApplyToEmployeeSettings = true;
+			addDialog.DepartmentParamsApplyableToEmployeeViewModel.IsEmployee = true;
+			return addDialog;
+		}
+
+		protected override void AfterAdd(DepartmentEmployeeListItemViewModel viewModel, DepartmentParamsApplyableToEmployeeViewModel departmentParamsApplyableToEmployeeViewModel)
+		{
+			if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee ||
+				departmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
+			{
+				var employee = EmployeeHelper.GetDetails(viewModel.Employee.UID);
+				var department = DepartmentHelper.GetDetails(Parent.UID);
+
+				// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
+				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
+					department.ScheduleUID.HasValue)
+				{
+					employee.Schedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
+					EmployeeHelper.Save(employee, false);
+				}
+
+				// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
+				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee
+					&& department.AccessTemplateUID.HasValue)
+				{
+					employee.Cards.ForEach(card =>
+					{
+						card.AccessTemplateUID = department.AccessTemplateUID;
+						if (CardHelper.Edit(card, employee.Name))
+						{
+							ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Publish(card);
+						}
+					});
+				}
+			}
+		}
+
 		#endregion
 
 		void OnChangeDepartmentChief(Department department)

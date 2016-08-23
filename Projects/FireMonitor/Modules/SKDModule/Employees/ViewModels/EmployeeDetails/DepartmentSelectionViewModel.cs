@@ -19,63 +19,7 @@ namespace SKDModule.ViewModels
 		protected Guid _organisationUID;
 		protected Guid _firstSelectedDepartmentUID;
 
-		private bool _showApplyToEmployeeSettings;
-		/// <summary>
-		/// Показывать или нет настройки, применяемые для пользователя
-		/// </summary>
-		public bool ShowApplyToEmployeeSettings
-		{
-			get { return _showApplyToEmployeeSettings; }
-			set
-			{
-				_showApplyToEmployeeSettings = value;
-				OnPropertyChanged(() => ShowApplyToEmployeeSettings);
-			}
-		}
-
-		private bool _isEmployee;
-		/// <summary>
-		/// Для кого (сотрудник или посетитель) было вызвано данное окно:
-		/// true, если окно было вызвано для сотрудника
-		/// false - в противном случае
-		/// </summary>
-		public bool IsEmployee
-		{
-			get { return _isEmployee; }
-			set
-			{
-				_isEmployee = value;
-				OnPropertyChanged(() => IsEmployee);
-			}
-		}
-
-		private bool _needApplyAccessTemplateToEmployee;
-		/// <summary>
-		/// Состояния чекбокса "Применить шаблоно доступа к сотруднику/посетителю"
-		/// </summary>
-		public bool NeedApplyAccessTemplateToEmployee
-		{
-			get { return _needApplyAccessTemplateToEmployee; }
-			set
-			{
-				_needApplyAccessTemplateToEmployee = value;
-				OnPropertyChanged(() => NeedApplyAccessTemplateToEmployee);
-			}
-		}
-
-		private bool _needApplyScheduleToEmployee;
-		/// <summary>
-		/// Состояния чекбокса "Применить график работы к сотруднику"
-		/// </summary>
-		public bool NeedApplyScheduleToEmployee
-		{
-			get { return _needApplyScheduleToEmployee; }
-			set
-			{
-				_needApplyScheduleToEmployee = value;
-				OnPropertyChanged(() => NeedApplyScheduleToEmployee);
-			}
-		}
+		public DepartmentParamsApplyableToEmployeeViewModel DepartmentParamsApplyableToEmployeeViewModel { get; private set; }
 
 		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
 		{
@@ -84,6 +28,7 @@ namespace SKDModule.ViewModels
 			_firstSelectedDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
 			ClearCommand = new RelayCommand(OnClear, () => SelectedDepartment != null);
+			DepartmentParamsApplyableToEmployeeViewModel = new DepartmentParamsApplyableToEmployeeViewModel();
 		}
 
 		public void Initialize()
