@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace SKDModule.ViewModels
 		public ResetRepeatEnterViewModel()
 		{
 			IsForAllAccessPoints = true;
-			Title = "Сброс ограничения на повторный проход";
+			Title = CommonResources.ResetAntiPassBack;
 		}
 	}
 }

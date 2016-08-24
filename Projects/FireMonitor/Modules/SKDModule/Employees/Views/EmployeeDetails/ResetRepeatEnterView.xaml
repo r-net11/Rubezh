@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
     mc:Ignorable="d"
 	Width="400"
 	Height="150">
@@ -16,7 +17,7 @@
 				TextWrapping="Wrap"
 				Foreground="White"
 				Margin="10"
-				Text="После сброса ограничения на повторный проход пропуску будет присвоено состояние, при котором будет разрешен проход по входным считывателям." />
+				Text="{x:Static lang:CommonViews.ReserAlert}" />
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition />
@@ -33,7 +34,7 @@
 					IsChecked="{Binding IsForAllAccessPoints}"
 					HorizontalAlignment="Left"
 					Margin="5"
-					Content="Для всех точек доступа" />
+					Content="{x:Static lang:CommonViews.ForAllDoors}" />
 				<RadioButton
 					Grid.Row="1"
 					Grid.Column="1"
@@ -41,7 +42,7 @@
 					VerticalAlignment="Center"
 					HorizontalAlignment="Left"
 					Margin="5"
-					Content="Для выбранной точки доступа" />
+					Content="{x:Static lang:CommonViews.ForSelectedDoors}" />
 			</Grid>
 		</StackPanel>
     </Grid>

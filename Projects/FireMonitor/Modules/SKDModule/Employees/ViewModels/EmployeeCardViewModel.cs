@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -49,7 +50,7 @@ namespace SKDModule.ViewModels
 
 		public string Name
 		{
-			get { return "Пропуск " + Card.Number; }
+			get { return string.Format(CommonViewModels.Passcard,Card.Number); }
 		}
 
 		private List<CardDoor> GetCardDoors()
@@ -140,7 +141,7 @@ namespace SKDModule.ViewModels
 			{
 				if (CardDoorsViewModel.SelectedDoor == null || CardDoorsViewModel.SelectedDoor.CardDoor == null)
 				{
-					MessageBoxService.ShowWarning("Точки доступа отсутствуют.");
+					MessageBoxService.ShowWarning(CommonViewModels.EmtyDoors);
 					return;
 				}
 
@@ -151,11 +152,11 @@ namespace SKDModule.ViewModels
 			var result = CardHelper.ResetRepeatEnter(new Dictionary<SKDCard, List<Guid>>{{Card, doorGuids}}, (int)cardNo, doorName);
 			if (result && !dialog.IsForAllAccessPoints)
 			{
-				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для точки доступа");
+				MessageBoxService.Show(CommonViewModels.PassbackRestrictionResetOne);
 			}
 			else if (result && dialog.IsForAllAccessPoints)
 			{
-				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для всех точек доступа");
+				MessageBoxService.Show(CommonViewModels.PassbackRestrictionResetAll);
 			}
 		}
 

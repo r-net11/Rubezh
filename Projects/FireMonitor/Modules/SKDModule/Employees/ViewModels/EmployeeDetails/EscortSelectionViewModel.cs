@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public EscortSelectionViewModel(ShortDepartment department, ShortEmployee shortEmployee)
 		{
-			Title = "Сопровождающий";
+			Title = CommonResources.Maintainer;
 			var filter = new EmployeeFilter();
 			filter.DepartmentUIDs.Add(department.UID);
 			filter.OrganisationUIDs.Add(department.OrganisationUID);

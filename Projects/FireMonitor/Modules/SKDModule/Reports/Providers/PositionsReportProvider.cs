@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class PositionsReportProvider : FilteredSKDReportProvider<PositionsReportFilter>
 	{
 		public PositionsReportProvider()
-			: base("Список должностей организации", 416, SKDReportGroup.HR, PermissionType.Oper_Reports_Positions)
+			: base(CommonResources.OrganizationPositionList, 416, SKDReportGroup.HR, PermissionType.Oper_Reports_Positions)
 		{
 		}
 
@@ -22,8 +23,8 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string>
 				{
-					{ "Position", "Должность" },
-					{ "Description", "Примечание" },
+					{ "Position", CommonResources.Position },
+					{ "Description", CommonResources.Note },
 				},
 				Pages = new List<FilterContainerViewModel>
 				{

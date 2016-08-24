@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient.SKDHelpers;
@@ -15,7 +16,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public ScheduleSchemePageViewModel()
 		{
-			Title = "Графики работы";
+			Title = CommonViewModels.WorkSchedule;
 
 			var organisations = OrganisationHelper.Get(new OrganisationFilter());
 			Schedules = new ObservableCollection<TreeNodeItemViewModel>(organisations.Select(item => new TreeNodeItemViewModel(item, false)));

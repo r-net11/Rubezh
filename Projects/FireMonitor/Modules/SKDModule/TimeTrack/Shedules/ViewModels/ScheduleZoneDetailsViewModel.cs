@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -22,14 +23,14 @@ namespace SKDModule.ViewModels
 			_schedule = schedule;
 			if (sheduleZone == null)
 			{
-				Title = "Выбор помещения";
+				Title = CommonViewModels.SelectSpace;
 				sheduleZone = new ScheduleZone
 				{
 					ScheduleUID = schedule.UID,
 				};
 			}
 			else
-				Title = "Редактирование помещения";
+				Title = CommonViewModels.SpaceEdition;
 			ScheduleZone = sheduleZone;
 
 			Zones = new SortableObservableCollection<SelectationScheduleZoneViewModel>();
@@ -72,7 +73,7 @@ namespace SKDModule.ViewModels
 
 			if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.ZoneUID && ScheduleZone.UID != x.UID))
 			{
-				MessageBoxService.ShowWarning("Выбранная зона уже включена");
+				MessageBoxService.ShowWarning(CommonViewModels.AlreadyIncludedZone);
 				return false;
 			}
 

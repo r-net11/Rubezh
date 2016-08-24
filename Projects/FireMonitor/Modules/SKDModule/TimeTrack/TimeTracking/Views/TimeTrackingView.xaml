@@ -12,6 +12,8 @@
 	xmlns:models="clr-namespace:SKDModule.Model"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="400"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -56,12 +58,12 @@
 				<ToolBarButton
 					Command="{Binding ShowFilterCommand}"
 					ImageSource="filter"
-					ToolTip="Задать фильтр" />
+					ToolTip="{x:Static lang:CommonViews.SetFilter}" />
 				<ToolBarButton
 					Grid.Column="1"
 					Command="{Binding RefreshCommand}"
 					ImageSource="Refresh"
-					ToolTip="Обновить" />
+					ToolTip="{x:Static lang:CommonViews.Update}" />
 				<!--<ToolBarButton
 					Grid.Column="2"
 					Command="{Binding PrintCommand}"
@@ -80,15 +82,15 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить документ" />
+						ToolTip="{x:Static lang:CommonViews.DocumentAdd}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать документ" />
+						ToolTip="{x:Static lang:CommonViews.EditDocument}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить документ" />
+						ToolTip= "{x:Static lang:CommonViews.DeleteDocument}"/>
 					<Separator
 						Style="{StaticResource VerticalSeparatorStyle}"
 						Margin="7 7"
@@ -98,22 +100,22 @@
 					<ToolBarButton
 						Command="{Binding AddFileCommand}"
 						ImageSource="Add"
-						ToolTip="Загрузить файл" />
+						ToolTip="{x:Static lang:CommonViews.UploadFile}" />
 					<ToolBarButton
 						Command="{Binding OpenFileCommand}"
 						ImageSource="Edit"
-						ToolTip="Открыть файл" />
+						ToolTip="{x:Static lang:CommonViews.OpenFile}" />
 					<ToolBarButton
 						Command="{Binding RemoveFileCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить файл" />
+						ToolTip="{x:Static lang:CommonViews.DeleteFile}" />
 				</StackPanel>
 				<ToolBarButton
 					Grid.Column="4"
 					Command="{Binding ShowDocumentTypesCommand}"
 					Visibility="{Binding CanShowDocumentTypes, Converter={StaticResource BoolToVisibilityConverter}}"
 					ImageSource="Settings2"
-					ToolTip="Виды документов" />
+					ToolTip="{x:Static lang:CommonViews.DocumentsTypes}" />
 				<StackPanel
 					Grid.Column="5"
 					HorizontalAlignment="Right"
@@ -122,12 +124,12 @@
 					<ToolBarButton
 						Command="{Binding FirstPageCommand}"
 						ImageSource="LeftLeft"
-						ToolTip="Начальная страница" />
+						ToolTip="{x:Static lang:CommonViews.StartPage}" />
 					<ToolBarButton
 						VerticalAlignment="Center"
 						Command="{Binding PreviousPageCommand}"
 						ImageSource="Left"
-						ToolTip="Предыдущая страница" />
+						ToolTip="{x:Static lang:CommonViews.PrevPage}" />
 					<TextBox
 						Height="30"
 						MinWidth="25"
@@ -159,11 +161,11 @@
 						VerticalAlignment="Center"
 						Command="{Binding NextPageCommand}"
 						ImageSource="Right"
-						ToolTip="Следующая страница" />
+						ToolTip="{x:Static lang:CommonViews.NextPage}" />
 					<ToolBarButton
 						Command="{Binding LastPageCommand}"
 						ImageSource="RightRight"
-						ToolTip="Последняя страница" />
+						ToolTip="{x:Static lang:CommonViews.LastPage}" />
 				</StackPanel>
 			</Grid>
 		</Border>
@@ -181,7 +183,7 @@
 				<BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="ФИО">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.FullName}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid>
@@ -225,7 +227,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Type}" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
@@ -245,7 +247,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Итого" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Tottally}" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
@@ -319,12 +321,12 @@
 				VerticalAlignment="Center"
 				FontWeight="Bold"
 				Foreground="White"
-				Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
+				Text="{x:Static lang:CommonViews.RefreshURV}" />
 		</StackPanel>
 		<Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
 			<DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="Название документа">
+					<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.DocumentName}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -338,28 +340,28 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="50" Header="Код">
+                    <DataGridTemplateColumn Width="50" Header="{x:Static lang:CommonViews.Code}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" Text="{Binding ShortName}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="150" Header="Начало">
+                    <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.Start}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" Text="{Binding StartDateTime}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="150" Header="Конец">
+                    <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.End}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" Text="{Binding EndDateTime}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="150" Header="Файл">
+                    <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.File}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Margin="2 0" Text="{Binding OriginalFileName}" />

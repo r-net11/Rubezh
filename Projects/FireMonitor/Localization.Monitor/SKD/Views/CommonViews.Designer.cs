@@ -79,6 +79,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Назначить шаблон доступа группе сотрудников (посетителей).
+        /// </summary>
+        public static string AccessTemplForGroup {
+            get {
+                return ResourceManager.GetString("AccessTemplForGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вид оправдательного документа.
         /// </summary>
         public static string AcquittalDocumentType {
@@ -108,9 +117,9 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Активные пропуска.
         /// </summary>
-        public static string ActivePass {
+        public static string ActivePasscards {
             get {
-                return ResourceManager.GetString("ActivePass", resourceCulture);
+                return ResourceManager.GetString("ActivePasscards", resourceCulture);
             }
         }
         
@@ -187,20 +196,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Цвет фона.
+        /// </summary>
+        public static string BackgroundColor {
+            get {
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Баланс:.
         /// </summary>
         public static string Balance {
             get {
                 return ResourceManager.GetString("Balance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Цвет фона.
-        /// </summary>
-        public static string BgColor {
-            get {
-                return ResourceManager.GetString("BgColor", resourceCulture);
             }
         }
         
@@ -232,6 +241,24 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Цвет границы.
+        /// </summary>
+        public static string BorderColor {
+            get {
+                return ResourceManager.GetString("BorderColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ширина границы, пикс..
+        /// </summary>
+        public static string BorderWidth {
+            get {
+                return ResourceManager.GetString("BorderWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Перерыв.
         /// </summary>
         public static string Break {
@@ -250,20 +277,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Печать удостоверения.
+        ///   Looks up a localized string similar to Отметьте сотрудников и выберите шаблон доступа, который будет им назначен:.
         /// </summary>
-        public static string CertificatePrint {
+        public static string CheckEmplAccessTempl {
             get {
-                return ResourceManager.GetString("CertificatePrint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Данные о проходах были изменены. Обновите вкладку УРВ.
-        /// </summary>
-        public static string ChangedPassData {
-            get {
-                return ResourceManager.GetString("ChangedPassData", resourceCulture);
+                return ResourceManager.GetString("CheckEmplAccessTempl", resourceCulture);
             }
         }
         
@@ -286,11 +304,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора сопровождающего.
+        ///   Looks up a localized string similar to Нажмите для выбора подразделения.
         /// </summary>
-        public static string ChooseFollowerClick {
+        public static string ChooseDepartClick {
             get {
-                return ResourceManager.GetString("ChooseFollowerClick", resourceCulture);
+                return ResourceManager.GetString("ChooseDepartClick", resourceCulture);
             }
         }
         
@@ -313,6 +331,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора сопровождающего.
+        /// </summary>
+        public static string ChooseMaintainerClick {
+            get {
+                return ResourceManager.GetString("ChooseMaintainerClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Для добавления интервала укажите другие границы..
         /// </summary>
         public static string ChooseOtherLimits {
@@ -324,9 +351,18 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Нажмите для выбора должности.
         /// </summary>
-        public static string ChooseProfClick {
+        public static string ChoosePositionClick {
             get {
-                return ResourceManager.GetString("ChooseProfClick", resourceCulture);
+                return ResourceManager.GetString("ChoosePositionClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нажмите для выбора считывателя.
+        /// </summary>
+        public static string ChooseReaderClick {
+            get {
+                return ResourceManager.GetString("ChooseReaderClick", resourceCulture);
             }
         }
         
@@ -336,15 +372,6 @@ namespace Localization.SKD.Views {
         public static string ChooseScheduleClick {
             get {
                 return ResourceManager.GetString("ChooseScheduleClick", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора подразделения.
-        /// </summary>
-        public static string ChooseSquadClick {
-            get {
-                return ResourceManager.GetString("ChooseSquadClick", resourceCulture);
             }
         }
         
@@ -457,6 +484,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to дд.мм.гггг.
+        /// </summary>
+        public static string DateMask {
+            get {
+                return ResourceManager.GetString("DateMask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to День.
         /// </summary>
         public static string Day {
@@ -466,20 +502,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to дд.мм.гггг.
-        /// </summary>
-        public static string dd_mm_yy {
-            get {
-                return ResourceManager.GetString("dd.mm.yy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Деактивированный.
         /// </summary>
         public static string Deactivated {
             get {
                 return ResourceManager.GetString("Deactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отметьте считыватели, уменьшающие разрешенное число проходов для гостевых пропусков.
+        /// </summary>
+        public static string DecreaseReaders {
+            get {
+                return ResourceManager.GetString("DecreaseReaders", resourceCulture);
             }
         }
         
@@ -511,6 +547,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удалить сотрудника.
+        /// </summary>
+        public static string DeleteEmpl {
+            get {
+                return ResourceManager.GetString("DeleteEmpl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить файл.
         /// </summary>
         public static string DeleteFile {
@@ -522,18 +567,27 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Удалить пропуск.
         /// </summary>
-        public static string DeletePass {
+        public static string DeletePasscard {
             get {
-                return ResourceManager.GetString("DeletePass", resourceCulture);
+                return ResourceManager.GetString("DeletePasscard", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить сотрудника.
+        ///   Looks up a localized string similar to Открепить от подразделения.
         /// </summary>
-        public static string DeleteWorker {
+        public static string DepartCancel {
             get {
-                return ResourceManager.GetString("DeleteWorker", resourceCulture);
+                return ResourceManager.GetString("DepartCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Должность руководителя структурного подразделения.
+        /// </summary>
+        public static string DepatHeadPosition {
+            get {
+                return ResourceManager.GetString("DepatHeadPosition", resourceCulture);
             }
         }
         
@@ -549,18 +603,36 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Показывать удалённых.
         /// </summary>
-        public static string DisplayDeletted {
+        public static string DisplayDeleted {
             get {
-                return ResourceManager.GetString("DisplayDeletted", resourceCulture);
+                return ResourceManager.GetString("DisplayDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отображать в списке сотрудников.
+        /// </summary>
+        public static string DisplayEmplInList {
+            get {
+                return ResourceManager.GetString("DisplayEmplInList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отображать все смены сотрудников.
+        /// </summary>
+        public static string DisplayEmplShift {
+            get {
+                return ResourceManager.GetString("DisplayEmplShift", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Показывать только удалённых.
         /// </summary>
-        public static string DisplayOnlyDeletted {
+        public static string DisplayOnlyDeleted {
             get {
-                return ResourceManager.GetString("DisplayOnlyDeletted", resourceCulture);
+                return ResourceManager.GetString("DisplayOnlyDeleted", resourceCulture);
             }
         }
         
@@ -579,24 +651,6 @@ namespace Localization.SKD.Views {
         public static string DisplayURVIntervals {
             get {
                 return ResourceManager.GetString("DisplayURVIntervals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Отображать в списке сотрудников.
-        /// </summary>
-        public static string DisplayWorkersInList {
-            get {
-                return ResourceManager.GetString("DisplayWorkersInList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Отображать все смены сотрудников.
-        /// </summary>
-        public static string DisplayWorkersShift {
-            get {
-                return ResourceManager.GetString("DisplayWorkersShift", resourceCulture);
             }
         }
         
@@ -628,11 +682,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать документ.
+        ///   Looks up a localized string similar to Дата и время окончания действия документа.
         /// </summary>
-        public static string DocumentEdit {
+        public static string DocumentEndDateTime {
             get {
-                return ResourceManager.GetString("DocumentEdit", resourceCulture);
+                return ResourceManager.GetString("DocumentEndDateTime", resourceCulture);
             }
         }
         
@@ -642,15 +696,6 @@ namespace Localization.SKD.Views {
         public static string DocumentExpireTo {
             get {
                 return ResourceManager.GetString("DocumentExpireTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Дата и время окончания действия документа.
-        /// </summary>
-        public static string DocumentFinishDateTime {
-            get {
-                return ResourceManager.GetString("DocumentFinishDateTime", resourceCulture);
             }
         }
         
@@ -666,9 +711,9 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Переработка по документу.
         /// </summary>
-        public static string DocumentOverWork {
+        public static string DocumentOvertime {
             get {
-                return ResourceManager.GetString("DocumentOverWork", resourceCulture);
+                return ResourceManager.GetString("DocumentOvertime", resourceCulture);
             }
         }
         
@@ -709,6 +754,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Точка доступа.
+        /// </summary>
+        public static string Door {
+            get {
+                return ResourceManager.GetString("Door", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Уход раньше.
         /// </summary>
         public static string EarlyLeft {
@@ -732,6 +786,42 @@ namespace Localization.SKD.Views {
         public static string EditableIntervalLimits {
             get {
                 return ResourceManager.GetString("EditableIntervalLimits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать документ.
+        /// </summary>
+        public static string EditDocument {
+            get {
+                return ResourceManager.GetString("EditDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать сотрудника.
+        /// </summary>
+        public static string EditEmpl {
+            get {
+                return ResourceManager.GetString("EditEmpl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать пропуск.
+        /// </summary>
+        public static string EditPasscard {
+            get {
+                return ResourceManager.GetString("EditPasscard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сотрудники.
+        /// </summary>
+        public static string Employees {
+            get {
+                return ResourceManager.GetString("Employees", resourceCulture);
             }
         }
         
@@ -781,11 +871,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время выхода.
+        ///   Looks up a localized string similar to Ввод с клавиатуры.
         /// </summary>
-        public static string EscDateTime {
+        public static string EnterFromKeyboard {
             get {
-                return ResourceManager.GetString("EscDateTime", resourceCulture);
+                return ResourceManager.GetString("EnterFromKeyboard", resourceCulture);
             }
         }
         
@@ -799,20 +889,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата и время выхода.
+        /// </summary>
+        public static string ExitDateTime {
+            get {
+                return ResourceManager.GetString("ExitDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата истечения.
         /// </summary>
         public static string ExpirationDate {
             get {
                 return ResourceManager.GetString("ExpirationDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Дата выдачи.
-        /// </summary>
-        public static string ExtraditionDate {
-            get {
-                return ResourceManager.GetString("ExtraditionDate", resourceCulture);
             }
         }
         
@@ -846,9 +936,9 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Для всех точек доступа.
         /// </summary>
-        public static string ForAllHotspots {
+        public static string ForAllDoors {
             get {
-                return ResourceManager.GetString("ForAllHotspots", resourceCulture);
+                return ResourceManager.GetString("ForAllDoors", resourceCulture);
             }
         }
         
@@ -873,27 +963,27 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Для выбранной точки доступа.
         /// </summary>
-        public static string ForSelectedHotspot {
+        public static string ForSelectedDoors {
             get {
-                return ResourceManager.GetString("ForSelectedHotspot", resourceCulture);
+                return ResourceManager.GetString("ForSelectedDoors", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to с.
         /// </summary>
-        public static string from {
+        public static string From {
             get {
-                return ResourceManager.GetString("from", resourceCulture);
+                return ResourceManager.GetString("From", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to От контрольного считывателя.
         /// </summary>
-        public static string FromControlPers {
+        public static string FromControlReader {
             get {
-                return ResourceManager.GetString("FromControlPers", resourceCulture);
+                return ResourceManager.GetString("FromControlReader", resourceCulture);
             }
         }
         
@@ -945,9 +1035,9 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Снять руководителя.
         /// </summary>
-        public static string HeadShoot {
+        public static string HeadDismiss {
             get {
-                return ResourceManager.GetString("HeadShoot", resourceCulture);
+                return ResourceManager.GetString("HeadDismiss", resourceCulture);
             }
         }
         
@@ -961,38 +1051,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа.
-        /// </summary>
-        public static string Hotspot {
-            get {
-                return ResourceManager.GetString("Hotspot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Руководитель кадровой службы.
-        /// </summary>
-        public static string HrHead {
-            get {
-                return ResourceManager.GetString("HrHead", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Должность руководителя кадровой службы.
-        /// </summary>
-        public static string HrHeadProf {
-            get {
-                return ResourceManager.GetString("HrHeadProf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Руководитель отдела кадров.
         /// </summary>
-        public static string HrSquadHead {
+        public static string HrDepartHead {
             get {
-                return ResourceManager.GetString("HrSquadHead", resourceCulture);
+                return ResourceManager.GetString("HrDepartHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Должность руководителя отдела кадров.
+        /// </summary>
+        public static string HRHeadPosition {
+            get {
+                return ResourceManager.GetString("HRHeadPosition", resourceCulture);
             }
         }
         
@@ -1002,15 +1074,6 @@ namespace Localization.SKD.Views {
         public static string ImgClean {
             get {
                 return ResourceManager.GetString("ImgClean", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Вставить.
-        /// </summary>
-        public static string Insert {
-            get {
-                return ResourceManager.GetString("Insert", resourceCulture);
             }
         }
         
@@ -1033,11 +1096,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ввод с клавиатуры.
+        ///   Looks up a localized string similar to Дата выдачи.
         /// </summary>
-        public static string KeyType {
+        public static string IssuedDate {
             get {
-                return ResourceManager.GetString("KeyType", resourceCulture);
+                return ResourceManager.GetString("IssuedDate", resourceCulture);
             }
         }
         
@@ -1092,24 +1155,6 @@ namespace Localization.SKD.Views {
         public static string LeavingEarlIgnore {
             get {
                 return ResourceManager.GetString("LeavingEarlIgnore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Цвет границы.
-        /// </summary>
-        public static string LimitColor {
-            get {
-                return ResourceManager.GetString("LimitColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ширина границы, пикс..
-        /// </summary>
-        public static string LimitWidth {
-            get {
-                return ResourceManager.GetString("LimitWidth", resourceCulture);
             }
         }
         
@@ -1177,20 +1222,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить новую должность.
+        ///   Looks up a localized string similar to Добавить новое подразделение.
         /// </summary>
-        public static string NewProfAdd {
+        public static string NewDepatAdd {
             get {
-                return ResourceManager.GetString("NewProfAdd", resourceCulture);
+                return ResourceManager.GetString("NewDepatAdd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить новое подразделение.
+        ///   Looks up a localized string similar to Добавить новую должность.
         /// </summary>
-        public static string NewSquadAdd {
+        public static string NewPositionAdd {
             get {
-                return ResourceManager.GetString("NewSquadAdd", resourceCulture);
+                return ResourceManager.GetString("NewPositionAdd", resourceCulture);
             }
         }
         
@@ -1267,6 +1312,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ОК.
+        /// </summary>
+        public static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Учитывать только первый вход последний выход.
         /// </summary>
         public static string OnlyFirstLastConsider {
@@ -1281,6 +1335,15 @@ namespace Localization.SKD.Views {
         public static string OpenFile {
             get {
                 return ResourceManager.GetString("OpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;{0}&quot;, открытый интервал).
+        /// </summary>
+        public static string OpenInterval {
+            get {
+                return ResourceManager.GetString("OpenInterval", resourceCulture);
             }
         }
         
@@ -1312,20 +1375,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не учитывать переработки меньше.
+        ///   Looks up a localized string similar to Переработка.
         /// </summary>
-        public static string OverWorkIgnore {
+        public static string Overtime {
             get {
-                return ResourceManager.GetString("OverWorkIgnore", resourceCulture);
+                return ResourceManager.GetString("Overtime", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переработка.
+        ///   Looks up a localized string similar to Не учитывать переработки меньше.
         /// </summary>
-        public static string OverWorking {
+        public static string OverTimeIgnore {
             get {
-                return ResourceManager.GetString("OverWorking", resourceCulture);
+                return ResourceManager.GetString("OverTimeIgnore", resourceCulture);
             }
         }
         
@@ -1341,18 +1404,27 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Родительское подразделение.
         /// </summary>
-        public static string ParentSquad {
+        public static string ParentDepart {
             get {
-                return ResourceManager.GetString("ParentSquad", resourceCulture);
+                return ResourceManager.GetString("ParentDepart", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Добавить пропуск.
         /// </summary>
-        public static string PassAdd {
+        public static string PasscardAdd {
             get {
-                return ResourceManager.GetString("PassAdd", resourceCulture);
+                return ResourceManager.GetString("PasscardAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пропуска.
+        /// </summary>
+        public static string Passcards {
+            get {
+                return ResourceManager.GetString("Passcards", resourceCulture);
             }
         }
         
@@ -1362,15 +1434,6 @@ namespace Localization.SKD.Views {
         public static string PassDesigner {
             get {
                 return ResourceManager.GetString("PassDesigner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Редактировать пропуск.
-        /// </summary>
-        public static string PassEdit {
-            get {
-                return ResourceManager.GetString("PassEdit", resourceCulture);
             }
         }
         
@@ -1402,11 +1465,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуска.
+        ///   Looks up a localized string similar to Вставить.
         /// </summary>
-        public static string Permits {
+        public static string Paste {
             get {
-                return ResourceManager.GetString("Permits", resourceCulture);
+                return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Табельный номер.
+        /// </summary>
+        public static string PersonnelNumber {
+            get {
+                return ResourceManager.GetString("PersonnelNumber", resourceCulture);
             }
         }
         
@@ -1416,6 +1488,15 @@ namespace Localization.SKD.Views {
         public static string Phone {
             get {
                 return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Открепить от должности.
+        /// </summary>
+        public static string PositionCancel {
+            get {
+                return ResourceManager.GetString("PositionCancel", resourceCulture);
             }
         }
         
@@ -1438,11 +1519,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Открепить от должности.
+        ///   Looks up a localized string similar to Печать удостоверения.
         /// </summary>
-        public static string ProfCancel {
+        public static string PrintPasscard {
             get {
-                return ResourceManager.GetString("ProfCancel", resourceCulture);
+                return ResourceManager.GetString("PrintPasscard", resourceCulture);
             }
         }
         
@@ -1476,18 +1557,18 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Величина сокращения.
         /// </summary>
-        public static string ReducrionValue {
+        public static string ReductionValue {
             get {
-                return ResourceManager.GetString("ReducrionValue", resourceCulture);
+                return ResourceManager.GetString("ReductionValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Восстановить.
+        ///   Looks up a localized string similar to Данные о проходах были изменены. Обновите вкладку УРВ.
         /// </summary>
-        public static string Reestablish {
+        public static string RefreshURV {
             get {
-                return ResourceManager.GetString("Reestablish", resourceCulture);
+                return ResourceManager.GetString("RefreshURV", resourceCulture);
             }
         }
         
@@ -1539,9 +1620,18 @@ namespace Localization.SKD.Views {
         /// <summary>
         ///   Looks up a localized string similar to Должность ответственного лица.
         /// </summary>
-        public static string ResponsiblePersonProf {
+        public static string ResponsiblePersonPosition {
             get {
-                return ResourceManager.GetString("ResponsiblePersonProf", resourceCulture);
+                return ResourceManager.GetString("ResponsiblePersonPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Восстановить.
+        /// </summary>
+        public static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
             }
         }
         
@@ -1551,6 +1641,15 @@ namespace Localization.SKD.Views {
         public static string ScheduleDevRules {
             get {
                 return ResourceManager.GetString("ScheduleDevRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обязательная продолжительность скользящего графика.
+        /// </summary>
+        public static string ScheduleLength {
+            get {
+                return ResourceManager.GetString("ScheduleLength", resourceCulture);
             }
         }
         
@@ -1627,20 +1726,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отметьте считыватели, уменьшающие разрешенное число проходов для гостевых пропусков.
+        ///   Looks up a localized string similar to Отображать пропуска без шаблонов доступа.
         /// </summary>
-        public static string SmallReadersMark {
+        public static string ShowPasscardWithoutAccess {
             get {
-                return ResourceManager.GetString("SmallReadersMark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Открепить от подразделения.
-        /// </summary>
-        public static string SquadCancel {
-            get {
-                return ResourceManager.GetString("SquadCancel", resourceCulture);
+                return ResourceManager.GetString("ShowPasscardWithoutAccess", resourceCulture);
             }
         }
         
@@ -1663,20 +1753,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должность руководителя структурного подразделения.
-        /// </summary>
-        public static string StructHeadProf {
-            get {
-                return ResourceManager.GetString("StructHeadProf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Руководитель структурного подразделения.
         /// </summary>
-        public static string StructSquadHead {
+        public static string StructDepartHead {
             get {
-                return ResourceManager.GetString("StructSquadHead", resourceCulture);
+                return ResourceManager.GetString("StructDepartHead", resourceCulture);
             }
         }
         
@@ -1690,20 +1771,11 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Табельный номер.
-        /// </summary>
-        public static string TabelNumber {
-            get {
-                return ResourceManager.GetString("TabelNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Временный.
         /// </summary>
-        public static string Temporary {
+        public static string Temp {
             get {
-                return ResourceManager.GetString("Temporary", resourceCulture);
+                return ResourceManager.GetString("Temp", resourceCulture);
             }
         }
         
@@ -1780,6 +1852,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to * Ошибки валидации.
+        /// </summary>
+        public static string ValidationError {
+            get {
+                return ResourceManager.GetString("ValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Посетитель.
         /// </summary>
         public static string Visitor {
@@ -1794,24 +1875,6 @@ namespace Localization.SKD.Views {
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Редактировать сотрудника.
-        /// </summary>
-        public static string WorkerEdit {
-            get {
-                return ResourceManager.GetString("WorkerEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Сотрудники.
-        /// </summary>
-        public static string Workers {
-            get {
-                return ResourceManager.GetString("Workers", resourceCulture);
             }
         }
         

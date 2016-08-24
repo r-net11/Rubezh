@@ -5,6 +5,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -25,7 +27,7 @@
 			ItemsSource="{Binding Source={StaticResource cvsUsers}}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn
-					Header="Логин"
+					Header="{x:Static lang:CommonViews.Login}"
 					SortMemberPath="Item.Login"
 					Width="100">
 					<DataGridTemplateColumn.CellTemplate>
@@ -47,7 +49,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
-					Header="Пользователь"
+					Header="{x:Static langCommon:CommonResources.User}"
 					SortMemberPath="Item.Name"
 					Width="*">
 					<DataGridTemplateColumn.CellTemplate>
@@ -64,11 +66,11 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

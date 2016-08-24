@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -59,7 +60,7 @@ namespace SKDModule.ViewModels
 				if (IsOrganisation)
 				{
 					var res = NightSettingsHelper.GetByOrganisation(Organisation.UID);
-					return res == null || !res.IsNightSettingsEnabled ? null : string.Format("Ночное время с {0} до {1}", res.NightStartTime, res.NightEndTime);
+					return res == null || !res.IsNightSettingsEnabled ? null : string.Format(CommonViewModels.NightTime, res.NightStartTime, res.NightEndTime);
 				}
 
 				var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter

@@ -70,7 +70,16 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить .
+        ///   Looks up a localized string similar to Назначение шаблона доступа группе сотрудников (посетителей).
+        /// </summary>
+        public static string AccessTemplToGroup {
+            get {
+                return ResourceManager.GetString("AccessTemplToGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Добавить {0}.
         /// </summary>
         public static string Add {
             get {
@@ -295,7 +304,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить .
+        ///   Looks up a localized string similar to Удалить {0}.
         /// </summary>
         public static string Delete {
             get {
@@ -385,7 +394,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать .
+        ///   Looks up a localized string similar to Редактировать {0}.
         /// </summary>
         public static string Edit {
             get {
@@ -430,6 +439,15 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сотрудники.
+        /// </summary>
+        public static string Employees {
+            get {
+                return ResourceManager.GetString("Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Существуют графики сотрудников, содержашие данный график работы. Продолжить?.
         /// </summary>
         public static string EmployeeScheduleWithSchedule {
@@ -439,7 +457,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время сотрудника {0} в течение дня .
+        ///   Looks up a localized string similar to Время сотрудника {0} в течение дня {1}.
         /// </summary>
         public static string EmployeeTime {
             get {
@@ -511,7 +529,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время окончания должно быть позднее даты и времени начала.
+        ///   Looks up a localized string similar to Дата и время окончания должны быть позднее даты и времени начала.
         /// </summary>
         public static string EndDateTimeLaterStartDateTime {
             get {
@@ -601,7 +619,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Утерян .
+        ///   Looks up a localized string similar to Утерян {0}.
         /// </summary>
         public static string Lost {
             get {
@@ -898,7 +916,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск .
+        ///   Looks up a localized string similar to Пропуск {0}.
         /// </summary>
         public static string Passcard {
             get {
@@ -970,15 +988,6 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск {0}.
-        /// </summary>
-        public static string PasscardWithNumber {
-            get {
-                return ResourceManager.GetString("PasscardWithNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Фото.
         /// </summary>
         public static string Photo {
@@ -1015,7 +1024,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Печать удостоверения .
+        ///   Looks up a localized string similar to Печать удостоверения {0}.
         /// </summary>
         public static string PrintPasscard {
             get {
@@ -1267,7 +1276,7 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до .
+        ///   Looks up a localized string similar to Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до {0}.
         /// </summary>
         public static string VisitorPasscardLimit {
             get {

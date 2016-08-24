@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
 using StrazhAPI.Models;
@@ -313,7 +314,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format(CommonViewModels.Archive, ItemRemovingName)))
 			{
 				Remove();
 			}
@@ -358,13 +359,13 @@ namespace SKDModule.ViewModels
 		protected virtual void AfterRemove(TModel model) { }
 		protected virtual string ItemRemovingName
 		{
-			get { return "запись"; }
+			get { return CommonViewModels.Record; }
 		}
 
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format(CommonViewModels.Restore, ItemRemovingName)))
 			{
 				Restore();
 			}
@@ -414,7 +415,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedItem.Name.Length > 46)
 			{
-				MessageBoxService.Show("Название копируемой записи должно быть короче 47 символов");
+				MessageBoxService.Show(CommonViewModels.NameOfCopyData);
 			}
 			else
 			{

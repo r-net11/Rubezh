@@ -7,7 +7,9 @@
 	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	MinWidth="550"
 	MinHeight="500"
-	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<UserControl.Resources>
 		<viewModel:DocumentNameViewModelComparer x:Key="DocumentNameViewModelComparer" />
 		<viewModel:DocumentTypeViewModelComparer x:Key="DocumentTypeViewModelComparer" />
@@ -24,15 +26,15 @@
 			Margin="2">
 			<ToolBarButton
 				Command="{Binding AddCommand}"
-				ToolTip="Добавить"
+				ToolTip="{x:Static lang:CommonViews.Add}"
 				ImageSource="Add"  />
 			<ToolBarButton
 				Command="{Binding RemoveCommand}"
-				ToolTip="Удалить"
+				ToolTip="{x:Static lang:CommonViews.Delete}"
 				ImageSource="Delete"  />
 			<ToolBarButton
 				Command="{Binding EditCommand}"
-				ToolTip="Редактировать"
+				ToolTip="{x:Static lang:CommonViews.Edit}"
 				ImageSource="Edit"  />
 		</StackPanel>
 		<tree:TreeList
@@ -55,7 +57,7 @@
             </tree:TreeList.ItemContainerStyle>
             <tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" Width="220" tree:SortBehavior.SortComparer="{StaticResource DocumentNameViewModelComparer}">
+					<GridViewColumn Header="{x:Static langCommon:CommonResources.Name}" Width="220" tree:SortBehavior.SortComparer="{StaticResource DocumentNameViewModelComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -76,7 +78,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Буквенный код" Width="100" tree:SortBehavior.SortComparer="{StaticResource DocumentShortNameViewModelComparer}">
+                    <GridViewColumn Header="{x:Static langCommon:CommonResources.LiteralCode}" Width="100" tree:SortBehavior.SortComparer="{StaticResource DocumentShortNameViewModelComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" Margin="1">
@@ -93,7 +95,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Числовой код" Width="100" tree:SortBehavior.SortComparer="{StaticResource DocumentCodeViewModelComparer}">
+                    <GridViewColumn Header="{x:Static langCommon:CommonResources.NumericCode}" Width="100" tree:SortBehavior.SortComparer="{StaticResource DocumentCodeViewModelComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TimeTrackDocumentType.Code}" Margin="1">
@@ -110,7 +112,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Тип" layout:ProportionalColumn.Width="1" tree:SortBehavior.SortComparer="{StaticResource DocumentTypeViewModelComparer}">
+                    <GridViewColumn Header="{x:Static langCommon:CommonResources.Type}" layout:ProportionalColumn.Width="1" tree:SortBehavior.SortComparer="{StaticResource DocumentTypeViewModelComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TimeTrackDocumentType.DocumentType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="1">

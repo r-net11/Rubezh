@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -66,7 +67,7 @@ namespace SKDModule.ViewModels
 		public PhotoColumnViewModel(Photo photo)
 		{
 			Photo = photo;
-			Name = "Фото";
+			Name = CommonViewModels.Photo;
 			OnPropertyChanged(() => Data);
 			OnPropertyChanged(() => HasPhoto);
 		}

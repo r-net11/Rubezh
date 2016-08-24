@@ -2,6 +2,7 @@
 using Common.PDF;
 using Infrastructure.Common.Reports;
 using iTextSharp.text;
+using Localization.SKD.Common;
 
 namespace SKDModule.Reports
 {
@@ -25,16 +26,16 @@ namespace SKDModule.Reports
 			var table = PDFHelper.CreateTable(document, ReportData.DataTables[0].Columns.Count);
 			table.HeaderRows = 2;
 			table.SetWidths(new float[] { 2f, 1f, 2f });
-			var cell = PDFHelper.GetCell("Список устройств конфигурации", PDFStyle.HeaderFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
+			var cell = PDFHelper.GetCell(CommonResources.ConfigurationDeviceList, PDFStyle.HeaderFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
 			cell.Colspan = 3;
 			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Название", PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
+			cell = PDFHelper.GetCell(CommonResources.Name, PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
 			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Адрес", PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
+			cell = PDFHelper.GetCell(CommonResources.Address, PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
 			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Тип", PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
+			cell = PDFHelper.GetCell(CommonResources.Type, PDFStyle.TextFont, Element.ALIGN_CENTER, PDFStyle.HeaderBackground);
 			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 			table.AddCell(cell);
 			PDFHelper.PrintTable(table, ReportData.DataTables[0]);

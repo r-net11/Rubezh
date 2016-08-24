@@ -4,6 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	Width="400"
 	Height="250">
 	<UserControl.Resources>
@@ -49,7 +51,7 @@
 				Margin="5"
 				VerticalAlignment="Center"
 				Foreground="White"
-				Text="Название" />
+				Text="{x:Static langCommon:CommonResources.Name}" />
 			<TextBox
 				Grid.Column="1"
 				MaxLength="50"
@@ -61,7 +63,7 @@
 				Margin="5"
 				VerticalAlignment="Center"
 				Foreground="White"
-				Text="Тип" />
+				Text="{x:Static langCommon:CommonResources.Type}" />
 			<ComboBox
 				Grid.Row="1"
 				Grid.Column="1"
@@ -85,13 +87,13 @@
 				Margin="5"
 				VerticalAlignment="Center"
 				Foreground="White"
-				Text="Дата" />
+				Text="{x:Static langCommon:CommonResources.Date}" />
 			<DatePicker
 				Style="{StaticResource DatePickerWithErrorStyle}"
 				Grid.Row="2"
 				Grid.Column="1"
 				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-				behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+				behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 				Width="140"
 				Margin="5"
 				HorizontalAlignment="Left"
@@ -105,7 +107,7 @@
 				VerticalAlignment="Center"
 				IsEnabled="{Binding IsReductionEnabled}"
 				Style="{StaticResource DisabledTextBlockStyle}"
-				Text="Величина сокращения" />
+				Text="{x:Static lang:CommonViews.ReductionValue}" />
 			<controls:TimePicker
 				Grid.Row="3"
 				Grid.Column="1"
@@ -118,13 +120,13 @@
 				VerticalAlignment="Center"
 				IsEnabled="{Binding IsTransferDateEnabled}"
 				Style="{StaticResource DisabledTextBlockStyle}"
-				Text="Дата переноса" />
+				Text="{x:Static langCommon:CommonResources.TransferDate}" />
 			<DatePicker
 				Style="{StaticResource DatePickerWithErrorStyle}"
 				Grid.Row="4"
 				Grid.Column="1"
 				behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-				behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+				behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 				Width="140"
 				Margin="5"
 				HorizontalAlignment="Left"
@@ -151,7 +153,7 @@
 				</Style>
 			</Border.Style>
 			<TextBlock
-				Text="{Binding Error, FallbackValue='* Ошибки валидации'}"
+				Text="{Binding Error, FallbackValue={x:Static lang:CommonViews.ValidationError}}"
 				VerticalAlignment="Center"
 				FontSize="10"
 				TextWrapping="Wrap"

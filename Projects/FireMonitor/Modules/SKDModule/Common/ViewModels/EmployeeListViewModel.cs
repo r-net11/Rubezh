@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
 using StrazhAPI.SKD;
 using System;
@@ -107,7 +108,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (!MessageBoxService.ShowQuestion(string.Format("Вы действительно хотите открепить сотрудника?"))) return;
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.DetachEmployee)) return;
 
 			var result = RemoveFromParent(SelectedEmployee.Employee);
 

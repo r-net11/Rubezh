@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -33,17 +34,17 @@ namespace SKDModule.ViewModels
 			_isNew = positionUID == null;
 			if (_isNew)
 			{
-				Title = "Создание должности";
+				Title = CommonViewModels.CreatePosition;
 				Position = new Position()
 				{
-					Name = "Новая должность",
+					Name = CommonViewModels.NewPosition,
 					OrganisationUID = OrganisationUID
 				};
 			}
 			else
 			{
 				Position = PositionHelper.GetDetails(positionUID);
-				Title = string.Format("Свойства должности: {0}", Position.Name);
+				Title = string.Format(CommonViewModels.PositionProperties, Position.Name);
 			}
 			CopyProperties();
 		}

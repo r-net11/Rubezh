@@ -1,7 +1,8 @@
 ﻿<UserControl
 	x:Class="SKDModule.Reports.Views.DocumentFilterPageView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<UserControl.Resources>
 		<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
 			<Setter Property="HorizontalAlignment" Value="Left" />
@@ -11,9 +12,9 @@
 		</Style>
 	</UserControl.Resources>
 	<StackPanel Margin="10" Orientation="Vertical">
-		<CheckBox IsChecked="{Binding Overtime}" Content="Переработка по документу" />
-		<CheckBox IsChecked="{Binding Presence}" Content="Присутствие по документу" />
-		<CheckBox IsChecked="{Binding Abcense}" Content="Отсутствие по неуважительной причине" />
-		<CheckBox IsChecked="{Binding AbcenseReasonable}" Content="Отсутствие по уважительной причине" />
+        <CheckBox IsChecked="{Binding Overtime}" Content="{x:Static lang:CommonViews.DocumentOvertime}" />
+        <CheckBox IsChecked="{Binding Presence}" Content="{x:Static lang:CommonViews.DocumentVisiting}" />
+        <CheckBox IsChecked="{Binding Abcense}" Content="{x:Static lang:CommonViews.NotReasonMiss}" />
+        <CheckBox IsChecked="{Binding AbcenseReasonable}" Content="{x:Static lang:CommonViews.ReasonMiss}" />
 	</StackPanel>
 </UserControl>

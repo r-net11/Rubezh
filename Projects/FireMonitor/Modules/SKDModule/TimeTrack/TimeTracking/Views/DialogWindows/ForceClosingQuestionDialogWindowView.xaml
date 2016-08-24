@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
     mc:Ignorable="d"
     d:DesignHeight="300"
 	Width="400"
@@ -14,17 +15,17 @@
 			Margin="0 5"
 			Foreground="White"
 			TextWrapping="Wrap">
-			<Run Text="Принудительное закрытие интервала может привести к неверному определению границ следующего интервала." />
+			<Run Text="{x:Static lang:CommonViews.ForceCloseIntAlert}" />
 			<LineBreak />
-			<Run Text="Закрывайте интервал только в том случае, если вы уверены, что сотрудник действительно покинул зону." />
+			<Run Text="{x:Static lang:CommonViews.SureWorkerLeftZoneIntervalClose}" />
 		</TextBlock>
 		<TextBlock
 			Margin="0 5"
 			Foreground="White"
-			Text="Закрытый интервал не может быть открыт повторно." />
+			Text="{x:Static lang:CommonViews.LockedIntervalOpenAlert}" />
 		<TextBlock
 			Margin="0 5"
 			Foreground="White"
-			Text="Закрыть интервал принудительно?" />
+			Text="{x:Static lang:CommonViews.ConfrimForceIntervalLock}" />
     </StackPanel>
 </UserControl>

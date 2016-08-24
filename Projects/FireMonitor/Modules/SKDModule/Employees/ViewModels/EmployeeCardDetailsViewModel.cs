@@ -1,4 +1,6 @@
-﻿using StrazhAPI.Journal;
+﻿using Localization.SKD.Errors;
+using Localization.SKD.ViewModels;
+using StrazhAPI.Journal;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -66,7 +68,7 @@ namespace SKDModule.ViewModels
 			{
 				IsNewCard = true;
 				IsFirstRadioButtonChecked = true;
-				Title = "Создание пропуска";
+				Title = CommonViewModels.CreatePasscard;
 				card = new SKDCard
 				{
 					StartDate = DateTime.Now,
@@ -75,7 +77,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства пропуска: {0}", card.Number);
+				Title = string.Format(CommonViewModels.PasscardProperties, card.Number);
 				
 				// Отслеживаем событие деактивации карты
 				ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Unsubscribe(OnCardRemotlyChanged);
@@ -96,7 +98,7 @@ namespace SKDModule.ViewModels
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
-			AvailableAccessTemplates = new ObservableCollection<AccessTemplate> {new AccessTemplate {Name = "<нет>"}};
+			AvailableAccessTemplates = new ObservableCollection<AccessTemplate> {new AccessTemplate {Name = CommonViewModels.None}};
 			var accessTemplateFilter = new AccessTemplateFilter();
 			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
 			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
@@ -363,7 +365,7 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
-					var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
+					var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == CommonViewModels.PasscardNumber);
 					if (journalDetalisationItem != null)
 					{
 						var cardNoString = journalDetalisationItem.Value;
@@ -401,7 +403,7 @@ namespace SKDModule.ViewModels
 
 		public string ReaderName
 		{
-			get { return "Нажмите для выбора считывателя"; }
+			get { return CommonViewModels.ClickToSelectReader; }
 		}
 
 		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
@@ -420,7 +422,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
-				return controllerDevice != null ? controllerDevice.Name : "Нажмите для выбора контроллера";
+				return controllerDevice != null ? controllerDevice.Name : CommonViewModels.ClickToSelectController;
 			}
 		}
 
@@ -442,7 +444,7 @@ namespace SKDModule.ViewModels
 
 			if (manualInputValidationCondition || useReaderValidationCondition || USBReaderValidationCondition)
 			{
-				MessageBoxService.ShowError("Номер карты должен быть задан в пределах 1 ... 2147483647", "Неверный номер карты");
+				MessageBoxService.ShowError(CommonErrors.CardNumberLimits_Error, CommonErrors.CardNumber_Error);
 				return false;
 			}
 
@@ -479,7 +481,7 @@ namespace SKDModule.ViewModels
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == number);
 			if (stopListCard != null)
 			{
-				if (MessageBoxService.ShowQuestion("Карта с таким номером была ранее деактивирована. Использовать её?"))
+				if (MessageBoxService.ShowQuestion(CommonViewModels.UseDeactivatedPasscard))
 				{
 					SelectedStopListCard = stopListCard;
 					useFromDeactivate = true;
@@ -545,39 +547,39 @@ namespace SKDModule.ViewModels
 			{
 				if (EndDate.Date < DateTime.Now.Date)
 				{
-					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше текущей даты");
+					MessageBoxService.ShowWarning(CommonViewModels.EndDatePasscard);
 					return false;
 				}
 			}
 
 			if (EndDate < StartDate)
 			{
-				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
+				MessageBoxService.ShowWarning(CommonViewModels.EndDatePasscardLaterStartDate);
 				return false;
 			}
 
 			if ((EnableValidationForUSB || IsFirstRadioButtonChecked) && (Number <= 0 || Number > Int32.MaxValue))
 			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
+				MessageBoxService.ShowWarning(CommonErrors.CardNumberLimits_Error);
 				return false;
 			}
 
 			if(Cards.Any(x => x.Number == Card.Number && x.UID != Card.UID))
 			{
-				MessageBoxService.ShowWarning("Невозможно добавить карту с повторяющимся номером");
+				MessageBoxService.ShowWarning(CommonViewModels.SamePasscardNumber);
 				return false;
 			}
 
 			if (SelectedCardType == CardType.Guest && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning("Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
+				MessageBoxService.ShowWarning(string.Format(CommonViewModels.VisitorPasscardLimit, Int16.MaxValue));
 				return false;
 			}
 
 			if (string.IsNullOrEmpty(Password)) return true;
 			if (Password.All(Char.IsDigit)) return true;
 
-			MessageBoxService.ShowWarning("Пароль может содержать только цифры");
+			MessageBoxService.ShowWarning(CommonViewModels.NumbersInPass);
 			return false;
 		}
 	}

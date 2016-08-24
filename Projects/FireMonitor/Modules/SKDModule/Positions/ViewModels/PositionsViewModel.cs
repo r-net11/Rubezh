@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -47,7 +49,7 @@ namespace SKDModule.ViewModels
 		
 		protected override string ItemRemovingName
 		{
-			get { return "должность"; }
+			get { return CommonResources.Position.ToLower(); }
 		}
 
 		public void OnNewPosition(ShortPosition model) 
@@ -70,7 +72,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			if (EmployeeListViewModel.Employees.Count == 0 ||
-				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
+				MessageBoxService.ShowQuestion(CommonViewModels.PositionWithEmployee))
 			{
 				var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 				base.Remove();

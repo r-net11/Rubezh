@@ -1,7 +1,9 @@
-﻿<UserControl x:Class="SKDModule.Views.CardRemovalReasonView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="400" MinHeight="200">
+﻿<UserControl x:Class="SKDModule.Views.CardRemovalReasonView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+             MinWidth="400" MinHeight="200">
 
 	<StackPanel>
-		<TextBlock Text="Причина деактивации" Foreground="White" Margin="2" />
+        <TextBlock Text="{x:Static langCommon:CommonResources.DeactivationReason}" Foreground="White" Margin="2" />
 		<TextBox Text="{Binding RemovalReason, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 	</StackPanel>
 </UserControl>

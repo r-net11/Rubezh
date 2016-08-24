@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -6,7 +7,7 @@ namespace SKDModule.ViewModels
 	{
 		public CardNumberViewModel()
 		{
-			Title = "Ввод номера карты с USB-считывателя";
+			Title = CommonViewModels.EnterCardNumber;
 		}
 
 		int _number;

@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="SKDModule.Reports.Views.EmployeePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="SKDModule.Reports.Views.EmployeePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+             xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Visibility="{Binding AllowVisitor, Converter={StaticResource BoolToVisibilityConverter}}">
-			<RadioButton Margin="10,5,5,5" VerticalAlignment="Center" Content="Сотрудник" Foreground="White" GroupName="main" IsChecked="{Binding IsEmployee}" />
-			<RadioButton Margin="30,5,5,5" VerticalAlignment="Center" Content="Посетитель" Foreground="White" GroupName="main" IsChecked="{Binding IsEmployee, Converter={StaticResource InverseBooleanConverter}}" />
+			<RadioButton Margin="10,5,5,5" VerticalAlignment="Center" Content="{x:Static langCommon:CommonResources.Employee}" Foreground="White" GroupName="main" IsChecked="{Binding IsEmployee}" />
+            <RadioButton Margin="30,5,5,5" VerticalAlignment="Center" Content="{x:Static lang:CommonViews.Visitor}" Foreground="White" GroupName="main" IsChecked="{Binding IsEmployee, Converter={StaticResource InverseBooleanConverter}}" />
 		</StackPanel>
 		<ContentPresenter Grid.Row="1" Content="{Binding Filter}" />
 	</Grid>

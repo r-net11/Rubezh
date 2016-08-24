@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -18,7 +19,7 @@ namespace SKDModule.ViewModels
 
 		public ReportSettingsViewModel(TimeTrackFilter timeTrackFilter, List<TimeTrackEmployeeResult> timeTrackEmployeeResults)
 		{
-			Title = "Настройка печати отчета Т-13";
+			Title = CommonViewModels.T13PrintSetup;
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
@@ -147,8 +148,8 @@ namespace SKDModule.ViewModels
 
 						var codeCount = 1;
 						string codeStrings = dayTimeTrack.LetterCode;
-						if (codeStrings == "УР")
-							codeStrings = "НН";
+						if (codeStrings == CommonViewModels.UR)
+							codeStrings = CommonViewModels.NN;
 						var totaPresence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence).TimeSpan;
 						string timeSpanStrings = totaPresence.Hours.ToString();
 						foreach (var timeTrackPart in dayTimeTrack.DocumentTrackParts)

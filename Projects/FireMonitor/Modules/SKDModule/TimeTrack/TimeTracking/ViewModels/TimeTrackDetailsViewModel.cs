@@ -240,7 +240,7 @@ namespace SKDModule.ViewModels
 			AllowClose = false; //Need to fix SKDDEV-839
 			CloseOnEscape = false;
 
-			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
+			Title = string.Format(CommonViewModels.EmployeeTime, shortEmployee.FIO ,dayTimeTrack.Date.Date.ToString("yyyy-MM-dd"));
 			AddDocumentCommand = new RelayCommand(OnAddDocument, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit));
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
 			RemoveDocumentCommand = new RelayCommand(OnRemoveDocument, CanRemoveDocument);
@@ -458,7 +458,7 @@ namespace SKDModule.ViewModels
 
 		void OnRemoveDocument()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?")) return;
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.DeleteDocument)) return;
 
 			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
 

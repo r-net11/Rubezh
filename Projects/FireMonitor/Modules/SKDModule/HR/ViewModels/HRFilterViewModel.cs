@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
@@ -16,8 +17,8 @@ namespace SKDModule.ViewModels
 			get
 			{
 				return Filter.EmployeeFilter.PersonType == PersonType.Employee
-					? "Сотрудники"
-					: "Посетители";
+					? CommonViewModels.Employees
+					: CommonViewModels.Visitors;
 			}
 		}
 

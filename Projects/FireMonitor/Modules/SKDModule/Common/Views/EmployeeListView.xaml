@@ -4,6 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -40,7 +42,7 @@
 			ItemsSource="{Binding Employees}"
 			SelectedItem="{Binding SelectedEmployee}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="ФИО">
+                <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.FullName}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -56,7 +58,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Подразделение"
+					Header="{x:Static langCommon:CommonResources.Department}"
 					Visibility="{Binding DataContext.CanEditDepartment,
 				                                             Source={x:Reference dummyElement},
 				                                             Converter={StaticResource BoolToVisibilityConverter}}">
@@ -71,7 +73,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Должность"
+					Header="{x:Static langCommon:CommonResources.Position}"
 					Visibility="{Binding DataContext.CanEditPosition,
 				                                             Source={x:Reference dummyElement},
 				                                             Converter={StaticResource BoolToVisibilityConverter}}">
@@ -91,15 +93,15 @@
 				<ToolBarButton
 					Command="{Binding AddCommand}"
 					ImageSource="Add"
-					ToolTip="Добавить сотрудника" />
+					ToolTip="{x:Static langCommon:CommonResources.AddEmpl}" />
 				<ToolBarButton
 					Command="{Binding RemoveCommand}"
 					ImageSource="Delete"
-					ToolTip="Удалить сотрудника" />
+					ToolTip="{x:Static lang:CommonViews.DeleteEmpl}" />
 				<ToolBarButton
 					Command="{Binding EditCommand}"
 					ImageSource="Edit"
-					ToolTip="Редактировать сотрудника" />
+					ToolTip="{x:Static lang:CommonViews.EditEmpl}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

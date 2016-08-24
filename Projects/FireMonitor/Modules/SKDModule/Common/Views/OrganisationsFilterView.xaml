@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	x:Name="_this"
 	d:DesignHeight="400"
 	d:DesignWidth="400"
@@ -74,11 +75,11 @@
 				Width="*"
 				CellTemplate="{StaticResource FullTemplate}"
 				SortMemberPath="Name"
-				Header="Название">
+				Header="{x:Static langCommon:CommonResources.Name}">
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
 				Width="*"
-				Header="Примечание"
+				Header="{x:Static langCommon:CommonResources.Note}"
 				SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>

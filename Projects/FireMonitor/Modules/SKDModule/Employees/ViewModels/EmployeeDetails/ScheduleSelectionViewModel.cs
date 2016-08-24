@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -16,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public ScheduleSelectionViewModel(Employee employee, ShortSchedule shortSchedule, DateTime startDate)
 		{
-			Title = "Выбор графика работы";
+			Title = CommonViewModels.SelectWorkSchedule;
 			Employee = employee;
 			StartDate = startDate;
 

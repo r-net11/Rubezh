@@ -5,7 +5,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
 	<UserControl.Resources>
@@ -25,7 +27,7 @@
 			CanUserSortColumns="True"
 			ItemsSource="{Binding Source={StaticResource cvsSchedules}}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="0.5*" SortMemberPath="Item.Name">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Name}" Width="0.5*" SortMemberPath="Item.Name">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -44,7 +46,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Item.Description">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Note}" Width="*" SortMemberPath="Item.Description">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Item.Description}" VerticalAlignment="Center" />
@@ -54,8 +56,8 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выбрать все" />
-			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Отменить выбор" />
+			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="{x:Static lang:CommonViews.SelectAll}" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

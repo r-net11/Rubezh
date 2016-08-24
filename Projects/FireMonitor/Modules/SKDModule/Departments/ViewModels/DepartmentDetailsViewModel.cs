@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Localization.SKD.ViewModels;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -25,12 +26,12 @@ namespace SKDModule.ViewModels
 			OrganisationUID = organisation.UID;
 			if (shortDepartment == null)
 			{
-				Title = "Создание подразделения";
+				Title = CommonViewModels.CreateDepart;
 				IsNew = true;
 				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
 				Department = new Department
 				{
-					Name = "Новое подразделение",
+					Name = CommonViewModels.NewDepart,
 					ParentDepartmentUID = parentModel != null ? parentModel.UID : Guid.Empty,
 					OrganisationUID = OrganisationUID
 				};
@@ -39,7 +40,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
-				Title = string.Format("Свойства подразделения: {0}", Department.Name);
+				Title = string.Format(CommonViewModels.DepartProperties, Department.Name);
 				_childDepartments = new Dictionary<Guid, string>();
 			}
 			CopyProperties();
@@ -51,10 +52,10 @@ namespace SKDModule.ViewModels
 		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)
 		{
 			OrganisationUID = organisationUID;
-			Title = "Создание подразделения";
+			Title = CommonViewModels.CreateDepart;
 			Department = new Department
 			{
-				Name = "Новое подразделение",
+				Name = CommonViewModels.NewDepart,
 				ParentDepartmentUID = parentDepartmentUID,
 				OrganisationUID = OrganisationUID
 			};

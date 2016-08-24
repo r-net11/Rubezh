@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
     mc:Ignorable="d"
     Width="400"
 	Height="150">
@@ -31,12 +32,12 @@
 			<TextBlock
 				Foreground="White"
 				TextWrapping="Wrap"
-				Text="После сброса ограничения на повторный проход для ВСЕХ пропусков в организации, пропускам, записанным на контроллер будет присвоено состояние, при котором будет разрешен проход по входным считывателям." />
+				Text="{x:Static lang:CommonViews.ResetAllAlert}" />
 			<TextBlock
 				TextWrapping="Wrap"
 				Foreground="White"
 				Margin="0 15"
-				Text="Вы действительно хотите сбросить ограничения на повторный проход для ВСЕХ пропусков?" />
+				Text="{x:Static lang:CommonViews.ConfirmLimitReset}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

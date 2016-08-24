@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -21,7 +22,7 @@ namespace SKDModule.ViewModels
 
 		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
 		{
-			Title = "Выбор подразделения";
+			Title = CommonViewModels.SelectDepart;
 			_organisationUID = organisationUID;
 			_firstSelectedDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
@@ -136,7 +137,7 @@ namespace SKDModule.ViewModels
 		public DepartmentParentSelectionViewModel(Guid organisationUID, Guid parentDepartmentUID, Guid departmentUID) : base(organisationUID, parentDepartmentUID)
 		{
 			_departmentUID = departmentUID;
-			Title = "Выбор родительского подразделения";
+			Title = CommonViewModels.SelectParentDepart;
 		}
 
 		protected override IEnumerable<ShortDepartment> GetDepartments()

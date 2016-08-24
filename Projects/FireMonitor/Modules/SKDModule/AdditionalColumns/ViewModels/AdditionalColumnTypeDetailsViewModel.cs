@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -39,10 +41,10 @@ namespace SKDModule.ViewModels
 			_isNew = model == null;
 			if (_isNew)
 			{
-				Title = "Создание дополнительной колонки";
+				Title = CommonViewModels.CreateAdditionalColumn;
 				AdditionalColumnType = new AdditionalColumnType()
 				{
-					Name = "Новая дополнительная колонка",
+					Name = CommonViewModels.NewAdditionalColumn,
 					OrganisationUID = Organisation.UID
 				};
 				CanChangeDataType = true;
@@ -50,7 +52,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(model.UID);
-				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
+				Title = string.Format(CommonViewModels.AdditionalColumnProperties, AdditionalColumnType.Name);
 			}
 			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).OfType<AdditionalColumnDataType>());
 			CopyProperties();
@@ -130,9 +132,9 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Name == "Имя" || Name == "Фамилия" || Name == "Отчество")
+			if (Name == CommonResources.SecondName || Name == CommonResources.FirstName || Name == CommonResources.ThirdName)
 			{
-				MessageBoxService.ShowWarning("Запрещенное название дополнительной колонки");
+				MessageBoxService.ShowWarning(CommonViewModels.AdditionalColumnForbiddenName);
 				return false;
 			}
 

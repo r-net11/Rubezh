@@ -1,4 +1,6 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
@@ -72,7 +74,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			if (ScheduleSchemeHelper.Get(new ScheduleSchemeFilter { DayIntervalUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
-				MessageBoxService.ShowQuestion("Существуют графики работы, содержашие данный дневной график. Продолжить?"))
+				MessageBoxService.ShowQuestion(CommonViewModels.WorkSchedulesWithDaySchedules))
 			{
 				base.Remove();
 			}
@@ -136,7 +138,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "дневной график"; }
+			get { return CommonResources.DaySchedule.ToLower(); }
 		}
 
 		protected override StrazhAPI.Models.PermissionType Permission

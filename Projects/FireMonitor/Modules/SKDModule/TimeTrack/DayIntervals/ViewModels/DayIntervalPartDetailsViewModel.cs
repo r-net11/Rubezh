@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using EntitiesValidation;
+using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -65,7 +66,7 @@ namespace SKDModule.ViewModels
 			_dayInterval = dayInterval;
 			if (dayIntervalPart == null)
 			{
-				Title = "Новый интервал";
+				Title = CommonViewModels.NewInterval;
 				_isNew = true;
 				dayIntervalPart = new DayIntervalPart
 				{
@@ -74,7 +75,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование интервала";
+				Title = CommonViewModels.IntervalEdition;
 				_isNew = false;
 			}
 			DayIntervalPart = dayIntervalPart;

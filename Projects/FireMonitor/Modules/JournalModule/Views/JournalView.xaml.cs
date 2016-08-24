@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Common;
 using Infrastructure.Models;
 using JournalModule.ViewModels;
+using Localization.Journal.Common;
 
 namespace JournalModule.Views
 {
@@ -40,14 +41,14 @@ namespace JournalModule.Views
 					additionalColumns = dataContext.AdditionalColumns;
 				}
 
-				var subsystemColumn = dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема");
+				var subsystemColumn = dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == CommonResources.Subsystem);
 				if (subsystemColumn == null)
 				{
 					Logger.Error("JournalView subsystemColumn == null");
 					return;
 				}
 
-				var userColumn = dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Пользователь");
+                var userColumn = dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == CommonResources.User);
 				if (userColumn == null)
 				{
 					Logger.Error("JournalView userColumn == null");

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
@@ -14,7 +15,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public DoorPageViewModel()
 		{
-			Title = "Точки доступа";
+			Title = CommonResources.Doors;
 			Doors = new ObservableCollection<CheckedItemViewModel<SKDDoor>>(SKDManager.Doors.Select(item => new CheckedItemViewModel<SKDDoor>(item)));
 			SelectAllCommand = new RelayCommand(() => Doors.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Doors.ForEach(item => item.IsChecked = false));

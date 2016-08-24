@@ -740,6 +740,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Localization.Converters\Localization.Converters.csproj">
+      <Project>{a99daac1-2126-4279-a463-40e4ce63e8bc}</Project>
+      <Name>Localization.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>

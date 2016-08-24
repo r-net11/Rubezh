@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public ReaderSelectationViewModel(Guid deviceUID)
 		{
-			Title = "Выбор считывателя";
+			Title = CommonViewModels.SelectReader;
 			Devices = new ObservableCollection<SKDDevice>();
 			foreach (var device in SKDManager.Devices)
 			{

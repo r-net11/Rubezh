@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using CodeReason.Reports;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Reports;
 using Common;
@@ -73,7 +74,7 @@ namespace SKDModule.Reports
 
 		public string Title
 		{
-			get { return string.Format("Унифицированная форма №T-13 за период с {0:dd.MM.yyyy} по {1:dd.MM.yyyy}", ReportModel.StartDateTime, ReportModel.EndDateTime); }
+			get { return string.Format(CommonResources.T13, ReportModel.StartDateTime, ReportModel.EndDateTime); }
 		}
 
 		public bool IsEnabled

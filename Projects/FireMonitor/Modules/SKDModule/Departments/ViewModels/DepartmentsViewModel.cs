@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.Automation.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -9,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
+using CommonResources = Localization.SKD.Common.CommonResources;
 
 namespace SKDModule.ViewModels
 {
@@ -205,7 +208,7 @@ namespace SKDModule.ViewModels
 		{
 			var employeeUIDs = DepartmentHelper.GetChildEmployeeUIDs(SelectedItem.UID);
 			if (employeeUIDs == null || !employeeUIDs.Any() ||
-				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продожить?"))
+				MessageBoxService.ShowQuestion(CommonViewModels.DepartWithEmployee))
 			{
 				base.Remove();
 				if (IsWithDeleted)
@@ -240,7 +243,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "подразделение"; }
+			get { return CommonResources.Department.ToLower(); }
 		}
 
 		protected override StrazhAPI.Models.PermissionType Permission

@@ -5,6 +5,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -25,7 +27,7 @@
 			ItemsSource="{Binding Source={StaticResource cvsZones}}"
 			CanUserSortColumns="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" SortMemberPath="Item.Name" Width="0.5*">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Name}" SortMemberPath="Item.Name" Width="0.5*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -36,7 +38,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" SortMemberPath="Item.Description" Width="*">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Note}" SortMemberPath="Item.Description" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -53,11 +55,11 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 		<StackPanel
 			Grid.Row="2"
@@ -66,13 +68,13 @@
 			<CheckBox
 				Margin="3"
 				VerticalAlignment="Center"
-				Content="Из зоны"
+				Content="{x:Static langCommon:CommonResources.FromZone}"
 				Foreground="White"
 				IsChecked="{Binding ZoneOut}" />
 			<CheckBox
 				Margin="3"
 				VerticalAlignment="Center"
-				Content="В зону"
+				Content="{x:Static langCommon:CommonResources.ToZone}"
 				Foreground="White"
 				IsChecked="{Binding ZoneIn}" />
 		</StackPanel>

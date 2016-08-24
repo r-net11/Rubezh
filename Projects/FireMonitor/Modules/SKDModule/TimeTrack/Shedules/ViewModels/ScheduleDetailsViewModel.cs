@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -244,10 +245,10 @@ namespace SKDModule.ViewModels
 
 		private void InitializeForNewSchedule()
 		{
-			Title = "Новый график";
+			Title = CommonViewModels.NewSchedule;
 			Model = new Schedule
 			{
-				Name = "Новый график работы",
+				Name = CommonViewModels.NewWorkSchedule,
 				OrganisationUID = Organisation.UID,
 			};
 
@@ -259,7 +260,7 @@ namespace SKDModule.ViewModels
 
 		private void InitializeForEditSchedule(Schedule model)
 		{
-			Title = "Редактирование графика работы";
+			Title = CommonViewModels.WorkScheduleEdition;
 			Model = ScheduleHelper.GetSingle(model.UID);
 			AllowedLate = Model.IsEnabledAllowLate ? Model.AllowedLate : DefaultMinutesValue;
 			AllowedAbsentLowThan = Model.IsAllowAbsent ? Model.AllowedAbsentLowThan : DefaultMinutesValue;

@@ -232,7 +232,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подразделения.
+        ///   Looks up a localized string similar to Подразделение.
         /// </summary>
         public static string Department {
             get {
@@ -241,7 +241,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подразделение.
+        ///   Looks up a localized string similar to Подразделения.
         /// </summary>
         public static string Departments {
             get {
@@ -385,20 +385,20 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время входа.
-        /// </summary>
-        public static string EnterDate1 {
-            get {
-                return ResourceManager.GetString("EnterDate1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Дата входа не может быть больше даты выхода.
         /// </summary>
         public static string EnterDateExitDate {
             get {
                 return ResourceManager.GetString("EnterDateExitDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата и время входа.
+        /// </summary>
+        public static string EnterDateTime {
+            get {
+                return ResourceManager.GetString("EnterDateTime", resourceCulture);
             }
         }
         
@@ -754,7 +754,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должности.
+        ///   Looks up a localized string similar to Должность.
         /// </summary>
         public static string Position {
             get {
@@ -763,20 +763,20 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должность.
+        ///   Looks up a localized string similar to Должность (Сопровождающий).
         /// </summary>
-        public static string Positions {
+        public static string PositionMaintainer {
             get {
-                return ResourceManager.GetString("Positions", resourceCulture);
+                return ResourceManager.GetString("PositionMaintainer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должность (Сопровождающий).
+        ///   Looks up a localized string similar to Должности.
         /// </summary>
-        public static string PositionsMaintainer {
+        public static string Positions {
             get {
-                return ResourceManager.GetString("PositionsMaintainer", resourceCulture);
+                return ResourceManager.GetString("Positions", resourceCulture);
             }
         }
         

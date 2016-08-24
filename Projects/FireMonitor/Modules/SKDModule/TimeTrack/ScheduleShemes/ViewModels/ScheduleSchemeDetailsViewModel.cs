@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -42,9 +43,9 @@ namespace SKDModule.ViewModels
 
 			if (IsNew)
 			{
-				Name = "Новый график работы";
+				Name = CommonViewModels.NewWorkSchedule;
 				Description = "";
-				Title = "Новый график работы";
+				Title = CommonViewModels.NewWorkSchedule;
 				SelectedScheduleSchemeType = ScheduleSchemeType.Week;
 				Model = new ScheduleScheme()
 				{
@@ -53,7 +54,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование графика работы";
+				Title = CommonViewModels.WorkScheduleEdition;
 				Model = ScheduleSchemeHelper.GetSingle(model.UID);
 				Name = Model.Name;
 				Description = Model.Description;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.Services;
@@ -13,7 +14,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public PositionPageViewModel()
 		{
-			Title = "Должности";
+			Title = CommonResources.Positions;
 			Filter = new PositionsFilterViewModel();
 			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);

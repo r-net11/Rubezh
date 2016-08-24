@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -123,7 +124,7 @@ namespace SKDModule.ViewModels
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
 				IsEnabledTakeInCalculations = inputTimeTrackPart.TimeTrackZone.IsURV;
 				CurrentZone = CurrentTimeTrackPart.TimeTrackZone;
-				Title = "Редактировать проход";
+				Title = CommonViewModels.EditPass;
 			}
 			else
 			{
@@ -136,7 +137,7 @@ namespace SKDModule.ViewModels
 					TimeTrackActions = TimeTrackActions.Adding
 				};
 
-				Title = "Добавить проход";
+				Title = CommonViewModels.AddPass;
 				IsNew = true;
 			}
 

@@ -6,6 +6,8 @@
 	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	MinWidth="500"
 	MinHeight="500">
 	<UserControl.Resources>
@@ -14,7 +16,7 @@
 		<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	</UserControl.Resources>
 	<TabControl>
-		<TabItem Header="Основные">
+        <TabItem Header="{x:Static lang:CommonViews.Main}">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
 					<Grid>
@@ -38,7 +40,7 @@
 						</Grid.ColumnDefinitions>
 						<Label
 							HorizontalAlignment="Right"
-							Content="Фамилия" />
+							Content="{x:Static langCommon:CommonResources.FirstName}" />
 						<TextBox
 							Grid.Column="1"
 							Margin="2"
@@ -49,7 +51,7 @@
 						<Label
 							Grid.Row="1"
 							HorizontalAlignment="Right"
-							Content="Имя" />
+							Content="{x:Static langCommon:CommonResources.SecondName}" />
 						<TextBox
 							Grid.Row="1"
 							Grid.Column="1"
@@ -62,7 +64,7 @@
 							Grid.Row="2"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
-							Content="Отчество" />
+							Content="{x:Static langCommon:CommonResources.ThirdName}" />
 						<TextBox
 							Grid.Row="2"
 							Grid.Column="1"
@@ -76,7 +78,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Content="Должность"
+							Content="{x:Static langCommon:CommonResources.Position}"
 							Visibility="{Binding CanEditPosition,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
@@ -93,7 +95,7 @@
 										TextDecorations="Underline"
 										Visibility="{Binding HasSelectedPosition,
 									                                Converter={StaticResource BoolToVisibilityConverter}}" />
-									<TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Text="{x:Static lang:CommonViews.ChoosePositionClick}" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 								</Hyperlink>
 							</TextBlock>
 						</StackPanel>
@@ -103,7 +105,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Content="Подразделение"
+							Content="{x:Static langCommon:CommonResources.Department}"
 							Visibility="{Binding CanEditDepartment,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
@@ -120,7 +122,7 @@
 										TextDecorations="Underline"
 										Visibility="{Binding HasSelectedDepartment,
 									                                Converter={StaticResource BoolToVisibilityConverter}}" />
-									<TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Text="{x:Static lang:CommonViews.ChooseDepartClick}" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 								</Hyperlink>
 							</TextBlock>
 						</StackPanel>
@@ -130,7 +132,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Content="Сопровождающий"
+							Content="{x:Static langCommon:CommonResources.Maintainer}"
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						<StackPanel
@@ -148,7 +150,7 @@
 											<Style>
 												<Style.Triggers>
 													<DataTrigger Binding="{Binding HasSelectedEscort}" Value="false">
-														<Setter Property="TextBlock.Text" Value="Нажмите для выбора сопровождающего" />
+														<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseMaintainerClick}" />
 													</DataTrigger>
 												</Style.Triggers>
 											</Style>
@@ -163,7 +165,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Content="Примечание"
+							Content="{x:Static langCommon:CommonResources.Note}"
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						<TextBox
@@ -180,7 +182,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Content="График работы"
+							Content="{x:Static langCommon:CommonResources.WorkSchedule}"
 							Visibility="{Binding IsEmployee,
 						                            Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel
@@ -197,7 +199,7 @@
 										TextDecorations="Underline"
 										Visibility="{Binding HasSelectedSchedule,
 									                                Converter={StaticResource BoolToVisibilityConverter}}" />
-									<TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Text="{x:Static lang:CommonViews.ChooseScheduleClick}" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 								</Hyperlink>
 							</TextBlock>
 						</StackPanel>
@@ -205,7 +207,7 @@
 							Grid.Row="8"
 							Grid.Column="0"
 							HorizontalAlignment="Right"
-							Content="Табельный номер"
+							Content="{x:Static langCommon:CommonResources.PersonalNumber}"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<TextBox
 							Grid.Row="8"
@@ -218,7 +220,7 @@
 						<Label
 							Grid.Row="9"
 							HorizontalAlignment="Right"
-							Content="Телефон" />
+							Content="{x:Static lang:CommonViews.Phone}" />
 						<TextBox
 							Grid.Row="9"
 							Grid.Column="1"
@@ -228,7 +230,7 @@
 						<Label
 							Grid.Row="10"
 							HorizontalAlignment="Right"
-							Content="Руководитель организации"
+							Content="{x:Static lang:CommonViews.OrganisationHead}"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<CheckBox
 							Grid.Row="10"
@@ -240,7 +242,7 @@
 						<Label
 							Grid.Row="11"
 							HorizontalAlignment="Right"
-							Content="Руководитель отдела кадров"
+							Content="{x:Static lang:CommonViews.HrDepartHead}"
 							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<CheckBox
 							Grid.Row="11"
@@ -278,7 +280,7 @@
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
-		<TabItem Header="Документ">
+		<TabItem Header="{x:Static langCommon:CommonResources.Document}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -299,7 +301,7 @@
 					Grid.Row="0"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Номер" />
+					Content="{x:Static langCommon:CommonResources.Number}" />
 				<TextBox
 					x:Name="FirstTextBox"
 					Grid.Column="1"
@@ -311,7 +313,7 @@
 					Grid.Row="1"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Место рождения" />
+					Content="{x:Static lang:CommonViews.BirthPlace}" />
 				<TextBox
 					Grid.Row="1"
 					Grid.Column="1"
@@ -323,7 +325,7 @@
 					Grid.Row="2"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Дата рождения" />
+					Content="{x:Static lang:CommonViews.BirthDate}" />
 				<xctk:MaskedTextBox
 					Grid.Row="2"
 					Grid.Column="1"
@@ -339,7 +341,7 @@
 					Grid.Row="3"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Кем выдан" />
+					Content="{x:Static lang:CommonViews.IssuedBy}" />
 				<TextBox
 					Grid.Row="3"
 					Grid.Column="1"
@@ -350,7 +352,7 @@
 				<Label
 					Grid.Row="4"
 					HorizontalAlignment="Right"
-					Content="Дата выдачи" />
+					Content="{x:Static lang:CommonViews.IssuedDate}" />
 				<xctk:MaskedTextBox
 					Grid.Row="4"
 					Grid.Column="1"
@@ -365,7 +367,7 @@
 					Grid.Row="5"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Документ действителен до" />
+					Content="{x:Static lang:CommonViews.DocumentExpireTo}" />
 				<xctk:MaskedTextBox
 					Grid.Row="5"
 					Grid.Column="1"
@@ -380,7 +382,7 @@
 					Grid.Row="6"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Гражданство" />
+					Content="{x:Static lang:CommonViews.Citizenship}" />
 				<TextBox
 					Grid.Row="6"
 					Grid.Column="1"
@@ -392,7 +394,7 @@
 					Grid.Row="7"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Пол" />
+					Content="{x:Static lang:CommonViews.Sex}" />
 				<Controls:FeaturedComboBox
 					Grid.Row="7"
 					Grid.Column="1"
@@ -411,7 +413,7 @@
 					Grid.Row="8"
 					Grid.Column="0"
 					HorizontalAlignment="Right"
-					Content="Тип документа" />
+					Content="{x:Static lang:CommonViews.DocumentType}" />
 				<Controls:FeaturedComboBox
 					Grid.Row="8"
 					CanSelectNullItem="True"

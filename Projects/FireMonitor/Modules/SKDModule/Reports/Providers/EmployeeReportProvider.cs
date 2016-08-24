@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class EmployeeReportProvider : FilteredSKDReportProvider<EmployeeReportFilter>
 	{
 		public EmployeeReportProvider()
-			: base("Справка о сотруднике/посетителе", 418, SKDReportGroup.HR, PermissionType.Oper_Reports_Employee)
+			: base(CommonResources.EmployeeInfo, 418, SKDReportGroup.HR, PermissionType.Oper_Reports_Employee)
 		{
 		}
 
@@ -19,11 +20,11 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Employee", "Сотрудник (Посетитель)" },
-					{ "Number", "Табельный номер (Примечание)" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "Position", "Должность (Сопровождающий)" },
+					{ "Employee", CommonResources.Visitor },
+					{ "Number", CommonResources.PersonalNumber },
+					{ "Organisation", CommonResources.Organization },
+					{ "Department", CommonResources.Department },
+					{ "Position", CommonResources.PositionMaintainer },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

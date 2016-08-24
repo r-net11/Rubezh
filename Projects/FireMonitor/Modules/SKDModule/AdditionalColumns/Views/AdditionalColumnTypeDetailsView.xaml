@@ -5,6 +5,8 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	MinWidth="600"
 	MinHeight="250">
 	<UserControl.Resources>
@@ -24,10 +26,10 @@
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
-			<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Примечание" />
-			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Формат данных" />
-			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отображать в списке сотрудников" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static langCommon:CommonResources.Name}" />
+            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static langCommon:CommonResources.Note}" />
+            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.DataFormat}" />
+            <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.DisplayEmplInList}" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 			<TextBox Grid.Row="0" MaxLength="50" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 			<TextBox Grid.Row="1" Grid.Column="1" MaxLength="50" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />

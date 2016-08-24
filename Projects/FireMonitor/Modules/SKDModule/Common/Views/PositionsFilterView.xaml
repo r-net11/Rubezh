@@ -7,6 +7,8 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	d:DesignHeight="600"
 	d:DesignWidth="600"
 	mc:Ignorable="d">
@@ -30,7 +32,7 @@
 			tree:SortBehavior.DefaultSortComparer="{StaticResource PositionFilterItemViewModelNameComparer}">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="300" Header="Название" tree:SortBehavior.SortComparer="{StaticResource PositionFilterItemViewModelNameComparer}">
+					<GridViewColumn Width="300" Header="{x:Static langCommon:CommonResources.Name}" tree:SortBehavior.SortComparer="{StaticResource PositionFilterItemViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -55,7 +57,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание" layout:ProportionalColumn.Width="1" tree:SortBehavior.SortComparer="{StaticResource PositionFilterItemViewModelDescriptionComparer}">
+					<GridViewColumn Header="{x:Static langCommon:CommonResources.Note}" layout:ProportionalColumn.Width="1" tree:SortBehavior.SortComparer="{StaticResource PositionFilterItemViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -71,11 +73,11 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

@@ -5,6 +5,7 @@
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	MinWidth="400" MinHeight="200">
 	<UserControl.Resources>
 		<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
@@ -21,7 +22,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TextBlock
-			Text="Название"
+			Text="{x:Static langCommon:CommonResources.Name}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5 0"/>
@@ -33,7 +34,7 @@
 			Margin="10 5 0 5" />
 		<TextBlock
 			Grid.Row="1"
-			Text="Буквенный код"
+			Text="{x:Static langCommon:CommonResources.LiteralCode}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5 0" />
@@ -46,7 +47,7 @@
 			Margin="10 5 0 5" />
 		<TextBlock
 			Grid.Row="2"
-			Text="Числовой код"
+			Text="{x:Static langCommon:CommonResources.NumericCode}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5 0" />
@@ -63,7 +64,7 @@
 		</TextBox>
 		<TextBlock
 			Grid.Row="3"
-			Text="Тип"
+			Text="{x:Static langCommon:CommonResources.Type}"
 			VerticalAlignment="Center"
 			Foreground="White"
 			Margin="5 0" />

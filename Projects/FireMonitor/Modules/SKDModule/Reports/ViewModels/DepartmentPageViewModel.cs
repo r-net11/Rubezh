@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.Common;
+using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
@@ -13,7 +14,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public DepartmentPageViewModel()
 		{
-			Title = "Подразделения";
+			Title = CommonResources.Departments;
 			Filter = new DepartmentsFilterViewModel();
 			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);

@@ -1,4 +1,6 @@
-﻿using StrazhAPI;
+﻿using Localization.SKD.Common;
+using Localization.SKD.Errors;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
@@ -117,7 +119,7 @@ namespace SKDModule.Model
 				var length = new FileInfo(fileName).Length;
 				if (length > mb50)
 				{
-					MessageBoxService.Show("Размер загружаемого файла не должен превышать 50 мб");
+					MessageBoxService.Show(CommonResources.UploadFileSize);
 					return;
 				}
 
@@ -130,7 +132,7 @@ namespace SKDModule.Model
 
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning(String.Format("Ошибка передачи файла {0}:\n\n{1}", fileName, operationResult.Error));
+					MessageBoxService.ShowWarning(String.Format(CommonErrors.Transfer_Error, fileName, operationResult.Error));
 					return;
 				}
 
@@ -167,7 +169,7 @@ namespace SKDModule.Model
 
 		public void RemoveFile()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы действительно хотите удалить файл оправдательного документа?"))
+			if (!MessageBoxService.ShowQuestion(CommonResources.DeleteDocConfirm))
 				return;
 
 			var operationResult = FiresecManager.FiresecService.RemoveFile(new Guid(FileName));

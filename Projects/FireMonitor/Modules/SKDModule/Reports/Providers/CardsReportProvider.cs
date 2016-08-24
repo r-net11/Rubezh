@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class CardsReportProvider : FilteredSKDReportProvider<CardsReportFilter>
 	{
 		public CardsReportProvider()
-			: base("Сведения о пропусках", 411, SKDReportGroup.HR, PermissionType.Oper_Reports_Cards)
+			: base(CommonResources.PasscardDetails, 411, SKDReportGroup.HR, PermissionType.Oper_Reports_Cards)
 		{
 		}
 
@@ -19,14 +20,14 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Type", "Статус" },
-					{ "Number", "Номер" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "Position", "Должность" },
-					{ "Employee", "Сотрудник" },
-					{ "Period", "Срок действия" },
-					{ "AllowedPassCount", "Число проходов" },
+					{ "Type", CommonResources.Status },
+					{ "Number", CommonResources.Number },
+					{ "Organisation", CommonResources.Organization },
+					{ "Department", CommonResources.Department },
+					{ "Position", CommonResources.Position },
+					{ "Employee", CommonResources.Employee },
+					{ "Period", CommonResources.Validaty },
+					{ "AllowedPassCount", CommonResources.PassNumber },
 				},
 				MainViewModel = new PassCardMainPageViewModel(),
 				Pages = new List<FilterContainerViewModel>()

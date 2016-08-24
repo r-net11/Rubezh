@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 
 namespace Controls.Converters
@@ -11,13 +12,13 @@ namespace Controls.Converters
 			switch((LogicalDeletationType)value)
 			{
 				case LogicalDeletationType.Active:
-					return "Только активные";
+					return CommonResources.OnlyActive;
 
 				case LogicalDeletationType.Deleted:
-					return "Только не активные";
+					return CommonResources.NotActive;
 
 				case LogicalDeletationType.All:
-					return "Активные и не активные";
+					return CommonResources.ActiveAndNotActive;
 			}
 			return null;
 		}

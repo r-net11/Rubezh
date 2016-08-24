@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+    xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	d:DataContext="{d:DesignInstance viewModels:CardDoorsViewModel,
                                               IsDesignTimeCreatable=True}"
 	d:DesignWidth="500"
@@ -40,7 +41,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
 				Width="250"
-				Header="Точка доступа"
+				Header="{x:Static lang:CommonViews.Door}"
 				SortMemberPath="Name">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
@@ -60,7 +61,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
 				Width="*"
-				Header="График доступа"
+				Header="{x:Static lang:CommonViews.AccessSchedule}"
 				CanUserSort="True"
 				SortMemberPath="EnerScheduleName"
 				behaviours:CustomSortBehaviour.CustomSorter="{StaticResource DoorsComparer}">

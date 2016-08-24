@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 
@@ -108,7 +109,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "шаблон доступа"; }
+			get { return CommonResources.AccessTemplate.ToLower(); }
 		}
 
 		protected override StrazhAPI.Models.PermissionType Permission

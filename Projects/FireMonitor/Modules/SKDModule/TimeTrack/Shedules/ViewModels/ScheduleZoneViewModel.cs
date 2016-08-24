@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
@@ -17,7 +18,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
-				return strazhZone != null ? strazhZone.Name : "<Нет в конфигурации>";
+				return strazhZone != null ? strazhZone.Name : CommonResources.NotInConfig;
 			}
 		}
 

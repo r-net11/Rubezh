@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -27,7 +28,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize(EmployeeFilter filter)
 		{
-			Title = "Выбор сотрудника";
+			Title = CommonViewModels.SelectEmployee;
 			_filter = filter;
 			var employeeModels = EmployeeHelper.Get(_filter);
 			if (employeeModels == null)

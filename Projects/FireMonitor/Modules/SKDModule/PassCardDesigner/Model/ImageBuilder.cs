@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Localization.SKD.Errors;
 using Color = System.Windows.Media.Color;
 using Pen = System.Drawing.Pen;
 
@@ -90,7 +91,7 @@ namespace SKDModule.PassCardDesigner.Model
 		private Bitmap LoadImageFromFile()
 		{
 			if (!File.Exists(_imageSource))
-				MessageBoxService.ShowError("Файл не найден.");
+				MessageBoxService.ShowError(CommonErrors.FileNotFound_Error);
 
 			try
 			{
@@ -98,7 +99,7 @@ namespace SKDModule.PassCardDesigner.Model
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowError("Произошла ошибка во время загрузки изображения.");
+				MessageBoxService.ShowError(CommonErrors.LoadImage_Error);
 				Logger.Error(e);
 			}
 

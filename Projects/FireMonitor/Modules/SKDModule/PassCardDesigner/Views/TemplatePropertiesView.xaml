@@ -6,6 +6,8 @@
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:controls="clr-namespace:SKDModule.PassCardDesigner.Views"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	MinWidth="650"
 	MaxWidth="500"
 	MinHeight="510"
@@ -40,7 +42,7 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock
 					Foreground="White"
-					Text="Название"
+					Text="{x:Static langCommon:CommonResources.Name}"
 					VerticalAlignment="Center"
 					HorizontalAlignment="Right"
 					Margin="5"/>
@@ -54,7 +56,7 @@
 					Foreground="White"
 					VerticalAlignment="Center"
 					HorizontalAlignment="Right"
-					Text="Примечание"
+					Text="{x:Static langCommon:CommonResources.Note}"
 					Margin="5"/>
 				<TextBox
 					Grid.Row="1"
@@ -76,7 +78,7 @@
 					Foreground="White"
 					VerticalAlignment="Center"
 					HorizontalAlignment="Right"
-					Text="Ширина, мм"
+					Text="{x:Static lang:CommonViews.Width}"
 					Margin="5"/>
 				<extToolkit:IntegerUpDown
 					Grid.Column="1"
@@ -87,7 +89,7 @@
 				<TextBlock
 					Grid.Row="1"
 					Foreground="White"
-					Text="Высота, мм"
+					Text="{x:Static lang:CommonViews.Height}"
 					VerticalAlignment="Center"
 					HorizontalAlignment="Right"
 					Margin="5"/>
@@ -122,7 +124,7 @@
 				Grid.Column="2"
 				Orientation="Horizontal">
 				<TextBlock
-					Text="Обратная сторона"
+					Text="{x:Static lang:CommonViews.OtherSide}"
 					Foreground="White"
 					Margin="5"
 					VerticalAlignment="Center"/>

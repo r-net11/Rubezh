@@ -5,6 +5,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	Width="500"
 	Height="150"
 	d:DataContext="{d:DesignInstance viewModels:DayIntervalDetailsViewModel}"
@@ -30,7 +32,7 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Название" />
+			Text="{x:Static langCommon:CommonResources.Name}" />
 		<TextBox
 			Grid.Column="1"
 			Height="25"
@@ -45,7 +47,7 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Обязательная продолжительность скользящего графика"
+			Text="{x:Static lang:CommonViews.ScheduleLength}"
 			TextWrapping="Wrap" />
 		<TimePicker
 			Grid.Row="1"
@@ -59,7 +61,7 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Примечание" />
+			Text="{x:Static langCommon:CommonResources.Note}" />
 		<TextBox
 			Grid.Row="2"
 			Grid.Column="1"

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using EntitiesValidation;
+using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -88,7 +89,7 @@ namespace SKDModule.ViewModels
 						if (validationResult.HasError)
 						{
 							canSave = false;
-							MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", "Выбранный дневной график не будет сохранен!", validationResult.Error), null, 420, 200);
+							MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", CommonViewModels.NotSaveDaySchedule, validationResult.Error), null, 420, 200);
 						}
 					}
 					

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.SKDReports;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
@@ -79,7 +80,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public DisciplinaryFilterPageViewModel()
 		{
-			Title = "Фильтры";
+			Title = CommonViewModels.Filters;
 		}
 
 		#endregion

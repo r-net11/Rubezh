@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class DoorsReportProvider : FilteredSKDReportProvider<DoorsReportFilter>
 	{
 		public DoorsReportProvider()
-			: base("Список точек доступа", 431, SKDReportGroup.Configuration, PermissionType.Oper_Reports_Doors)
+			: base(CommonResources.DoorList, 431, SKDReportGroup.Configuration, PermissionType.Oper_Reports_Doors)
 		{
 		}
 
@@ -19,16 +20,16 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Number", "№ точки доступа" },
-					{ "Door", "Название" },
-					{ "Controller", "Контроллер" },
-					{ "IP", "IP - адрес" },
-					{ "Organisation", "Организация" },
-					{ "EnterReader", "Считыватель 1" },
-					{ "ExitReader", "Считыватель 2" },
-					{ "EnterZone", "Зона 1" },
-					{ "ExitZone", "Зона 2" },
-					{ "Comment", "Примечание" },
+					{ "Number", CommonResources.DoorNumber },
+					{ "Door", CommonResources.Name },
+					{ "Controller", CommonResources.Controller },
+					{ "IP", CommonResources.IPAddress },
+					{ "Organisation", CommonResources.Organization },
+					{ "EnterReader", CommonResources.Reader1 },
+					{ "ExitReader", CommonResources.Reader2 },
+					{ "EnterZone", CommonResources.Zone1 },
+					{ "ExitZone", CommonResources.Zone2 },
+					{ "Comment", CommonResources.Note },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

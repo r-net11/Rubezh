@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -159,13 +161,13 @@ namespace SKDModule.ViewModels
 		}
 		protected override string ItemRemovingName
 		{
-			get { return "график"; }
+			get { return CommonResources.Schedule.ToLower(); }
 		}
 
 		protected override void Remove()
 		{
 			if (ScheduleHelper.Get(new ScheduleFilter { ScheduleSchemeUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
-				MessageBoxService.ShowQuestion("Существуют графики сотрудников, содержашие данный график работы. Продолжить?"))
+				MessageBoxService.ShowQuestion(CommonViewModels.WorkSchedulesWithDaySchedules))
 			{
 				base.Remove();
 			}

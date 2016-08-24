@@ -4,6 +4,8 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+			 xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 			 Width="800" Height="600">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -11,13 +13,13 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TabItem Header="Организации" >
+			<TabItem Header="{x:Static langCommon:CommonResources.Organizations}" >
 				<Views:OrganisationsFilterView />
 			</TabItem>
-			<TabItem Header="Подразделения">
+			<TabItem Header="{x:Static langCommon:CommonResources.Departments}">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
-            <TabItem Header="Должности" Visibility="{Binding IsShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="{x:Static langCommon:CommonResources.Positions}" Visibility="{Binding IsShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
 			<TabItem Header="{Binding EmployeesFilterHeaderTitle}">
@@ -28,7 +30,7 @@
 		<CheckBox
 			Grid.Row="1"
 			Margin="5"
-			Content="Отображать архивные сведения"
+			Content="{x:Static lang:CommonViews.ArchiveDataDisplay}"
 			IsChecked="{Binding IsWithDeleted}"
 			VerticalAlignment="Center"
 			VerticalContentAlignment="Center"

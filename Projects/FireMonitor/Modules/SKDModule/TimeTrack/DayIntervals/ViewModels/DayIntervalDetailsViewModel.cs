@@ -1,4 +1,6 @@
 ﻿using System;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -51,7 +53,7 @@ namespace SKDModule.ViewModels
 		#region Commands
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Всегда" && Name != "Никогда";
+			return !string.IsNullOrEmpty(Name) && Name != CommonViewModels.Always && Name != CommonViewModels.Never;
 		}
 		protected override bool Save()
 		{
@@ -69,10 +71,10 @@ namespace SKDModule.ViewModels
 			_isNew = model == null;
 			if (_isNew)
 			{
-				Title = "Новый дневной график";
+				Title = CommonViewModels.NewDaySchedule;
 				model = new DayInterval
 				{
-					Name = "Дневной график",
+					Name = CommonResources.DaySchedule,
 					OrganisationUID = organisation.UID,
 				};
 				model.DayIntervalParts.Add(new DayIntervalPart { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
@@ -80,7 +82,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование дневного графика";
+				Title = CommonViewModels.DayScheduleEdtition;
 				Model = DayIntervalHelper.GetSingle(model.UID);
 			}
 			Name = Model.Name;

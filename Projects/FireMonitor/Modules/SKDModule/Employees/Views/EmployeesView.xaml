@@ -7,7 +7,9 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization">
 	<UserControl.Resources>
 		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
 		<viewModel:EmployeeViewModelDepartmentComparer x:Key="EmployeeViewModelDepartmentComparer" />
@@ -54,7 +56,7 @@
 					<GridView>
 						<GridViewColumn
 							Width="300"
-							Header="ФИО"
+							Header="{x:Static lang:CommonViews.FullName}"
 							tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
@@ -78,7 +80,7 @@
 						</GridViewColumn>
 						<GridViewColumn
 							Width="150"
-							Header="Подразделение"
+							Header="{x:Static langCommon:CommonResources.Department}"
 							tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelDepartmentComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
@@ -115,26 +117,26 @@
 					<ToolBarButton
 						Command="{Binding EmployeeCardsViewModel.AddCardCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить пропуск" />
+						ToolTip="{x:Static lang:CommonViews.PasscardAdd}" />
 					<StackPanel Orientation="Horizontal" IsEnabled="{Binding IsCardSelected}">
 						<StackPanel DataContext="{Binding EmployeeCardsViewModel}" Orientation="Horizontal">
 							<ToolBarButton
 								Command="{Binding SelectedCard.RemoveCommand}"
 								ImageSource="Delete"
-								ToolTip="Удалить пропуск" />
+								ToolTip="{x:Static lang:CommonViews.DeletePasscard}" />
 							<ToolBarButton
 								Command="{Binding SelectedCard.EditCommand}"
 								ImageSource="Edit"
-								ToolTip="Редактировать пропуск" />
+								ToolTip="{x:Static lang:CommonViews.EditPasscard}" />
 							<ToolBarButton
 								Command="{Binding SelectedCard.PrintCommand}"
 								ImageSource="Print"
-								ToolTip="Печать удостоверения" />
+								ToolTip="{x:Static lang:CommonViews.PrintPasscard}" />
 							<ToolBarButton
 								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
 								Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 								ImageSource="DropAllApb"
-								ToolTip="Сброс ограничения на повторный проход" />
+								ToolTip="{x:Static langCommon:CommonResources.ResetAntiPassBack}" />
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
@@ -226,63 +228,63 @@
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Фамилия" />
+									Text="{x:Static langCommon:CommonResources.FirstName}" />
 								<TextBlock Margin="2" Text="{Binding LastName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Имя" />
+									Text="{x:Static langCommon:CommonResources.SecondName}" />
 								<TextBlock Margin="2" Text="{Binding FirstName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Отчество" />
+									Text="{x:Static langCommon:CommonResources.ThirdName}" />
 								<TextBlock Margin="2" Text="{Binding SecondName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Телефон" />
+									Text="{x:Static lang:CommonViews.Phone}" />
 								<TextBlock Margin="2" Text="{Binding Phone}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Примечание" />
+									Text="{x:Static langCommon:CommonResources.Note}" />
 								<TextBlock Margin="2" Text="{Binding Description}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Должность" />
+									Text="{x:Static langCommon:CommonResources.Position}" />
 								<TextBlock Margin="2" Text="{Binding PositionName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Подразделение" />
+									Text="{x:Static langCommon:CommonResources.Department}" />
 								<TextBlock Margin="2" Text="{Binding DepartmentName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Организация" />
+									Text="{x:Static langCommon:CommonResources.Organization}" />
 								<TextBlock Margin="2" Text="{Binding OrganisationName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Visibility="{Binding Model.IsDeleted, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock
 									Width="100"
 									Margin="2"
-									Text="Дата удаления" />
+									Text="{x:Static langCommon:CommonResources.DeleteDate}" />
 								<TextBlock Margin="2" Text="{Binding RemovalDate}" />
 							</StackPanel>
 						</StackPanel>

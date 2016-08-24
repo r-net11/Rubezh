@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
@@ -16,10 +17,10 @@ namespace SKDModule.ViewModels
 			get
 			{
 				if (IsDeactivatedRootItem)
-					return "Деактивированные";
+					return CommonViewModels.Deactivated;
 				if (IsOrganisation)
 					return Organisation.Name;
-				return string.Format("Пропуск {0}", Card.Number);
+				return string.Format(CommonViewModels.Passcard, Card.Number);
 			}
 		}
 		public string CardType

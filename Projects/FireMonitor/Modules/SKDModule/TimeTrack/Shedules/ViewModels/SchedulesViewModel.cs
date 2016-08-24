@@ -1,4 +1,6 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -107,7 +109,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() != 0;
-			if (!isAnyEmployees || (MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?")))
+			if (!isAnyEmployees || (MessageBoxService.ShowQuestion(CommonViewModels.ScheduleWithEmployee)))
 			{
 				base.Remove();
 			}
@@ -140,7 +142,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "график работы"; }
+			get { return CommonResources.WorkSchedule.ToLower(); }
 		}
 
 		protected override StrazhAPI.Models.PermissionType Permission

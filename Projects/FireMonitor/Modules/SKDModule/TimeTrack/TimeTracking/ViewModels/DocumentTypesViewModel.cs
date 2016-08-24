@@ -1,4 +1,5 @@
-﻿using Localization.SKD.ViewModels;
+﻿using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -17,7 +18,7 @@ namespace SKDModule.ViewModels
 	{
 		public DocumentTypesViewModel()
 		{
-			Title = "Документы";
+			Title = CommonResources.Documents;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -179,7 +180,7 @@ namespace SKDModule.ViewModels
 			if (!DocumentTypeHelper.CheckDocumentType(timeTrackDocumentType, SelectedDocumentType.Organisation.UID))
 			{
 				MessageBoxService.ShowWarning(
-					string.Format("Документы вида \"{0}\" введены для некоторых сотрудников. Для удаления вида оправдательных документов необходимо предварительно удалить эти документы или изменить их вид", SelectedDocumentType.Name)
+					string.Format(CommonViewModels.DeleteDocumentsForEmpl, SelectedDocumentType.Name)
 					);
 				return;
 			}

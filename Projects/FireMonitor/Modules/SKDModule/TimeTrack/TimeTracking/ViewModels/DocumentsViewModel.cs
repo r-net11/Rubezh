@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -136,7 +137,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?"))
+			if (MessageBoxService.ShowQuestion(CommonViewModels.DeleteDocument))
 			{
 				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
 				if (operationResult.HasError)

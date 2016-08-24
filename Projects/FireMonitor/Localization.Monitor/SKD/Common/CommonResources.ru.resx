@@ -175,10 +175,10 @@
     <value>Вы действительно хотите удалить файл оправдательного документа?</value>
   </data>
   <data name="Department" xml:space="preserve">
-    <value>Подразделения</value>
+    <value>Подразделение</value>
   </data>
   <data name="Departments" xml:space="preserve">
-    <value>Подразделение</value>
+    <value>Подразделения</value>
   </data>
   <data name="DeviceDate" xml:space="preserve">
     <value>Дата и время на устройстве</value>
@@ -225,11 +225,11 @@
   <data name="EnterDate" xml:space="preserve">
     <value>Введите дату</value>
   </data>
-  <data name="EnterDate1" xml:space="preserve">
-    <value>Дата и время входа</value>
-  </data>
   <data name="EnterDateExitDate" xml:space="preserve">
     <value>Дата входа не может быть больше даты выхода</value>
+  </data>
+  <data name="EnterDateTime" xml:space="preserve">
+    <value>Дата и время входа</value>
   </data>
   <data name="EnterTimeExitTime" xml:space="preserve">
     <value>Время входа не может быть больше времени выхода</value>
@@ -349,13 +349,13 @@
     <value>Табельный номер (Примечание)</value>
   </data>
   <data name="Position" xml:space="preserve">
-    <value>Должности</value>
-  </data>
-  <data name="Positions" xml:space="preserve">
     <value>Должность</value>
   </data>
-  <data name="PositionsMaintainer" xml:space="preserve">
+  <data name="PositionMaintainer" xml:space="preserve">
     <value>Должность (Сопровождающий)</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Должности</value>
   </data>
   <data name="PreviousMonth" xml:space="preserve">
     <value>Предыдущий месяц</value>

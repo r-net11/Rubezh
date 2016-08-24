@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -102,7 +103,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Cards.Count > 100)
 			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
+				MessageBoxService.ShowWarning(CommonViewModels.PasscardLimitForEmpl);
 				return;
 			}
 			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(_employeeViewModel.Organisation, _employeeViewModel.Model);

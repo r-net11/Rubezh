@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class EmployeeRootReportProvider : FilteredSKDReportProvider<EmployeeRootReportFilter>
 	{
 		public EmployeeRootReportProvider()
-			: base("Маршрут сотрудника/посетителя", 402, SKDReportGroup.Events, PermissionType.Oper_Reports_EmployeeRoot)
+			: base(CommonResources.Route, 402, SKDReportGroup.Events, PermissionType.Oper_Reports_EmployeeRoot)
 		{
 		}
 
@@ -19,10 +20,10 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Name", "Сотрудник (Посетитель)" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "Position", "Должность (Сопровождающий)" },
+					{ "Name", CommonResources.Visitor },
+					{ "Organisation", CommonResources.Organization },
+					{ "Department", CommonResources.Department },
+					{ "Position", CommonResources.PositionMaintainer },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

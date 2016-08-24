@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -12,7 +13,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public EmployeePageViewModel()
 		{
-			Title = "Сотрудники";
+			Title = CommonViewModels.Employees;
 			Filter = new EmployeesFilterViewModel();
 		}
 
@@ -43,7 +44,7 @@ namespace SKDModule.Reports.ViewModels
 				if (AllowVisitor)
 					Filter.Initialize(new List<Guid>(), LogicalDeletationType.Active,
 						IsEmployee ? PersonType.Employee : PersonType.Guest);
-				Title = value ? "Сотрудники" : "Посетители";
+				Title = value ? CommonViewModels.Employees : CommonViewModels.Visitors;
 			}
 		}
 

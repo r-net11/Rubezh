@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -12,7 +13,7 @@ namespace SKDModule.Reports.Providers
 	public class DepartmentsReportProvider : FilteredSKDReportProvider<DepartmentsReportFilter>
 	{
 		public DepartmentsReportProvider()
-			: base("Список подразделений организации", 415, SKDReportGroup.HR, PermissionType.Oper_Reports_Departments)
+            : base(CommonResources.OrganizationDepartmentList, 415, SKDReportGroup.HR, PermissionType.Oper_Reports_Departments)
 		{
 
 		}

@@ -123,6 +123,9 @@
   <data name="AccessTemplate" xml:space="preserve">
     <value>Шаблоны доступа</value>
   </data>
+  <data name="AccessTemplForGroup" xml:space="preserve">
+    <value>Назначить шаблон доступа группе сотрудников (посетителей)</value>
+  </data>
   <data name="AcquittalDocumentType" xml:space="preserve">
     <value>Вид оправдательного документа</value>
   </data>
@@ -132,7 +135,7 @@
   <data name="ActiveOutSchedule" xml:space="preserve">
     <value>Действует вне графика</value>
   </data>
-  <data name="ActivePass" xml:space="preserve">
+  <data name="ActivePasscards" xml:space="preserve">
     <value>Активные пропуска</value>
   </data>
   <data name="ActiveStart" xml:space="preserve">
@@ -159,11 +162,11 @@
   <data name="ArchiveDataDisplay" xml:space="preserve">
     <value>Отображать архивные сведения</value>
   </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Цвет фона</value>
+  </data>
   <data name="Balance" xml:space="preserve">
     <value>Баланс:</value>
-  </data>
-  <data name="BgColor" xml:space="preserve">
-    <value>Цвет фона</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
     <value>Дата рождения</value>
@@ -174,6 +177,12 @@
   <data name="Blocked" xml:space="preserve">
     <value>Заблокированный</value>
   </data>
+  <data name="BorderColor" xml:space="preserve">
+    <value>Цвет границы</value>
+  </data>
+  <data name="BorderWidth" xml:space="preserve">
+    <value>Ширина границы, пикс.</value>
+  </data>
   <data name="Break" xml:space="preserve">
     <value>Перерыв</value>
   </data>
@@ -183,8 +192,8 @@
   <data name="CertificatePrint" xml:space="preserve">
     <value>Печать удостоверения</value>
   </data>
-  <data name="ChangedPassData" xml:space="preserve">
-    <value>Данные о проходах были изменены. Обновите вкладку УРВ</value>
+  <data name="CheckEmplAccessTempl" xml:space="preserve">
+    <value>Отметьте сотрудников и выберите шаблон доступа, который будет им назначен:</value>
   </data>
   <data name="ChooseCancel" xml:space="preserve">
     <value>Отменить выбор</value>
@@ -192,8 +201,8 @@
   <data name="ChooseClick" xml:space="preserve">
     <value>Нажмите для выбора</value>
   </data>
-  <data name="ChooseFollowerClick" xml:space="preserve">
-    <value>Нажмите для выбора сопровождающего</value>
+  <data name="ChooseDepartClick" xml:space="preserve">
+    <value>Нажмите для выбора подразделения</value>
   </data>
   <data name="ChooseHead" xml:space="preserve">
     <value>Назначить руководителя</value>
@@ -201,17 +210,17 @@
   <data name="ChooseHeadClick" xml:space="preserve">
     <value>Нажмите для выбора руководителя</value>
   </data>
+  <data name="ChooseMaintainerClick" xml:space="preserve">
+    <value>Нажмите для выбора сопровождающего</value>
+  </data>
   <data name="ChooseOtherLimits" xml:space="preserve">
     <value>Для добавления интервала укажите другие границы.</value>
   </data>
-  <data name="ChooseProfClick" xml:space="preserve">
+  <data name="ChoosePositionClick" xml:space="preserve">
     <value>Нажмите для выбора должности</value>
   </data>
   <data name="ChooseScheduleClick" xml:space="preserve">
     <value>Нажмите для выбора графика работы</value>
-  </data>
-  <data name="ChooseSquadClick" xml:space="preserve">
-    <value>Нажмите для выбора подразделения</value>
   </data>
   <data name="Citizenship" xml:space="preserve">
     <value>Гражданство</value>
@@ -249,14 +258,17 @@
   <data name="DateFormat" xml:space="preserve">
     <value>Дата формирования</value>
   </data>
+  <data name="DateMask" xml:space="preserve">
+    <value>дд.мм.гггг</value>
+  </data>
   <data name="Day" xml:space="preserve">
     <value>День</value>
   </data>
-  <data name="dd.mm.yy" xml:space="preserve">
-    <value>дд.мм.гггг</value>
-  </data>
   <data name="Deactivated" xml:space="preserve">
     <value>Деактивированный</value>
+  </data>
+  <data name="DecreaseReaders" xml:space="preserve">
+    <value>Отметьте считыватели, уменьшающие разрешенное число проходов для гостевых пропусков</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
@@ -267,22 +279,34 @@
   <data name="DeleteDocument" xml:space="preserve">
     <value>Удалить документ</value>
   </data>
+  <data name="DeleteEmpl" xml:space="preserve">
+    <value>Удалить сотрудника</value>
+  </data>
   <data name="DeleteFile" xml:space="preserve">
     <value>Удалить файл</value>
   </data>
   <data name="DeletePass" xml:space="preserve">
     <value>Удалить пропуск</value>
   </data>
-  <data name="DeleteWorker" xml:space="preserve">
-    <value>Удалить сотрудника</value>
+  <data name="DepartCancel" xml:space="preserve">
+    <value>Открепить от подразделения</value>
+  </data>
+  <data name="DepatHeadPosition" xml:space="preserve">
+    <value>Должность руководителя структурного подразделения</value>
   </data>
   <data name="DisplayData" xml:space="preserve">
     <value>Отображаемые данные</value>
   </data>
-  <data name="DisplayDeletted" xml:space="preserve">
+  <data name="DisplayDeleted" xml:space="preserve">
     <value>Показывать удалённых</value>
   </data>
-  <data name="DisplayOnlyDeletted" xml:space="preserve">
+  <data name="DisplayEmplInList" xml:space="preserve">
+    <value>Отображать в списке сотрудников</value>
+  </data>
+  <data name="DisplayEmplShift" xml:space="preserve">
+    <value>Отображать все смены сотрудников</value>
+  </data>
+  <data name="DisplayOnlyDeleted" xml:space="preserve">
     <value>Показывать только удалённых</value>
   </data>
   <data name="DisplayShiftDeviation" xml:space="preserve">
@@ -290,12 +314,6 @@
   </data>
   <data name="DisplayURVIntervals" xml:space="preserve">
     <value>Отображать только интервалы пребывания в зонах УРВ</value>
-  </data>
-  <data name="DisplayWorkersInList" xml:space="preserve">
-    <value>Отображать в списке сотрудников</value>
-  </data>
-  <data name="DisplayWorkersShift" xml:space="preserve">
-    <value>Отображать все смены сотрудников</value>
   </data>
   <data name="DocumentAdd" xml:space="preserve">
     <value>Добавить документ</value>
@@ -306,19 +324,16 @@
   <data name="DocumentDate" xml:space="preserve">
     <value>Дата документа</value>
   </data>
-  <data name="DocumentEdit" xml:space="preserve">
-    <value>Редактировать документ</value>
+  <data name="DocumentEndDateTime" xml:space="preserve">
+    <value>Дата и время окончания действия документа</value>
   </data>
   <data name="DocumentExpireTo" xml:space="preserve">
     <value>Документ действителен до</value>
   </data>
-  <data name="DocumentFinishDateTime" xml:space="preserve">
-    <value>Дата и время окончания действия документа</value>
-  </data>
   <data name="DocumentNumb" xml:space="preserve">
     <value>Номер документа</value>
   </data>
-  <data name="DocumentOverWork" xml:space="preserve">
+  <data name="DocumentOvertime" xml:space="preserve">
     <value>Переработка по документу</value>
   </data>
   <data name="DocumentStartDateTime" xml:space="preserve">
@@ -333,6 +348,9 @@
   <data name="DocumentVisiting" xml:space="preserve">
     <value>Присутствие по документу</value>
   </data>
+  <data name="Door" xml:space="preserve">
+    <value>Точка доступа</value>
+  </data>
   <data name="EarlyLeft" xml:space="preserve">
     <value>Уход раньше</value>
   </data>
@@ -341,6 +359,18 @@
   </data>
   <data name="EditableIntervalLimits" xml:space="preserve">
     <value>Границы редактируемого интервала:</value>
+  </data>
+  <data name="EditDocument" xml:space="preserve">
+    <value>Редактировать документ</value>
+  </data>
+  <data name="EditEmpl" xml:space="preserve">
+    <value>Редактировать сотрудника</value>
+  </data>
+  <data name="EditPass" xml:space="preserve">
+    <value>Редактировать пропуск</value>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Сотрудники</value>
   </data>
   <data name="EmptyControlReaders" xml:space="preserve">
     <value>Контрольные считыватели не заданы! Проверьте выбранный шаблон доступа!</value>
@@ -357,17 +387,17 @@
   <data name="Ending" xml:space="preserve">
     <value>Окончание</value>
   </data>
-  <data name="EscDateTime" xml:space="preserve">
-    <value>Дата и время выхода</value>
+  <data name="EnterFromKeyboard" xml:space="preserve">
+    <value>Ввод с клавиатуры</value>
   </data>
   <data name="Event" xml:space="preserve">
     <value>Событие</value>
   </data>
+  <data name="ExitDateTime" xml:space="preserve">
+    <value>Дата и время выхода</value>
+  </data>
   <data name="ExpirationDate" xml:space="preserve">
     <value>Дата истечения</value>
-  </data>
-  <data name="ExtraditionDate" xml:space="preserve">
-    <value>Дата выдачи</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Файл</value>
@@ -378,7 +408,7 @@
   <data name="FinishActiveDate" xml:space="preserve">
     <value>Дата окончания действия</value>
   </data>
-  <data name="ForAllHotspots" xml:space="preserve">
+  <data name="ForAllDoors" xml:space="preserve">
     <value>Для всех точек доступа</value>
   </data>
   <data name="ForceCloseIntAlert" xml:space="preserve">
@@ -387,13 +417,13 @@
   <data name="Forcing" xml:space="preserve">
     <value>Принуждение</value>
   </data>
-  <data name="ForSelectedHotspot" xml:space="preserve">
+  <data name="ForSelectedDoors" xml:space="preserve">
     <value>Для выбранной точки доступа</value>
   </data>
-  <data name="from" xml:space="preserve">
+  <data name="From" xml:space="preserve">
     <value>с</value>
   </data>
-  <data name="FromControlPers" xml:space="preserve">
+  <data name="FromControlReader" xml:space="preserve">
     <value>От контрольного считывателя</value>
   </data>
   <data name="FromDeactive" xml:space="preserve">
@@ -411,29 +441,20 @@
   <data name="Head" xml:space="preserve">
     <value>Руководитель</value>
   </data>
-  <data name="HeadShoot" xml:space="preserve">
+  <data name="HeadDismiss" xml:space="preserve">
     <value>Снять руководителя</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Высота, мм</value>
   </data>
-  <data name="Hotspot" xml:space="preserve">
-    <value>Точка доступа</value>
-  </data>
-  <data name="HrHead" xml:space="preserve">
-    <value>Руководитель кадровой службы</value>
-  </data>
-  <data name="HrHeadProf" xml:space="preserve">
-    <value>Должность руководителя кадровой службы</value>
-  </data>
-  <data name="HrSquadHead" xml:space="preserve">
+  <data name="HrDepartHead" xml:space="preserve">
     <value>Руководитель отдела кадров</value>
+  </data>
+  <data name="HRHeadPosition" xml:space="preserve">
+    <value>Должность руководителя кадровой службы</value>
   </data>
   <data name="ImgClean" xml:space="preserve">
     <value>Очистить картинку</value>
-  </data>
-  <data name="Insert" xml:space="preserve">
-    <value>Вставить</value>
   </data>
   <data name="IntDocumentType" xml:space="preserve">
     <value>Тип интервала по документу</value>
@@ -441,8 +462,8 @@
   <data name="IssuedBy" xml:space="preserve">
     <value>Кем выдан</value>
   </data>
-  <data name="KeyType" xml:space="preserve">
-    <value>Ввод с клавиатуры</value>
+  <data name="IssuedDate" xml:space="preserve">
+    <value>Дата выдачи</value>
   </data>
   <data name="LastPage" xml:space="preserve">
     <value>Последняя страница</value>
@@ -461,12 +482,6 @@
   </data>
   <data name="LeavingEarlIgnore" xml:space="preserve">
     <value>Не учитывать уходы раньше меньше</value>
-  </data>
-  <data name="LimitColor" xml:space="preserve">
-    <value>Цвет границы</value>
-  </data>
-  <data name="LimitWidth" xml:space="preserve">
-    <value>Ширина границы, пикс.</value>
   </data>
   <data name="LockedIntervalOpenAlert" xml:space="preserve">
     <value>Закрытый интервал не может быть открыт повторно.</value>
@@ -489,11 +504,11 @@
   <data name="MissIgnore" xml:space="preserve">
     <value>Не учитывать отсутствие меньше</value>
   </data>
-  <data name="NewProfAdd" xml:space="preserve">
-    <value>Добавить новую должность</value>
-  </data>
-  <data name="NewSquadAdd" xml:space="preserve">
+  <data name="NewDepatAdd" xml:space="preserve">
     <value>Добавить новое подразделение</value>
+  </data>
+  <data name="NewPositionAdd" xml:space="preserve">
+    <value>Добавить новую должность</value>
   </data>
   <data name="NextPage" xml:space="preserve">
     <value>Следующая страница</value>
@@ -534,26 +549,26 @@
   <data name="OtherSide" xml:space="preserve">
     <value>Обратная сторона</value>
   </data>
-  <data name="OverWorkIgnore" xml:space="preserve">
-    <value>Не учитывать переработки меньше</value>
-  </data>
-  <data name="OverWorking" xml:space="preserve">
+  <data name="Overtime" xml:space="preserve">
     <value>Переработка</value>
+  </data>
+  <data name="OverTimeIgnore" xml:space="preserve">
+    <value>Не учитывать переработки меньше</value>
   </data>
   <data name="Page" xml:space="preserve">
     <value>Страница</value>
   </data>
-  <data name="ParentSquad" xml:space="preserve">
+  <data name="ParentDepart" xml:space="preserve">
     <value>Родительское подразделение</value>
   </data>
   <data name="PassAdd" xml:space="preserve">
     <value>Добавить пропуск</value>
   </data>
+  <data name="Passcards" xml:space="preserve">
+    <value>Пропуска</value>
+  </data>
   <data name="PassDesigner" xml:space="preserve">
     <value>Дизайнер пропуска</value>
-  </data>
-  <data name="PassEdit" xml:space="preserve">
-    <value>Редактировать пропуск</value>
   </data>
   <data name="PassTemplate" xml:space="preserve">
     <value>Шаблон пропуска: </value>
@@ -564,20 +579,23 @@
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
-  <data name="Permits" xml:space="preserve">
-    <value>Пропуска</value>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="PersonnelNumber" xml:space="preserve">
+    <value>Табельный номер</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Телефон</value>
+  </data>
+  <data name="PositionCancel" xml:space="preserve">
+    <value>Открепить от должности</value>
   </data>
   <data name="PrevPage" xml:space="preserve">
     <value>Предыдущая страница</value>
   </data>
   <data name="Printing" xml:space="preserve">
     <value>Печать</value>
-  </data>
-  <data name="ProfCancel" xml:space="preserve">
-    <value>Открепить от должности</value>
   </data>
   <data name="PutCardUSB" xml:space="preserve">
     <value>Приложите карту к USB-считывателю карт</value>
@@ -588,11 +606,11 @@
   <data name="ReasonMiss" xml:space="preserve">
     <value>Отсутствие по уважительной причине</value>
   </data>
-  <data name="ReducrionValue" xml:space="preserve">
+  <data name="ReductionValue" xml:space="preserve">
     <value>Величина сокращения</value>
   </data>
-  <data name="Reestablish" xml:space="preserve">
-    <value>Восстановить</value>
+  <data name="RefreshURV" xml:space="preserve">
+    <value>Данные о проходах были изменены. Обновите вкладку УРВ</value>
   </data>
   <data name="Report" xml:space="preserve">
     <value>Отчет</value>
@@ -609,8 +627,11 @@
   <data name="ResponsiblePerson" xml:space="preserve">
     <value>Ответственное лицо</value>
   </data>
-  <data name="ResponsiblePersonProf" xml:space="preserve">
+  <data name="ResponsiblePersonPosition" xml:space="preserve">
     <value>Должность ответственного лица</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Восстановить</value>
   </data>
   <data name="ScheduleDevRules" xml:space="preserve">
     <value>Правила учета отклонений от рабочего расписания</value>
@@ -639,11 +660,8 @@
   <data name="ShortHolidayIgnore" xml:space="preserve">
     <value>Не учитывать расписание праздников и сокращенных дней</value>
   </data>
-  <data name="SmallReadersMark" xml:space="preserve">
-    <value>Отметьте считыватели, уменьшающие разрешенное число проходов для гостевых пропусков</value>
-  </data>
-  <data name="SquadCancel" xml:space="preserve">
-    <value>Открепить от подразделения</value>
+  <data name="ShowPasscardWithoutAccess" xml:space="preserve">
+    <value>Отображать пропуска без шаблонов доступа</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Начало</value>
@@ -651,19 +669,13 @@
   <data name="StartPage" xml:space="preserve">
     <value>Начальная страница</value>
   </data>
-  <data name="StructHeadProf" xml:space="preserve">
-    <value>Должность руководителя структурного подразделения</value>
-  </data>
-  <data name="StructSquadHead" xml:space="preserve">
+  <data name="StructDepartHead" xml:space="preserve">
     <value>Руководитель структурного подразделения</value>
   </data>
   <data name="SureWorkerLeftZoneIntervalClose" xml:space="preserve">
     <value>Закрывайте интервал только в том случае, если вы уверены, что сотрудник действительно покинул зону.</value>
   </data>
-  <data name="TabelNumber" xml:space="preserve">
-    <value>Табельный номер</value>
-  </data>
-  <data name="Temporary" xml:space="preserve">
+  <data name="Temp" xml:space="preserve">
     <value>Временный</value>
   </data>
   <data name="Time" xml:space="preserve">
@@ -695,12 +707,6 @@
   </data>
   <data name="Width" xml:space="preserve">
     <value>Ширина, мм</value>
-  </data>
-  <data name="WorkerEdit" xml:space="preserve">
-    <value>Редактировать сотрудника</value>
-  </data>
-  <data name="Workers" xml:space="preserve">
-    <value>Сотрудники</value>
   </data>
   <data name="WorkScheduleType" xml:space="preserve">
     <value>Тип графика работы</value>

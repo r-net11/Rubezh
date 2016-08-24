@@ -121,7 +121,7 @@
     <value>Свойства шаблона доступа: {0}</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Добавить </value>
+    <value>Добавить {0}</value>
   </data>
   <data name="AddDocument" xml:space="preserve">
     <value>Добавление документа</value>
@@ -196,7 +196,7 @@
     <value>Деактивированные</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Удалить </value>
+    <value>Удалить {0}</value>
   </data>
   <data name="DeleteCard" xml:space="preserve">
     <value>Вы уверены, что хотите удалить карту?</value>
@@ -226,7 +226,7 @@
     <value>Редактирование документа</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редактировать </value>
+    <value>Редактировать {0}</value>
   </data>
   <data name="EditPass" xml:space="preserve">
     <value>Редактировать проход</value>
@@ -244,7 +244,7 @@
     <value>Существуют графики сотрудников, содержашие данный график работы. Продолжить?</value>
   </data>
   <data name="EmployeeTime" xml:space="preserve">
-    <value>Время сотрудника {0} в течение дня </value>
+    <value>Время сотрудника {0} в течение дня {1}</value>
   </data>
   <data name="EmployeeWithEmptyDepart" xml:space="preserve">
     <value>Сотрудник {0} не относится ни к одному из подразделений</value>
@@ -268,7 +268,7 @@
     <value>Дата конца действия пропуска не может быть раньше даты начала действия</value>
   </data>
   <data name="EndDateTimeLaterStartDateTime" xml:space="preserve">
-    <value>Дата и время окончания должно быть позднее даты и времени начала</value>
+    <value>Дата и время окончания должны быть позднее даты и времени начала</value>
   </data>
   <data name="EnterCardNumber" xml:space="preserve">
     <value>Ввод номера карты с USB-считывателя</value>
@@ -298,7 +298,7 @@
     <value>Редактирование интервала</value>
   </data>
   <data name="Lost" xml:space="preserve">
-    <value>Утерян </value>
+    <value>Утерян {0}</value>
   </data>
   <data name="NameOfCopyData" xml:space="preserve">
     <value>Название копируемой записи должно быть короче 47 символов</value>
@@ -396,9 +396,6 @@
   <data name="PassbackRestrucuinReset" xml:space="preserve">
     <value>Ограничение на повторный проход сброшено для всех пропусков на всех точках доступа</value>
   </data>
-  <data name="Passcard" xml:space="preserve">
-    <value>Пропуск </value>
-  </data>
   <data name="PasscardLimitForEmpl" xml:space="preserve">
     <value>У сотрудника не может быть более 100 пропусков</value>
   </data>
@@ -420,7 +417,7 @@
   <data name="PasscardTypes" xml:space="preserve">
     <value>Типы пропусков</value>
   </data>
-  <data name="PasscardWithNumber" xml:space="preserve">
+  <data name="Passcard" xml:space="preserve">
     <value>Пропуск {0}</value>
   </data>
   <data name="Photo" xml:space="preserve">
@@ -436,7 +433,7 @@
     <value>Существуют привязанные к должности сотрудники. Продолжить?</value>
   </data>
   <data name="PrintPasscard" xml:space="preserve">
-    <value>Печать удостоверения </value>
+    <value>Печать удостоверения {0}</value>
   </data>
   <data name="Record" xml:space="preserve">
     <value>запись</value>
@@ -520,7 +517,7 @@
     <value>посетителя</value>
   </data>
   <data name="VisitorPasscardLimit" xml:space="preserve">
-    <value>Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до </value>
+    <value>Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до {0}</value>
   </data>
   <data name="VisitorProperties" xml:space="preserve">
     <value>Свойства посетителя: {0}</value>
@@ -542,5 +539,11 @@
   </data>
   <data name="Zones" xml:space="preserve">
     <value>Зоны</value>
+  </data>
+  <data name="AccessTemplToGroup" xml:space="preserve">
+    <value>Назначение шаблона доступа группе сотрудников (посетителей)</value>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Сотрудники</value>
   </data>
 </root>

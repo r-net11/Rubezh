@@ -5,7 +5,9 @@
 	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<UserControl.Resources>
 		<viewModel:AdditionalColumnTypeViewModelNameComparer x:Key="AdditionalColumnTypeViewModelNameComparer" />
 		<viewModel:AdditionalColumnTypeViewModelDescriptionComparer x:Key="AdditionalColumnTypeViewModelDescriptionComparer" />
@@ -24,7 +26,7 @@
 		<tree:TreeList.View>
 			<GridView>
 				<GridViewColumn
-					Header="Название"
+					Header="{x:Static langCommon:CommonResources.Name}"
 					Width="300"
 					tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
@@ -37,7 +39,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Примечание" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
+                <GridViewColumn Header="{x:Static langCommon:CommonResources.Note}" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
@@ -45,7 +47,7 @@
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 				<GridViewColumn
-					Header="Формат данных"
+					Header="{x:Static lang:CommonViews.DataFormat}"
 					ctr:ProportionalColumn.Width="1"
 					tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
 					<GridViewColumn.CellTemplate>

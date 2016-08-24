@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using EntitiesValidation;
+using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient;
@@ -112,7 +113,7 @@ namespace SKDModule.ViewModels
 				var validationResult = ValidateDayIntervalsIntersection();
 				if (validationResult.HasError)
 				{
-					MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", "Нельзя удалить выбранный дневной график!", validationResult.Error), null, 420, 200);
+					MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", CommonViewModels.CanNotDeleteDaySchedule, validationResult.Error), null, 420, 200);
 					return;
 				}
 			}

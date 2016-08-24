@@ -3,6 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+			 xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 			 MinWidth="500" MinHeight="500">
 	<Grid>
 		<Grid.Resources>
@@ -28,7 +30,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="*" SortMemberPath="Name" SortDirection="Ascending">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Name}" Width="*" SortMemberPath="Name" SortDirection="Ascending">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -38,7 +40,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание" Width="*">
+				<DataGridTemplateColumn Header="{x:Static langCommon:CommonResources.Note}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
@@ -48,8 +50,8 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
-			<Button Content="Открепить от должности" Command="{Binding ClearCommand}" Width="205" Margin="2" />
-			<Button Content="Добавить новую должность" Command="{Binding AddCommand}" Width="205" Margin="2" />
+            <Button Content="{x:Static lang:CommonViews.PositionCancel}" Command="{Binding ClearCommand}" Width="205" Margin="2" />
+            <Button Content="{x:Static lang:CommonViews.NewPositionAdd}" Command="{Binding AddCommand}" Width="205" Margin="2" />
 		</StackPanel>
 	</Grid>
 </UserControl>

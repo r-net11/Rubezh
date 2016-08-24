@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -13,7 +15,7 @@ namespace SKDModule.ViewModels
 
 		public NightSettingsViewModel(Guid organisationUID)
 		{
-			Title = "Настройка интервала ночного времени";
+			Title = CommonResources.NightIntervalSetting;
 			_nightSettings = NightSettingsHelper.GetByOrganisation(organisationUID)
 						?? new NightSettings { OrganisationUID = organisationUID };
 		}

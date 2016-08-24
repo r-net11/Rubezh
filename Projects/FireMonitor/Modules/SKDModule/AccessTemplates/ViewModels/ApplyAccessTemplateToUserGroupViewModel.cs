@@ -7,6 +7,8 @@ using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
@@ -109,7 +111,7 @@ namespace SKDModule.ViewModels
 
 		public ApplyAccessTemplateToUserGroupViewModel(Guid organisationID, Guid accessTemplateID)
 		{
-			Title = "Назначение шаблона доступа группе сотрудников (посетителей)";
+            Title = CommonViewModels.AccessTemplToGroup;
 			_organisationID = organisationID;
 			
 			EditFilterCommand = new RelayCommand(OnEditFilter);
@@ -203,8 +205,8 @@ namespace SKDModule.ViewModels
 		private void SetPositionOrDescriptionHeaderTitle(PersonType personType)
 		{
 			PositionOrDescriptionHeaderTitle = personType == PersonType.Employee
-				? "Должность"
-				: "Примечание";
+				? CommonResources.Position
+				: CommonResources.Note;
 			OnPropertyChanged(() => PositionOrDescriptionHeaderTitle);
 		}
 
@@ -337,7 +339,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeeCardForApplyAccessTemplateToUserGroupViewModel(SKDCard card)
 		{
-			Name = String.Format("Пропуск {0}", card.Number);
+			Name = String.Format(CommonViewModels.Passcard, card.Number);
 			Card = card;
 		}
 

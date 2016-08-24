@@ -3,7 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:API="clr-namespace:StrazhAPI.SKD.ReportFilters;assembly=StrazhAPI"
 			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls">
+			 xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+			 xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
@@ -14,14 +15,14 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<CheckBox Grid.Row="0" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Дата истечения" FlowDirection="RightToLeft" Foreground="White" IsChecked="{Binding UseExpirationDate}" />
+        <CheckBox Grid.Row="0" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="{x:Static lang:CommonViews.ExpirationDate}" FlowDirection="RightToLeft" Foreground="White" IsChecked="{Binding UseExpirationDate}" />
 		<ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseExpirationDate}" ItemsSource="{Binding Source={x:Type API:EndDateType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding ExpirationType}" />
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" IsEnabled="{Binding IsExpirationArbitrary}" Text="Дата окончания действия" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" IsEnabled="{Binding IsExpirationArbitrary}" Text="{x:Static lang:CommonViews.FinishActiveDate}" />
 		<DatePicker
 			Grid.Row="1"
 			Grid.Column="1"
 			behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-			behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+			behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 			Validation.ErrorTemplate="{x:Null}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"

@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -121,19 +122,19 @@ namespace SKDModule.ViewModels
 
 			if (Period == TimeTrackingPeriod.Period && StartDate > EndDate)
 			{
-				MessageBoxService.ShowWarning("Дата окончания не может быть раньше даты начала");
+				MessageBoxService.ShowWarning(CommonViewModels.EndDateLaterStartDate);
 				return false;
 			}
 
 			if (Period == TimeTrackingPeriod.Period && StartDate.Date > DateTime.Now.Date)
 			{
-				MessageBoxService.ShowWarning("Указан несуществующий период");
+				MessageBoxService.ShowWarning(CommonViewModels.NotValidPeriod);
 				return false;
 			}
 
 			if (Period == TimeTrackingPeriod.Period && EndDate.Date > DateTime.Now.Date)
 			{
-				MessageBoxService.ShowWarning("Указан несуществующий период");
+				MessageBoxService.ShowWarning(CommonViewModels.NotValidPeriod);
 				return false;
 			}
 

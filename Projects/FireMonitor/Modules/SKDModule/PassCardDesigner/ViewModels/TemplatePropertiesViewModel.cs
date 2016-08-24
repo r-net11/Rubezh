@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using SKDModule.PassCardDesigner.Model;
 
 namespace SKDModule.PassCardDesigner.ViewModels
@@ -9,7 +10,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		public TemplatePropertiesViewModel(Template passCardTemplate)
 		{
-			Title = "Свойства элемента: Шаблон пропуска";
+			Title = CommonViewModels.PasscardTemplProperties;
 			PassCardTemplate = passCardTemplate;
 		}
 		

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -25,10 +27,10 @@ namespace SKDModule.ViewModels
 			_isNew = holiday == null;
 			if (_isNew)
 			{
-				Title = "Новый праздничный день";
+				Title = CommonViewModels.NewHoliday;
 				holiday = new Holiday()
 				{
-					Name = "Название праздничного дня",
+					Name = CommonViewModels.HolidayName,
 					OrganisationUID = Organisation.UID,
 					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
 				};
@@ -36,7 +38,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование праздничного дня";
+				Title = CommonViewModels.HolidayEdition;
 				Model = HolidayHelper.GetSingle(holiday.UID);
 			}
 
@@ -188,13 +190,13 @@ namespace SKDModule.ViewModels
 				{
 					
 					if (Date.Year != Model.Date.Year)
-						error = FormatErrorString("Дата", GetInputYearError(Model.Date.Year));
+						error = FormatErrorString(CommonResources.Date, GetInputYearError(Model.Date.Year));
 					break;
 				}
 				case "TransferDate":
 				{
 					if (IsTransferDateEnabled && TransferDate.Year != Model.Date.Year)
-						error = FormatErrorString("Дата переноса", GetInputYearError(Model.Date.Year));
+						error = FormatErrorString(CommonResources.TransferDate, GetInputYearError(Model.Date.Year));
 					break;
 				}
 			}
@@ -223,7 +225,7 @@ namespace SKDModule.ViewModels
 
 		private string GetInputYearError(int neededYear)
 		{
-			return String.Format("Год не равен '{0}'", neededYear);
+			return String.Format(CommonViewModels.Year, neededYear);
 		}
 	}
 }

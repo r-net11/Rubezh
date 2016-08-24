@@ -6,7 +6,8 @@
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="350"
 	d:DesignWidth="400"
 	x:Name="_this">
@@ -32,7 +33,7 @@
 			</Grid.RowDefinitions>
 			<TextBlock
 				Grid.Row="1"
-				Text="Цвет фона"
+				Text="{x:Static lang:CommonViews.BackgroundColor}"
 				Foreground="White"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
@@ -47,7 +48,7 @@
 			<TextBlock
 				Grid.Row="2"
 				Foreground="White"
-				Text="Цвет границы"
+				Text="{x:Static lang:CommonViews.BorderColor}"
 				HorizontalAlignment="Right"
 				Margin="5"
 				VerticalAlignment="Center"/>
@@ -61,7 +62,7 @@
 			<TextBlock
 				Grid.Row="3"
 				Foreground="White"
-				Text="Ширина границы, пикс."
+				Text="{x:Static lang:CommonViews.BorderWidth}"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
 				Margin="5"/>
@@ -82,12 +83,12 @@
 				<Button
 					x:Name="SelectPictureButton"
 					Command="{Binding SelectPictureCommand}"
-					Content="Выбрать картинку"
+					Content="{x:Static lang:CommonViews.SelectImg}"
 					Width="140"
 					Margin="10 0"/>
 				<Button
 					Command="{Binding RemovePictureCommand}"
-					Content="Очистить картинку"
+					Content="{x:Static lang:CommonViews.ImgClean}"
 					HorizontalAlignment="Right"
 					Width="140"
 					Margin="10 0 5 0"/>

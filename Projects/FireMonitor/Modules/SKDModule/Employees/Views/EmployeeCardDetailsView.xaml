@@ -7,6 +7,8 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	Width="475"
 	MinHeight="500">
 	<UserControl.Resources>
@@ -20,7 +22,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<TabControl>
-		<TabItem Header="Основные" >
+        <TabItem Header="{x:Static lang:CommonViews.Main}" >
 			<StackPanel Grid.IsSharedSizeScope="True">
 				<Grid Visibility="{Binding IsNewCard, Converter={StaticResource BoolToVisibilityConverter}}" Margin="10">
 					<Grid.RowDefinitions>
@@ -35,7 +37,7 @@
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 					<TextBlock
-						Text="Ввод с клавиатуры"
+						Text="{x:Static lang:CommonViews.EnterFromKeyboard}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
@@ -67,7 +69,7 @@
 						</TextBox>
 					<TextBlock
 						Grid.Row="1"
-						Text="Из деактивированных"
+						Text="{x:Static lang:CommonViews.FromDeactive}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
@@ -97,7 +99,7 @@
 					</ComboBox>
 					<TextBlock
 						Grid.Row="2"
-						Text="От контрольного считывателя"
+						Text="{x:Static lang:CommonViews.FromControlReader}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
@@ -160,7 +162,7 @@
 					</TextBlock>-->
 					<TextBlock
 						Grid.Row="3"
-						Text="От USB-считывателя"
+						Text="{x:Static lang:CommonViews.FromUSB}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
@@ -213,7 +215,7 @@
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 					<TextBlock
-						Text="Тип пропуска"
+						Text="{x:Static langCommon:CommonResources.PasscardType}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Top"
 						Margin="5" />
@@ -241,7 +243,7 @@
 					<TextBlock
 						Grid.Row="1"
 						Foreground="{DynamicResource ForegroundColorLight}"
-						Text="Пароль"
+						Text="{x:Static lang:CommonViews.Password}"
 						VerticalAlignment="Center"
 						Margin="5" />
 					<TextBox
@@ -255,7 +257,7 @@
 						Text="{Binding Password}" />
 					<TextBlock
 						Grid.Row="2"
-						Text="Начало действия"
+						Text="{x:Static lang:CommonViews.ActiveStart}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
@@ -263,7 +265,7 @@
 						Grid.Row="2"
 						Grid.Column="1"
 						behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-						behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+						behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 						Validation.ErrorTemplate="{x:Null}"
 						IsTodayHighlighted="False"
 						VerticalAlignment="Center"
@@ -274,7 +276,7 @@
 						DisplayDate="{Binding StartDate}" />
 					<TextBlock
 						Grid.Row="3"
-						Text="Окончание действия"
+						Text="{x:Static lang:CommonViews.ActiveEnding}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
@@ -282,7 +284,7 @@
 						Grid.Row="3"
 						Grid.Column="1"
 						behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-						behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+						behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static lang:CommonViews.DateMask}"
 						Validation.ErrorTemplate="{x:Null}"
 						Margin="2 4"
 						HorizontalAlignment="Left"
@@ -296,7 +298,7 @@
 					<TextBlock
 						Grid.Row="4"
 						Grid.Column="0"
-						Text="Разрешенное число проходов"
+						Text="{x:Static lang:CommonViews.EnabledPassCnt}"
 						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"/>
 					<StackPanel
@@ -311,7 +313,7 @@
 							Margin="2 4"
 							IsEnabled="{Binding CanEnterAllowedPassCount}" />
 						<TextBlock
-							Text="Контрольные считыватели не заданы! Проверьте выбранный шаблон доступа!"
+							Text="{x:Static lang:CommonViews.EmptyControlReaders}"
 							TextWrapping="Wrap"
 							Foreground="{DynamicResource ForegroundColorLight}"
 							Margin="2"
@@ -323,20 +325,20 @@
 						Margin="2 4"
 						IsChecked="{Binding IsAlternativeLockParams, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 						<TextBlock
-							Text="Альтернативные время закрытия и удержания (для карт лиц с ограниченными возможностями)"
+							Text="{x:Static lang:CommonViews.AlternativeCloseTime}"
 							TextWrapping="Wrap"
 							Foreground="White" />
 					</CheckBox>
 				</Grid>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Точки доступа">
+		<TabItem Header="{x:Static langCommon:CommonResources.Doors}">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
-		<TabItem Header="Шаблон доступа">
+		<TabItem Header="{x:Static langCommon:CommonResources.AccessTemplate}">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="Шаблон доступа">
+					<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.AccessTemplate}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

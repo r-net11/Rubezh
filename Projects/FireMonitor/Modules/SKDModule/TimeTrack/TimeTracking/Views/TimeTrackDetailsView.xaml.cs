@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Localization.SKD.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using SKDModule.ViewModels;
@@ -81,7 +82,7 @@ namespace SKDModule.Views
 				{
 					foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackPartsForCalculates)
 					{
-						var zoneName = "<Нет в конфигурации>";
+						var zoneName = CommonResources.NotInConfig;
 						var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
 						if (strazhZone != null)
 						{
@@ -101,9 +102,9 @@ namespace SKDModule.Views
 						timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
 						                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + timeTrackPart.DayName;
 						if (timeTrackPart.StartsInPreviousDay)
-							timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
+							timeTrackPart.Tooltip += "\n" + CommonResources.IntervalStartDayEarlier;
 						if (timeTrackPart.EndsInNextDay)
-							timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
+							timeTrackPart.Tooltip += "\n" + CommonResources.IntervalEndDayLater;
 					}
 				}
 

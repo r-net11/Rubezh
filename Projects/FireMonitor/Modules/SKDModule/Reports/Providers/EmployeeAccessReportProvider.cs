@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
@@ -10,7 +11,7 @@ namespace SKDModule.Reports.Providers
 	public class EmployeeAccessReportProvider : FilteredSKDReportProvider<EmployeeAccessReportFilter>
 	{
 		public EmployeeAccessReportProvider()
-			: base("Доступ в зоны сотрудников/посетителей", 412, SKDReportGroup.HR, PermissionType.Oper_Reports_Employees_Access)
+            : base(CommonResources.ZoneAccess, 412, SKDReportGroup.HR, PermissionType.Oper_Reports_Employees_Access)
 		{
 		}
 
@@ -20,14 +21,14 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string>
 				{
-					{ "Zone", "Зона" },
-					{ "Type", "Тип пропуска" },
-					{ "Number", "Номер пропуска" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "Position", "Должность" },
-					{ "Employee", "Сотрудник" },
-					{ "Template", "Шаблон доступа" },
+					{ "Zone", CommonResources.Zone },
+					{ "Type", CommonResources.PasscardType },
+					{ "Number", CommonResources.PasscardNumber },
+					{ "Organisation", CommonResources.Organization },
+					{ "Department", CommonResources.Department },
+					{ "Position", CommonResources.Position },
+					{ "Employee", CommonResources.Employee },
+					{ "Template", CommonResources.AccessTemplate },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

@@ -7,6 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	d:DataContext="{d:DesignInstance viewModels:AccessDoorsSelectationViewModel,
                                               IsDesignTimeCreatable=True}"
 	d:DesignHeight="400"
@@ -42,7 +43,7 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn
 						Width="*"
-						Header="Точка доступа"
+						Header="{x:Static lang:CommonViews.Door}"
 						SortMemberPath="Name">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -82,7 +83,7 @@
 							Margin="2"
 							HorizontalAlignment="Left"
 							Foreground="White"
-							Text="График доступа" />
+							Text="{x:Static lang:CommonViews.AccessSchedule}" />
 						<ComboBox
 							Margin="2"
 							ItemsSource="{Binding EnterSchedules}"

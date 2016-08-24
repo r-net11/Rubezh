@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using CodeReason.Reports;
+using Localization.SKD.Common;
 using StrazhAPI;
 using StrazhAPI.GK;
 using Infrastructure.Common.Reports;
@@ -47,7 +48,7 @@ namespace SKDModule.Reports
 
 		public string Title
 		{
-			get { return "Список устройств СКД"; }
+			get { return CommonResources.SKDDeviceList; }
 		}
 
 		public bool IsEnabled

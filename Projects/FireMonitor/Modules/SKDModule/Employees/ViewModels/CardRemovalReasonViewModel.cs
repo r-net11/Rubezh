@@ -1,5 +1,7 @@
 ﻿using System;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -7,8 +9,8 @@ namespace SKDModule.ViewModels
 	{
 		public CardRemovalReasonViewModel()
 		{
-			Title = "Причина деактивации";
-			RemovalReason = "Утерян " + DateTime.Now.ToString();
+			Title = CommonResources.DeactivationReason;
+			RemovalReason = string.Format(CommonViewModels.Lost, DateTime.Now);
 		}
 
 		string _removalReason;

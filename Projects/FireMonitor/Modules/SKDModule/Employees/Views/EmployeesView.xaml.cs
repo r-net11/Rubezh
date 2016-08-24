@@ -5,6 +5,7 @@ using System.Windows.Data;
 using Controls;
 using Controls.TreeList;
 using Infrastructure;
+using Localization.SKD.Common;
 using SKDModule.Events;
 using SKDModule.ViewModels;
 
@@ -78,8 +79,8 @@ namespace SKDModule.Views
 
 		bool IsGuest { get { return (DataContext as EmployeesViewModel).PersonType == StrazhAPI.SKD.PersonType.Guest; } }
 		GridView gridView { get { return (TreeList.View as GridView); } }
-		GridViewColumn PositionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Должность"); } }
-		GridViewColumn DescriptionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Примечание"); } }
+		GridViewColumn PositionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == CommonResources.Position); } }
+		GridViewColumn DescriptionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == CommonResources.Note); } }
 		bool IsPositionShown { get { return PositionColumn != null; } }
 		bool IsDescriptionShown { get { return PositionColumn != null; } }
 
@@ -100,7 +101,7 @@ namespace SKDModule.Views
 				if (!IsDescriptionShown)
 				{
 					var gridViewColumn = new GridViewColumn();
-					gridViewColumn.Header = "Примечание";
+					gridViewColumn.Header = CommonResources.Note;
 					gridViewColumn.Width = 150;
 
 					var dataTemplate = new DataTemplate();
@@ -125,7 +126,7 @@ namespace SKDModule.Views
 				if (!IsPositionShown)
 				{
 					var gridViewColumn = new GridViewColumn();
-					gridViewColumn.Header = "Должность";
+					gridViewColumn.Header = CommonResources.Position;
 					gridViewColumn.Width = 150;
 
 					var dataTemplate = new DataTemplate();

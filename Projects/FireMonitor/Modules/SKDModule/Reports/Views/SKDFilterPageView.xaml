@@ -5,7 +5,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
-    mc:Ignorable="d"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
 	<Grid>
@@ -21,7 +23,7 @@
 			<TreeList.View>
 				<GridView>
 					<GridViewColumn
-						Header="Название"
+						Header="{x:Static langCommon:CommonResources.Name}"
 						layout:ProportionalColumn.Width="1">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -53,11 +55,11 @@
 			<ToolBarButton
 				ImageSource="SelectAll"
 				Command="{Binding SelectAllCommand}"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				ImageSource="SelectNone"
 				Command="{Binding SelectNoneCommand}"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

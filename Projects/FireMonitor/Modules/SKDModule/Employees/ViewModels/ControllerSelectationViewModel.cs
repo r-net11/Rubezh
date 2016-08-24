@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +11,7 @@ namespace SKDModule.ViewModels
 	{
 		public ControllerSelectationViewModel(Guid deviceUID)
 		{
-			Title = "Выбор контроллера";
+			Title = CommonViewModels.SelectController;
 			Devices = new ObservableCollection<SKDDevice>();
 			foreach (var device in SKDManager.Devices)
 			{

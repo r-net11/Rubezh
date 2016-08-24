@@ -7,6 +7,8 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:layout="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -32,7 +34,7 @@
 				<GridView>
 					<GridViewColumn
 						Width="400"
-						Header="ФИО"
+						Header="{x:Static lang:CommonViews.FullName}"
 						layout:ProportionalColumn.Width="1"
 						tree:SortBehavior.SortComparer="{StaticResource EmployeesFilterItemNameViewModelComparer}">
 						<GridViewColumn.CellTemplate>
@@ -69,16 +71,16 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 		<CheckBox
 			Grid.Row="2"
 			Margin="5"
-			Content="Поиск"
+			Content="{x:Static lang:CommonViews.Search}"
 			Foreground="White"
 			IsChecked="{Binding IsSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Grid Grid.Row="3" IsEnabled="{Binding IsSearch}">
@@ -95,7 +97,7 @@
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
-				Text="Фамилия" />
+				Text="{x:Static langCommon:CommonResources.FirstName}" />
 			<TextBox
 				Grid.Column="1"
 				Margin="2"
@@ -105,7 +107,7 @@
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
-				Text="Имя" />
+				Text="{x:Static langCommon:CommonResources.SecondName}" />
 			<TextBox
 				Grid.Row="1"
 				Grid.Column="1"
@@ -116,7 +118,7 @@
 				Margin="2"
 				HorizontalAlignment="Right"
 				Foreground="White"
-				Text="Отчество" />
+				Text="{x:Static langCommon:CommonResources.ThirdName}" />
 			<TextBox
 				Grid.Row="2"
 				Grid.Column="1"

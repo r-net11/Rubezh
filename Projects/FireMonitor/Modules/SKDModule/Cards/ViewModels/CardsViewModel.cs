@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -257,13 +258,13 @@ namespace SKDModule.ViewModels
 
 			if (!CardHelper.ResetRepeatEnter(cardsToReset, organisationName: SelectedCard.Organisation.Name)) return;
 
-			MessageBoxService.Show("Ограничение на повторный проход сброшено для всех пропусков на всех точках доступа");
+			MessageBoxService.Show(CommonViewModels.PassbackRestrucuinReset);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		public void OnRemove()
 		{
-			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?")) return;
+			if (!MessageBoxService.ShowQuestion(CommonViewModels.DeleteCard)) return;
 
 			CardHelper.Delete(SelectedCard.Card);
 

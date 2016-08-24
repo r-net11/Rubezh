@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:TemplateSelectors="clr-namespace:SKDModule.TemplateSelectors"
-    mc:Ignorable="d"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300"
 	Width="450"
@@ -17,11 +18,11 @@
 		<TemplateSelectors:IsOpenedIntervalTemplateSelector x:Key="IsOpenedIntervalTemplateSelector" />
 		<DataTemplate x:Key="NotOpenedIntervalsTemplate">
 			<TextBlock Foreground="White">
-				<Run Text="с" />
+				<Run Text="{x:Static lang:CommonViews.From}" />
 				<Run Text="{Binding EnterDateTime}" />
-				<Run Text="по" />
+				<Run Text="{x:Static lang:CommonViews.To}" />
 				<Run Text="{Binding ExitDateTime}" />
-				<Run Text=' (зона' />
+				<Run Text="{x:Static lang:CommonViews.Zone}" />
 				<Run>
 					<Run.Text>
 						<MultiBinding StringFormat='"{0}")'>
@@ -33,12 +34,12 @@
 		</DataTemplate>
 		<DataTemplate x:Key="OpenedIntervalsTemplate">
 			<TextBlock Foreground="White">
-				<Run Text="с" />
+				<Run Text="{x:Static lang:CommonViews.From}" />
 				<Run Text="{Binding EnterDateTime}" />
-				<Run Text=' (зона' />
+				<Run Text="{x:Static lang:CommonViews.Zone}" />
 				<Run>
 					<Run.Text>
-						<MultiBinding StringFormat='"{0}", открытый интервал)'>
+						<MultiBinding StringFormat="{x:Static lang:CommonViews.OpenInterval}">
 							<Binding Path="TimeTrackZone.Name" />
 						</MultiBinding>
 					</Run.Text>
@@ -59,13 +60,13 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<StackPanel>
-					<TextBlock Foreground="White" Text="Границы редактируемого интервала:" />
+                    <TextBlock Foreground="White" Text="{x:Static lang:CommonViews.EditableIntervalLimits}" />
 					<TextBlock Foreground="White">
-						<Run Text="с" />
+						<Run Text="{x:Static lang:CommonViews.From}" />
 						<Run Text="{Binding CurrentDayTimeTrackPart.EnterDateTime}" />
-						<Run Text="по" />
+						<Run Text="{x:Static lang:CommonViews.To}" />
 						<Run Text="{Binding CurrentDayTimeTrackPart.ExitDateTime}" />
-						<Run Text="(зона" />
+						<Run Text="{x:Static lang:CommonViews.Zone}" />
 						<Run>
 							<Run.Text>
 								<MultiBinding StringFormat='"{0}")'>
@@ -74,7 +75,7 @@
 							</Run.Text>
 						</Run>
 					</TextBlock>
-					<TextBlock Foreground="White" Text="пересекаются с границами других интервалов:" />
+                    <TextBlock Foreground="White" Text="{x:Static lang:CommonViews.OtherIntervalCross}" />
 				</StackPanel>
 				<ScrollViewer
 					Grid.Row="1" 
@@ -88,12 +89,12 @@
 					Grid.Row="2" 
 					Foreground="White" 
 					Margin="0 15"
-					Text="Для добавления интервала укажите другие границы." />
+					Text="{x:Static lang:CommonViews.ChooseOtherLimits}" />
 			</Grid>
 		</Border>
 		<Button
 			Grid.Row="1"
-			Content="OK"
+			Content="{x:Static lang:CommonViews.OK}"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Right"
 			Command="{Binding OkCommand}"

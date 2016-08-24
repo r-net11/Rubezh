@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using Common;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -91,17 +93,17 @@ namespace SKDModule.ViewModels
 
 			if (documentType.TimeTrackDocumentType == null || !IsEdit)
 			{
-				Title = "Новый вид документа";
+				Title = CommonViewModels.NewDocumentType;
 				TimeTrackDocumentType = new TimeTrackDocumentType
 				{
-					Name = "Название документа",
+					Name = CommonResources.DocumentName,
 					OrganisationUID = OrganisationUID
 				};
 			}
 			else
 			{
 				TimeTrackDocumentType = documentType.TimeTrackDocumentType;
-				Title = "Редактирование вида оправдательных документов";
+				Title = CommonViewModels.TypeDocumentEdition;
 				IsReadOnly = documentType.TimeTrackDocumentType.IsSystem;
 			}
 
@@ -138,17 +140,17 @@ namespace SKDModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Не задано название документа");
+				MessageBoxService.ShowWarning(CommonViewModels.EmptyDocumentName);
 				return false;
 			}
 			if (string.IsNullOrEmpty(ShortName))
 			{
-				MessageBoxService.ShowWarning("Не задан буквенный код документа");
+				MessageBoxService.ShowWarning(CommonViewModels.EmptyLiteralCode);
 				return false;
 			}
 			if (Code <= 0)
 			{
-				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
+				MessageBoxService.ShowWarning(CommonViewModels.NumCodePositive);
 				return false;
 			}
 
@@ -164,19 +166,19 @@ namespace SKDModule.ViewModels
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Any(x => x.Name == Name))
 					{
-						MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+						MessageBoxService.ShowWarning(CommonViewModels.SameDocumentName);
 						return false;
 					}
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Any(x => x.ShortName == ShortName))
 					{
-						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+						MessageBoxService.ShowWarning(CommonViewModels.SameLiteralCode);
 						return false;
 					}
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Any(x => x.Code == Code))
 					{
-						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
+						MessageBoxService.ShowWarning(CommonViewModels.NumCodeSame);
 						return false;
 					}
 				}
@@ -191,20 +193,20 @@ namespace SKDModule.ViewModels
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID).Any(x => x.Name == Name))
 					{
-						MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
+						MessageBoxService.ShowWarning(CommonViewModels.SameDocumentName);
 						return false;
 					}
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID)
 						    .Any(x => x.ShortName == ShortName))
 					{
-						MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
+						MessageBoxService.ShowWarning(CommonViewModels.SameLiteralCode);
 						return false;
 					}
 					if (!_inputDocumentTypesForOrganisation.IsEmpty() &&
 					    _inputDocumentTypesForOrganisation.Where(x => x.UID != _inputDocumentType.UID).Any(x => x.Code == Code))
 					{
-						MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
+						MessageBoxService.ShowWarning(CommonViewModels.NumCodeSame);
 						return false;
 					}
 				}

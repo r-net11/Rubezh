@@ -6,6 +6,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	d:DesignHeight="300"
 	d:DesignWidth="1000"
 	mc:Ignorable="d">
@@ -35,7 +37,7 @@
 						<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
-							ToolTip="Восстановить"
+							ToolTip="{x:Static lang:CommonViews.Restore}"
 							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 				</StackPanel>
@@ -47,27 +49,27 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать" />
+						ToolTip="{x:Static lang:CommonViews.Edit}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
-						ToolTip="Копировать" />
+						ToolTip="{x:Static lang:CommonViews.Copy}" />
 					<ToolBarButton
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
-						ToolTip="Вставить" />
+						ToolTip="{x:Static lang:CommonViews.Paste}" />
 					<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
-						ToolTip="Восстановить"
+						ToolTip="{x:Static lang:CommonViews.Restore}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
@@ -79,27 +81,27 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать" />
+						ToolTip="{x:Static lang:CommonViews.Edit}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
-						ToolTip="Копировать" />
+						ToolTip="{x:Static lang:CommonViews.Copy}" />
 					<ToolBarButton
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
-						ToolTip="Вставить" />
+						ToolTip="{x:Static lang:CommonViews.Paste}" />
 					<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
-						ToolTip="Восстановить"
+						ToolTip="{x:Static lang:CommonViews.Restore}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
@@ -111,27 +113,27 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать" />
+						ToolTip="{x:Static lang:CommonViews.Edit}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
-						ToolTip="Копировать" />
+						ToolTip="{x:Static lang:CommonViews.Copy}" />
 					<ToolBarButton
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
-						ToolTip="Вставить" />
+						ToolTip="{x:Static lang:CommonViews.Paste}" />
 					<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
-						ToolTip="Восстановить"
+						ToolTip="{x:Static lang:CommonViews.Restore}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
@@ -143,12 +145,12 @@
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding ResetRepeatEnterForOrg}"
 						Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 						ImageSource="DropAllApb"
-						ToolTip="Сброс ограничения на повторный прохов для ВСЕХ пропусков организации" />
+						ToolTip="{x:Static lang:CommonViews.AllPassReset}" />
 				</StackPanel>
 			</Grid>
 
@@ -158,32 +160,32 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать" />
+						ToolTip="{x:Static lang:CommonViews.Edit}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
-						ToolTip="Копировать" />
+						ToolTip="{x:Static lang:CommonViews.Copy}" />
 					<ToolBarButton
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
-						ToolTip="Вставить" />
+						ToolTip="{x:Static lang:CommonViews.Paste}" />
 					<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
-						ToolTip="Восстановить"
+						ToolTip="{x:Static lang:CommonViews.Restore}"
 						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ToolBarButton
 						Command="{Binding ApplyToUserGroupCommand}"
 						ImageSource="Users"
-						ToolTip="Назначить шаблон доступа группе сотрудников (посетителей)" />
+						ToolTip="{x:Static lang:CommonViews.AccessTemplForGroup}" />
 				</StackPanel>
 			</Grid>
 
@@ -193,31 +195,31 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 					<ToolBarButton
 						Command="{Binding EditCommand}"
 						ImageSource="Edit"
-						ToolTip="Редактировать" />
+						ToolTip="{x:Static lang:CommonViews.Edit}" />
 					<ToolBarButton
 						Command="{Binding OpenDesignerCommand}"
 						ImageSource="GraphicalDesigner"
-						ToolTip="Дизайнер пропуска" />
+						ToolTip="{x:Static lang:CommonViews.PassDesigner}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
-						ToolTip="Копировать" />
+						ToolTip="{x:Static lang:CommonViews.Copy}" />
 					<ToolBarButton
 						Command="{Binding PasteCommand}"
 						ImageSource="Paste"
-						ToolTip="Вставить" />
+						ToolTip="{x:Static lang:CommonViews.Paste}" />
 					<ToolBarButton
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
-						ToolTip="Восстановить"
+						ToolTip="{x:Static lang:CommonViews.Restore}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
@@ -230,32 +232,32 @@
 						<ToolBarButton
 							Command="{Binding AddCommand}"
 							ImageSource="Add"
-							ToolTip="Добавить" />
+							ToolTip="{x:Static lang:CommonViews.Add}" />
 						<ToolBarButton
 							Command="{Binding RemoveCommand}"
 							ImageSource="Delete"
-							ToolTip="Удалить" />
+							ToolTip="{x:Static lang:CommonViews.Delete}" />
 						<ToolBarButton
 							Command="{Binding EditCommand}"
 							ImageSource="Edit"
-							ToolTip="Редактировать" />
+							ToolTip="{x:Static lang:CommonViews.Edit}" />
 						<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
-							ToolTip="Восстановить"
+							ToolTip="{x:Static lang:CommonViews.Restore}"
 							Visibility="{Binding IsWithDeleted,
 						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Add"
-						ToolTip="Отображать архивные сведения"
+						ToolTip="{x:Static lang:CommonViews.ArchiveDataDisplay}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Delete"
-						ToolTip="Отображать архивные сведения"
+						ToolTip="{x:Static lang:CommonViews.ArchiveDataDisplay}"
 						Visibility="{Binding IsWithDeleted,
 					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				</StackPanel>
@@ -265,7 +267,7 @@
 			<ToolBarButton
 				Command="{Binding EditFilterCommand}"
 				ImageSource="{Binding FilterImageSource}"
-				ToolTip="Фильтр"
+				ToolTip="{x:Static langCommon:CommonResources.Filter}"
 				Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
 			<!-- Кнопка переключения режима просмотра "Сотрудник/Посетитель" для вкладки "Сотрудники/Посетители" -->
@@ -296,7 +298,7 @@
 
 			<!-- Вкладка "Подразделения" -->
 			<TabItem
-				Header="Подразделения"
+				Header="{x:Static langCommon:CommonResources.Departments}"
 				IsSelected="{Binding IsDepartmentsSelected}"
 				Visibility="{Binding CanSelectDepartments, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
@@ -304,7 +306,7 @@
 
 			<!-- Вкладка "Должности" -->
 			<TabItem
-				Header="Должности"
+				Header="{x:Static langCommon:CommonResources.Positions}"
 				IsSelected="{Binding IsPositionsSelected}"
 				Visibility="{Binding CanSelectPositions, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:PositionsView DataContext="{Binding PositionsViewModel}" />
@@ -312,7 +314,7 @@
 
 			<!-- Вкладка "Дополнительные колонки" -->
 			<TabItem
-				Header="Дополнительные колонки"
+				Header="{x:Static lang:CommonViews.AdditionalColumns}"
 				IsSelected="{Binding IsAdditionalColumnTypesSelected}"
 				Visibility="{Binding CanSelectAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
@@ -320,7 +322,7 @@
 
 			<!-- Вкладка "Пропуска" -->
 			<TabItem
-				Header="Пропуска"
+				Header="{x:Static lang:CommonViews.Passcards}"
 				IsSelected="{Binding IsCardsSelected}"
 				Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:CardsView DataContext="{Binding CardsViewModel}" />
@@ -328,7 +330,7 @@
 
 			<!-- Вкладка "Шаблоны доступа" -->
 			<TabItem
-				Header="Шаблоны доступа"
+				Header="{x:Static lang:CommonViews.AccessTemplate}"
 				IsSelected="{Binding IsAccessTemplatesSelected}"
 				Visibility="{Binding CanSelectAccessTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
@@ -336,7 +338,7 @@
 
 			<!-- Вкладка "Шаблоны пропусков" -->
 			<TabItem
-				Header="Шаблоны пропусков"
+				Header="{x:Static lang:CommonViews.PassTemplates}"
 				IsSelected="{Binding IsPassCardTemplatesSelected}"
 				Visibility="{Binding CanSelectPassCardTemplates,
 			                              Converter={StaticResource BoolToVisibilityConverter}}">

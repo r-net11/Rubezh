@@ -1,4 +1,5 @@
 ﻿using System.Windows.Data;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 
 namespace SKDModule.Converters
@@ -10,15 +11,15 @@ namespace SKDModule.Converters
 			switch((CardType)value)
 			{
 				case CardType.Constant:
-					return "Пропуск с неограниченным сроком действия";
+					return CommonResources.UnlimitedPasscard;
 				case CardType.Temporary:
-					return "Пропуск с ограниченным сроком действия";
+			        return CommonResources.LimitedPasscard;
 				case CardType.Guest:
-					return "Пропуск, позволяющий выполнить не более заданного количества проходов";
+					return CommonResources.BoundedPasscard;
 				case CardType.Blocked:
-					return "Пропуск, доступ по которому запрещен";
+					return CommonResources.AccessDeniedPasscard;
 				case CardType.Duress:
-					return "Использование пропуска вызывает тревогу по принуждению";
+					return CommonResources.ForcedAlarmPasscard;
 
 			}
 			return null;

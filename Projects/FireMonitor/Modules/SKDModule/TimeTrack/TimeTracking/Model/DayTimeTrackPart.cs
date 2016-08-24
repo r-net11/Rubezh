@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Models;
+﻿using Localization.SKD.Common;
+using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
@@ -202,13 +203,13 @@ namespace SKDModule.Model
 			var zone =
 				TimeTrackingHelper.GetAllZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
 				??
-				new TimeTrackZone {Name = "<Нет в конфигурации>", No = default(int)};
+				new TimeTrackZone {Name = CommonResources.NotInConfig, No = default(int)};
 
 			UID = timeTrackPart.PassJournalUID;
 			var user = timeTrackPart.IsManuallyAdded || timeTrackPart.AdjustmentDate != null
 				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
 				   ??
-				   new User {Name = "<Нет в конфигурации>"})
+                   new User { Name = CommonResources.NotInConfig })
 				: new User {Name = string.Empty};
 
 			Update(
@@ -338,22 +339,22 @@ namespace SKDModule.Model
 				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime > ExitTime))
-						result = "Время входа не может быть больше времени выхода";
+						result = CommonResources.EnterTimeExitTime;
 				}
 				if (propertyName == string.Empty || propertyName == "ExitTime" || propertyName == "EnterTime")
 				{
 					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime == ExitTime))
-						result = "Невозможно добавить нулевое пребывание в зоне";
+						result = CommonResources.NullStay;
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.GetValueOrDefault().Date > ExitDateTime.GetValueOrDefault().Date))
-						result = "Дата входа не может быть больше даты выхода";
+						result = CommonResources.EnterDateExitDate;
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if (EnterDateTime == null || ExitDateTime == null)
-						result = "Введите дату";
+						result = CommonResources.EnterDate;
 				}
 				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "ExitDateTime")
 				{
@@ -361,12 +362,12 @@ namespace SKDModule.Model
 					    ExitDateTime.Value.Date == DateTime.Now.Date)
 					{
 						if (ExitTime > DateTime.Now.TimeOfDay || EnterTime > DateTime.Now.TimeOfDay)
-							result = "Дата не может быть установлена в будущее время";
+							result = CommonResources.FutureDate;
 					}
 					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date > DateTime.Now.Date ||
 						ExitDateTime.GetValueOrDefault().Date > DateTime.Now.Date)
 					{
-						result = "Дата не может быть установлена в будущее время";
+                        result = CommonResources.FutureDate;
 					}
 				}
 

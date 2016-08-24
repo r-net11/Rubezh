@@ -174,10 +174,10 @@
   <data name="DeleteDocConfirm" xml:space="preserve">
     <value>Вы действительно хотите удалить файл оправдательного документа?</value>
   </data>
-  <data name="Department" xml:space="preserve">
+  <data name="Departments" xml:space="preserve">
     <value>Подразделения</value>
   </data>
-  <data name="Departments" xml:space="preserve">
+  <data name="Department" xml:space="preserve">
     <value>Подразделение</value>
   </data>
   <data name="DeviceDate" xml:space="preserve">
@@ -225,7 +225,7 @@
   <data name="EnterDate" xml:space="preserve">
     <value>Введите дату</value>
   </data>
-  <data name="EnterDate1" xml:space="preserve">
+  <data name="EnterDateTime" xml:space="preserve">
     <value>Дата и время входа</value>
   </data>
   <data name="EnterDateExitDate" xml:space="preserve">
@@ -348,13 +348,13 @@
   <data name="PersonalNumber" xml:space="preserve">
     <value>Табельный номер (Примечание)</value>
   </data>
-  <data name="Position" xml:space="preserve">
+  <data name="Positions" xml:space="preserve">
     <value>Должности</value>
   </data>
-  <data name="Positions" xml:space="preserve">
+  <data name="Position" xml:space="preserve">
     <value>Должность</value>
   </data>
-  <data name="PositionsMaintainer" xml:space="preserve">
+  <data name="PositionMaintainer" xml:space="preserve">
     <value>Должность (Сопровождающий)</value>
   </data>
   <data name="PreviousMonth" xml:space="preserve">

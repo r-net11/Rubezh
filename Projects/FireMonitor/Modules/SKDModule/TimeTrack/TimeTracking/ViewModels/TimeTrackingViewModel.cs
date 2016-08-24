@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -407,7 +408,7 @@ namespace SKDModule.ViewModels
 		{
 			if (_cachedTimeTracks.Count == 0)
 			{
-				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
+				MessageBoxService.ShowWarning(CommonViewModels.NoEmployeeInReport);
 				return;
 			}
 			var organisationUIDs = new HashSet<Guid>();
@@ -419,25 +420,25 @@ namespace SKDModule.ViewModels
 
 				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
 				{
-					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному из подразделений");
+					MessageBoxService.ShowWarning(string.Format(CommonViewModels.EmployeeWithEmptyDepart, timeTrack.ShortEmployee.FIO));
 					return;
 				}
 				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
 			}
 			if (organisationUIDs.Count > 1)
 			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
+				MessageBoxService.ShowWarning(CommonViewModels.OnlySameOrganizationInReport);
 				return;
 			}
 			if (departmentNames.Count > 1)
 			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного подразделения");
+				MessageBoxService.ShowWarning(CommonViewModels.OnlySameDepartInReport);
 				return;
 			}
 
 			if (_timeTrackFilter.StartDate.Date.Month < _timeTrackFilter.EndDate.Date.Month || _timeTrackFilter.StartDate.Date.Year < _timeTrackFilter.EndDate.Date.Year)
 			{
-				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
+				MessageBoxService.ShowWarning(CommonViewModels.OnlyFirstMonthDataInReport);
 			}
 
 			var reportSettingsViewModel = new ReportSettingsViewModel(_timeTrackFilter, _timeTrackEmployeeResults);

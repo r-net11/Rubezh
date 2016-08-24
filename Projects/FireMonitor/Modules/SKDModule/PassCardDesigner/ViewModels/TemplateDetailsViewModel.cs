@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
+using Localization.SKD.Errors;
+using Localization.SKD.ViewModels;
 using SKDModule.PassCardDesigner.Model;
 using SKDModule.ViewModels;
 using StrazhAPI.Enums;
@@ -18,8 +20,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 	{
 		#region Variables
 
-		private const string TitleString = "Создание шаблона пропуска";
-		private const string CaptionString = "Новый шаблон";
+        private static string TitleString = CommonViewModels.CreateAccessTempl;
+		private static string CaptionString = CommonViewModels.NewTemplate;
 
 		private PassCardTemplateSideType _selectedTemplateSide;
 		private Template _passCardTemplate;
@@ -139,7 +141,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			if (PassCardTemplate == null) return;
 
-			Title = string.Format("Шаблон пропусков: {0}", PassCardTemplate.Caption);
+			Title = string.Format(CommonViewModels.PasscardTemplate, PassCardTemplate.Caption);
 		}
 
 		public bool ShowPassCardPropertiesDialog(Organisation organisation, ShortPassCardTemplate model = null)
@@ -174,7 +176,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 			if (!task.Result)
 			{
-				MessageBoxService.ShowError("Ошибка при добавлении шаблона пропуска");
+				MessageBoxService.ShowError(CommonErrors.AccessTemplate_Error);
 				return false;
 			}
 

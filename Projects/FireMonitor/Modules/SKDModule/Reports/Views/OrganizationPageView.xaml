@@ -5,7 +5,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:component="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    mc:Ignorable="d"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
 	<UserControl.Resources>
@@ -33,7 +35,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Название"
+					Header="{x:Static langCommon:CommonResources.Name}"
 					SortMemberPath="Name"
 					Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
@@ -60,7 +62,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Название"
+					Header="{x:Static langCommon:CommonResources.Name}"
 					SortMemberPath="Name"
 					Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
@@ -88,7 +90,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn
 					Width="*"
-					Header="Примечание"
+					Header="{x:Static langCommon:CommonResources.Note}"
 					SortMemberPath="Description">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -109,11 +111,11 @@
 			<ToolBarButton
 				Command="{Binding SelectAllCommand}"
 				ImageSource="SelectAll"
-				ToolTip="Выбрать все" />
+				ToolTip="{x:Static lang:CommonViews.SelectAll}" />
 			<ToolBarButton
 				Command="{Binding SelectNoneCommand}"
 				ImageSource="SelectNone"
-				ToolTip="Отменить выбор" />
+				ToolTip="{x:Static lang:CommonViews.ChooseCancel}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

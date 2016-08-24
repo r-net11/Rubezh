@@ -2,6 +2,8 @@
 			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			  xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
 			  xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+              xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+              xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 			  ColumnWidth="21cm" PageHeight="29.7cm" PageWidth="21cm">
 	<FlowDocument.Resources>
 		<ResourceDictionary>
@@ -28,10 +30,10 @@
 					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Right">
-							Страница
+							<Run Text="{x:Static lang:CommonViews.Page}"/>
 							<xrd:InlineContextValue FontWeight="Bold" Type="PageNumber" />
-							из
-							<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
+                            <Run Text="{x:Static lang:CommonViews.Of}"/>
+                            <xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
 						</Paragraph>
 					</TableCell>
 				</TableRow>
@@ -49,20 +51,28 @@
 			<TableRowGroup Style="{StaticResource header1}">
 				<TableRow>
 					<TableCell ColumnSpan="3">
-						<Paragraph TextAlignment="Center">Список устройств конфигурации</Paragraph>
+						<Paragraph TextAlignment="Center">
+                            <Run Text="{x:Static langCommon:CommonResources.ConfigurationDeviceList}"/>
+                        </Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>
 			<TableRowGroup Style="{StaticResource header2}">
 				<TableRow>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Название</Paragraph>
+                        <Paragraph TextAlignment="Center">
+                            <Run Text="{x:Static langCommon:CommonResources.Name}"/>
+                        </Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Адрес</Paragraph>
+                        <Paragraph TextAlignment="Center">
+                            <Run Text="{x:Static langCommon:CommonResources.Address}"/>
+                        </Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Тип</Paragraph>
+                        <Paragraph TextAlignment="Center">
+                            <Run Text="{x:Static langCommon:CommonResources.Type}"/>
+                        </Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>

@@ -2,6 +2,8 @@
 	x:Class="SKDModule.Views.ScheduleSchemeDetailsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	Width="350"
 	Height="190">
 	<Grid>
@@ -19,7 +21,7 @@
 			VerticalAlignment="Center"
 			Margin="5"
 			Foreground="White"
-			Text="Название" />
+			Text="{x:Static langCommon:CommonResources.Name}" />
 		<TextBox
 			Grid.Column="1"
 			MaxLength="50"
@@ -32,7 +34,7 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Примечание" />
+			Text="{x:Static langCommon:CommonResources.Note}" />
 		<TextBox
 			Grid.Row="1"
 			MaxLength="50"
@@ -46,7 +48,7 @@
 			Margin="5"
 			VerticalAlignment="Center"
 			Foreground="White"
-			Text="Тип графика"
+			Text="{x:Static lang:CommonViews.ScheduleType}"
 			Visibility="{Binding IsNew,
 		                                Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ComboBox
@@ -70,7 +72,7 @@
 			VerticalAlignment="Center"
 			Margin="5"
 			Foreground="White"
-			Text="Дневной график"
+			Text="{x:Static langCommon:CommonResources.DaySchedule}"
 			Visibility="{Binding CanSelectDayInterval,
 		                                Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ComboBox

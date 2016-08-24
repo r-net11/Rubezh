@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (!SelectedItem.Cards.Any() || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
+			if (!SelectedItem.Cards.Any() || MessageBoxService.ShowQuestion(CommonViewModels.EmployeePasscardArchive))
 			{
 				var cardUIDs = SelectedItem.Cards.Select(x => x.UID);
 				base.Remove();
@@ -151,30 +151,30 @@ namespace SKDModule.ViewModels
 			get
 			{
 				if (PersonType == StrazhAPI.SKD.PersonType.Employee)
-					return "сотрудника";
+					return CommonViewModels.Employee;
 				else
-					return "посетителя";
+					return CommonViewModels.Visitor;
 			}
 		}
 
 		public string AddCommandToolTip
 		{
-			get { return "Добавить " + ItemRemovingName; }
+			get { return string.Format(CommonViewModels.Add,ItemRemovingName); }
 		}
 
 		public string RemoveCommandToolTip
 		{
-			get { return "Удалить " + ItemRemovingName; }
+			get { return string.Format(CommonViewModels.Delete,ItemRemovingName); }
 		}
 
 		public string EditCommandToolTip
 		{
-			get { return "Редактировать " + ItemRemovingName; }
+			get { return string.Format(CommonViewModels.Edit, ItemRemovingName); }
 		}
 
 		public string TabItemHeader
 		{
-			get { return PersonType == StrazhAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
+			get { return PersonType == StrazhAPI.SKD.PersonType.Employee ? CommonViewModels.Employees : CommonViewModels.Visitors; }
 		}
 
 		protected override bool Add(ShortEmployee item)

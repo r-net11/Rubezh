@@ -2,6 +2,7 @@
 using Common;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public EventTypePageViewModel()
 		{
-			Title = "Типы событий";
+			Title = CommonViewModels.EventsTypes;
 			BuildTree();
 			SelectAllCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = false; item.IsChecked = true; }));
 			SelectNoneCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = true; item.IsChecked = false; }));

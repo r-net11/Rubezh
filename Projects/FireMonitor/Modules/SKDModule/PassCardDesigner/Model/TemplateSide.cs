@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
+using Localization.SKD.Errors;
 using Microsoft.Win32;
 using SKDModule.Reports;
 using StrazhAPI.Extensions;
@@ -189,7 +191,7 @@ namespace SKDModule.PassCardDesigner.Model
 					else
 					{
 						MessageBoxService.ShowError(
-							"Оригинальный файл изображения не может быть найден. Необходимо добавить файл изображения подложки.");
+							CommonErrors.ImageFileNotFound_Error);
 						return;
 					}
 				}
@@ -230,7 +232,7 @@ namespace SKDModule.PassCardDesigner.Model
 			{
 				Report = new PassCardTemplateReport(Image.FromStream(ms))
 				{
-					DisplayName = "Шаблон пропуска",
+					DisplayName = CommonResources.PasscardTemplate,
 					WidthF = (float)width,
 					HeightF = (float)height,
 					PageWidth = (int)width,
@@ -275,7 +277,7 @@ namespace SKDModule.PassCardDesigner.Model
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ImagePropertiesViewModel.UpdateImage");
-				MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
+				MessageBoxService.ShowWarning(CommonErrors.LoadImage_Error);
 			}
 		}
 

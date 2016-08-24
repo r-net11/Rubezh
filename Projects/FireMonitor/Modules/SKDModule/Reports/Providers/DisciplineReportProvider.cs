@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class DisciplineReportProvider : FilteredSKDReportProvider<DisciplineReportFilter>
 	{
 		public DisciplineReportProvider()
-			: base("Дисциплинарный отчет", 421, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_Discipline)
+            : base(CommonResources.DisciplineReport, 421, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_Discipline)
 		{
 		}
 
@@ -19,8 +20,8 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string>
 				{
-					{ "Date", "Дата" },
-					{ "Employee", "Сотрудник" },
+					{ "Date", CommonResources.Date },
+					{ "Employee", CommonResources.Employee },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -37,7 +38,7 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "дополнительную колонку"; }
+			get { return CommonViewModels.AdditionalColumn; }
 		}
 
 		protected override void AfterRemove(ShortAdditionalColumnType source)

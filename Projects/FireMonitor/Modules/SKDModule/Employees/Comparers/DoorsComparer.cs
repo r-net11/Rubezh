@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Common;
+using Localization.SKD.Common;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Employees.Comparers
@@ -14,8 +15,8 @@ namespace SKDModule.Employees.Comparers
 		{
 		}
 
-		private const string Always = "<Всегда>";
-		private const string Never = "<Никогда>";
+        private static string Always = CommonResources.Always;
+        private static string Never = CommonResources.Never;
 		public ListSortDirection SortDirection { get; set; }
 
 		public int Compare(object x, object y)

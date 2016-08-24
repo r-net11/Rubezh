@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
@@ -13,7 +14,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public SchedulePageViewModel()
 		{
-			Title = "График";
+			Title = CommonResources.Schedule;
 			SelectAllCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = false));
 

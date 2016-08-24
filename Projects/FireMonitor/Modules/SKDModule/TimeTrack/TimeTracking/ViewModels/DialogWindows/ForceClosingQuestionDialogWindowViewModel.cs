@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using Localization.SKD.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public ForceClosingQuestionDialogWindowViewModel()
 		{
-			Title = "Принудительное закрытие интервала";
+			Title = CommonResources.ForcedClose;
 		}
 	}
 }

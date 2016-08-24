@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
@@ -14,7 +15,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public UserPageViewModel()
 		{
-			Title = "Пользователи";
+			Title = CommonResources.Users;
 			Users = new ObservableCollection<CheckedItemViewModel<User>>(FiresecManager.SecurityConfiguration.Users.Select(item => new CheckedItemViewModel<User>(item)));
 			SelectAllCommand = new RelayCommand(() => Users.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Users.ForEach(item => item.IsChecked = false));

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Localization.SKD.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -9,7 +10,7 @@ namespace SKDModule.Reports.Providers
 	public class SchedulesReportProvider : FilteredSKDReportProvider<SchedulesReportFilter>
 	{
 		public SchedulesReportProvider()
-			: base("Отчет по графикам работы", 422, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_Schedules)
+			: base(CommonResources.WorkSchedulesReport, 422, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_Schedules)
 		{
 		}
 
@@ -19,11 +20,11 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Employee", "Сотрудник" },
-					{ "Organisation", "Организация" },
-					{ "Department", "Подразделение" },
-					{ "Position", "Должность" },
-					{ "Schedule", "График" },
+					{ "Employee", CommonResources.Employee },
+					{ "Organisation", CommonResources.Organization },
+					{ "Department", CommonResources.Department },
+					{ "Position", CommonResources.Position },
+					{ "Schedule", CommonResources.Schedule },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

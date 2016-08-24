@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms.VisualStyles;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -89,7 +91,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "шаблон пропуска"; }
+			get { return CommonResources.AccessTemplate.ToLower(); }
 		}
 
 		protected override StrazhAPI.Models.PermissionType Permission

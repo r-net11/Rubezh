@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using SKDModule.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace SKDModule.ViewModels
 
 		public WarningIntersectionIntervalDialogWindowViewModel()
 		{
-			Title = "Пересечение границ интервалов";
+			Title = CommonViewModels.CrossIntervalBounds;
 			OkCommand = new RelayCommand(OnOkPress);
 		}
 

@@ -5,7 +5,8 @@
 			 xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
-			 xmlns:Views="clr-namespace:SKDModule.Views">
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization">
 	<UserControl.Resources>
 		<viewModel:CardViewModelNumberComparer x:Key="CardViewModelNumberComparer" />
 		<viewModel:CardViewModelTypeComparer x:Key="CardViewModelTypeComparer" />
@@ -29,7 +30,7 @@
 		<tree:TreeList.View>
 			<GridView>
                 <GridViewColumn
-					Header="Номер"
+					Header="{x:Static langCommon:CommonResources.Number}"
 					Width="300"
 					tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
 					<GridViewColumn.CellTemplate>
@@ -43,14 +44,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Тип" Width="200" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
+                <GridViewColumn Header="{x:Static langCommon:CommonResources.Type}" Width="200" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding CardType}" Visibility="{Binding IsInStopList, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Сотрудник" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelEmployeeNameComparer}">
+				<GridViewColumn Header="{x:Static langCommon:CommonResources.Employee}" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelEmployeeNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding EmployeeName}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
@@ -58,7 +59,7 @@
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 				<GridViewColumn
-					Header="Причина деактивации"
+					Header="{x:Static langCommon:CommonResources.DeactivationReason}"
 					ctr:ProportionalColumn.Width="1"
 					Width="300"
 					tree:SortBehavior.SortComparer="{StaticResource CardViewModelStopReasonComparer}">

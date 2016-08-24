@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -64,7 +66,7 @@ namespace SKDModule.ViewModels
 					RemovalDate = DateTime.Now,
 					ScheduleStartDate = DateTime.Now
 				};
-				Title = IsEmployee ? "Добавить сотрудника" : "Добавить посетителя";
+				Title = IsEmployee ? CommonResources.AddEmpl : CommonViewModels.AddVisitor;
 
 			}
 			else
@@ -72,7 +74,7 @@ namespace SKDModule.ViewModels
 				if (employee != null)
 				{
 					Employee = EmployeeHelper.GetDetails(employee.UID) ?? new Employee();
-					Title = string.Format(IsEmployee ? "Свойства сотрудника: {0}" : "Свойства посетителя: {0}", employee.FIO);
+                    Title = string.Format(IsEmployee ? CommonViewModels.EmployeeProperties : CommonViewModels.VisitorProperties, employee.FIO);
 				}
 			}
 			CopyProperties();
@@ -125,7 +127,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 			HasAdditionalGraphicsColumns = GraphicsColumns.Count > 1;
-			GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? "Фото и графические данные" : "Фото";
+            GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? CommonViewModels.PhotoGraphData : CommonViewModels.Photo;
 		}
 
 		public Employee Employee { get; private set; }
@@ -247,7 +249,7 @@ namespace SKDModule.ViewModels
 		public string ScheduleString
 		{
 			get {
-				return HasSelectedSchedule ? string.Format("{0} с {1}", SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy")) : string.Empty;
+                return HasSelectedSchedule ? string.Format(CommonViewModels.SomeWithSome, SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy")) : string.Empty;
 			}
 		}
 
@@ -561,7 +563,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDepartment == null)
 			{
-				MessageBoxService.Show("Выберите подразделение");
+				MessageBoxService.Show(CommonViewModels.ChooseDepart);
 				return;
 			}
 			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort);

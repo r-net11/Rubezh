@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
+﻿using Infrastructure.Common.SKDReports;
+using Localization.SKD.Common;
 using StrazhAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
@@ -11,7 +8,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public DocumentFilterPageViewModel()
 		{
-			Title = "Документ";
+			Title = CommonResources.Document;
 		}
 
 		private bool _overtime;

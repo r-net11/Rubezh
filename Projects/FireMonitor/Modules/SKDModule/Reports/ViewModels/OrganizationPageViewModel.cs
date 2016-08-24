@@ -1,4 +1,5 @@
 ﻿using System.Windows.Threading;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
@@ -19,7 +20,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public OrganizationPageViewModel(bool allowMultiple)
 		{
-			Title = "Организации";
+			Title = CommonResources.Organizations;
 			AllowMultiple = allowMultiple;
 			CreateItemList();
 			SelectAllCommand = new RelayCommand(() => Organisations.Items.ForEach(item => item.IsChecked = true));

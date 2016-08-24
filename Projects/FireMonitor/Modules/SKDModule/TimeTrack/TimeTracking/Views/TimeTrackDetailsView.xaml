@@ -11,6 +11,8 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:cal="http://www.caliburnproject.org"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
 	Width="1100"
 	Height="600"
 	d:DataContext="{d:DesignInstance viewModels:TimeTrackDetailsViewModel}"
@@ -47,7 +49,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Margin="2">
-			<TabItem Header="Отчет">
+			<TabItem Header="{x:Static lang:CommonViews.Report}">
 				<Grid Margin="2">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -57,20 +59,20 @@
 						<ToolBarButton
 							Command="{Binding AddCustomPartCommand}"
 							ImageSource="Add"
-							ToolTip="Добавить" />
+							ToolTip="{x:Static lang:CommonViews.Add}" />
 						<ToolBarButton
 							Command="{Binding RemovePartCommand}"
 							ImageSource="Delete"
-							ToolTip="Удалить" />
+							ToolTip="{x:Static lang:CommonViews.Delete}" />
 						<ToolBarButton
 							Command="{Binding EditPartCommand}"
 							ImageSource="Edit"
-							ToolTip="Редактировать" />
-						<ToolBarButton
+							ToolTip="{x:Static lang:CommonViews.Edit}" />
+                        <ToolBarButton
 							Command="{Binding ForceClosingCommand}"
 							ImageSource="Alarm_main_7_Auto"
-							ToolTip="Принудительное закрытие интервала"/>
-					</StackPanel>
+							ToolTip="{x:Static langCommon:CommonResources.ForcedClose}"/>
+                    </StackPanel>
 					<DataGrid
 						Grid.Row="1"
 						Margin="2"
@@ -95,7 +97,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" Header="Зона">
+							<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Zone}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -124,7 +126,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" Header="Вход">
+							<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Enter}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate DataType="{x:Type models:DayTimeTrackPart}">
 										<TextBlock
@@ -156,7 +158,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" Header="Выход">
+							<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.Exit}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate DataType="{x:Type models:DayTimeTrackPart}">
 										<TextBlock
@@ -188,7 +190,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="Auto" Header="Не учитывать в расчетах">
+                            <DataGridTemplateColumn Width="Auto" Header="{x:Static lang:CommonViews.CalcIgnore}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<CheckBox
@@ -200,7 +202,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="Auto" Header="Требуется корректировка">
+                            <DataGridTemplateColumn Width="Auto" Header="{x:Static lang:CommonViews.CorrNeed}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<CheckBox
@@ -212,7 +214,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" Header="Дата корректировки">
+                            <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.CorrectionDate}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Language="RU-ru" Margin="4 2" Text="{Binding AdjustmentDate}">
@@ -229,7 +231,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" Header="Откорректировал">
+                            <DataGridTemplateColumn Width="*" Header="{x:Static lang:CommonViews.CorrectedBy}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Margin="4 2" Text="{Binding CorrectedBy}">
@@ -250,7 +252,7 @@
 					</DataGrid>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Документы">
+            <TabItem Header="{x:Static langCommon:CommonResources.Documents}">
 				<Grid Margin="2">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -260,34 +262,34 @@
 						<ToolBarButton
 							Command="{Binding AddDocumentCommand}"
 							ImageSource="Add"
-							ToolTip="Добавить документ" />
+							ToolTip="{x:Static lang:CommonViews.DocumentAdd}" />
 						<ToolBarButton
 							Command="{Binding EditDocumentCommand}"
 							ImageSource="Edit"
-							ToolTip="Редактировать документ" />
+							ToolTip="{x:Static lang:CommonViews.EditDocument}" />
 						<ToolBarButton
 							Command="{Binding RemoveDocumentCommand}"
 							ImageSource="Delete"
-							ToolTip="Удалить документ" />
+							ToolTip="{x:Static lang:CommonViews.DeleteDocument}" />
 						<ToolBarButton
 							Command="{Binding AddFileCommand}"
 							ImageSource="Add"
-							ToolTip="Добавить файл" />
+							ToolTip="{x:Static lang:CommonViews.FileAdd}" />
 						<ToolBarButton
 							Command="{Binding OpenFileCommand}"
 							ImageSource="Edit"
-							ToolTip="Открыть файл" />
+							ToolTip="{x:Static lang:CommonViews.OpenFile}" />
 						<ToolBarButton
 							Command="{Binding RemoveFileCommand}"
 							ImageSource="Delete"
-							ToolTip="Удалить файл" />
+							ToolTip="{x:Static lang:CommonViews.DeleteFile}" />
 					</StackPanel>
 					<DataGrid
 						Grid.Row="1"
 						ItemsSource="{Binding Documents}"
 						SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="*" Header="Название документа">
+							<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.DocumentName}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -302,28 +304,28 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="50" Header="Код">
+                            <DataGridTemplateColumn Width="50" Header="{x:Static lang:CommonViews.Code}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Margin="2 0" Text="{Binding ShortName}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="150" Header="Начало">
+                            <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.Start}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Margin="2 0" Text="{Binding StartDateTime}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="150" Header="Конец">
+                            <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.End}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Margin="2 0" Text="{Binding EndDateTime}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="150" Header="Файл">
+                            <DataGridTemplateColumn Width="150" Header="{x:Static lang:CommonViews.File}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Margin="2 0" Text="{Binding OriginalFileName}" />
@@ -337,7 +339,7 @@
 		</TabControl>
 		<CheckBox
 			Grid.Row="1"
-			Content="Отображать только интервалы пребывания в зонах УРВ"
+			Content="{x:Static lang:CommonViews.DisplayURVIntervals}"
 			Foreground="White"
 			VerticalAlignment="Center"
 			IsChecked="{Binding IsShowOnlyScheduledIntervals, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -355,7 +357,7 @@
 				VerticalAlignment="Center"
 				FontWeight="Bold"
 				Foreground="White"
-				Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
+				Text="{x:Static lang:CommonViews.RefreshURV}" />
 		</StackPanel>
 		<Border
 			Grid.Row="3"
@@ -379,7 +381,7 @@
 						Margin="2"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Center"
-						Text="По документу" />
+						Text="{x:Static lang:CommonViews.DocumentBy}" />
 					<Grid
 						Name="DocumentsGrid"
 						Grid.Column="1"
@@ -390,7 +392,7 @@
 						Margin="2"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Center"
-						Text="Фактически" />
+						Text="{x:Static lang:CommonViews.Actually}" />
 					<Grid
 						Name="RealGrid"
 						Grid.Row="1"
@@ -402,7 +404,7 @@
 						Margin="2"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Center"
-						Text="График" />
+						Text="{x:Static langCommon:CommonResources.Schedule}" />
 					<Grid
 						Name="PlannedGrid"
 						Grid.Row="2"
@@ -414,7 +416,7 @@
 						Margin="2"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Center"
-						Text="Итого" />
+						Text="{x:Static lang:CommonViews.Tottally}" />
 					<Grid
 						Name="CombinedGrid"
 						Grid.Row="3"
@@ -449,7 +451,7 @@
 						Grid.Row="1"
 						HorizontalAlignment="Center">
 						<TextBlock
-							Text="Норма:"
+							Text="{x:Static lang:CommonViews.Norm}"
 							VerticalAlignment="Center"
 							Margin="5"/>
 						<TextBlock
@@ -461,7 +463,7 @@
 						Grid.Column="1"
 						HorizontalAlignment="Center">
 						<TextBlock
-							Text="Баланс:"
+							Text="{x:Static lang:CommonViews.Balance}"
 							VerticalAlignment="Center"
 							Margin="5"/>
 						<TextBlock
@@ -500,7 +502,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Явка" />
+							Text="{x:Static lang:CommonViews.Appear}" />
 						<Border
 							Grid.Row="3"
 							Grid.Column="1"
@@ -531,7 +533,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Отсутствие" />
+							Text="{x:Static lang:CommonViews.Miss}" />
 						<Border
 							Grid.Row="2"
 							Grid.Column="1"
@@ -561,7 +563,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Опоздание" />
+							Text="{x:Static lang:CommonViews.Lateness}" />
 						<Border
 							Grid.Column="1"
 							Margin="5"
@@ -590,7 +592,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Уход раньше" />
+							Text="{x:Static lang:CommonViews.EarlyLeft}" />
 						<Border
 							Grid.Row="1"
 							Grid.Column="1"
@@ -621,7 +623,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Работа ночью" />
+							Text="{x:Static lang:CommonViews.NightWork}" />
 						<Border
 							Grid.Row="4"
 							Grid.Column="1"
@@ -666,7 +668,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Переработка" />
+							Text="{x:Static lang:CommonViews.Overtime}" />
 						<Border
 							Grid.Column="1"
 							Margin="5"
@@ -697,7 +699,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Переработка по документу" />
+							Text="{x:Static lang:CommonViews.DocumentOvertime}" />
 						<Border
 							Grid.Row="4"
 							Grid.Column="1"
@@ -728,7 +730,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Присутствие по документу" />
+							Text="{x:Static lang:CommonViews.DocumentVisiting}" />
 						<Border
 							Grid.Row="1"
 							Grid.Column="1"
@@ -759,7 +761,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Отсутствие по уважительной причине" />
+							Text="{x:Static lang:CommonViews.ReasonMiss}" />
 						<Border
 							Grid.Row="2"
 							Grid.Column="1"
@@ -790,7 +792,7 @@
 							Margin="5"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							Text="Отсутствие по неуважительной причине" />
+							Text="{x:Static lang:CommonViews.NotReasonMiss}" />
 						<Border
 							Grid.Row="3"
 							Grid.Column="1"

@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 
 		public FilterBaseViewModel(T filter)
 		{
-			Title = "Фильтр";
+			Title = CommonResources.Filter;
 			Filter = filter;
 
 			switch (Filter.LogicalDeletationType)

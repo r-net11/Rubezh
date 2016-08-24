@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="SKDModule.Reports.Views.PassCardTypePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="SKDModule.Reports.Views.PassCardTypePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization">
 	<UserControl.Resources>
 		<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
 			<Setter Property="Foreground" Value="White" />
@@ -7,15 +8,15 @@
 	</UserControl.Resources>
 	<Grid Margin="20">
         <StackPanel>
-		<CheckBox Content="Активные пропуска" IsChecked="{Binding PassCardActive}" />
+            <CheckBox Content="{x:Static lang:CommonViews.ActivePasscards}" IsChecked="{Binding PassCardActive}" />
             <StackPanel IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" Margin="30 0 0 0">
-                <CheckBox Content="Постоянный" IsChecked="{Binding PassCardPermanent}" />
-                <CheckBox Content="Временный" IsChecked="{Binding PassCardTemprorary}" />
-				<CheckBox Content="Гостевой" IsChecked="{Binding PassCardGuest}" />
-                <CheckBox Content="Принуждение" IsChecked="{Binding PassCardForcing}" />
-                <CheckBox Content="Заблокированный" IsChecked="{Binding PassCardLocked}" />
+                <CheckBox Content="{x:Static lang:CommonViews.Constant}" IsChecked="{Binding PassCardPermanent}" />
+                <CheckBox Content="{x:Static lang:CommonViews.Temp}" IsChecked="{Binding PassCardTemprorary}" />
+                <CheckBox Content="{x:Static lang:CommonViews.Guest}" IsChecked="{Binding PassCardGuest}" />
+                <CheckBox Content="{x:Static lang:CommonViews.Forcing}" IsChecked="{Binding PassCardForcing}" />
+                <CheckBox Content="{x:Static lang:CommonViews.Blocked}" IsChecked="{Binding PassCardLocked}" />
             </StackPanel>
-            <CheckBox Content="Деактивированный" IsChecked="{Binding PassCardInactive}" Visibility="{Binding AllowInactive, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <CheckBox Content="{x:Static lang:CommonViews.Deactivated}" IsChecked="{Binding PassCardInactive}" Visibility="{Binding AllowInactive, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

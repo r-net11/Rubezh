@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Controls;
 using Controls.TreeList;
+using Localization.SKD.Common;
 using StrazhAPI.SKD;
 using Infrastructure;
 using SKDModule.Events;
@@ -15,7 +16,7 @@ namespace SKDModule
 		IWithDeletedView _parent;
 		LogicalDeletationType _deletationType;
 		GridView gridView { get { return (_parent.TreeList.View as GridView); } }
-		GridViewColumn IsDeletedColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Дата удаления"); } }
+		GridViewColumn IsDeletedColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == CommonResources.DeleteDate); } }
 		bool IsColumnShown { get { return IsDeletedColumn != null; } }
 
 		public ChangeIsDeletedViewSubscriber(IWithDeletedView parent, LogicalDeletationType deletationType = LogicalDeletationType.Active)
@@ -46,7 +47,7 @@ namespace SKDModule
 			{
 				if (!IsColumnShown)
 				{
-					var gridViewColumn = new GridViewColumn {Header = "Дата удаления", Width = 150};
+					var gridViewColumn = new GridViewColumn {Header = CommonResources.DeleteDate, Width = 150};
 					var dataTemplate = new DataTemplate();
 					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
 					dataTemplate.VisualTree = txtElement;

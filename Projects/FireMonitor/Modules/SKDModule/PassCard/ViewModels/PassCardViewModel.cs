@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -28,7 +29,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		public PassCardViewModel(Guid employeeUID, SKDCard card) //TODO: Refactor that class
 		{
-			Title = "Печать удостоверения " + card.Number;
+            Title = string.Format(CommonViewModels.PrintPasscard, card.Number);
 			_card = card;
 			PrintCommand = new RelayCommand(OnPrint, () => SelectedPassCardTemplate != null);
 			_employee = EmployeeHelper.GetDetails(employeeUID);
@@ -142,7 +143,7 @@ namespace SKDModule.PassCard.ViewModels
 			switch (elementTextProperty.PropertyType)
 			{
 				case PassCardTextPropertyType.Birthday:
-					elementTextProperty.Text = "[Пока нет в БД]";
+					elementTextProperty.Text = CommonViewModels.NotInDB;
 					break;
 				case PassCardTextPropertyType.Department:
 					if (_department != null)

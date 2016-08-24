@@ -10,6 +10,8 @@
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
 	DataContextChanged="UserControl_DataContextChanged"
 	d:DesignHeight="250"
 	d:DesignWidth="400"
@@ -29,27 +31,27 @@
 			<ToolBarButton
 				Command="{Binding AddCommand}"
 				ImageSource="Add"
-				ToolTip="Добавить" />
+				ToolTip="{x:Static lang:CommonViews.Add}" />
 			<ToolBarButton
 				Command="{Binding EditCommand}"
 				ImageSource="Edit"
-				ToolTip="Редактировать" />
+				ToolTip="{x:Static lang:CommonViews.Edit}" />
 			<ToolBarButton
 				Command="{Binding RemoveCommand}"
 				ImageSource="Delete"
-				ToolTip="Удалить" />
+				ToolTip="{x:Static lang:CommonViews.Delete}" />
 			<ToolBarButton
 				Command="{Binding CopyCommand}"
 				ImageSource="Copy"
-				ToolTip="Копировать" />
+				ToolTip="{x:Static lang:CommonViews.Copy}" />
 			<ToolBarButton
 				Command="{Binding PasteCommand}"
 				ImageSource="Paste"
-				ToolTip="Вставить" />
+				ToolTip="{x:Static lang:CommonViews.Paste}" />
 			<ToolBarButton
 				Command="{Binding RestoreCommand}"
 				ImageSource="Redo"
-				ToolTip="Восстановить"
+				ToolTip="{x:Static lang:CommonViews.Restore}"
 				Visibility="{Binding IsWithDeleted,
 			                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
@@ -71,7 +73,7 @@
 					<GridView>
 						<GridViewColumn
 							Width="300"
-							Header="Название"
+							Header="{x:Static langCommon:CommonResources.Name}"
 							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
@@ -97,7 +99,7 @@
 						</GridViewColumn>
 						<GridViewColumn
 							Width="300"
-							Header="Примечание"
+							Header="{x:Static langCommon:CommonResources.Note}"
 							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelDescriptionComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
@@ -109,7 +111,7 @@
 						</GridViewColumn>
 						<GridViewColumn
 							Width="100"
-							Header="Тип"
+							Header="{x:Static langCommon:CommonResources.Type}"
 							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
@@ -138,11 +140,11 @@
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
-						ToolTip="Добавить" />
+						ToolTip="{x:Static lang:CommonViews.Add}" />
 					<ToolBarButton
 						Command="{Binding DeleteCommand}"
 						ImageSource="Delete"
-						ToolTip="Удалить" />
+						ToolTip="{x:Static lang:CommonViews.Delete}" />
 				</StackPanel>
 				<DataGrid
 					Grid.Row="1"
@@ -151,7 +153,7 @@
 					ItemsSource="{Binding SheduleDayIntervals}"
 					SelectedItem="{Binding SelectedSheduleDayInterval}">
 					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="Auto" Header="День">
+                        <DataGridTemplateColumn Width="Auto" Header="{x:Static lang:CommonViews.Day}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -168,7 +170,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Дневной график">
+						<DataGridTemplateColumn Width="*" Header="{x:Static langCommon:CommonResources.DaySchedule}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock

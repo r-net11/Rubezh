@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization.SKD.ViewModels;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -28,7 +29,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				EnerScheduleName = "График " + cardDoor.EnterScheduleNo + " деактивирован";
+				EnerScheduleName = string.Format(CommonViewModels.ScheduleDisable, cardDoor.EnterScheduleNo);
 			}
 
 			HasEnter = door.InDeviceUID != Guid.Empty;

@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD.ReportFilters;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 
@@ -8,7 +9,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public PassCardTypePageViewModel()
 		{
-			Title = "Типы пропусков";
+			Title = CommonViewModels.PasscardTypes;
 		}
 
 		bool _passCardActive;

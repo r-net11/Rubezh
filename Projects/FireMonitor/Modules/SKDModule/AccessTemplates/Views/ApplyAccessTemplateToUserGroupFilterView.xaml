@@ -2,6 +2,8 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:SKDModule.Views"
+             xmlns:langCommon="clr-namespace:Localization.SKD.Common;assembly=Localization"
+             xmlns:lang="clr-namespace:Localization.SKD.Views;assembly=Localization"
              Width="800" Height="600">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -9,15 +11,15 @@
 		</Grid.RowDefinitions>
 		<TabControl
 			Grid.Row="0">
-			<TabItem Header="Подразделения">
+			<TabItem Header="{x:Static langCommon:CommonResources.Departments}">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
             <TabItem
-				Header="Должности"
+				Header="{x:Static langCommon:CommonResources.Positions}"
 				Visibility="{Binding ShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
-			<TabItem Header="Шаблоны доступа">
+            <TabItem Header="{x:Static lang:CommonViews.AccessTemplate}">
 				<Views:AccessTemplatesFilterView DataContext="{Binding AccessTemplatesFilterViewModel}"/>
 			</TabItem>
 			<TabItem Header="{Binding EmployeesFilterTitle}">

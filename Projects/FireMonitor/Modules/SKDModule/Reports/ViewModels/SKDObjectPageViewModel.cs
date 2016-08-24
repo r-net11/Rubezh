@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
 using System.Collections.ObjectModel;
 using StrazhAPI.Journal;
@@ -17,7 +18,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public SKDObjectPageViewModel()
 		{
-			Title = "Объекты Страж";
+			Title = CommonViewModels.STRAZHObjects;
 			BuildTree();
 			SelectAllCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = false; item.IsChecked = true; }));
 			SelectNoneCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = true; item.IsChecked = false; }));

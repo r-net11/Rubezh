@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Infrastructure.Common.SKDReports;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Common;
-using StrazhAPI.GK;
-using FiresecClient;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -18,7 +15,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public ZonePageViewModel()
 		{
-			Title = "Зоны";
+		    Title = CommonViewModels.Zones;
 			Zones = new ObservableCollection<CheckedItemViewModel<CommonZoneViewModel>>();
 			foreach (var zone in SKDManager.Zones)
 			{

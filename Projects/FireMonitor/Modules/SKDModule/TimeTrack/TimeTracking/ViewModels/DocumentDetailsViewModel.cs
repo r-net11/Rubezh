@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.SKD.ViewModels;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -161,12 +162,12 @@ namespace SKDModule.ViewModels
 
 			if (timeTrackDocument == null)
 			{
-				Title = "Добавление документа";
+				Title = CommonViewModels.AddDocument;
 				timeTrackDocument = new TimeTrackDocument();
 			}
 			else
 			{
-				Title = "Редактирование документа";
+				Title = CommonViewModels.DocumentEdition;
 				_isNew = false;
 			}
 			TimeTrackDocument = timeTrackDocument;
@@ -224,7 +225,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDocument == null)
 			{
-				MessageBoxService.ShowWarning("Необходимо выбрать вид документа");
+				MessageBoxService.ShowWarning(CommonViewModels.SelectDocumentType);
 				return false;
 			}
 
@@ -233,7 +234,7 @@ namespace SKDModule.ViewModels
 
 			if (startDateTime >= endDateTime)
 			{
-				MessageBoxService.ShowWarning("Дата и время окончания должно быть позднее даты и времени начала");
+				MessageBoxService.ShowWarning(CommonViewModels.EndDateTimeLaterStartDateTime);
 				return false;
 			}
 
