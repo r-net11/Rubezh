@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FiresecClient;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
@@ -71,33 +72,89 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
-			SelectedDepartment = !Department.ParentDepartmentUID.IsNullOrEmpty()
-				? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value)
-				: null;
+			SetSelectedDepartmentAsync();
 
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 
-			SelectedAccessTemplate = AccessTemplateHelper.Get(new AccessTemplateFilter
-			{
-				LogicalDeletationType = LogicalDeletationType.Active,
-				OrganisationUIDs = new List<Guid> { OrganisationUID },
-				UserUID = FiresecManager.CurrentUser.UID
-			}).FirstOrDefault(x => x.UID == Department.AccessTemplateUID);
+			SetSelectedAccessTemplateAsync();
 
-			SelectedSchedule = ScheduleHelper.Get(new ScheduleFilter
-			{
-				LogicalDeletationType = LogicalDeletationType.Active,
-				OrganisationUIDs = new List<Guid> { OrganisationUID },
-				UserUID = FiresecManager.CurrentUser.UID
-			}).FirstOrDefault(x => x.UID == Department.ScheduleUID);
+			SetSelectedScheduleAsync();
 
-			SelectedPassCardTemplate = PassCardTemplateHelper.Get(new PassCardTemplateFilter
+			SetSelectedPassCardTemplateAsync();
+		}
+
+		private void SetSelectedDepartmentAsync()
+		{
+			CanSelectDepartment = false;
+			Task.Factory.StartNew(() =>
 			{
-				LogicalDeletationType = LogicalDeletationType.Active,
-				OrganisationUIDs = new List<Guid> { OrganisationUID },
-				UserUID = FiresecManager.CurrentUser.UID
-			}).FirstOrDefault(x => x.UID == Department.PassCardTemplateUID);
+				return !Department.ParentDepartmentUID.IsNullOrEmpty()
+					? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value)
+					: null;
+			}).ContinueWith(t =>
+			{
+				CanSelectDepartment = true;
+				if (t.IsCompleted)
+					SelectedDepartment = t.Result;
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private void SetSelectedPassCardTemplateAsync()
+		{
+			CanSelectPassCardTemplate = false;
+			Task.Factory.StartNew(() =>
+			{
+				return PassCardTemplateHelper.Get(new PassCardTemplateFilter
+				{
+					LogicalDeletationType = LogicalDeletationType.Active,
+					OrganisationUIDs = new List<Guid> {OrganisationUID},
+					UserUID = FiresecManager.CurrentUser.UID
+				}).FirstOrDefault(x => x.UID == Department.PassCardTemplateUID);
+			}).ContinueWith(t =>
+			{
+				CanSelectPassCardTemplate = true;
+				if (t.IsCompleted)
+					SelectedPassCardTemplate = t.Result;
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private void SetSelectedScheduleAsync()
+		{
+			CanSelectSchedule = false;
+			Task.Factory.StartNew(() =>
+			{
+				return ScheduleHelper.Get(new ScheduleFilter
+				{
+					LogicalDeletationType = LogicalDeletationType.Active,
+					OrganisationUIDs = new List<Guid> { OrganisationUID },
+					UserUID = FiresecManager.CurrentUser.UID
+				}).FirstOrDefault(x => x.UID == Department.ScheduleUID);
+			}).ContinueWith(t =>
+			{
+				CanSelectSchedule = true;
+				if (t.IsCompleted)
+					SelectedSchedule = t.Result;
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private void SetSelectedAccessTemplateAsync()
+		{
+			CanSelectAccessTemplate = false;
+			Task.Factory.StartNew(() =>
+			{
+				return AccessTemplateHelper.Get(new AccessTemplateFilter
+				{
+					LogicalDeletationType = LogicalDeletationType.Active,
+					OrganisationUIDs = new List<Guid> {OrganisationUID},
+					UserUID = FiresecManager.CurrentUser.UID
+				}).FirstOrDefault(x => x.UID == Department.AccessTemplateUID);
+			}).ContinueWith(t =>
+			{
+				CanSelectAccessTemplate = true;
+				if (t.IsCompleted)
+					SelectedAccessTemplate = t.Result;
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
 		private string _name;
@@ -148,6 +205,9 @@ namespace SKDModule.ViewModels
 		}
 
 		private ShortDepartment _selectedDepartment;
+		/// <summary>
+		/// Родительское подразделение
+		/// </summary>
 		public ShortDepartment SelectedDepartment
 		{
 			get { return _selectedDepartment; }
@@ -155,16 +215,27 @@ namespace SKDModule.ViewModels
 			{
 				_selectedDepartment = value;
 				OnPropertyChanged(() => SelectedDepartment);
-				OnPropertyChanged(() => HasSelectedDepartment);
 			}
 		}
 
-		public bool HasSelectedDepartment
+		private bool _canSelectDepartment;
+		/// <summary>
+		/// Определяет активность ссылки для выбора родительского подразделения
+		/// </summary>
+		public bool CanSelectDepartment
 		{
-			get { return SelectedDepartment != null; }
+			get { return _canSelectDepartment; }
+			set
+			{
+				_canSelectDepartment = value;
+				OnPropertyChanged(() => CanSelectDepartment);
+			}
 		}
 
 		private AccessTemplate _selectedAccessTemplate;
+		/// <summary>
+		/// Шаблон доступа по умолчанию
+		/// </summary>
 		public AccessTemplate SelectedAccessTemplate
 		{
 			get { return _selectedAccessTemplate; }
@@ -172,16 +243,27 @@ namespace SKDModule.ViewModels
 			{
 				_selectedAccessTemplate = value;
 				OnPropertyChanged(() => SelectedAccessTemplate);
-				OnPropertyChanged(() => HasSelectedAccessTemplate);
 			}
 		}
 
-		public bool HasSelectedAccessTemplate
+		private bool _canSelectAccessTemplate;
+		/// <summary>
+		/// Определяет активность ссылки для выбора шаблона доступа по умолчанию
+		/// </summary>
+		public bool CanSelectAccessTemplate
 		{
-			get { return SelectedAccessTemplate != null; }
+			get { return _canSelectAccessTemplate; }
+			set
+			{
+				_canSelectAccessTemplate = value;
+				OnPropertyChanged(() => CanSelectAccessTemplate);
+			}
 		}
 
 		private Schedule _selectedSchedule;
+		/// <summary>
+		/// График работы по умолчанию
+		/// </summary>
 		public Schedule SelectedSchedule
 		{
 			get { return _selectedSchedule; }
@@ -189,16 +271,27 @@ namespace SKDModule.ViewModels
 			{
 				_selectedSchedule = value;
 				OnPropertyChanged(() => SelectedSchedule);
-				OnPropertyChanged(() => HasSelectedSchedule);
 			}
 		}
 
-		public bool HasSelectedSchedule
+		private bool _canSelectSchedule;
+		/// <summary>
+		/// Определяет активность ссылки для выбора графика работы по умолчанию
+		/// </summary>
+		public bool CanSelectSchedule
 		{
-			get { return SelectedSchedule != null; }
+			get { return _canSelectSchedule; }
+			set
+			{
+				_canSelectSchedule = value;
+				OnPropertyChanged(() => CanSelectSchedule);
+			}
 		}
 
 		private ShortPassCardTemplate _selectedPassCardTemplate;
+		/// <summary>
+		/// Шаблон пропуска по умолчанию
+		/// </summary>
 		public ShortPassCardTemplate SelectedPassCardTemplate
 		{
 			get { return _selectedPassCardTemplate; }
@@ -206,13 +299,21 @@ namespace SKDModule.ViewModels
 			{
 				_selectedPassCardTemplate = value;
 				OnPropertyChanged(() => SelectedPassCardTemplate);
-				OnPropertyChanged(() => HasSelectedPassCardTemplate);
 			}
 		}
 
-		public bool HasSelectedPassCardTemplate
+		private bool _canSelectPassCardTemplate;
+		/// <summary>
+		/// Определяет активность ссылки для выбора шаблона пропуска по умолчанию
+		/// </summary>
+		public bool CanSelectPassCardTemplate
 		{
-			get { return SelectedPassCardTemplate != null; }
+			get { return _canSelectPassCardTemplate; }
+			set
+			{
+				_canSelectPassCardTemplate = value;
+				OnPropertyChanged(() => CanSelectPassCardTemplate);
+			}
 		}
 
 		protected override bool CanSave()
@@ -252,7 +353,7 @@ namespace SKDModule.ViewModels
 		private void OnSelectAccessTemplate()
 		{
 			var accessTemplateSelectionViewModel = new DepartmentAccessTemplateSelectionViewModel();
-			accessTemplateSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedAccessTemplate);
+			accessTemplateSelectionViewModel.Initialize(OrganisationUID, selectedItem: SelectedAccessTemplate);
 			if (DialogService.ShowModalWindow(accessTemplateSelectionViewModel))
 			{
 				SelectedAccessTemplate = accessTemplateSelectionViewModel.SelectedItem;
@@ -263,7 +364,7 @@ namespace SKDModule.ViewModels
 		private void OnSelectSchedule()
 		{
 			var scheduleSelectionViewModel = new DepartmentScheduleSelectionViewModel();
-			scheduleSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedSchedule);
+			scheduleSelectionViewModel.Initialize(OrganisationUID, selectedItem: SelectedSchedule);
 			if (DialogService.ShowModalWindow(scheduleSelectionViewModel))
 			{
 				SelectedSchedule = scheduleSelectionViewModel.SelectedItem;
@@ -274,7 +375,7 @@ namespace SKDModule.ViewModels
 		private void OnSelectPassCardTemplate()
 		{
 			var passCardTemplateSelectionViewModel = new DepartmentPassCardTemplateSelectionViewModel();
-			passCardTemplateSelectionViewModel.Initialize(OrganisationUID, LogicalDeletationType.Active, SelectedPassCardTemplate);
+			passCardTemplateSelectionViewModel.Initialize(OrganisationUID, selectedItem: SelectedPassCardTemplate);
 			if (DialogService.ShowModalWindow(passCardTemplateSelectionViewModel))
 			{
 				SelectedPassCardTemplate = passCardTemplateSelectionViewModel.SelectedItem;
@@ -291,13 +392,13 @@ namespace SKDModule.ViewModels
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			Department.ParentDepartmentUID = SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty;
 			Department.Phone = Phone;
-			Department.AccessTemplateUID = HasSelectedAccessTemplate
+			Department.AccessTemplateUID = SelectedAccessTemplate != null
 				? SelectedAccessTemplate.UID
 				: (Guid?) null;
-			Department.ScheduleUID = HasSelectedSchedule
+			Department.ScheduleUID = SelectedSchedule != null
 				? SelectedSchedule.UID
 				: (Guid?) null;
-			Department.PassCardTemplateUID = HasSelectedPassCardTemplate
+			Department.PassCardTemplateUID = SelectedPassCardTemplate != null
 				? SelectedPassCardTemplate.UID
 				: (Guid?) null;
 

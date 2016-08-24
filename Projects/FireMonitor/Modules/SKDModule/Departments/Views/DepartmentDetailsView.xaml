@@ -9,6 +9,7 @@
 	<UserControl.Resources>
 		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 		<converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter"/>
+		<converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
 	</UserControl.Resources>
 	<TabControl>
 		<TabItem Header="Основные">
@@ -27,14 +28,14 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<!-- Название -->
 				<TextBlock
 					Grid.Row="0"
 					Grid.Column="0"
 					Text="Название"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center"/>
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<TextBox
 					MaxLength="50"
 					Grid.Row="0"
@@ -42,14 +43,14 @@
 					Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
 					Margin="2" />
 
-				<!-- Примечание -->
 				<TextBlock
 					Grid.Row="1"
 					Grid.Column="0"
 					Text="Примечание"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center"/>
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<TextBox
 					Grid.Row="1"
 					Grid.Column="1"
@@ -57,7 +58,6 @@
 					Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
 					Margin="2" />
 
-				<!-- Руководитель -->
 				<TextBlock
 					Grid.Row="2"
 					Grid.Column="0"
@@ -65,7 +65,8 @@
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
 					Foreground="White"
-					Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+					Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}"
+					Margin="2"/>
 				<StackPanel
 					Grid.Row="2"
 					Grid.Column="1"
@@ -75,15 +76,17 @@
 					Margin="2">
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock
-								Text="{Binding ChiefViewModel.SelectedEmployee.Name}"
-								TextDecorations="Underline" />
 							<TextBlock>
 								<TextBlock.Style>
 									<Style>
 										<Style.Triggers>
-											<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="false">
+											<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="True">
+												<Setter Property="TextBlock.Text" Value="{Binding ChiefViewModel.SelectedEmployee.Name}" />
+												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="False">
 												<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
 									</Style>
@@ -93,14 +96,14 @@
 					</TextBlock>
 				</StackPanel>
 
-				<!-- Родительское подразделение -->
 				<TextBlock
 					Grid.Row="3"
 					Grid.Column="0"
 					Text="Родительское подразделение"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center" />
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<StackPanel
 					Grid.Row="3"
 					Grid.Column="1"
@@ -108,33 +111,38 @@
 					VerticalAlignment="Center"
 					Margin="2" >
 					<TextBlock VerticalAlignment="Center">
-						<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock
-								Text="{Binding SelectedDepartment.Name}"
-								TextDecorations="Underline" />
-								<TextBlock>
-									<TextBlock.Style>
-										<Style>
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-								</TextBlock>
-							</Hyperlink>
-						</TextBlock>
+						<Hyperlink
+							Command="{Binding SelectDepartmentCommand}"
+							Style="{StaticResource HyperlinkStyle}"
+							IsEnabled="{Binding CanSelectDepartment}">
+							<TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding SelectedDepartment, Converter={StaticResource NullToBoolConverter}}" Value="True">
+												<Setter Property="TextBlock.Text" Value="{Binding SelectedDepartment.Name}" />
+												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding SelectedDepartment, Converter={StaticResource NullToBoolConverter}}" Value="False">
+												<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
+						</Hyperlink>
+					</TextBlock>
 				</StackPanel>
 
-				<!-- Телефон -->
 				<TextBlock
 					Grid.Row="4"
 					Grid.Column="0"
 					Text="Телефон"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center"/>
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<TextBox
 					Grid.Row="4"
 					Grid.Column="1"
@@ -142,14 +150,14 @@
 					Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
 					Margin="2" />
 
-				<!-- Шаблон доступа -->
 				<TextBlock
 					Grid.Row="5"
 					Grid.Column="0"
 					Text="Шаблон доступа"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center" />
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<StackPanel
 					Grid.Row="5"
 					Grid.Column="1"
@@ -157,26 +165,38 @@
 					VerticalAlignment="Center"
 					Margin="2">
 					<TextBlock VerticalAlignment="Center">
-						<Hyperlink Command="{Binding SelectAccessTemplateCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock
-								Text="{Binding SelectedAccessTemplate.Name}"
-								TextDecorations="Underline"
-								Visibility="{Binding HasSelectedAccessTemplate, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<TextBlock
-								Text="Нажмите для выбора"
-								Visibility="{Binding HasSelectedAccessTemplate, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+						<Hyperlink
+							Command="{Binding SelectAccessTemplateCommand}"
+							Style="{StaticResource HyperlinkStyle}"
+							IsEnabled="{Binding CanSelectAccessTemplate}">
+							<TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding SelectedAccessTemplate, Converter={StaticResource NullToBoolConverter}}" Value="True">
+												<Setter Property="TextBlock.Text" Value="{Binding SelectedAccessTemplate.Name}"/>
+												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding SelectedAccessTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
+												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
 
-				<!-- График работы -->
 				<TextBlock
 					Grid.Row="6"
 					Grid.Column="0"
 					Text="График работы"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center" />
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<StackPanel
 					Grid.Row="6"
 					Grid.Column="1"
@@ -184,26 +204,38 @@
 					VerticalAlignment="Center"
 					Margin="2">
 					<TextBlock VerticalAlignment="Center">
-						<Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock
-								Text="{Binding SelectedSchedule.Name}"
-								TextDecorations="Underline"
-								Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<TextBlock
-								Text="Нажмите для выбора"
-								Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+						<Hyperlink
+							Command="{Binding SelectScheduleCommand}"
+							Style="{StaticResource HyperlinkStyle}"
+							IsEnabled="{Binding CanSelectSchedule}">
+							<TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding SelectedSchedule, Converter={StaticResource NullToBoolConverter}}" Value="True">
+												<Setter Property="TextBlock.Text" Value="{Binding SelectedSchedule.Name}"/>
+												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding SelectedSchedule, Converter={StaticResource NullToBoolConverter}}" Value="False">
+												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
 
-				<!-- Шаблон пропуска -->
 				<TextBlock
 					Grid.Row="7"
 					Grid.Column="0"
 					Text="Шаблон пропуска"
 					Foreground="White"
 					HorizontalAlignment="Right"
-					VerticalAlignment="Center" />
+					VerticalAlignment="Center"
+					Margin="2"/>
 				<StackPanel
 					Grid.Row="7"
 					Grid.Column="1"
@@ -211,14 +243,26 @@
 					VerticalAlignment="Center"
 					Margin="2">
 					<TextBlock VerticalAlignment="Center">
-						<Hyperlink Command="{Binding SelectPassCardTemplateCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock
-								Text="{Binding SelectedPassCardTemplate.Name}"
-								TextDecorations="Underline"
-								Visibility="{Binding HasSelectedPassCardTemplate, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<TextBlock
-								Text="Нажмите для выбора"
-								Visibility="{Binding HasSelectedPassCardTemplate, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+						<Hyperlink
+							Command="{Binding SelectPassCardTemplateCommand}"
+							Style="{StaticResource HyperlinkStyle}"
+							IsEnabled="{Binding CanSelectPassCardTemplate}">
+							<TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding SelectedPassCardTemplate, Converter={StaticResource NullToBoolConverter}}" Value="True">
+												<Setter Property="TextBlock.Text" Value="{Binding SelectedPassCardTemplate.Name}"/>
+												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding SelectedPassCardTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
+												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
