@@ -61,7 +61,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активировать.
+        ///   Looks up a localized string similar to Activate.
         /// </summary>
         public static string Activate {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активировать синхронизацию с NTP-сервером.
+        ///   Looks up a localized string similar to Activate synchronization with the NTP-server.
         /// </summary>
         public static string ActivateSynchronisation {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить дочернюю зону.
+        ///   Looks up a localized string similar to Add a subsidiary zone.
         /// </summary>
         public static string AddChildZone {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить кадр.
+        ///   Looks up a localized string similar to Add picture.
         /// </summary>
         public static string AddFrame {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить к родительской зоне.
+        ///   Looks up a localized string similar to Add to the parent zone.
         /// </summary>
         public static string AddParentZone {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Адрес.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Разрешить множественную визуализацию.
+        ///   Looks up a localized string similar to Allow multiple visualization.
         /// </summary>
         public static string AllowMultiplyVisualization {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Альтернативное время закрытия, с.
+        ///   Looks up a localized string similar to Alternative closing time, with.
         /// </summary>
         public static string AlternativeClosingTime {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Альтернативные время удержания и время закрытия используются с пропусками, для которых задействован режим &quot;Использовать альтернативные параметры временных задержек замка&quot;.
+        ///   Looks up a localized string similar to Alternative retention time and the closing time are used with gaps, which enabled mode &quot;Use alternate settings lock time delays&quot;.
         /// </summary>
         public static string AlternativeRetentionClosingTime {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Альтернативное время удержания, мс.
+        ///   Looks up a localized string similar to Alternative retention time, ms.
         /// </summary>
         public static string AlternativeRetentionTime {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запрет повторного прохода.
+        ///   Looks up a localized string similar to Anti-passback.
         /// </summary>
         public static string AntiPassBack {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Автопоиск.
+        ///   Looks up a localized string similar to Auto.
         /// </summary>
         public static string Autosearch {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тревога по взлому.
+        ///   Looks up a localized string similar to Anxiety for burglary.
         /// </summary>
         public static string BurglaryAlarm {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Камера.
+        ///   Looks up a localized string similar to Camera.
         /// </summary>
         public static string CameraSelectationView {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запись пропусков.
+        ///   Looks up a localized string similar to Record passes.
         /// </summary>
         public static string CardsWrite {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд! Привязка считывателей к точкам доступа будет удалена! Остальные настройки в этом окне следует производить только после записи этого параметра..
+        ///   Looks up a localized string similar to If you change the type of access point on the controller, it will be unavailable for a few seconds! Binding readers to access points will be deleted! The other settings in this window should be made only after the entry of this parameter..
         /// </summary>
         public static string ChangeDoor {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изменить пароль.
+        ///   Looks up a localized string similar to Change password.
         /// </summary>
         public static string ChangePassword {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Закрывать замок при закрытии двери.
+        ///   Looks up a localized string similar to Close the lock when you close the door.
         /// </summary>
         public static string CloseLockCloseDoor {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время закрытия, с.
+        ///   Looks up a localized string similar to Closing time with.
         /// </summary>
         public static string ClosingTime {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запись конфигурации.
+        ///   Looks up a localized string similar to configuration Record.
         /// </summary>
         public static string ConfigWrite {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подключено к .
+        ///   Looks up a localized string similar to connected to.
         /// </summary>
         public static string ConnectedTo {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время на контроллере.
+        ///   Looks up a localized string similar to The date and time on the controller.
         /// </summary>
         public static string ControllerDateTime {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Управление контроллером.
+        ///   Looks up a localized string similar to controller Management.
         /// </summary>
         public static string ControllerManagement {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль контроллера.
+        ///   Looks up a localized string similar to controller Password.
         /// </summary>
         public static string ControllerPassword {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Команды записи на контроллер.
+        ///   Looks up a localized string similar to the controller records Team.
         /// </summary>
         public static string ControllerWritesCommands {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создать.
+        ///   Looks up a localized string similar to create.
         /// </summary>
         public static string Create {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Действующий пароль.
+        ///   Looks up a localized string similar to The current password.
         /// </summary>
         public static string CurrentPassword {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата.
+        ///   Looks up a localized string similar to date.
         /// </summary>
         public static string Date {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to День.
+        ///   Looks up a localized string similar to Day.
         /// </summary>
         public static string Day {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to День недели.
+        ///   Looks up a localized string similar to Day of the week.
         /// </summary>
         public static string DayOfWeek {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневное расписание.
+        ///   Looks up a localized string similar to Daily schedule.
         /// </summary>
         public static string DaySchedule {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шлюз по умолчанию.
+        ///   Looks up a localized string similar to Default Gateway.
         /// </summary>
         public static string DefaultGateway {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить устройство.
+        ///   Looks up a localized string similar to Remove the device.
         /// </summary>
         public static string DeleteDevice {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить кадр.
+        ///   Looks up a localized string similar to Remove frame.
         /// </summary>
         public static string DeleteFrame {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить состояние.
+        ///   Looks up a localized string similar to Remove condition.
         /// </summary>
         public static string DeleteState {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Наименование.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Denomination {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запретить множественную визуализацию.
+        ///   Looks up a localized string similar to Disable multiple visualization.
         /// </summary>
         public static string DenyMultipleVisualization {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание.
+        ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обозначение.
+        ///   Looks up a localized string similar to designation.
         /// </summary>
         public static string Designation {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство уже размещено на плане.
+        ///   Looks up a localized string similar to The device is already available on the plan.
         /// </summary>
         public static string DeviceAvailableOnPlan {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство может быть размещено на плане.
+        ///   Looks up a localized string similar to The device can be placed on the plan.
         /// </summary>
         public static string DeviceCanPlacedOnPlan {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство входа.
+        ///   Looks up a localized string similar to input device.
         /// </summary>
         public static string DeviceIn {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство не размещено на плане.
+        ///   Looks up a localized string similar to The device is not placed on the plan.
         /// </summary>
         public static string DeviceNotOnPlan {
             get {
@@ -448,7 +448,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство выхода.
+        ///   Looks up a localized string similar to output device.
         /// </summary>
         public static string DeviceOut {
             get {
@@ -457,7 +457,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство нельзя размещать на плане.
+        ///   Looks up a localized string similar to The device should not be placed on the plan.
         /// </summary>
         public static string DeviceShouldNotPlacedOnPlan {
             get {
@@ -466,7 +466,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип устройства.
+        ///   Looks up a localized string similar to device type.
         /// </summary>
         public static string DeviceType {
             get {
@@ -475,7 +475,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство и сервер находятся в разных подсетях.
+        ///   Looks up a localized string similar to The device and the server are on different subnets.
         /// </summary>
         public static string DifferentNets {
             get {
@@ -484,7 +484,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно.
+        ///   Looks up a localized string similar to Attention! The list includes the devices that are in the same subnet with the server (shown as inactive), so the connection to these devices will not be possible.
         /// </summary>
         public static string DifferentNetsDevices {
             get {
@@ -493,7 +493,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа уже размещена на плане.
+        ///   Looks up a localized string similar to The access point is already placed on the plan.
         /// </summary>
         public static string DoorAvailableOnPlan {
             get {
@@ -502,7 +502,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа может быть размещена на плане.
+        ///   Looks up a localized string similar to The access point can be placed on the plan.
         /// </summary>
         public static string DoorCanPlacedOnPlan {
             get {
@@ -511,7 +511,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При сохранении настроек привязка считывателей к точке доступа будет удалена!.
+        ///   Looks up a localized string similar to When you save the settings bind readers to the access point will be deleted!.
         /// </summary>
         public static string DoorDetails {
             get {
@@ -520,7 +520,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа не размещена на плане.
+        ///   Looks up a localized string similar to The access point is not available on terms.
         /// </summary>
         public static string DoorNotOnPlan {
             get {
@@ -529,7 +529,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Датчик двери.
+        ///   Looks up a localized string similar to door sensor.
         /// </summary>
         public static string DoorSensor {
             get {
@@ -538,7 +538,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активен датчик контроля двери.
+        ///   Looks up a localized string similar to Active door monitoring sensor.
         /// </summary>
         public static string DoorSensorActive {
             get {
@@ -547,7 +547,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точку доступа нельзя размещать на плане.
+        ///   Looks up a localized string similar to The access point may not be placed on the plan.
         /// </summary>
         public static string DoorShouldNotPlacedOnPlan {
             get {
@@ -556,7 +556,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип точки доступа.
+        ///   Looks up a localized string similar to Type AP.
         /// </summary>
         public static string DoorType {
             get {
@@ -565,7 +565,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Длительность, мс: .
+        ///   Looks up a localized string similar to  Duration, ms:.
         /// </summary>
         public static string Duration {
             get {
@@ -574,7 +574,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тревога по принуждению.
+        ///   Looks up a localized string similar to duress alarm.
         /// </summary>
         public static string DuressAlarm {
             get {
@@ -583,7 +583,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Окончание.
+        ///   Looks up a localized string similar to Ending.
         /// </summary>
         public static string End {
             get {
@@ -592,7 +592,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспорт в .svg.
+        ///   Looks up a localized string similar to Export .svg.
         /// </summary>
         public static string ExportToSvg {
             get {
@@ -601,7 +601,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1-й день.
+        ///   Looks up a localized string similar to 1 Day.
         /// </summary>
         public static string FirstDay {
             get {
@@ -610,7 +610,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Кадр .
+        ///   Looks up a localized string similar to Frame.
         /// </summary>
         public static string Frame {
             get {
@@ -619,7 +619,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шлюз.
+        ///   Looks up a localized string similar to Gateway.
         /// </summary>
         public static string Gateway {
             get {
@@ -628,7 +628,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Информация.
+        ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
             get {
@@ -637,7 +637,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Входное устройство.
+        ///   Looks up a localized string similar to Input device.
         /// </summary>
         public static string InputDevice {
             get {
@@ -646,7 +646,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP-адрес.
+        ///   Looks up a localized string similar to IP-address.
         /// </summary>
         public static string IPaddress {
             get {
@@ -655,7 +655,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ведет в зону.
+        ///   Looks up a localized string similar to It leads to a zone.
         /// </summary>
         public static string LeadsToZone {
             get {
@@ -664,7 +664,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок.
+        ///   Looks up a localized string similar to Castle.
         /// </summary>
         public static string Lock {
             get {
@@ -673,7 +673,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1.
+        ///   Looks up a localized string similar to Castle 1.
         /// </summary>
         public static string Lock1 {
             get {
@@ -682,7 +682,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1+2.
+        ///   Looks up a localized string similar to Castle 1 + 2.
         /// </summary>
         public static string Lock12 {
             get {
@@ -691,7 +691,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1+2+3.
+        ///   Looks up a localized string similar to Castle 1 + 2 + 3.
         /// </summary>
         public static string Lock123 {
             get {
@@ -700,7 +700,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1+2+3+4.
+        ///   Looks up a localized string similar to Castle 1 + 2 + 3 + 4.
         /// </summary>
         public static string Lock1234 {
             get {
@@ -709,7 +709,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1+3 и 2+4.
+        ///   Looks up a localized string similar to Castle 1 + 3 and 2 + 4.
         /// </summary>
         public static string Lock1324 {
             get {
@@ -718,7 +718,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 1+4 и 2+3.
+        ///   Looks up a localized string similar to Castle 1 + 4 and 2 + 3.
         /// </summary>
         public static string Lock1423 {
             get {
@@ -727,7 +727,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 2.
+        ///   Looks up a localized string similar to Castle 2.
         /// </summary>
         public static string Lock2 {
             get {
@@ -736,7 +736,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 2+3+4.
+        ///   Looks up a localized string similar to Castle 2 + 3 + 4.
         /// </summary>
         public static string Lock234 {
             get {
@@ -745,7 +745,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 3.
+        ///   Looks up a localized string similar to Castle 3.
         /// </summary>
         public static string Lock3 {
             get {
@@ -754,7 +754,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 3+4.
+        ///   Looks up a localized string similar to Castle 3 + 4.
         /// </summary>
         public static string Lock34 {
             get {
@@ -763,7 +763,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Замок 4.
+        ///   Looks up a localized string similar to Castle 4.
         /// </summary>
         public static string Lock4 {
             get {
@@ -772,7 +772,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расписание замка.
+        ///   Looks up a localized string similar to castle Schedule.
         /// </summary>
         public static string LockSchedule {
             get {
@@ -781,7 +781,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Состояние замка по истечению времени.
+        ///   Looks up a localized string similar to Status of the castle at the time of expiry.
         /// </summary>
         public static string LockStateExpiredTime {
             get {
@@ -790,7 +790,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основные.
+        ///   Looks up a localized string similar to main.
         /// </summary>
         public static string Main {
             get {
@@ -799,7 +799,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основной шлюз.
+        ///   Looks up a localized string similar to Main gate.
         /// </summary>
         public static string MainGateway {
             get {
@@ -808,7 +808,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Маска подсети.
+        ///   Looks up a localized string similar to Subnet mask.
         /// </summary>
         public static string Mask {
             get {
@@ -817,7 +817,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Режим.
+        ///   Looks up a localized string similar to Mode.
         /// </summary>
         public static string Mode {
             get {
@@ -826,7 +826,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
@@ -835,7 +835,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сетевые настройки контроллера.
+        ///   Looks up a localized string similar to Network Controller Settings.
         /// </summary>
         public static string NetControllerSettings {
             get {
@@ -844,7 +844,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Примечание.
+        ///   Looks up a localized string similar to Note.
         /// </summary>
         public static string Note {
             get {
@@ -853,7 +853,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер.
+        ///   Looks up a localized string similar to room.
         /// </summary>
         public static string Number {
             get {
@@ -862,7 +862,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Метод открытия.
+        ///   Looks up a localized string similar to Public method.
         /// </summary>
         public static string OpenMethod {
             get {
@@ -871,7 +871,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Метод открытия, заданный в интервале, действует до момента начала следующего интервала.
+        ///   Looks up a localized string similar to Public method specified in the range, is valid until the beginning of the next interval.
         /// </summary>
         public static string OpenMethodRange {
             get {
@@ -880,7 +880,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выходное устройство.
+        ///   Looks up a localized string similar to Output device.
         /// </summary>
         public static string OutputDevice {
             get {
@@ -889,7 +889,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуска.
+        ///   Looks up a localized string similar to passes.
         /// </summary>
         public static string PassCards {
             get {
@@ -898,7 +898,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
             get {
@@ -907,7 +907,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подтверждение пароля.
+        ///   Looks up a localized string similar to Password confirmation.
         /// </summary>
         public static string PasswordConfirmation {
             get {
@@ -916,7 +916,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Порт.
+        ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string Port {
             get {
@@ -925,7 +925,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства.
+        ///   Looks up a localized string similar to properties.
         /// </summary>
         public static string Properties {
             get {
@@ -934,7 +934,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считать.
+        ///   Looks up a localized string similar to Consider.
         /// </summary>
         public static string Read {
             get {
@@ -943,7 +943,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель.
+        ///   Looks up a localized string similar to Reader.
         /// </summary>
         public static string Reader {
             get {
@@ -952,7 +952,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель 1-вход, 2-выход.
+        ///   Looks up a localized string similar to Reader 1-input, 2-output.
         /// </summary>
         public static string Reader12 {
             get {
@@ -961,7 +961,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель 1 и 3-вход, 2 и 4-выход.
+        ///   Looks up a localized string similar to Reader 1 and 3-input, 2-output and 4.
         /// </summary>
         public static string Reader1324 {
             get {
@@ -970,7 +970,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель 3-вход, 4-выход.
+        ///   Looks up a localized string similar to Reader 3-input, 4-output.
         /// </summary>
         public static string Reader34 {
             get {
@@ -979,7 +979,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата выпуска ПО.
+        ///   Looks up a localized string similar to Release Date.
         /// </summary>
         public static string ReleaseDate {
             get {
@@ -988,7 +988,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перезагрузить.
+        ///   Looks up a localized string similar to Reload.
         /// </summary>
         public static string Reload {
             get {
@@ -997,7 +997,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты.
+        ///   Looks up a localized string similar to If you reset all parameters of the controller will be installed at the factory, and the recorded passes will be erased.
         /// </summary>
         public static string ResetAllParameters {
             get {
@@ -1006,7 +1006,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сбросить настройки.
+        ///   Looks up a localized string similar to Reset settings.
         /// </summary>
         public static string ResetSettings {
             get {
@@ -1015,7 +1015,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время удержания, мс.
+        ///   Looks up a localized string similar to Retention time, ms.
         /// </summary>
         public static string RetentionTime {
             get {
@@ -1024,7 +1024,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Первый день графика.
+        ///   Looks up a localized string similar to The first day of the schedule.
         /// </summary>
         public static string ScheduleFirstDay {
             get {
@@ -1033,7 +1033,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Имя расписания, назначенного для замка, хранится в конфигурации и не считывается с контроллера.
+        ///   Looks up a localized string similar to Schedule name assigned to the lock is stored in the configuration and can not be read by the controller.
         /// </summary>
         public static string ScheduleNameNotRead {
             get {
@@ -1042,7 +1042,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора камеры.
+        ///   Looks up a localized string similar to Click to select the camera.
         /// </summary>
         public static string SelectCamera {
             get {
@@ -1051,7 +1051,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сервисные команды.
+        ///   Looks up a localized string similar to service team.
         /// </summary>
         public static string ServiceCommands {
             get {
@@ -1060,7 +1060,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Настройки.
+        ///   Looks up a localized string similar to settings.
         /// </summary>
         public static string Settings {
             get {
@@ -1069,7 +1069,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Блокировка одновременного прохода.
+        ///   Looks up a localized string similar to Lock simultaneous passage.
         /// </summary>
         public static string SimultaneousLock {
             get {
@@ -1078,7 +1078,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Версия ПО.
+        ///   Looks up a localized string similar to Software version.
         /// </summary>
         public static string SoftwareVersion {
             get {
@@ -1087,7 +1087,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Начало.
+        ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string Start {
             get {
@@ -1096,7 +1096,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Состояние.
+        ///   Looks up a localized string similar to condition.
         /// </summary>
         public static string State {
             get {
@@ -1105,7 +1105,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Синхронизировать.
+        ///   Looks up a localized string similar to Synchronize.
         /// </summary>
         public static string Synchronise {
             get {
@@ -1114,7 +1114,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время ожидания.
+        ///   Looks up a localized string similar to Timeout.
         /// </summary>
         public static string Timeout {
             get {
@@ -1123,7 +1123,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Временная зона.
+        ///   Looks up a localized string similar to Time zone.
         /// </summary>
         public static string TimeZone {
             get {
@@ -1132,7 +1132,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Временная зона и NTP-сервер.
+        ///   Looks up a localized string similar to Time Zone and NTP-server.
         /// </summary>
         public static string TimeZoneNtp {
             get {
@@ -1141,7 +1141,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип.
+        ///   Looks up a localized string similar to A type.
         /// </summary>
         public static string Type {
             get {
@@ -1150,7 +1150,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тревога по незакрытию.
+        ///   Looks up a localized string similar to Anxiety uncovered.
         /// </summary>
         public static string UnclosedAlarm {
             get {
@@ -1159,7 +1159,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обновить.
+        ///   Looks up a localized string similar to update.
         /// </summary>
         public static string Update {
             get {
@@ -1168,7 +1168,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Период обновления, мин..
+        ///   Looks up a localized string similar to Update Period, min..
         /// </summary>
         public static string UpdatePeriod {
             get {
@@ -1177,7 +1177,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользователь.
+        ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
             get {
@@ -1186,7 +1186,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неделя.
+        ///   Looks up a localized string similar to A week.
         /// </summary>
         public static string Week {
             get {
@@ -1195,7 +1195,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Записать.
+        ///   Looks up a localized string similar to Record.
         /// </summary>
         public static string Write {
             get {
@@ -1204,7 +1204,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При записи конфигурации на котроллер, на него будут записаны графики доступа, пароли замков.
+        ///   Looks up a localized string similar to When you configure the controller to record, access the graphics are written on it, lock passwords.
         /// </summary>
         public static string WriteAccessSchedules {
             get {
@@ -1213,7 +1213,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона не указана.
+        ///   Looks up a localized string similar to Zone not specified.
         /// </summary>
         public static string ZoneNotSpecified {
             get {

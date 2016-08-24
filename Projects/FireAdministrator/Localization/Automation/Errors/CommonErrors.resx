@@ -118,63 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentExist_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует.</value>
+    <value>The argument of the same name already exists.</value>
+    <comment>google</comment>
   </data>
   <data name="OPCScriptConnectionContent_Error" xml:space="preserve">
-    <value>Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения.</value>
+    <value>An error occurred while getting FireSec scenarios list. Check whether the OPS integration server, and configure the connection serevogo launched.</value>
   </data>
   <data name="UnboundProcedure_Error" xml:space="preserve">
-    <value>Несвязанная процедура</value>
+    <value>unrelated procedure</value>
   </data>
   <data name="ValidatorGlobalVariable_Error" xml:space="preserve">
-    <value>Глобальная переменная с таким именем уже существует {0}</value>
+    <value>A global variable with the same name already exists {0}</value>
   </data>
   <data name="ValidatorProcedureLayoutElement_Error" xml:space="preserve">
-    <value>Не выбран элемент макета</value>
+    <value>layout element is not selected</value>
   </data>
   <data name="ValidatorProcedureLayout_Error" xml:space="preserve">
-    <value>Не выбран макет</value>
+    <value>Layout is not selected</value>
   </data>
   <data name="ValidatorProcedureLicense_Error" xml:space="preserve">
-    <value>Функция не может быть загружена по причине лицензионных ограничений</value>
+    <value>The function can not be loaded due to licensing restrictions</value>
   </data>
   <data name="ValidatorProcedurePlanElement_Error" xml:space="preserve">
-    <value>Не выбран элемент плана</value>
+    <value>element of the plan is not selected</value>
   </data>
   <data name="ValidatorProcedurePlan_Error" xml:space="preserve">
-    <value>Не выбран план</value>
+    <value>No plan selected</value>
   </data>
   <data name="ValidatorProcedureProperty_Error" xml:space="preserve">
-    <value>Не выбрано свойство</value>
+    <value>Unspecified property</value>
   </data>
   <data name="ValidatorProcedureSameNameArgument_Error" xml:space="preserve">
-    <value>Аргумент с таким именем уже существует {0}</value>
+    <value>The argument of the same name already exists {0}</value>
   </data>
   <data name="ValidatorProcedureSameNameProcedure_Error" xml:space="preserve">
-    <value>Процедура с таким именем уже существует {0}</value>
+    <value>The procedure with the same name already exists {0}</value>
   </data>
   <data name="ValidatorProcedureSameNameVariable_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует {0}</value>
+    <value>A variable with the same name already exists {0}</value>
   </data>
   <data name="ValidatorProcedureVariables_Error" xml:space="preserve">
-    <value>Все переменные должны быть инициализированы</value>
+    <value>All variables must be initialized</value>
   </data>
   <data name="ValidatorScheduleBeginDate_Error" xml:space="preserve">
-    <value>Должна быть задана конкретная дата начала периода {0}</value>
+    <value>concrete date must be set to the beginning of the period of {0}</value>
   </data>
   <data name="ValidatorScheduleNullPeriod_Error" xml:space="preserve">
-    <value>Должен быть задан не нулевой период {0}</value>
+    <value>Should not be set between zero {0}</value>
   </data>
   <data name="ValidatorScheduleSameName_Error" xml:space="preserve">
-    <value>Расписание с таким именем уже существует {0}</value>
+    <value>Schedule with the same name already exists {0}</value>
   </data>
   <data name="ValidatorSchedule_Error" xml:space="preserve">
-    <value>Все переменные должны быть инициализированы {0}</value>
+    <value>All variables must be initialized with {0}</value>
   </data>
   <data name="ValidatorSound_Error" xml:space="preserve">
-    <value>Звуковой элемент с таким именем уже существует {0}</value>
+    <value>The audio element with the same name already exists {0}</value>
   </data>
   <data name="VariableExist_Error" xml:space="preserve">
-    <value>Переменная с таким именем уже существует.</value>
+    <value>A variable with the same name already exists.</value>
   </data>
 </root>

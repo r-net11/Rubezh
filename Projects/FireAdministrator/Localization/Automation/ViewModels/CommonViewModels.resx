@@ -118,159 +118,160 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentDetailsViewModel_Title" xml:space="preserve">
-    <value>Редактировать аргумент</value>
+    <value>Edit argument</value>
   </data>
   <data name="Argument_Add" xml:space="preserve">
-    <value>Добавить аргумент</value>
+    <value>Add argument</value>
+    <comment>google</comment>
   </data>
   <data name="Argument_Edit" xml:space="preserve">
-    <value>Редактировать аргумент</value>
+    <value>Edit argument</value>
   </data>
   <data name="Argument_Title" xml:space="preserve">
-    <value>аргумент</value>
+    <value>argument</value>
   </data>
   <data name="CameraSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор видеоустройства</value>
+    <value>Selecting a video device</value>
   </data>
   <data name="DoorSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор точки доступа</value>
+    <value>Select the access point</value>
   </data>
   <data name="EmployeeSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор сотрудника</value>
+    <value>Selection of personnel</value>
   </data>
   <data name="FilterSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор фильтра</value>
+    <value>Selection filter</value>
   </data>
   <data name="GlobalVariable_Add" xml:space="preserve">
-    <value>Добавить глобальную переменную</value>
+    <value>Add a global variable</value>
   </data>
   <data name="GlobalVariable_DefaultName" xml:space="preserve">
-    <value>глобальная переменная</value>
+    <value>global variable</value>
   </data>
   <data name="GlobalVariable_Edit" xml:space="preserve">
-    <value>Редактировать глобальную переменную</value>
+    <value>Edit the global variable</value>
   </data>
   <data name="LayoutPartPropertyProcedure_Center" xml:space="preserve">
-    <value>По центру</value>
+    <value>In the center</value>
   </data>
   <data name="LayoutPartPropertyProcedure_Left" xml:space="preserve">
-    <value>По левому краю</value>
+    <value>On the left side</value>
   </data>
   <data name="LayoutPartPropertyProcedure_Right" xml:space="preserve">
-    <value>По правому краю</value>
+    <value>Align Right</value>
   </data>
   <data name="LocalVariable_Add" xml:space="preserve">
-    <value>Добавить локальную переменную</value>
+    <value>Add a local variable</value>
   </data>
   <data name="LocalVariable_DefaultName" xml:space="preserve">
-    <value>локальная переменная</value>
+    <value>local variable</value>
   </data>
   <data name="LocalVariable_Edit" xml:space="preserve">
-    <value>Редактировать локальную переменную</value>
+    <value>Edit a local variable</value>
   </data>
   <data name="OrganisationSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор организации</value>
-  </data>
-  <data name="ProcedureDetails_Create" xml:space="preserve">
-    <value>Создание процедуры</value>
-  </data>
-  <data name="ProcedureDetails_Edit" xml:space="preserve">
-    <value>Редактирование процедуры</value>
-  </data>
-  <data name="ProcedurePropertiesViewModel_Title" xml:space="preserve">
-    <value>Свойства фигуры: Процедура</value>
-  </data>
-  <data name="ProcedureSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор процедуры</value>
-  </data>
-  <data name="Procedures_Add" xml:space="preserve">
-    <value>Добавить</value>
-  </data>
-  <data name="Procedures_Copy" xml:space="preserve">
-    <value>Копировать</value>
-  </data>
-  <data name="Procedures_Cut" xml:space="preserve">
-    <value>Вырезать</value>
-  </data>
-  <data name="Procedures_Delete" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="Procedures_Edit" xml:space="preserve">
-    <value>Редактировать</value>
-  </data>
-  <data name="Procedures_Edition" xml:space="preserve">
-    <value>Редактирование</value>
-  </data>
-  <data name="Procedures_Paste" xml:space="preserve">
-    <value>Вставить</value>
-  </data>
-  <data name="ScheduleDetails_Add" xml:space="preserve">
-    <value>Добавить элемент расписания</value>
-  </data>
-  <data name="ScheduleDetails_Properties" xml:space="preserve">
-    <value>Свойства элемента расписания</value>
-  </data>
-  <data name="SKDDeviceSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор устройства</value>
-  </data>
-  <data name="SKDZoneSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор зоны</value>
-  </data>
-  <data name="SoundDetailsViewModel_Title" xml:space="preserve">
-    <value>Свойства звукового элемента</value>
-  </data>
-  <data name="SoundsViewModel_Extention" xml:space="preserve">
-    <value>Звуковой файл |*.wav</value>
-  </data>
-  <data name="StepTypeSelection_CycleFunctions" xml:space="preserve">
-    <value>Функции цикла</value>
-  </data>
-  <data name="StepTypeSelection_DataExchange" xml:space="preserve">
-    <value>Обмен данными</value>
-  </data>
-  <data name="StepTypeSelection_FunctionsRegister" xml:space="preserve">
-    <value>Реестр функций</value>
-  </data>
-  <data name="StepTypeSelection_HardwareControl" xml:space="preserve">
-    <value>Управление аппаратурой</value>
-  </data>
-  <data name="StepTypeSelection_Logic" xml:space="preserve">
-    <value>Интерактивная логика</value>
-  </data>
-  <data name="StepTypeSelection_Operations" xml:space="preserve">
-    <value>Операции</value>
-  </data>
-  <data name="StepTypeSelection_ServiceFunctions" xml:space="preserve">
-    <value>Служебные функции</value>
-  </data>
-  <data name="StepTypeSelection_StrazhControl" xml:space="preserve">
-    <value>Управление Страж</value>
-  </data>
-  <data name="StepTypeSelection_Title" xml:space="preserve">
-    <value>Выбор типа функции</value>
-  </data>
-  <data name="StepTypeSelection_VideoControl" xml:space="preserve">
-    <value>Управление Видео</value>
-  </data>
-  <data name="StringDetailsViewModel_Title" xml:space="preserve">
-    <value>Редактор строки</value>
-  </data>
-  <data name="UserSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор пользователя</value>
-  </data>
-  <data name="VisitorSelectionViewModel_Title" xml:space="preserve">
-    <value>Выбор посетителя</value>
-  </data>
-  <data name="Style" xml:space="preserve">
-    <value>Стиль</value>
+    <value>Selection of</value>
   </data>
   <data name="PressToSelectOPCScenarioLabel" xml:space="preserve">
-    <value>Нажмите для выбора сценария</value>
+    <value>Click to select the Script</value>
+  </data>
+  <data name="ProcedureDetails_Create" xml:space="preserve">
+    <value>Create procedures</value>
+  </data>
+  <data name="ProcedureDetails_Edit" xml:space="preserve">
+    <value>Editing procedures</value>
+  </data>
+  <data name="ProcedurePropertiesViewModel_Title" xml:space="preserve">
+    <value>figures Properties: Procedure</value>
+  </data>
+  <data name="ProcedureSelectionViewModel_Title" xml:space="preserve">
+    <value>Choice of procedure</value>
+  </data>
+  <data name="Procedures_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Procedures_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Procedures_Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Procedures_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Procedures_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Procedures_Edition" xml:space="preserve">
+    <value>Editing</value>
+  </data>
+  <data name="Procedures_Paste" xml:space="preserve">
+    <value>insert</value>
   </data>
   <data name="ScenarioInfoLabel" xml:space="preserve">
-    <value>№ Сценария: {0} Название: {1}</value>
+    <value>Scenario number: {0} Name: {1}</value>
+  </data>
+  <data name="ScheduleDetails_Add" xml:space="preserve">
+    <value>Add a schedule item</value>
+  </data>
+  <data name="ScheduleDetails_Properties" xml:space="preserve">
+    <value>Properties schedules element</value>
+  </data>
+  <data name="SKDDeviceSelectionViewModel_Title" xml:space="preserve">
+    <value>Select device</value>
+  </data>
+  <data name="SKDZoneSelectionViewModel_Title" xml:space="preserve">
+    <value>Selecting a zone</value>
+  </data>
+  <data name="SoundDetailsViewModel_Title" xml:space="preserve">
+    <value>Properties of sound element</value>
+  </data>
+  <data name="SoundsViewModel_Extention" xml:space="preserve">
+    <value>Audio file | * .wav</value>
+  </data>
+  <data name="StepTypeSelection_CycleFunctions" xml:space="preserve">
+    <value>cycle Options</value>
+  </data>
+  <data name="StepTypeSelection_DataExchange" xml:space="preserve">
+    <value>Data exchange</value>
+  </data>
+  <data name="StepTypeSelection_FunctionsRegister" xml:space="preserve">
+    <value>Register functions</value>
+  </data>
+  <data name="StepTypeSelection_HardwareControl" xml:space="preserve">
+    <value>facility management</value>
+  </data>
+  <data name="StepTypeSelection_Logic" xml:space="preserve">
+    <value>Interactive logic</value>
   </data>
   <data name="StepTypeSelection_OPCIntegration" xml:space="preserve">
-    <value>Интеграция с ОПС</value>
+    <value>Integration with OPS</value>
+  </data>
+  <data name="StepTypeSelection_Operations" xml:space="preserve">
+    <value>operations</value>
+  </data>
+  <data name="StepTypeSelection_ServiceFunctions" xml:space="preserve">
+    <value>Service functions</value>
+  </data>
+  <data name="StepTypeSelection_StrazhControl" xml:space="preserve">
+    <value>Sentinel Management</value>
+  </data>
+  <data name="StepTypeSelection_Title" xml:space="preserve">
+    <value>Select the type of function</value>
+  </data>
+  <data name="StepTypeSelection_VideoControl" xml:space="preserve">
+    <value>Video Management</value>
+  </data>
+  <data name="StringDetailsViewModel_Title" xml:space="preserve">
+    <value>line editor</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="UserSelectionViewModel_Title" xml:space="preserve">
+    <value>Select user</value>
+  </data>
+  <data name="VisitorSelectionViewModel_Title" xml:space="preserve">
+    <value>Choosing visitor</value>
   </data>
 </root>

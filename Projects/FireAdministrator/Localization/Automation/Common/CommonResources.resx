@@ -118,39 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Automation" xml:space="preserve">
-    <value>Автоматизация</value>
+    <value>Automation</value>
+    <comment>google</comment>
   </data>
   <data name="Empty" xml:space="preserve">
-    <value>&lt;пусто&gt;</value>
+    <value>&lt;Empty&gt;</value>
   </data>
   <data name="ExecuteProcedure" xml:space="preserve">
-    <value>Выполнить процедуру</value>
+    <value>Follow the procedure</value>
   </data>
   <data name="GlobalVariables" xml:space="preserve">
-    <value>Глобальные переменные</value>
+    <value>Global variables</value>
   </data>
   <data name="NO_DefaultName" xml:space="preserve">
-    <value>&lt;нет&gt;</value>
+    <value>&lt;None&gt;</value>
   </data>
   <data name="Procedure" xml:space="preserve">
-    <value>Процедура</value>
+    <value>Procedure</value>
   </data>
   <data name="ProcedureNotFound" xml:space="preserve">
-    <value>процедура не найдена</value>
+    <value>procedure is not found</value>
   </data>
   <data name="ProcedurePanel" xml:space="preserve">
-    <value>Панель процедуры</value>
+    <value>Panel procedures</value>
   </data>
   <data name="Procedures" xml:space="preserve">
-    <value>Процедуры</value>
+    <value>procedures</value>
   </data>
   <data name="SaveEmpty" xml:space="preserve">
-    <value>Название не может быть пустым</value>
+    <value>The name can not be empty</value>
   </data>
   <data name="Schedules" xml:space="preserve">
-    <value>Расписания</value>
+    <value>Timetables</value>
   </data>
   <data name="Sounds" xml:space="preserve">
-    <value>Звуки</value>
+    <value>Sounds</value>
   </data>
 </root>

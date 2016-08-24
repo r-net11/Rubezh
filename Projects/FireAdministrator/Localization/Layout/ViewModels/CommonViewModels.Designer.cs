@@ -61,7 +61,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задайте имя или адрес компьютера.
+        ///   Looks up a localized string similar to Specify the name or address of the computer.
         /// </summary>
         public static string IPFilterDetails_Title {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заглушка.
+        ///   Looks up a localized string similar to cap.
         /// </summary>
         public static string LayoutPartEmpty_Title {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства элемента.
+        ///   Looks up a localized string similar to element properties.
         /// </summary>
         public static string LayoutPartProperties_Title {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Общее.
+        ///   Looks up a localized string similar to overall.
         /// </summary>
         public static string LayoutPartPropertyGeneralPage_Header {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изображение.
+        ///   Looks up a localized string similar to Picture.
         /// </summary>
         public static string LayoutPartPropertyImagePage_Header {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет.
+        ///   Looks up a localized string similar to Layout.
         /// </summary>
         public static string LayoutPartPropertyTemplateContainerPage_Header {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По нижнему краю.
+        ///   Looks up a localized string similar to Bottom.
         /// </summary>
         public static string LayoutPartPropertyTextPage_BottomAlign {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Формат.
+        ///   Looks up a localized string similar to Format.
         /// </summary>
         public static string LayoutPartPropertyTextPage_Header {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По центру.
+        ///   Looks up a localized string similar to In the center.
         /// </summary>
         public static string LayoutPartPropertyTextPage_HorizontalAlign {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По левому краю.
+        ///   Looks up a localized string similar to On the left side.
         /// </summary>
         public static string LayoutPartPropertyTextPage_LeftAlign {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По правому краю.
+        ///   Looks up a localized string similar to Align Right.
         /// </summary>
         public static string LayoutPartPropertyTextPage_RightAlign {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Растянуть.
+        ///   Looks up a localized string similar to Stretch.
         /// </summary>
         public static string LayoutPartPropertyTextPage_Stretch {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По верхему краю.
+        ///   Looks up a localized string similar to Along the top edge.
         /// </summary>
         public static string LayoutPartPropertyTextPage_TopAlign {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По середине.
+        ///   Looks up a localized string similar to In the middle.
         /// </summary>
         public static string LayoutPartPropertyTextPage_VerticalAlign {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства элемента: Макет интерфейса ОЗ.
+        ///   Looks up a localized string similar to Element Properties: Layout OZ interface.
         /// </summary>
         public static string LayoutProperties_Title {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование.
+        ///   Looks up a localized string similar to Editing.
         /// </summary>
         public static string MonitorLayouts_Edition {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Layout.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить макет &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the layout &quot;{0}&quot;?.
         /// </summary>
         public static string MonitorLayouts_OnRemove {
             get {

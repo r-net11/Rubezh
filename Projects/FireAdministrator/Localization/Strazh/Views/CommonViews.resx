@@ -118,390 +118,391 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Activate" xml:space="preserve">
-    <value>Активировать</value>
+    <value>Activate</value>
+    <comment>google</comment>
   </data>
   <data name="ActivateSynchronisation" xml:space="preserve">
-    <value>Активировать синхронизацию с NTP-сервером</value>
+    <value>Activate synchronization with the NTP-server</value>
   </data>
   <data name="AddChildZone" xml:space="preserve">
-    <value>Добавить дочернюю зону</value>
+    <value>Add a subsidiary zone</value>
   </data>
   <data name="AddFrame" xml:space="preserve">
-    <value>Добавить кадр</value>
+    <value>Add picture</value>
   </data>
   <data name="AddParentZone" xml:space="preserve">
-    <value>Добавить к родительской зоне</value>
+    <value>Add to the parent zone</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Адрес</value>
+    <value>Address</value>
   </data>
   <data name="AllowMultiplyVisualization" xml:space="preserve">
-    <value>Разрешить множественную визуализацию</value>
+    <value>Allow multiple visualization</value>
   </data>
   <data name="AlternativeClosingTime" xml:space="preserve">
-    <value>Альтернативное время закрытия, с</value>
+    <value>Alternative closing time, with</value>
   </data>
   <data name="AlternativeRetentionClosingTime" xml:space="preserve">
-    <value>Альтернативные время удержания и время закрытия используются с пропусками, для которых задействован режим "Использовать альтернативные параметры временных задержек замка"</value>
+    <value>Alternative retention time and the closing time are used with gaps, which enabled mode "Use alternate settings lock time delays"</value>
   </data>
   <data name="AlternativeRetentionTime" xml:space="preserve">
-    <value>Альтернативное время удержания, мс</value>
+    <value>Alternative retention time, ms</value>
   </data>
   <data name="AntiPassBack" xml:space="preserve">
-    <value>Запрет повторного прохода</value>
+    <value>Anti-passback</value>
   </data>
   <data name="Autosearch" xml:space="preserve">
-    <value>Автопоиск</value>
+    <value>Auto</value>
   </data>
   <data name="BurglaryAlarm" xml:space="preserve">
-    <value>Тревога по взлому</value>
+    <value>Anxiety for burglary</value>
   </data>
   <data name="CameraSelectationView" xml:space="preserve">
-    <value>Камера</value>
+    <value>Camera</value>
   </data>
   <data name="CardsWrite" xml:space="preserve">
-    <value>Запись пропусков</value>
+    <value>Record passes</value>
   </data>
   <data name="ChangeDoor" xml:space="preserve">
-    <value>При смене типа точки доступа на контроллере он будет недоступен в течение нескольких секунд! Привязка считывателей к точкам доступа будет удалена! Остальные настройки в этом окне следует производить только после записи этого параметра.</value>
+    <value>If you change the type of access point on the controller, it will be unavailable for a few seconds! Binding readers to access points will be deleted! The other settings in this window should be made only after the entry of this parameter.</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
-    <value>Изменить пароль</value>
+    <value>Change password</value>
   </data>
   <data name="CloseLockCloseDoor" xml:space="preserve">
-    <value>Закрывать замок при закрытии двери</value>
+    <value>Close the lock when you close the door</value>
   </data>
   <data name="ClosingTime" xml:space="preserve">
-    <value>Время закрытия, с</value>
+    <value>Closing time with</value>
   </data>
   <data name="ConfigWrite" xml:space="preserve">
-    <value>Запись конфигурации</value>
+    <value>configuration Record</value>
   </data>
   <data name="ConnectedTo" xml:space="preserve">
-    <value>Подключено к </value>
+    <value>connected to</value>
   </data>
   <data name="ControllerDateTime" xml:space="preserve">
-    <value>Дата и время на контроллере</value>
+    <value>The date and time on the controller</value>
   </data>
   <data name="ControllerManagement" xml:space="preserve">
-    <value>Управление контроллером</value>
+    <value>controller Management</value>
   </data>
   <data name="ControllerPassword" xml:space="preserve">
-    <value>Пароль контроллера</value>
+    <value>controller Password</value>
   </data>
   <data name="ControllerWritesCommands" xml:space="preserve">
-    <value>Команды записи на контроллер</value>
+    <value>the controller records Team</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Создать</value>
+    <value>create</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
-    <value>Действующий пароль</value>
+    <value>The current password</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Дата</value>
+    <value>date</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>День</value>
+    <value>Day</value>
   </data>
   <data name="DayOfWeek" xml:space="preserve">
-    <value>День недели</value>
+    <value>Day of the week</value>
   </data>
   <data name="DaySchedule" xml:space="preserve">
-    <value>Дневное расписание</value>
+    <value>Daily schedule</value>
   </data>
   <data name="DefaultGateway" xml:space="preserve">
-    <value>Шлюз по умолчанию</value>
+    <value>Default Gateway</value>
   </data>
   <data name="DeleteDevice" xml:space="preserve">
-    <value>Удалить устройство</value>
+    <value>Remove the device</value>
   </data>
   <data name="DeleteFrame" xml:space="preserve">
-    <value>Удалить кадр</value>
+    <value>Remove frame</value>
   </data>
   <data name="DeleteState" xml:space="preserve">
-    <value>Удалить состояние</value>
+    <value>Remove condition</value>
   </data>
   <data name="Denomination" xml:space="preserve">
-    <value>Наименование</value>
+    <value>Name</value>
   </data>
   <data name="DenyMultipleVisualization" xml:space="preserve">
-    <value>Запретить множественную визуализацию</value>
+    <value>Disable multiple visualization</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Описание</value>
+    <value>Description</value>
   </data>
   <data name="Designation" xml:space="preserve">
-    <value>Обозначение</value>
+    <value>designation</value>
   </data>
   <data name="DeviceAvailableOnPlan" xml:space="preserve">
-    <value>Устройство уже размещено на плане</value>
+    <value>The device is already available on the plan</value>
   </data>
   <data name="DeviceCanPlacedOnPlan" xml:space="preserve">
-    <value>Устройство может быть размещено на плане</value>
+    <value>The device can be placed on the plan</value>
   </data>
   <data name="DeviceIn" xml:space="preserve">
-    <value>Устройство входа</value>
+    <value>input device</value>
   </data>
   <data name="DeviceNotOnPlan" xml:space="preserve">
-    <value>Устройство не размещено на плане</value>
+    <value>The device is not placed on the plan</value>
   </data>
   <data name="DeviceOut" xml:space="preserve">
-    <value>Устройство выхода</value>
+    <value>output device</value>
   </data>
   <data name="DeviceShouldNotPlacedOnPlan" xml:space="preserve">
-    <value>Устройство нельзя размещать на плане</value>
+    <value>The device should not be placed on the plan</value>
   </data>
   <data name="DeviceType" xml:space="preserve">
-    <value>Тип устройства</value>
+    <value>device type</value>
   </data>
   <data name="DifferentNets" xml:space="preserve">
-    <value>Устройство и сервер находятся в разных подсетях</value>
+    <value>The device and the server are on different subnets</value>
   </data>
   <data name="DifferentNetsDevices" xml:space="preserve">
-    <value>Внимание! В списке присутствуют устройства, которые находятся в разных подсетях с сервером (выделены как неактивные), поэтому подключение к этим устройствам будет невозможно</value>
+    <value>Attention! The list includes the devices that are in the same subnet with the server (shown as inactive), so the connection to these devices will not be possible</value>
   </data>
   <data name="DoorAvailableOnPlan" xml:space="preserve">
-    <value>Точка доступа уже размещена на плане</value>
+    <value>The access point is already placed on the plan</value>
   </data>
   <data name="DoorCanPlacedOnPlan" xml:space="preserve">
-    <value>Точка доступа может быть размещена на плане</value>
+    <value>The access point can be placed on the plan</value>
   </data>
   <data name="DoorDetails" xml:space="preserve">
-    <value>При сохранении настроек привязка считывателей к точке доступа будет удалена!</value>
+    <value>When you save the settings bind readers to the access point will be deleted!</value>
   </data>
   <data name="DoorNotOnPlan" xml:space="preserve">
-    <value>Точка доступа не размещена на плане</value>
+    <value>The access point is not available on terms</value>
   </data>
   <data name="DoorSensor" xml:space="preserve">
-    <value>Датчик двери</value>
+    <value>door sensor</value>
   </data>
   <data name="DoorSensorActive" xml:space="preserve">
-    <value>Активен датчик контроля двери</value>
+    <value>Active door monitoring sensor</value>
   </data>
   <data name="DoorShouldNotPlacedOnPlan" xml:space="preserve">
-    <value>Точку доступа нельзя размещать на плане</value>
+    <value>The access point may not be placed on the plan</value>
   </data>
   <data name="DoorType" xml:space="preserve">
-    <value>Тип точки доступа</value>
+    <value>Type AP</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value> Длительность, мс: </value>
+    <value> Duration, ms:</value>
   </data>
   <data name="DuressAlarm" xml:space="preserve">
-    <value>Тревога по принуждению</value>
+    <value>duress alarm</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>Окончание</value>
+    <value>Ending</value>
   </data>
   <data name="ExportToSvg" xml:space="preserve">
-    <value>Экспорт в .svg</value>
+    <value>Export .svg</value>
   </data>
   <data name="FirstDay" xml:space="preserve">
-    <value>1-й день</value>
+    <value>1 Day</value>
   </data>
   <data name="Frame" xml:space="preserve">
-    <value>Кадр </value>
+    <value>Frame</value>
   </data>
   <data name="Gateway" xml:space="preserve">
-    <value>Шлюз</value>
+    <value>Gateway</value>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Информация</value>
+    <value>Information</value>
   </data>
   <data name="InputDevice" xml:space="preserve">
-    <value>Входное устройство</value>
+    <value>Input device</value>
   </data>
   <data name="IPaddress" xml:space="preserve">
-    <value>IP-адрес</value>
+    <value>IP-address</value>
   </data>
   <data name="LeadsToZone" xml:space="preserve">
-    <value>Ведет в зону</value>
+    <value>It leads to a zone</value>
   </data>
   <data name="Lock" xml:space="preserve">
-    <value>Замок</value>
+    <value>Castle</value>
   </data>
   <data name="Lock1" xml:space="preserve">
-    <value>Замок 1</value>
+    <value>Castle 1</value>
   </data>
   <data name="Lock12" xml:space="preserve">
-    <value>Замок 1+2</value>
+    <value>Castle 1 + 2</value>
   </data>
   <data name="Lock123" xml:space="preserve">
-    <value>Замок 1+2+3</value>
+    <value>Castle 1 + 2 + 3</value>
   </data>
   <data name="Lock1234" xml:space="preserve">
-    <value>Замок 1+2+3+4</value>
+    <value>Castle 1 + 2 + 3 + 4</value>
   </data>
   <data name="Lock1324" xml:space="preserve">
-    <value>Замок 1+3 и 2+4</value>
+    <value>Castle 1 + 3 and 2 + 4</value>
   </data>
   <data name="Lock1423" xml:space="preserve">
-    <value>Замок 1+4 и 2+3</value>
+    <value>Castle 1 + 4 and 2 + 3</value>
   </data>
   <data name="Lock2" xml:space="preserve">
-    <value>Замок 2</value>
+    <value>Castle 2</value>
   </data>
   <data name="Lock234" xml:space="preserve">
-    <value>Замок 2+3+4</value>
+    <value>Castle 2 + 3 + 4</value>
   </data>
   <data name="Lock3" xml:space="preserve">
-    <value>Замок 3</value>
+    <value>Castle 3</value>
   </data>
   <data name="Lock34" xml:space="preserve">
-    <value>Замок 3+4</value>
+    <value>Castle 3 + 4</value>
   </data>
   <data name="Lock4" xml:space="preserve">
-    <value>Замок 4</value>
+    <value>Castle 4</value>
   </data>
   <data name="LockSchedule" xml:space="preserve">
-    <value>Расписание замка</value>
+    <value>castle Schedule</value>
   </data>
   <data name="LockStateExpiredTime" xml:space="preserve">
-    <value>Состояние замка по истечению времени</value>
+    <value>Status of the castle at the time of expiry</value>
   </data>
   <data name="Main" xml:space="preserve">
-    <value>Основные</value>
+    <value>main</value>
   </data>
   <data name="MainGateway" xml:space="preserve">
-    <value>Основной шлюз</value>
+    <value>Main gate</value>
   </data>
   <data name="Mask" xml:space="preserve">
-    <value>Маска подсети</value>
+    <value>Subnet mask</value>
   </data>
   <data name="Mode" xml:space="preserve">
-    <value>Режим</value>
+    <value>Mode</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Название</value>
+    <value>Name</value>
   </data>
   <data name="NetControllerSettings" xml:space="preserve">
-    <value>Сетевые настройки контроллера</value>
+    <value>Network Controller Settings</value>
   </data>
   <data name="Note" xml:space="preserve">
-    <value>Примечание</value>
+    <value>Note</value>
   </data>
   <data name="Number" xml:space="preserve">
-    <value>Номер</value>
+    <value>room</value>
   </data>
   <data name="OpenMethod" xml:space="preserve">
-    <value>Метод открытия</value>
+    <value>Public method</value>
   </data>
   <data name="OpenMethodRange" xml:space="preserve">
-    <value>Метод открытия, заданный в интервале, действует до момента начала следующего интервала</value>
+    <value>Public method specified in the range, is valid until the beginning of the next interval</value>
   </data>
   <data name="OutputDevice" xml:space="preserve">
-    <value>Выходное устройство</value>
+    <value>Output device</value>
   </data>
   <data name="PassCards" xml:space="preserve">
-    <value>Пропуска</value>
+    <value>passes</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+    <value>Password</value>
   </data>
   <data name="PasswordConfirmation" xml:space="preserve">
-    <value>Подтверждение пароля</value>
+    <value>Password confirmation</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value>Порт</value>
+    <value>Port</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Свойства</value>
+    <value>properties</value>
   </data>
   <data name="Read" xml:space="preserve">
-    <value>Считать</value>
+    <value>Consider</value>
   </data>
   <data name="Reader" xml:space="preserve">
-    <value>Считыватель</value>
+    <value>Reader</value>
   </data>
   <data name="Reader12" xml:space="preserve">
-    <value>Считыватель 1-вход, 2-выход</value>
+    <value>Reader 1-input, 2-output</value>
   </data>
   <data name="Reader1324" xml:space="preserve">
-    <value>Считыватель 1 и 3-вход, 2 и 4-выход</value>
+    <value>Reader 1 and 3-input, 2-output and 4</value>
   </data>
   <data name="Reader34" xml:space="preserve">
-    <value>Считыватель 3-вход, 4-выход</value>
+    <value>Reader 3-input, 4-output</value>
   </data>
   <data name="ReleaseDate" xml:space="preserve">
-    <value>Дата выпуска ПО</value>
+    <value>Release Date</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Перезагрузить</value>
+    <value>Reload</value>
   </data>
   <data name="ResetAllParameters" xml:space="preserve">
-    <value>При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты</value>
+    <value>If you reset all parameters of the controller will be installed at the factory, and the recorded passes will be erased</value>
   </data>
   <data name="ResetSettings" xml:space="preserve">
-    <value>Сбросить настройки</value>
+    <value>Reset settings</value>
   </data>
   <data name="RetentionTime" xml:space="preserve">
-    <value>Время удержания, мс</value>
+    <value>Retention time, ms</value>
   </data>
   <data name="ScheduleFirstDay" xml:space="preserve">
-    <value>Первый день графика</value>
+    <value>The first day of the schedule</value>
   </data>
   <data name="ScheduleNameNotRead" xml:space="preserve">
-    <value>Имя расписания, назначенного для замка, хранится в конфигурации и не считывается с контроллера</value>
+    <value>Schedule name assigned to the lock is stored in the configuration and can not be read by the controller</value>
   </data>
   <data name="SelectCamera" xml:space="preserve">
-    <value>Нажмите для выбора камеры</value>
+    <value>Click to select the camera</value>
   </data>
   <data name="ServiceCommands" xml:space="preserve">
-    <value>Сервисные команды</value>
+    <value>service team</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Настройки</value>
+    <value>settings</value>
   </data>
   <data name="SimultaneousLock" xml:space="preserve">
-    <value>Блокировка одновременного прохода</value>
+    <value>Lock simultaneous passage</value>
   </data>
   <data name="SoftwareVersion" xml:space="preserve">
-    <value>Версия ПО</value>
+    <value>Software version</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Начало</value>
+    <value>Start</value>
   </data>
   <data name="State" xml:space="preserve">
-    <value>Состояние</value>
+    <value>condition</value>
   </data>
   <data name="Synchronise" xml:space="preserve">
-    <value>Синхронизировать</value>
+    <value>Synchronize</value>
   </data>
   <data name="Timeout" xml:space="preserve">
-    <value>Время ожидания</value>
+    <value>Timeout</value>
   </data>
   <data name="TimeZone" xml:space="preserve">
-    <value>Временная зона</value>
+    <value>Time zone</value>
   </data>
   <data name="TimeZoneNtp" xml:space="preserve">
-    <value>Временная зона и NTP-сервер</value>
+    <value>Time Zone and NTP-server</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Тип</value>
+    <value>A type</value>
   </data>
   <data name="UnclosedAlarm" xml:space="preserve">
-    <value>Тревога по незакрытию</value>
+    <value>Anxiety uncovered</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Обновить</value>
+    <value>update</value>
   </data>
   <data name="UpdatePeriod" xml:space="preserve">
-    <value>Период обновления, мин.</value>
+    <value>Update Period, min.</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>Пользователь</value>
+    <value>User</value>
   </data>
   <data name="Week" xml:space="preserve">
-    <value>Неделя</value>
+    <value>A week</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Записать</value>
+    <value>Record</value>
   </data>
   <data name="WriteAccessSchedules" xml:space="preserve">
-    <value>При записи конфигурации на котроллер, на него будут записаны графики доступа, пароли замков</value>
+    <value>When you configure the controller to record, access the graphics are written on it, lock passwords</value>
   </data>
   <data name="ZoneNotSpecified" xml:space="preserve">
-    <value>Зона не указана</value>
+    <value>Zone not specified</value>
   </data>
 </root>

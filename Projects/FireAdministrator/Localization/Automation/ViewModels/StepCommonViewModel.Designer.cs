@@ -61,7 +61,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to с архивированными объектами .
+        ///   Looks up a localized string similar to with archived objects.
         /// </summary>
         public static string Archive {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to И.
+        ///   Looks up a localized string similar to AND.
         /// </summary>
         public static string Arithmetic_AND {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ИЛИ.
+        ///   Looks up a localized string similar to OR.
         /// </summary>
         public static string Arithmetic_OR {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список: {0}  Элемент: {1} Операция: {2}.
+        ///   Looks up a localized string similar to List: {0} Element {1} Operation: {2}.
         /// </summary>
         public static string ChangeList {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Проверка прав: {0} Результат: {1}.
+        ///   Looks up a localized string similar to Checking the license: {0} The result is: {1}.
         /// </summary>
         public static string CheckPermission {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Команда: {0}.
+        ///   Looks up a localized string similar to Team: {0}.
         /// </summary>
         public static string Command {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to и ....
+        ///   Looks up a localized string similar to and ....
         /// </summary>
         public static string Condition_AND {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to или ....
+        ///   Looks up a localized string similar to or ....
         /// </summary>
         public static string Condition_OR {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа: {0}  Команда: {1}.
+        ///   Looks up a localized string similar to APN: 0} {Command: {1}.
         /// </summary>
         public static string ControlDoor {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to План: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}.
+        ///   Looks up a localized string similar to Plan: {0}; Element: {1}; Property: {2}; Operation: {3}; Meaning: {4}.
         /// </summary>
         public static string ControlPlan {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство: {0} Команда: {1}.
+        ///   Looks up a localized string similar to Apparatus: 0} {Command: {1}.
         /// </summary>
         public static string ControlSKDDevice {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона: {0} Команда: {1}.
+        ///   Looks up a localized string similar to Zone {0} command: {1}.
         /// </summary>
         public static string ControlSKDZone {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}.
+        ///   Looks up a localized string similar to Layout: {0}; Element: {1}; Property: {2}; Operation: {3}; Meaning: {4}.
         /// </summary>
         public static string ControlVisual {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Код выхода: {0}.
+        ///   Looks up a localized string similar to exit code: {0}.
         /// </summary>
         public static string Exit {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспортировать конфигурацию .
+        ///   Looks up a localized string similar to export configuration.
         /// </summary>
         public static string ExportConfiguration {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to устройства .
+        ///   Looks up a localized string similar to devices.
         /// </summary>
         public static string ExportConfiguration_Device {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to точки доступа .
+        ///   Looks up a localized string similar to AP.
         /// </summary>
         public static string ExportConfiguration_Door {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to зоны .
+        ///   Looks up a localized string similar to zone.
         /// </summary>
         public static string ExportConfiguration_Zone {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспортировать .
+        ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string ExportJournal {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to журнал событий .
+        ///   Looks up a localized string similar to the event log.
         /// </summary>
         public static string ExportJournal_Event {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to журнал событий и журнал проходов .
+        ///   Looks up a localized string similar to events and passes Journal magazine.
         /// </summary>
         public static string ExportJournal_EventAndPass {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to с .
+        ///   Looks up a localized string similar to from.
         /// </summary>
         public static string ExportJournal_From {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to журнал проходов .
+        ///   Looks up a localized string similar to passes journal.
         /// </summary>
         public static string ExportJournal_Pass {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  до .
+        ///   Looks up a localized string similar to  before.
         /// </summary>
         public static string ExportJournal_To {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспортировать .
+        ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string ExportOrganisation {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспортировать список организаций .
+        ///   Looks up a localized string similar to Export a list of organizations.
         /// </summary>
         public static string ExportOrganisationList {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Экспорт отчета: {0}. Фильтр: {1}..
+        ///   Looks up a localized string similar to Export report: {0}. Filter: {1}..
         /// </summary>
         public static string ExportReport {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Результат: {0} Условие поиска: {1}.
+        ///   Looks up a localized string similar to The result: {0} search term {1}.
         /// </summary>
         public static string FindObject {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список:  {0} Элемент: {1}.
+        ///   Looks up a localized string similar to List: {0} Element {1}.
         /// </summary>
         public static string Foreach {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Результат: {0}.
+        ///   Looks up a localized string similar to The result: {0}.
         /// </summary>
         public static string GenerateGuid {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Результат: {0}. Отсечение: {1}.
+        ///   Looks up a localized string similar to The result: {0}. Clipping: {1}.
         /// </summary>
         public static string GetDateTimeNow {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа: {0} Свойство: {1} Значение: {2}.
+        ///   Looks up a localized string similar to AP: {0} property: {1} Value: {2}.
         /// </summary>
         public static string GetDoorProperty {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Получить значение колонки: {0} Результат: {1}.
+        ///   Looks up a localized string similar to Get the value of a column: {0} The result is: {1}.
         /// </summary>
         public static string GetJournalItem {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список: {0} Размер: {1}.
+        ///   Looks up a localized string similar to List: Size {0}: {1}.
         /// </summary>
         public static string GetListCount {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список: {0} Элемент: {1} Позиция: {2} .
+        ///   Looks up a localized string similar to List: {0} Element {1} Position: {2}.
         /// </summary>
         public static string GetListItem {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} = {1} Свойство: {2}.
+        ///   Looks up a localized string similar to } {0 1} = {Property: {2}.
         /// </summary>
         public static string GetObjectProperty {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство: {0} Свойство: {1} Значение: {2}.
+        ///   Looks up a localized string similar to The device: {0} property: {1} Value: {2}.
         /// </summary>
         public static string GetSKDDeviceProperty {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона: {0} Свойство: {1} Значение: {2}.
+        ///   Looks up a localized string similar to Area: The property {0}: {1} Value: {2}.
         /// </summary>
         public static string GetSKDZoneProperty {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Импортировать .
+        ///   Looks up a localized string similar to Import.
         /// </summary>
         public static string ImportOrganisation {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Импортировать список организаций .
+        ///   Looks up a localized string similar to Import list of organizations.
         /// </summary>
         public static string ImportOrganisationList {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to в .
+        ///   Looks up a localized string similar to at.
         /// </summary>
         public static string In {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменная: {0} Значение: {1}.
+        ///   Looks up a localized string similar to Variable: The value of {0}: {1}.
         /// </summary>
         public static string IncrementValue {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сообщение: {0}.
+        ///   Looks up a localized string similar to Message: {0}.
         /// </summary>
         public static string Journal {
             get {
@@ -448,7 +448,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to №, название охранной зоны: {0} {1} Команда: {2}.
+        ///   Looks up a localized string similar to Number, the name of the buffer zone {0} {1} command: {2}.
         /// </summary>
         public static string LabelGuardZoneInfo {
             get {
@@ -457,7 +457,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора сценария.
+        ///   Looks up a localized string similar to Click to select the Script.
         /// </summary>
         public static string LabelPressToSelectOPCScenario {
             get {
@@ -466,7 +466,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора охранной зоны.
+        ///   Looks up a localized string similar to Click to select the protection zone.
         /// </summary>
         public static string LabelPressToSelectOPCZone {
             get {
@@ -475,7 +475,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
+        ///   Looks up a localized string similar to Scenario number: {0} Name: {1}.
         /// </summary>
         public static string LabelScenarioInfo {
             get {
@@ -484,7 +484,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Значение: {0} {1}.
+        ///   Looks up a localized string similar to Value: {0} {1}.
         /// </summary>
         public static string Pause {
             get {
@@ -493,7 +493,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процедура: {0}.
+        ///   Looks up a localized string similar to Procedure: {0}.
         /// </summary>
         public static string ProcedureSelection {
             get {
@@ -502,7 +502,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Камера: {0} Номер команды: {1}.
+        ///   Looks up a localized string similar to Camera: {0} Number of command: {1}.
         /// </summary>
         public static string PTZ {
             get {
@@ -511,7 +511,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Максимальное значение:.
+        ///   Looks up a localized string similar to Maximum value:.
         /// </summary>
         public static string Random {
             get {
@@ -520,7 +520,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь к программе: {0} Параметры запуска: {1}.
+        ///   Looks up a localized string similar to Program path: {0} startup parameters: {1}.
         /// </summary>
         public static string RunProgram {
             get {
@@ -529,7 +529,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to От кого: {0} Кому: {1} Адрес сервера: {2} Порт: {3}.
+        ///   Looks up a localized string similar to From: {0} To: {1} server address: port {2}: {3}.
         /// </summary>
         public static string SendEmail {
             get {
@@ -538,7 +538,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Открыть диалог: {0} {1}.
+        ///   Looks up a localized string similar to Open dialogue: {0} {1}.
         /// </summary>
         public static string ShowDialog {
             get {
@@ -547,7 +547,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (модальный).
+        ///   Looks up a localized string similar to (modal).
         /// </summary>
         public static string ShowDialog_Modal {
             get {
@@ -556,7 +556,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (не модальный).
+        ///   Looks up a localized string similar to (Non-modal).
         /// </summary>
         public static string ShowDialog_NotModal {
             get {
@@ -565,7 +565,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сообщение: {0}.
+        ///   Looks up a localized string similar to Message: {0}.
         /// </summary>
         public static string ShowMessage {
             get {
@@ -574,7 +574,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Показать свойство объекта:.
+        ///   Looks up a localized string similar to Show an object property:.
         /// </summary>
         public static string ShowProperty {
             get {
@@ -583,7 +583,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звук:.
+        ///   Looks up a localized string similar to Sound:.
         /// </summary>
         public static string Sound {
             get {
@@ -592,7 +592,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Камера: {0} Идентификатор: {1} Таймаут: {2}.
+        ///   Looks up a localized string similar to Camera: {0} ID {1} Timeout: {2}.
         /// </summary>
         public static string StartRecord {
             get {
@@ -601,7 +601,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Камера: {0} Идентификатор: {1}.
+        ///   Looks up a localized string similar to Camera: ID {0}: {1}.
         /// </summary>
         public static string StopRecord {
             get {
@@ -610,7 +610,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Значение: {0}.
+        ///   Looks up a localized string similar to Value: {0}.
         /// </summary>
         public static string Value {
             get {

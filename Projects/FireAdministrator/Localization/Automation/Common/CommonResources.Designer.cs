@@ -61,7 +61,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Автоматизация.
+        ///   Looks up a localized string similar to Automation.
         /// </summary>
         public static string Automation {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;пусто&gt;.
+        ///   Looks up a localized string similar to &lt;Empty&gt;.
         /// </summary>
         public static string Empty {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выполнить процедуру.
+        ///   Looks up a localized string similar to Follow the procedure.
         /// </summary>
         public static string ExecuteProcedure {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Глобальные переменные.
+        ///   Looks up a localized string similar to Global variables.
         /// </summary>
         public static string GlobalVariables {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;нет&gt;.
+        ///   Looks up a localized string similar to &lt;None&gt;.
         /// </summary>
         public static string NO_DefaultName {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процедура.
+        ///   Looks up a localized string similar to Procedure.
         /// </summary>
         public static string Procedure {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to процедура не найдена.
+        ///   Looks up a localized string similar to procedure is not found.
         /// </summary>
         public static string ProcedureNotFound {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Панель процедуры.
+        ///   Looks up a localized string similar to Panel procedures.
         /// </summary>
         public static string ProcedurePanel {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процедуры.
+        ///   Looks up a localized string similar to procedures.
         /// </summary>
         public static string Procedures {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название не может быть пустым.
+        ///   Looks up a localized string similar to The name can not be empty.
         /// </summary>
         public static string SaveEmpty {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расписания.
+        ///   Looks up a localized string similar to Timetables.
         /// </summary>
         public static string Schedules {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Automation.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звуки.
+        ///   Looks up a localized string similar to Sounds.
         /// </summary>
         public static string Sounds {
             get {

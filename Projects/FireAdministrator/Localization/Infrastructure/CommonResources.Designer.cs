@@ -61,7 +61,7 @@ namespace Localization.Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Администратор. Авторизация.
+        ///   Looks up a localized string similar to Administartor. Authorization.
         /// </summary>
         public static string AdminAuth {
             get {

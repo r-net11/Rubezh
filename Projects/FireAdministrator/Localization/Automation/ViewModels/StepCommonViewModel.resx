@@ -118,189 +118,190 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Archive" xml:space="preserve">
-    <value>с архивированными объектами </value>
+    <value>with archived objects</value>
+    <comment>google</comment>
   </data>
   <data name="Arithmetic_AND" xml:space="preserve">
-    <value>И</value>
+    <value>AND</value>
   </data>
   <data name="Arithmetic_OR" xml:space="preserve">
-    <value>ИЛИ</value>
+    <value>OR</value>
   </data>
   <data name="ChangeList" xml:space="preserve">
-    <value>Список: {0}  Элемент: {1} Операция: {2}</value>
+    <value>List: {0} Element {1} Operation: {2}</value>
   </data>
   <data name="CheckPermission" xml:space="preserve">
-    <value>Проверка прав: {0} Результат: {1}</value>
-  </data>
-  <data name="Condition_AND" xml:space="preserve">
-    <value>и ...</value>
-  </data>
-  <data name="Condition_OR" xml:space="preserve">
-    <value>или ...</value>
-  </data>
-  <data name="ControlDoor" xml:space="preserve">
-    <value>Точка доступа: {0}  Команда: {1}</value>
-  </data>
-  <data name="ControlPlan" xml:space="preserve">
-    <value>План: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}</value>
-  </data>
-  <data name="ControlSKDDevice" xml:space="preserve">
-    <value>Устройство: {0} Команда: {1}</value>
-  </data>
-  <data name="ControlSKDZone" xml:space="preserve">
-    <value>Зона: {0} Команда: {1}</value>
-  </data>
-  <data name="ControlVisual" xml:space="preserve">
-    <value>Макет: {0}; Элемент: {1}; Свойство: {2}; Операция: {3} ; Значение: {4}</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>Код выхода: {0}</value>
-  </data>
-  <data name="ExportConfiguration" xml:space="preserve">
-    <value>Экспортировать конфигурацию </value>
-  </data>
-  <data name="ExportConfiguration_Device" xml:space="preserve">
-    <value>устройства </value>
-  </data>
-  <data name="ExportConfiguration_Door" xml:space="preserve">
-    <value>точки доступа </value>
-  </data>
-  <data name="ExportConfiguration_Zone" xml:space="preserve">
-    <value>зоны </value>
-  </data>
-  <data name="ExportJournal" xml:space="preserve">
-    <value>Экспортировать </value>
-  </data>
-  <data name="ExportJournal_Event" xml:space="preserve">
-    <value>журнал событий </value>
-  </data>
-  <data name="ExportJournal_EventAndPass" xml:space="preserve">
-    <value>журнал событий и журнал проходов </value>
-  </data>
-  <data name="ExportJournal_From" xml:space="preserve">
-    <value>с </value>
-  </data>
-  <data name="ExportJournal_Pass" xml:space="preserve">
-    <value>журнал проходов </value>
-  </data>
-  <data name="ExportJournal_To" xml:space="preserve">
-    <value> до </value>
-  </data>
-  <data name="ExportOrganisation" xml:space="preserve">
-    <value>Экспортировать </value>
-  </data>
-  <data name="ExportOrganisationList" xml:space="preserve">
-    <value>Экспортировать список организаций </value>
-  </data>
-  <data name="ExportReport" xml:space="preserve">
-    <value>Экспорт отчета: {0}. Фильтр: {1}.</value>
-  </data>
-  <data name="FindObject" xml:space="preserve">
-    <value>Результат: {0} Условие поиска: {1}</value>
-  </data>
-  <data name="Foreach" xml:space="preserve">
-    <value>Список:  {0} Элемент: {1}</value>
-  </data>
-  <data name="GenerateGuid" xml:space="preserve">
-    <value>Результат: {0}</value>
-  </data>
-  <data name="GetDateTimeNow" xml:space="preserve">
-    <value>Результат: {0}. Отсечение: {1}</value>
-  </data>
-  <data name="GetDoorProperty" xml:space="preserve">
-    <value>Точка доступа: {0} Свойство: {1} Значение: {2}</value>
-  </data>
-  <data name="GetJournalItem" xml:space="preserve">
-    <value>Получить значение колонки: {0} Результат: {1}</value>
-  </data>
-  <data name="GetListCount" xml:space="preserve">
-    <value>Список: {0} Размер: {1}</value>
-  </data>
-  <data name="GetListItem" xml:space="preserve">
-    <value>Список: {0} Элемент: {1} Позиция: {2} </value>
-  </data>
-  <data name="GetObjectProperty" xml:space="preserve">
-    <value>{0} = {1} Свойство: {2}</value>
-  </data>
-  <data name="GetSKDDeviceProperty" xml:space="preserve">
-    <value>Устройство: {0} Свойство: {1} Значение: {2}</value>
-  </data>
-  <data name="GetSKDZoneProperty" xml:space="preserve">
-    <value>Зона: {0} Свойство: {1} Значение: {2}</value>
-  </data>
-  <data name="ImportOrganisation" xml:space="preserve">
-    <value>Импортировать </value>
-  </data>
-  <data name="ImportOrganisationList" xml:space="preserve">
-    <value>Импортировать список организаций </value>
-  </data>
-  <data name="In" xml:space="preserve">
-    <value>в </value>
-  </data>
-  <data name="IncrementValue" xml:space="preserve">
-    <value>Переменная: {0} Значение: {1}</value>
-  </data>
-  <data name="Journal" xml:space="preserve">
-    <value>Сообщение: {0}</value>
-  </data>
-  <data name="Pause" xml:space="preserve">
-    <value>Значение: {0} {1}</value>
-  </data>
-  <data name="ProcedureSelection" xml:space="preserve">
-    <value>Процедура: {0}</value>
-  </data>
-  <data name="PTZ" xml:space="preserve">
-    <value>Камера: {0} Номер команды: {1}</value>
-  </data>
-  <data name="Random" xml:space="preserve">
-    <value>Максимальное значение:</value>
-  </data>
-  <data name="RunProgram" xml:space="preserve">
-    <value>Путь к программе: {0} Параметры запуска: {1}</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>От кого: {0} Кому: {1} Адрес сервера: {2} Порт: {3}</value>
-  </data>
-  <data name="ShowDialog" xml:space="preserve">
-    <value>Открыть диалог: {0} {1}</value>
-  </data>
-  <data name="ShowDialog_Modal" xml:space="preserve">
-    <value>(модальный)</value>
-  </data>
-  <data name="ShowDialog_NotModal" xml:space="preserve">
-    <value>(не модальный)</value>
-  </data>
-  <data name="ShowMessage" xml:space="preserve">
-    <value>Сообщение: {0}</value>
-  </data>
-  <data name="ShowProperty" xml:space="preserve">
-    <value>Показать свойство объекта:</value>
-  </data>
-  <data name="Sound" xml:space="preserve">
-    <value>Звук:</value>
-  </data>
-  <data name="StartRecord" xml:space="preserve">
-    <value>Камера: {0} Идентификатор: {1} Таймаут: {2}</value>
-  </data>
-  <data name="StopRecord" xml:space="preserve">
-    <value>Камера: {0} Идентификатор: {1}</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Значение: {0}</value>
+    <value>Checking the license: {0} The result is: {1}</value>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Команда: {0}</value>
+    <value>Team: {0}</value>
+  </data>
+  <data name="Condition_AND" xml:space="preserve">
+    <value>and ...</value>
+  </data>
+  <data name="Condition_OR" xml:space="preserve">
+    <value>or ...</value>
+  </data>
+  <data name="ControlDoor" xml:space="preserve">
+    <value>APN: 0} {Command: {1}</value>
+  </data>
+  <data name="ControlPlan" xml:space="preserve">
+    <value>Plan: {0}; Element: {1}; Property: {2}; Operation: {3}; Meaning: {4}</value>
+  </data>
+  <data name="ControlSKDDevice" xml:space="preserve">
+    <value>Apparatus: 0} {Command: {1}</value>
+  </data>
+  <data name="ControlSKDZone" xml:space="preserve">
+    <value>Zone {0} command: {1}</value>
+  </data>
+  <data name="ControlVisual" xml:space="preserve">
+    <value>Layout: {0}; Element: {1}; Property: {2}; Operation: {3}; Meaning: {4}</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>exit code: {0}</value>
+  </data>
+  <data name="ExportConfiguration" xml:space="preserve">
+    <value>export configuration</value>
+  </data>
+  <data name="ExportConfiguration_Device" xml:space="preserve">
+    <value>devices</value>
+  </data>
+  <data name="ExportConfiguration_Door" xml:space="preserve">
+    <value>AP</value>
+  </data>
+  <data name="ExportConfiguration_Zone" xml:space="preserve">
+    <value>zone</value>
+  </data>
+  <data name="ExportJournal" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ExportJournal_Event" xml:space="preserve">
+    <value>the event log</value>
+  </data>
+  <data name="ExportJournal_EventAndPass" xml:space="preserve">
+    <value>events and passes Journal magazine</value>
+  </data>
+  <data name="ExportJournal_From" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="ExportJournal_Pass" xml:space="preserve">
+    <value>passes journal</value>
+  </data>
+  <data name="ExportJournal_To" xml:space="preserve">
+    <value> before</value>
+  </data>
+  <data name="ExportOrganisation" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ExportOrganisationList" xml:space="preserve">
+    <value>Export a list of organizations</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>Export report: {0}. Filter: {1}.</value>
+  </data>
+  <data name="FindObject" xml:space="preserve">
+    <value>The result: {0} search term {1}</value>
+  </data>
+  <data name="Foreach" xml:space="preserve">
+    <value>List: {0} Element {1}</value>
+  </data>
+  <data name="GenerateGuid" xml:space="preserve">
+    <value>The result: {0}</value>
+  </data>
+  <data name="GetDateTimeNow" xml:space="preserve">
+    <value>The result: {0}. Clipping: {1}</value>
+  </data>
+  <data name="GetDoorProperty" xml:space="preserve">
+    <value>AP: {0} property: {1} Value: {2}</value>
+  </data>
+  <data name="GetJournalItem" xml:space="preserve">
+    <value>Get the value of a column: {0} The result is: {1}</value>
+  </data>
+  <data name="GetListCount" xml:space="preserve">
+    <value>List: Size {0}: {1}</value>
+  </data>
+  <data name="GetListItem" xml:space="preserve">
+    <value>List: {0} Element {1} Position: {2}</value>
+  </data>
+  <data name="GetObjectProperty" xml:space="preserve">
+    <value>} {0 1} = {Property: {2}</value>
+  </data>
+  <data name="GetSKDDeviceProperty" xml:space="preserve">
+    <value>The device: {0} property: {1} Value: {2}</value>
+  </data>
+  <data name="GetSKDZoneProperty" xml:space="preserve">
+    <value>Area: The property {0}: {1} Value: {2}</value>
+  </data>
+  <data name="ImportOrganisation" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="ImportOrganisationList" xml:space="preserve">
+    <value>Import list of organizations</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>at</value>
+  </data>
+  <data name="IncrementValue" xml:space="preserve">
+    <value>Variable: The value of {0}: {1}</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Message: {0}</value>
   </data>
   <data name="LabelGuardZoneInfo" xml:space="preserve">
-    <value>№, название охранной зоны: {0} {1} Команда: {2}</value>
+    <value>Number, the name of the buffer zone {0} {1} command: {2}</value>
   </data>
   <data name="LabelPressToSelectOPCScenario" xml:space="preserve">
-    <value>Нажмите для выбора сценария</value>
+    <value>Click to select the Script</value>
   </data>
   <data name="LabelPressToSelectOPCZone" xml:space="preserve">
-    <value>Нажмите для выбора охранной зоны</value>
+    <value>Click to select the protection zone</value>
   </data>
   <data name="LabelScenarioInfo" xml:space="preserve">
-    <value>№ Сценария: {0} Название: {1}</value>
+    <value>Scenario number: {0} Name: {1}</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Value: {0} {1}</value>
+  </data>
+  <data name="ProcedureSelection" xml:space="preserve">
+    <value>Procedure: {0}</value>
+  </data>
+  <data name="PTZ" xml:space="preserve">
+    <value>Camera: {0} Number of command: {1}</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Maximum value:</value>
+  </data>
+  <data name="RunProgram" xml:space="preserve">
+    <value>Program path: {0} startup parameters: {1}</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>From: {0} To: {1} server address: port {2}: {3}</value>
+  </data>
+  <data name="ShowDialog" xml:space="preserve">
+    <value>Open dialogue: {0} {1}</value>
+  </data>
+  <data name="ShowDialog_Modal" xml:space="preserve">
+    <value>(modal)</value>
+  </data>
+  <data name="ShowDialog_NotModal" xml:space="preserve">
+    <value>(Non-modal)</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Message: {0}</value>
+  </data>
+  <data name="ShowProperty" xml:space="preserve">
+    <value>Show an object property:</value>
+  </data>
+  <data name="Sound" xml:space="preserve">
+    <value>Sound:</value>
+  </data>
+  <data name="StartRecord" xml:space="preserve">
+    <value>Camera: {0} ID {1} Timeout: {2}</value>
+  </data>
+  <data name="StopRecord" xml:space="preserve">
+    <value>Camera: ID {0}: {1}</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value: {0}</value>
   </data>
 </root>

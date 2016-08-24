@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddLayout" xml:space="preserve">
-    <value>Добавить макет</value>
+    <value>Add layout</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Копировать</value>
+    <value>Copy</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Вырезать</value>
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Delete</value>
   </data>
   <data name="DeviceCanNotBePlaced" xml:space="preserve">
-    <value>Устройство нельзя размещать на плане</value>
+    <value>Device cannot be placed on plan</value>
   </data>
   <data name="DeviceIsNotPlaced" xml:space="preserve">
-    <value>Устройство не размещено на плане</value>
+    <value>Device is not placed on plan</value>
   </data>
   <data name="DeviceIsPlaced" xml:space="preserve">
-    <value>Устройство уже размещено на плане</value>
+    <value>Device is placed on plan</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
+    <value>Edit</value>
   </data>
   <data name="FreeSpace" xml:space="preserve">
-    <value>Свободное пространство</value>
+    <value>Free space</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Метка</value>
+    <value>Label</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
   </data>
   <data name="LoadLayoutConfig" xml:space="preserve">
-    <value>Загрузка конфигурации макетов ОЗ</value>
+    <value>Load layout configuration</value>
   </data>
   <data name="NestedLayout" xml:space="preserve">
-    <value>Вложенный макет</value>
+    <value>Nested layout</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Нет</value>
+    <value>None</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Вставить</value>
+    <value>Paste</value>
   </data>
   <data name="Picture" xml:space="preserve">
-    <value>Картинка</value>
+    <value>Image</value>
   </data>
   <data name="ShowStaticPicture" xml:space="preserve">
-    <value>Показывает статическое изображение</value>
+    <value>Show static image</value>
   </data>
   <data name="Space" xml:space="preserve">
-    <value>Пространство</value>
+    <value>Space</value>
   </data>
   <data name="TextBox" xml:space="preserve">
-    <value>Текстовое поле</value>
+    <value>Textbox</value>
   </data>
 </root>

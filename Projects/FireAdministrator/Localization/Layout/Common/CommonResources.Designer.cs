@@ -61,7 +61,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить макет.
+        ///   Looks up a localized string similar to Add layout.
         /// </summary>
         public static string AddLayout {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать.
+        ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вырезать.
+        ///   Looks up a localized string similar to Cut.
         /// </summary>
         public static string Cut {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство нельзя размещать на плане.
+        ///   Looks up a localized string similar to Device cannot be placed on plan.
         /// </summary>
         public static string DeviceCanNotBePlaced {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство не размещено на плане.
+        ///   Looks up a localized string similar to Device is not placed on plan.
         /// </summary>
         public static string DeviceIsNotPlaced {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство уже размещено на плане.
+        ///   Looks up a localized string similar to Device is placed on plan.
         /// </summary>
         public static string DeviceIsPlaced {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свободное пространство.
+        ///   Looks up a localized string similar to Free space.
         /// </summary>
         public static string FreeSpace {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Метка.
+        ///   Looks up a localized string similar to Label.
         /// </summary>
         public static string Label {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет.
+        ///   Looks up a localized string similar to Layout.
         /// </summary>
         public static string Layout {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Загрузка конфигурации макетов ОЗ.
+        ///   Looks up a localized string similar to Load layout configuration.
         /// </summary>
         public static string LoadLayoutConfig {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вложенный макет.
+        ///   Looks up a localized string similar to Nested layout.
         /// </summary>
         public static string NestedLayout {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нет.
+        ///   Looks up a localized string similar to None.
         /// </summary>
         public static string None {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вставить.
+        ///   Looks up a localized string similar to Paste.
         /// </summary>
         public static string Paste {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Картинка.
+        ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string Picture {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Показывает статическое изображение.
+        ///   Looks up a localized string similar to Show static image.
         /// </summary>
         public static string ShowStaticPicture {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пространство.
+        ///   Looks up a localized string similar to Space.
         /// </summary>
         public static string Space {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Layout.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текстовое поле.
+        ///   Looks up a localized string similar to Textbox.
         /// </summary>
         public static string TextBox {
             get {

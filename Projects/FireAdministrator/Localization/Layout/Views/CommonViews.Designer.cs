@@ -61,7 +61,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все свободное.
+        ///   Looks up a localized string similar to All free.
         /// </summary>
         public static string AllFree {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Разрешить использовать ENTER.
+        ///   Looks up a localized string similar to Allow ENTER.
         /// </summary>
         public static string AllowEnter {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Разрешить использовать TAB.
+        ///   Looks up a localized string similar to Allow TAB.
         /// </summary>
         public static string AllowTab {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Авто.
+        ///   Looks up a localized string similar to Auto.
         /// </summary>
         public static string Auto {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Авто перенос строк.
+        ///   Looks up a localized string similar to Car wrapping.
         /// </summary>
         public static string AutoWrap {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Доступен.
+        ///   Looks up a localized string similar to available.
         /// </summary>
         public static string Available {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет фона.
+        ///   Looks up a localized string similar to Background color.
         /// </summary>
         public static string BackgroungColor {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Жирный.
+        ///   Looks up a localized string similar to Fatty.
         /// </summary>
         public static string Bold {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет границы.
+        ///   Looks up a localized string similar to The color of the border.
         /// </summary>
         public static string BorderColor {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина границы.
+        ///   Looks up a localized string similar to border Width.
         /// </summary>
         public static string BorderWidth {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить макет.
+        ///   Looks up a localized string similar to Delete layout.
         /// </summary>
         public static string DeleteLayout {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Очистить картинку.
+        ///   Looks up a localized string similar to Clear image.
         /// </summary>
         public static string DeletePicture {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание.
+        ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать макет.
+        ///   Looks up a localized string similar to Edit layout.
         /// </summary>
         public static string EditLayout {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент может быть размещен.
+        ///   Looks up a localized string similar to The element may be placed.
         /// </summary>
         public static string ElementCanBePlaced {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент нельзя размещать.
+        ///   Looks up a localized string similar to The element can not be placed.
         /// </summary>
         public static string ElementCanNotBePlaced {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент не размещен.
+        ///   Looks up a localized string similar to The element is not placed.
         /// </summary>
         public static string ElementIsNotPlaced {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент уже размещен.
+        ///   Looks up a localized string similar to The element is already placed.
         /// </summary>
         public static string ElementIsPlaced {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элементы.
+        ///   Looks up a localized string similar to elements.
         /// </summary>
         public static string Elements {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фиксированный.
+        ///   Looks up a localized string similar to Fixed.
         /// </summary>
         public static string Fix {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шрифт.
+        ///   Looks up a localized string similar to Font.
         /// </summary>
         public static string Font {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер шрифта.
+        ///   Looks up a localized string similar to Font size.
         /// </summary>
         public static string FontSize {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заголовок.
+        ///   Looks up a localized string similar to header.
         /// </summary>
         public static string Header {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Высота.
+        ///   Looks up a localized string similar to Height.
         /// </summary>
         public static string Height {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выравнивать по горизонтали.
+        ///   Looks up a localized string similar to Align horizontally.
         /// </summary>
         public static string HorizontalAlign {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отступ.
+        ///   Looks up a localized string similar to indent.
         /// </summary>
         public static string Indent {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP адрес.
+        ///   Looks up a localized string similar to IP address.
         /// </summary>
         public static string IpAddress {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP адрес или имя компьютера.
+        ///   Looks up a localized string similar to IP address or computer name.
         /// </summary>
         public static string IpAddressOrCompName {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр IP.
+        ///   Looks up a localized string similar to IP Filter.
         /// </summary>
         public static string IpFilter {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Курсив.
+        ///   Looks up a localized string similar to Italics.
         /// </summary>
         public static string Italic {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макеты.
+        ///   Looks up a localized string similar to Layouts.
         /// </summary>
         public static string Layouts {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Логин.
+        ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основные.
+        ///   Looks up a localized string similar to main.
         /// </summary>
         public static string Main {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Минимальный.
+        ///   Looks up a localized string similar to Minimum.
         /// </summary>
         public static string Minimal {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Имя.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пиксели.
+        ///   Looks up a localized string similar to Pixels.
         /// </summary>
         public static string Pixels {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расположение:.
+        ///   Looks up a localized string similar to Location:.
         /// </summary>
         public static string Position {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбрать картинку.
+        ///   Looks up a localized string similar to Select a picture.
         /// </summary>
         public static string SelectPicture {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет разделителя.
+        ///   Looks up a localized string similar to separator Color.
         /// </summary>
         public static string SeparatorColor {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина разделителя.
+        ///   Looks up a localized string similar to The width of the separator.
         /// </summary>
         public static string SeparatorWidth {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Показывать меню.
+        ///   Looks up a localized string similar to show menu.
         /// </summary>
         public static string ShowMenu {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер.
+        ///   Looks up a localized string similar to The size.
         /// </summary>
         public static string Size {
             get {
@@ -448,7 +448,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ограничить длину строки.
+        ///   Looks up a localized string similar to Limit the length of the string.
         /// </summary>
         public static string StringLengthLimit {
             get {
@@ -457,7 +457,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Стиль.
+        ///   Looks up a localized string similar to Style.
         /// </summary>
         public static string Style {
             get {
@@ -466,7 +466,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текст.
+        ///   Looks up a localized string similar to Text.
         /// </summary>
         public static string Text {
             get {
@@ -475,7 +475,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выравнивать текст.
+        ///   Looks up a localized string similar to align text.
         /// </summary>
         public static string TextAlign {
             get {
@@ -484,7 +484,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет текста.
+        ///   Looks up a localized string similar to Text color.
         /// </summary>
         public static string TextColor {
             get {
@@ -493,7 +493,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Title {
             get {
@@ -502,7 +502,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип.
+        ///   Looks up a localized string similar to A type.
         /// </summary>
         public static string Type {
             get {
@@ -511,7 +511,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недоступен.
+        ///   Looks up a localized string similar to Not available.
         /// </summary>
         public static string Unavailable {
             get {
@@ -520,7 +520,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользователи.
+        ///   Looks up a localized string similar to users.
         /// </summary>
         public static string Users {
             get {
@@ -529,7 +529,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выравнивать по вертикали.
+        ///   Looks up a localized string similar to Align vertically.
         /// </summary>
         public static string VerticalAlign {
             get {
@@ -538,7 +538,7 @@ namespace Localization.Layout.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина.
+        ///   Looks up a localized string similar to Width.
         /// </summary>
         public static string Width {
             get {

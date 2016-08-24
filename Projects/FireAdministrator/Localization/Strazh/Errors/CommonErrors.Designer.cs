@@ -61,12 +61,13 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль замка должен соответствовать следующим ограничениям:
-        ///*Не может быть пустым
-        ///*Может состоять только из цифр
-        ///*Количество знаков от 3 до 6
-        ///*Не должен начинаться на 0
-        ///*Не должен совпадать с уже имеющимся паролем.
+        ///   Looks up a localized string similar to Lock password must meet the following restrictions: 
+        ///* Can not be empty 
+        ///* Can contain only digits
+        ///* Number of digits from 3 to 6
+        ///DeviceCommands_ControllerError	
+        ///* Must not begin at 0 
+        ///* Do not have to match the existing password .
         /// </summary>
         public static string ControllerPassword_Error {
             get {
@@ -75,7 +76,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Операция не выполнена на следующих контроллерах:
+        ///   Looks up a localized string similar to The operation was not performed on these controllers: 
         ///{0}.
         /// </summary>
         public static string DeviceCommands_ControllerError {
@@ -85,7 +86,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не верно задан шлюз по умолчанию.
+        ///   Looks up a localized string similar to Not true is the default gateway.
         /// </summary>
         public static string GatewayError {
             get {
@@ -94,7 +95,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не верно задан IP-адрес.
+        ///   Looks up a localized string similar to Not true given IP-address.
         /// </summary>
         public static string IPAddressError {
             get {
@@ -103,7 +104,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не верно задана маска подсети.
+        ///   Looks up a localized string similar to The subnet mask is not defined correctly.
         /// </summary>
         public static string MaskError {
             get {
@@ -112,7 +113,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка во время операции.
+        ///   Looks up a localized string similar to Error during operation.
         /// </summary>
         public static string OperationError {
             get {
@@ -121,7 +122,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Несвязанная точка доступа.
+        ///   Looks up a localized string similar to Unrelated AP.
         /// </summary>
         public static string UnrelatedDoorError {
             get {
@@ -130,7 +131,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Несвязанное СКД устройство.
+        ///   Looks up a localized string similar to Unbound access control device.
         /// </summary>
         public static string UnrelatedSKDDeviceError {
             get {
@@ -139,7 +140,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Несвязанная СКД зона.
+        ///   Looks up a localized string similar to Unrelated SKD zone.
         /// </summary>
         public static string UnrelatedSKDZoneError {
             get {
@@ -148,7 +149,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неактивный считыватель участвует в точке доступа.
+        ///   Looks up a localized string similar to Inactive participates reader at the access point.
         /// </summary>
         public static string ValidateDevices_DoorError {
             get {
@@ -157,7 +158,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель не участвует в точке доступа.
+        ///   Looks up a localized string similar to The reader is not involved in the access point.
         /// </summary>
         public static string ValidateDevices_DoorNullError {
             get {
@@ -166,7 +167,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название устройства.
+        ///   Looks up a localized string similar to No device name.
         /// </summary>
         public static string ValidateDevices_EmptyNameError {
             get {
@@ -175,7 +176,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неактивный считыватель ведет в зону.
+        ///   Looks up a localized string similar to Inactive reader is in zone.
         /// </summary>
         public static string ValidateDevices_ZoneError {
             get {
@@ -184,7 +185,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель не ведет в зону.
+        ///   Looks up a localized string similar to The reader does not lead to a zone.
         /// </summary>
         public static string ValidateDevices_ZoneNullError {
             get {
@@ -193,7 +194,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название устройства.
+        ///   Looks up a localized string similar to Duplicated device name.
         /// </summary>
         public static string ValidateDevicesEqualityicate_DublicateError {
             get {
@@ -202,7 +203,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип контроллер не совпадает с типом точки доступа.
+        ///   Looks up a localized string similar to Type controller does not match the access point.
         /// </summary>
         public static string ValidateDoors_DeviceTypeError {
             get {
@@ -211,7 +212,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название точки доступа.
+        ///   Looks up a localized string similar to Doubles the access point name.
         /// </summary>
         public static string ValidateDoors_DublicateNameError {
             get {
@@ -220,7 +221,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется номер.
+        ///   Looks up a localized string similar to Doubles room.
         /// </summary>
         public static string ValidateDoors_DublicateNumberError {
             get {
@@ -229,7 +230,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название точки доступа.
+        ///   Looks up a localized string similar to No Access Point Name.
         /// </summary>
         public static string ValidateDoors_EmptyNameError {
             get {
@@ -238,7 +239,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У точки доступа отсутствует входное устройство.
+        ///   Looks up a localized string similar to There is no access point input device.
         /// </summary>
         public static string ValidateDoors_InDeviceError {
             get {
@@ -247,7 +248,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У точки доступа отсутствует выходное устройство.
+        ///   Looks up a localized string similar to At the access point is not the output device.
         /// </summary>
         public static string ValidateDoors_OutDeviceEmptyError {
             get {
@@ -256,7 +257,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У точки доступа неверно указано выходное устройство.
+        ///   Looks up a localized string similar to In the AP incorrectly specified output device.
         /// </summary>
         public static string ValidateDoors_OutDeviceError {
             get {
@@ -265,7 +266,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У точки доступа выходным устройством может быть только считыватель.
+        ///   Looks up a localized string similar to At access point output device reader can only be.
         /// </summary>
         public static string ValidateDoors_OutReaderError {
             get {
@@ -274,7 +275,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Одно и то же устройство привязано к разным точкам доступа.
+        ///   Looks up a localized string similar to One and the same unit linked to different access points.
         /// </summary>
         public static string ValidateDoors_SameDeviceError {
             get {
@@ -283,7 +284,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название дневного графика.
+        ///   Looks up a localized string similar to Doubles title on the daily chart.
         /// </summary>
         public static string ValidateDoorTimeIntervals_DublicateError {
             get {
@@ -292,7 +293,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название недельного графика.
+        ///   Looks up a localized string similar to Doubles title on the weekly chart.
         /// </summary>
         public static string ValidateDoorWeeklyIntervals_DublicateError {
             get {
@@ -301,7 +302,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все составляющие части недельного графика пустые.
+        ///   Looks up a localized string similar to All components of the weekly chart empty.
         /// </summary>
         public static string ValidateDoorWeeklyIntervals_EmptyError {
             get {
@@ -310,7 +311,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется дата праздника.
+        ///   Looks up a localized string similar to Doubles holiday date.
         /// </summary>
         public static string ValidateHolidays_DublicateError {
             get {
@@ -319,7 +320,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название праздника.
+        ///   Looks up a localized string similar to No name of the holiday.
         /// </summary>
         public static string ValidateHolidays_EmptyNameError {
             get {
@@ -328,7 +329,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название дневного графика.
+        ///   Looks up a localized string similar to No name on the daily chart.
         /// </summary>
         public static string ValidateIntervals_EmptyNameError {
             get {
@@ -337,7 +338,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Начало интервала меньше конца интервала.
+        ///   Looks up a localized string similar to Start interval is less than the end of the interval.
         /// </summary>
         public static string ValidateIntervals_StartLessEndError {
             get {
@@ -346,7 +347,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется IP-адрес устройства.
+        ///   Looks up a localized string similar to Duplicated IP-address of the device.
         /// </summary>
         public static string ValidateIPAddresses_DublicateError {
             get {
@@ -355,7 +356,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не задан логин.
+        ///   Looks up a localized string similar to login Not specified.
         /// </summary>
         public static string ValidateIPAddresses_LoginError {
             get {
@@ -364,7 +365,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не задан пароль.
+        ///   Looks up a localized string similar to No password is set.
         /// </summary>
         public static string ValidateIPAddresses_PasswordError {
             get {
@@ -373,7 +374,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не задан порт.
+        ///   Looks up a localized string similar to It does not specify a port.
         /// </summary>
         public static string ValidateIPAddresses_PortError {
             get {
@@ -382,7 +383,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} дублируется на плане {1}.
+        ///   Looks up a localized string similar to {0} is duplicated on the plane {1}.
         /// </summary>
         public static string ValidatePlans_DublicateError {
             get {
@@ -391,7 +392,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название скользящего посуточного графика.
+        ///   Looks up a localized string similar to Doubles title sliding Daily schedule.
         /// </summary>
         public static string ValidateSlideDayIntervals_DublicateError {
             get {
@@ -400,7 +401,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все составляющие части скользящего посуточного графика пустые.
+        ///   Looks up a localized string similar to All components of sliding Daily schedule empty.
         /// </summary>
         public static string ValidateSlideDayIntervals_EmptyError {
             get {
@@ -409,7 +410,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название скользящего посуточного графика.
+        ///   Looks up a localized string similar to No name sliding Daily schedule.
         /// </summary>
         public static string ValidateSlideDayIntervals_EmptyNameError {
             get {
@@ -418,7 +419,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствуют составляющие части скользящего посуточного графика.
+        ///   Looks up a localized string similar to None of the components of the sliding Daily schedule.
         /// </summary>
         public static string ValidateSlideDayIntervals_EmptyPartError {
             get {
@@ -427,7 +428,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название скользящего понедельного графика.
+        ///   Looks up a localized string similar to No name sliding Weekly schedule.
         /// </summary>
         public static string ValidateSlideWeeklyIntervals_EmptyNameError {
             get {
@@ -436,7 +437,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название скользящего понедельного графика.
+        ///   Looks up a localized string similar to Doubles title sliding Weekly schedule.
         /// </summary>
         public static string ValidateSlideWeklyIntervals_DublicateError {
             get {
@@ -445,7 +446,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все составляющие части скользящего понедельного графика пустые.
+        ///   Looks up a localized string similar to All components of sliding weekly schedule empty.
         /// </summary>
         public static string ValidateSlideWeklyIntervals_EmptyError {
             get {
@@ -454,7 +455,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствуют составляющие части скользящего понедельного графика.
+        ///   Looks up a localized string similar to None of the components sliding on a weekly schedule.
         /// </summary>
         public static string ValidateSlideWeklyIntervals_EmptyPartError {
             get {
@@ -463,7 +464,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствуют составляющие части дневного графика.
+        ///   Looks up a localized string similar to None of the components of the daily chart.
         /// </summary>
         public static string ValidateTimeIntervals_EmptyPartError {
             get {
@@ -472,7 +473,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Последовательность интервалов не должна быть пересекающейся.
+        ///   Looks up a localized string similar to The sequence of intervals must not be intersecting.
         /// </summary>
         public static string ValidateTimeIntervals_IntersectError {
             get {
@@ -481,7 +482,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название недельного графика.
+        ///   Looks up a localized string similar to No name on the weekly chart.
         /// </summary>
         public static string ValidateWeeklyIntervals_EmptyNameError {
             get {
@@ -490,7 +491,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дублируется название зоны.
+        ///   Looks up a localized string similar to Doubles zone name.
         /// </summary>
         public static string ValidateZones_DublicateError {
             get {
@@ -499,7 +500,7 @@ namespace Localization.Strazh.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует название зоны.
+        ///   Looks up a localized string similar to No Name Zone.
         /// </summary>
         public static string ValidateZones_EmptyNameError {
             get {

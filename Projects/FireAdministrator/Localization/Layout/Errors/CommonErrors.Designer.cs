@@ -61,7 +61,7 @@ namespace Localization.Layout.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}..
+        ///   Looks up a localized string similar to Invalid value for {0}. Specify a value in the range {1} to {2}..
         /// </summary>
         public static string IpFilterDetailsView_Error {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Layout.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет не должен содержать контейнер отдельно от панели навигации.
+        ///   Looks up a localized string similar to The layout should not contain container separately from the navigation bar.
         /// </summary>
         public static string ValidateLayoutIsContentExist_Error {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Layout.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент &apos;Верификация&apos; в макете не может быть загружен по причине лицензионных ограничений.
+        ///   Looks up a localized string similar to &apos;Verification&apos; element in the layout can not be loaded due to licensing restrictions.
         /// </summary>
         public static string ValidateLayoutIsLayoutVerificationElementsAvailable_Error {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Layout.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет не должен содержать панель навигации отдельно от контейнера.
+        ///   Looks up a localized string similar to The layout should not contain navigation bar separate from the container.
         /// </summary>
         public static string ValidateLayoutIsNavigationExist_Error {
             get {

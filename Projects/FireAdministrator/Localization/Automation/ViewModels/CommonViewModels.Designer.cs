@@ -61,7 +61,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить аргумент.
+        ///   Looks up a localized string similar to Add argument.
         /// </summary>
         public static string Argument_Add {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать аргумент.
+        ///   Looks up a localized string similar to Edit argument.
         /// </summary>
         public static string Argument_Edit {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to аргумент.
+        ///   Looks up a localized string similar to argument.
         /// </summary>
         public static string Argument_Title {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать аргумент.
+        ///   Looks up a localized string similar to Edit argument.
         /// </summary>
         public static string ArgumentDetailsViewModel_Title {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор видеоустройства.
+        ///   Looks up a localized string similar to Selecting a video device.
         /// </summary>
         public static string CameraSelectionViewModel_Title {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор точки доступа.
+        ///   Looks up a localized string similar to Select the access point.
         /// </summary>
         public static string DoorSelectionViewModel_Title {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор сотрудника.
+        ///   Looks up a localized string similar to Selection of personnel.
         /// </summary>
         public static string EmployeeSelectionViewModel_Title {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор фильтра.
+        ///   Looks up a localized string similar to Selection filter.
         /// </summary>
         public static string FilterSelectionViewModel_Title {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить глобальную переменную.
+        ///   Looks up a localized string similar to Add a global variable.
         /// </summary>
         public static string GlobalVariable_Add {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to глобальная переменная.
+        ///   Looks up a localized string similar to global variable.
         /// </summary>
         public static string GlobalVariable_DefaultName {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать глобальную переменную.
+        ///   Looks up a localized string similar to Edit the global variable.
         /// </summary>
         public static string GlobalVariable_Edit {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По центру.
+        ///   Looks up a localized string similar to In the center.
         /// </summary>
         public static string LayoutPartPropertyProcedure_Center {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По левому краю.
+        ///   Looks up a localized string similar to On the left side.
         /// </summary>
         public static string LayoutPartPropertyProcedure_Left {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По правому краю.
+        ///   Looks up a localized string similar to Align Right.
         /// </summary>
         public static string LayoutPartPropertyProcedure_Right {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить локальную переменную.
+        ///   Looks up a localized string similar to Add a local variable.
         /// </summary>
         public static string LocalVariable_Add {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to локальная переменная.
+        ///   Looks up a localized string similar to local variable.
         /// </summary>
         public static string LocalVariable_DefaultName {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать локальную переменную.
+        ///   Looks up a localized string similar to Edit a local variable.
         /// </summary>
         public static string LocalVariable_Edit {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор организации.
+        ///   Looks up a localized string similar to Selection of.
         /// </summary>
         public static string OrganisationSelectionViewModel_Title {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора сценария.
+        ///   Looks up a localized string similar to Click to select the Script.
         /// </summary>
         public static string PressToSelectOPCScenarioLabel {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание процедуры.
+        ///   Looks up a localized string similar to Create procedures.
         /// </summary>
         public static string ProcedureDetails_Create {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование процедуры.
+        ///   Looks up a localized string similar to Editing procedures.
         /// </summary>
         public static string ProcedureDetails_Edit {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Процедура.
+        ///   Looks up a localized string similar to figures Properties: Procedure.
         /// </summary>
         public static string ProcedurePropertiesViewModel_Title {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Procedures_Add {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать.
+        ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Procedures_Copy {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вырезать.
+        ///   Looks up a localized string similar to Cut.
         /// </summary>
         public static string Procedures_Cut {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Procedures_Delete {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Procedures_Edit {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование.
+        ///   Looks up a localized string similar to Editing.
         /// </summary>
         public static string Procedures_Edition {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вставить.
+        ///   Looks up a localized string similar to insert.
         /// </summary>
         public static string Procedures_Paste {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор процедуры.
+        ///   Looks up a localized string similar to Choice of procedure.
         /// </summary>
         public static string ProcedureSelectionViewModel_Title {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to № Сценария: {0} Название: {1}.
+        ///   Looks up a localized string similar to Scenario number: {0} Name: {1}.
         /// </summary>
         public static string ScenarioInfoLabel {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить элемент расписания.
+        ///   Looks up a localized string similar to Add a schedule item.
         /// </summary>
         public static string ScheduleDetails_Add {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства элемента расписания.
+        ///   Looks up a localized string similar to Properties schedules element.
         /// </summary>
         public static string ScheduleDetails_Properties {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор устройства.
+        ///   Looks up a localized string similar to Select device.
         /// </summary>
         public static string SKDDeviceSelectionViewModel_Title {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор зоны.
+        ///   Looks up a localized string similar to Selecting a zone.
         /// </summary>
         public static string SKDZoneSelectionViewModel_Title {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства звукового элемента.
+        ///   Looks up a localized string similar to Properties of sound element.
         /// </summary>
         public static string SoundDetailsViewModel_Title {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звуковой файл |*.wav.
+        ///   Looks up a localized string similar to Audio file | * .wav.
         /// </summary>
         public static string SoundsViewModel_Extention {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Функции цикла.
+        ///   Looks up a localized string similar to cycle Options.
         /// </summary>
         public static string StepTypeSelection_CycleFunctions {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обмен данными.
+        ///   Looks up a localized string similar to Data exchange.
         /// </summary>
         public static string StepTypeSelection_DataExchange {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Реестр функций.
+        ///   Looks up a localized string similar to Register functions.
         /// </summary>
         public static string StepTypeSelection_FunctionsRegister {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Управление аппаратурой.
+        ///   Looks up a localized string similar to facility management.
         /// </summary>
         public static string StepTypeSelection_HardwareControl {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Интерактивная логика.
+        ///   Looks up a localized string similar to Interactive logic.
         /// </summary>
         public static string StepTypeSelection_Logic {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Интеграция с ОПС.
+        ///   Looks up a localized string similar to Integration with OPS.
         /// </summary>
         public static string StepTypeSelection_OPCIntegration {
             get {
@@ -448,7 +448,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Операции.
+        ///   Looks up a localized string similar to operations.
         /// </summary>
         public static string StepTypeSelection_Operations {
             get {
@@ -457,7 +457,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Служебные функции.
+        ///   Looks up a localized string similar to Service functions.
         /// </summary>
         public static string StepTypeSelection_ServiceFunctions {
             get {
@@ -466,7 +466,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Управление Страж.
+        ///   Looks up a localized string similar to Sentinel Management.
         /// </summary>
         public static string StepTypeSelection_StrazhControl {
             get {
@@ -475,7 +475,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор типа функции.
+        ///   Looks up a localized string similar to Select the type of function.
         /// </summary>
         public static string StepTypeSelection_Title {
             get {
@@ -484,7 +484,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Управление Видео.
+        ///   Looks up a localized string similar to Video Management.
         /// </summary>
         public static string StepTypeSelection_VideoControl {
             get {
@@ -493,7 +493,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактор строки.
+        ///   Looks up a localized string similar to line editor.
         /// </summary>
         public static string StringDetailsViewModel_Title {
             get {
@@ -502,7 +502,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Стиль.
+        ///   Looks up a localized string similar to Style.
         /// </summary>
         public static string Style {
             get {
@@ -511,7 +511,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор пользователя.
+        ///   Looks up a localized string similar to Select user.
         /// </summary>
         public static string UserSelectionViewModel_Title {
             get {
@@ -520,7 +520,7 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор посетителя.
+        ///   Looks up a localized string similar to Choosing visitor.
         /// </summary>
         public static string VisitorSelectionViewModel_Title {
             get {

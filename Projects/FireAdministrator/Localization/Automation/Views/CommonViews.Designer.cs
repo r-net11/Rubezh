@@ -61,7 +61,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активен.
+        ///   Looks up a localized string similar to Most active.
         /// </summary>
         public static string Active {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить условие.
+        ///   Looks up a localized string similar to Add condition.
         /// </summary>
         public static string AddCondition {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить функцию.
+        ///   Looks up a localized string similar to Add function.
         /// </summary>
         public static string AddFunction {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить процедуру.
+        ///   Looks up a localized string similar to Add procedure.
         /// </summary>
         public static string AddProcedure {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Адрес.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить шаг.
+        ///   Looks up a localized string similar to Add a step.
         /// </summary>
         public static string AddStep {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Всем клиентам.
+        ///   Looks up a localized string similar to All customers.
         /// </summary>
         public static string AllClients {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to С удалёнными.
+        ///   Looks up a localized string similar to From remote.
         /// </summary>
         public static string Archive {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Аргументы.
+        ///   Looks up a localized string similar to arguments.
         /// </summary>
         public static string Arguments {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет фона.
+        ///   Looks up a localized string similar to Background color.
         /// </summary>
         public static string BackgroungColor {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата начала.
+        ///   Looks up a localized string similar to the date of the beginning.
         /// </summary>
         public static string BeginPeriodDate {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Жирный.
+        ///   Looks up a localized string similar to Fatty.
         /// </summary>
         public static string Bold {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет границы.
+        ///   Looks up a localized string similar to The color of the border.
         /// </summary>
         public static string BorderColor {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина границы.
+        ///   Looks up a localized string similar to border Width.
         /// </summary>
         public static string BorderThickness {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Камера.
+        ///   Looks up a localized string similar to Camera.
         /// </summary>
         public static string Camera {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Можно закрывать.
+        ///   Looks up a localized string similar to You can close the.
         /// </summary>
         public static string CanClose {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Можно разворачивать.
+        ///   Looks up a localized string similar to You can expand.
         /// </summary>
         public static string CanMaximize {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора объекта.
+        ///   Looks up a localized string similar to Click to select the object.
         /// </summary>
         public static string ChooseObject {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип колонки.
+        ///   Looks up a localized string similar to column Type.
         /// </summary>
         public static string ColumnType {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Команда.
+        ///   Looks up a localized string similar to Command.
         /// </summary>
         public static string Command {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Условие.
+        ///   Looks up a localized string similar to Condition.
         /// </summary>
         public static string Condition {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подтверждение.
+        ///   Looks up a localized string similar to the confirmation.
         /// </summary>
         public static string Confirmation {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры подключения к серверу.
+        ///   Looks up a localized string similar to Options to connect to the server.
         /// </summary>
         public static string ConnectionSettings {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать.
+        ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать процедуру.
+        ///   Looks up a localized string similar to Copy procedure.
         /// </summary>
         public static string CopyProcedure {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создать.
+        ///   Looks up a localized string similar to create.
         /// </summary>
         public static string Create {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создать фильтр.
+        ///   Looks up a localized string similar to Create filter.
         /// </summary>
         public static string CreateFilter {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользовательский стиль.
+        ///   Looks up a localized string similar to Custom style.
         /// </summary>
         public static string CustomStyle {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вырезать.
+        ///   Looks up a localized string similar to Cut.
         /// </summary>
         public static string Cut {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вырезать процедуру.
+        ///   Looks up a localized string similar to Cut procedure.
         /// </summary>
         public static string CutProcedure {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время.
+        ///   Looks up a localized string similar to date and time.
         /// </summary>
         public static string DateTime {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время в названии файла.
+        ///   Looks up a localized string similar to Date and time in the file name.
         /// </summary>
         public static string DateTimeInName {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to День.
+        ///   Looks up a localized string similar to Day.
         /// </summary>
         public static string Day {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to День недели.
+        ///   Looks up a localized string similar to Day of the week.
         /// </summary>
         public static string DayOfWeek {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дней.
+        ///   Looks up a localized string similar to days.
         /// </summary>
         public static string Days {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить условие.
+        ///   Looks up a localized string similar to Remove condition.
         /// </summary>
         public static string DeleteCondition {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить функцию.
+        ///   Looks up a localized string similar to Delete function.
         /// </summary>
         public static string DeleteFunction {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить процедуру.
+        ///   Looks up a localized string similar to Delete procedure.
         /// </summary>
         public static string DeleteProcedure {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить шаг.
+        ///   Looks up a localized string similar to Remove step.
         /// </summary>
         public static string DeleteStep {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Наименование.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Denomination {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Примечание.
+        ///   Looks up a localized string similar to Note.
         /// </summary>
         public static string Description {
             get {
@@ -448,7 +448,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство.
+        ///   Looks up a localized string similar to Device.
         /// </summary>
         public static string Device {
             get {
@@ -457,7 +457,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройства.
+        ///   Looks up a localized string similar to Devices.
         /// </summary>
         public static string Devices {
             get {
@@ -466,7 +466,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа.
+        ///   Looks up a localized string similar to Access point.
         /// </summary>
         public static string Door {
             get {
@@ -475,7 +475,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точки доступа.
+        ///   Looks up a localized string similar to access points.
         /// </summary>
         public static string Doors {
             get {
@@ -484,7 +484,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ниже.
+        ///   Looks up a localized string similar to Below.
         /// </summary>
         public static string Down {
             get {
@@ -493,7 +493,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Длительность.
+        ///   Looks up a localized string similar to duration.
         /// </summary>
         public static string Duration {
             get {
@@ -502,7 +502,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
             get {
@@ -511,7 +511,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать процедуру.
+        ///   Looks up a localized string similar to Edit procedure.
         /// </summary>
         public static string EditProcedure {
             get {
@@ -520,7 +520,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элемент.
+        ///   Looks up a localized string similar to Element.
         /// </summary>
         public static string Element {
             get {
@@ -529,7 +529,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сотрудник.
+        ///   Looks up a localized string similar to employee.
         /// </summary>
         public static string Employee {
             get {
@@ -538,7 +538,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата окончания действия.
+        ///   Looks up a localized string similar to Expiry date.
         /// </summary>
         public static string EndDate {
             get {
@@ -547,7 +547,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата окончания.
+        ///   Looks up a localized string similar to expiration date.
         /// </summary>
         public static string EndPeriodDate {
             get {
@@ -556,7 +556,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Конечное значение.
+        ///   Looks up a localized string similar to The final value.
         /// </summary>
         public static string EndValue {
             get {
@@ -565,7 +565,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Журнал событий.
+        ///   Looks up a localized string similar to The event log.
         /// </summary>
         public static string EventJournal {
             get {
@@ -574,7 +574,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Код выхода.
+        ///   Looks up a localized string similar to Access code.
         /// </summary>
         public static string Exit {
             get {
@@ -583,7 +583,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Использовать дату истечения.
+        ///   Looks up a localized string similar to Use expiration dates.
         /// </summary>
         public static string ExpiredDate {
             get {
@@ -592,7 +592,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расширение файла отчета.
+        ///   Looks up a localized string similar to Expansion of the log file.
         /// </summary>
         public static string ExtensionReport {
             get {
@@ -601,7 +601,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр.
+        ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
             get {
@@ -610,7 +610,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр в названии файла.
+        ///   Looks up a localized string similar to The filter in the file name.
         /// </summary>
         public static string FilterInName {
             get {
@@ -619,7 +619,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сценарий FireSec.
+        ///   Looks up a localized string similar to FireSec Scenario.
         /// </summary>
         public static string FiresecScenario {
             get {
@@ -628,7 +628,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фиксированный размер.
+        ///   Looks up a localized string similar to Fixed size.
         /// </summary>
         public static string FixSize {
             get {
@@ -637,7 +637,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шрифт.
+        ///   Looks up a localized string similar to Font.
         /// </summary>
         public static string Font {
             get {
@@ -646,7 +646,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер шрифта.
+        ///   Looks up a localized string similar to Font size.
         /// </summary>
         public static string FontSize {
             get {
@@ -655,7 +655,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to С.
+        ///   Looks up a localized string similar to FROM.
         /// </summary>
         public static string From {
             get {
@@ -664,7 +664,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to От кого.
+        ///   Looks up a localized string similar to From whom.
         /// </summary>
         public static string FromWho {
             get {
@@ -673,7 +673,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Функция.
+        ///   Looks up a localized string similar to Function.
         /// </summary>
         public static string Function {
             get {
@@ -682,7 +682,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Охранная зона.
+        ///   Looks up a localized string similar to Secured territory.
         /// </summary>
         public static string GuardZone {
             get {
@@ -691,7 +691,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заголовок.
+        ///   Looks up a localized string similar to header.
         /// </summary>
         public static string Header {
             get {
@@ -700,7 +700,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Высота.
+        ///   Looks up a localized string similar to Height.
         /// </summary>
         public static string Height {
             get {
@@ -709,7 +709,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выравнивать.
+        ///   Looks up a localized string similar to align.
         /// </summary>
         public static string HorizontalAlignment {
             get {
@@ -718,7 +718,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Час.
+        ///   Looks up a localized string similar to Hour.
         /// </summary>
         public static string Hour {
             get {
@@ -727,7 +727,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Часов.
+        ///   Looks up a localized string similar to hours.
         /// </summary>
         public static string Hours {
             get {
@@ -736,7 +736,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Идентификатор.
+        ///   Looks up a localized string similar to Identifier.
         /// </summary>
         public static string Identifier {
             get {
@@ -745,7 +745,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Индекс.
+        ///   Looks up a localized string similar to Index.
         /// </summary>
         public static string Index {
             get {
@@ -754,7 +754,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Счетчик.
+        ///   Looks up a localized string similar to Counter.
         /// </summary>
         public static string Indexer {
             get {
@@ -763,7 +763,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Начальное значение.
+        ///   Looks up a localized string similar to The initial value.
         /// </summary>
         public static string InitialValue {
             get {
@@ -772,7 +772,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Войти.
+        ///   Looks up a localized string similar to To come in.
         /// </summary>
         public static string Into {
             get {
@@ -781,7 +781,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активно.
+        ///   Looks up a localized string similar to Actively.
         /// </summary>
         public static string IsActive {
             get {
@@ -790,7 +790,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Курсив.
+        ///   Looks up a localized string similar to Italics.
         /// </summary>
         public static string Italic {
             get {
@@ -799,7 +799,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шаг изменения счетчика.
+        ///   Looks up a localized string similar to Increments the counter.
         /// </summary>
         public static string Iterator {
             get {
@@ -808,7 +808,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Условия объединены по.
+        ///   Looks up a localized string similar to Terms are combined by.
         /// </summary>
         public static string JoinCondition {
             get {
@@ -817,7 +817,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет.
+        ///   Looks up a localized string similar to Layout.
         /// </summary>
         public static string Layout {
             get {
@@ -826,7 +826,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Наименование макета.
+        ///   Looks up a localized string similar to layout Name.
         /// </summary>
         public static string LayoutName {
             get {
@@ -835,7 +835,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список.
+        ///   Looks up a localized string similar to List.
         /// </summary>
         public static string List {
             get {
@@ -844,7 +844,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Логин.
+        ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
             get {
@@ -853,7 +853,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текст письма.
+        ///   Looks up a localized string similar to Text of the letter.
         /// </summary>
         public static string MailText {
             get {
@@ -862,7 +862,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тема письма.
+        ///   Looks up a localized string similar to Letter subject.
         /// </summary>
         public static string MailTheme {
             get {
@@ -871,7 +871,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основные.
+        ///   Looks up a localized string similar to main.
         /// </summary>
         public static string Main {
             get {
@@ -880,7 +880,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Максимум.
+        ///   Looks up a localized string similar to Maximum.
         /// </summary>
         public static string Maximum {
             get {
@@ -889,7 +889,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сообщение:.
+        ///   Looks up a localized string similar to Message:.
         /// </summary>
         public static string Message {
             get {
@@ -898,7 +898,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры сообщения.
+        ///   Looks up a localized string similar to message Options.
         /// </summary>
         public static string MessageParameters {
             get {
@@ -907,7 +907,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Мин. высота.
+        ///   Looks up a localized string similar to Min. height.
         /// </summary>
         public static string MinHeight {
             get {
@@ -916,7 +916,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Минута.
+        ///   Looks up a localized string similar to Minute.
         /// </summary>
         public static string Minute {
             get {
@@ -925,7 +925,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Минут.
+        ///   Looks up a localized string similar to minutes.
         /// </summary>
         public static string Minutes {
             get {
@@ -934,7 +934,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Мин. ширина.
+        ///   Looks up a localized string similar to Min. width.
         /// </summary>
         public static string MinWidth {
             get {
@@ -943,7 +943,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Модальное окно.
+        ///   Looks up a localized string similar to The modal window.
         /// </summary>
         public static string ModalWindow {
             get {
@@ -952,7 +952,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Месяц.
+        ///   Looks up a localized string similar to Month.
         /// </summary>
         public static string Month {
             get {
@@ -961,7 +961,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Имя.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
@@ -970,7 +970,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Табельный номер.
+        ///   Looks up a localized string similar to Personnel Number.
         /// </summary>
         public static string Number {
             get {
@@ -979,7 +979,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Объект.
+        ///   Looks up a localized string similar to An object.
         /// </summary>
         public static string Object {
             get {
@@ -988,7 +988,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип объекта.
+        ///   Looks up a localized string similar to Object type.
         /// </summary>
         public static string ObjectType {
             get {
@@ -997,7 +997,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Поверх всех.
+        ///   Looks up a localized string similar to Above all.
         /// </summary>
         public static string OnTop {
             get {
@@ -1006,7 +1006,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Операция.
+        ///   Looks up a localized string similar to Operation.
         /// </summary>
         public static string Operation {
             get {
@@ -1015,7 +1015,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип операции.
+        ///   Looks up a localized string similar to Type of transaction.
         /// </summary>
         public static string OperationType {
             get {
@@ -1024,7 +1024,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Организация.
+        ///   Looks up a localized string similar to Organization.
         /// </summary>
         public static string Organisation {
             get {
@@ -1033,7 +1033,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметр1.
+        ///   Looks up a localized string similar to parameter1.
         /// </summary>
         public static string Parameter1 {
             get {
@@ -1042,7 +1042,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметр2.
+        ///   Looks up a localized string similar to parameter2.
         /// </summary>
         public static string Parameter2 {
             get {
@@ -1051,7 +1051,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры.
+        ///   Looks up a localized string similar to Options.
         /// </summary>
         public static string Parameters {
             get {
@@ -1060,7 +1060,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Журнал проходов.
+        ///   Looks up a localized string similar to passes Journal.
         /// </summary>
         public static string PassJournal {
             get {
@@ -1069,7 +1069,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
             get {
@@ -1078,7 +1078,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вставить.
+        ///   Looks up a localized string similar to insert.
         /// </summary>
         public static string Paste {
             get {
@@ -1087,7 +1087,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вставить процедуру.
+        ///   Looks up a localized string similar to Paste procedure.
         /// </summary>
         public static string PasteProcedure {
             get {
@@ -1096,7 +1096,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь.
+        ///   Looks up a localized string similar to Way.
         /// </summary>
         public static string Path {
             get {
@@ -1105,7 +1105,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь к файлу.
+        ///   Looks up a localized string similar to The path to the file.
         /// </summary>
         public static string PathToFile {
             get {
@@ -1114,7 +1114,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь к файлам.
+        ///   Looks up a localized string similar to The path to the files.
         /// </summary>
         public static string PathToFiles {
             get {
@@ -1123,7 +1123,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь к папке.
+        ///   Looks up a localized string similar to The path to the folder.
         /// </summary>
         public static string PathToFolder {
             get {
@@ -1132,7 +1132,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задать период.
+        ///   Looks up a localized string similar to Ask period.
         /// </summary>
         public static string Period {
             get {
@@ -1141,7 +1141,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to План.
+        ///   Looks up a localized string similar to Plan.
         /// </summary>
         public static string Plan {
             get {
@@ -1150,7 +1150,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Проверить звук.
+        ///   Looks up a localized string similar to Check the sound.
         /// </summary>
         public static string Play {
             get {
@@ -1159,7 +1159,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Порт.
+        ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string Port {
             get {
@@ -1168,7 +1168,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Позиция.
+        ///   Looks up a localized string similar to Position.
         /// </summary>
         public static string Position {
             get {
@@ -1177,7 +1177,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процедура.
+        ///   Looks up a localized string similar to Procedure.
         /// </summary>
         public static string Procedure {
             get {
@@ -1186,7 +1186,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойство.
+        ///   Looks up a localized string similar to Property.
         /// </summary>
         public static string Property {
             get {
@@ -1195,7 +1195,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер предустановки.
+        ///   Looks up a localized string similar to Number of presets.
         /// </summary>
         public static string PTZNumber {
             get {
@@ -1204,7 +1204,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Получение данных от сервера....
+        ///   Looks up a localized string similar to Getting the data from the server ....
         /// </summary>
         public static string ReceiveDataFromServer {
             get {
@@ -1213,7 +1213,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Получение данных от сервера....
+        ///   Looks up a localized string similar to Getting the data from the server ....
         /// </summary>
         public static string RecevingData {
             get {
@@ -1222,7 +1222,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет.
+        ///   Looks up a localized string similar to Report.
         /// </summary>
         public static string Report {
             get {
@@ -1231,7 +1231,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Период формирования.
+        ///   Looks up a localized string similar to The period of formation.
         /// </summary>
         public static string ReportPeriod {
             get {
@@ -1240,7 +1240,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Результат.
+        ///   Looks up a localized string similar to Result.
         /// </summary>
         public static string Result {
             get {
@@ -1249,7 +1249,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Право.
+        ///   Looks up a localized string similar to Right.
         /// </summary>
         public static string Right {
             get {
@@ -1258,7 +1258,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсечение.
+        ///   Looks up a localized string similar to amputation.
         /// </summary>
         public static string Round {
             get {
@@ -1267,7 +1267,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сохранять значение при перезапуске сервера.
+        ///   Looks up a localized string similar to Save the value when the server is restarted.
         /// </summary>
         public static string SaveValueWithRestart {
             get {
@@ -1276,7 +1276,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Условия поиска .
+        ///   Looks up a localized string similar to search Terms.
         /// </summary>
         public static string SearchCondition {
             get {
@@ -1285,7 +1285,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Секунда.
+        ///   Looks up a localized string similar to Second.
         /// </summary>
         public static string Second {
             get {
@@ -1294,7 +1294,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Секунд.
+        ///   Looks up a localized string similar to seconds.
         /// </summary>
         public static string Seconds {
             get {
@@ -1303,7 +1303,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Защита соединения.
+        ///   Looks up a localized string similar to connection security.
         /// </summary>
         public static string SecureConnection {
             get {
@@ -1312,7 +1312,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Адрес сервера.
+        ///   Looks up a localized string similar to server Address.
         /// </summary>
         public static string ServerAddress {
             get {
@@ -1321,7 +1321,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отображать архивные сведения.
+        ///   Looks up a localized string similar to Display archive information.
         /// </summary>
         public static string ShowArchive {
             get {
@@ -1330,7 +1330,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер.
+        ///   Looks up a localized string similar to The size.
         /// </summary>
         public static string Size {
             get {
@@ -1339,7 +1339,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звук.
+        ///   Looks up a localized string similar to Sound.
         /// </summary>
         public static string Sound {
             get {
@@ -1348,7 +1348,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Условия запуска.
+        ///   Looks up a localized string similar to launch Conditions.
         /// </summary>
         public static string StartConditions {
             get {
@@ -1357,7 +1357,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запуск после сервера.
+        ///   Looks up a localized string similar to Running after the server.
         /// </summary>
         public static string StartWithServer {
             get {
@@ -1366,7 +1366,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шаги.
+        ///   Looks up a localized string similar to Steps.
         /// </summary>
         public static string Steps {
             get {
@@ -1375,7 +1375,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Остановить.
+        ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string Stop {
             get {
@@ -1384,7 +1384,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Растянуть.
+        ///   Looks up a localized string similar to Stretch.
         /// </summary>
         public static string Stretch {
             get {
@@ -1393,7 +1393,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текст.
+        ///   Looks up a localized string similar to Text.
         /// </summary>
         public static string Text {
             get {
@@ -1402,7 +1402,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет текста.
+        ///   Looks up a localized string similar to Text color.
         /// </summary>
         public static string TextColor {
             get {
@@ -1411,7 +1411,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перенос слов.
+        ///   Looks up a localized string similar to Hyphenation.
         /// </summary>
         public static string TextWrap {
             get {
@@ -1420,7 +1420,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время выполнения.
+        ///   Looks up a localized string similar to lead time.
         /// </summary>
         public static string TimeOut {
             get {
@@ -1429,7 +1429,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Title {
             get {
@@ -1438,7 +1438,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to До.
+        ///   Looks up a localized string similar to Before.
         /// </summary>
         public static string To {
             get {
@@ -1447,7 +1447,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Кому.
+        ///   Looks up a localized string similar to whom.
         /// </summary>
         public static string ToWhom {
             get {
@@ -1456,7 +1456,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип.
+        ///   Looks up a localized string similar to A type.
         /// </summary>
         public static string Type {
             get {
@@ -1465,7 +1465,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выше.
+        ///   Looks up a localized string similar to Higher.
         /// </summary>
         public static string Up {
             get {
@@ -1474,7 +1474,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Использовать.
+        ///   Looks up a localized string similar to Use.
         /// </summary>
         public static string Use {
             get {
@@ -1483,7 +1483,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Использовать текущую дату и время.
+        ///   Looks up a localized string similar to Use the current date and time.
         /// </summary>
         public static string UseDateTimeNow {
             get {
@@ -1492,7 +1492,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Значение.
+        ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string Value {
             get {
@@ -1501,7 +1501,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип значений.
+        ///   Looks up a localized string similar to Type values.
         /// </summary>
         public static string ValueType {
             get {
@@ -1510,7 +1510,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменная.
+        ///   Looks up a localized string similar to Variable.
         /// </summary>
         public static string Variable {
             get {
@@ -1519,7 +1519,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменные.
+        ///   Looks up a localized string similar to variables.
         /// </summary>
         public static string Variables {
             get {
@@ -1528,7 +1528,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выравнивать по высоте.
+        ///   Looks up a localized string similar to Align adjustment.
         /// </summary>
         public static string VerticalAlignment {
             get {
@@ -1537,7 +1537,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Посетитель.
+        ///   Looks up a localized string similar to Visitor.
         /// </summary>
         public static string Visitor {
             get {
@@ -1546,7 +1546,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина.
+        ///   Looks up a localized string similar to Width.
         /// </summary>
         public static string Width {
             get {
@@ -1555,7 +1555,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Макет окна.
+        ///   Looks up a localized string similar to Layout window.
         /// </summary>
         public static string WindowLayout {
             get {
@@ -1564,7 +1564,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Год.
+        ///   Looks up a localized string similar to Year.
         /// </summary>
         public static string Year {
             get {
@@ -1573,7 +1573,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона.
+        ///   Looks up a localized string similar to Zone.
         /// </summary>
         public static string Zone {
             get {
@@ -1582,7 +1582,7 @@ namespace Localization.Automation.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зоны.
+        ///   Looks up a localized string similar to zone.
         /// </summary>
         public static string Zones {
             get {

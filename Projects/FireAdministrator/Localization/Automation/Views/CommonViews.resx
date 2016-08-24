@@ -117,514 +117,515 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Active" xml:space="preserve">
+    <value>Most active</value>
+    <comment>google</comment>
+  </data>
   <data name="Add" xml:space="preserve">
-    <value>Добавить</value>
+    <value>Add</value>
   </data>
   <data name="AddCondition" xml:space="preserve">
-    <value>Добавить условие</value>
+    <value>Add condition</value>
   </data>
   <data name="AddFunction" xml:space="preserve">
-    <value>Добавить функцию</value>
+    <value>Add function</value>
   </data>
   <data name="AddProcedure" xml:space="preserve">
-    <value>Добавить процедуру</value>
+    <value>Add procedure</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Адрес</value>
+    <value>Address</value>
   </data>
   <data name="AddStep" xml:space="preserve">
-    <value>Добавить шаг</value>
-  </data>
-  <data name="Arguments" xml:space="preserve">
-    <value>Аргументы</value>
-  </data>
-  <data name="BackgroungColor" xml:space="preserve">
-    <value>Цвет фона</value>
-  </data>
-  <data name="Bold" xml:space="preserve">
-    <value>Жирный</value>
-  </data>
-  <data name="BorderColor" xml:space="preserve">
-    <value>Цвет границы</value>
-  </data>
-  <data name="BorderThickness" xml:space="preserve">
-    <value>Ширина границы</value>
-  </data>
-  <data name="Camera" xml:space="preserve">
-    <value>Камера</value>
-  </data>
-  <data name="ChooseObject" xml:space="preserve">
-    <value>Нажмите для выбора объекта</value>
-  </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Копировать</value>
-  </data>
-  <data name="CopyProcedure" xml:space="preserve">
-    <value>Копировать процедуру</value>
-  </data>
-  <data name="Create" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="CreateFilter" xml:space="preserve">
-    <value>Создать фильтр</value>
-  </data>
-  <data name="CustomStyle" xml:space="preserve">
-    <value>Пользовательский стиль</value>
-  </data>
-  <data name="Cut" xml:space="preserve">
-    <value>Вырезать</value>
-  </data>
-  <data name="CutProcedure" xml:space="preserve">
-    <value>Вырезать процедуру</value>
-  </data>
-  <data name="Day" xml:space="preserve">
-    <value>День</value>
-  </data>
-  <data name="DayOfWeek" xml:space="preserve">
-    <value>День недели</value>
-  </data>
-  <data name="Days" xml:space="preserve">
-    <value>Дней</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="DeleteFunction" xml:space="preserve">
-    <value>Удалить функцию</value>
-  </data>
-  <data name="DeleteProcedure" xml:space="preserve">
-    <value>Удалить процедуру</value>
-  </data>
-  <data name="DeleteStep" xml:space="preserve">
-    <value>Удалить шаг</value>
-  </data>
-  <data name="Denomination" xml:space="preserve">
-    <value>Наименование</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Примечание</value>
-  </data>
-  <data name="Device" xml:space="preserve">
-    <value>Устройство</value>
-  </data>
-  <data name="Down" xml:space="preserve">
-    <value>Ниже</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
-  </data>
-  <data name="EditProcedure" xml:space="preserve">
-    <value>Редактировать процедуру</value>
-  </data>
-  <data name="Employee" xml:space="preserve">
-    <value>Сотрудник</value>
-  </data>
-  <data name="Font" xml:space="preserve">
-    <value>Шрифт</value>
-  </data>
-  <data name="FontSize" xml:space="preserve">
-    <value>Размер шрифта</value>
-  </data>
-  <data name="Function" xml:space="preserve">
-    <value>Функция</value>
-  </data>
-  <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Выравнивать</value>
-  </data>
-  <data name="Hour" xml:space="preserve">
-    <value>Час</value>
-  </data>
-  <data name="Hours" xml:space="preserve">
-    <value>Часов</value>
-  </data>
-  <data name="Into" xml:space="preserve">
-    <value>Войти</value>
-  </data>
-  <data name="IsActive" xml:space="preserve">
-    <value>Активно</value>
-  </data>
-  <data name="Italic" xml:space="preserve">
-    <value>Курсив</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Логин</value>
-  </data>
-  <data name="Main" xml:space="preserve">
-    <value>Основные</value>
-  </data>
-  <data name="Minute" xml:space="preserve">
-    <value>Минута</value>
-  </data>
-  <data name="Minutes" xml:space="preserve">
-    <value>Минут</value>
-  </data>
-  <data name="Month" xml:space="preserve">
-    <value>Месяц</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="Number" xml:space="preserve">
-    <value>Табельный номер</value>
-  </data>
-  <data name="Paste" xml:space="preserve">
-    <value>Вставить</value>
-  </data>
-  <data name="PasteProcedure" xml:space="preserve">
-    <value>Вставить процедуру</value>
-  </data>
-  <data name="Period" xml:space="preserve">
-    <value>Задать период</value>
-  </data>
-  <data name="Play" xml:space="preserve">
-    <value>Проверить звук</value>
-  </data>
-  <data name="Procedure" xml:space="preserve">
-    <value>Процедура</value>
-  </data>
-  <data name="SaveValueWithRestart" xml:space="preserve">
-    <value>Сохранять значение при перезапуске сервера</value>
-  </data>
-  <data name="Second" xml:space="preserve">
-    <value>Секунда</value>
-  </data>
-  <data name="Seconds" xml:space="preserve">
-    <value>Секунд</value>
-  </data>
-  <data name="Sound" xml:space="preserve">
-    <value>Звук</value>
-  </data>
-  <data name="StartConditions" xml:space="preserve">
-    <value>Условия запуска</value>
-  </data>
-  <data name="StartWithServer" xml:space="preserve">
-    <value>Запуск после сервера</value>
-  </data>
-  <data name="Steps" xml:space="preserve">
-    <value>Шаги</value>
-  </data>
-  <data name="Stop" xml:space="preserve">
-    <value>Остановить</value>
-  </data>
-  <data name="Stretch" xml:space="preserve">
-    <value>Растянуть</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>Текст</value>
-  </data>
-  <data name="TextColor" xml:space="preserve">
-    <value>Цвет текста</value>
-  </data>
-  <data name="TextWrap" xml:space="preserve">
-    <value>Перенос слов</value>
-  </data>
-  <data name="TimeOut" xml:space="preserve">
-    <value>Время выполнения</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Название</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="Up" xml:space="preserve">
-    <value>Выше</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Значение</value>
-  </data>
-  <data name="Variables" xml:space="preserve">
-    <value>Переменные</value>
-  </data>
-  <data name="VerticalAlignment" xml:space="preserve">
-    <value>Выравнивать по высоте</value>
-  </data>
-  <data name="Visitor" xml:space="preserve">
-    <value>Посетитель</value>
-  </data>
-  <data name="Year" xml:space="preserve">
-    <value>Год</value>
+    <value>Add a step</value>
   </data>
   <data name="AllClients" xml:space="preserve">
-    <value>Всем клиентам</value>
+    <value>All customers</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>С удалёнными</value>
+    <value>From remote</value>
+  </data>
+  <data name="Arguments" xml:space="preserve">
+    <value>arguments</value>
+  </data>
+  <data name="BackgroungColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="BeginPeriodDate" xml:space="preserve">
-    <value>Дата начала</value>
+    <value>the date of the beginning</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Fatty</value>
+  </data>
+  <data name="BorderColor" xml:space="preserve">
+    <value>The color of the border</value>
+  </data>
+  <data name="BorderThickness" xml:space="preserve">
+    <value>border Width</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
   </data>
   <data name="CanClose" xml:space="preserve">
-    <value>Можно закрывать</value>
+    <value>You can close the</value>
   </data>
   <data name="CanMaximize" xml:space="preserve">
-    <value>Можно разворачивать</value>
+    <value>You can expand</value>
+  </data>
+  <data name="ChooseObject" xml:space="preserve">
+    <value>Click to select the object</value>
   </data>
   <data name="ColumnType" xml:space="preserve">
-    <value>Тип колонки</value>
+    <value>column Type</value>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Команда</value>
+    <value>Command</value>
   </data>
   <data name="Condition" xml:space="preserve">
-    <value>Условие</value>
+    <value>Condition</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
-    <value>Подтверждение</value>
+    <value>the confirmation</value>
   </data>
   <data name="ConnectionSettings" xml:space="preserve">
-    <value>Параметры подключения к серверу</value>
+    <value>Options to connect to the server</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CopyProcedure" xml:space="preserve">
+    <value>Copy procedure</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="CreateFilter" xml:space="preserve">
+    <value>Create filter</value>
+  </data>
+  <data name="CustomStyle" xml:space="preserve">
+    <value>Custom style</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="CutProcedure" xml:space="preserve">
+    <value>Cut procedure</value>
   </data>
   <data name="DateTime" xml:space="preserve">
-    <value>Дата и время</value>
+    <value>date and time</value>
   </data>
   <data name="DateTimeInName" xml:space="preserve">
-    <value>Дата и время в названии файла</value>
+    <value>Date and time in the file name</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="DayOfWeek" xml:space="preserve">
+    <value>Day of the week</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <data name="DeleteCondition" xml:space="preserve">
-    <value>Удалить условие</value>
+    <value>Remove condition</value>
+  </data>
+  <data name="DeleteFunction" xml:space="preserve">
+    <value>Delete function</value>
+  </data>
+  <data name="DeleteProcedure" xml:space="preserve">
+    <value>Delete procedure</value>
+  </data>
+  <data name="DeleteStep" xml:space="preserve">
+    <value>Remove step</value>
+  </data>
+  <data name="Denomination" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Device</value>
   </data>
   <data name="Devices" xml:space="preserve">
-    <value>Устройства</value>
+    <value>Devices</value>
   </data>
   <data name="Door" xml:space="preserve">
-    <value>Точка доступа</value>
+    <value>Access point</value>
   </data>
   <data name="Doors" xml:space="preserve">
-    <value>Точки доступа</value>
+    <value>access points</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Below</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value>Длительность</value>
+    <value>duration</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditProcedure" xml:space="preserve">
+    <value>Edit procedure</value>
   </data>
   <data name="Element" xml:space="preserve">
-    <value>Элемент</value>
+    <value>Element</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>employee</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>Дата окончания действия</value>
+    <value>Expiry date</value>
   </data>
   <data name="EndPeriodDate" xml:space="preserve">
-    <value>Дата окончания</value>
+    <value>expiration date</value>
   </data>
   <data name="EndValue" xml:space="preserve">
-    <value>Конечное значение</value>
+    <value>The final value</value>
   </data>
   <data name="EventJournal" xml:space="preserve">
-    <value>Журнал событий</value>
+    <value>The event log</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>Код выхода</value>
+    <value>Access code</value>
   </data>
   <data name="ExpiredDate" xml:space="preserve">
-    <value>Использовать дату истечения</value>
+    <value>Use expiration dates</value>
   </data>
   <data name="ExtensionReport" xml:space="preserve">
-    <value>Расширение файла отчета</value>
+    <value>Expansion of the log file</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value>Фильтр</value>
+    <value>Filter</value>
   </data>
   <data name="FilterInName" xml:space="preserve">
-    <value>Фильтр в названии файла</value>
-  </data>
-  <data name="FixSize" xml:space="preserve">
-    <value>Фиксированный размер</value>
-  </data>
-  <data name="From" xml:space="preserve">
-    <value>С</value>
-  </data>
-  <data name="FromWho" xml:space="preserve">
-    <value>От кого</value>
-  </data>
-  <data name="Header" xml:space="preserve">
-    <value>Заголовок</value>
-  </data>
-  <data name="Height" xml:space="preserve">
-    <value>Высота</value>
-  </data>
-  <data name="Identifier" xml:space="preserve">
-    <value>Идентификатор</value>
-  </data>
-  <data name="Index" xml:space="preserve">
-    <value>Индекс</value>
-  </data>
-  <data name="Indexer" xml:space="preserve">
-    <value>Счетчик</value>
-  </data>
-  <data name="InitialValue" xml:space="preserve">
-    <value>Начальное значение</value>
-  </data>
-  <data name="Iterator" xml:space="preserve">
-    <value>Шаг изменения счетчика</value>
-  </data>
-  <data name="JoinCondition" xml:space="preserve">
-    <value>Условия объединены по</value>
-  </data>
-  <data name="Layout" xml:space="preserve">
-    <value>Макет</value>
-  </data>
-  <data name="LayoutName" xml:space="preserve">
-    <value>Наименование макета</value>
-  </data>
-  <data name="List" xml:space="preserve">
-    <value>Список</value>
-  </data>
-  <data name="MailText" xml:space="preserve">
-    <value>Текст письма</value>
-  </data>
-  <data name="MailTheme" xml:space="preserve">
-    <value>Тема письма</value>
-  </data>
-  <data name="Maximum" xml:space="preserve">
-    <value>Максимум</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Сообщение:</value>
-  </data>
-  <data name="MessageParameters" xml:space="preserve">
-    <value>Параметры сообщения</value>
-  </data>
-  <data name="MinHeight" xml:space="preserve">
-    <value>Мин. высота</value>
-  </data>
-  <data name="MinWidth" xml:space="preserve">
-    <value>Мин. ширина</value>
-  </data>
-  <data name="ModalWindow" xml:space="preserve">
-    <value>Модальное окно</value>
-  </data>
-  <data name="Object" xml:space="preserve">
-    <value>Объект</value>
-  </data>
-  <data name="ObjectType" xml:space="preserve">
-    <value>Тип объекта</value>
-  </data>
-  <data name="OnTop" xml:space="preserve">
-    <value>Поверх всех</value>
-  </data>
-  <data name="Operation" xml:space="preserve">
-    <value>Операция</value>
-  </data>
-  <data name="OperationType" xml:space="preserve">
-    <value>Тип операции</value>
-  </data>
-  <data name="Organisation" xml:space="preserve">
-    <value>Организация</value>
-  </data>
-  <data name="Parameter1" xml:space="preserve">
-    <value>Параметр1</value>
-  </data>
-  <data name="Parameter2" xml:space="preserve">
-    <value>Параметр2</value>
-  </data>
-  <data name="Parameters" xml:space="preserve">
-    <value>Параметры</value>
-  </data>
-  <data name="PassJournal" xml:space="preserve">
-    <value>Журнал проходов</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="Path" xml:space="preserve">
-    <value>Путь</value>
-  </data>
-  <data name="PathToFile" xml:space="preserve">
-    <value>Путь к файлу</value>
-  </data>
-  <data name="PathToFiles" xml:space="preserve">
-    <value>Путь к файлам</value>
-  </data>
-  <data name="Plan" xml:space="preserve">
-    <value>План</value>
-  </data>
-  <data name="Port" xml:space="preserve">
-    <value>Порт</value>
-  </data>
-  <data name="Position" xml:space="preserve">
-    <value>Позиция</value>
-  </data>
-  <data name="Property" xml:space="preserve">
-    <value>Свойство</value>
-  </data>
-  <data name="PTZNumber" xml:space="preserve">
-    <value>Номер предустановки</value>
-  </data>
-  <data name="Report" xml:space="preserve">
-    <value>Отчет</value>
-  </data>
-  <data name="ReportPeriod" xml:space="preserve">
-    <value>Период формирования</value>
-  </data>
-  <data name="Result" xml:space="preserve">
-    <value>Результат</value>
-  </data>
-  <data name="Right" xml:space="preserve">
-    <value>Право</value>
-  </data>
-  <data name="Round" xml:space="preserve">
-    <value>Отсечение</value>
-  </data>
-  <data name="SearchCondition" xml:space="preserve">
-    <value>Условия поиска </value>
-  </data>
-  <data name="SecureConnection" xml:space="preserve">
-    <value>Защита соединения</value>
-  </data>
-  <data name="ServerAddress" xml:space="preserve">
-    <value>Адрес сервера</value>
-  </data>
-  <data name="ShowArchive" xml:space="preserve">
-    <value>Отображать архивные сведения</value>
-  </data>
-  <data name="Size" xml:space="preserve">
-    <value>Размер</value>
-  </data>
-  <data name="To" xml:space="preserve">
-    <value>До</value>
-  </data>
-  <data name="ToWhom" xml:space="preserve">
-    <value>Кому</value>
-  </data>
-  <data name="Use" xml:space="preserve">
-    <value>Использовать</value>
-  </data>
-  <data name="UseDateTimeNow" xml:space="preserve">
-    <value>Использовать текущую дату и время</value>
-  </data>
-  <data name="ValueType" xml:space="preserve">
-    <value>Тип значений</value>
-  </data>
-  <data name="Variable" xml:space="preserve">
-    <value>Переменная</value>
-  </data>
-  <data name="Width" xml:space="preserve">
-    <value>Ширина</value>
-  </data>
-  <data name="WindowLayout" xml:space="preserve">
-    <value>Макет окна</value>
-  </data>
-  <data name="Zone" xml:space="preserve">
-    <value>Зона</value>
-  </data>
-  <data name="Zones" xml:space="preserve">
-    <value>Зоны</value>
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>Активен</value>
+    <value>The filter in the file name</value>
   </data>
   <data name="FiresecScenario" xml:space="preserve">
-    <value>Сценарий FireSec</value>
+    <value>FireSec Scenario</value>
   </data>
-  <data name="RecevingData" xml:space="preserve">
-    <value>Получение данных от сервера...</value>
+  <data name="FixSize" xml:space="preserve">
+    <value>Fixed size</value>
   </data>
-  <data name="ReceiveDataFromServer" xml:space="preserve">
-    <value>Получение данных от сервера...</value>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>FROM</value>
+  </data>
+  <data name="FromWho" xml:space="preserve">
+    <value>From whom</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
   </data>
   <data name="GuardZone" xml:space="preserve">
-    <value>Охранная зона</value>
+    <value>Secured territory</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>header</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>align</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>Identifier</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Indexer" xml:space="preserve">
+    <value>Counter</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>The initial value</value>
+  </data>
+  <data name="Into" xml:space="preserve">
+    <value>To come in</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Actively</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Italics</value>
+  </data>
+  <data name="Iterator" xml:space="preserve">
+    <value>Increments the counter</value>
+  </data>
+  <data name="JoinCondition" xml:space="preserve">
+    <value>Terms are combined by</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="LayoutName" xml:space="preserve">
+    <value>layout Name</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="MailText" xml:space="preserve">
+    <value>Text of the letter</value>
+  </data>
+  <data name="MailTheme" xml:space="preserve">
+    <value>Letter subject</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>main</value>
+  </data>
+  <data name="Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message:</value>
+  </data>
+  <data name="MessageParameters" xml:space="preserve">
+    <value>message Options</value>
+  </data>
+  <data name="MinHeight" xml:space="preserve">
+    <value>Min. height</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="MinWidth" xml:space="preserve">
+    <value>Min. width</value>
+  </data>
+  <data name="ModalWindow" xml:space="preserve">
+    <value>The modal window</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Personnel Number</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>An object</value>
+  </data>
+  <data name="ObjectType" xml:space="preserve">
+    <value>Object type</value>
+  </data>
+  <data name="OnTop" xml:space="preserve">
+    <value>Above all</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="OperationType" xml:space="preserve">
+    <value>Type of transaction</value>
+  </data>
+  <data name="Organisation" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="Parameter1" xml:space="preserve">
+    <value>parameter1</value>
+  </data>
+  <data name="Parameter2" xml:space="preserve">
+    <value>parameter2</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="PassJournal" xml:space="preserve">
+    <value>passes Journal</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>insert</value>
+  </data>
+  <data name="PasteProcedure" xml:space="preserve">
+    <value>Paste procedure</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Way</value>
+  </data>
+  <data name="PathToFile" xml:space="preserve">
+    <value>The path to the file</value>
+  </data>
+  <data name="PathToFiles" xml:space="preserve">
+    <value>The path to the files</value>
   </data>
   <data name="PathToFolder" xml:space="preserve">
-    <value>Путь к папке</value>
+    <value>The path to the folder</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Ask period</value>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Check the sound</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Procedure" xml:space="preserve">
+    <value>Procedure</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="PTZNumber" xml:space="preserve">
+    <value>Number of presets</value>
+  </data>
+  <data name="ReceiveDataFromServer" xml:space="preserve">
+    <value>Getting the data from the server ...</value>
+  </data>
+  <data name="RecevingData" xml:space="preserve">
+    <value>Getting the data from the server ...</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ReportPeriod" xml:space="preserve">
+    <value>The period of formation</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>amputation</value>
+  </data>
+  <data name="SaveValueWithRestart" xml:space="preserve">
+    <value>Save the value when the server is restarted</value>
+  </data>
+  <data name="SearchCondition" xml:space="preserve">
+    <value>search Terms</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="SecureConnection" xml:space="preserve">
+    <value>connection security</value>
+  </data>
+  <data name="ServerAddress" xml:space="preserve">
+    <value>server Address</value>
+  </data>
+  <data name="ShowArchive" xml:space="preserve">
+    <value>Display archive information</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>The size</value>
+  </data>
+  <data name="Sound" xml:space="preserve">
+    <value>Sound</value>
+  </data>
+  <data name="StartConditions" xml:space="preserve">
+    <value>launch Conditions</value>
+  </data>
+  <data name="StartWithServer" xml:space="preserve">
+    <value>Running after the server</value>
+  </data>
+  <data name="Steps" xml:space="preserve">
+    <value>Steps</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Stretch</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Text color</value>
+  </data>
+  <data name="TextWrap" xml:space="preserve">
+    <value>Hyphenation</value>
+  </data>
+  <data name="TimeOut" xml:space="preserve">
+    <value>lead time</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="ToWhom" xml:space="preserve">
+    <value>whom</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>A type</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Higher</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Use</value>
+  </data>
+  <data name="UseDateTimeNow" xml:space="preserve">
+    <value>Use the current date and time</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ValueType" xml:space="preserve">
+    <value>Type values</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>Variable</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>variables</value>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Align adjustment</value>
+  </data>
+  <data name="Visitor" xml:space="preserve">
+    <value>Visitor</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="WindowLayout" xml:space="preserve">
+    <value>Layout window</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Zone</value>
+  </data>
+  <data name="Zones" xml:space="preserve">
+    <value>zone</value>
   </data>
 </root>

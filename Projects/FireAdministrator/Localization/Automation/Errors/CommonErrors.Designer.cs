@@ -61,7 +61,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Аргумент с таким именем уже существует..
+        ///   Looks up a localized string similar to The argument of the same name already exists..
         /// </summary>
         public static string ArgumentExist_Error {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Возникла ошибка при получении списка сценариев FireSec. Проверьте, запущен ли сервер интеграции ОПС, а также настройки серевого подключения..
+        ///   Looks up a localized string similar to An error occurred while getting FireSec scenarios list. Check whether the OPS integration server, and configure the connection serevogo launched..
         /// </summary>
         public static string OPCScriptConnectionContent_Error {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Несвязанная процедура.
+        ///   Looks up a localized string similar to unrelated procedure.
         /// </summary>
         public static string UnboundProcedure_Error {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Глобальная переменная с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to A global variable with the same name already exists {0}.
         /// </summary>
         public static string ValidatorGlobalVariable_Error {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не выбран макет.
+        ///   Looks up a localized string similar to Layout is not selected.
         /// </summary>
         public static string ValidatorProcedureLayout_Error {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не выбран элемент макета.
+        ///   Looks up a localized string similar to layout element is not selected.
         /// </summary>
         public static string ValidatorProcedureLayoutElement_Error {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Функция не может быть загружена по причине лицензионных ограничений.
+        ///   Looks up a localized string similar to The function can not be loaded due to licensing restrictions.
         /// </summary>
         public static string ValidatorProcedureLicense_Error {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не выбран план.
+        ///   Looks up a localized string similar to No plan selected.
         /// </summary>
         public static string ValidatorProcedurePlan_Error {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не выбран элемент плана.
+        ///   Looks up a localized string similar to element of the plan is not selected.
         /// </summary>
         public static string ValidatorProcedurePlanElement_Error {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не выбрано свойство.
+        ///   Looks up a localized string similar to Unspecified property.
         /// </summary>
         public static string ValidatorProcedureProperty_Error {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Аргумент с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to The argument of the same name already exists {0}.
         /// </summary>
         public static string ValidatorProcedureSameNameArgument_Error {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процедура с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to The procedure with the same name already exists {0}.
         /// </summary>
         public static string ValidatorProcedureSameNameProcedure_Error {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменная с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to A variable with the same name already exists {0}.
         /// </summary>
         public static string ValidatorProcedureSameNameVariable_Error {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все переменные должны быть инициализированы.
+        ///   Looks up a localized string similar to All variables must be initialized.
         /// </summary>
         public static string ValidatorProcedureVariables_Error {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все переменные должны быть инициализированы {0}.
+        ///   Looks up a localized string similar to All variables must be initialized with {0}.
         /// </summary>
         public static string ValidatorSchedule_Error {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должна быть задана конкретная дата начала периода {0}.
+        ///   Looks up a localized string similar to concrete date must be set to the beginning of the period of {0}.
         /// </summary>
         public static string ValidatorScheduleBeginDate_Error {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должен быть задан не нулевой период {0}.
+        ///   Looks up a localized string similar to Should not be set between zero {0}.
         /// </summary>
         public static string ValidatorScheduleNullPeriod_Error {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расписание с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to Schedule with the same name already exists {0}.
         /// </summary>
         public static string ValidatorScheduleSameName_Error {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звуковой элемент с таким именем уже существует {0}.
+        ///   Looks up a localized string similar to The audio element with the same name already exists {0}.
         /// </summary>
         public static string ValidatorSound_Error {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Automation.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменная с таким именем уже существует..
+        ///   Looks up a localized string similar to A variable with the same name already exists..
         /// </summary>
         public static string VariableExist_Error {
             get {

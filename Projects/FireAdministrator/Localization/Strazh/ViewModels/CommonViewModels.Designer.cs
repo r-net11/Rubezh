@@ -61,7 +61,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?.
+        ///   Looks up a localized string similar to For this you need to apply the configuration. Apply now?.
         /// </summary>
         public static string AcceptConfig {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перед выполнением операции необходимо применить конфигурацию..
+        ///   Looks up a localized string similar to Before performing the operation you want to apply the configuration..
         /// </summary>
         public static string AcceptConfigBeforeOperation {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активно.
+        ///   Looks up a localized string similar to Actively.
         /// </summary>
         public static string Active {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Автопоиск устройств        ///.
+        ///   Looks up a localized string similar to Auto Devices.
         /// </summary>
         public static string AutosearchDevices {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Базовый рисунок.
+        ///   Looks up a localized string similar to Basic drawing.
         /// </summary>
         public static string BaseImage {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор камеры.
+        ///   Looks up a localized string similar to camera Selection.
         /// </summary>
         public static string Camera_Selectation {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Закрыто.
+        ///   Looks up a localized string similar to Closed.
         /// </summary>
         public static string Close {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Конфигурация контроллера.
+        ///   Looks up a localized string similar to Configuration controller.
         /// </summary>
         public static string Controller_Config {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить контроллер &quot;{0}&quot;.
+        ///   Looks up a localized string similar to Are you sure you want to remove the controller &quot;{0}&quot;.
         /// </summary>
         public static string Controller_DeleteConfirm {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд.
+        ///   Looks up a localized string similar to Running the controller restart. The controller will be available within a few seconds.
         /// </summary>
         public static string Controller_Reboot {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сетевые настройки не были записаны на контроллер. Изменить сетевые настройки в конфигурации?.
+        ///   Looks up a localized string similar to Network settings are not written to the controller. Change the network settings in the configuration?.
         /// </summary>
         public static string ControllerNetSettings_Save {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сетевые настройки контроллера.
+        ///   Looks up a localized string similar to Network Controller Settings.
         /// </summary>
         public static string ControllerNetSettings_Title {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пустой пароль.
+        ///   Looks up a localized string similar to Empty password.
         /// </summary>
         public static string ControllerPasword_EmptyPass {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У контроллера отсутствует логин.
+        ///   Looks up a localized string similar to The controller is not login.
         /// </summary>
         public static string ControllerPasword_NoLogin {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У контроллера отсутствует пароль.
+        ///   Looks up a localized string similar to The controller is no password.
         /// </summary>
         public static string ControllerPasword_NoPass {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль не совпадает.
+        ///   Looks up a localized string similar to Password does not match.
         /// </summary>
         public static string ControllerPasword_PassNotConfirm {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль в контроллере был изменен. Изменить пароль в конфигурации?.
+        ///   Looks up a localized string similar to Password has been changed in the controller. Change your password in the configuration?.
         /// </summary>
         public static string ControllerPasword_Save {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задание пароля контроллера.
+        ///   Looks up a localized string similar to Controller Setting a password.
         /// </summary>
         public static string ControllerPasword_Title {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка во время операции синхронизации времени.
+        ///   Looks up a localized string similar to Error during time synchronization operation.
         /// </summary>
         public static string ControllerTimeSettings_SynchError {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Операция синхронизации времени завершилась успешно.
+        ///   Looks up a localized string similar to time synchronization operation was successful.
         /// </summary>
         public static string ControllerTimeSettings_SynchSuccess {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить дневной график доступа &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the daily chart of access &quot;{0}&quot;?.
         /// </summary>
         public static string DayAccessSchedule_DeleteConfirm {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневной график доступа &quot;{0}&quot; используется в одном или нескольких недельных графиках доступа. При его удалении он будет заменен в недельных графиках доступа на дневной график &quot;Никогда&quot;. Вы действительно хотите его удалить?.
+        ///   Looks up a localized string similar to The daily chart of access &quot;{0}&quot; is used in one or more of the weekly charts of access. When it is removed it will be replaced in the weekly charts of access to the daily chart of &quot;Never.&quot; Are you sure you want to remove it?.
         /// </summary>
         public static string DayAccessSchedule_DeleteForWeekConfirm {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить дневной график замка &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the daily chart of the castle &quot;{0}&quot;?.
         /// </summary>
         public static string DayLockSchedule_DeleteConfirm {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневной график замка &quot;{0}&quot; используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график &quot;Карта&quot;. Вы действительно хотите его удалить?.
+        ///   Looks up a localized string similar to Daily schedule of the castle &quot;{0}&quot; is used in one or more of the weekly chart of the castle. When it is removed it will be replaced in the weekly charts of the castle on the daily chart of the &quot;Map&quot;. Are you sure you want to remove it?.
         /// </summary>
         public static string DayLockSchedule_DeleteForWeekConfirm {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневное расписание замка с таким названием уже существует.
+        ///   Looks up a localized string similar to Full schedule of the castle with the same name already exists.
         /// </summary>
         public static string DayLockSchedule_Exist {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание нового дневного расписания.
+        ///   Looks up a localized string similar to Creating a new daytime schedule.
         /// </summary>
         public static string DaySchedule_Creation {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства дневного расписания: {0}.
+        ///   Looks up a localized string similar to Properties day schedules: {0}.
         /// </summary>
         public static string DaySchedule_Properties {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Деактивировать.
+        ///   Looks up a localized string similar to Deactivate.
         /// </summary>
         public static string Deactivate {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора устройства.
+        ///   Looks up a localized string similar to Click to select the device.
         /// </summary>
         public static string Device_Select {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор устройства        ///.
+        ///   Looks up a localized string similar to Select Device.
         /// </summary>
         public static string Device_Selectation {
             get {
@@ -331,8 +331,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.
-        ///Продолжить?.
+        ///   Looks up a localized string similar to The recording process permits all controllers may take a few minutes. During this time, the application will not be available. Continue?.
         /// </summary>
         public static string Device_WriteCardsOnController {
             get {
@@ -341,7 +340,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры контроллера.
+        ///   Looks up a localized string similar to controller Options.
         /// </summary>
         public static string Devices_ControllerParams {
             get {
@@ -350,7 +349,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры двери.
+        ///   Looks up a localized string similar to door Options.
         /// </summary>
         public static string Devices_DoorParams {
             get {
@@ -359,7 +358,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание точки доступа        ///.
+        ///   Looks up a localized string similar to Creating an access point.
         /// </summary>
         public static string Door_Creation {
             get {
@@ -368,7 +367,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить точку доступа &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to remove the access point &quot;{0}&quot;?.
         /// </summary>
         public static string Door_DeleteConfirm {
             get {
@@ -377,7 +376,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа с таким номером уже существует.
+        ///   Looks up a localized string similar to The access point with this number already exists.
         /// </summary>
         public static string Door_Exist {
             get {
@@ -386,7 +385,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства точки доступа: {0}.
+        ///   Looks up a localized string similar to Properties AP: {0}.
         /// </summary>
         public static string Door_Properties {
             get {
@@ -395,7 +394,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование.
+        ///   Looks up a localized string similar to Editing.
         /// </summary>
         public static string Edition {
             get {
@@ -404,7 +403,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Устройство СКД.
+        ///   Looks up a localized string similar to figures Properties: Device SKD.
         /// </summary>
         public static string FigureProperties_SKDDevice {
             get {
@@ -413,7 +412,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Точка доступа.
+        ///   Looks up a localized string similar to figures Properties: AP.
         /// </summary>
         public static string FigureProperties_SKDDoor {
             get {
@@ -422,7 +421,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Зона СКД.
+        ///   Looks up a localized string similar to figures Properties Zone SKD.
         /// </summary>
         public static string FigureProperties_SKDZone {
             get {
@@ -431,7 +430,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запрещенное название.
+        ///   Looks up a localized string similar to forbidden name.
         /// </summary>
         public static string ForbiddenName {
             get {
@@ -440,7 +439,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пятница.
+        ///   Looks up a localized string similar to Friday.
         /// </summary>
         public static string Friday {
             get {
@@ -449,7 +448,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Праздничный день.
+        ///   Looks up a localized string similar to Holiday.
         /// </summary>
         public static string Holiday {
             get {
@@ -458,7 +457,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование праздничного дня.
+        ///   Looks up a localized string similar to Edit public holiday.
         /// </summary>
         public static string Holiday_Edition {
             get {
@@ -467,7 +466,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не активно.
+        ///   Looks up a localized string similar to Not active.
         /// </summary>
         public static string Inactive {
             get {
@@ -476,7 +475,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задание интервала.
+        ///   Looks up a localized string similar to Setting interval.
         /// </summary>
         public static string Interval_Creation {
             get {
@@ -485,7 +484,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Для замка на контроллере не установлен метод открытия двери.
+        ///   Looks up a localized string similar to To lock the controller is not established a method of opening the door.
         /// </summary>
         public static string Lock_EmptyOpenMethod {
             get {
@@ -494,7 +493,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расписание замка не выбрано.
+        ///   Looks up a localized string similar to Castle schedule is not selected.
         /// </summary>
         public static string LockSchedule_NotSelect {
             get {
@@ -503,7 +502,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Понедельник.
+        ///   Looks up a localized string similar to Monday.
         /// </summary>
         public static string Monday {
             get {
@@ -512,7 +511,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новое дневное расписание.
+        ///   Looks up a localized string similar to The new daytime schedule.
         /// </summary>
         public static string NewDaySchedule {
             get {
@@ -521,7 +520,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новое устройство        ///.
+        ///   Looks up a localized string similar to The new device.
         /// </summary>
         public static string NewDevice {
             get {
@@ -530,7 +529,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новая точка доступа        ///.
+        ///   Looks up a localized string similar to New Access Point.
         /// </summary>
         public static string NewDoor {
             get {
@@ -539,7 +538,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новый праздничный день.
+        ///   Looks up a localized string similar to New holiday.
         /// </summary>
         public static string NewHoliday {
             get {
@@ -548,7 +547,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новая зона.
+        ///   Looks up a localized string similar to The new zone.
         /// </summary>
         public static string NewZone {
             get {
@@ -557,7 +556,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер должен быть положительным числом.
+        ///   Looks up a localized string similar to The number must be a positive number.
         /// </summary>
         public static string NumberIsPositive {
             get {
@@ -566,7 +565,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Односторонний.
+        ///   Looks up a localized string similar to Unilateral.
         /// </summary>
         public static string OneWay {
             get {
@@ -575,7 +574,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Открыто.
+        ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string Open {
             get {
@@ -584,7 +583,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обнаружены ошибки. Операция прервана.
+        ///   Looks up a localized string similar to Errors found. Operation aborted.
         /// </summary>
         public static string Operation_Error {
             get {
@@ -593,7 +592,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Операция завершилась успешно.
+        ///   Looks up a localized string similar to The operation completed successfully.
         /// </summary>
         public static string Operation_Success {
             get {
@@ -602,7 +601,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства считывателя {0}.
+        ///   Looks up a localized string similar to Properties reader {0}.
         /// </summary>
         public static string Reader_Properties {
             get {
@@ -611,7 +610,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?.
+        ///   Looks up a localized string similar to If you reset all parameters of the controller will be installed at the factory, and the recorded passes will be erased. Continue?.
         /// </summary>
         public static string ResetConfig {
             get {
@@ -620,7 +619,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Суббота.
+        ///   Looks up a localized string similar to Saturday.
         /// </summary>
         public static string Saturday {
             get {
@@ -629,7 +628,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Скользящий посуточный график {0}.
+        ///   Looks up a localized string similar to Sliding posutochny schedule {0}.
         /// </summary>
         public static string SlideDaySchedule {
             get {
@@ -638,7 +637,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование скользящего посуточного графика.
+        ///   Looks up a localized string similar to Editing sliding Daily schedule.
         /// </summary>
         public static string SlideDaySchedule_Edition {
             get {
@@ -647,7 +646,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Скользящий понедельный график {0}.
+        ///   Looks up a localized string similar to Sliding The weekly schedule {0}.
         /// </summary>
         public static string SlideWeekSchedule {
             get {
@@ -656,7 +655,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование скользящего понедельного графика.
+        ///   Looks up a localized string similar to Editing sliding Weekly schedule.
         /// </summary>
         public static string SlideWeekSchedule_Edition {
             get {
@@ -665,7 +664,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Воскресенье.
+        ///   Looks up a localized string similar to Sunday.
         /// </summary>
         public static string Sunday {
             get {
@@ -674,7 +673,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Четверг.
+        ///   Looks up a localized string similar to Thursday.
         /// </summary>
         public static string Thursday {
             get {
@@ -683,7 +682,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вторник.
+        ///   Looks up a localized string similar to Tuesday.
         /// </summary>
         public static string Tuesday {
             get {
@@ -692,7 +691,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Двухсторонний.
+        ///   Looks up a localized string similar to double-sided.
         /// </summary>
         public static string TwoWay {
             get {
@@ -701,7 +700,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неизвестный день.
+        ///   Looks up a localized string similar to Unknown.
         /// </summary>
         public static string UnknownDay {
             get {
@@ -710,7 +709,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство не указано.
+        ///   Looks up a localized string similar to Unknown Device.
         /// </summary>
         public static string UnknownDevice {
             get {
@@ -719,7 +718,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Верификация.
+        ///   Looks up a localized string similar to verification.
         /// </summary>
         public static string Verification {
             get {
@@ -728,7 +727,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Настройка верификации.
+        ///   Looks up a localized string similar to Setting verification.
         /// </summary>
         public static string Verification_Settings {
             get {
@@ -737,7 +736,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Среда.
+        ///   Looks up a localized string similar to Wednesday.
         /// </summary>
         public static string Wednesday {
             get {
@@ -746,7 +745,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недельный график доступа &quot;{0}&quot; может использоваться для определения временных критериев прохода через точки доступа для уже выданных пропусков. При его удалении он будет заменен на критерий прохода, соответствующий недельному графику доступа &quot;Никогда&quot;. Вы действительно хотите его удалить?.
+        ///   Looks up a localized string similar to Weekly access &quot;{0}&quot; can be used to determine the criteria for temporary passage through the access point for the already issued permits. When it is removed, he will be replaced by the passage of a criterion corresponding weekly access schedule to &quot;Never&quot;. Are you sure you want to remove it?.
         /// </summary>
         public static string WeekAccessSchedule_DeleteConfirm {
             get {
@@ -755,7 +754,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить недельный график замка &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the weekly chart of the castle &quot;{0}&quot;?.
         /// </summary>
         public static string WeekLockSchedule_DeleteConfirm {
             get {
@@ -764,7 +763,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недельный график замка &quot;{0}&quot;назначен для одного или нескольких замков. При его удалении для замка будет назначен недельный график замка &quot;Карта&quot;. Вы действительно хотите его удалить?.
+        ///   Looks up a localized string similar to Weekly castle &quot;{0}&quot; is assigned to one or more locks. At its removal weekly chart of the castle will be assigned to the castle, &quot;Map&quot;. Are you sure you want to remove it?.
         /// </summary>
         public static string WeekLockSchedule_DeleteForLocksConfirm {
             get {
@@ -773,7 +772,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Понедельный график {0}.
+        ///   Looks up a localized string similar to The weekly schedule {0}.
         /// </summary>
         public static string WeekSchedule {
             get {
@@ -782,7 +781,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактирование понедельного графика.
+        ///   Looks up a localized string similar to Edit weekly schedule.
         /// </summary>
         public static string WeekSchedule_Edition {
             get {
@@ -791,7 +790,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание новой зоны.
+        ///   Looks up a localized string similar to Create a new zone.
         /// </summary>
         public static string Zone_Creation {
             get {
@@ -800,7 +799,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить зону &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the zone, &quot;{0}&quot;?.
         /// </summary>
         public static string Zone_DeleteConfirm {
             get {
@@ -809,7 +808,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона с таким номером уже существует.
+        ///   Looks up a localized string similar to Zone with this number already exists.
         /// </summary>
         public static string Zone_Exist {
             get {
@@ -818,7 +817,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства зоны: {0}.
+        ///   Looks up a localized string similar to zone Properties: {0}.
         /// </summary>
         public static string Zone_Properties {
             get {
@@ -827,7 +826,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нажмите для выбора зон.
+        ///   Looks up a localized string similar to Click to select the zones.
         /// </summary>
         public static string Zone_Select {
             get {
@@ -836,7 +835,7 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбор зоны        ///.
+        ///   Looks up a localized string similar to Selecting a Zone.
         /// </summary>
         public static string Zone_Selectation {
             get {

@@ -118,54 +118,71 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="IPFilterDetails_Title" xml:space="preserve">
-    <value>Задайте имя или адрес компьютера</value>
+    <value>Specify the name or address of the computer</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartEmpty_Title" xml:space="preserve">
-    <value>Заглушка</value>
+    <value>cap</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartProperties_Title" xml:space="preserve">
-    <value>Свойства элемента</value>
+    <value>element properties</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyGeneralPage_Header" xml:space="preserve">
-    <value>Общее</value>
+    <value>overall</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyImagePage_Header" xml:space="preserve">
-    <value>Изображение</value>
+    <value>Picture</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTemplateContainerPage_Header" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_BottomAlign" xml:space="preserve">
-    <value>По нижнему краю</value>
+    <value>Bottom</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_Header" xml:space="preserve">
-    <value>Формат</value>
+    <value>Format</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_HorizontalAlign" xml:space="preserve">
-    <value>По центру</value>
+    <value>In the center</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_LeftAlign" xml:space="preserve">
-    <value>По левому краю</value>
+    <value>On the left side</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_RightAlign" xml:space="preserve">
-    <value>По правому краю</value>
+    <value>Align Right</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_Stretch" xml:space="preserve">
-    <value>Растянуть</value>
+    <value>Stretch</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_TopAlign" xml:space="preserve">
-    <value>По верхему краю</value>
+    <value>Along the top edge</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutPartPropertyTextPage_VerticalAlign" xml:space="preserve">
-    <value>По середине</value>
+    <value>In the middle</value>
+    <comment>google translate</comment>
   </data>
   <data name="LayoutProperties_Title" xml:space="preserve">
-    <value>Свойства элемента: Макет интерфейса ОЗ</value>
+    <value>Element Properties: Layout OZ interface</value>
+    <comment>google translate</comment>
   </data>
   <data name="MonitorLayouts_Edition" xml:space="preserve">
-    <value>Редактирование</value>
+    <value>Editing</value>
+    <comment>google translate</comment>
   </data>
   <data name="MonitorLayouts_OnRemove" xml:space="preserve">
-    <value>Вы действительно хотите удалить макет "{0}"?</value>
+    <value>Are you sure you want to delete the layout "{0}"?</value>
+    <comment>google translate</comment>
   </data>
 </root>

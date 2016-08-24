@@ -118,15 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="IpFilterDetailsView_Error" xml:space="preserve">
-    <value>Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.</value>
+    <value>Invalid value for {0}. Specify a value in the range {1} to {2}.</value>
+    <comment>google translate</comment>
   </data>
   <data name="ValidateLayoutIsContentExist_Error" xml:space="preserve">
-    <value>Макет не должен содержать контейнер отдельно от панели навигации</value>
+    <value>The layout should not contain container separately from the navigation bar</value>
+    <comment>google translate</comment>
   </data>
   <data name="ValidateLayoutIsLayoutVerificationElementsAvailable_Error" xml:space="preserve">
-    <value>Элемент 'Верификация' в макете не может быть загружен по причине лицензионных ограничений</value>
+    <value>'Verification' element in the layout can not be loaded due to licensing restrictions</value>
+    <comment>google translate</comment>
   </data>
   <data name="ValidateLayoutIsNavigationExist_Error" xml:space="preserve">
-    <value>Макет не должен содержать панель навигации отдельно от контейнера</value>
+    <value>The layout should not contain navigation bar separate from the container</value>
+    <comment>google translate</comment>
   </data>
 </root>

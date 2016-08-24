@@ -61,7 +61,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Графики доступа.
+        ///   Looks up a localized string similar to access charts.
         /// </summary>
         public static string AccessSchedules {
             get {
@@ -70,7 +70,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активировать.
+        ///   Looks up a localized string similar to Activate.
         /// </summary>
         public static string Activate {
             get {
@@ -79,7 +79,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
             get {
@@ -88,7 +88,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить устройство.
+        ///   Looks up a localized string similar to Add new device.
         /// </summary>
         public static string AddDevice {
             get {
@@ -97,7 +97,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить состояние.
+        ///   Looks up a localized string similar to Add condition.
         /// </summary>
         public static string AddState {
             get {
@@ -106,7 +106,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Контроллер.
+        ///   Looks up a localized string similar to Controller.
         /// </summary>
         public static string Controller {
             get {
@@ -115,7 +115,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основные настройки контроллера.
+        ///   Looks up a localized string similar to Main controller settings.
         /// </summary>
         public static string ControllerMainSettings {
             get {
@@ -124,7 +124,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Временные настройки контроллера.
+        ///   Looks up a localized string similar to Timing Controller Settings.
         /// </summary>
         public static string ControllerTimeSettings {
             get {
@@ -133,7 +133,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать.
+        ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
             get {
@@ -142,7 +142,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневные графики доступа.
+        ///   Looks up a localized string similar to Daytime access schedules.
         /// </summary>
         public static string DayAccessSchedules {
             get {
@@ -151,7 +151,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневные расписания.
+        ///   Looks up a localized string similar to Daily schedule.
         /// </summary>
         public static string DayLockSchedules {
             get {
@@ -160,7 +160,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
             get {
@@ -169,7 +169,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы уверены, что хотите удалить запись о сотруднике?.
+        ///   Looks up a localized string similar to Are you sure you want to delete the record of the employee?.
         /// </summary>
         public static string DeleteEmployeeConfirmation {
             get {
@@ -178,7 +178,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Произошла ошибка - удалить запись о сотруднике не удалось!.
+        ///   Looks up a localized string similar to An error has occurred - unable to remove the employee record!.
         /// </summary>
         public static string DeleteEmployeeFailed {
             get {
@@ -187,7 +187,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройство.
+        ///   Looks up a localized string similar to Device.
         /// </summary>
         public static string Device {
             get {
@@ -196,7 +196,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Устройства.
+        ///   Looks up a localized string similar to Devices.
         /// </summary>
         public static string Devices {
             get {
@@ -205,7 +205,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точка доступа .
+        ///   Looks up a localized string similar to Access point.
         /// </summary>
         public static string Door {
             get {
@@ -214,7 +214,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Панель точек доступа.
+        ///   Looks up a localized string similar to Panel AP.
         /// </summary>
         public static string DoorPanel {
             get {
@@ -223,7 +223,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точки доступа.
+        ///   Looks up a localized string similar to access points.
         /// </summary>
         public static string Doors {
             get {
@@ -232,7 +232,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Редактировать.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
             get {
@@ -241,7 +241,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Карточка сотрудника.
+        ///   Looks up a localized string similar to Card employee.
         /// </summary>
         public static string EmployeeCard {
             get {
@@ -250,7 +250,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр.
+        ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
             get {
@@ -259,7 +259,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Библиотека.
+        ///   Looks up a localized string similar to Library.
         /// </summary>
         public static string Library {
             get {
@@ -268,7 +268,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры замка.
+        ///   Looks up a localized string similar to lock Options.
         /// </summary>
         public static string LockParameters {
             get {
@@ -277,7 +277,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароль замка.
+        ///   Looks up a localized string similar to Password lock.
         /// </summary>
         public static string LockPassword {
             get {
@@ -286,7 +286,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Расписание режимов замков.
+        ///   Looks up a localized string similar to Lock Mode Schedule.
         /// </summary>
         public static string LockSchedules {
             get {
@@ -295,7 +295,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пароли замков.
+        ///   Looks up a localized string similar to lock Passwords.
         /// </summary>
         public static string LocksPassword {
             get {
@@ -304,7 +304,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вставить.
+        ///   Looks up a localized string similar to insert.
         /// </summary>
         public static string Paste {
             get {
@@ -313,7 +313,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сохранить.
+        ///   Looks up a localized string similar to retain.
         /// </summary>
         public static string Save {
             get {
@@ -322,7 +322,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Параметры не были записаны на контроллер. Сохранить изменение настроек в конфигурации?.
+        ///   Looks up a localized string similar to Parameters were not written to the controller. Save changes settings in the configuration?.
         /// </summary>
         public static string SaveConfigurationControllerWarning {
             get {
@@ -331,7 +331,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Панель СКД устройства.
+        ///   Looks up a localized string similar to Panel device SKD.
         /// </summary>
         public static string SKDDevicePanel {
             get {
@@ -340,7 +340,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СКД устройства.
+        ///   Looks up a localized string similar to CDS devices.
         /// </summary>
         public static string SKDDevices {
             get {
@@ -349,7 +349,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СКД зона.
+        ///   Looks up a localized string similar to SKD zone.
         /// </summary>
         public static string SKDZone {
             get {
@@ -358,7 +358,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Панель СКД зоны.
+        ///   Looks up a localized string similar to Panel SKD zone.
         /// </summary>
         public static string SKDZonePanel {
             get {
@@ -367,7 +367,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СКД зоны.
+        ///   Looks up a localized string similar to SKD zone.
         /// </summary>
         public static string SKDZones {
             get {
@@ -376,7 +376,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неизвестное устройство.
+        ///   Looks up a localized string similar to Unknown device.
         /// </summary>
         public static string UnknownDevice {
             get {
@@ -385,7 +385,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неизвестная точка доступа.
+        ///   Looks up a localized string similar to An unknown access point.
         /// </summary>
         public static string UnknownDoor {
             get {
@@ -394,7 +394,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Несвязанная зона.
+        ///   Looks up a localized string similar to unrelated zone.
         /// </summary>
         public static string UnrelatedZone {
             get {
@@ -403,7 +403,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недельные графики доступа.
+        ///   Looks up a localized string similar to Weekly access schedules.
         /// </summary>
         public static string WeekAccessSchedules {
             get {
@@ -412,7 +412,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недельные расписания.
+        ///   Looks up a localized string similar to Weekly schedule.
         /// </summary>
         public static string WeekLockSchedules {
             get {
@@ -421,7 +421,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запись конфигурации на все контроллеры.
+        ///   Looks up a localized string similar to Record the configuration of all controllers.
         /// </summary>
         public static string WriteConfigAllControllers {
             get {
@@ -430,7 +430,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона.
+        ///   Looks up a localized string similar to Zone.
         /// </summary>
         public static string Zone {
             get {
@@ -439,7 +439,7 @@ namespace Localization.Strazh.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зоны.
+        ///   Looks up a localized string similar to zone.
         /// </summary>
         public static string Zones {
             get {

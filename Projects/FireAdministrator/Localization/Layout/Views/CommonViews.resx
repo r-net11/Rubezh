@@ -118,165 +118,219 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Добавить</value>
+    <value>Add</value>
+    <comment>google translate</comment>
   </data>
   <data name="AllFree" xml:space="preserve">
-    <value>Все свободное</value>
+    <value>All free</value>
+    <comment>google translate</comment>
   </data>
   <data name="AllowEnter" xml:space="preserve">
-    <value>Разрешить использовать ENTER</value>
+    <value>Allow ENTER</value>
+    <comment>google translate</comment>
   </data>
   <data name="AllowTab" xml:space="preserve">
-    <value>Разрешить использовать TAB</value>
+    <value>Allow TAB</value>
+    <comment>google translate</comment>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Авто</value>
+    <value>Auto</value>
+    <comment>google translate</comment>
   </data>
   <data name="AutoWrap" xml:space="preserve">
-    <value>Авто перенос строк</value>
+    <value>Car wrapping</value>
+    <comment>google translate</comment>
   </data>
   <data name="Available" xml:space="preserve">
-    <value>Доступен</value>
+    <value>available</value>
+    <comment>google translate</comment>
   </data>
   <data name="BackgroungColor" xml:space="preserve">
-    <value>Цвет фона</value>
+    <value>Background color</value>
+    <comment>google translate</comment>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value>Жирный</value>
+    <value>Fatty</value>
+    <comment>google translate</comment>
   </data>
   <data name="BorderColor" xml:space="preserve">
-    <value>Цвет границы</value>
+    <value>The color of the border</value>
+    <comment>google translate</comment>
   </data>
   <data name="BorderWidth" xml:space="preserve">
-    <value>Ширина границы</value>
+    <value>border Width</value>
+    <comment>google translate</comment>
   </data>
   <data name="DeleteLayout" xml:space="preserve">
-    <value>Удалить макет</value>
+    <value>Delete layout</value>
+    <comment>google translate</comment>
   </data>
   <data name="DeletePicture" xml:space="preserve">
-    <value>Очистить картинку</value>
+    <value>Clear image</value>
+    <comment>google translate</comment>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Описание</value>
+    <value>Description</value>
+    <comment>google translate</comment>
   </data>
   <data name="EditLayout" xml:space="preserve">
-    <value>Редактировать макет</value>
+    <value>Edit layout</value>
+    <comment>google translate</comment>
   </data>
   <data name="ElementCanBePlaced" xml:space="preserve">
-    <value>Элемент может быть размещен</value>
+    <value>The element may be placed</value>
+    <comment>google translate</comment>
   </data>
   <data name="ElementCanNotBePlaced" xml:space="preserve">
-    <value>Элемент нельзя размещать</value>
+    <value>The element can not be placed</value>
+    <comment>google translate</comment>
   </data>
   <data name="ElementIsNotPlaced" xml:space="preserve">
-    <value>Элемент не размещен</value>
+    <value>The element is not placed</value>
+    <comment>google translate</comment>
   </data>
   <data name="ElementIsPlaced" xml:space="preserve">
-    <value>Элемент уже размещен</value>
+    <value>The element is already placed</value>
+    <comment>google translate</comment>
   </data>
   <data name="Elements" xml:space="preserve">
-    <value>Элементы</value>
+    <value>elements</value>
+    <comment>google translate</comment>
   </data>
   <data name="Fix" xml:space="preserve">
-    <value>Фиксированный</value>
+    <value>Fixed</value>
+    <comment>google translate</comment>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Шрифт</value>
+    <value>Font</value>
+    <comment>google translate</comment>
   </data>
   <data name="FontSize" xml:space="preserve">
-    <value>Размер шрифта</value>
+    <value>Font size</value>
+    <comment>google translate</comment>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Заголовок</value>
+    <value>header</value>
+    <comment>google translate</comment>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Высота</value>
+    <value>Height</value>
+    <comment>google translate</comment>
   </data>
   <data name="HorizontalAlign" xml:space="preserve">
-    <value>Выравнивать по горизонтали</value>
+    <value>Align horizontally</value>
+    <comment>google translate</comment>
   </data>
   <data name="Indent" xml:space="preserve">
-    <value>Отступ</value>
+    <value>indent</value>
+    <comment>google translate</comment>
   </data>
   <data name="IpAddress" xml:space="preserve">
-    <value>IP адрес</value>
+    <value>IP address</value>
+    <comment>google translate</comment>
   </data>
   <data name="IpAddressOrCompName" xml:space="preserve">
-    <value>IP адрес или имя компьютера</value>
+    <value>IP address or computer name</value>
+    <comment>google translate</comment>
   </data>
   <data name="IpFilter" xml:space="preserve">
-    <value>Фильтр IP</value>
+    <value>IP Filter</value>
+    <comment>google translate</comment>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value>Курсив</value>
+    <value>Italics</value>
+    <comment>google translate</comment>
   </data>
   <data name="Layouts" xml:space="preserve">
-    <value>Макеты</value>
+    <value>Layouts</value>
+    <comment>google translate</comment>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Логин</value>
+    <value>Login</value>
+    <comment>google translate</comment>
   </data>
   <data name="Main" xml:space="preserve">
-    <value>Основные</value>
+    <value>main</value>
+    <comment>google translate</comment>
   </data>
   <data name="Minimal" xml:space="preserve">
-    <value>Минимальный</value>
+    <value>Minimum</value>
+    <comment>google translate</comment>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Имя</value>
+    <value>Name</value>
+    <comment>google translate</comment>
   </data>
   <data name="Pixels" xml:space="preserve">
-    <value>Пиксели</value>
+    <value>Pixels</value>
+    <comment>google translate</comment>
   </data>
   <data name="Position" xml:space="preserve">
-    <value>Расположение:</value>
+    <value>Location:</value>
+    <comment>google translate</comment>
   </data>
   <data name="SelectPicture" xml:space="preserve">
-    <value>Выбрать картинку</value>
+    <value>Select a picture</value>
+    <comment>google translate</comment>
   </data>
   <data name="SeparatorColor" xml:space="preserve">
-    <value>Цвет разделителя</value>
+    <value>separator Color</value>
+    <comment>google translate</comment>
   </data>
   <data name="SeparatorWidth" xml:space="preserve">
-    <value>Ширина разделителя</value>
+    <value>The width of the separator</value>
+    <comment>google translate</comment>
   </data>
   <data name="ShowMenu" xml:space="preserve">
-    <value>Показывать меню</value>
+    <value>show menu</value>
+    <comment>google translate</comment>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Размер</value>
+    <value>The size</value>
+    <comment>google translate</comment>
   </data>
   <data name="StringLengthLimit" xml:space="preserve">
-    <value>Ограничить длину строки</value>
+    <value>Limit the length of the string</value>
+    <comment>google translate</comment>
   </data>
   <data name="Style" xml:space="preserve">
-    <value>Стиль</value>
+    <value>Style</value>
+    <comment>google translate</comment>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>Текст</value>
+    <value>Text</value>
+    <comment>google translate</comment>
   </data>
   <data name="TextAlign" xml:space="preserve">
-    <value>Выравнивать текст</value>
+    <value>align text</value>
+    <comment>google translate</comment>
   </data>
   <data name="TextColor" xml:space="preserve">
-    <value>Цвет текста</value>
+    <value>Text color</value>
+    <comment>google translate</comment>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Название</value>
+    <value>Name</value>
+    <comment>google translate</comment>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Тип</value>
+    <value>A type</value>
+    <comment>google translate</comment>
   </data>
   <data name="Unavailable" xml:space="preserve">
-    <value>Недоступен</value>
+    <value>Not available</value>
+    <comment>google translate</comment>
   </data>
   <data name="Users" xml:space="preserve">
-    <value>Пользователи</value>
+    <value>users</value>
+    <comment>google translate</comment>
   </data>
   <data name="VerticalAlign" xml:space="preserve">
-    <value>Выравнивать по вертикали</value>
+    <value>Align vertically</value>
+    <comment>google translate</comment>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Ширина</value>
+    <value>Width</value>
+    <comment>google translate</comment>
   </data>
 </root>

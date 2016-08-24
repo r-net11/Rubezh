@@ -118,265 +118,265 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AcceptConfig" xml:space="preserve">
-    <value>Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?</value>
+    <value>For this you need to apply the configuration. Apply now?</value>
+    <comment>google</comment>
   </data>
   <data name="AcceptConfigBeforeOperation" xml:space="preserve">
-    <value>Перед выполнением операции необходимо применить конфигурацию.</value>
+    <value>Before performing the operation you want to apply the configuration.</value>
   </data>
   <data name="Active" xml:space="preserve">
-    <value>Активно</value>
+    <value>Actively</value>
   </data>
   <data name="AutosearchDevices" xml:space="preserve">
-    <value>Автопоиск устройств</value>
+    <value>Auto Devices</value>
   </data>
   <data name="BaseImage" xml:space="preserve">
-    <value>Базовый рисунок</value>
+    <value>Basic drawing</value>
   </data>
   <data name="Camera_Selectation" xml:space="preserve">
-    <value>Выбор камеры</value>
+    <value>camera Selection</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Закрыто</value>
+    <value>Closed</value>
   </data>
   <data name="ControllerNetSettings_Save" xml:space="preserve">
-    <value>Сетевые настройки не были записаны на контроллер. Изменить сетевые настройки в конфигурации?</value>
+    <value>Network settings are not written to the controller. Change the network settings in the configuration?</value>
   </data>
   <data name="ControllerNetSettings_Title" xml:space="preserve">
-    <value>Сетевые настройки контроллера</value>
+    <value>Network Controller Settings</value>
   </data>
   <data name="ControllerPasword_EmptyPass" xml:space="preserve">
-    <value>Пустой пароль</value>
+    <value>Empty password</value>
   </data>
   <data name="ControllerPasword_NoLogin" xml:space="preserve">
-    <value>У контроллера отсутствует логин</value>
+    <value>The controller is not login</value>
   </data>
   <data name="ControllerPasword_NoPass" xml:space="preserve">
-    <value>У контроллера отсутствует пароль</value>
+    <value>The controller is no password</value>
   </data>
   <data name="ControllerPasword_PassNotConfirm" xml:space="preserve">
-    <value>Пароль не совпадает</value>
+    <value>Password does not match</value>
   </data>
   <data name="ControllerPasword_Save" xml:space="preserve">
-    <value>Пароль в контроллере был изменен. Изменить пароль в конфигурации?</value>
+    <value>Password has been changed in the controller. Change your password in the configuration?</value>
   </data>
   <data name="ControllerPasword_Title" xml:space="preserve">
-    <value>Задание пароля контроллера</value>
+    <value>Controller Setting a password</value>
   </data>
   <data name="ControllerTimeSettings_SynchError" xml:space="preserve">
-    <value>Ошибка во время операции синхронизации времени</value>
+    <value>Error during time synchronization operation</value>
   </data>
   <data name="ControllerTimeSettings_SynchSuccess" xml:space="preserve">
-    <value>Операция синхронизации времени завершилась успешно</value>
+    <value>time synchronization operation was successful</value>
   </data>
   <data name="Controller_Config" xml:space="preserve">
-    <value>Конфигурация контроллера</value>
+    <value>Configuration controller</value>
   </data>
   <data name="Controller_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить контроллер "{0}"</value>
+    <value>Are you sure you want to remove the controller "{0}"</value>
   </data>
   <data name="Controller_Reboot" xml:space="preserve">
-    <value>Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд</value>
+    <value>Running the controller restart. The controller will be available within a few seconds</value>
   </data>
   <data name="DayAccessSchedule_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить дневной график доступа "{0}"?</value>
+    <value>Are you sure you want to delete the daily chart of access "{0}"?</value>
   </data>
   <data name="DayAccessSchedule_DeleteForWeekConfirm" xml:space="preserve">
-    <value>Дневной график доступа "{0}" используется в одном или нескольких недельных графиках доступа. При его удалении он будет заменен в недельных графиках доступа на дневной график "Никогда". Вы действительно хотите его удалить?</value>
+    <value>The daily chart of access "{0}" is used in one or more of the weekly charts of access. When it is removed it will be replaced in the weekly charts of access to the daily chart of "Never." Are you sure you want to remove it?</value>
   </data>
   <data name="DayLockSchedule_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить дневной график замка "{0}"?</value>
+    <value>Are you sure you want to delete the daily chart of the castle "{0}"?</value>
   </data>
   <data name="DayLockSchedule_DeleteForWeekConfirm" xml:space="preserve">
-    <value>Дневной график замка "{0}" используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график "Карта". Вы действительно хотите его удалить?</value>
+    <value>Daily schedule of the castle "{0}" is used in one or more of the weekly chart of the castle. When it is removed it will be replaced in the weekly charts of the castle on the daily chart of the "Map". Are you sure you want to remove it?</value>
   </data>
   <data name="DayLockSchedule_Exist" xml:space="preserve">
-    <value>Дневное расписание замка с таким названием уже существует</value>
+    <value>Full schedule of the castle with the same name already exists</value>
   </data>
   <data name="DaySchedule_Creation" xml:space="preserve">
-    <value>Создание нового дневного расписания</value>
+    <value>Creating a new daytime schedule</value>
   </data>
   <data name="DaySchedule_Properties" xml:space="preserve">
-    <value>Свойства дневного расписания: {0}</value>
+    <value>Properties day schedules: {0}</value>
   </data>
   <data name="Deactivate" xml:space="preserve">
-    <value>Деактивировать</value>
+    <value>Deactivate</value>
   </data>
   <data name="Devices_ControllerParams" xml:space="preserve">
-    <value>Параметры контроллера</value>
+    <value>controller Options</value>
   </data>
   <data name="Devices_DoorParams" xml:space="preserve">
-    <value>Параметры двери</value>
+    <value>door Options</value>
   </data>
   <data name="Device_Select" xml:space="preserve">
-    <value>Нажмите для выбора устройства</value>
+    <value>Click to select the device</value>
   </data>
   <data name="Device_Selectation" xml:space="preserve">
-    <value>Выбор устройства</value>
+    <value>Select Device</value>
   </data>
   <data name="Device_WriteCardsOnController" xml:space="preserve">
-    <value>Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.
-Продолжить?</value>
+    <value>The recording process permits all controllers may take a few minutes. During this time, the application will not be available. Continue?</value>
   </data>
   <data name="Door_Creation" xml:space="preserve">
-    <value>Создание точки доступа</value>
+    <value>Creating an access point</value>
   </data>
   <data name="Door_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить точку доступа "{0}"?</value>
+    <value>Are you sure you want to remove the access point "{0}"?</value>
   </data>
   <data name="Door_Exist" xml:space="preserve">
-    <value>Точка доступа с таким номером уже существует</value>
+    <value>The access point with this number already exists</value>
   </data>
   <data name="Door_Properties" xml:space="preserve">
-    <value>Свойства точки доступа: {0}</value>
+    <value>Properties AP: {0}</value>
   </data>
   <data name="Edition" xml:space="preserve">
-    <value>Редактирование</value>
+    <value>Editing</value>
   </data>
   <data name="FigureProperties_SKDDevice" xml:space="preserve">
-    <value>Свойства фигуры: Устройство СКД</value>
+    <value>figures Properties: Device SKD</value>
   </data>
   <data name="FigureProperties_SKDDoor" xml:space="preserve">
-    <value>Свойства фигуры: Точка доступа</value>
+    <value>figures Properties: AP</value>
   </data>
   <data name="FigureProperties_SKDZone" xml:space="preserve">
-    <value>Свойства фигуры: Зона СКД</value>
+    <value>figures Properties Zone SKD</value>
   </data>
   <data name="ForbiddenName" xml:space="preserve">
-    <value>Запрещенное название</value>
+    <value>forbidden name</value>
   </data>
   <data name="Friday" xml:space="preserve">
-    <value>Пятница</value>
+    <value>Friday</value>
   </data>
   <data name="Holiday" xml:space="preserve">
-    <value>Праздничный день</value>
+    <value>Holiday</value>
   </data>
   <data name="Holiday_Edition" xml:space="preserve">
-    <value>Редактирование праздничного дня</value>
+    <value>Edit public holiday</value>
   </data>
   <data name="Inactive" xml:space="preserve">
-    <value>Не активно</value>
+    <value>Not active</value>
   </data>
   <data name="Interval_Creation" xml:space="preserve">
-    <value>Задание интервала</value>
+    <value>Setting interval</value>
   </data>
   <data name="LockSchedule_NotSelect" xml:space="preserve">
-    <value>Расписание замка не выбрано</value>
+    <value>Castle schedule is not selected</value>
   </data>
   <data name="Lock_EmptyOpenMethod" xml:space="preserve">
-    <value>Для замка на контроллере не установлен метод открытия двери</value>
+    <value>To lock the controller is not established a method of opening the door</value>
   </data>
   <data name="Monday" xml:space="preserve">
-    <value>Понедельник</value>
+    <value>Monday</value>
   </data>
   <data name="NewDaySchedule" xml:space="preserve">
-    <value>Новое дневное расписание</value>
+    <value>The new daytime schedule</value>
   </data>
   <data name="NewDevice" xml:space="preserve">
-    <value>Новое устройство</value>
+    <value>The new device</value>
   </data>
   <data name="NewDoor" xml:space="preserve">
-    <value>Новая точка доступа</value>
+    <value>New Access Point</value>
   </data>
   <data name="NewHoliday" xml:space="preserve">
-    <value>Новый праздничный день</value>
+    <value>New holiday</value>
   </data>
   <data name="NewZone" xml:space="preserve">
-    <value>Новая зона</value>
+    <value>The new zone</value>
   </data>
   <data name="NumberIsPositive" xml:space="preserve">
-    <value>Номер должен быть положительным числом</value>
+    <value>The number must be a positive number</value>
   </data>
   <data name="OneWay" xml:space="preserve">
-    <value>Односторонний</value>
+    <value>Unilateral</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Открыто</value>
+    <value>Open</value>
   </data>
   <data name="Operation_Error" xml:space="preserve">
-    <value>Обнаружены ошибки. Операция прервана</value>
+    <value>Errors found. Operation aborted</value>
   </data>
   <data name="Operation_Success" xml:space="preserve">
-    <value>Операция завершилась успешно</value>
+    <value>The operation completed successfully</value>
   </data>
   <data name="Reader_Properties" xml:space="preserve">
-    <value>Свойства считывателя {0}</value>
+    <value>Properties reader {0}</value>
   </data>
   <data name="ResetConfig" xml:space="preserve">
-    <value>При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?</value>
+    <value>If you reset all parameters of the controller will be installed at the factory, and the recorded passes will be erased. Continue?</value>
   </data>
   <data name="Saturday" xml:space="preserve">
-    <value>Суббота</value>
+    <value>Saturday</value>
   </data>
   <data name="SlideDaySchedule" xml:space="preserve">
-    <value>Скользящий посуточный график {0}</value>
+    <value>Sliding posutochny schedule {0}</value>
   </data>
   <data name="SlideDaySchedule_Edition" xml:space="preserve">
-    <value>Редактирование скользящего посуточного графика</value>
+    <value>Editing sliding Daily schedule</value>
   </data>
   <data name="SlideWeekSchedule" xml:space="preserve">
-    <value>Скользящий понедельный график {0}</value>
+    <value>Sliding The weekly schedule {0}</value>
   </data>
   <data name="SlideWeekSchedule_Edition" xml:space="preserve">
-    <value>Редактирование скользящего понедельного графика</value>
+    <value>Editing sliding Weekly schedule</value>
   </data>
   <data name="Sunday" xml:space="preserve">
-    <value>Воскресенье</value>
+    <value>Sunday</value>
   </data>
   <data name="Thursday" xml:space="preserve">
-    <value>Четверг</value>
+    <value>Thursday</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
-    <value>Вторник</value>
+    <value>Tuesday</value>
   </data>
   <data name="TwoWay" xml:space="preserve">
-    <value>Двухсторонний</value>
+    <value>double-sided</value>
   </data>
   <data name="UnknownDay" xml:space="preserve">
-    <value>Неизвестный день</value>
+    <value>Unknown</value>
   </data>
   <data name="UnknownDevice" xml:space="preserve">
-    <value>Устройство не указано</value>
+    <value>Unknown Device</value>
   </data>
   <data name="Verification" xml:space="preserve">
-    <value>Верификация</value>
+    <value>verification</value>
   </data>
   <data name="Verification_Settings" xml:space="preserve">
-    <value>Настройка верификации</value>
+    <value>Setting verification</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
-    <value>Среда</value>
+    <value>Wednesday</value>
   </data>
   <data name="WeekAccessSchedule_DeleteConfirm" xml:space="preserve">
-    <value>Недельный график доступа "{0}" может использоваться для определения временных критериев прохода через точки доступа для уже выданных пропусков. При его удалении он будет заменен на критерий прохода, соответствующий недельному графику доступа "Никогда". Вы действительно хотите его удалить?</value>
+    <value>Weekly access "{0}" can be used to determine the criteria for temporary passage through the access point for the already issued permits. When it is removed, he will be replaced by the passage of a criterion corresponding weekly access schedule to "Never". Are you sure you want to remove it?</value>
   </data>
   <data name="WeekLockSchedule_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить недельный график замка "{0}"?</value>
+    <value>Are you sure you want to delete the weekly chart of the castle "{0}"?</value>
   </data>
   <data name="WeekLockSchedule_DeleteForLocksConfirm" xml:space="preserve">
-    <value>Недельный график замка "{0}"назначен для одного или нескольких замков. При его удалении для замка будет назначен недельный график замка "Карта". Вы действительно хотите его удалить?</value>
+    <value>Weekly castle "{0}" is assigned to one or more locks. At its removal weekly chart of the castle will be assigned to the castle, "Map". Are you sure you want to remove it?</value>
   </data>
   <data name="WeekSchedule" xml:space="preserve">
-    <value>Понедельный график {0}</value>
+    <value>The weekly schedule {0}</value>
   </data>
   <data name="WeekSchedule_Edition" xml:space="preserve">
-    <value>Редактирование понедельного графика</value>
+    <value>Edit weekly schedule</value>
   </data>
   <data name="Zone_Creation" xml:space="preserve">
-    <value>Создание новой зоны</value>
+    <value>Create a new zone</value>
   </data>
   <data name="Zone_DeleteConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить зону "{0}"?</value>
+    <value>Are you sure you want to delete the zone, "{0}"?</value>
   </data>
   <data name="Zone_Exist" xml:space="preserve">
-    <value>Зона с таким номером уже существует</value>
+    <value>Zone with this number already exists</value>
   </data>
   <data name="Zone_Properties" xml:space="preserve">
-    <value>Свойства зоны: {0}</value>
+    <value>zone Properties: {0}</value>
   </data>
   <data name="Zone_Select" xml:space="preserve">
-    <value>Нажмите для выбора зон</value>
+    <value>Click to select the zones</value>
   </data>
   <data name="Zone_Selectation" xml:space="preserve">
-    <value>Выбор зоны</value>
+    <value>Selecting a Zone</value>
   </data>
 </root>
