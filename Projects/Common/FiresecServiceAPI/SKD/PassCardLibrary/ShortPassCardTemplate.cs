@@ -4,8 +4,11 @@ using System.Runtime.Serialization;
 namespace StrazhAPI.SKD
 {
 	[DataContract]
-	public class ShortPassCardTemplate : SKDModelBase, IOrganisationElement
+	public class ShortPassCardTemplate : IOrganisationElement
 	{
+		[DataMember]
+		public Guid UID { get; set; }
+
 		[DataMember]
 		public string Name { get; set; }
 

@@ -7,7 +7,7 @@ using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class ItemsSelectionBaseViewModel<TItem> : SaveCancelDialogViewModel where TItem : SKDModelBase
+	public abstract class ItemsSelectionBaseViewModel<TItem> : SaveCancelDialogViewModel where TItem : IOrganisationElement
 	{
 		#region <Свойства и поля>
 
@@ -99,7 +99,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual void OnReleaseItem()
 		{
-			SelectedItem = null;
+			SelectedItem = default(TItem);
 		}
 
 		protected virtual bool CanReleaseItem()
@@ -114,7 +114,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public virtual void Initialize(Guid organisationUID, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, TItem selectedItem = null)
+		public virtual void Initialize(Guid organisationUID, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, TItem selectedItem = default(TItem))
 		{
 			_organisationUID = organisationUID;
 			InitializeItems(organisationUID, logicalDeletationType);
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 		protected virtual void InitializeSelectedItem(TItem item)
 		{
 			SelectedItem = item == null
-				? null
+				? default(TItem)
 				: Items.FirstOrDefault(x => x.UID == item.UID);
 		}
 
