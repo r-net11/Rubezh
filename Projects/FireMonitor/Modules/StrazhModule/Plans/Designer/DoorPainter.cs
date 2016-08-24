@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceControls;
+using Localization.Strazh.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -43,17 +44,17 @@ namespace StrazhModule.Plans.Designer
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			var contextMenu = new ContextMenu();
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс состояния \"Взлом\"", null, _doorViewModel.ClearPromptWarningCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ResetBreakinState, null, _doorViewModel.ClearPromptWarningCommand));
 			contextMenu.Items.Add(new Separator());
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _doorViewModel.DoorAccessStateOpenAlwaysCommand));
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _doorViewModel.DoorAccessStateNormalCommand));
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _doorViewModel.DoorAccessStateCloseAlwaysCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeOpen, null, _doorViewModel.DoorAccessStateOpenAlwaysCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeNorm, null, _doorViewModel.DoorAccessStateNormalCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeClose, null, _doorViewModel.DoorAccessStateCloseAlwaysCommand));
 			contextMenu.Items.Add(new Separator());
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", null, _doorViewModel.OpenCommand));
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", null, _doorViewModel.CloseCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Open, null, _doorViewModel.OpenCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Close, null, _doorViewModel.CloseCommand));
 			contextMenu.Items.Add(new Separator());
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ShowRelatedEvents, "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}

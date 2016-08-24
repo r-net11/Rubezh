@@ -6,6 +6,7 @@ using System.Windows;
 using Common;
 using DeviceControls;
 using Entities.DeviceOriented;
+using Localization.Video.Errors;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
@@ -35,7 +36,7 @@ namespace VideoModule.ViewModels
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == Camera.Ip);
 			if ((device == null) || (camera == null))
 			{
-				throw new Exception("Неожидаемый null в CameraViewModel.PropertyChangedEvent");
+				throw new Exception(CommonErrors.Null_Exception);
 			}
 			var cameraViewModel = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip);
 			if (cameraViewModel != null)

@@ -59,5 +59,23 @@ namespace Localization.Video.Errors {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected null в CameraViewModel.PropertyChangedEvent.
+        /// </summary>
+        public static string Null_Exception {
+            get {
+                return ResourceManager.GetString("Null_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while transferring in a preset.
+        /// </summary>
+        public static string PTZ_Error {
+            get {
+                return ResourceManager.GetString("PTZ_Error", resourceCulture);
+            }
+        }
     }
 }

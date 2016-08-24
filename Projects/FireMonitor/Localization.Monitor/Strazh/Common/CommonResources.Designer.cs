@@ -59,5 +59,149 @@ namespace Localization.Strazh.Common {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed.
+        /// </summary>
+        public static string Closed {
+            get {
+                return ResourceManager.GetString("Closed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Devices.
+        /// </summary>
+        public static string Devices {
+            get {
+                return ResourceManager.GetString("Devices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doors.
+        /// </summary>
+        public static string Doors {
+            get {
+                return ResourceManager.GetString("Doors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode &quot;Close&quot;.
+        /// </summary>
+        public static string ModeClose {
+            get {
+                return ResourceManager.GetString("ModeClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode &quot;Norm&quot;.
+        /// </summary>
+        public static string ModeNorm {
+            get {
+                return ResourceManager.GetString("ModeNorm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode &quot;Open&quot;.
+        /// </summary>
+        public static string ModeOpen {
+            get {
+                return ResourceManager.GetString("ModeOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Opened {
+            get {
+                return ResourceManager.GetString("Opened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset breaking state.
+        /// </summary>
+        public static string ResetBreakinState {
+            get {
+                return ResourceManager.GetString("ResetBreakinState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show related events.
+        /// </summary>
+        public static string ShowRelatedEvents {
+            get {
+                return ResourceManager.GetString("ShowRelatedEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strazh.
+        /// </summary>
+        public static string STRAZH {
+            get {
+                return ResourceManager.GetString("STRAZH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strazh Devices.
+        /// </summary>
+        public static string StrazhDevices {
+            get {
+                return ResourceManager.GetString("StrazhDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strazh Doors.
+        /// </summary>
+        public static string StrazhDoors {
+            get {
+                return ResourceManager.GetString("StrazhDoors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strazh Zones.
+        /// </summary>
+        public static string StrazhZones {
+            get {
+                return ResourceManager.GetString("StrazhZones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zones.
+        /// </summary>
+        public static string Zones {
+            get {
+                return ResourceManager.GetString("Zones", resourceCulture);
+            }
+        }
     }
 }

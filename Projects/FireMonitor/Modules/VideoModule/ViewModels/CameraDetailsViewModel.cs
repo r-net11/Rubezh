@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using Localization.Video.Errors;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -100,7 +101,7 @@ namespace VideoModule.ViewModels
 			}
 			catch
 			{
-				MessageBoxService.ShowWarning("Возникла ошибка при переводе в предустановку");
+				MessageBoxService.ShowWarning(CommonErrors.PTZ_Error);
 			}
 		}
 

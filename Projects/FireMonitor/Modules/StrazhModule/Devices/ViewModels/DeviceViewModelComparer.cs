@@ -1,5 +1,4 @@
 ﻿using Common;
-using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace StrazhModule.ViewModels

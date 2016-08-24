@@ -2,7 +2,9 @@
 	x:Class="StrazhModule.Views.ZonesView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Views="clr-namespace:StrazhModule.Views">
+	xmlns:Views="clr-namespace:StrazhModule.Views"
+	xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" MinWidth="200" />
@@ -33,7 +35,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn
-						Header="Зона"
+						Header="{x:Static lang:CommonViews.Zone}"
 						Width="*"
 						SortMemberPath="Zone.Name">
 						<DataGridTemplateColumn.CellTemplate>
@@ -54,18 +56,18 @@
 											</Hyperlink>
 											<TextBlock.ContextMenu>
 												<ContextMenu>
-													<IconedMenuItem Text="Сброс состояния &#34;Взлом&#34;" Command="{Binding ClearPromptWarningCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.ResetBreakinState}" Command="{Binding ClearPromptWarningCommand}" />
 													<Separator/>
-													<IconedMenuItem Text="Режим Открыто" Command="{Binding ZoneAccessStateOpenAlwaysCommand}" />
-													<IconedMenuItem Text="Режим Норма" Command="{Binding ZoneAccessStateNormalCommand}" />
-													<IconedMenuItem Text="Режим Закрыто" Command="{Binding ZoneAccessStateCloseAlwaysCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeOpen}" Command="{Binding ZoneAccessStateOpenAlwaysCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeNorm}" Command="{Binding ZoneAccessStateNormalCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeClose}" Command="{Binding ZoneAccessStateCloseAlwaysCommand}" />
 													<Separator/>
-													<IconedMenuItem Text="Открыть" Command="{Binding OpenCommand}" />
-													<IconedMenuItem Text="Закрыть" Command="{Binding CloseCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.Open}" Command="{Binding OpenCommand}" />
+													<IconedMenuItem Text="{x:Static langCommon:CommonResources.Close}" Command="{Binding CloseCommand}" />
 													<Separator/>
-													<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-													<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-													<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+													<IconedMenuItem ImageSource="BMap" Text="{x:Static lang:CommonViews.ShowOnPlan}" Command="{Binding ShowOnPlanCommand}" />
+													<IconedMenuItem ImageSource="BJournal" Text="{x:Static langCommon:CommonResources.ShowRelatedEvents}" Command="{Binding ShowJournalCommand}" />
+													<IconedMenuItem ImageSource="BSettings"  Text="{x:Static lang:CommonViews.Properties}" Command="{Binding ShowPropertiesCommand}" />
 												</ContextMenu>
 											</TextBlock.ContextMenu>
 										</TextBlock>
@@ -81,7 +83,7 @@
 					</DataGridTemplateColumn>
 					<DataGridTextColumn
 						Binding="{Binding Zone.Description}"
-						Header="Примечание"
+						Header="{x:Static lang:CommonViews.Note}"
 						Width="*" />
 				</DataGrid.Columns>
 			</DataGrid>
@@ -101,7 +103,7 @@
 			<DataGrid ItemsSource="{Binding Devices}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn
-						Header="Считыватель, ведущий в зону"
+						Header="{x:Static lang:CommonViews.ReaderToZone}"
 						Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -116,7 +118,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Контроллер" Width="0.4*">
+                    <DataGridTemplateColumn Header="{x:Static lang:CommonViews.Controller}" Width="0.4*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

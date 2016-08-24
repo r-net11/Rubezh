@@ -3,8 +3,10 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Views="clr-namespace:StrazhModule.Views"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:langCommon="clr-namespace:Localization.Strazh.Common;assembly=Localization"
+			 xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization"
+			 mc:Ignorable="d" 
              d:DesignHeight="300"
 			 d:DesignWidth="300">
 
@@ -21,7 +23,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Точка доступа" Width="*" SortMemberPath="Door.Name">
+				<DataGridTemplateColumn Header="{x:Static lang:CommonViews.Door}" Width="*" SortMemberPath="Door.Name">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -32,18 +34,18 @@
 									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-											<IconedMenuItem Text="Сброс состояния &#34;Взлом&#34;" Command="{Binding ClearPromptWarningCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.ResetBreakinState}" Command="{Binding ClearPromptWarningCommand}" />
 											<Separator/>
-											<IconedMenuItem Text="Режим Открыто" Command="{Binding DoorAccessStateOpenAlwaysCommand}" />
-											<IconedMenuItem Text="Режим Норма" Command="{Binding DoorAccessStateNormalCommand}" />
-											<IconedMenuItem Text="Режим Закрыто" Command="{Binding DoorAccessStateCloseAlwaysCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeOpen}" Command="{Binding DoorAccessStateOpenAlwaysCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeNorm}" Command="{Binding DoorAccessStateNormalCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.ModeClose}" Command="{Binding DoorAccessStateCloseAlwaysCommand}" />
 											<Separator/>
-											<IconedMenuItem Text="Открыть" Command="{Binding OpenCommand}" />
-											<IconedMenuItem Text="Закрыть" Command="{Binding CloseCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.Open}" Command="{Binding OpenCommand}" />
+											<IconedMenuItem Text="{x:Static langCommon:CommonResources.Close}" Command="{Binding CloseCommand}" />
 											<Separator/>
-											<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-											<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-											<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+											<IconedMenuItem ImageSource="BMap"  Text="{x:Static lang:CommonViews.ShowOnPlan}" Command="{Binding ShowOnPlanCommand}" />
+											<IconedMenuItem ImageSource="BJournal" Text="{x:Static langCommon:CommonResources.ShowRelatedEvents}" Command="{Binding ShowJournalCommand}" />
+											<IconedMenuItem ImageSource="BSettings"  Text="{x:Static lang:CommonViews.Properties}" Command="{Binding ShowPropertiesCommand}" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
@@ -57,8 +59,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Door.Description}" Header="Примечание" Width="*" />
-				<DataGridTemplateColumn Header="Устройство входа" Width="*">
+                <DataGridTextColumn Binding="{Binding Door.Description}" Header="{x:Static lang:CommonViews.Note}" Width="*" />
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.EntranceDevice}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock VerticalAlignment="Center" Visibility="{Binding HasInDevice, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -72,7 +74,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Устройство выхода" Width="*">
+                <DataGridTemplateColumn Header="{x:Static lang:CommonViews.ExitDevice}" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock VerticalAlignment="Center" Visibility="{Binding HasOutDevice, Converter={StaticResource BoolToVisibilityConverter}}">

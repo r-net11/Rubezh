@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using StrazhAPI.GK;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -37,7 +37,7 @@ namespace StrazhModule.ViewModels
 
 						case SKDDriverType.BoolType:
 							var isTrue = property.Value > 0;
-							deviceProperty.Value = isTrue ? "Есть" : "Нет";
+							deviceProperty.Value = isTrue ? CommonViewModels.Ok : CommonViewModels.None;
 							break;
 
 						case SKDDriverType.StringType:

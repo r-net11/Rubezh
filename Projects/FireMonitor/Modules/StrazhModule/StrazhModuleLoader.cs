@@ -1,3 +1,4 @@
+using Localization.Strazh.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Events;
 using StrazhAPI.GK;
@@ -88,12 +89,12 @@ namespace StrazhModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("Страж", "SKDW",
+				new NavigationItem(CommonResources.STRAZH, "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, PermissionType.Oper_Strazh_Devices_View, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
-						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, PermissionType.Oper_Strazh_Zones_View, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
-						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, PermissionType.Oper_Strazh_Doors_View, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, CommonResources.Devices, "Tree", null, PermissionType.Oper_Strazh_Devices_View, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, CommonResources.Zones, "Zones", null, PermissionType.Oper_Strazh_Zones_View, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, CommonResources.Doors, "DoorW", null, PermissionType.Oper_Strazh_Doors_View, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
 					})
 				};
 		}
@@ -192,9 +193,9 @@ namespace StrazhModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "Устройства Страж", "Tree.png", (p) => DevicesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "Зоны Страж", "Tree.png", (p) => ZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, "Точки доступа Страж", "Tree.png", (p) => DoorsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, CommonResources.StrazhDevices, "Tree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, CommonResources.StrazhZones, "Tree.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, CommonResources.StrazhDoors, "Tree.png", (p) => DoorsViewModel);
 		}
 		#endregion
 	}

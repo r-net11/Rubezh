@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
+using Localization.Strazh.Common;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels
 {
@@ -66,10 +61,10 @@ namespace StrazhModule.ViewModels
 				switch(stateClass)
 				{
 					case XStateClass.Off:
-						return "Закрыто";
+				        return CommonResources.Closed;
 
 					case XStateClass.On:
-						return "Открыто";
+                        return CommonResources.Opened;
 				}
 			}
 

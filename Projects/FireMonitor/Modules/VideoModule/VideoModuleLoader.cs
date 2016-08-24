@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.Video.Common;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.GK;
@@ -82,9 +83,9 @@ namespace VideoModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => CamerasViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Раскладка камер", "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
+			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, CommonResources.CameraList, "Video1.png", (p) => CamerasViewModel);
+            yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, CommonResources.Camera, "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, CommonResources.CameraLayout, "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
 		}
 		#endregion
 	}

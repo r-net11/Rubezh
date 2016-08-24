@@ -7,7 +7,8 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:StrazhModule.ViewModels"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-	xmlns:Views="clr-namespace:StrazhModule.Views">
+	xmlns:Views="clr-namespace:StrazhModule.Views"
+	xmlns:lang="clr-namespace:Localization.Strazh.Views;assembly=Localization">
 	<UserControl.Resources>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
@@ -40,7 +41,7 @@
 					<GridView>
 						<!-- Колонка "Устройство" -->
 						<GridViewColumn
-							Header="Устройство"
+							Header="{x:Static lang:CommonViews.Device}"
 							Width="250"
 							tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 							<GridViewColumn.CellTemplate>
@@ -53,16 +54,16 @@
 						<GridViewColumn
 							Width="100"
 							DisplayMemberBinding="{Binding PresentationAddress}"
-							Header="Адрес"
+							Header="{x:Static lang:CommonViews.Address}"
 							tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
 						<!-- Колонка "Режим" -->
 						<GridViewColumn
 							Width="100"
 							DisplayMemberBinding="{Binding DoorTypeDescription}"
-							Header="Режим"
+							Header="{x:Static lang:CommonViews.Mode}"
 							tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDoorTypeDescriptionComparer}" />
 						<!-- Колонка "Ведет в зону -->
-						<GridViewColumn Header="Ведет в зону" ListViewManager:ProportionalColumn.Width="1">
+                        <GridViewColumn Header="{x:Static lang:CommonViews.ToZone}" ListViewManager:ProportionalColumn.Width="1">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">

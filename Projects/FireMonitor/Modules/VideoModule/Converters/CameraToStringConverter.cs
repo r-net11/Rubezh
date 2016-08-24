@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
+using Localization.Video.Common;
 using StrazhAPI.Models;
 using FiresecClient;
 
@@ -12,8 +13,8 @@ namespace VideoModule.Converters
 		{
 			var camera = value as Camera;
 			if (camera != null && FiresecManager.SystemConfiguration.Cameras.Any(x => x.Ip == camera.Ip))
-				return camera.Ip + " (" + (camera.ChannelNumber + 1) + " канал)";
-			return "<нет>";
+				return string.Format(CommonResources.Channel,camera.Ip , camera.ChannelNumber + 1);
+			return CommonResources.None;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

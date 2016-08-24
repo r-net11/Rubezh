@@ -1,6 +1,7 @@
 <UserControl x:Class="VideoModule.Views.LayoutMultiCameraView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:lang="clr-namespace:Localization.Video.Views;assembly=Localization">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="100" />
@@ -8,8 +9,8 @@
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" Name="_grid" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5" />
 		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-			<ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="OnShowProperties" ImageSource="Settings2"  ToolTip="Свойства" />
-			<ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="OnShowArchive" ImageSource="Archive"  ToolTip="Архив" />
+            <ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="OnShowProperties" ImageSource="Settings2"  ToolTip="{x:Static lang:CommonViews.Propeties}" />
+            <ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="OnShowArchive" ImageSource="Archive"  ToolTip="{x:Static lang:CommonViews.Archive}" />
 			<ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="On_2x2Button_Click" ImageSource="2x2Grid" ToolTip="2x2" />
 			<ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="On_1x7Button_Click" ImageSource="1x7Grid" ToolTip="1x7" />
 			<ToolBarButton IsEnabled="True" Width="32" Height="32" VerticalAlignment="Center" Click="On_3x3Button_Click" ImageSource="3x3Grid" ToolTip="3x3" />

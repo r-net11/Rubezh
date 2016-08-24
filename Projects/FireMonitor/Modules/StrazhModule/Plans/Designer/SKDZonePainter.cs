@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Localization.Strazh.Common;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.SKD;
@@ -41,17 +42,17 @@ namespace StrazhModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс состояния \"Взлом\"", null, _zoneViewModel.ClearPromptWarningCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ResetBreakinState, null, _zoneViewModel.ClearPromptWarningCommand));
 				contextMenu.Items.Add(new Separator());
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _zoneViewModel.ZoneAccessStateOpenAlwaysCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _zoneViewModel.ZoneAccessStateNormalCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _zoneViewModel.ZoneAccessStateCloseAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeOpen, null, _zoneViewModel.ZoneAccessStateOpenAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeNorm, null, _zoneViewModel.ZoneAccessStateNormalCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeClose, null, _zoneViewModel.ZoneAccessStateCloseAlwaysCommand));
 				contextMenu.Items.Add(new Separator());
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", null, _zoneViewModel.OpenCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", null, _zoneViewModel.CloseCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Open, null, _zoneViewModel.OpenCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Close, null, _zoneViewModel.CloseCommand));
 				contextMenu.Items.Add(new Separator());
 				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ShowRelatedEvents, "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 				contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			}
 			return contextMenu;

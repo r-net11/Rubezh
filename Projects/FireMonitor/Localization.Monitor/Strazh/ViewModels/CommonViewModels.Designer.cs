@@ -59,5 +59,41 @@ namespace Localization.Strazh.ViewModels {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oneway.
+        /// </summary>
+        public static string Oneway {
+            get {
+                return ResourceManager.GetString("Oneway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twoway.
+        /// </summary>
+        public static string Twoway {
+            get {
+                return ResourceManager.GetString("Twoway", resourceCulture);
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceControls;
+using Localization.Strazh.Common;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using Infrastructure;
@@ -42,19 +43,19 @@ namespace StrazhModule.Plans.Designer
 
 			if (_deviceViewModel.IsLock)
 			{
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Сброс состояния \"Взлом\"", null, _deviceViewModel.ClearPromptWarningCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ResetBreakinState, null, _deviceViewModel.ClearPromptWarningCommand));
 				contextMenu.Items.Add(new Separator());
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _deviceViewModel.DeviceAccessStateOpenAlwaysCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _deviceViewModel.DeviceAccessStateNormalCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _deviceViewModel.DeviceAccessStateCloseAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeOpen, null, _deviceViewModel.DeviceAccessStateOpenAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeNorm, null, _deviceViewModel.DeviceAccessStateNormalCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ModeClose, null, _deviceViewModel.DeviceAccessStateCloseAlwaysCommand));
 				contextMenu.Items.Add(new Separator());
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", null, _deviceViewModel.OpenCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", null, _deviceViewModel.CloseCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Open, null, _deviceViewModel.OpenCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.Close, null, _deviceViewModel.CloseCommand));
 				contextMenu.Items.Add(new Separator());
 			}
 			
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
-			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem(CommonResources.ShowRelatedEvents, "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}

@@ -3,7 +3,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="clr-namespace:VideoModule.Converters"
-	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:lang="clr-namespace:Localization.Video.Views;assembly=Localization"
+	xmlns:langCommon="clr-namespace:Localization.Video.Common;assembly=Localization">
 	<UserControl.Resources>
 		<converters:CameraViewModelNameComparer x:Key="CamerasViewModelNameComparer" />
 		<converters:CamerasViewModelAddressComparer x:Key="CamerasViewModelAddressComparer" />
@@ -11,11 +13,11 @@
 			<IconedMenuItem
 				Command="{Binding ShowOnPlanCommand}"
 				ImageSource="BMap"
-				Text="Показать на плане" />
+				Text="{x:Static lang:CommonViews.ShowOnPlan}" />
 			<IconedMenuItem
 				Command="{Binding ShowPropertiesCommand}"
 				ImageSource="BSettings"
-				Text="Свойства" />
+				Text="{x:Static lang:CommonViews.Propeties}" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<TreeList
@@ -31,7 +33,7 @@
 		<TreeList.View>
 			<GridView>
 				<GridView.Columns>
-					<GridViewColumn Header="Камера" tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelNameComparer}">
+                    <GridViewColumn Header="{x:Static langCommon:CommonResources.Camera}" tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -53,7 +55,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-					<GridViewColumn Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelAddressComparer}">
+                    <GridViewColumn Header="{x:Static lang:CommonViews.Address}" tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding PresentationAddress}" />

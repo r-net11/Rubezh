@@ -1,5 +1,5 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
@@ -243,9 +243,9 @@ namespace StrazhModule.ViewModels
 					switch (Device.DoorType)
 					{
 						case DoorType.OneWay:
-							return "Односторонний";
+							return CommonViewModels.Oneway;
 						case DoorType.TwoWay:
-							return "Двухсторонний";
+							return CommonViewModels.Twoway;
 					}
 				}
 				return string.Empty;

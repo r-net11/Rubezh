@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Video.Common;
+using Localization.Video.ViewModels;
 using VideoModule.Views;
 
 namespace VideoModule.ViewModels
@@ -13,14 +15,14 @@ namespace VideoModule.ViewModels
 	{
 		public LayoutPartPropertyCameraPageViewModel(UIElement uiElement)
 		{
-			Title = "Список камер";
+			Title = CommonResources.CameraList;
 			PropertyViewModels = new ObservableCollection<PropertyViewModel>();
 			var vlcControlViews = new List<VlcControlView>();
 			LayoutMultiCameraView.GetLogicalChildCollection(uiElement, vlcControlViews);
 			int i = 0;
 			foreach (var control in vlcControlViews)
 			{
-				var presentationCellName = "Окно " + ++i;
+				var presentationCellName = string.Format(CommonViewModels.Window, ++i);
 				var item = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name);
 				if (item.Value == Guid.Empty)
 					PropertyViewModels.Add(new PropertyViewModel(control.Name, presentationCellName, Guid.Empty));
