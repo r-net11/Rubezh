@@ -1,15 +1,10 @@
-﻿using System.Globalization;
-using System.Resources;
-using System.Runtime.Versioning;
-using System.Threading;
-using DevExpress.XtraBars.Localization;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraPrinting;
+﻿using DevExpress.CustomControls;
 using DevExpress.XtraReports.Design;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using DevExpress.XtraReports.UserDesigner.Native;
 using System.Drawing.Design;
+using System.Linq;
 using System.Windows.Forms;
 using CommandVisibility = DevExpress.XtraReports.UserDesigner.CommandVisibility;
 
@@ -27,15 +22,20 @@ namespace ReportSystem.UI
 
 		private void Loaded(object sender, DesignerLoadedEventArgs e)
 		{
-			IToolboxService ts = (IToolboxService)e.DesignerHost.GetService(typeof(IToolboxService));
+			var ts = (IToolboxService)e.DesignerHost.GetService(typeof(IToolboxService));
+			RemoveStandardItem(ts);
+			AddCustomItem(ts);
 
 			// Get a collection of toolbox items.
-			ToolboxItemCollection coll = ts.GetToolboxItems();
+			var coll = ts.GetToolboxItems();
 
-			// Iterate through toolbox items.
 			foreach (ToolboxItem item in coll)
 			{
-				var itemName = (item as LocalizableToolboxItem).TypeName;
+				var tmpItem = item as LocalizableToolboxItem;
+
+				if (tmpItem == null) continue;
+
+				var itemName = tmpItem.TypeName;
 
 				if (itemName == typeof(XRChart).FullName
 					|| itemName == typeof(XRBarCode).FullName
@@ -66,6 +66,21 @@ namespace ReportSystem.UI
 					item.DisplayName = "Курсор";
 			}
 		}
+
+		private static void RemoveStandardItem(IToolboxService ts)
+		{
+			var items = ts.GetToolboxItems();
+			var standardItem = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "Label" || x.DisplayName == "Текст");
+
+			if (standardItem != null)
+				ts.RemoveToolboxItem(standardItem);
+		}
+
+		private static void AddCustomItem(IToolboxService ts)
+		{
+			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomLabel)));
+		}
+
 
 		public void OpenCurrentReport()
 		{

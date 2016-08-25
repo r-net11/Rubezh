@@ -273,8 +273,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem36),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem42),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem43, true)});
-			this.barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem2.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem2.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem2.Name = "barSubItem2";
 			// 
 			// commandBarItem37
@@ -345,8 +343,6 @@ namespace ReportSystem.UI
 			this.barSubItem3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem4, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem5, true)});
-			this.barSubItem3.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem3.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem3.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem3.Name = "barSubItem3";
 			// 
 			// barSubItem4
@@ -355,16 +351,12 @@ namespace ReportSystem.UI
 			this.barSubItem4.Id = 47;
 			this.barSubItem4.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.xrBarToolbarsListItem1)});
-			this.barSubItem4.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem4.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem4.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem4.Name = "barSubItem4";
 			// 
 			// xrBarToolbarsListItem1
 			// 
 			resources.ApplyResources(this.xrBarToolbarsListItem1, "xrBarToolbarsListItem1");
 			this.xrBarToolbarsListItem1.Id = 48;
-			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.Image")));
 			this.xrBarToolbarsListItem1.Name = "xrBarToolbarsListItem1";
 			// 
 			// barSubItem5
@@ -373,16 +365,12 @@ namespace ReportSystem.UI
 			this.barSubItem5.Id = 49;
 			this.barSubItem5.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barDockPanelsListItem1)});
-			this.barSubItem5.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem5.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem5.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem5.Name = "barSubItem5";
 			// 
 			// barDockPanelsListItem1
 			// 
 			resources.ApplyResources(this.barDockPanelsListItem1, "barDockPanelsListItem1");
 			this.barDockPanelsListItem1.Id = 50;
-			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockPanelsListItem1.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barDockPanelsListItem1.Name = "barDockPanelsListItem1";
 			this.barDockPanelsListItem1.ShowCustomizationItem = false;
 			this.barDockPanelsListItem1.ShowDockPanels = true;
@@ -403,14 +391,12 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem12),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem13, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem14, true)});
-			this.barSubItem6.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem6.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem6.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem6.Name = "barSubItem6";
 			// 
 			// commandColorBarItem1
 			// 
-			resources.ApplyResources(this.commandColorBarItem1, "commandColorBarItem1");
 			this.commandColorBarItem1.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
+			resources.ApplyResources(this.commandColorBarItem1, "commandColorBarItem1");
 			this.commandColorBarItem1.CloseSubMenuOnClick = false;
 			this.commandColorBarItem1.Command = DevExpress.XtraReports.UserDesigner.ReportCommand.ForeColor;
 			this.commandColorBarItem1.Enabled = false;
@@ -420,8 +406,8 @@ namespace ReportSystem.UI
 			// 
 			// commandColorBarItem2
 			// 
-			resources.ApplyResources(this.commandColorBarItem2, "commandColorBarItem2");
 			this.commandColorBarItem2.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
+			resources.ApplyResources(this.commandColorBarItem2, "commandColorBarItem2");
 			this.commandColorBarItem2.CloseSubMenuOnClick = false;
 			this.commandColorBarItem2.Command = DevExpress.XtraReports.UserDesigner.ReportCommand.BackColor;
 			this.commandColorBarItem2.Enabled = false;
@@ -437,8 +423,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem1, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem2),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem3)});
-			this.barSubItem7.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem7.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem7.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem7.Name = "barSubItem7";
 			// 
 			// commandBarItem1
@@ -477,8 +461,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem5),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem6),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem7)});
-			this.barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem8.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem8.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem8.Name = "barSubItem8";
 			// 
 			// commandBarItem4
@@ -529,8 +511,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem13),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem14),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem8, true)});
-			this.barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem9.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem9.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem9.Name = "barSubItem9";
 			// 
 			// commandBarItem9
@@ -605,8 +585,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem16),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem17),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem18)});
-			this.barSubItem10.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem10.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem10.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem10.Name = "barSubItem10";
 			// 
 			// commandBarItem15
@@ -654,8 +632,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem20),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem21),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem22)});
-			this.barSubItem11.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem11.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem11.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem11.Name = "barSubItem11";
 			// 
 			// commandBarItem19
@@ -703,8 +679,6 @@ namespace ReportSystem.UI
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem24),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem25),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem26)});
-			this.barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem12.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem12.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem12.Name = "barSubItem12";
 			// 
 			// commandBarItem23
@@ -750,8 +724,6 @@ namespace ReportSystem.UI
 			this.barSubItem13.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem27, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem28)});
-			this.barSubItem13.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem13.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem13.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem13.Name = "barSubItem13";
 			// 
 			// commandBarItem27
@@ -779,8 +751,6 @@ namespace ReportSystem.UI
 			this.barSubItem14.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem29, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.commandBarItem30)});
-			this.barSubItem14.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.GradientMode")));
-			this.barSubItem14.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem14.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem14.Name = "barSubItem14";
 			// 
 			// commandBarItem29
@@ -848,11 +818,9 @@ namespace ReportSystem.UI
 			// 
 			// recentlyUsedItemsComboBox1
 			// 
-			resources.ApplyResources(this.recentlyUsedItemsComboBox1, "recentlyUsedItemsComboBox1");
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Font = ((System.Drawing.Font)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.Font")));
-			this.recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.GradientMode")));
-			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Image = ((System.Drawing.Image)(resources.GetObject("recentlyUsedItemsComboBox1.AppearanceDropDown.Image")));
 			this.recentlyUsedItemsComboBox1.AppearanceDropDown.Options.UseFont = true;
+			resources.ApplyResources(this.recentlyUsedItemsComboBox1, "recentlyUsedItemsComboBox1");
 			this.recentlyUsedItemsComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(((DevExpress.XtraEditors.Controls.ButtonPredefines)(resources.GetObject("recentlyUsedItemsComboBox1.Buttons"))))});
 			this.recentlyUsedItemsComboBox1.DropDownRows = 12;
@@ -922,12 +890,12 @@ namespace ReportSystem.UI
 			// 
 			// barStaticItem1
 			// 
-			resources.ApplyResources(this.barStaticItem1, "barStaticItem1");
 			this.barStaticItem1.AutoSize = DevExpress.XtraBars.BarStaticItemSize.Spring;
 			this.barStaticItem1.Border = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
 			this.barStaticItem1.Id = 42;
 			this.barStaticItem1.Name = "barStaticItem1";
 			this.barStaticItem1.TextAlignment = System.Drawing.StringAlignment.Near;
+			resources.ApplyResources(this.barStaticItem1, "barStaticItem1");
 			// 
 			// bar1
 			// 
@@ -962,7 +930,6 @@ namespace ReportSystem.UI
 			// 
 			// designRepositoryItemComboBox2
 			// 
-			resources.ApplyResources(this.designRepositoryItemComboBox2, "designRepositoryItemComboBox2");
 			this.designRepositoryItemComboBox2.AutoComplete = false;
 			this.designRepositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(((DevExpress.XtraEditors.Controls.ButtonPredefines)(resources.GetObject("designRepositoryItemComboBox2.Buttons"))))});
@@ -979,31 +946,23 @@ namespace ReportSystem.UI
 			// 
 			// barDockControlTop
 			// 
-			resources.ApplyResources(this.barDockControlTop, "barDockControlTop");
-			this.barDockControlTop.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlTop.Appearance.GradientMode")));
-			this.barDockControlTop.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlTop.Appearance.Image")));
 			this.barDockControlTop.CausesValidation = false;
+			resources.ApplyResources(this.barDockControlTop, "barDockControlTop");
 			// 
 			// barDockControlBottom
 			// 
-			resources.ApplyResources(this.barDockControlBottom, "barDockControlBottom");
-			this.barDockControlBottom.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlBottom.Appearance.GradientMode")));
-			this.barDockControlBottom.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlBottom.Appearance.Image")));
 			this.barDockControlBottom.CausesValidation = false;
+			resources.ApplyResources(this.barDockControlBottom, "barDockControlBottom");
 			// 
 			// barDockControlLeft
 			// 
-			resources.ApplyResources(this.barDockControlLeft, "barDockControlLeft");
-			this.barDockControlLeft.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlLeft.Appearance.GradientMode")));
-			this.barDockControlLeft.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlLeft.Appearance.Image")));
 			this.barDockControlLeft.CausesValidation = false;
+			resources.ApplyResources(this.barDockControlLeft, "barDockControlLeft");
 			// 
 			// barDockControlRight
 			// 
-			resources.ApplyResources(this.barDockControlRight, "barDockControlRight");
-			this.barDockControlRight.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlRight.Appearance.GradientMode")));
-			this.barDockControlRight.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlRight.Appearance.Image")));
 			this.barDockControlRight.CausesValidation = false;
+			resources.ApplyResources(this.barDockControlRight, "barDockControlRight");
 			// 
 			// xrDesignDockManager1
 			// 
