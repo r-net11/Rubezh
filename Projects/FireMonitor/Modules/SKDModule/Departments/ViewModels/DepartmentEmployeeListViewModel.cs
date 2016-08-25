@@ -1,4 +1,5 @@
-﻿using FiresecClient;
+﻿using System.Threading;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using FiresecClient;
-using StrazhAPI;
+﻿using StrazhAPI;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -544,16 +542,19 @@ namespace SKDModule.ViewModels
 		{
 			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
 			{
-				DepartmentParamsApplyableToEmployeeViewModel = {ShowApplyToEmployeeSettings = true, IsEmployee = IsEmployee}
+				DepartmentParamsApplyableToEmployeeViewModel =
+				{
+					ShowApplyToEmployeeSettings = true,
+					IsEmployee = IsEmployee
+				}
 			};
 			departmentSelectionViewModel.Initialize();
-			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
+			if (DialogService.ShowModalWindow(departmentSelectionViewModel) &&
+				(SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null) != null)
 			{
-				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
-				if (departmentSelectionViewModel.SelectedDepartment != null &&
-					(departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee))
+				if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
 				{
-					var department = DepartmentHelper.GetDetails(departmentSelectionViewModel.SelectedDepartment.Department.UID);
+					var department = DepartmentHelper.GetDetails(SelectedDepartment.UID);
 					
 					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
 					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
@@ -672,7 +673,9 @@ namespace SKDModule.ViewModels
 
 		private void ApplyAccessTemplateFromDepartment()
 		{
-			if (!_needApplyAccessTemplateFromDepartment)
+			if (!_needApplyAccessTemplateFromDepartment ||
+				Employee == null ||
+				Employee.Cards == null)
 				return;
 
 			Employee.Cards.ForEach(card =>
