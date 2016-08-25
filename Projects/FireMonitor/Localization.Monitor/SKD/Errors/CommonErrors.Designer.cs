@@ -61,7 +61,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка при добавлении шаблона пропуска.
+        ///   Looks up a localized string similar to Error adding missing template.
         /// </summary>
         public static string AccessTemplate_Error {
             get {
@@ -70,7 +70,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неверный номер карты.
+        ///   Looks up a localized string similar to Invalid card number.
         /// </summary>
         public static string CardNumber_Error {
             get {
@@ -79,7 +79,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер карты должен быть задан в пределах 1 ... 2147483647.
+        ///   Looks up a localized string similar to The card number must be given within 1 ... 2147483647.
         /// </summary>
         public static string CardNumberLimits_Error {
             get {
@@ -88,7 +88,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файл не найден..
+        ///   Looks up a localized string similar to File not found..
         /// </summary>
         public static string FileNotFound_Error {
             get {
@@ -97,7 +97,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Оригинальный файл изображения не может быть найден. Необходимо добавить файл изображения подложки..
+        ///   Looks up a localized string similar to The original file can not be found. It is necessary to add an image file substrate..
         /// </summary>
         public static string ImageFileNotFound_Error {
             get {
@@ -106,7 +106,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файл изображения не найден..
+        ///   Looks up a localized string similar to The image file is not found..
         /// </summary>
         public static string ImageNotFound_Error {
             get {
@@ -115,7 +115,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер изображения слишком велик..
+        ///   Looks up a localized string similar to The image size is too big..
         /// </summary>
         public static string ImageOutOfMemory_Error {
             get {
@@ -124,7 +124,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Возникла ошибка при загрузке изображения.
+        ///   Looks up a localized string similar to There was an error loading the image.
         /// </summary>
         public static string LoadImage_Error {
             get {
@@ -133,7 +133,9 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка передачи файла {0}:\n\n{1}.
+        ///   Looks up a localized string similar to File transfer error {0}: 
+        ///
+        ///{1}.
         /// </summary>
         public static string Transfer_Error {
             get {
@@ -142,7 +144,7 @@ namespace Localization.SKD.Errors {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Невозможно загрузить изображение на сервер..
+        ///   Looks up a localized string similar to Unable to load the image to the server..
         /// </summary>
         public static string UploadImage_Error {
             get {

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
+using Localization.FireMonitor.ViewModels;
 
 namespace FireMonitor.ViewModels
 {
@@ -31,7 +32,7 @@ namespace FireMonitor.ViewModels
 			// Выключить звук
 			if (IsSoundOn)
 			{
-				if (MessageBoxService.ShowConfirmation("Отключить проигрывание звуков?"))
+				if (MessageBoxService.ShowConfirmation(CommonViewModels.DisableSounds))
 				{
 					AlarmPlayerHelper.IsMuted = true;
 					IsSoundOn = false;

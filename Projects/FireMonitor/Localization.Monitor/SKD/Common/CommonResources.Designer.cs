@@ -61,7 +61,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск, доступ по которому запрещен.
+        ///   Looks up a localized string similar to Skipping through which access is denied.
         /// </summary>
         public static string AccessDeniedPasscard {
             get {
@@ -70,7 +70,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шаблон доступа.
+        ///   Looks up a localized string similar to access Template.
         /// </summary>
         public static string AccessTemplate {
             get {
@@ -79,7 +79,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Активные и не активные.
+        ///   Looks up a localized string similar to Active and inactive.
         /// </summary>
         public static string ActiveAndNotActive {
             get {
@@ -88,7 +88,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить сотрудника.
+        ///   Looks up a localized string similar to Add employee.
         /// </summary>
         public static string AddEmpl {
             get {
@@ -97,7 +97,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Адрес.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
             get {
@@ -106,7 +106,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Всегда&gt;.
+        ///   Looks up a localized string similar to &lt;Always&gt;.
         /// </summary>
         public static string Always {
             get {
@@ -115,7 +115,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Баланс.
+        ///   Looks up a localized string similar to Balance.
         /// </summary>
         public static string Balance {
             get {
@@ -124,7 +124,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск, позволяющий выполнить не более заданного количества проходов.
+        ///   Looks up a localized string similar to The pass, which allows to perform not more than a specified number of passes.
         /// </summary>
         public static string BoundedPasscard {
             get {
@@ -133,7 +133,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Картотека.
+        ///   Looks up a localized string similar to file.
         /// </summary>
         public static string CardCatalog {
             get {
@@ -142,7 +142,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список устройств конфигурации.
+        ///   Looks up a localized string similar to List of configuration devices.
         /// </summary>
         public static string ConfigurationDeviceList {
             get {
@@ -151,7 +151,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Контроллер.
+        ///   Looks up a localized string similar to Controller.
         /// </summary>
         public static string Controller {
             get {
@@ -160,7 +160,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текущий месяц.
+        ///   Looks up a localized string similar to Current Month.
         /// </summary>
         public static string CurrentMonth {
             get {
@@ -169,7 +169,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текущую неделю.
+        ///   Looks up a localized string similar to Current Week.
         /// </summary>
         public static string CurrentWeek {
             get {
@@ -178,7 +178,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата.
+        ///   Looks up a localized string similar to date.
         /// </summary>
         public static string Date {
             get {
@@ -187,7 +187,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневной график.
+        ///   Looks up a localized string similar to The daily chart.
         /// </summary>
         public static string DaySchedule {
             get {
@@ -196,7 +196,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дневные графики.
+        ///   Looks up a localized string similar to Daily charts.
         /// </summary>
         public static string DaySchedules {
             get {
@@ -205,7 +205,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Причина деактивации.
+        ///   Looks up a localized string similar to The reason for the deactivation.
         /// </summary>
         public static string DeactivationReason {
             get {
@@ -214,7 +214,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата удаления.
+        ///   Looks up a localized string similar to Date of removal.
         /// </summary>
         public static string DeleteDate {
             get {
@@ -223,7 +223,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить файл оправдательного документа?.
+        ///   Looks up a localized string similar to Are you sure you want to delete a file documentary evidence?.
         /// </summary>
         public static string DeleteDocConfirm {
             get {
@@ -232,7 +232,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подразделение.
+        ///   Looks up a localized string similar to Subdivision.
         /// </summary>
         public static string Department {
             get {
@@ -241,7 +241,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подразделения.
+        ///   Looks up a localized string similar to unit.
         /// </summary>
         public static string Departments {
             get {
@@ -250,7 +250,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время на устройстве.
+        ///   Looks up a localized string similar to The date and time on your device.
         /// </summary>
         public static string DeviceDate {
             get {
@@ -259,7 +259,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дисциплинарный отчет.
+        ///   Looks up a localized string similar to Disciplinary report.
         /// </summary>
         public static string DisciplineReport {
             get {
@@ -268,7 +268,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Документ.
+        ///   Looks up a localized string similar to Document.
         /// </summary>
         public static string Document {
             get {
@@ -277,7 +277,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название документа.
+        ///   Looks up a localized string similar to Document&apos;s name.
         /// </summary>
         public static string DocumentName {
             get {
@@ -286,7 +286,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Документы.
+        ///   Looks up a localized string similar to Documentation.
         /// </summary>
         public static string Documents {
             get {
@@ -295,7 +295,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет по оправдательным документам.
+        ///   Looks up a localized string similar to Report on supporting documents.
         /// </summary>
         public static string DocumentsReport {
             get {
@@ -304,7 +304,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список точек доступа.
+        ///   Looks up a localized string similar to The list of APs.
         /// </summary>
         public static string DoorList {
             get {
@@ -313,7 +313,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to № точки доступа.
+        ///   Looks up a localized string similar to Number of access points.
         /// </summary>
         public static string DoorNumber {
             get {
@@ -322,7 +322,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Точки доступа.
+        ///   Looks up a localized string similar to access points.
         /// </summary>
         public static string Doors {
             get {
@@ -331,7 +331,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Права доступа сотрудников/посетителей.
+        ///   Looks up a localized string similar to staff / visitors Permissions.
         /// </summary>
         public static string EmplAccessPermissions {
             get {
@@ -340,7 +340,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сотрудник.
+        ///   Looks up a localized string similar to employee.
         /// </summary>
         public static string Employee {
             get {
@@ -349,7 +349,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Справка о сотруднике/посетителе.
+        ///   Looks up a localized string similar to Help the employee / visitor.
         /// </summary>
         public static string EmployeeInfo {
             get {
@@ -358,7 +358,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата окончания.
+        ///   Looks up a localized string similar to expiration date.
         /// </summary>
         public static string EndDate {
             get {
@@ -367,7 +367,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вход.
+        ///   Looks up a localized string similar to entrance.
         /// </summary>
         public static string Enter {
             get {
@@ -376,7 +376,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Введите дату.
+        ///   Looks up a localized string similar to Enter the date.
         /// </summary>
         public static string EnterDate {
             get {
@@ -385,7 +385,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата входа не может быть больше даты выхода.
+        ///   Looks up a localized string similar to Date of entry can not be greater than the release date.
         /// </summary>
         public static string EnterDateExitDate {
             get {
@@ -394,7 +394,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время входа.
+        ///   Looks up a localized string similar to Date and time of entry.
         /// </summary>
         public static string EnterDateTime {
             get {
@@ -403,7 +403,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Время входа не может быть больше времени выхода.
+        ///   Looks up a localized string similar to Entry time can not be more than the output time.
         /// </summary>
         public static string EnterTimeExitTime {
             get {
@@ -412,7 +412,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет по событиям системы контроля доступа.
+        ///   Looks up a localized string similar to The report on the events of access control systems.
         /// </summary>
         public static string EventsReport {
             get {
@@ -421,7 +421,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выход.
+        ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string Exit {
             get {
@@ -430,7 +430,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр.
+        ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
             get {
@@ -439,7 +439,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фамилия.
+        ///   Looks up a localized string similar to Surname.
         /// </summary>
         public static string FirstName {
             get {
@@ -448,7 +448,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Использование пропуска вызывает тревогу по принуждению.
+        ///   Looks up a localized string similar to Using passing alarming forced.
         /// </summary>
         public static string ForcedAlarmPasscard {
             get {
@@ -457,7 +457,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Принудительное закрытие интервала.
+        ///   Looks up a localized string similar to Forced closure of the interval.
         /// </summary>
         public static string ForcedClose {
             get {
@@ -466,7 +466,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Из зоны.
+        ///   Looks up a localized string similar to from the zone.
         /// </summary>
         public static string FromZone {
             get {
@@ -475,7 +475,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата не может быть установлена в будущее время.
+        ///   Looks up a localized string similar to The date can not be set in the future.
         /// </summary>
         public static string FutureDate {
             get {
@@ -484,7 +484,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Праздничные дни.
+        ///   Looks up a localized string similar to Holidays.
         /// </summary>
         public static string Holidays {
             get {
@@ -493,7 +493,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Интервал заканчивается днем позже.
+        ///   Looks up a localized string similar to Interval ends a day later.
         /// </summary>
         public static string IntervalEndDayLater {
             get {
@@ -502,7 +502,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Интервал начинается днем рашьше.
+        ///   Looks up a localized string similar to Interval start day rashshe.
         /// </summary>
         public static string IntervalStartDayEarlier {
             get {
@@ -511,7 +511,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP - адрес.
+        ///   Looks up a localized string similar to IP - address.
         /// </summary>
         public static string IPAddress {
             get {
@@ -520,7 +520,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск с ограниченным сроком действия.
+        ///   Looks up a localized string similar to Skipping of limited duration.
         /// </summary>
         public static string LimitedPasscard {
             get {
@@ -529,7 +529,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Буквенный код.
+        ///   Looks up a localized string similar to letter code.
         /// </summary>
         public static string LiteralCode {
             get {
@@ -538,7 +538,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Местонахождение сотрудников/посетителей.
+        ///   Looks up a localized string similar to Location of Staff / visitors.
         /// </summary>
         public static string Location {
             get {
@@ -547,7 +547,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сопровождающий.
+        ///   Looks up a localized string similar to Accompanying.
         /// </summary>
         public static string Maintainer {
             get {
@@ -556,7 +556,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
@@ -565,7 +565,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Никогда&gt;.
+        ///   Looks up a localized string similar to &lt;Never&gt;.
         /// </summary>
         public static string Never {
             get {
@@ -574,7 +574,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Настройка интервала ночного времени.
+        ///   Looks up a localized string similar to Setting range night-time.
         /// </summary>
         public static string NightIntervalSetting {
             get {
@@ -583,7 +583,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Только не активные.
+        ///   Looks up a localized string similar to Not active.
         /// </summary>
         public static string NotActive {
             get {
@@ -592,7 +592,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Примечание.
+        ///   Looks up a localized string similar to Note.
         /// </summary>
         public static string Note {
             get {
@@ -601,7 +601,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Нет в конфигурации&gt;.
+        ///   Looks up a localized string similar to &lt;No configuration&gt;.
         /// </summary>
         public static string NotInConfig {
             get {
@@ -610,7 +610,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Невозможно добавить нулевое пребывание в зоне.
+        ///   Looks up a localized string similar to You can not add a zero stays in the zone.
         /// </summary>
         public static string NullStay {
             get {
@@ -619,7 +619,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер.
+        ///   Looks up a localized string similar to room.
         /// </summary>
         public static string Number {
             get {
@@ -628,7 +628,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Числовой код.
+        ///   Looks up a localized string similar to Numeric code.
         /// </summary>
         public static string NumericCode {
             get {
@@ -637,7 +637,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Объект.
+        ///   Looks up a localized string similar to An object.
         /// </summary>
         public static string Object {
             get {
@@ -646,7 +646,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Только активные.
+        ///   Looks up a localized string similar to Only active.
         /// </summary>
         public static string OnlyActive {
             get {
@@ -655,7 +655,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Организация.
+        ///   Looks up a localized string similar to Organization.
         /// </summary>
         public static string Organization {
             get {
@@ -664,7 +664,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список подразделений организации.
+        ///   Looks up a localized string similar to List of organizational units.
         /// </summary>
         public static string OrganizationDepartmentList {
             get {
@@ -673,7 +673,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список должностей организации.
+        ///   Looks up a localized string similar to List organization posts.
         /// </summary>
         public static string OrganizationPositionList {
             get {
@@ -682,7 +682,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Организации.
+        ///   Looks up a localized string similar to organizations.
         /// </summary>
         public static string Organizations {
             get {
@@ -691,7 +691,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сведения о пропусках.
+        ///   Looks up a localized string similar to Data on absences.
         /// </summary>
         public static string PasscardDetails {
             get {
@@ -700,7 +700,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер пропуска.
+        ///   Looks up a localized string similar to Number of passes.
         /// </summary>
         public static string PasscardNumber {
             get {
@@ -709,7 +709,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шаблон пропуска.
+        ///   Looks up a localized string similar to pass template.
         /// </summary>
         public static string PasscardTemplate {
             get {
@@ -718,7 +718,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип пропуска.
+        ///   Looks up a localized string similar to pass type.
         /// </summary>
         public static string PasscardType {
             get {
@@ -727,7 +727,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Число проходов.
+        ///   Looks up a localized string similar to number of passes.
         /// </summary>
         public static string PassNumber {
             get {
@@ -736,7 +736,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Период.
+        ///   Looks up a localized string similar to Period.
         /// </summary>
         public static string Period {
             get {
@@ -745,7 +745,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Табельный номер (Примечание).
+        ///   Looks up a localized string similar to Personnel number (Note).
         /// </summary>
         public static string PersonalNumber {
             get {
@@ -754,7 +754,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должность.
+        ///   Looks up a localized string similar to Position.
         /// </summary>
         public static string Position {
             get {
@@ -763,7 +763,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должность (Сопровождающий).
+        ///   Looks up a localized string similar to Position (Maintainer).
         /// </summary>
         public static string PositionMaintainer {
             get {
@@ -772,7 +772,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Должности.
+        ///   Looks up a localized string similar to post.
         /// </summary>
         public static string Positions {
             get {
@@ -781,7 +781,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Предыдущий месяц.
+        ///   Looks up a localized string similar to Previous month.
         /// </summary>
         public static string PreviousMonth {
             get {
@@ -790,7 +790,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Предыдущую неделю.
+        ///   Looks up a localized string similar to previous week.
         /// </summary>
         public static string PreviousWeek {
             get {
@@ -799,7 +799,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель 1.
+        ///   Looks up a localized string similar to reader 1.
         /// </summary>
         public static string Reader1 {
             get {
@@ -808,7 +808,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Считыватель 2.
+        ///   Looks up a localized string similar to reader 2.
         /// </summary>
         public static string Reader2 {
             get {
@@ -817,7 +817,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сброс ограничения на повторный проход.
+        ///   Looks up a localized string similar to Clear limits on the second pass.
         /// </summary>
         public static string ResetAntiPassBack {
             get {
@@ -826,7 +826,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Маршрут сотрудника/посетителя.
+        ///   Looks up a localized string similar to Route employee / visitor.
         /// </summary>
         public static string Route {
             get {
@@ -835,7 +835,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to График.
+        ///   Looks up a localized string similar to Schedule.
         /// </summary>
         public static string Schedule {
             get {
@@ -844,7 +844,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Графики.
+        ///   Looks up a localized string similar to graphics.
         /// </summary>
         public static string Schedules {
             get {
@@ -853,7 +853,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Имя.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string SecondName {
             get {
@@ -862,7 +862,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СКД.
+        ///   Looks up a localized string similar to SKD.
         /// </summary>
         public static string SKD {
             get {
@@ -871,7 +871,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Список устройств СКД.
+        ///   Looks up a localized string similar to List of access control devices.
         /// </summary>
         public static string SKDDeviceList {
             get {
@@ -880,7 +880,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата начала.
+        ///   Looks up a localized string similar to the date of the beginning.
         /// </summary>
         public static string StartDate {
             get {
@@ -889,7 +889,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Статус.
+        ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
             get {
@@ -898,7 +898,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подсистема.
+        ///   Looks up a localized string similar to Subsystem.
         /// </summary>
         public static string Subsystem {
             get {
@@ -907,7 +907,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата и время в системе.
+        ///   Looks up a localized string similar to Date and time of the system.
         /// </summary>
         public static string SystemDate {
             get {
@@ -916,7 +916,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Унифицированная форма №T-13 за период с {0:dd.MM.yyyy} по {1:dd.MM.yyyy}.
+        ///   Looks up a localized string similar to The unified form №T-13 for the period from {0: dd.MM.yyyy} on {1: dd.MM.yyyy}.
         /// </summary>
         public static string T13 {
             get {
@@ -925,7 +925,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчество.
+        ///   Looks up a localized string similar to middle name.
         /// </summary>
         public static string ThirdName {
             get {
@@ -934,7 +934,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Учет рабочего времени.
+        ///   Looks up a localized string similar to Timesheet.
         /// </summary>
         public static string Timesheet {
             get {
@@ -943,7 +943,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В зону.
+        ///   Looks up a localized string similar to In the zone.
         /// </summary>
         public static string ToZone {
             get {
@@ -952,7 +952,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата переноса.
+        ///   Looks up a localized string similar to transfer Date.
         /// </summary>
         public static string TransferDate {
             get {
@@ -961,7 +961,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип.
+        ///   Looks up a localized string similar to A type.
         /// </summary>
         public static string Type {
             get {
@@ -970,7 +970,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пропуск с неограниченным сроком действия.
+        ///   Looks up a localized string similar to Pass with unlimited validity.
         /// </summary>
         public static string UnlimitedPasscard {
             get {
@@ -979,7 +979,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер загружаемого файла не должен превышать 50 мб.
+        ///   Looks up a localized string similar to The download file size should not exceed 50MB.
         /// </summary>
         public static string UploadFileSize {
             get {
@@ -988,7 +988,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользователь.
+        ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
             get {
@@ -997,7 +997,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользователи.
+        ///   Looks up a localized string similar to users.
         /// </summary>
         public static string Users {
             get {
@@ -1006,7 +1006,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Срок действия.
+        ///   Looks up a localized string similar to Validity.
         /// </summary>
         public static string Validaty {
             get {
@@ -1015,7 +1015,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Верификация.
+        ///   Looks up a localized string similar to verification.
         /// </summary>
         public static string Verification {
             get {
@@ -1024,7 +1024,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сотрудник (Посетитель).
+        ///   Looks up a localized string similar to Officer (Visitor).
         /// </summary>
         public static string Visitor {
             get {
@@ -1033,7 +1033,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to График работы.
+        ///   Looks up a localized string similar to Schedule.
         /// </summary>
         public static string WorkSchedule {
             get {
@@ -1042,7 +1042,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Графики работ.
+        ///   Looks up a localized string similar to work schedules.
         /// </summary>
         public static string WorkSchedules {
             get {
@@ -1051,7 +1051,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет по графикам работы.
+        ///   Looks up a localized string similar to Report on the work schedules.
         /// </summary>
         public static string WorkSchedulesReport {
             get {
@@ -1060,7 +1060,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Справка по отработанному времени.
+        ///   Looks up a localized string similar to Help on hours worked.
         /// </summary>
         public static string WorkTimeInfo {
             get {
@@ -1069,7 +1069,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона.
+        ///   Looks up a localized string similar to Zone.
         /// </summary>
         public static string Zone {
             get {
@@ -1078,7 +1078,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона 1.
+        ///   Looks up a localized string similar to Zone 1.
         /// </summary>
         public static string Zone1 {
             get {
@@ -1087,7 +1087,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Зона 2.
+        ///   Looks up a localized string similar to Zone 2.
         /// </summary>
         public static string Zone2 {
             get {
@@ -1096,7 +1096,7 @@ namespace Localization.SKD.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Доступ в зоны сотрудников/посетителей.
+        ///   Looks up a localized string similar to Access to the staff / visitors area.
         /// </summary>
         public static string ZoneAccess {
             get {

@@ -118,351 +118,352 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessDeniedPasscard" xml:space="preserve">
-    <value>Пропуск, доступ по которому запрещен</value>
+    <value>Skipping through which access is denied</value>
+    <comment>google</comment>
   </data>
   <data name="AccessTemplate" xml:space="preserve">
-    <value>Шаблон доступа</value>
+    <value>access Template</value>
   </data>
   <data name="ActiveAndNotActive" xml:space="preserve">
-    <value>Активные и не активные</value>
+    <value>Active and inactive</value>
   </data>
   <data name="AddEmpl" xml:space="preserve">
-    <value>Добавить сотрудника</value>
+    <value>Add employee</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Адрес</value>
+    <value>Address</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>&lt;Всегда&gt;</value>
+    <value>&lt;Always&gt;</value>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Баланс</value>
+    <value>Balance</value>
   </data>
   <data name="BoundedPasscard" xml:space="preserve">
-    <value>Пропуск, позволяющий выполнить не более заданного количества проходов</value>
+    <value>The pass, which allows to perform not more than a specified number of passes</value>
   </data>
   <data name="CardCatalog" xml:space="preserve">
-    <value>Картотека</value>
+    <value>file</value>
   </data>
   <data name="ConfigurationDeviceList" xml:space="preserve">
-    <value>Список устройств конфигурации</value>
+    <value>List of configuration devices</value>
   </data>
   <data name="Controller" xml:space="preserve">
-    <value>Контроллер</value>
+    <value>Controller</value>
   </data>
   <data name="CurrentMonth" xml:space="preserve">
-    <value>Текущий месяц</value>
+    <value>Current Month</value>
   </data>
   <data name="CurrentWeek" xml:space="preserve">
-    <value>Текущую неделю</value>
+    <value>Current Week</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Дата</value>
+    <value>date</value>
   </data>
   <data name="DaySchedule" xml:space="preserve">
-    <value>Дневной график</value>
+    <value>The daily chart</value>
   </data>
   <data name="DaySchedules" xml:space="preserve">
-    <value>Дневные графики</value>
+    <value>Daily charts</value>
   </data>
   <data name="DeactivationReason" xml:space="preserve">
-    <value>Причина деактивации</value>
+    <value>The reason for the deactivation</value>
   </data>
   <data name="DeleteDate" xml:space="preserve">
-    <value>Дата удаления</value>
+    <value>Date of removal</value>
   </data>
   <data name="DeleteDocConfirm" xml:space="preserve">
-    <value>Вы действительно хотите удалить файл оправдательного документа?</value>
-  </data>
-  <data name="Departments" xml:space="preserve">
-    <value>Подразделения</value>
+    <value>Are you sure you want to delete a file documentary evidence?</value>
   </data>
   <data name="Department" xml:space="preserve">
-    <value>Подразделение</value>
+    <value>Subdivision</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>unit</value>
   </data>
   <data name="DeviceDate" xml:space="preserve">
-    <value>Дата и время на устройстве</value>
+    <value>The date and time on your device</value>
   </data>
   <data name="DisciplineReport" xml:space="preserve">
-    <value>Дисциплинарный отчет</value>
+    <value>Disciplinary report</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>Документ</value>
+    <value>Document</value>
   </data>
   <data name="DocumentName" xml:space="preserve">
-    <value>Название документа</value>
+    <value>Document's name</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Документы</value>
+    <value>Documentation</value>
   </data>
   <data name="DocumentsReport" xml:space="preserve">
-    <value>Отчет по оправдательным документам</value>
+    <value>Report on supporting documents</value>
   </data>
   <data name="DoorList" xml:space="preserve">
-    <value>Список точек доступа</value>
+    <value>The list of APs</value>
   </data>
   <data name="DoorNumber" xml:space="preserve">
-    <value>№ точки доступа</value>
+    <value>Number of access points</value>
   </data>
   <data name="Doors" xml:space="preserve">
-    <value>Точки доступа</value>
+    <value>access points</value>
   </data>
   <data name="EmplAccessPermissions" xml:space="preserve">
-    <value>Права доступа сотрудников/посетителей</value>
+    <value>staff / visitors Permissions</value>
   </data>
   <data name="Employee" xml:space="preserve">
-    <value>Сотрудник</value>
+    <value>employee</value>
   </data>
   <data name="EmployeeInfo" xml:space="preserve">
-    <value>Справка о сотруднике/посетителе</value>
+    <value>Help the employee / visitor</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>Дата окончания</value>
+    <value>expiration date</value>
   </data>
   <data name="Enter" xml:space="preserve">
-    <value>Вход</value>
+    <value>entrance</value>
   </data>
   <data name="EnterDate" xml:space="preserve">
-    <value>Введите дату</value>
-  </data>
-  <data name="EnterDateTime" xml:space="preserve">
-    <value>Дата и время входа</value>
+    <value>Enter the date</value>
   </data>
   <data name="EnterDateExitDate" xml:space="preserve">
-    <value>Дата входа не может быть больше даты выхода</value>
+    <value>Date of entry can not be greater than the release date</value>
+  </data>
+  <data name="EnterDateTime" xml:space="preserve">
+    <value>Date and time of entry</value>
   </data>
   <data name="EnterTimeExitTime" xml:space="preserve">
-    <value>Время входа не может быть больше времени выхода</value>
+    <value>Entry time can not be more than the output time</value>
   </data>
   <data name="EventsReport" xml:space="preserve">
-    <value>Отчет по событиям системы контроля доступа</value>
+    <value>The report on the events of access control systems</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>Выход</value>
+    <value>Exit</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value>Фильтр</value>
+    <value>Filter</value>
   </data>
   <data name="FirstName" xml:space="preserve">
-    <value>Фамилия</value>
+    <value>Surname</value>
   </data>
   <data name="ForcedAlarmPasscard" xml:space="preserve">
-    <value>Использование пропуска вызывает тревогу по принуждению</value>
+    <value>Using passing alarming forced</value>
   </data>
   <data name="ForcedClose" xml:space="preserve">
-    <value>Принудительное закрытие интервала</value>
+    <value>Forced closure of the interval</value>
   </data>
   <data name="FromZone" xml:space="preserve">
-    <value>Из зоны</value>
+    <value>from the zone</value>
   </data>
   <data name="FutureDate" xml:space="preserve">
-    <value>Дата не может быть установлена в будущее время</value>
+    <value>The date can not be set in the future</value>
   </data>
   <data name="Holidays" xml:space="preserve">
-    <value>Праздничные дни</value>
+    <value>Holidays</value>
   </data>
   <data name="IntervalEndDayLater" xml:space="preserve">
-    <value>Интервал заканчивается днем позже</value>
+    <value>Interval ends a day later</value>
   </data>
   <data name="IntervalStartDayEarlier" xml:space="preserve">
-    <value>Интервал начинается днем рашьше</value>
+    <value>Interval start day rashshe</value>
   </data>
   <data name="IPAddress" xml:space="preserve">
-    <value>IP - адрес</value>
+    <value>IP - address</value>
   </data>
   <data name="LimitedPasscard" xml:space="preserve">
-    <value>Пропуск с ограниченным сроком действия</value>
+    <value>Skipping of limited duration</value>
   </data>
   <data name="LiteralCode" xml:space="preserve">
-    <value>Буквенный код</value>
+    <value>letter code</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Местонахождение сотрудников/посетителей</value>
+    <value>Location of Staff / visitors</value>
   </data>
   <data name="Maintainer" xml:space="preserve">
-    <value>Сопровождающий</value>
+    <value>Accompanying</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Название</value>
+    <value>Name</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>&lt;Никогда&gt;</value>
+    <value>&lt;Never&gt;</value>
   </data>
   <data name="NightIntervalSetting" xml:space="preserve">
-    <value>Настройка интервала ночного времени</value>
+    <value>Setting range night-time</value>
   </data>
   <data name="NotActive" xml:space="preserve">
-    <value>Только не активные</value>
+    <value>Not active</value>
   </data>
   <data name="Note" xml:space="preserve">
-    <value>Примечание</value>
+    <value>Note</value>
   </data>
   <data name="NotInConfig" xml:space="preserve">
-    <value>&lt;Нет в конфигурации&gt;</value>
+    <value>&lt;No configuration&gt;</value>
   </data>
   <data name="NullStay" xml:space="preserve">
-    <value>Невозможно добавить нулевое пребывание в зоне</value>
+    <value>You can not add a zero stays in the zone</value>
   </data>
   <data name="Number" xml:space="preserve">
-    <value>Номер</value>
+    <value>room</value>
   </data>
   <data name="NumericCode" xml:space="preserve">
-    <value>Числовой код</value>
+    <value>Numeric code</value>
   </data>
   <data name="Object" xml:space="preserve">
-    <value>Объект</value>
+    <value>An object</value>
   </data>
   <data name="OnlyActive" xml:space="preserve">
-    <value>Только активные</value>
+    <value>Only active</value>
   </data>
   <data name="Organization" xml:space="preserve">
-    <value>Организация</value>
+    <value>Organization</value>
   </data>
   <data name="OrganizationDepartmentList" xml:space="preserve">
-    <value>Список подразделений организации</value>
+    <value>List of organizational units</value>
   </data>
   <data name="OrganizationPositionList" xml:space="preserve">
-    <value>Список должностей организации</value>
+    <value>List organization posts</value>
   </data>
   <data name="Organizations" xml:space="preserve">
-    <value>Организации</value>
+    <value>organizations</value>
   </data>
   <data name="PasscardDetails" xml:space="preserve">
-    <value>Сведения о пропусках</value>
+    <value>Data on absences</value>
   </data>
   <data name="PasscardNumber" xml:space="preserve">
-    <value>Номер пропуска</value>
+    <value>Number of passes</value>
   </data>
   <data name="PasscardTemplate" xml:space="preserve">
-    <value>Шаблон пропуска</value>
+    <value>pass template</value>
   </data>
   <data name="PasscardType" xml:space="preserve">
-    <value>Тип пропуска</value>
+    <value>pass type</value>
   </data>
   <data name="PassNumber" xml:space="preserve">
-    <value>Число проходов</value>
+    <value>number of passes</value>
   </data>
   <data name="Period" xml:space="preserve">
-    <value>Период</value>
+    <value>Period</value>
   </data>
   <data name="PersonalNumber" xml:space="preserve">
-    <value>Табельный номер (Примечание)</value>
-  </data>
-  <data name="Positions" xml:space="preserve">
-    <value>Должности</value>
+    <value>Personnel number (Note)</value>
   </data>
   <data name="Position" xml:space="preserve">
-    <value>Должность</value>
+    <value>Position</value>
   </data>
   <data name="PositionMaintainer" xml:space="preserve">
-    <value>Должность (Сопровождающий)</value>
+    <value>Position (Maintainer)</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>post</value>
   </data>
   <data name="PreviousMonth" xml:space="preserve">
-    <value>Предыдущий месяц</value>
+    <value>Previous month</value>
   </data>
   <data name="PreviousWeek" xml:space="preserve">
-    <value>Предыдущую неделю</value>
+    <value>previous week</value>
   </data>
   <data name="Reader1" xml:space="preserve">
-    <value>Считыватель 1</value>
+    <value>reader 1</value>
   </data>
   <data name="Reader2" xml:space="preserve">
-    <value>Считыватель 2</value>
+    <value>reader 2</value>
   </data>
   <data name="ResetAntiPassBack" xml:space="preserve">
-    <value>Сброс ограничения на повторный проход</value>
+    <value>Clear limits on the second pass</value>
   </data>
   <data name="Route" xml:space="preserve">
-    <value>Маршрут сотрудника/посетителя</value>
+    <value>Route employee / visitor</value>
   </data>
   <data name="Schedule" xml:space="preserve">
-    <value>График</value>
+    <value>Schedule</value>
   </data>
   <data name="Schedules" xml:space="preserve">
-    <value>Графики</value>
+    <value>graphics</value>
   </data>
   <data name="SecondName" xml:space="preserve">
-    <value>Имя</value>
+    <value>Name</value>
   </data>
   <data name="SKD" xml:space="preserve">
-    <value>СКД</value>
+    <value>SKD</value>
   </data>
   <data name="SKDDeviceList" xml:space="preserve">
-    <value>Список устройств СКД</value>
+    <value>List of access control devices</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>Дата начала</value>
+    <value>the date of the beginning</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Статус</value>
+    <value>Status</value>
   </data>
   <data name="Subsystem" xml:space="preserve">
-    <value>Подсистема</value>
+    <value>Subsystem</value>
   </data>
   <data name="SystemDate" xml:space="preserve">
-    <value>Дата и время в системе</value>
+    <value>Date and time of the system</value>
   </data>
   <data name="T13" xml:space="preserve">
-    <value>Унифицированная форма №T-13 за период с {0:dd.MM.yyyy} по {1:dd.MM.yyyy}</value>
+    <value>The unified form №T-13 for the period from {0: dd.MM.yyyy} on {1: dd.MM.yyyy}</value>
   </data>
   <data name="ThirdName" xml:space="preserve">
-    <value>Отчество</value>
+    <value>middle name</value>
   </data>
   <data name="Timesheet" xml:space="preserve">
-    <value>Учет рабочего времени</value>
+    <value>Timesheet</value>
   </data>
   <data name="ToZone" xml:space="preserve">
-    <value>В зону</value>
+    <value>In the zone</value>
   </data>
   <data name="TransferDate" xml:space="preserve">
-    <value>Дата переноса</value>
+    <value>transfer Date</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Тип</value>
+    <value>A type</value>
   </data>
   <data name="UnlimitedPasscard" xml:space="preserve">
-    <value>Пропуск с неограниченным сроком действия</value>
+    <value>Pass with unlimited validity</value>
   </data>
   <data name="UploadFileSize" xml:space="preserve">
-    <value>Размер загружаемого файла не должен превышать 50 мб</value>
+    <value>The download file size should not exceed 50MB</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>Пользователь</value>
+    <value>User</value>
   </data>
   <data name="Users" xml:space="preserve">
-    <value>Пользователи</value>
+    <value>users</value>
   </data>
   <data name="Validaty" xml:space="preserve">
-    <value>Срок действия</value>
+    <value>Validity</value>
   </data>
   <data name="Verification" xml:space="preserve">
-    <value>Верификация</value>
+    <value>verification</value>
   </data>
   <data name="Visitor" xml:space="preserve">
-    <value>Сотрудник (Посетитель)</value>
+    <value>Officer (Visitor)</value>
   </data>
   <data name="WorkSchedule" xml:space="preserve">
-    <value>График работы</value>
+    <value>Schedule</value>
   </data>
   <data name="WorkSchedules" xml:space="preserve">
-    <value>Графики работ</value>
+    <value>work schedules</value>
   </data>
   <data name="WorkSchedulesReport" xml:space="preserve">
-    <value>Отчет по графикам работы</value>
+    <value>Report on the work schedules</value>
   </data>
   <data name="WorkTimeInfo" xml:space="preserve">
-    <value>Справка по отработанному времени</value>
+    <value>Help on hours worked</value>
   </data>
   <data name="Zone" xml:space="preserve">
-    <value>Зона</value>
+    <value>Zone</value>
   </data>
   <data name="Zone1" xml:space="preserve">
-    <value>Зона 1</value>
+    <value>Zone 1</value>
   </data>
   <data name="Zone2" xml:space="preserve">
-    <value>Зона 2</value>
+    <value>Zone 2</value>
   </data>
   <data name="ZoneAccess" xml:space="preserve">
-    <value>Доступ в зоны сотрудников/посетителей</value>
+    <value>Access to the staff / visitors area</value>
   </data>
 </root>

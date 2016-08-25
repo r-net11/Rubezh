@@ -1,19 +1,25 @@
 ﻿using System.ComponentModel;
+using Localization.Converters;
+using Localization.Infrastructure.Common;
 
 namespace Infrastructure.Models
 {
 	public enum ArchiveDefaultStateType
 	{
-		[DescriptionAttribute("за указанное число последних часов")]
+        [LocalizedDescription(typeof(CommonResources),"LastHours")]
+		//[DescriptionAttribute("за указанное число последних часов")]
 		LastHours,
 
-		[DescriptionAttribute("за указанное число последних дней")]
+        [LocalizedDescription(typeof(CommonResources), "LastDays")]
+		//[DescriptionAttribute("за указанное число последних дней")]
 		LastDays,
 
-		[DescriptionAttribute("начиная с указанной даты")]
+        [LocalizedDescription(typeof(CommonResources), "FromDate")]
+		//[DescriptionAttribute("начиная с указанной даты")]
 		FromDate,
 
-		[DescriptionAttribute("согласно указанному диапазону дат")]
+        [LocalizedDescription(typeof(CommonResources), "RangeDate")]
+		//[DescriptionAttribute("согласно указанному диапазону дат")]
 		RangeDate
 	}
 }

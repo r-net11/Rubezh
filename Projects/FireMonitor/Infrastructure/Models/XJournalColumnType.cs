@@ -1,16 +1,21 @@
 ﻿using System.ComponentModel;
+using Localization.Converters;
+using Localization.Infrastructure.Common;
 
 namespace Infrastructure.Models
 {
 	public enum XJournalColumnType
-	{
-		[DescriptionAttribute("IP-адрес ГК")]
+    {
+        [LocalizedDescription(typeof(CommonResources), "IpAddress")]
+		//[DescriptionAttribute("IP-адрес ГК")]
 		GKIpAddress = 0,
 
-		[DescriptionAttribute("Подсистема")]
+        [LocalizedDescription(typeof(CommonResources), "SubSystem")]
+		//[DescriptionAttribute("Подсистема")]
 		SubsystemType = 1,
 
-		[DescriptionAttribute("Пользователь")]
+        [LocalizedDescription(typeof(CommonResources), "User")]
+		//[DescriptionAttribute("Пользователь")]
 		UserName = 2
 	}
 }

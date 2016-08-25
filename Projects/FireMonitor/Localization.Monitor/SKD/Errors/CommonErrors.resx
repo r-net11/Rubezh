@@ -118,33 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccessTemplate_Error" xml:space="preserve">
-    <value>Ошибка при добавлении шаблона пропуска</value>
+    <value>Error adding missing template</value>
+    <comment>google</comment>
   </data>
   <data name="CardNumberLimits_Error" xml:space="preserve">
-    <value>Номер карты должен быть задан в пределах 1 ... 2147483647</value>
+    <value>The card number must be given within 1 ... 2147483647</value>
   </data>
   <data name="CardNumber_Error" xml:space="preserve">
-    <value>Неверный номер карты</value>
+    <value>Invalid card number</value>
   </data>
   <data name="FileNotFound_Error" xml:space="preserve">
-    <value>Файл не найден.</value>
+    <value>File not found.</value>
   </data>
   <data name="ImageFileNotFound_Error" xml:space="preserve">
-    <value>Оригинальный файл изображения не может быть найден. Необходимо добавить файл изображения подложки.</value>
+    <value>The original file can not be found. It is necessary to add an image file substrate.</value>
   </data>
   <data name="ImageNotFound_Error" xml:space="preserve">
-    <value>Файл изображения не найден.</value>
+    <value>The image file is not found.</value>
   </data>
   <data name="ImageOutOfMemory_Error" xml:space="preserve">
-    <value>Размер изображения слишком велик.</value>
+    <value>The image size is too big.</value>
   </data>
   <data name="LoadImage_Error" xml:space="preserve">
-    <value>Возникла ошибка при загрузке изображения</value>
+    <value>There was an error loading the image</value>
   </data>
   <data name="Transfer_Error" xml:space="preserve">
-    <value>Ошибка передачи файла {0}:\n\n{1}</value>
+    <value>File transfer error {0}: 
+
+{1}</value>
   </data>
   <data name="UploadImage_Error" xml:space="preserve">
-    <value>Невозможно загрузить изображение на сервер.</value>
+    <value>Unable to load the image to the server.</value>
   </data>
 </root>

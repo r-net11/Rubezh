@@ -142,7 +142,9 @@
     <value>Возникла ошибка при загрузке изображения</value>
   </data>
   <data name="Transfer_Error" xml:space="preserve">
-    <value>Ошибка передачи файла {0}:\n\n{1}</value>
+    <value>Ошибка передачи файла {0}:
+
+{1}</value>
   </data>
   <data name="UploadImage_Error" xml:space="preserve">
     <value>Невозможно загрузить изображение на сервер.</value>

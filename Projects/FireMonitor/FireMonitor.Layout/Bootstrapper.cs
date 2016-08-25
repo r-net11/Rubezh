@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Localization.FireMonitor.Layout.Common;
 using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
@@ -118,7 +119,7 @@ namespace FireMonitor.Layout
 			}
 			if (_layout == null)
 			{
-				MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
+				MessageBoxService.ShowWarning(CommonResources.NoLayout);
 				return false;
 			}
 			return true;

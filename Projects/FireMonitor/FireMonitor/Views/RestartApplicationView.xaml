@@ -2,6 +2,7 @@
 	x:Class="FireMonitor.Views.RestartApplicationView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:lang="clr-namespace:Localization.FireMonitor.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="120">
 	<Grid>
@@ -23,11 +24,11 @@
 				VerticalAlignment="Stretch"
 				Foreground="White"
 				TextWrapping="Wrap">
-				<Run Text="Конфигурация на сервере изменилась." />
+				<Run Text="{x:Static lang:CommonViews.ConfigChanged}" />
 				<LineBreak />
-				<Run Text='- Нажмите "Перезапуск", чтобы перезагрузить приложение немедленно.'/>
+				<Run Text="{x:Static lang:CommonViews.PressRestart}"/>
 				<LineBreak />
-				<Run Text='- Нажмите "Отложить перезапуск", чтобы сохранить изменения, приложение будет автоматически перезагружено через 50 секунд!'/>
+				<Run Text="{x:Static lang:CommonViews.PressPostponeRestart}"/>
 			</TextBlock>
 		</DockPanel>
 		<ProgressBar

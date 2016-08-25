@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using FireMonitor.ViewModels;
+using Localization.Automation.Views;
+using Localization.FireMonitor.Layout.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -67,22 +69,22 @@ namespace FireMonitor.Layout.ViewModels
 		private void UpdateRibbonItems()
 		{
 			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "BSound" : "BMute";
-			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
-			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
+			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? CommonViewModels.SoundOn : CommonViewModels.SoundOff;
+			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? CommonViewModels.DisableSound : CommonViewModels.EnableSound;
 		}
 		private void AddRibbonItem()
 		{
 			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel(CommonViewModels.ChangeLayout, new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
 
 			_soundViewModel = new SoundViewModel();
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel(CommonViewModels.Autoactivation, new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.SoundOnOffCommand) { IsNewGroup = true },
 			}, "BConfig"));
 			if (AllowClose)
-				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
+				RibbonContent.Items.Add(new RibbonMenuItemViewModel(CommonViewModels.Exit, ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }

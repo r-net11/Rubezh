@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Common;
+using Localization.FireMonitor.Common;
+using Localization.FireMonitor.Errors;
 using StrazhAPI.Enums;
 using FiresecClient;
 using Infrastructure;
@@ -97,7 +99,7 @@ namespace FireMonitor
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");
-				MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
+				MessageBoxService.ShowError(CommonErrors.Loading_Exception);
 			}
 			finally
 			{
@@ -163,12 +165,12 @@ namespace FireMonitor
 			{
 				case "/integrate":
 					ShellIntegrationHelper.Integrate();
-					MessageBox.Show("ОЗ интегрирована");
+					MessageBox.Show(CommonResources.OTIntegrated);
 					return true;
 
 				case "/deintegrate":
 					ShellIntegrationHelper.Desintegrate();
-					MessageBox.Show("ОЗ деинтегрирована");
+                    MessageBox.Show(CommonResources.OTDisintegrated);
 					return true;
 			}
 			return false;

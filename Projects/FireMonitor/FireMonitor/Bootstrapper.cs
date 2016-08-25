@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using FireMonitor.ViewModels;
+using Localization.FireMonitor.Common;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
 using FiresecClient;
@@ -64,14 +65,14 @@ namespace FireMonitor
 					SafeFiresecService.DisconnectClientCommandEvent += (showNotification) =>
 					{
 						if (showNotification)
-							ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+							ApplicationService.Invoke(() => MessageBoxService.ShowWarning(CommonResources.Disconnected));
 						ApplicationService.ShutDown();
 					};
 
 					// При получении от сервера уведомления о смене лицензии выводим соответствующее предупреждение и завершаем работу
 					SafeFiresecService.LicenseChangedEvent += () =>
 					{
-						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
+                        ApplicationService.Invoke(() => MessageBoxService.ShowWarning(CommonResources.DisconnectedLicense));
 						ApplicationService.ShutDown();
 					};
 
@@ -80,24 +81,24 @@ namespace FireMonitor
 
 					CreateModules();
 
-					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
+                    ServiceFactory.StartupService.ShowLoading(CommonResources.ReadConfig, 15);
 					ServiceFactory.StartupService.AddCount(GetModuleCount());
 
-					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
+                    ServiceFactory.StartupService.DoStep(CommonResources.FileSync);
 					FiresecManager.UpdateFiles();
 
-					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
+                    ServiceFactory.StartupService.DoStep(CommonResources.LoadConfig);
 					FiresecManager.GetConfiguration("Monitor/Configuration");
 
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
+                    ServiceFactory.StartupService.DoStep(CommonResources.StartServerPolling);
 					FiresecManager.StartPoll();
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
+                    ServiceFactory.StartupService.DoStep(CommonResources.CheckPermissions);
 					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
 					{
-						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
+						ServiceFactory.StartupService.DoStep(CommonResources.LoadClientSettings);
 						ClientSettings.LoadSettings();
 
 						Task.Factory.StartNew(LoadImages);
@@ -112,7 +113,7 @@ namespace FireMonitor
 					}
 					else
 					{
-						MessageBoxService.Show("Нет прав на работу с программой");
+						MessageBoxService.Show(CommonResources.NoPermissions);
 						FiresecManager.Disconnect();
 
 						if (Application.Current != null)
@@ -170,7 +171,7 @@ namespace FireMonitor
 				Logger.Info(string.Format("Bootstrapper. Для пользователя '{0}' {1}ограничиваем доступ к диспетчеру задач", _login, shellType == ShellType.Default ? "не " : string.Empty));
 				UserShellHelper.DisableTaskManager(shellType != ShellType.Default);
 
-				MessageBoxService.ShowWarning("Для продолжения работы требуется перезапустить программу.");
+				MessageBoxService.ShowWarning(CommonResources.RestartOT);
 				ApplicationService.ShutDown();
 
 				UserShellHelper.Shutdown();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.FireMonitor.Layout.ViewModels;
 using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common.Windows;
@@ -13,9 +14,9 @@ namespace FireMonitor.Layout.ViewModels
 			Layouts = layouts;
 			TopMost = true;
 			Sizable = false;
-			Title = "Выберите макет";
-			SaveCaption = "Выбрать";
-			CancelCaption = "Выйти";
+			Title = CommonViewModels.ChooseLayout;
+			SaveCaption = CommonViewModels.Select;
+			CancelCaption = CommonViewModels.LogOff;
 		}
 
 		public List<StrazhAPI.Models.Layouts.Layout> Layouts { get; private set; }

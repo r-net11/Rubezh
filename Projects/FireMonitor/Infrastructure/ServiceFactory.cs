@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Localization.Infrastructure.Common;
 using StrazhAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Client.Startup;
@@ -38,7 +39,7 @@ namespace Infrastructure
 			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
-			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
+			LoginService = new LoginService(ClientType.Monitor, CommonResources.OTAuth);
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
 			UiElementsVisibilityService = uiElementsVisibilityService;

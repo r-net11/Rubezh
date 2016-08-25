@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Windows;
 using Common;
+using Localization.FireMonitor.Common;
+using Localization.FireMonitor.ViewModels;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -21,7 +23,7 @@ namespace FireMonitor.ViewModels
 		protected MonitorShellViewModel(ClientType clientType)
 			: base(clientType)
 		{
-			Title ="Оперативная задача";
+			Title = CommonResources.OperativeTask;
 			Toolbar = new ToolbarViewModel();
 			Height = 700;
 			Width = 1100;
@@ -53,12 +55,12 @@ namespace FireMonitor.ViewModels
 			}
 			if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
 			{
-				MessageBoxService.Show("Нет прав для выхода из программы");
+				MessageBoxService.Show(CommonViewModels.NoExitPermissions);
 				return true;
 			}
 			if (!ApplicationService.IsShuttingDown)
 			{
-				if (!MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?"))
+                if (!MessageBoxService.ShowConfirmation(CommonViewModels.ConfirmExit))
 					return true;
 			}
 			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))

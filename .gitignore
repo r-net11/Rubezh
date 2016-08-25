@@ -36,3 +36,7 @@ Documents/Manual/Ñîñòîÿíèÿ.docx
 /Projects/FireMonitor/packages/Rx-PlatformServices.2.1.30214.0
 /Projects/FiresecService/packages/Newtonsoft.Json.7.0.1/lib/net20/*.dll
 *.dll
+*.bat
+*.htm
+*.nupkg
+*.ps1

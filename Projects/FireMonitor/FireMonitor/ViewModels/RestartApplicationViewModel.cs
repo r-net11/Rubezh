@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Threading;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.FireMonitor.ViewModels;
 
 namespace FireMonitor.ViewModels
 {
@@ -8,12 +9,12 @@ namespace FireMonitor.ViewModels
 	{
 		public RestartApplicationViewModel()
 		{
-			Title = "Страж";
+            Title = CommonViewModels.Strazh;
 			TopMost = true;
 			AllowClose = false;
 			Sizable = false;
-			SaveCaption = "Перезапуск";
-			CancelCaption = "Отложить перезапуск";
+			SaveCaption = CommonViewModels.Restart;
+			CancelCaption = CommonViewModels.PostponeRestart;
 			Total = 60;
 			var timer = new DispatcherTimer();
 			timer.Tick += (s, e) => Counter++;

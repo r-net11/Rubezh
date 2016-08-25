@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel;
+using Localization.Converters;
+using Localization.Infrastructure.Common;
 
 namespace Infrastructure.Models
 {
 	public enum JournalColumnType
-	{
-		[DescriptionAttribute("Подсистема")]
+    {
+        [LocalizedDescription(typeof(CommonResources), "SubSystem")]
+		//[DescriptionAttribute("Подсистема")]
 		SubsystemType,
 
-		[DescriptionAttribute("Пользователь")]
+        [LocalizedDescription(typeof(CommonResources), "User")]
+		//[DescriptionAttribute("Пользователь")]
 		UserName
 	}
 }
