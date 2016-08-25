@@ -17,10 +17,10 @@ namespace CustomAction
 
 		private const string ConfigDir = "C:\\ProgramData\\Strazh";
 		private const string ConfigFile = "AppServerSettings.xml";
+        
+        #region <Переменные сессии и значения по умолчанию>
 
-		#region <Переменные сессии и значения по умолчанию>
-
-		private const string ProductName = "ProductName";
+        private const string ProductName = "ProductName";
 		private const string SqlServerAddress = "SQLSERVER_ADDRESS";
 		private const string SqlServerPort = "SQLSERVER_PORT";
 		private const string SqlServerInstanceName = "SQLSERVER_INSTANCENAME";
@@ -296,5 +296,102 @@ namespace CustomAction
 		}
 
 		#endregion </Работа с файлом конфигурации AppServerSettings.xml>
-	}
+
+        #region <Работа с файлами конфигурации Strazh*.exe.config>
+
+        private const string AdminConfigFile = "StrazhAdmin.exe.config";
+        private const string MonitorConfigFile = "StrazhMonitor.exe.config";
+        private const string MonitorLayoutConfigFile = "StrazhMonitor.Layout.exe.config";
+        private const string ServiceConfigFile = "StrazhAdmin.exe.config";
+
+        //Переменные сессии
+        private const string Culture = "CULTURE";
+        private const string TargetDir = "TARGETDIR";
+        private const string InstallDir = "INSTALLLOCATION";
+        private const string AdminDir = "ADMINISTRATORLOCATION";
+        private const string MonitorDir = "MONITORLOCATION";
+        private const string ServerDir = "SERVERLOCATION";
+	    private const string Key = "DefaultCulture";
+
+        /// <summary>
+        /// CustomAction для перезаписи конфига на культуру
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        [CustomAction]
+        public static ActionResult WriteAppLocalizationSettings(Session session)
+        {
+            session.Log("Выполнение WriteAppLocalizationSettings");
+
+            try
+            {
+                ReadAndWriteCulture(session, App.Admin);
+                ReadAndWriteCulture(session, App.Monitor);
+                ReadAndWriteCulture(session, App.MonitorLayout);
+                ReadAndWriteCulture(session, App.Service);
+            }
+            catch (Exception e)
+            {
+                session.Log("В результате выполнения WriteAppLocalizationSettings возникла ошибка: {0}", e.Message);
+                return ActionResult.Failure;
+            }
+
+            return ActionResult.Success;
+        }
+        enum App
+        {
+            Admin,
+            Monitor,
+            MonitorLayout,
+            Service
+        }
+	    private static void ReadAndWriteCulture(Session session, App app)
+	    {
+	        XDocument doc;
+            var tempPath = Path.Combine(session[TargetDir], session[InstallDir]);
+	        var tempFileName = string.Empty;
+	        switch (app)
+	        {
+                case App.Admin:
+                    tempPath = Path.Combine(tempPath,session[AdminDir]);
+	                tempFileName = AdminConfigFile;
+                    break;
+                case App.Monitor:
+                    tempPath = Path.Combine(tempPath, session[MonitorDir]);
+                    tempFileName = MonitorConfigFile;
+                    break;
+                case App.MonitorLayout:
+                    tempPath = Path.Combine(tempPath,session[MonitorDir]);
+                    tempFileName = MonitorLayoutConfigFile;
+                    break;
+                case App.Service:
+                    tempPath = Path.Combine(tempPath, session[ServerDir]);
+                    tempFileName = ServiceConfigFile;
+	                break;
+	            default:
+	                throw new ArgumentOutOfRangeException("app");
+            }
+            var value = session[Culture];
+            doc = ReadConfigFile(session, Path.Combine(tempPath, tempFileName));
+            SetElementValueByKey(doc, Key, value);
+            WriteConfigFile(doc, Path.Combine(tempPath, tempFileName));
+	    }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc">xml файл</param>
+        /// <param name="key">ключ по которому ищем поле</param>
+        /// <param name="value"></param>
+        private static void SetElementValueByKey(XDocument doc, string key, object value)
+        {
+            var list = from appNode in doc.Descendants("appSettings").Elements()
+                       where appNode.Attribute("key").Value == key
+                       select appNode;
+            var element = list.FirstOrDefault();
+            if (element != null)
+                element.Attribute("value").SetValue(value);
+        }
+        #endregion
+    }
 }
