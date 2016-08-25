@@ -4,6 +4,7 @@
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="CloseApplications" Execute="immediate" Impersonate="yes" Return="check" />
 		<CustomAction Id="ReadAppServerSettings" BinaryKey="FiresecCADll" DllEntry="ReadAppServerSettings" Execute="immediate" Impersonate="yes" Return="check" />
 		<CustomAction Id="CheckSqlConnection" BinaryKey="FiresecCADll" DllEntry="CheckSqlConnection" Execute="immediate" Impersonate="yes" Return="check" />
-		<CustomAction Id="WriteAppServerSettings" BinaryKey="FiresecCADll" DllEntry="WriteAppServerSettings" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <CustomAction Id="WriteAppServerSettings" BinaryKey="FiresecCADll" DllEntry="WriteAppServerSettings" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <CustomAction Id="WriteAppLocalizationSettings" BinaryKey="FiresecCADll" DllEntry="WriteAppLocalizationSettings" Execute="immediate" Impersonate="yes" Return="ignore" />
 	</Fragment>
 </Wix>

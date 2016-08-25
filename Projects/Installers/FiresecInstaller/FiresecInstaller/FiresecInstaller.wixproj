@@ -42,6 +42,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
     <DefineConstants>ProductVersion=$(OurProductVersion).$(OurProductBuildNumber)</DefineConstants>
+    <WixVariables>Culture=$(DefaultCulture)</WixVariables>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary.wxs" />
