@@ -1,4 +1,5 @@
 ﻿using DevExpress.CustomControls;
+using DevExpress.XtraPrinting.Native;
 using DevExpress.XtraReports.Design;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
@@ -23,65 +24,58 @@ namespace ReportSystem.UI
 		private void Loaded(object sender, DesignerLoadedEventArgs e)
 		{
 			var ts = (IToolboxService)e.DesignerHost.GetService(typeof(IToolboxService));
+
 			RemoveStandardItem(ts);
 			AddCustomItem(ts);
 
-			// Get a collection of toolbox items.
-			var coll = ts.GetToolboxItems();
-
-			foreach (ToolboxItem item in coll)
+			foreach (ToolboxItem item in ts.GetToolboxItems())
 			{
 				var tmpItem = item as LocalizableToolboxItem;
 
 				if (tmpItem == null) continue;
 
 				var itemName = tmpItem.TypeName;
-
-				if (itemName == typeof(XRChart).FullName
-					|| itemName == typeof(XRBarCode).FullName
-					|| itemName == typeof(XRZipCode).FullName
-					|| itemName == typeof(XRSparkline).FullName
-					|| itemName == typeof(XRPivotGrid).FullName
-					|| itemName == typeof(XRSubreport).FullName
-					|| itemName == typeof(XRTableOfContents).FullName
-					|| itemName == typeof(XRPageInfo).FullName
-					|| itemName == typeof(XRPageBreak).FullName
-					|| itemName == typeof(XRCrossBandLine).FullName
-					|| itemName == typeof(XRCrossBandBox).FullName
-					|| itemName == typeof(XRCheckBox).FullName
-					|| itemName == typeof(XRRichText).FullName
-					|| itemName == typeof(XRTable).FullName
-					|| itemName == typeof(XRPanel).FullName)
+				if (itemName == typeof (XRChart).FullName
+				    || itemName == typeof (XRBarCode).FullName
+				    || itemName == typeof (XRZipCode).FullName
+				    || itemName == typeof (XRSparkline).FullName
+				    || itemName == typeof (XRPivotGrid).FullName
+				    || itemName == typeof (XRSubreport).FullName
+				    || itemName == typeof (XRTableOfContents).FullName
+				    || itemName == typeof (XRPageInfo).FullName
+				    || itemName == typeof (XRPageBreak).FullName
+				    || itemName == typeof (XRCrossBandLine).FullName
+				    || itemName == typeof (XRCrossBandBox).FullName
+				    || itemName == typeof (XRCheckBox).FullName
+				    || itemName == typeof (XRRichText).FullName
+				    || itemName == typeof (XRTable).FullName
+				    || itemName == typeof (XRPanel).FullName)
+				{
 					ts.RemoveToolboxItem(item);
+				}
 
-				if (itemName == typeof (XRPictureBox).FullName) //TODO: Add localized strings
-					item.DisplayName = "Изображение";
-				if (itemName == typeof (XRLabel).FullName)
-					item.DisplayName = "Текст";
-				if (itemName == typeof (XRLine).FullName)
-					item.DisplayName = "Линия";
-				if (itemName == typeof (XRShape).FullName)
-					item.DisplayName = "Фигура";
-				if (itemName == typeof (XRCursors).FullName)
-					item.DisplayName = "Курсор";
+				//if (itemName == typeof (XRPictureBox).FullName) //TODO: Add localized strings
+				//	item.DisplayName = "Изображение";
+				//if (itemName == typeof (XRLabel).FullName)
+				//	item.DisplayName = "Текст";
+				//if (itemName == typeof (XRLine).FullName)
+				//	item.DisplayName = "Линия";
+				//if (itemName == typeof (XRShape).FullName)
+				//	item.DisplayName = "Фигура";
+				//if (itemName == typeof (XRCursors).FullName)
+				//	item.DisplayName = "Курсор";
 			}
 		}
 
 		private static void RemoveStandardItem(IToolboxService ts)
 		{
-			var items = ts.GetToolboxItems();
-			var standardItem = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "Label" || x.DisplayName == "Текст");
-			var standardItem2 = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "PictureBox" || x.DisplayName == "Изображение");
-			var standardItem3 = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "Line" || x.DisplayName == "Линия");
-
-			if (standardItem != null)
-				ts.RemoveToolboxItem(standardItem);
-
-			if(standardItem2 != null)
-				ts.RemoveToolboxItem(standardItem2);
-
-			if (standardItem3 != null)
-				ts.RemoveToolboxItem(standardItem3);
+			ts.GetToolboxItems()
+				.OfType<ToolboxItem>()
+				.Where(x => (x.DisplayName == "Label" || x.DisplayName == "Текст")
+			                || (x.DisplayName == "PictureBox" || x.DisplayName == "Изображение")
+			                || (x.DisplayName == "Line" || x.DisplayName == "Линия")
+			                || (x.DisplayName == "Shape" || x.DisplayName == "Фигура"))
+				.ForEach(ts.RemoveToolboxItem);
 		}
 
 		private static void AddCustomItem(IToolboxService ts)
@@ -89,6 +83,7 @@ namespace ReportSystem.UI
 			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomLabel)));
 			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomImage)));
 			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomLine)));
+			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomShape)));
 		}
 
 
