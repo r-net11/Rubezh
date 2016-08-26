@@ -299,15 +299,18 @@ namespace CustomAction
 
         #region <Работа с файлами конфигурации Strazh*.exe.config>
 
-        private const string AdminConfigDir = "C:\\Program Files (x86)\\Strazh\\StrazhAdmin";
         private const string AdminConfigFile = "StrazhAdmin.exe.config";
-        private const string MonitorConfigDir = "C:\\Program Files (x86)\\Strazh\\StrazhMonitor";
         private const string MonitorConfigFile = "StrazhMonitor.exe.config";
         private const string MonitorLayoutConfigFile = "StrazhMonitor.Layout.exe.config";
-        private const string ServiceConfigDir = "C:\\Program Files (x86)\\Strazh\\StrazhService";
         private const string ServiceConfigFile = "StrazhAdmin.exe.config";
 
-        private const string Value = "en";
+        //Переменные сессии
+        private const string Culture = "CULTURE";
+        private const string TargetDir = "TARGETDIR";
+        private const string InstallDir = "INSTALLLOCATION";
+        private const string AdminDir = "ADMINISTRATORLOCATION";
+        private const string MonitorDir = "MONITORLOCATION";
+        private const string ServerDir = "SERVERLOCATION";
 	    private const string Key = "DefaultCulture";
 
         /// <summary>
@@ -325,7 +328,7 @@ namespace CustomAction
                 ReadAndWriteCulture(session, App.Admin);
                 ReadAndWriteCulture(session, App.Monitor);
                 ReadAndWriteCulture(session, App.MonitorLayout);
-                //ReadAndWriteCulture(session, App.Service);
+                ReadAndWriteCulture(session, App.Service);
             }
             catch (Exception e)
             {
@@ -345,33 +348,35 @@ namespace CustomAction
 	    private static void ReadAndWriteCulture(Session session, App app)
 	    {
 	        XDocument doc;
-	        var tempPath = string.Empty;
+            var tempPath = Path.Combine(session[TargetDir], session[InstallDir]);
 	        var tempFileName = string.Empty;
 	        switch (app)
 	        {
                 case App.Admin:
-	                tempPath = AdminConfigDir;
+                    tempPath = Path.Combine(tempPath,session[AdminDir]);
 	                tempFileName = AdminConfigFile;
                     break;
                 case App.Monitor:
-                    tempPath = MonitorConfigDir;
+                    tempPath = Path.Combine(tempPath, session[MonitorDir]);
                     tempFileName = MonitorConfigFile;
                     break;
                 case App.MonitorLayout:
-                    tempPath = MonitorConfigDir;
+                    tempPath = Path.Combine(tempPath,session[MonitorDir]);
                     tempFileName = MonitorLayoutConfigFile;
                     break;
                 case App.Service:
-                    tempPath = ServiceConfigDir;
+                    tempPath = Path.Combine(tempPath, session[ServerDir]);
                     tempFileName = ServiceConfigFile;
 	                break;
 	            default:
 	                throw new ArgumentOutOfRangeException("app");
             }
+            var value = session[Culture];
             doc = ReadConfigFile(session, Path.Combine(tempPath, tempFileName));
-            SetElementValueByKey(doc, Key, Value);
+            SetElementValueByKey(doc, Key, value);
             WriteConfigFile(doc, Path.Combine(tempPath, tempFileName));
 	    }
+
         /// <summary>
         /// 
         /// </summary>
@@ -388,6 +393,5 @@ namespace CustomAction
                 element.Attribute("value").SetValue(value);
         }
         #endregion
-
     }
 }

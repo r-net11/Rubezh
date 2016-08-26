@@ -7,13 +7,15 @@
     <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
     <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
     <!-- -->
+    <Culture Condition=" '$(Culture)' == '' ">ru-Ru</Culture>
+    <!-- -->
     <Configuration Condition=" '$(Configuration)' == '' ">
     </Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>$(InstallerAssemblyNamePrefix)$(InstallerAssemblyName)-$(OurProductVersion).$(OurProductBuildNumber)</OutputName>
+    <OutputName>$(InstallerAssemblyNamePrefix)$(InstallerAssemblyName)-$(OurProductVersion).$(OurProductBuildNumber)-$(Culture)</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -24,9 +26,13 @@
     <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
     <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
     <!-- -->
+    <Culture Condition=" '$(Culture)' == '' ">ru-Ru</Culture>
+    <!-- -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;ProductVersion=$(OurProductVersion).$(OurProductBuildNumber)</DefineConstants>
+    <DefineConstants>Debug;ProductVersion=$(OurProductVersion).$(OurProductBuildNumber);Culture=$(Culture)</DefineConstants>
+    <WixVariables>
+    </WixVariables>
     <Cultures>
     </Cultures>
     <CompilerAdditionalOptions>
@@ -38,11 +44,14 @@
     <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
     <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
     <!-- -->
+    <Culture Condition=" '$(Culture)' == '' ">ru-Ru</Culture>
+    <!-- -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
-    <DefineConstants>ProductVersion=$(OurProductVersion).$(OurProductBuildNumber)</DefineConstants>
-    <WixVariables>Culture=$(DefaultCulture)</WixVariables>
+    <DefineConstants>ProductVersion=$(OurProductVersion).$(OurProductBuildNumber);Culture=$(Culture)</DefineConstants>
+    <WixVariables>
+    </WixVariables>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary.wxs" />
