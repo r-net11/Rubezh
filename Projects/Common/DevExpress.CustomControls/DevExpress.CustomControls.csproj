@@ -77,6 +77,9 @@
     <Compile Include="Controls\CustomLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\CustomLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomActions\XRLabelDesignerCustomActionList.cs" />
     <Compile Include="CustomActions\XRLabelDesignerCustomActionList2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
