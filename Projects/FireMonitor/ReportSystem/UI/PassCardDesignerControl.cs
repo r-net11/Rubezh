@@ -71,14 +71,19 @@ namespace ReportSystem.UI
 		{
 			var items = ts.GetToolboxItems();
 			var standardItem = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "Label" || x.DisplayName == "Текст");
+			var standardItem2 = items.OfType<ToolboxItem>().FirstOrDefault(x => x.DisplayName == "PictureBox" || x.DisplayName == "Изображение");
 
 			if (standardItem != null)
 				ts.RemoveToolboxItem(standardItem);
+
+			if(standardItem2 != null)
+				ts.RemoveToolboxItem(standardItem2);
 		}
 
 		private static void AddCustomItem(IToolboxService ts)
 		{
 			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomLabel)));
+			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomImage)));
 		}
 
 
