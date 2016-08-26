@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Threading.Tasks;
+using Common;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -112,30 +113,35 @@ namespace SKDModule.ViewModels
 			if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee ||
 				departmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
 			{
-				var employee = EmployeeHelper.GetDetails(viewModel.Employee.UID);
-				var department = DepartmentHelper.GetDetails(Parent.UID);
-
-				// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
-				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
-					department.ScheduleUID.HasValue)
+				var getEmployeeDetailsTask = Task.Factory.StartNew(() => EmployeeHelper.GetDetails(viewModel.Employee.UID));
+				var getDepartmentDetailsTask = Task.Factory.StartNew(() => DepartmentHelper.GetDetails(Parent.UID));
+				Task.Factory.StartNew(() =>
 				{
-					employee.Schedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
-					EmployeeHelper.Save(employee, false);
-				}
+					var employee = getEmployeeDetailsTask.Result;
+					var department = getDepartmentDetailsTask.Result;
 
-				// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
-				if (departmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee
-					&& department.AccessTemplateUID.HasValue)
-				{
-					employee.Cards.ForEach(card =>
+					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
+					if (departmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
+						department.ScheduleUID.HasValue)
 					{
-						card.AccessTemplateUID = department.AccessTemplateUID;
-						if (CardHelper.Edit(card, employee.Name))
+						employee.Schedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
+						EmployeeHelper.Save(employee, false);
+					}
+
+					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
+					if (departmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee
+						&& department.AccessTemplateUID.HasValue)
+					{
+						employee.Cards.ForEach(card =>
 						{
-							ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Publish(card);
-						}
-					});
-				}
+							card.AccessTemplateUID = department.AccessTemplateUID;
+							if (CardHelper.Edit(card, employee.Name))
+							{
+								ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Publish(card);
+							}
+						});
+					}
+				});
 			}
 		}
 
