@@ -309,6 +309,7 @@ namespace CustomAction
 				UpdateCultureInConfigFile(session, new InstalledMonitorProperties(session));
 				UpdateCultureInConfigFile(session, new InstalledMonitorLayoutProperties(session));
 				UpdateCultureInConfigFile(session, new InstalledServiceProperties(session));
+				UpdateCultureInConfigFile(session, new InstalledServiceMonitorProperties(session));
 			}
 			catch (Exception e)
 			{
@@ -391,6 +392,23 @@ namespace CustomAction
 			{
 				DestinationFolder = Path.Combine(DestinationFolder, session[ServerDir]);
 				AppConfigFileName = "StrazhService.exe.config";
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "Монитор сервера"
+		/// </summary>
+		private class InstalledServiceMonitorProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledServiceMonitorProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[ServerDir]);
+				AppConfigFileName = "StrazhService.Monitor.exe.config";
 			}
 
 			#endregion
