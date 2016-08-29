@@ -1,9 +1,6 @@
 ﻿using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Deployment.WindowsInstaller;
 using System;
@@ -17,10 +14,10 @@ namespace CustomAction
 
 		private const string ConfigDir = "C:\\ProgramData\\Strazh";
 		private const string ConfigFile = "AppServerSettings.xml";
-        
-        #region <Переменные сессии и значения по умолчанию>
 
-        private const string ProductName = "ProductName";
+		#region <Переменные сессии и значения по умолчанию>
+
+		private const string ProductName = "ProductName";
 		private const string SqlServerAddress = "SQLSERVER_ADDRESS";
 		private const string SqlServerPort = "SQLSERVER_PORT";
 		private const string SqlServerInstanceName = "SQLSERVER_INSTANCENAME";
@@ -66,14 +63,6 @@ namespace CustomAction
 				session[SqlServerAuthenticationMode] = GetSqlServerAuthenticationMode(root) ? Convert.ToString(0) : Convert.ToString(1);
 				session[SqlServerLogin] = GetSqlServerLogin(root);
 				session[SqlServerPassword] = GetSqlServerPassword(root);
-				//MessageBox.Show(
-				//	String.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}",
-				//	session[SqlServerAddress],
-				//	session[SqlServerPort],
-				//	session[SqlServerInstanceName],
-				//	session[SqlServerAuthenticationMode],
-				//	session[SqlServerLogin],
-				//	session[SqlServerPassword]));
 			}
 			catch (Exception e)
 			{
@@ -91,26 +80,17 @@ namespace CustomAction
 
 			try
 			{
-				//MessageBox.Show(
-				//	String.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}",
-				//	session[SqlServerAddress],
-				//	session[SqlServerPort],
-				//	session[SqlServerInstanceName],
-				//	session[SqlServerAuthenticationMode],
-				//	session[SqlServerLogin],
-				//	session[SqlServerPassword]));
-
 				var address = session[SqlServerAddress];
-				
+
 				int port;
 				if (!Int32.TryParse(session[SqlServerPort], out port))
 					port = SqlServerPortDefault;
 
 				var instanceName = session[SqlServerInstanceName];
-				var dbIntegratedSecurity = session[SqlServerAuthenticationMode] == "0"; 
+				var dbIntegratedSecurity = session[SqlServerAuthenticationMode] == "0";
 				var login = session[SqlServerLogin];
 				var password = session[SqlServerPassword];
-				
+
 				var msg = String.Format(@"Соединение с сервером {0}\{1},{2}", address, instanceName, port);
 				string errors;
 				if (!CheckSqlServerConnection(address, port, instanceName, dbIntegratedSecurity, login, password, out errors))
@@ -279,6 +259,11 @@ namespace CustomAction
 			return csb.ConnectionString;
 		}
 
+		/// <summary>
+		/// Сохраняет конфигурацию приложения в файл
+		/// </summary>
+		/// <param name="document">Конфигурация приложения</param>
+		/// <param name="filePath">Путь к сохраняемому файлу</param>
 		private static void WriteConfigFile(XDocument document, string filePath)
 		{
 			using (var stream = new StreamWriter(filePath, false))
@@ -297,101 +282,189 @@ namespace CustomAction
 
 		#endregion </Работа с файлом конфигурации AppServerSettings.xml>
 
-        #region <Работа с файлами конфигурации Strazh*.exe.config>
+		#region <Работа с файлами конфигурации Strazh*.exe.config>
 
-        private const string AdminConfigFile = "StrazhAdmin.exe.config";
-        private const string MonitorConfigFile = "StrazhMonitor.exe.config";
-        private const string MonitorLayoutConfigFile = "StrazhMonitor.Layout.exe.config";
-        private const string ServiceConfigFile = "StrazhAdmin.exe.config";
+		//Переменные сессии
+		private const string Culture = "CULTURE";
+		private const string TargetDir = "TARGETDIR";
+		private const string InstallDir = "INSTALLLOCATION";
+		private const string AdminDir = "ADMINISTRATORLOCATION";
+		private const string MonitorDir = "MONITORLOCATION";
+		private const string ServerDir = "SERVERLOCATION";
+		private const string XDocCultureKey = "DefaultCulture";
 
-        //Переменные сессии
-        private const string Culture = "CULTURE";
-        private const string TargetDir = "TARGETDIR";
-        private const string InstallDir = "INSTALLLOCATION";
-        private const string AdminDir = "ADMINISTRATORLOCATION";
-        private const string MonitorDir = "MONITORLOCATION";
-        private const string ServerDir = "SERVERLOCATION";
-	    private const string Key = "DefaultCulture";
+		/// <summary>
+		/// CustomAction для перезаписи конфига на культуру
+		/// </summary>
+		/// <param name="session"></param>
+		/// <returns></returns>
+		[CustomAction]
+		public static ActionResult WriteAppLocalizationSettings(Session session)
+		{
+			session.Log("Выполнение WriteAppLocalizationSettings");
 
-        /// <summary>
-        /// CustomAction для перезаписи конфига на культуру
-        /// </summary>
-        /// <param name="session"></param>
-        /// <returns></returns>
-        [CustomAction]
-        public static ActionResult WriteAppLocalizationSettings(Session session)
-        {
-            session.Log("Выполнение WriteAppLocalizationSettings");
+			try
+			{
+				UpdateCultureInConfigFile(session, new InstalledAdministratorProperties(session));
+				UpdateCultureInConfigFile(session, new InstalledMonitorProperties(session));
+				UpdateCultureInConfigFile(session, new InstalledMonitorLayoutProperties(session));
+				UpdateCultureInConfigFile(session, new InstalledServiceProperties(session));
+				UpdateCultureInConfigFile(session, new InstalledServiceMonitorProperties(session));
+			}
+			catch (Exception e)
+			{
+				session.Log("В результате выполнения WriteAppLocalizationSettings возникла ошибка: {0}", e.Message);
+				return ActionResult.Failure;
+			}
 
-            try
-            {
-                ReadAndWriteCulture(session, App.Admin);
-                ReadAndWriteCulture(session, App.Monitor);
-                ReadAndWriteCulture(session, App.MonitorLayout);
-                ReadAndWriteCulture(session, App.Service);
-            }
-            catch (Exception e)
-            {
-                session.Log("В результате выполнения WriteAppLocalizationSettings возникла ошибка: {0}", e.Message);
-                return ActionResult.Failure;
-            }
+			return ActionResult.Success;
+		}
+		
+		/// <summary>
+		/// В конфигурационном файле приложения прописывает культуру
+		/// </summary>
+		/// <param name="session">Сессия инсталлятора</param>
+		/// <param name="applicationProperties">Параметры установленного приложения</param>
+		private static void UpdateCultureInConfigFile(Session session, InstalledApplicationProperties applicationProperties)
+		{
+			var culture = session[Culture];
+			var filePath = Path.Combine(applicationProperties.DestinationFolder, applicationProperties.AppConfigFileName);
+			var xDoc = ReadConfigFile(session, filePath);
+			SetAppSettingsNodeChildElementValueByKey(xDoc, XDocCultureKey, culture);
+			WriteConfigFile(xDoc, filePath);
+		}
 
-            return ActionResult.Success;
-        }
-        enum App
-        {
-            Admin,
-            Monitor,
-            MonitorLayout,
-            Service
-        }
-	    private static void ReadAndWriteCulture(Session session, App app)
-	    {
-	        XDocument doc;
-            var tempPath = Path.Combine(session[TargetDir], session[InstallDir]);
-	        var tempFileName = string.Empty;
-	        switch (app)
-	        {
-                case App.Admin:
-                    tempPath = Path.Combine(tempPath,session[AdminDir]);
-	                tempFileName = AdminConfigFile;
-                    break;
-                case App.Monitor:
-                    tempPath = Path.Combine(tempPath, session[MonitorDir]);
-                    tempFileName = MonitorConfigFile;
-                    break;
-                case App.MonitorLayout:
-                    tempPath = Path.Combine(tempPath,session[MonitorDir]);
-                    tempFileName = MonitorLayoutConfigFile;
-                    break;
-                case App.Service:
-                    tempPath = Path.Combine(tempPath, session[ServerDir]);
-                    tempFileName = ServiceConfigFile;
-	                break;
-	            default:
-	                throw new ArgumentOutOfRangeException("app");
-            }
-            var value = session[Culture];
-            doc = ReadConfigFile(session, Path.Combine(tempPath, tempFileName));
-            SetElementValueByKey(doc, Key, value);
-            WriteConfigFile(doc, Path.Combine(tempPath, tempFileName));
-	    }
+		/// <summary>
+		/// В конфигурационном файле приложения в секции "appSettings" для дочернего элемента с заданным ключем
+		/// устанавливает заданное значение
+		/// </summary>
+		/// <param name="doc">xml файл</param>
+		/// <param name="key">Ключ, по которому ищем поле</param>
+		/// <param name="value">Устанавливаемое для поля значение</param>
+		private static void SetAppSettingsNodeChildElementValueByKey(XDocument doc, string key, object value)
+		{
+			var list = from appNode in doc.Descendants("appSettings").Elements()
+					   where appNode.Attribute("key").Value == key
+					   select appNode;
+			var element = list.FirstOrDefault();
+			if (element != null)
+				element.Attribute("value").SetValue(value);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="doc">xml файл</param>
-        /// <param name="key">ключ по которому ищем поле</param>
-        /// <param name="value"></param>
-        private static void SetElementValueByKey(XDocument doc, string key, object value)
-        {
-            var list = from appNode in doc.Descendants("appSettings").Elements()
-                       where appNode.Attribute("key").Value == key
-                       select appNode;
-            var element = list.FirstOrDefault();
-            if (element != null)
-                element.Attribute("value").SetValue(value);
-        }
-        #endregion
-    }
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения
+		/// </summary>
+		private abstract class InstalledApplicationProperties
+		{
+			#region Свойства и поля
+
+			/// <summary>
+			/// Каталог устаовки
+			/// </summary>
+			public string DestinationFolder { get; protected set; }
+
+			/// <summary>
+			/// Название конфигурационного файла
+			/// </summary>
+			public string AppConfigFileName { get; protected set; }
+
+			#endregion
+
+			#region Конструктор
+
+			protected InstalledApplicationProperties(Session session)
+			{
+				DestinationFolder = Path.Combine(session[TargetDir], session[InstallDir]);
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "Сервер"
+		/// </summary>
+		private class InstalledServiceProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledServiceProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[ServerDir]);
+				AppConfigFileName = "StrazhService.exe.config";
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "Монитор сервера"
+		/// </summary>
+		private class InstalledServiceMonitorProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledServiceMonitorProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[ServerDir]);
+				AppConfigFileName = "StrazhService.Monitor.exe.config";
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "Администратор"
+		/// </summary>
+		private class InstalledAdministratorProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledAdministratorProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[AdminDir]);
+				AppConfigFileName = "StrazhAdmin.exe.config";
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "ОЗ"
+		/// </summary>
+		private class InstalledMonitorProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledMonitorProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[MonitorDir]);
+				AppConfigFileName = "StrazhMonitor.exe.config";
+			}
+
+			#endregion
+		}
+
+		/// <summary>
+		/// Класс, описывающий параметры установленного приложения "ОЗ с макетами"
+		/// </summary>
+		private class InstalledMonitorLayoutProperties : InstalledApplicationProperties
+		{
+			#region Конструктор
+
+			public InstalledMonitorLayoutProperties(Session session)
+				: base(session)
+			{
+				DestinationFolder = Path.Combine(DestinationFolder, session[MonitorDir]);
+				AppConfigFileName = "StrazhMonitor.Layout.exe.config";
+			}
+
+			#endregion
+		}
+
+		#endregion
+	}
 }
