@@ -714,4 +714,7 @@
   <data name="Zone" xml:space="preserve">
     <value>(зона</value>
   </data>
+  <data name="BeforeHoliday" xml:space="preserve">
+    <value>предпраздничный день)</value>
+  </data>
 </root>

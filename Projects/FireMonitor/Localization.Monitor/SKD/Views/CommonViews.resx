@@ -730,4 +730,7 @@
   <data name="Zone" xml:space="preserve">
     <value>(zone</value>
   </data>
+  <data name="BeforeHoliday" xml:space="preserve">
+    <value>pre-holiday)</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
@@ -118,6 +119,7 @@ namespace StrazhDAL
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e);
 				return OperationResult<TimeTrackResult>.FromError(e.Message);
 			}
 		}
@@ -335,27 +337,93 @@ namespace StrazhDAL
 				}
 				result.TimeTrackParts = result.TimeTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 			}
+			// Если текущий день является предпраздничным (сокращенным)
 			if (result.HolidayReduction > 0)
 			{
 				var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
 				if (lastTimeTrack != null && lastTimeTrack.ExitDateTime.HasValue)
 				{
 					var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
-					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
+					ApplyHolidayReductionToTimeTrackParts(result.TimeTrackParts, reductionTimeSpan, result.SlideTime);
+					
+					// Если задан гибкий график (указана норма)	
+					if (result.SlideTime > TimeSpan.Zero)
 					{
-						lastTimeTrack.ExitDateTime = lastTimeTrack.ExitDateTime.Value.Subtract(reductionTimeSpan);
+						var slideTimeMinusReduction = result.SlideTime - reductionTimeSpan;
+						
+						// Сокращаем норму гибкого графика на величину сокращения предпраздничного дня
+						if (slideTimeMinusReduction > TimeSpan.Zero)
+						{
+							result.SlideTime = slideTimeMinusReduction;
+						}
+						// Делаем текущий день выходным за счет удаления всех интервалов графика работы
+						else
+						{
+							result.TimeTrackParts.Clear();
+							result.SlideTime = TimeSpan.Zero;
+						}
 					}
-					else
-					{
-						result.TimeTrackParts.Remove(lastTimeTrack);
-					}
-
-					if(result.SlideTime  > TimeSpan.Zero) //если используется расчёт по норме
-						result.SlideTime -= reductionTimeSpan;
 				}
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Для обычного (без нормы) графика, при попадании его на сокращенный день,
+		/// определяет "момент отсечки", и отсекает часть графика, идущую за данным "моментом отсечки"
+		/// </summary>
+		/// <param name="timeTrackParts">Временные интервалы графика</param>
+		/// <param name="reductionTimeSpan">Время сокращения</param>
+		/// <param name="slideTime">Величина нормы графика</param>
+		private void ApplyHolidayReductionToTimeTrackParts(List<TimeTrackPart> timeTrackParts, TimeSpan reductionTimeSpan, TimeSpan slideTime)
+		{
+			// Если для дневного графика указана норма, то не пересчитываем график работы в текущем дне
+			if (slideTime != TimeSpan.Zero)
+				return;
+
+			// Определить продолжительность графика работы (не учитываем интервалы типа "Перерыв")
+			var timeTrackPartsDuration = timeTrackParts.Aggregate(default(TimeSpan), (current, timeTrackPart) => current + (timeTrackPart.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : timeTrackPart.Delta));
+			var timeTrackPartsDurationMinusReductionTimeSpan = timeTrackPartsDuration.Subtract(reductionTimeSpan);
+			timeTrackPartsDuration = timeTrackPartsDurationMinusReductionTimeSpan > TimeSpan.Zero
+				? timeTrackPartsDurationMinusReductionTimeSpan
+				: TimeSpan.Zero;
+
+			// Определить "момент отсечки"
+			var cuttingTime = GetCuttingTime(timeTrackParts, timeTrackPartsDuration); 
+
+			// Удалить все интервалы, идущие после "момента отсечки"
+			var timeTrackPartsToRemove = timeTrackParts.Where(x => x.EnterDateTime >= cuttingTime).ToList();
+			timeTrackPartsToRemove.ForEach(x => timeTrackParts.Remove(x));
+
+			// Обрезать интервал, в который попадает "момент отсечки"
+			var timeTrackPartToCut = timeTrackParts.FirstOrDefault(x => x.ExitDateTime > cuttingTime);
+			if (timeTrackPartToCut != null)
+				timeTrackPartToCut.ExitDateTime = cuttingTime;
+		}
+
+		/// <summary>
+		/// Определяет "момент отсечки" для графика работы исходя из величины сокращения предпраздничного дня
+		/// </summary>
+		/// <param name="timeTrackParts">Временные интервалы графика работы</param>
+		/// <param name="duration">Величина сокращения предпраздничного дня</param>
+		/// <returns>Момент отсечки</returns>
+		private DateTime GetCuttingTime(List<TimeTrackPart> timeTrackParts, TimeSpan duration)
+		{
+			var resultDuration = TimeSpan.Zero;
+			for (var i = 0; i < timeTrackParts.Count; i++)
+			{
+				var timeTrackPart = timeTrackParts[i];
+				var nextResultDuration = resultDuration.Add(timeTrackPart.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : timeTrackPart.Delta);
+				if (nextResultDuration >= duration)
+				{
+					var delta = nextResultDuration - duration;
+					return timeTrackPart.EnterDateTime + timeTrackPart.Delta - delta;
+				}
+				resultDuration = nextResultDuration;
+			}
+
+			throw new Exception("Ошибка опеределения 'момента отсечки' для дневного графика работы в сокращенном предпраздничном дне"); 
 		}
 	}
 }

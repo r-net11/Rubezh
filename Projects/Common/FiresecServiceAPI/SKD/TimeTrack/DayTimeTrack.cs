@@ -155,7 +155,7 @@ namespace StrazhAPI.SKD
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
 			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForDrawing, DocumentTrackParts);
-			FilterParts();
+			FilterCombinedTimeTrackParts();
 			if (SlideTime != TimeSpan.Zero)
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
@@ -533,16 +533,25 @@ namespace StrazhAPI.SKD
 			return resultCollection;
 		}
 
+		/// <summary>
+		/// Расчитывает длину всех временных интервалов графика работы.
+		/// Интервал типа "Перерыв" исключается из расчета
+		/// </summary>
+		/// <param name="plannedTimeTrackParts">Временные интервалы графика работы</param>
+		/// <returns>Длина всех временных интервалов графика работы</returns>
 		private static TimeSpan GetSummOfPlannedTimeTrackParts(IEnumerable<TimeTrackPart> plannedTimeTrackParts)
 		{
-			return plannedTimeTrackParts.Aggregate(default(TimeSpan), (current, plannedTimeTrackPart) => current + plannedTimeTrackPart.Delta);
+			return plannedTimeTrackParts.Aggregate(default(TimeSpan),
+				(current, plannedTimeTrackPart) =>
+					current + (plannedTimeTrackPart.TimeTrackPartType == TimeTrackType.Break ? TimeSpan.Zero : plannedTimeTrackPart.Delta));
 		}
 
 		private static List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
 		{
-			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
+			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика работы исключая интервалы типа "Перерыв"
 
-			if (sumPlannedTime < slideTime) return combinedTimeTrackParts;
+			if (sumPlannedTime < slideTime)
+				return combinedTimeTrackParts;
 
 			var differWithPlannedTime = sumPlannedTime - slideTime; //Показывает доступное время неявки
 			const double tolerance = 0.000001;
@@ -879,7 +888,7 @@ namespace StrazhAPI.SKD
 			return combinedTimeTrackParts;
 		}
 
-		private void FilterParts()
+		private void FilterCombinedTimeTrackParts()
 		{
 			CombinedTimeTrackParts = CombinedTimeTrackParts
 				.Where(x => x.TimeTrackPartType != TimeTrackType.Break)
