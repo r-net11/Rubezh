@@ -58,8 +58,8 @@ namespace SKDModule.ViewModels
 					var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
 					var xtraReportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 
-					var dsFront = new PassCardTemplateDataSource();
-					var dsBack = new PassCardTemplateDataSource();
+					var dsFront = new PassCardTemplateLocalizeDataSource();
+					var dsBack = new PassCardTemplateLocalizeDataSource();
 
 					foreach (var empl in employeeFullData.Result)
 					{
@@ -125,8 +125,8 @@ namespace SKDModule.ViewModels
 					{
 						var frontReport = template.Front.Report.ToXtraReport(template.Front.WatermarkImage.ImageContent);
 						var backReport = template.Back.Report.ToXtraReport(template.Back.WatermarkImage.ImageContent);
-						var dsFront = new PassCardTemplateDataSource();
-						var dsBack = new PassCardTemplateDataSource();
+						var dsFront = new PassCardTemplateLocalizeDataSource();
+						var dsBack = new PassCardTemplateLocalizeDataSource();
 						foreach (var empl in employeeFullData.Result.Where(x => x.Cards.Any(card => card.PassCardTemplateUID == template.UID)))
 						{
 							FillDataSet(dsFront, empl, template.Front.WatermarkImage.ImageContent);
@@ -168,7 +168,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private void FillDataSet(PassCardTemplateDataSource ds, Employee e, byte[] imageFront)
+		private void FillDataSet(PassCardTemplateLocalizeDataSource ds, Employee e, byte[] imageFront)
 		{
 			//var ds = new Test();
 			var row = ds.Employee.NewEmployeeRow();

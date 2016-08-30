@@ -162,11 +162,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSets\PassCardTemplateReportService.cs" />
     <Compile Include="DataSets\PassCardTemplateDataSource.cs">
       <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataSets\PassCardTemplateLocalizeDataSource.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSets\PassCardTemplateReportService.cs" />
     <Compile Include="DataSets\PassCardTemplateDataSource.Designer.cs">
       <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
       <AutoGen>True</AutoGen>

@@ -12,14 +12,14 @@ namespace ReportSystem.DataSets
 {
 	public class PassCardTemplateReportService
 	{
-		private PassCardTemplateDataSource _source;
+		private PassCardTemplateLocalizeDataSource _source;
 		private PassCardTemplate _passCardTemplate;
 		private readonly Guid _organisationId;
 		private readonly Guid _passCardTemplateId;
 
 		public PassCardTemplateReportService(ShortPassCardTemplate passCardTemplate, SKDModelBase organisation)
 		{
-			_source = new PassCardTemplateDataSource();
+			_source = new PassCardTemplateLocalizeDataSource();
 			_passCardTemplateId = passCardTemplate.UID;
 			_organisationId = organisation.UID;
 		}
@@ -29,13 +29,13 @@ namespace ReportSystem.DataSets
 			return Task.Factory.StartNew(() => PassCardTemplateHelper.GetDetails(_passCardTemplateId));
 		}
 
-		public Task<PassCardTemplateDataSource> GetPassCardTemplateSource()
+		public Task<PassCardTemplateLocalizeDataSource> GetPassCardTemplateSource()
 		{
 			return Task.Factory.StartNew(() => AdditionalColumnTypeHelper.GetByOrganisation(_organisationId))
 				.ContinueWith(t => AddAdditionalColumns(t.Result.Select(x => x.ToDataColumn())));
 		}
 
-		private PassCardTemplateDataSource AddAdditionalColumns(IEnumerable<DataColumn> columns)
+		private PassCardTemplateLocalizeDataSource AddAdditionalColumns(IEnumerable<DataColumn> columns)
 		{
 			_source.Employee.Columns.AddRange(columns.ToArray());
 			return _source;

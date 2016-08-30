@@ -53,17 +53,6 @@ namespace ReportSystem.UI
 				{
 					ts.RemoveToolboxItem(item);
 				}
-
-				//if (itemName == typeof (XRPictureBox).FullName) //TODO: Add localized strings
-				//	item.DisplayName = "Изображение";
-				//if (itemName == typeof (XRLabel).FullName)
-				//	item.DisplayName = "Текст";
-				//if (itemName == typeof (XRLine).FullName)
-				//	item.DisplayName = "Линия";
-				//if (itemName == typeof (XRShape).FullName)
-				//	item.DisplayName = "Фигура";
-				//if (itemName == typeof (XRCursors).FullName)
-				//	item.DisplayName = "Курсор";
 			}
 		}
 
@@ -90,6 +79,7 @@ namespace ReportSystem.UI
 		public void OpenCurrentReport()
 		{
 			reportDesigner1.OpenReport(CurrentReport);
+			
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowHTMLViewTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowDesignerTab, CommandVisibility.None);
