@@ -330,6 +330,8 @@ namespace CustomAction
 			var culture = session[Culture];
 			var filePath = Path.Combine(applicationProperties.DestinationFolder, applicationProperties.AppConfigFileName);
 			var xDoc = ReadConfigFile(session, filePath);
+			if(xDoc == null)
+				return;
 			SetAppSettingsNodeChildElementValueByKey(xDoc, XDocCultureKey, culture);
 			WriteConfigFile(xDoc, filePath);
 		}
