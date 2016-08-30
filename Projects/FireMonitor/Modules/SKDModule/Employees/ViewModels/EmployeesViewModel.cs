@@ -58,8 +58,8 @@ namespace SKDModule.ViewModels
 					var xtraReportFront = passCardTemplate.Result.Front.Report.ToXtraReport(passCardTemplate.Result.Front.WatermarkImage.ImageContent);
 					var xtraReportBack = passCardTemplate.Result.Back.Report.ToXtraReport(passCardTemplate.Result.Back.WatermarkImage.ImageContent);
 
-					var dsFront = new Test();
-					var dsBack = new Test();
+					var dsFront = new PassCardTemplateDataSource();
+					var dsBack = new PassCardTemplateDataSource();
 
 					foreach (var empl in employeeFullData.Result)
 					{
@@ -125,8 +125,8 @@ namespace SKDModule.ViewModels
 					{
 						var frontReport = template.Front.Report.ToXtraReport(template.Front.WatermarkImage.ImageContent);
 						var backReport = template.Back.Report.ToXtraReport(template.Back.WatermarkImage.ImageContent);
-						var dsFront = new Test();
-						var dsBack = new Test();
+						var dsFront = new PassCardTemplateDataSource();
+						var dsBack = new PassCardTemplateDataSource();
 						foreach (var empl in employeeFullData.Result.Where(x => x.Cards.Any(card => card.PassCardTemplateUID == template.UID)))
 						{
 							FillDataSet(dsFront, empl, template.Front.WatermarkImage.ImageContent);
@@ -168,30 +168,30 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private void FillDataSet(Test ds, Employee e, byte[] imageFront)
+		private void FillDataSet(PassCardTemplateDataSource ds, Employee e, byte[] imageFront)
 		{
 			//var ds = new Test();
 			var row = ds.Employee.NewEmployeeRow();
 			row.UID = e.UID;
 			row.FirstName = e.FirstName;
-			row.SecondName = e.SecondName;
-			row.LastName = e.LastName;
-			row.PhotoUID = Guid.Empty;
-			row.PositionUID = Guid.Empty;
-			row.DepartmentUID = Guid.Empty;
+			//row.SecondName = e.SecondName;
+			//row.LastName = e.LastName;
+			//row.PhotoUID = Guid.Empty;
+			//row.PositionUID = Guid.Empty;
+			//row.DepartmentUID = Guid.Empty;
 
-			if(e.Schedule != null)
-				row.ScheduleUID = e.Schedule.UID;
+			//if(e.Schedule != null)
+			//	row.ScheduleUID = e.Schedule.UID;
 
-			row.ScheduleStartDate = DateTime.Now;
-			row.Type = 0;
-			row.IsDeleted = false;
-			row.RemovalDate = DateTime.Now;
-			row.OrganisationUID = e.OrganisationUID;
-			row.LastEmployeeDayUpdate = DateTime.Now;
-			row.ExternalKey = "-1";
-			row.Image = imageFront;
-			ds.Employee.AddEmployeeRow(row);
+			//row.ScheduleStartDate = DateTime.Now;
+			//row.Type = 0;
+			//row.IsDeleted = false;
+			//row.RemovalDate = DateTime.Now;
+			//row.OrganisationUID = e.OrganisationUID;
+			//row.LastEmployeeDayUpdate = DateTime.Now;
+			//row.ExternalKey = "-1";
+			//row.Image = imageFront;
+			//ds.Employee.AddEmployeeRow(row);
 		//	return ds;
 		}
 

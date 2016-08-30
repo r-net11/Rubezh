@@ -1,11 +1,15 @@
+using System.Linq;
+using Caliburn.Micro;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ReportSystem.DataSets;
 using ReportSystem.Reports;
 using SKDModule.PassCardDesigner.Model;
 using SKDModule.ViewModels;
 using StrazhAPI.Enums;
+using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using System;
 using System.Threading.Tasks;
@@ -112,12 +116,24 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public void InitializeDesigner(Organisation organisation, ShortPassCardTemplate model)
 		{
 			OrganisationUID = organisation.UID;
-
-			PassCardTemplate = new Template(PassCardTemplateHelper.GetDetails(model.UID));
-
-			CurrentReport = PassCardTemplate.Front.Report;
-
-			UpdateTitle();
+			var service = new PassCardTemplateReportService(model, organisation);
+			var task1 = service.GetPassCardTemplate().ContinueWith(t =>
+			{
+				PassCardTemplate = new Template(t.Result);
+			});
+			var task2 = service.GetPassCardTemplateSource();
+			Task.Factory.ContinueWhenAll(new[] {task1, task2}, tasks =>
+			{
+				PassCardTemplate.Front.Report.DataSource = task2.Result;
+				PassCardTemplate.Front.Report.DataMember = task2.Result.Tables[0].TableName;
+				if (PassCardTemplate.Back != null && PassCardTemplate.Back.Report != null)
+				{
+					PassCardTemplate.Back.Report.DataSource = task2.Result;
+					PassCardTemplate.Back.Report.DataMember = task2.Result.Tables[0].TableName;
+				}
+				CurrentReport = PassCardTemplate.Front.Report;
+				UpdateTitle();
+			});
 		}
 
 		#endregion

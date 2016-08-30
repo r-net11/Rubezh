@@ -2013,14 +2013,19 @@ namespace FiresecService.Service
 
 		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
-			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
-			else
-				AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
-
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PassCardTemplateTranslator.Save(item);
+				var result = databaseService.PassCardTemplateTranslator.Save(item);
+
+				if (result.HasError)
+					return result;
+
+				if (isNew)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
+				else
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
+
+				return result;
 			}
 		}
 

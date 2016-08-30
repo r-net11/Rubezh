@@ -162,8 +162,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSets\Test.Designer.cs">
-      <DependentUpon>Test.xsd</DependentUpon>
+    <Compile Include="DataSets\PassCardTemplateReportService.cs" />
+    <Compile Include="DataSets\PassCardTemplateDataSource.cs">
+      <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSets\PassCardTemplateDataSource.Designer.cs">
+      <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -218,6 +223,10 @@
       <Project>{0472EED7-E236-4D5D-B27A-3EEABD3FB11E}</Project>
       <Name>DevExpress.CustomControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>StrazhAPI</Name>
@@ -225,16 +234,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="DataSets\Test.xsc">
-      <DependentUpon>Test.xsd</DependentUpon>
+    <None Include="DataSets\PassCardTemplateDataSource.xsc">
+      <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
     </None>
-    <None Include="DataSets\Test.xsd">
+    <None Include="DataSets\PassCardTemplateDataSource.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Test.Designer.cs</LastGenOutput>
+      <LastGenOutput>PassCardTemplateDataSource.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataSets\Test.xss">
-      <DependentUpon>Test.xsd</DependentUpon>
+    <None Include="DataSets\PassCardTemplateDataSource.xss">
+      <DependentUpon>PassCardTemplateDataSource.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
