@@ -74,7 +74,6 @@ namespace SKDModule.ViewModels
 				//Print
 				var mergedReport = new MergedReport(resultXtraReports.ToArray(), vm.Settings.SelectedPaperKindSetting);
 				mergedReport.ShowPreviewDialog();
-
 			}
 		}
 
