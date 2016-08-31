@@ -1,5 +1,3 @@
-using System.Linq;
-using Caliburn.Micro;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -9,7 +7,6 @@ using ReportSystem.Reports;
 using SKDModule.PassCardDesigner.Model;
 using SKDModule.ViewModels;
 using StrazhAPI.Enums;
-using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using System;
 using System.Threading.Tasks;
@@ -187,6 +184,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			Task.Factory.StartNew(() => _configurationProvider.SaveDefaultPropertiesFrom(PassCardTemplate));
 
 			if (!task.Result)
+
 			{
 				MessageBoxService.ShowError("Ошибка при добавлении шаблона пропуска");
 				return false;

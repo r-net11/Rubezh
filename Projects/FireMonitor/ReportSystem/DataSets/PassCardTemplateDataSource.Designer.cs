@@ -313,6 +313,8 @@ namespace ReportSystem.DataSets {
             
             private global::System.Data.DataColumn columnPositionLogo;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public EmployeeDataTable() {
@@ -484,6 +486,14 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -524,19 +534,20 @@ namespace ReportSystem.DataSets {
                         string LastName, 
                         string FirstName, 
                         string MiddleName, 
-                        System.Guid OrganisationName, 
-                        System.Guid DepartmentName, 
-                        System.Guid PositionName, 
-                        System.Guid ExcortName, 
-                        System.DateTime ScheduleName, 
-                        int Description, 
+                        string OrganisationName, 
+                        string DepartmentName, 
+                        string PositionName, 
+                        string ExcortName, 
+                        string ScheduleName, 
+                        string Description, 
                         string Phone, 
-                        System.Guid CardNo, 
+                        string CardNo, 
                         string TabelNo, 
                         string Photo, 
                         string OrganisationLogo, 
                         string DepartmentLogo, 
-                        string PositionLogo) {
+                        string PositionLogo, 
+                        byte[] Image) {
                 EmployeeRow rowEmployeeRow = ((EmployeeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         UID,
@@ -555,7 +566,8 @@ namespace ReportSystem.DataSets {
                         Photo,
                         OrganisationLogo,
                         DepartmentLogo,
-                        PositionLogo};
+                        PositionLogo,
+                        Image};
                 rowEmployeeRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowEmployeeRow);
                 return rowEmployeeRow;
@@ -602,6 +614,7 @@ namespace ReportSystem.DataSets {
                 this.columnOrganisationLogo = base.Columns["OrganisationLogo"];
                 this.columnDepartmentLogo = base.Columns["DepartmentLogo"];
                 this.columnPositionLogo = base.Columns["PositionLogo"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -615,21 +628,21 @@ namespace ReportSystem.DataSets {
                 base.Columns.Add(this.columnFirstName);
                 this.columnMiddleName = new global::System.Data.DataColumn("MiddleName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMiddleName);
-                this.columnOrganisationName = new global::System.Data.DataColumn("OrganisationName", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
+                this.columnOrganisationName = new global::System.Data.DataColumn("OrganisationName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOrganisationName);
-                this.columnDepartmentName = new global::System.Data.DataColumn("DepartmentName", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
+                this.columnDepartmentName = new global::System.Data.DataColumn("DepartmentName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDepartmentName);
-                this.columnPositionName = new global::System.Data.DataColumn("PositionName", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
+                this.columnPositionName = new global::System.Data.DataColumn("PositionName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPositionName);
-                this.columnExcortName = new global::System.Data.DataColumn("ExcortName", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
+                this.columnExcortName = new global::System.Data.DataColumn("ExcortName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnExcortName);
-                this.columnScheduleName = new global::System.Data.DataColumn("ScheduleName", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                this.columnScheduleName = new global::System.Data.DataColumn("ScheduleName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnScheduleName);
-                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
                 this.columnPhone = new global::System.Data.DataColumn("Phone", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPhone);
-                this.columnCardNo = new global::System.Data.DataColumn("CardNo", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
+                this.columnCardNo = new global::System.Data.DataColumn("CardNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCardNo);
                 this.columnTabelNo = new global::System.Data.DataColumn("TabelNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTabelNo);
@@ -641,6 +654,8 @@ namespace ReportSystem.DataSets {
                 base.Columns.Add(this.columnDepartmentLogo);
                 this.columnPositionLogo = new global::System.Data.DataColumn("PositionLogo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPositionLogo);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUID}, true));
                 this.columnUID.AllowDBNull = false;
@@ -648,7 +663,6 @@ namespace ReportSystem.DataSets {
                 this.columnLastName.MaxLength = 50;
                 this.columnFirstName.MaxLength = 50;
                 this.columnMiddleName.MaxLength = 50;
-                this.columnScheduleName.AllowDBNull = false;
                 this.columnPhone.MaxLength = 40;
             }
             
@@ -851,10 +865,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid OrganisationName {
+            public string OrganisationName {
                 get {
                     try {
-                        return ((global::System.Guid)(this[this.tableEmployee.OrganisationNameColumn]));
+                        return ((string)(this[this.tableEmployee.OrganisationNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'OrganisationName\' in table \'Employee\' is DBNull.", e);
@@ -867,10 +881,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid DepartmentName {
+            public string DepartmentName {
                 get {
                     try {
-                        return ((global::System.Guid)(this[this.tableEmployee.DepartmentNameColumn]));
+                        return ((string)(this[this.tableEmployee.DepartmentNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DepartmentName\' in table \'Employee\' is DBNull.", e);
@@ -883,10 +897,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid PositionName {
+            public string PositionName {
                 get {
                     try {
-                        return ((global::System.Guid)(this[this.tableEmployee.PositionNameColumn]));
+                        return ((string)(this[this.tableEmployee.PositionNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'PositionName\' in table \'Employee\' is DBNull.", e);
@@ -899,10 +913,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid ExcortName {
+            public string ExcortName {
                 get {
                     try {
-                        return ((global::System.Guid)(this[this.tableEmployee.ExcortNameColumn]));
+                        return ((string)(this[this.tableEmployee.ExcortNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'ExcortName\' in table \'Employee\' is DBNull.", e);
@@ -915,9 +929,14 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime ScheduleName {
+            public string ScheduleName {
                 get {
-                    return ((global::System.DateTime)(this[this.tableEmployee.ScheduleNameColumn]));
+                    try {
+                        return ((string)(this[this.tableEmployee.ScheduleNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ScheduleName\' in table \'Employee\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableEmployee.ScheduleNameColumn] = value;
@@ -926,10 +945,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Description {
+            public string Description {
                 get {
                     try {
-                        return ((int)(this[this.tableEmployee.DescriptionColumn]));
+                        return ((string)(this[this.tableEmployee.DescriptionColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'Employee\' is DBNull.", e);
@@ -958,10 +977,10 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid CardNo {
+            public string CardNo {
                 get {
                     try {
-                        return ((global::System.Guid)(this[this.tableEmployee.CardNoColumn]));
+                        return ((string)(this[this.tableEmployee.CardNoColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CardNo\' in table \'Employee\' is DBNull.", e);
@@ -1054,6 +1073,22 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableEmployee.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'Employee\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableEmployee.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsLastNameNull() {
                 return this.IsNull(this.tableEmployee.LastNameColumn);
             }
@@ -1134,6 +1169,18 @@ namespace ReportSystem.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetExcortNameNull() {
                 this[this.tableEmployee.ExcortNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsScheduleNameNull() {
+                return this.IsNull(this.tableEmployee.ScheduleNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetScheduleNameNull() {
+                this[this.tableEmployee.ScheduleNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1230,6 +1277,18 @@ namespace ReportSystem.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPositionLogoNull() {
                 this[this.tableEmployee.PositionLogoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tableEmployee.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tableEmployee.ImageColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -62,6 +62,7 @@ namespace ReportSystem.Reports
 			xrPictureBox1.Sizing = ImageSizeMode.StretchImage;
 			xrPictureBox1.Size = new Size(image.Width, image.Height);
 			xrPictureBox1.DataBindings.Add("Image", DataSource, "Image");
+			//xrPictureBox1.Visible = false;
 			CreateDocument();
 		}
 

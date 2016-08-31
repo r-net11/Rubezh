@@ -35,5 +35,24 @@ namespace SKDModule.Reports
 				return report;
 			}
 		}
+
+		//public static PassCardTemplateReport ToXtraReport(this byte[] bytes, byte[] imageContent)
+		//{
+		//	if (bytes == null) return null;
+
+		//	Image image = null;
+
+		//	if (imageContent != null)
+		//		using (var imageStream = new MemoryStream(imageContent))
+		//			image = Image.FromStream(imageStream);
+
+		//	using (var ms = new MemoryStream(bytes))
+		//	{
+		//		var report = new PassCardTemplateReport(image);
+		//		report.LoadLayout(ms);
+		//		report.Watermark.Image = image;
+		//		return report;
+		//	}
+		//}
 	}
 }

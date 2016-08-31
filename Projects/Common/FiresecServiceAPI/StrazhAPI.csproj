@@ -175,6 +175,7 @@
     <Compile Include="Enums\ShellType.cs" />
     <Compile Include="Extensions\AdditionalColumnExtensions.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Integration.OPC\OPCSettings.cs" />
@@ -311,7 +312,9 @@
     <Compile Include="SKD\Device\SKDLocksPassword.cs" />
     <Compile Include="SKD\Device\SKDControllerPasswords.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\PassCardLibrary\CardTemplatePrintData.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplateSide.cs" />
+    <Compile Include="SKD\PassCardLibrary\ReportDTO.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
     <Compile Include="SKD\ReportFilters\EventsReportFilter.cs" />

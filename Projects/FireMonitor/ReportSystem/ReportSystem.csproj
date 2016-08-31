@@ -175,6 +175,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="DataSets\Record.cs" />
     <Compile Include="MasterReportFactory.cs" />
     <Compile Include="MergedReport.cs">
       <SubType>Component</SubType>

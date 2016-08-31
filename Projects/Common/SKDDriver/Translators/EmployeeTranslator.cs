@@ -529,6 +529,11 @@ namespace StrazhDAL
 			return new OperationResult();
 		}
 
+		public IQueryable<DataAccess.Employee> GetAll()
+		{
+			return Context.Employees;
+		}
+
 		public EmployeeSynchroniser Synchroniser;
 	}
 }
