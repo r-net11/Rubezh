@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using StrazhAPI.SKD;
+using StrazhAPI.SKD.PassCardLibrary;
 using StrazhDAL;
 
 namespace FiresecService.Report.Operations
@@ -18,9 +19,9 @@ namespace FiresecService.Report.Operations
 			_dataService = service;
 		}
 
-		protected CardTemplatePrintData CreateDataSetItem(Employee employee)
+		protected CardTemplatePrintDataDTO CreateDataSetItem(Employee employee)
 		{
-			var printData = new CardTemplatePrintData();
+			var printData = new CardTemplatePrintDataDTO();
 
 			var card = employee.Cards.FirstOrDefault();
 			if (card != null)
@@ -80,6 +81,34 @@ namespace FiresecService.Report.Operations
 			printData.ScheduleName = employee.ScheduleName;
 			printData.TabelNo = employee.TabelNo;
 
+			//Получаем все типы доп. колонок, которые доступны для организации, в которой состоит сотрудник.
+			//Используется такой подход (а не просто выборка всех доп. колонок по сотруднику)
+			//что бы избежать возможных ошибок при определении доп. колонок, при перемещении сотрудника между организациями.
+			var additionalColumnTypesForCurrentEmployee =
+				_dataService.AdditionalColumnTypeTranslator.Get(new AdditionalColumnTypeFilter
+				{
+					OrganisationUIDs = new List<Guid> { employee.OrganisationUID }
+				}).Result;
+
+			//Для каждого типа доп. колонок получаем данные, в соответствии с текущим сотрудником
+			var additionalColumnsData = _dataService.AdditionalColumnTranslator.Get(new AdditionalColumnFilter
+			{
+				EmployeeUIDs = new List<Guid> {employee.UID}
+			}).Result;
+
+			var additionalColumnDTO =
+									from c in additionalColumnsData
+									join cType in additionalColumnTypesForCurrentEmployee
+									on c.AdditionalColumnType.UID equals cType.UID
+									where c.EmployeeUID != null
+									select new AdditionalColumnDTO
+									{
+										EmployeeUID = c.EmployeeUID.Value,
+										Name = cType.Name,
+										TextValue = c.TextData,
+										GraphicValue = c.Photo != null ? c.Photo.Data : null
+									};
+			printData.AdditionalColumns = additionalColumnDTO.ToList();
 			return printData;
 		}
 

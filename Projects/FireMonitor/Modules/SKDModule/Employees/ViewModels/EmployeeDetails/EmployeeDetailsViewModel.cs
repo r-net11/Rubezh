@@ -594,7 +594,7 @@ namespace SKDModule.ViewModels
 			Employee.Citizenship = Citizenship;
 			Employee.DocumentType = DocumentType;
 			Employee.OrganisationUID = _organisation.UID;
-			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
+			Employee.AdditionalColumns = TextColumns.Select(x => x.AdditionalColumn).ToList();
 			Employee.Phone = Phone;
 			foreach (var item in GraphicsColumns)
 			{

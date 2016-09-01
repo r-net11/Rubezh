@@ -10,35 +10,42 @@ using DataColumn = System.Data.DataColumn;
 
 namespace ReportSystem.DataSets
 {
+	/// <summary>
+	/// Сервис должен разбирать DTO объект и возвращать коллекцию для биндинга к отчёту.
+	/// </summary>
 	public class PassCardTemplateReportService
 	{
-		private PassCardTemplateLocalizeDataSource _source;
-		private PassCardTemplate _passCardTemplate;
-		private readonly Guid _organisationId;
-		private readonly Guid _passCardTemplateId;
+	//	private readonly PassCardTemplateLocalizeDataSource _source;
+		//private PassCardTemplate _passCardTemplate;
+		//private readonly Guid _organisationId;
 
-		public PassCardTemplateReportService(ShortPassCardTemplate passCardTemplate, SKDModelBase organisation)
+		public PassCardTemplateReportService()
 		{
-			_source = new PassCardTemplateLocalizeDataSource();
-			_passCardTemplateId = passCardTemplate.UID;
-			_organisationId = organisation.UID;
+	//		_source = new PassCardTemplateLocalizeDataSource();
 		}
 
-		public Task<PassCardTemplate> GetPassCardTemplate()
+		public PassCardTemplateLocalizeDataSource PassCardTemplateDataSource { get; private set; }
+
+
+		//public Task<PassCardTemplateLocalizeDataSource> GetPassCardTemplateSource()
+		//{
+		//	return Task.Factory.StartNew(() => AdditionalColumnTypeHelper.GetByOrganisation(_organisationId))
+		//		.ContinueWith(t => AddAdditionalColumns(t.Result.Select(x => x.ToDataColumn())));
+		//}
+
+		private static void AddAdditionalColumnsToSource(IEnumerable<DataColumn> columns, PassCardTemplateDataSource source)
 		{
-			return Task.Factory.StartNew(() => PassCardTemplateHelper.GetDetails(_passCardTemplateId));
+			source.Tables[0].Columns.AddRange(columns.ToArray()); //replace Employee by Tables[0]
 		}
 
-		public Task<PassCardTemplateLocalizeDataSource> GetPassCardTemplateSource()
+		public PassCardTemplateLocalizeDataSource GetEmptyDataSource(IEnumerable<DataColumn> columns = null)
 		{
-			return Task.Factory.StartNew(() => AdditionalColumnTypeHelper.GetByOrganisation(_organisationId))
-				.ContinueWith(t => AddAdditionalColumns(t.Result.Select(x => x.ToDataColumn())));
-		}
+			var source = new PassCardTemplateLocalizeDataSource();
 
-		private PassCardTemplateLocalizeDataSource AddAdditionalColumns(IEnumerable<DataColumn> columns)
-		{
-			_source.Employee.Columns.AddRange(columns.ToArray());
-			return _source;
+			if (columns != null)
+				AddAdditionalColumnsToSource(columns, source);
+
+			return source;
 		}
 	}
 }

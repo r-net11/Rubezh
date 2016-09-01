@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Data;
 using DevExpress.Data.XtraReports.DataProviders;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
@@ -59,12 +60,26 @@ namespace SKDModule.ViewModels
 				{
 					var report = xReport.Report.ToXtraReport(xReport.BackgroundImage);
 					var ds = new PassCardTemplateDataSource();
+					foreach (var column in xReport.Data.AdditionalColumns)
+					{
+						var r = new DataColumn(column.Name, typeof (string));
+						ds.Employee.Columns.Add(column.GraphicValue != null
+							? new DataColumn(column.Name, typeof (byte[]))
+							: new DataColumn(column.Name, typeof (string)));
+					}
 					var row = ds.Employee.NewEmployeeRow();
 					row.UID = Guid.NewGuid();
 					row.FirstName = xReport.Data.FirstName;
 					row.MiddleName = xReport.Data.MiddleName;
 					row.LastName = xReport.Data.LastName;
 					row.Image = xReport.BackgroundImage;
+					foreach (var column in xReport.Data.AdditionalColumns)
+					{
+						if (column.GraphicValue != null)
+							row[column.Name] = column.GraphicValue;
+						else
+							row[column.Name] = column.TextValue;
+					}
 					ds.Employee.AddEmployeeRow(row);
 					report.DataSource = ds;
 					report.DataMember = ds.Tables[0].TableName;

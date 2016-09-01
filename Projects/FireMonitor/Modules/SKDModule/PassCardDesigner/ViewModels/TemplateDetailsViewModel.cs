@@ -114,10 +114,11 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			OrganisationUID = organisation.UID;
 			var service = new PassCardTemplateReportService(model, organisation);
-			var task1 = service.GetPassCardTemplate().ContinueWith(t =>
-			{
-				PassCardTemplate = new Template(t.Result);
-			});
+			var task1 = Task.Factory.StartNew(() => PassCardTemplateHelper.GetDetails(model.UID))
+				.ContinueWith(t =>
+				{
+					PassCardTemplate = new Template(t.Result);
+				});
 			var task2 = service.GetPassCardTemplateSource();
 			Task.Factory.ContinueWhenAll(new[] {task1, task2}, tasks =>
 			{

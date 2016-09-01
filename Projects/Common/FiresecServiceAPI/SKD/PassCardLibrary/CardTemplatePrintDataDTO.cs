@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using StrazhAPI.SKD.PassCardLibrary;
 
 namespace StrazhAPI.SKD
 {
 	[DataContract]
-	public class CardTemplatePrintData
+	public class CardTemplatePrintDataDTO
 	{
 		[DataMember] public string LastName { get; set; }
 		[DataMember] public string FirstName { get; set; }
@@ -21,5 +23,7 @@ namespace StrazhAPI.SKD
 		[DataMember] public byte[] OrganisationLogo { get; set; }
 		[DataMember] public byte[] DepartmentLogo { get; set; }
 		[DataMember] public byte[] PositionLogo { get; set; }
+		[DataMember] public IEnumerable<AdditionalColumnDTO> AdditionalColumns { get; set; }
+
 	}
 }

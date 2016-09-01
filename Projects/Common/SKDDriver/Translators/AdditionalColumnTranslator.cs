@@ -71,11 +71,11 @@ namespace StrazhDAL
 		public List<TextColumn> GetTextColumns(Guid employeeUID, List<Guid> textColumnTypes, IEnumerable<DataAccess.AdditionalColumn> tableItems)
 		{
 			var textColumns = new List<TextColumn>();
-			foreach (var item in (from x in tableItems where x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x))
+			foreach (var item in (tableItems.Where(x => x.AdditionalColumnTypeUID != null && (x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value)))))
 			{
 				textColumns.Add(new TextColumn
 				{
-					ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value),
+					ColumnTypeUID = textColumnTypes.FirstOrDefault(x => item.AdditionalColumnTypeUID != null && x == item.AdditionalColumnTypeUID.Value),
 					Text = item.TextData
 				});
 			}
@@ -95,25 +95,25 @@ namespace StrazhDAL
 						photosToSave.Add(apiItem.Photo);
 					continue;
 				}
-				if (tableItem.PhotoUID == null && apiItem.Photo == null)
-					continue;
-				else if (tableItem.PhotoUID == null && apiItem.Photo != null)
-					photosToSave.Add(apiItem.Photo);
-				else if (tableItem.PhotoUID != null && apiItem.Photo == null)
-					photosToDelete.Add(tableItem.PhotoUID.Value);
-				else if (tableItem.PhotoUID != apiItem.Photo.UID)
+
+				if (tableItem.PhotoUID != null || apiItem.Photo != null)
 				{
-					photosToSave.Add(apiItem.Photo);
-					photosToDelete.Add(tableItem.PhotoUID.Value);
+					if (tableItem.PhotoUID == null && apiItem.Photo != null)
+						photosToSave.Add(apiItem.Photo);
+					else if (tableItem.PhotoUID != null && apiItem.Photo == null)
+						photosToDelete.Add(tableItem.PhotoUID.Value);
+					else if (tableItem.PhotoUID != apiItem.Photo.UID)
+					{
+						photosToSave.Add(apiItem.Photo);
+						photosToDelete.Add(tableItem.PhotoUID.Value);
+					}
 				}
 			}
 			var photoSaveResult = DatabaseService.PhotoTranslator.Save(photosToSave);
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
-			//var photoDeleteResult = PhotoTranslator.Delete(photosToDelete);
-			//if (photoDeleteResult.HasError)
-			//	return photoDeleteResult;
-			return base.Save(apiItems);
+
+			return photoSaveResult.HasError
+				? photoSaveResult
+				: base.Save(apiItems);
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumn, bool>> IsInFilter(AdditionalColumnFilter filter)
@@ -134,12 +134,15 @@ namespace StrazhDAL
 			{
 				if (typeUID == Guid.Empty)
 					return new OperationResult("Не задан идентификатор");
+
 				var databaseItems = Table.Where(x => x.AdditionalColumnTypeUID.Equals(typeUID));
-				if (databaseItems != null && databaseItems.Count() > 0)
+
+				if (databaseItems.Any())
 				{
 					Table.DeleteAllOnSubmit(databaseItems);
 					Context.SubmitChanges();
 				}
+
 				return new OperationResult();
 			}
 			catch (Exception e)

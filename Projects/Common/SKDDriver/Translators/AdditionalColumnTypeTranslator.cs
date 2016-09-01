@@ -67,9 +67,7 @@ namespace StrazhDAL
 				return null;
 			try
 			{
-				var result = Table.Where(x => x != null &&
-					!x.IsDeleted &&
-					x.UID == uid.Value).FirstOrDefault();
+				var result = Table.FirstOrDefault(x => x != null && !x.IsDeleted && x.UID == uid.Value);
 				return result != null ? Translate(result) : null;
 			}
 			catch (Exception e)
