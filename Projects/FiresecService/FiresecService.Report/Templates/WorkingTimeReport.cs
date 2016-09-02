@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DevExpress.Office.Utils;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -26,7 +27,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Справка по отработанному времени"; }
+			get { return CommonResources.InfoAboutWorkTime; }
 		}
 
 		protected bool AllowOnlyAcceptedOvertime { get; set; }
@@ -146,8 +147,8 @@ namespace FiresecService.Report.Templates
 					dataRow.TotalBalance = GetBalanceWithoutNonAcceptedOvertime(totalDocumentOvertime, totalAbsence, totalDocumentAbsence, totalOvertime, filter.AllowOnlyAcceptedOvertime).ToString("f1");
 				}
 				dataRow.TotalBalanceHeaderName = filter.AllowOnlyAcceptedOvertime
-												? "Баланс (без учета неподтвержденных переработок)"
-												: "Баланс (включая неподтвержденные переработки)";
+												? CommonResources.BalanceWithoutTimeout
+												: CommonResources.BalanceWithTimeout;
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			return dataSet;

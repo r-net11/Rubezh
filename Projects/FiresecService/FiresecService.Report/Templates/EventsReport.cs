@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
@@ -31,7 +32,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Отчет по событиям системы контроля доступа"; }
+			get { return CommonResources.SystemEventsReport; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

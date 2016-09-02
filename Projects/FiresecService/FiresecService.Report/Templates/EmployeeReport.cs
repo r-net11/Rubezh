@@ -1,5 +1,6 @@
 ﻿using System;
 using DevExpress.XtraReports.UI;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
@@ -26,7 +27,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Справка о " + (GetFilter<EmployeeReportFilter>().IsEmployee ? "сотруднике" : "посетителе"); }
+			get { return CommonResources.InfoAbout + (GetFilter<EmployeeReportFilter>().IsEmployee ? CommonResources.EmployeeAbout : CommonResources.VisitorAbout); }
 		}
 
 		public override void ApplyFilter(SKDReportFilter filter)
@@ -120,9 +121,9 @@ namespace FiresecService.Report.Templates
 			foreach (var cardRow in cardRows)
 				AddRowToLeftTable("", cardRow.Number.ToString());
 			if (cardRows.Length == 0)
-				AddRowToLeftTable("Пропуск", null);
+				AddRowToLeftTable(CommonResources.Passcard, null);
 			else
-				xrLeftTable.Rows[3].Cells[0].Text = "Пропуск";
+				xrLeftTable.Rows[3].Cells[0].Text = CommonResources.Passcard;
 			foreach (var propertyRow in currentRow.GetAdditionalColumnsRows())
 				AddRowToLeftTable(propertyRow.Name, propertyRow.Value);
 			xrLeftTable.HeightF = xrLeftTable.Rows.Count * xrRightTable.Rows[0].HeightF;

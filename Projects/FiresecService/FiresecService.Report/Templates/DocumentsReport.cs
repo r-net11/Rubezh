@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.FiresecService.Report.Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -24,7 +25,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Отчет по оправдательным документам"; }
+			get { return CommonResources.DocumentsReport; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

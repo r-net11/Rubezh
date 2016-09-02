@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.FiresecService.Report.Common;
+using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using StrazhDAL.DataAccess;
@@ -235,14 +236,14 @@ namespace FiresecService.Report.Templates
 			//
 			xrTableCell1.Dpi = 254F;
 			xrTableCell1.Name = "xrTableCell1";
-			xrTableCell1.Text = "Зона";
+			xrTableCell1.Text = CommonResources.Zone;
 			xrTableCell1.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell2
 			//
 			xrTableCell2.Dpi = 254F;
 			xrTableCell2.Name = "xrTableCell2";
-			xrTableCell2.Text = "Дата и время входа";
+			xrTableCell2.Text = CommonResources.EnterDate;
 			xrTableCell2.Weight = 0.10056870156204052D;
 			//
 			// xrTableCellExitHeader
@@ -253,7 +254,7 @@ namespace FiresecService.Report.Templates
 				{
 					xrTableCellExitHeader.Dpi = 254F;
 					xrTableCellExitHeader.Name = "xrTableCellExitHeader";
-					xrTableCellExitHeader.Text = "Дата и время выхода";
+					xrTableCellExitHeader.Text = CommonResources.ExitDate;
 					xrTableCellExitHeader.Weight = 0.10056870156204054D;
 				}
 			}
@@ -262,35 +263,35 @@ namespace FiresecService.Report.Templates
 			//
 			xrTableCell4.Dpi = 254F;
 			xrTableCell4.Name = "xrTableCell4";
-			xrTableCell4.Text = "Длительность пребывания";
+			xrTableCell4.Text = CommonResources.Duration;
 			xrTableCell4.Weight = 0.105D;
 			//
 			// xrTableCell5
 			//
 			xrTableCell5.Dpi = 254F;
 			xrTableCell5.Name = "xrTableCell5";
-			xrTableCell5.Text = filter.IsEmployee ? "Сотрудник" : "Посетитель";
+			xrTableCell5.Text = filter.IsEmployee ? CommonResources.Employee : CommonResources.Visitor;
 			xrTableCell5.Weight = 0.31367851069849384D;
 			//
 			// xrTableCell6
 			//
 			xrTableCell6.Dpi = 254F;
 			xrTableCell6.Name = "xrTableCell6";
-			xrTableCell6.Text = "Организация";
+			xrTableCell6.Text = CommonResources.Organization;
 			xrTableCell6.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell7
 			//
 			xrTableCell7.Dpi = 254F;
 			xrTableCell7.Name = "xrTableCell7";
-			xrTableCell7.Text = "Отдел";
+			xrTableCell7.Text = CommonResources.Department;
 			xrTableCell7.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell8
 			//
 			xrTableCell8.Dpi = 254F;
 			xrTableCell8.Name = "xrTableCell8";
-			xrTableCell8.Text = filter.IsEmployee ? "Должность" : "Сопровождающий";
+			xrTableCell8.Text = filter.IsEmployee ? CommonResources.Position : CommonResources.Maintainer;
 			xrTableCell8.Weight = 0.15384615384615386D;
 			//
 			// xrControlStyle1
@@ -330,7 +331,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Местонахождение " + (GetFilter<EmployeeZonesReportFilter>().IsEmployee ? "сотрудников" : "посетителей"); }
+			get { return CommonResources.Location + (GetFilter<EmployeeZonesReportFilter>().IsEmployee ? CommonResources.EmployeeNo : CommonResources.VisitorNo); }
 		}
 
 		public override void ApplyFilter(SKDReportFilter filter)
@@ -374,7 +375,7 @@ namespace FiresecService.Report.Templates
 			dataRow.Orgnisation = employee.Organisation;
 			dataRow.Department = employee.Department;
 			dataRow.Position = employee.Position;
-			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : "Зона не найдена";
+			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : CommonResources.ZoneNotFound;
 			dataRow.EnterDateTime = record.EnterTime;
 
 			TimeSpan periodTimeSpanValue;
@@ -386,7 +387,7 @@ namespace FiresecService.Report.Templates
 			else
 				periodTimeSpanValue = DateTime.Now - record.EnterTime;
 
-			dataRow.Period = string.Format("{0} ч. {1} м. {2} с.", (int)periodTimeSpanValue.TotalHours, periodTimeSpanValue.Minutes, periodTimeSpanValue.Seconds);
+			dataRow.Period = string.Format(CommonResources.HMS, (int)periodTimeSpanValue.TotalHours, periodTimeSpanValue.Minutes, periodTimeSpanValue.Seconds);
 
 			if (!filter.IsEmployee)
 			{

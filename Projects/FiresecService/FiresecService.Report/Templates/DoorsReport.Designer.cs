@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class DoorsReport
 	{
@@ -248,63 +250,63 @@
 			// 
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = "Точка доступа";
+			this.xrTableCell8.Text = CommonResources.Door;
 			this.xrTableCell8.Weight = 0.11977989402244961D;
 			// 
 			// xrTableCell9
 			// 
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Контроллер";
+			this.xrTableCell9.Text = CommonResources.Controller;
 			this.xrTableCell9.Weight = 0.138150264088675D;
 			// 
 			// xrTableCell10
 			// 
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = "IP-адрес";
+			this.xrTableCell10.Text = CommonResources.IPAddress;
 			this.xrTableCell10.Weight = 0.093802409467861614D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Считыватель вход";
+			this.xrTableCell11.Text = CommonResources.ReaderIn;
 			this.xrTableCell11.Weight = 0.11597633677826831D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Зона 1";
+			this.xrTableCell12.Text = CommonResources.Zone1;
 			this.xrTableCell12.Weight = 0.11597632413785133D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Считыватель выход";
+			this.xrTableCell13.Text = CommonResources.ReaderOut;
 			this.xrTableCell13.Weight = 0.11597632413785136D;
 			// 
 			// xrTableCell16
 			// 
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
-			this.xrTableCell16.Text = "Зона 2";
+			this.xrTableCell16.Text = CommonResources.Zone2;
 			this.xrTableCell16.Weight = 0.11597632774939906D;
 			// 
 			// xrTableCell17
 			// 
 			this.xrTableCell17.Dpi = 254F;
 			this.xrTableCell17.Name = "xrTableCell17";
-			this.xrTableCell17.Text = "Организация";
+			this.xrTableCell17.Text = CommonResources.Organization;
 			this.xrTableCell17.Weight = 0.11597632955517293D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
-			this.xrTableCell14.Text = "Примечание";
+			this.xrTableCell14.Text = CommonResources.Note;
 			this.xrTableCell14.Weight = 0.1159763295551729D;
 			// 
 			// xrControlStyle1

@@ -1,4 +1,7 @@
-﻿namespace FiresecService.Report.Templates
+﻿using System;
+using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class EmployeeReport
 	{
@@ -141,7 +144,7 @@
 			//
 			this.xrTableCell37.Dpi = 254F;
 			this.xrTableCell37.Name = "xrTableCell37";
-			this.xrTableCell37.Text = "Табельный номер";
+			this.xrTableCell37.Text = CommonResources.PersonnelNumber;
 			this.xrTableCell37.Weight = 1.1249999872843359D;
 			//
 			// xrTableCell38
@@ -166,7 +169,7 @@
 			//
 			this.xrTableCell39.Dpi = 254F;
 			this.xrTableCell39.Name = "xrTableCell39";
-			this.xrTableCell39.Text = "Телефон";
+			this.xrTableCell39.Text = CommonResources.Phone;
 			this.xrTableCell39.Weight = 1.1249998346963677D;
 			//
 			// xrTableCell40
@@ -192,7 +195,7 @@
 			//
 			this.xrTableCell35.Dpi = 254F;
 			this.xrTableCell35.Name = "xrTableCell35";
-			this.xrTableCell35.Text = "График работы";
+			this.xrTableCell35.Text = CommonResources.WorkSchedule;
 			this.xrTableCell35.Weight = 1.1249998346963677D;
 			//
 			// xrTableCell36
@@ -244,7 +247,7 @@
 			//
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "Фамилия";
+			this.xrTableCell1.Text = CommonResources.LastName;
 			this.xrTableCell1.Weight = 1D;
 			//
 			// xrTableCell2
@@ -270,7 +273,7 @@
 			//
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Text = "Имя";
+			this.xrTableCell3.Text = CommonResources.FirstName;
 			this.xrTableCell3.Weight = 1D;
 			//
 			// xrTableCell4
@@ -295,7 +298,7 @@
 			//
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Отчество";
+			this.xrTableCell9.Text = CommonResources.SecondName;
 			this.xrTableCell9.Weight = 1D;
 			//
 			// xrTableCell10
@@ -321,7 +324,7 @@
 			//
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.Text = "Организация";
+			this.xrTableCell7.Text = CommonResources.Organization;
 			this.xrTableCell7.Weight = 1D;
 			//
 			// xrTableCell8
@@ -346,7 +349,7 @@
 			//
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Text = "Подразделение";
+			this.xrTableCell5.Text = CommonResources.Department;
 			this.xrTableCell5.Weight = 1D;
 			//
 			// xrTableCell6
@@ -372,7 +375,7 @@
 			//
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Должность";
+			this.xrTableCell11.Text = CommonResources.Position;
 			this.xrTableCell11.Weight = 1D;
 			//
 			// xrTableCell12
@@ -397,7 +400,7 @@
 			//
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Документ";
+			this.xrTableCell13.Text = CommonResources.Document;
 			this.xrTableCell13.Weight = 1D;
 			//
 			// xrTableCell14
@@ -423,7 +426,7 @@
 			//
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
-			this.xrTableCell15.Text = "Номер";
+			this.xrTableCell15.Text = CommonResources.Number;
 			this.xrTableCell15.Weight = 1D;
 			//
 			// xrTableCell16
@@ -448,7 +451,7 @@
 			//
 			this.xrTableCell17.Dpi = 254F;
 			this.xrTableCell17.Name = "xrTableCell17";
-			this.xrTableCell17.Text = "Гражданство";
+			this.xrTableCell17.Text = CommonResources.Citizenship;
 			this.xrTableCell17.Weight = 1D;
 			//
 			// xrTableCell18
@@ -474,7 +477,7 @@
 			//
 			this.xrTableCell19.Dpi = 254F;
 			this.xrTableCell19.Name = "xrTableCell19";
-			this.xrTableCell19.Text = "Пол";
+			this.xrTableCell19.Text = CommonResources.Sex;
 			this.xrTableCell19.Weight = 1D;
 			//
 			// xrTableCell21
@@ -499,7 +502,7 @@
 			//
 			this.xrTableCell23.Dpi = 254F;
 			this.xrTableCell23.Name = "xrTableCell23";
-			this.xrTableCell23.Text = "Дата рождения";
+			this.xrTableCell23.Text = CommonResources.BirthDate;
 			this.xrTableCell23.Weight = 1D;
 			//
 			// xrTableCell26
@@ -525,7 +528,7 @@
 			//
 			this.xrTableCell27.Dpi = 254F;
 			this.xrTableCell27.Name = "xrTableCell27";
-			this.xrTableCell27.Text = "Место рождения";
+			this.xrTableCell27.Text = CommonResources.BirthPlace;
 			this.xrTableCell27.Weight = 1D;
 			//
 			// xrTableCell28
@@ -550,7 +553,7 @@
 			//
 			this.xrTableCell29.Dpi = 254F;
 			this.xrTableCell29.Name = "xrTableCell29";
-			this.xrTableCell29.Text = "Кем выдан";
+			this.xrTableCell29.Text = CommonResources.IssuedBy;
 			this.xrTableCell29.Weight = 1D;
 			//
 			// xrTableCell30
@@ -576,7 +579,7 @@
 			//
 			this.xrTableCell31.Dpi = 254F;
 			this.xrTableCell31.Name = "xrTableCell31";
-			this.xrTableCell31.Text = "Дата выдачи";
+			this.xrTableCell31.Text = CommonResources.IssueDate;
 			this.xrTableCell31.Weight = 1D;
 			//
 			// xrTableCell32
@@ -601,7 +604,7 @@
 			//
 			this.xrTableCell33.Dpi = 254F;
 			this.xrTableCell33.Name = "xrTableCell33";
-			this.xrTableCell33.Text = "Действителен до";
+			this.xrTableCell33.Text = CommonResources.ExpireDate;
 			this.xrTableCell33.Weight = 1D;
 			//
 			// xrTableCell34
@@ -658,7 +661,7 @@
 			// EmployeeText
 			//
 			this.EmployeeText.DataMember = "Data";
-			this.EmployeeText.Expression = "Iif([IsEmployee] == True, \'Справка о сотруднике\' , \'Справка о посетителе\')";
+			this.EmployeeText.Expression = string.Format("Iif([IsEmployee] == True, {0}, {1})", CommonResources.InfoAboutEmployee, CommonResources.InfoAboutVisitor);
 			this.EmployeeText.Name = "EmployeeText";
 			//
 			// OddRowStyle

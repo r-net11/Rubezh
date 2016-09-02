@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class DepartmentsReport
 	{
@@ -165,7 +167,7 @@
 			// 
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
-			this.xrTableCell16.Text = "Уровень";
+			this.xrTableCell16.Text = CommonResources.Level;
 			//this.xrTableCell16.Weight = 0.20512820512820512D;
 			this.xrTableCell16.WidthF = columnsWidth[0];
 			// 
@@ -173,28 +175,28 @@
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Подразделение";
+			this.xrTableCell11.Text = CommonResources.Department;
 			this.xrTableCell11.Weight = 0.66666666666666652D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Телефон";
+			this.xrTableCell12.Text = CommonResources.Phone;
 			this.xrTableCell12.Weight = 0.41025641025641019D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Руководитель";
+			this.xrTableCell13.Text = CommonResources.Head;
 			this.xrTableCell13.Weight = 0.66666666666666674D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
-			this.xrTableCell14.Text = "Вышестоящее подразделение";
+			this.xrTableCell14.Text = CommonResources.UpstayDepart;
 			this.xrTableCell14.Weight = 0.66666666666666652D;
 			// 
 			// xrTableCell15
@@ -202,14 +204,14 @@
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.StylePriority.UseBackColor = false;
-			this.xrTableCell15.Text = "Примечание";
+			this.xrTableCell15.Text = CommonResources.Note;
 			this.xrTableCell15.Weight = 0.51282051282051277D;
 			// 
 			// xrTableCellArchiveHeader
 			// 
 			this.xrTableCellArchiveHeader.Dpi = 254F;
 			this.xrTableCellArchiveHeader.Name = "xrTableCellArchiveHeader";
-			this.xrTableCellArchiveHeader.Text = "Архив";
+			this.xrTableCellArchiveHeader.Text = CommonResources.Archive;
 			this.xrTableCellArchiveHeader.Weight = 0.20512820512820509D;
 			// 
 			// Detail

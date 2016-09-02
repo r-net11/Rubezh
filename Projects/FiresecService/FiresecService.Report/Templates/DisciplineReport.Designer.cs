@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class DisciplineReport
 	{
@@ -269,77 +271,77 @@
 			//
 			this.xrTableCell1N.Dpi = 254F;
 			this.xrTableCell1N.Name = "xrTableCell1N";
-			this.xrTableCell1N.Text = "Дата";
+			this.xrTableCell1N.Text = CommonResources.Date;
 			this.xrTableCell1N.WidthF = columnsWidth[0];
 			//
 			// xrTableCell12
 			//
 			this.xrTableCell2N.Dpi = 254F;
 			this.xrTableCell2N.Name = "xrTableCell2N";
-			this.xrTableCell2N.Text = "День";
+			this.xrTableCell2N.Text = CommonResources.Day;
 			this.xrTableCell2N.WidthF = columnsWidth[1];
 			//
 			// xrTableCell21
 			//
 			this.xrTableCell3N.Dpi = 254F;
 			this.xrTableCell3N.Name = "xrTableCell3N";
-			this.xrTableCell3N.Text = "Приход";
+			this.xrTableCell3N.Text = CommonResources.Coming;
 			this.xrTableCell3N.WidthF = columnsWidth[2];
 			//
 			// xrTableCell9
 			//
 			this.xrTableCell4N.Dpi = 254F;
 			this.xrTableCell4N.Name = "xrTableCell4N";
-			this.xrTableCell4N.Text = "Уход";
+			this.xrTableCell4N.Text = CommonResources.Exit;
 			this.xrTableCell4N.WidthF = columnsWidth[2];
 			//
 			// xrTableCell20
 			//
 			this.xrTableCell5N.Dpi = 254F;
 			this.xrTableCell5N.Name = "xrTableCell5N";
-			this.xrTableCell5N.Text = "Сотрудник";
+			this.xrTableCell5N.Text = CommonResources.Employee;
 			this.xrTableCell5N.WidthF = columnsWidth[5];
 			//
 			// xrTableCell10
 			//
 			this.xrTableCell6N.Dpi = 254F;
 			this.xrTableCell6N.Name = "xrTableCell6N";
-			this.xrTableCell6N.Text = "Организация";
+			this.xrTableCell6N.Text = CommonResources.Organization;
 			this.xrTableCell6N.WidthF = columnsWidth[7];
 			//
 			// xrTableCell19
 			//
 			this.xrTableCell7N.Dpi = 254F;
 			this.xrTableCell7N.Name = "xrTableCell7N";
-			this.xrTableCell7N.Text = "Подразделение";
+			this.xrTableCell7N.Text = CommonResources.Department;
 			this.xrTableCell7N.WidthF = columnsWidth[7];
 			//
 			// xrTableCell18
 			//
 			this.xrTableCell8N.Dpi = 254F;
 			this.xrTableCell8N.Name = "xrTableCell8N";
-			this.xrTableCell8N.Text = "Опоздание";
+			this.xrTableCell8N.Text = CommonResources.Lateness;
 			this.xrTableCell8N.WidthF = columnsWidth[0];
 			//
 			// xrTableCell12
 			//
 			this.xrTableCell9N.Dpi = 254F;
 			this.xrTableCell9N.Name = "xrTableCell9N";
-			this.xrTableCell9N.Text = "Уход раньше";
+			this.xrTableCell9N.Text = CommonResources.EarlyLeave;
 			this.xrTableCell9N.WidthF = columnsWidth[0];
 			//
 			// xrTableCell17
 			//
 			this.xrTableCell10N.Dpi = 254F;
 			this.xrTableCell10N.Name = "xrTableCell10N";
-			this.xrTableCell10N.Text = "Отсутствие";
+			this.xrTableCell10N.Text = CommonResources.Absence;
 			this.xrTableCell10N.WidthF = columnsWidth[0];
 			//
 			// xrTableCell13
 			//
 			this.xrTableCell11N.Dpi = 254F;
 			this.xrTableCell11N.Name = "xrTableCell11N";
-			this.xrTableCell11N.Text = "Переработки";
+			this.xrTableCell11N.Text = CommonResources.Timeovers;
 			this.xrTableCell11N.WidthF = columnsWidth[0];
 			//
 			// xrControlStyle1
@@ -368,7 +370,7 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UsePadding = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			this.xrSummary1.FormatString = "Всего записей: {0}";
+			this.xrSummary1.FormatString = CommonResources.TottallyRecords;
 			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
 			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
 			this.xrLabel1.Summary = this.xrSummary1;

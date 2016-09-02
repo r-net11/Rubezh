@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Text;
 using DevExpress.XtraReports.UI;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD.ReportFilters;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace FiresecService.Report.Templates
 				UserName.Value = Filter.User;
 				var periodFilter = Filter as IReportFilterPeriod;
 				if (periodFilter != null)
-					Period.Value = string.Format("c {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", periodFilter.DateTimeFrom,
+					Period.Value = string.Format(CommonResources.FromDateToDate, periodFilter.DateTimeFrom,
 						periodFilter.DateTimeTo);
 
 				lTimestamp.Visible = Filter.PrintDate;
@@ -188,7 +189,7 @@ namespace FiresecService.Report.Templates
 		private string BuildFilterString()
 		{
 			var sb = new StringBuilder();
-			sb.AppendLine("ФИЛЬТР:");
+			sb.AppendLine(CommonResources.FilterUpperCase);
 			foreach (var property in Filter.GetType().GetProperties().OrderBy(prop => prop.Name))
 			{
 				var propType = property.PropertyType;

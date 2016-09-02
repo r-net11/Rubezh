@@ -1195,15 +1195,6 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mandatory duration rotating schedule.
-        /// </summary>
-        public static string MandatorySlidingDay {
-            get {
-                return ResourceManager.GetString("MandatorySlidingDay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to lack of.
         /// </summary>
         public static string Miss {

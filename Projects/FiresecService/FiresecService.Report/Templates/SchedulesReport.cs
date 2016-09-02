@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -24,7 +25,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Отчет по графикам работы"; }
+			get { return CommonResources.WorkScheduleReport; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

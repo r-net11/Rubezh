@@ -496,9 +496,6 @@
   <data name="Main" xml:space="preserve">
     <value>main</value>
   </data>
-  <data name="MandatorySlidingDay" xml:space="preserve">
-    <value>Mandatory duration rotating schedule</value>
-  </data>
   <data name="Miss" xml:space="preserve">
     <value>lack of</value>
   </data>

@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class DocumentsReport
 	{
@@ -265,63 +267,63 @@
 			// 
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = "Сотрудник";
+			this.xrTableCell10.Text = CommonResources.Employee;
 			this.xrTableCell10.Weight = 0.21538461899616312D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Дата нач.";
+			this.xrTableCell11.Text = CommonResources.StartDate;
 			this.xrTableCell11.Weight = 0.1159763304580598D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Дата оконч.";
+			this.xrTableCell12.Text = CommonResources.EndDate;
 			this.xrTableCell12.Weight = 0.11597633045805983D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Время нач.";
+			this.xrTableCell13.Text = CommonResources.StartTime;
 			this.xrTableCell13.Weight = 0.082840235783503566D;
 			// 
 			// xrTableCell8
 			// 
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = "Время оконч.";
+			this.xrTableCell8.Text = CommonResources.EndTime;
 			this.xrTableCell8.Weight = 0.082840238040720965D;
 			// 
 			// xrTableCell1
 			// 
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "Тип";
+			this.xrTableCell1.Text = CommonResources.Type;
 			this.xrTableCell1.Weight = 0.1656804747271115D;
 			// 
 			// xrTableCell9
 			// 
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Документ";
+			this.xrTableCell9.Text = CommonResources.Document;
 			this.xrTableCell9.Weight = 0.68191724591488478D;
 			// 
 			// xrTableCell2
 			// 
 			this.xrTableCell2.Dpi = 254F;
 			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = "Букв. код";
+			this.xrTableCell2.Text = CommonResources.LitteralCode;
 			this.xrTableCell2.Weight = 0.083718108555867282D;
 			// 
 			// xrTableCell15
 			// 
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
-			this.xrTableCell15.Text = "Числ. код";
+			this.xrTableCell15.Text = CommonResources.NumCode;
 			this.xrTableCell15.Weight = 0.083720949516546156D;
 			// 
 			// xrControlStyle1

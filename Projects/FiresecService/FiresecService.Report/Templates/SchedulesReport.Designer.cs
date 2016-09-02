@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class SchedulesReport
 	{
@@ -308,7 +310,7 @@
 			//
 			this.xrTableCellEmployeeHeader.Dpi = 254F;
 			this.xrTableCellEmployeeHeader.Name = "xrTableCellEmployeeHeader";
-			this.xrTableCellEmployeeHeader.Text = "Сотрудник";
+			this.xrTableCellEmployeeHeader.Text = CommonResources.Employee;
 			this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
 			//
@@ -316,7 +318,7 @@
 			//
 			this.xrTableCellOrganisationHeader.Dpi = 254F;
 			this.xrTableCellOrganisationHeader.Name = "xrTableCellOrganisationHeader";
-			this.xrTableCellOrganisationHeader.Text = "Организация";
+			this.xrTableCellOrganisationHeader.Text = CommonResources.Organization;
 			this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
 			//this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
 			//
@@ -324,7 +326,7 @@
 			//
 			this.xrTableCell1DepartmentHeader.Dpi = 254F;
 			this.xrTableCell1DepartmentHeader.Name = "xrTableCell1DepartmentHeader";
-			this.xrTableCell1DepartmentHeader.Text = "Подразделение";
+			this.xrTableCell1DepartmentHeader.Text = CommonResources.Department;
 			this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[1];
 			//this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[2];
 			//
@@ -332,7 +334,7 @@
 			//
 			this.xrTableCellPositionHeader.Dpi = 254F;
 			this.xrTableCellPositionHeader.Name = "xrTableCellPositionHeader";
-			this.xrTableCellPositionHeader.Text = "Должность";
+			this.xrTableCellPositionHeader.Text = CommonResources.Position;
 			this.xrTableCellPositionHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellPositionHeader.WidthF = columnsWidth[3];
 			//
@@ -340,7 +342,7 @@
 			//
 			this.xrTableCellScheduleHeader.Dpi = 254F;
 			this.xrTableCellScheduleHeader.Name = "xrTableCellScheduleHeader";
-			this.xrTableCellScheduleHeader.Text = "График работы";
+			this.xrTableCellScheduleHeader.Text = CommonResources.WorkSchedule;
 			this.xrTableCellScheduleHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellScheduleHeader.WidthF = columnsWidth[4];
 			//
@@ -348,7 +350,7 @@
 			//
 			this.xrTableCellScheduleTypeHeader.Dpi = 254F;
 			this.xrTableCellScheduleTypeHeader.Name = "xrTableCellScheduleTypeHeader";
-			this.xrTableCellScheduleTypeHeader.Text = "Тип графика";
+			this.xrTableCellScheduleTypeHeader.Text = CommonResources.ScheduleType;
 			//this.xrTableCellScheduleTypeHeader.Weight = 0.099408282217894856D;
 			this.xrTableCellScheduleTypeHeader.WidthF = columnsWidth[5];
 			//
@@ -356,7 +358,7 @@
 			//
 			this.xrTableCellBaseScheduleHeader.Dpi = 254F;
 			this.xrTableCellBaseScheduleHeader.Name = "xrTableCellBaseScheduleHeader";
-			this.xrTableCellBaseScheduleHeader.Text = "Базовый график";
+			this.xrTableCellBaseScheduleHeader.Text = CommonResources.BasicSchedule;
 			this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[6];
 			//
@@ -364,7 +366,7 @@
 			//
 			this.xrTableCellUseHolidayValueHeader.Dpi = 254F;
 			this.xrTableCellUseHolidayValueHeader.Name = "xrTableCellUseHolidayValueHeader";
-			this.xrTableCellUseHolidayValueHeader.Text = "Не учит. праздн.";
+			this.xrTableCellUseHolidayValueHeader.Text = CommonResources.IgnoreHolidays;
 			this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[2];
 			//this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[7];
 			//
@@ -372,7 +374,7 @@
 			//
 			this.xrTableCellFirstEnterLastExitValueHeader.Dpi = 254F;
 			this.xrTableCellFirstEnterLastExitValueHeader.Name = "xrTableCellFirstEnterLastExitValueHeader";
-			this.xrTableCellFirstEnterLastExitValueHeader.Text = "Учит. только первый вход и последний выход";
+			this.xrTableCellFirstEnterLastExitValueHeader.Text = CommonResources.FirstEntrLastExt;
 			//this.xrTableCellFirstEnterLastExitValueHeader.Weight = 0.066272188446225511D;
 			this.xrTableCellFirstEnterLastExitValueHeader.WidthF = columnsWidth[8];
 			//
@@ -380,7 +382,7 @@
 			//
 			this.xrTableCellAllowedLateHeader.Dpi = 254F;
 			this.xrTableCellAllowedLateHeader.Name = "xrTableCellAllowedLateHeader";
-			this.xrTableCellAllowedLateHeader.Text = "Не учит. опоздания меньше";
+			this.xrTableCellAllowedLateHeader.Text = CommonResources.IgnoreAllowedLate;
 			this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[9];
 			//
@@ -388,7 +390,7 @@
 			//
 			this.xrTableCellAllowedEarlyLeaveHeader.Dpi = 254F;
 			this.xrTableCellAllowedEarlyLeaveHeader.Name = "xrTableCellAllowedEarlyLeaveHeader";
-			this.xrTableCellAllowedEarlyLeaveHeader.Text = "Не учит. ранний уход меньше";
+			this.xrTableCellAllowedEarlyLeaveHeader.Text = CommonResources.IgnoreEarlyLeave;
 			this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[10];
 			//
@@ -396,7 +398,7 @@
 			//
 			this.xrTableCellAbsenceHeader.Dpi = 254F;
 			this.xrTableCellAbsenceHeader.Name = "xrTableCellAbsenceHeader";
-			this.xrTableCellAbsenceHeader.Text = "Не учит. отсутствие меньше";
+			this.xrTableCellAbsenceHeader.Text = CommonResources.IgnoreAbsence;
 			this.xrTableCellAbsenceHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellAbsenceHeader.WidthF = columnsWidth[10];
 			//
@@ -404,7 +406,7 @@
 			//
 			this.xrTableCellOvertimeHeader.Dpi = 254F;
 			this.xrTableCellOvertimeHeader.Name = "xrTableCellOvertimeHeader";
-			this.xrTableCellOvertimeHeader.Text = "Не учит. переработку меньше";
+			this.xrTableCellOvertimeHeader.Text = CommonResources.IgnoreTimeover;
 			this.xrTableCellOvertimeHeader.WidthF = columnsWidth[0];
 			//this.xrTableCellOvertimeHeader.WidthF = columnsWidth[10];
 			//
@@ -417,13 +419,13 @@
 			// FirstEnterLastExitValue
 			//
 			this.FirstEnterLastExitValue.DataMember = "Data";
-			this.FirstEnterLastExitValue.Expression = " Iif([FirstEnterLastExit] == True, \'Да\' , \'Нет\')";
+			this.FirstEnterLastExitValue.Expression = string.Format(" Iif([FirstEnterLastExit] == True, {0}, {1})", CommonResources.Yes, CommonResources.No);
 			this.FirstEnterLastExitValue.Name = "FirstEnterLastExitValue";
 			//
 			// UseHolidayValue
 			//
 			this.UseHolidayValue.DataMember = "Data";
-			this.UseHolidayValue.Expression = " Iif([UseHoliday] != True, \'Да\' , \'Нет\')";
+			this.UseHolidayValue.Expression = string.Format(" Iif([UseHoliday] != True, {0}, {1})", CommonResources.Yes, CommonResources.No);
 			this.UseHolidayValue.Name = "UseHolidayValue";
 			//
 			// SchedulesReport

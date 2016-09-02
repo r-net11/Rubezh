@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.FiresecService.Report.Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -25,7 +26,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Сведения о пропусках"; }
+			get { return CommonResources.PasscardsInfo; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
@@ -84,7 +85,7 @@ namespace FiresecService.Report.Templates
 				foreach (var card in cardsResult.Result)
 				{
 					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.CardType.ToDescription();
+					dataRow.Type = card.IsInStopList ? CommonResources.Deactivated : card.CardType.ToDescription();
 					dataRow.Number = card.Number.ToString();
 					var employee = dataProvider.GetEmployee(card.EmployeeUID);
 					if (employee != null)

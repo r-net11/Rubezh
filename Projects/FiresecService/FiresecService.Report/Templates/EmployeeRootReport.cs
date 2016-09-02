@@ -1,4 +1,5 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.FiresecService.Report.Common;
+using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
@@ -92,7 +93,7 @@ namespace FiresecService.Report.Templates
 				DescriptionLabel = new DevExpress.XtraReports.UI.XRLabel();
 				Detail.Controls.Add(DescriptionLabel);
 				DescriptionLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Description", "Примечание: {0}")});
+					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Description", CommonResources.NoteWithColon)});
 				DescriptionLabel.Dpi = 254F;
 				DescriptionLabel.LocationFloat = new DevExpress.Utils.PointFloat(25.40002F, 152.40002F);
 				DescriptionLabel.Name = "DescriptionLabel";
@@ -107,12 +108,12 @@ namespace FiresecService.Report.Templates
 			if (isEmployee)
 			{
 				PositionOrEscortLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Position", "Должность: {0}")});
+					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Position", CommonResources.PositionWithColon)});
 			}
 			else
 			{
 				PositionOrEscortLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Escort", "Сопровождающий: {0}")});
+					new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Escort", CommonResources.MaintainerWithColon)});
 			}
 			PositionOrEscortLabel.Dpi = 254F;
 			PositionOrEscortLabel.LocationFloat = new DevExpress.Utils.PointFloat(868.5206F, 88.90002F);
@@ -125,7 +126,7 @@ namespace FiresecService.Report.Templates
 			// OrganisationLabel
 			//
 			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", "Организация: {0}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", CommonResources.OrganizationWithColon)});
 			OrganisationLabel.Dpi = 254F;
 			OrganisationLabel.LocationFloat = new DevExpress.Utils.PointFloat(25.40002F, 88.90002F);
 			OrganisationLabel.Name = "OrganisationLabel";
@@ -138,7 +139,7 @@ namespace FiresecService.Report.Templates
 			// EmployeeNameLabel
 			//
 			EmployeeNameLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", (isEmployee ? "Сотрудник" : "Посетитель") + ": {0}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", (isEmployee ? CommonResources.Employee : CommonResources.Visitor) + ": {0}")});
 			EmployeeNameLabel.Dpi = 254F;
 			EmployeeNameLabel.LocationFloat = new DevExpress.Utils.PointFloat(25.40002F, 25.40002F);
 			EmployeeNameLabel.Name = "EmployeeNameLabel";
@@ -151,7 +152,7 @@ namespace FiresecService.Report.Templates
 			// DepartmentLabel
 			//
 			DepartmentLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", "Подразделение: {0}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", CommonResources.DepartmentWithColon)});
 			DepartmentLabel.Dpi = 254F;
 			DepartmentLabel.LocationFloat = new DevExpress.Utils.PointFloat(868.5206F, 25.40002F);
 			DepartmentLabel.Name = "DepartmentLabel";
@@ -304,7 +305,7 @@ namespace FiresecService.Report.Templates
 			//
 			DateTimeHeaderCell.Dpi = 254F;
 			DateTimeHeaderCell.Name = "DateTimeHeaderCell";
-			DateTimeHeaderCell.Text = "Дата/время прохода";
+			DateTimeHeaderCell.Text = CommonResources.PassDate;
 			//DateTimeHeaderCell.Weight = 0.29D;
 			DateTimeHeaderCell.WidthF = columnsWidth[0];
 			//
@@ -320,7 +321,7 @@ namespace FiresecService.Report.Templates
 			//
 			ZoneHeaderCell.Dpi = 254F;
 			ZoneHeaderCell.Name = "ZoneHeaderCell";
-			ZoneHeaderCell.Text = "Зона";
+			ZoneHeaderCell.Text = CommonResources.Zone;
 			//ZoneHeaderCell.Weight = 0.29D;
 			ZoneHeaderCell.WidthF = columnsWidth[2];
 			//
@@ -367,7 +368,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Маршрут " + (GetFilter<EmployeeRootReportFilter>().IsEmployee ? "сотрудника" : "посетителя"); }
+			get { return CommonResources.Route + (GetFilter<EmployeeRootReportFilter>().IsEmployee ? CommonResources.EmployeeNo : CommonResources.VisitorNo); }
 		}
 
 		public override void ApplyFilter(SKDReportFilter filter)

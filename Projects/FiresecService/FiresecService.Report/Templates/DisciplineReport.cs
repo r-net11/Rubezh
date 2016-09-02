@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -26,7 +27,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Дисциплинарный отчет"; }
+			get { return CommonResources.DisciplinaryReport; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
@@ -125,7 +126,7 @@ namespace FiresecService.Report.Templates
 			if(resultDateTime == default(DateTime)) return string.Empty;
 
 			return resultDateTime.Date < dayTimeTrack.Date
-				? "Пред. день"
+				? CommonResources.PreviouslyDay
 				: resultDateTime.TimeOfDay.ToString(@"hh\:mm\:ss");
 		}
 
@@ -140,7 +141,7 @@ namespace FiresecService.Report.Templates
 			if (resultDateTime == default(DateTime?)) return string.Empty;
 
 			return resultDateTime.Value.Date > dayTimeTrack.Date
-				? "След. день"
+				? CommonResources.NextDay
 				: resultDateTime.Value.TimeOfDay.ToString(@"hh\:mm\:ss");
 		}
 

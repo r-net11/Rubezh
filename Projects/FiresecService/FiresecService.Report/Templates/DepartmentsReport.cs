@@ -1,6 +1,7 @@
 ﻿using Common;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -31,7 +32,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Список подразделений организации"; }
+			get { return CommonResources.DepartList; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

@@ -495,7 +495,7 @@
   <data name="Main" xml:space="preserve">
     <value>Основные</value>
   </data>
-  <data name="MandatorySlidingDay" xml:space="preserve">
+  <data name="ScheduleLength" xml:space="preserve">
     <value>Обязательная продолжительность скользящего графика</value>
   </data>
   <data name="Miss" xml:space="preserve">

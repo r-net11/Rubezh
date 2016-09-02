@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -26,7 +27,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Список точек доступа"; }
+			get { return CommonResources.DoorsList; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

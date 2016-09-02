@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -27,7 +28,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Список должностей организации"; }
+			get { return CommonResources.PositionList; }
 		}
 
 		protected override DataSet CreateDataSet(DataProvider dataProvider)

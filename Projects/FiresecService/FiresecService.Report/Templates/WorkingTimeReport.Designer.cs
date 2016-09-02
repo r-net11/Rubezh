@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
+using Localization.FiresecService.Report.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -346,7 +347,7 @@ namespace FiresecService.Report.Templates
 			this.EmployeeHeaderCell.RowSpan = 2;
 			this.EmployeeHeaderCell.StylePriority.UsePadding = false;
 			this.EmployeeHeaderCell.StylePriority.UseTextAlignment = false;
-			this.EmployeeHeaderCell.Text = "Сотрудник";
+			this.EmployeeHeaderCell.Text = CommonResources.Employee;
 			EmployeeHeaderCell.WidthF = columnsWidth[0];
 			//
 			// DepartmentHeaderCell
@@ -356,7 +357,7 @@ namespace FiresecService.Report.Templates
 			this.DepartmentHeaderCell.RowSpan = 2;
 			this.DepartmentHeaderCell.StylePriority.UsePadding = false;
 			this.DepartmentHeaderCell.StylePriority.UseTextAlignment = false;
-			this.DepartmentHeaderCell.Text = "Подразделение";
+			this.DepartmentHeaderCell.Text = CommonResources.Department;
 			DepartmentHeaderCell.WidthF = columnsWidth[0];
 			//
 			// PositionHeaderCell
@@ -366,7 +367,7 @@ namespace FiresecService.Report.Templates
 			this.PositionHeaderCell.RowSpan = 2;
 			this.PositionHeaderCell.StylePriority.UsePadding = false;
 			this.PositionHeaderCell.StylePriority.UseTextAlignment = false;
-			this.PositionHeaderCell.Text = "Должность";
+			this.PositionHeaderCell.Text = CommonResources.Position;
 			PositionHeaderCell.WidthF = columnsWidth[0];
 			//
 			// WorkingTimeHeaderCell
@@ -375,7 +376,7 @@ namespace FiresecService.Report.Templates
 			this.WorkingTimeHeaderCell.Name = "WorkingTimeHeaderCell";
 			this.WorkingTimeHeaderCell.StylePriority.UsePadding = false;
 			this.WorkingTimeHeaderCell.StylePriority.UseTextAlignment = false;
-			this.WorkingTimeHeaderCell.Text = "Рабочее время по графику за период, ч.";
+			this.WorkingTimeHeaderCell.Text = CommonResources.WorkTimeSchedule;
 			this.WorkingTimeHeaderCell.WidthF = columnsWidth[1];
 			//
 			// RealTotalTimeHeaderCell
@@ -384,7 +385,7 @@ namespace FiresecService.Report.Templates
 			this.RealTotalTimeHeaderCell.Name = "RealTotalTimeHeaderCell";
 			this.RealTotalTimeHeaderCell.StylePriority.UsePadding = false;
 			this.RealTotalTimeHeaderCell.StylePriority.UseTextAlignment = false;
-			this.RealTotalTimeHeaderCell.Text = "Фактически отработанное время, ч.";
+			this.RealTotalTimeHeaderCell.Text = CommonResources.FactWorkTime;
 			this.RealTotalTimeHeaderCell.WidthF = columnsWidth[1];
 			//
 			// NonAcceptedAdjustmentsHeaderCell
@@ -393,7 +394,7 @@ namespace FiresecService.Report.Templates
 			this.NonAcceptedAdjustmentsHeaderCell.Name = "NonAcceptedAdjustmentsHeaderCell";
 			this.NonAcceptedAdjustmentsHeaderCell.StylePriority.UsePadding = false;
 			this.NonAcceptedAdjustmentsHeaderCell.StylePriority.UseTextAlignment = false;
-			this.NonAcceptedAdjustmentsHeaderCell.Text = "Отклонения от графика не подтвержденные документом, ч.";
+			this.NonAcceptedAdjustmentsHeaderCell.Text = CommonResources.ScheduleDeviationNotConfirmed;
 			this.NonAcceptedAdjustmentsHeaderCell.WidthF = columnsWidth[2];
 			//
 			// DocumentsTimeHeaderCell
@@ -402,7 +403,7 @@ namespace FiresecService.Report.Templates
 			this.DocumentsTimeHeaderCell.Name = "DocumentsTimeHeaderCell";
 			this.DocumentsTimeHeaderCell.StylePriority.UsePadding = false;
 			this.DocumentsTimeHeaderCell.StylePriority.UseTextAlignment = false;
-			this.DocumentsTimeHeaderCell.Text = "Время по документам, ч.";
+			this.DocumentsTimeHeaderCell.Text = CommonResources.DocumentTime;
 			this.DocumentsTimeHeaderCell.WidthF = columnsWidth[3];
 			//
 			// TotalBalanceHeaderCell
@@ -462,7 +463,7 @@ namespace FiresecService.Report.Templates
 			this.WorkingTimeHeaderCell2.Name = "WorkingTimeHeaderCell2";
 			this.WorkingTimeHeaderCell2.StylePriority.UsePadding = false;
 			this.WorkingTimeHeaderCell2.StylePriority.UseTextAlignment = false;
-			this.WorkingTimeHeaderCell2.Text = "Всего";
+			this.WorkingTimeHeaderCell2.Text = CommonResources.Tottally;
 			this.WorkingTimeHeaderCell2.WidthF = columnsWidth[1] / 2;
 			//
 			// WorkingTimeHeaderCell3
@@ -471,7 +472,7 @@ namespace FiresecService.Report.Templates
 			this.WorkingTimeHeaderCell3.Name = "WorkingTimeHeaderCell3";
 			this.WorkingTimeHeaderCell3.StylePriority.UsePadding = false;
 			this.WorkingTimeHeaderCell3.StylePriority.UseTextAlignment = false;
-			this.WorkingTimeHeaderCell3.Text = "В т.ч. ночные часы";
+			this.WorkingTimeHeaderCell3.Text = CommonResources.IncludeNightTime;
 			this.WorkingTimeHeaderCell3.WidthF = columnsWidth[1] / 2;
 			//
 			// RealTotalTimeHeaderCell2
@@ -480,7 +481,7 @@ namespace FiresecService.Report.Templates
 			this.RealTotalTimeHeaderCell2.Name = "RealTotalTimeHeaderCell2";
 			this.RealTotalTimeHeaderCell2.StylePriority.UsePadding = false;
 			this.RealTotalTimeHeaderCell2.StylePriority.UseTextAlignment = false;
-			this.RealTotalTimeHeaderCell2.Text = "Всего";
+			this.RealTotalTimeHeaderCell2.Text = CommonResources.Tottally;
 			this.RealTotalTimeHeaderCell2.WidthF = columnsWidth[1] / 2;
 			//
 			// RealTotalTimeHeaderCell3
@@ -489,7 +490,7 @@ namespace FiresecService.Report.Templates
 			this.RealTotalTimeHeaderCell3.Name = "RealTotalTimeHeaderCell3";
 			this.RealTotalTimeHeaderCell3.StylePriority.UsePadding = false;
 			this.RealTotalTimeHeaderCell3.StylePriority.UseTextAlignment = false;
-			this.RealTotalTimeHeaderCell3.Text = "В т.ч. работа ночью";
+			this.RealTotalTimeHeaderCell3.Text = CommonResources.IncludeNightWork;
 			this.RealTotalTimeHeaderCell3.WidthF = columnsWidth[1] / 2;
 			//
 			// NonAcceptedAdjustmentsHeaderCell2
@@ -498,7 +499,7 @@ namespace FiresecService.Report.Templates
 			this.NonAcceptedAdjustmentsHeaderCell2.Name = "NonAcceptedAdjustmentsHeaderCell2";
 			this.NonAcceptedAdjustmentsHeaderCell2.StylePriority.UsePadding = false;
 			this.NonAcceptedAdjustmentsHeaderCell2.StylePriority.UseTextAlignment = false;
-			this.NonAcceptedAdjustmentsHeaderCell2.Text = "Отсутствие (включая опоздания и ранние уходы)";
+			this.NonAcceptedAdjustmentsHeaderCell2.Text = CommonResources.AbsenceInclEarlyLeaveLate;
 			this.NonAcceptedAdjustmentsHeaderCell2.WidthF = columnsWidth[2] / 2;
 			//
 			// NonAcceptedAdjustmentsHeaderCell3
@@ -507,7 +508,7 @@ namespace FiresecService.Report.Templates
 			this.NonAcceptedAdjustmentsHeaderCell3.Name = "NonAcceptedAdjustmentsHeaderCell3";
 			this.NonAcceptedAdjustmentsHeaderCell3.StylePriority.UsePadding = false;
 			this.NonAcceptedAdjustmentsHeaderCell3.StylePriority.UseTextAlignment = false;
-			this.NonAcceptedAdjustmentsHeaderCell3.Text = "Переработка вне графика";
+			this.NonAcceptedAdjustmentsHeaderCell3.Text = CommonResources.TimeoverOutSchedule;
 			this.NonAcceptedAdjustmentsHeaderCell3.WidthF = columnsWidth[2] / 2;
 			//
 			// DocumentsTimeHeaderCell2
@@ -516,7 +517,7 @@ namespace FiresecService.Report.Templates
 			this.DocumentsTimeHeaderCell2.Name = "DocumentsTimeHeaderCell2";
 			this.DocumentsTimeHeaderCell2.StylePriority.UsePadding = false;
 			this.DocumentsTimeHeaderCell2.StylePriority.UseTextAlignment = false;
-			this.DocumentsTimeHeaderCell2.Text = "Присутствие";
+			this.DocumentsTimeHeaderCell2.Text = CommonResources.Presence;
 			this.DocumentsTimeHeaderCell2.WidthF = columnsWidth[3] / 4;
 			//
 			// DocumentsTimeHeaderCell3
@@ -525,7 +526,7 @@ namespace FiresecService.Report.Templates
 			this.DocumentsTimeHeaderCell3.Name = "DocumentsTimeHeaderCell3";
 			this.DocumentsTimeHeaderCell3.StylePriority.UsePadding = false;
 			this.DocumentsTimeHeaderCell3.StylePriority.UseTextAlignment = false;
-			this.DocumentsTimeHeaderCell3.Text = "Отсутствие по уважительной причине";
+			this.DocumentsTimeHeaderCell3.Text = CommonResources.ReasonAbsence;
 			this.DocumentsTimeHeaderCell3.WidthF = columnsWidth[3] / 4;
 			//
 			// DocumentsTimeHeaderCell4
@@ -534,7 +535,7 @@ namespace FiresecService.Report.Templates
 			this.DocumentsTimeHeaderCell4.Name = "DocumentsTimeHeaderCell4";
 			this.DocumentsTimeHeaderCell4.StylePriority.UsePadding = false;
 			this.DocumentsTimeHeaderCell4.StylePriority.UseTextAlignment = false;
-			this.DocumentsTimeHeaderCell4.Text = "Отсутствие по не уважительной причине";
+			this.DocumentsTimeHeaderCell4.Text = CommonResources.NotReasonAbsence;
 			this.DocumentsTimeHeaderCell4.WidthF = columnsWidth[3] / 4;
 			//
 			// DocumentsTimeHeaderCell5
@@ -543,7 +544,7 @@ namespace FiresecService.Report.Templates
 			this.DocumentsTimeHeaderCell5.Name = "DocumentsTimeHeaderCell5";
 			this.DocumentsTimeHeaderCell5.StylePriority.UsePadding = false;
 			this.DocumentsTimeHeaderCell5.StylePriority.UseTextAlignment = false;
-			this.DocumentsTimeHeaderCell5.Text = "Сверхурочные";
+			this.DocumentsTimeHeaderCell5.Text = CommonResources.Overtime;
 			this.DocumentsTimeHeaderCell5.WidthF = columnsWidth[3] / 4;
 			//
 			// TotalBalanceHeaderCell2

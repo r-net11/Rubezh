@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class EmptyReport
 	{
@@ -68,7 +70,7 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UseForeColor = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			this.xrLabel1.Text = "Отчет не готов!!!";
+			this.xrLabel1.Text = CommonResources.ReportNotReady;
 			this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			// 
 			// EmptyReport

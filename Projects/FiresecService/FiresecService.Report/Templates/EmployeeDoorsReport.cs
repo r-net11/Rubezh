@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
@@ -28,7 +29,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Права доступа " + (GetFilter<EmployeeDoorsReportFilter>().IsEmployee ? "сотрудников" : "посетителей"); }
+			get { return CommonResources.AccessPermissions + (GetFilter<EmployeeDoorsReportFilter>().IsEmployee ? CommonResources.Employees : CommonResources.Visitors); }
 		}
 
 		public override void ApplyFilter(SKDReportFilter filter)

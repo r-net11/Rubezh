@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class EmployeeDoorsReport
 	{
@@ -239,70 +241,70 @@
 			//
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = "Точка доступа";
+			this.xrTableCell1.Text = CommonResources.Door;
 			this.xrTableCell1.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell2
 			//
 			this.xrTableCell2.Dpi = 254F;
 			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = "Из зоны";
+			this.xrTableCell2.Text = CommonResources.FromZone;
 			this.xrTableCell2.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell3
 			//
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Text = "В зону";
+			this.xrTableCell3.Text = CommonResources.ToZone;
 			this.xrTableCell3.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell4
 			//
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Text = "График доступа";
+			this.xrTableCell4.Text = CommonResources.AccessSchedule;
 			this.xrTableCell4.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell5
 			//
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Text = "Тип пропуска";
+			this.xrTableCell5.Text = CommonResources.PasscardType;
 			this.xrTableCell5.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell6
 			//
 			this.xrTableCell6.Dpi = 254F;
 			this.xrTableCell6.Name = "xrTableCell6";
-			this.xrTableCell6.Text = "Номер пропуска";
+			this.xrTableCell6.Text = CommonResources.PasscardNumber;
 			this.xrTableCell6.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell7
 			//
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.Text = "Сотрудник";
+			this.xrTableCell7.Text = CommonResources.Employee;
 			this.xrTableCell7.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell8
 			//
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = "Организация";
+			this.xrTableCell8.Text = CommonResources.Organization;
 			this.xrTableCell8.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell9
 			//
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Подразделение";
+			this.xrTableCell9.Text = CommonResources.Department;
 			this.xrTableCell9.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell11
 			//
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = "Должность";
+			this.xrTableCell10.Text = CommonResources.Position;
 			this.xrTableCell10.Weight = 0.15384615384615386D;
 			//
 			// xrControlStyle1

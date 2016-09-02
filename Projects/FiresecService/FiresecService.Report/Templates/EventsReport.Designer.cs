@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class EventsReport
 	{
@@ -206,49 +208,49 @@
 			// 
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = "Дата и время в системе";
+			this.xrTableCell8.Text = CommonResources.SystemDate;
 			this.xrTableCell8.Weight = 0.085350465107877652D;
 			// 
 			// xrTableCell9
 			// 
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = "Дата и время на устройстве";
+			this.xrTableCell9.Text = CommonResources.DeviceDate;
 			this.xrTableCell9.Weight = 0.085350465107877652D;
 			// 
 			// xrTableCell10
 			// 
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = "Название";
+			this.xrTableCell10.Text = CommonResources.Name;
 			this.xrTableCell10.Weight = 0.29083753132270629D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Уточнение";
+			this.xrTableCell11.Text = CommonResources.Elaboration;
 			this.xrTableCell11.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Объект";
+			this.xrTableCell12.Text = CommonResources.Object;
 			this.xrTableCell12.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Пользователь";
+			this.xrTableCell13.Text = CommonResources.User;
 			this.xrTableCell13.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
-			this.xrTableCell14.Text = "Подсистема";
+			this.xrTableCell14.Text = CommonResources.Subsystem;
 			this.xrTableCell14.Weight = 0.073971700254789177D;
 			// 
 			// xrControlStyle1
@@ -277,7 +279,7 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UsePadding = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			this.xrSummary1.FormatString = "Всего событий: {0}";
+			this.xrSummary1.FormatString = CommonResources.TottallyEvents;
 			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
 			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
 			this.xrLabel1.Summary = this.xrSummary1;

@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class BaseReport
 	{
@@ -84,7 +86,7 @@
 			this.lFilterName.AutoWidth = true;
 			this.lFilterName.CanGrow = false;
 			this.lFilterName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", "Фильтр: {0}")});
+            new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", CommonResources.FilterWithColon)});
 			this.lFilterName.Dpi = 254F;
 			this.lFilterName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 278.8542F);
 			this.lFilterName.Name = "lFilterName";
@@ -104,7 +106,7 @@
 			this.lPeriod.AutoWidth = true;
 			this.lPeriod.CanShrink = true;
 			this.lPeriod.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", "За период {0}")});
+            new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", CommonResources.DuringPeriod)});
 			this.lPeriod.Dpi = 254F;
 			this.lPeriod.LocationFloat = new DevExpress.Utils.PointFloat(0F, 220.4341F);
 			this.lPeriod.Name = "lPeriod";
@@ -136,7 +138,7 @@
 			this.lUserName.AutoWidth = true;
 			this.lUserName.CanGrow = false;
 			this.lUserName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", "Пользователь: {0}")});
+            new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", CommonResources.UserWithColon)});
 			this.lUserName.Dpi = 254F;
 			this.lUserName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 90.16997F);
 			this.lUserName.Name = "lUserName";
@@ -156,7 +158,7 @@
 			this.lTimestamp.AutoWidth = true;
 			this.lTimestamp.CanShrink = true;
 			this.lTimestamp.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", "Дата и время формирования отчета: {0:dd.MM.yyyy HH:mm:ss}")});
+            new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", CommonResources.ReportDate)});
 			this.lTimestamp.Dpi = 254F;
 			this.lTimestamp.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.75F);
 			this.lTimestamp.Name = "lTimestamp";
@@ -175,7 +177,7 @@
 			// 
 			this.lPage.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
 			this.lPage.Dpi = 254F;
-			this.lPage.Format = "Стр {0} из {1}";
+			this.lPage.Format = CommonResources.PageOf;
 			this.lPage.LocationFloat = new DevExpress.Utils.PointFloat(1300.479F, 90.16997F);
 			this.lPage.Name = "lPage";
 			this.lPage.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);

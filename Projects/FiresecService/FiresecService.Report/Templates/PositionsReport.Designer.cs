@@ -1,4 +1,6 @@
-﻿namespace FiresecService.Report.Templates
+﻿using Localization.FiresecService.Report.Common;
+
+namespace FiresecService.Report.Templates
 {
 	partial class PositionsReport
 	{
@@ -147,7 +149,7 @@
 			this.xrTableCell13.CanGrow = false;
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Должность";
+			this.xrTableCell13.Text = CommonResources.Position;
 			this.xrTableCell13.Weight = 1.6666666666666667D;
 			// 
 			// xrTableCell15
@@ -156,7 +158,7 @@
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.StylePriority.UseBackColor = false;
-			this.xrTableCell15.Text = "Примечание";
+			this.xrTableCell15.Text = CommonResources.Note;
 			this.xrTableCell15.Weight = 1.6666666666666665D;
 			// 
 			// xrControlStyle1
