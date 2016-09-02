@@ -1,9 +1,9 @@
 ﻿using System;
 using DevExpress.Data;
 
-namespace ReportSystem.DataSets
+namespace ReportSystem.UI.Data
 {
-	public class PassCardTemplateLocalizeDataSource : PassCardTemplateDataSource, IDisplayNameProvider
+	public class PassCardTemplateLocalizeDataSource : PassCardTemplateSource, IDisplayNameProvider
 	{
 		public string GetFieldDisplayName(string[] fieldAccessors)
 		{

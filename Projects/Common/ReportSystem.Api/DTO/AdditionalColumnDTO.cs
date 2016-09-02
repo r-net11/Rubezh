@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ReportSystem.DTO
+namespace ReportSystem.Api.DTO
 {
 	[DataContract]
 	public class AdditionalColumnDTO

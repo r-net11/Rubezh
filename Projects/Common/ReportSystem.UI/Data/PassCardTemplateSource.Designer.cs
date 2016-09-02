@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace ReportSystem.DataSets {
+namespace ReportSystem.UI.Data {
     
     
     /// <summary>
@@ -20,9 +20,9 @@ namespace ReportSystem.DataSets {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("PassCardTemplateDataSource")]
+    [global::System.Xml.Serialization.XmlRootAttribute("PassCardTemplateSource")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class PassCardTemplateDataSource : global::System.Data.DataSet {
+    public partial class PassCardTemplateSource : global::System.Data.DataSet {
         
         private EmployeeDataTable tableEmployee;
         
@@ -30,7 +30,7 @@ namespace ReportSystem.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public PassCardTemplateDataSource() {
+        public PassCardTemplateSource() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace ReportSystem.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected PassCardTemplateDataSource(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected PassCardTemplateSource(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace ReportSystem.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            PassCardTemplateDataSource cln = ((PassCardTemplateDataSource)(base.Clone()));
+            PassCardTemplateSource cln = ((PassCardTemplateSource)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace ReportSystem.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "PassCardTemplateDataSource";
+            this.DataSetName = "PassCardTemplateSource";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/PassCardTemplateDataSource.xsd";
+            this.Namespace = "http://tempuri.org/PassCardTemplateSource.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableEmployee = new EmployeeDataTable();
@@ -225,7 +225,7 @@ namespace ReportSystem.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            PassCardTemplateDataSource ds = new PassCardTemplateDataSource();
+            PassCardTemplateSource ds = new PassCardTemplateSource();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -278,8 +278,6 @@ namespace ReportSystem.DataSets {
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class EmployeeDataTable : global::System.Data.TypedTableBase<EmployeeRow> {
-            
-            private global::System.Data.DataColumn columnUID;
             
             private global::System.Data.DataColumn columnLastName;
             
@@ -346,14 +344,6 @@ namespace ReportSystem.DataSets {
             protected EmployeeDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn UIDColumn {
-                get {
-                    return this.columnUID;
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -530,7 +520,6 @@ namespace ReportSystem.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public EmployeeRow AddEmployeeRow(
-                        System.Guid UID, 
                         string LastName, 
                         string FirstName, 
                         string MiddleName, 
@@ -550,7 +539,6 @@ namespace ReportSystem.DataSets {
                         byte[] Image) {
                 EmployeeRow rowEmployeeRow = ((EmployeeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        UID,
                         LastName,
                         FirstName,
                         MiddleName,
@@ -575,13 +563,6 @@ namespace ReportSystem.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public EmployeeRow FindByUID(System.Guid UID) {
-                return ((EmployeeRow)(this.Rows.Find(new object[] {
-                            UID})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
                 EmployeeDataTable cln = ((EmployeeDataTable)(base.Clone()));
                 cln.InitVars();
@@ -597,7 +578,6 @@ namespace ReportSystem.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnUID = base.Columns["UID"];
                 this.columnLastName = base.Columns["LastName"];
                 this.columnFirstName = base.Columns["FirstName"];
                 this.columnMiddleName = base.Columns["MiddleName"];
@@ -620,8 +600,6 @@ namespace ReportSystem.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnUID = new global::System.Data.DataColumn("UID", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUID);
                 this.columnLastName = new global::System.Data.DataColumn("LastName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLastName);
                 this.columnFirstName = new global::System.Data.DataColumn("FirstName", typeof(string), null, global::System.Data.MappingType.Element);
@@ -656,14 +634,6 @@ namespace ReportSystem.DataSets {
                 base.Columns.Add(this.columnPositionLogo);
                 this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnImage);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnUID}, true));
-                this.columnUID.AllowDBNull = false;
-                this.columnUID.Unique = true;
-                this.columnLastName.MaxLength = 50;
-                this.columnFirstName.MaxLength = 50;
-                this.columnMiddleName.MaxLength = 50;
-                this.columnPhone.MaxLength = 40;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -731,7 +701,7 @@ namespace ReportSystem.DataSets {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                PassCardTemplateDataSource ds = new PassCardTemplateDataSource();
+                PassCardTemplateSource ds = new PassCardTemplateSource();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -802,17 +772,6 @@ namespace ReportSystem.DataSets {
             internal EmployeeRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
                 this.tableEmployee = ((EmployeeDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid UID {
-                get {
-                    return ((global::System.Guid)(this[this.tableEmployee.UIDColumn]));
-                }
-                set {
-                    this[this.tableEmployee.UIDColumn] = value;
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

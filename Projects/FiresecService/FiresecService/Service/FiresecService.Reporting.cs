@@ -1,10 +1,10 @@
 ﻿using System;
 using FiresecService.Report.Helpers;
 using FiresecService.Report.Services;
+using ReportSystem.Api.DTO;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
-using StrazhAPI.Printing;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using StrazhDAL;

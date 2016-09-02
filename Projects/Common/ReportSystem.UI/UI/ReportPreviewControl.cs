@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraReports.UI;
-using ReportSystem.Reports;
+using ReportSystem.UI.Reports;
 
 namespace ReportSystem.UI
 {

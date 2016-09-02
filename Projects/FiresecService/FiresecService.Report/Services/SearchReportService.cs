@@ -1,4 +1,5 @@
 ﻿using FiresecService.Report.Operations;
+using ReportSystem.Api.DTO;
 using StrazhAPI.Printing;
 using StrazhAPI.SKD;
 using StrazhDAL;

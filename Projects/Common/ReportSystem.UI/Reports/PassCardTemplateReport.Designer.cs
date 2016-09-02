@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using DevExpress.XtraReports.UI;
 
-namespace ReportSystem.Reports
+namespace ReportSystem.UI.Reports
 {
 	partial class PassCardTemplateReport
 	{

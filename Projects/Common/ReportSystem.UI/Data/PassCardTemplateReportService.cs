@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FiresecClient.SKDHelpers;
-using StrazhAPI.Extensions;
-using StrazhAPI.SKD;
 using DataColumn = System.Data.DataColumn;
 
-namespace ReportSystem.DataSets
+namespace ReportSystem.UI.Data
 {
 	/// <summary>
 	/// Сервис должен разбирать DTO объект и возвращать коллекцию для биндинга к отчёту.
@@ -33,7 +28,7 @@ namespace ReportSystem.DataSets
 		//		.ContinueWith(t => AddAdditionalColumns(t.Result.Select(x => x.ToDataColumn())));
 		//}
 
-		private static void AddAdditionalColumnsToSource(IEnumerable<DataColumn> columns, PassCardTemplateDataSource source)
+		private static void AddAdditionalColumnsToSource(IEnumerable<DataColumn> columns, PassCardTemplateSource source)
 		{
 			source.Tables[0].Columns.AddRange(columns.ToArray()); //replace Employee by Tables[0]
 		}

@@ -1,9 +1,9 @@
 ﻿using System;
 using Common;
+using ReportSystem.Api.DTO;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
-using StrazhAPI.Printing;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using System.Collections.Generic;

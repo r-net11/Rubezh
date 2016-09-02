@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ReportSystem.Api.DTO;
 using StrazhAPI.SKD;
-using StrazhAPI.SKD.PassCardLibrary;
 using StrazhDAL;
 
 namespace FiresecService.Report.Operations

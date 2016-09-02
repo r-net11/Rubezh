@@ -1,6 +1,7 @@
 ﻿using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
+using ReportSystem.Api.Interfaces;
 using StrazhAPI.Printing;
 using System;
 using System.Collections.Generic;

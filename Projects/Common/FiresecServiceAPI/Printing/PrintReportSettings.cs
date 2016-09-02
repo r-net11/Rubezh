@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows;
+using ReportSystem.Api.Interfaces;
 using StrazhAPI.SKD;
 
 namespace StrazhAPI.Printing

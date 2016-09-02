@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.SKD.PassCardLibrary;
 
-namespace StrazhAPI.SKD
+namespace ReportSystem.Api.DTO
 {
 	[DataContract]
 	public class CardTemplatePrintDataDTO

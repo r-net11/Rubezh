@@ -1,4 +1,4 @@
-﻿namespace ReportSystem
+﻿namespace ReportSystem.UI.Reports
 {
 	partial class MergedReport
 	{

@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using StrazhAPI.Printing;
+using ReportSystem.Api.DTO;
 using StrazhAPI.SKD;
 using StrazhDAL;
 using System;

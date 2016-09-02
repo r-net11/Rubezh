@@ -1,5 +1,6 @@
 ﻿using Common;
 using Integration.Service;
+using ReportSystem.Api.DTO;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;

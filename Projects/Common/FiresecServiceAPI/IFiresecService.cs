@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using ReportSystem.Api.DTO;
 using StrazhAPI.Enums;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;

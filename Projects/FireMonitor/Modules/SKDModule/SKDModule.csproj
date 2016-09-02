@@ -707,13 +707,17 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\ReportSystem.Api\ReportSystem.Api.csproj">
+      <Project>{5322c4da-a0e6-4033-b45f-fce03b8b074e}</Project>
+      <Name>ReportSystem.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\ReportSystem.UI\ReportSystem.UI.csproj">
+      <Project>{a9a18896-69c7-496d-97cd-1169f702fbe9}</Project>
+      <Name>ReportSystem.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ReportSystem\ReportSystem.csproj">
-      <Project>{646b9ccf-ba30-43b7-9928-ac0d1f3fffb2}</Project>
-      <Name>ReportSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

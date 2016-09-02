@@ -8,7 +8,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using ReportSystem.Reports;
+using ReportSystem.UI.Reports;
 using SKDModule.Reports;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;

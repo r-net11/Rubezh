@@ -2,10 +2,10 @@
 using System.Drawing.Printing;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using ReportSystem.Api.Interfaces;
 using System.Drawing;
-using StrazhAPI.Printing;
 
-namespace ReportSystem
+namespace ReportSystem.UI.Reports
 {
 	public partial class MergedReport : XtraReport
 	{

@@ -540,7 +540,7 @@ namespace StrazhAPI.SKD
 
 		private static List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
 		{
-			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
+			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика запланированное время + время перерыва
 
 			if (sumPlannedTime < slideTime) return combinedTimeTrackParts;
 

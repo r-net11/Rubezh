@@ -9,7 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using ReportSystem;
-using ReportSystem.DataSets;
+using ReportSystem.UI.Data;
+using ReportSystem.UI.Reports;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
 using SKDModule.Reports;
@@ -59,7 +60,7 @@ namespace SKDModule.ViewModels
 				foreach (var xReport in reports.Result)
 				{
 					var report = xReport.Report.ToXtraReport(xReport.BackgroundImage);
-					var ds = new PassCardTemplateDataSource();
+					var ds = new PassCardTemplateSource();
 					foreach (var column in xReport.Data.AdditionalColumns)
 					{
 						var r = new DataColumn(column.Name, typeof (string));
@@ -68,7 +69,7 @@ namespace SKDModule.ViewModels
 							: new DataColumn(column.Name, typeof (string)));
 					}
 					var row = ds.Employee.NewEmployeeRow();
-					row.UID = Guid.NewGuid();
+					//row.UID = Guid.NewGuid();
 					row.FirstName = xReport.Data.FirstName;
 					row.MiddleName = xReport.Data.MiddleName;
 					row.LastName = xReport.Data.LastName;

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace StrazhAPI.SKD
+namespace ReportSystem.Api.DTO
 {
 	[DataContract]
 	public class ReportDTO

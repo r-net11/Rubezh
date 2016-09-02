@@ -2,13 +2,12 @@
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
-using ReportSystem.DataSets;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using Attribute = System.Attribute;
 
-namespace ReportSystem.Reports
+namespace ReportSystem.UI.Reports
 {
 	public partial class PassCardTemplateReport : XtraReport
 	{

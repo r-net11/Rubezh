@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ReportSystem")]
+[assembly: AssemblyTitle("ReportSystem.Api")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ReportSystem")]
+[assembly: AssemblyProduct("ReportSystem.Api")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c6f85d4e-b386-408f-8493-cd0d6dc1c1a3")]
+[assembly: Guid("f354d0da-d52b-4e17-beb0-cf2819eb8898")]
 
 // Version information for an assembly consists of the following four values:
 //
