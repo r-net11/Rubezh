@@ -21,6 +21,7 @@
       <property name="InstallerAssemblyName" value="${property::get-value('InstallerAssemblyName')}" />
       <property name="OurProductVersion" value="${property::get-value('OurProductVersion')}" />
       <property name="OurProductBuildNumber" value="${property::get-value('OurProductBuildNumber')}" />
+      <property name="Culture" value="${property::get-value('Culture')}" />
     </msbuild>
     <copy todir="..\bin\A.C.Tech\">
       <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">

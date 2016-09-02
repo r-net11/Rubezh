@@ -36,16 +36,18 @@
 		<Property Id="SQLSERVER_AUTHENTICATIONMODE" Value="$(var.SQLServerAuthenticationModeDefault)" />
 		<Property Id="SQLSERVER_LOGIN" Value="$(var.SQLServerLoginDefault)" />
 		<Property Id="SQLSERVER_PASSWORD" Value="$(var.SQLServerPasswordDefault)" />
-
+    
+		<!-- Значение для культуры -->
+		<Property Id="CULTURE" Value="$(var.Culture)"/>
+    
 		<Property Id="INSTALLMODE" />
-		<Property Id="ALLUSERS" Value="1" Secure="yes" />
+		<Property Id="ALLUSERS" Value="1" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="SystemFolder"/>
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLLOCATION" Name="$(var.ProductInstallFolder)">
-					<Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
-					</Directory>
+					<Directory Id="SERVERLOCATION" Name="$(var.ServerName)"/>
 					<Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
 						<Directory Id="Administrator.ConfigFolder" Name="$(var.ConfigurationFolder)">
 							<Directory Id="Administrator.SoundsFolder" Name="$(var.SoundsFolder)" />
