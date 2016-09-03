@@ -47,10 +47,15 @@ namespace SKDModule.ViewModels
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
+			InitializeCommands();
+			return true;
+		}
+
+		private void InitializeCommands()
+		{
 			SelectAccessTemplateCommand = new RelayCommand(OnSelectAccessTemplate);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			SelectPassCardTemplateCommand = new RelayCommand(OnSelectPassCardTemplate);
-			return true;
 		}
 
 		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)
@@ -65,6 +70,7 @@ namespace SKDModule.ViewModels
 			};
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			InitializeCommands();
 		}
 
 		public void CopyProperties()
