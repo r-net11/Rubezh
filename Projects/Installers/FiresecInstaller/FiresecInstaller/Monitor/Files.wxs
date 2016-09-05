@@ -100,6 +100,7 @@
 				<!--<File Id="Monitor.DevExpress.XtraReports.v13.2.dll" Name="DevExpress.XtraReports.v13.2.dll" Source="$(var.Monitor.TargetDir)" />-->
 				<File Id="Monitor.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.ReportSystem.UI.dll" Name="ReportSystem.UI.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.CustomControls.dll" Name="DevExpress.CustomControls.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.DevExpress.Charts.v13.2.Core.dll" Name="DevExpress.Charts.v13.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.CodeParser.v13.2.dll" Name="DevExpress.CodeParser.v13.2.dll" Source="$(var.Monitor.TargetDir)" />
@@ -278,7 +279,8 @@
 
 		<DirectoryRef Id="Monitor.Files.ruRU">
 			<Component Id="Monitor.Files.ruRU" Guid="*">
-				<File Id="Monitor.ReportSystem.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
+				<File Id="Monitor.ReportSystem.UI.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
+				<File Id="Monitor.DevExpress.CustomControls.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
