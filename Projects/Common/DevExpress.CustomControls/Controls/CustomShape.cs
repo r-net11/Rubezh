@@ -8,7 +8,6 @@ namespace DevExpress.CustomControls
 {
 	[ToolboxItem(true)]
 	[XRDesigner("DevExpress.CustomControls.CustomShapeDesigner")]
-	[DXDisplayName(typeof(ResFinder), "Resources.Common", "DevExpress.CustomControls.CustomShape", "Фигура")] //TODO: Add localization
 	public class CustomShape : XRShape
 	{
 	}

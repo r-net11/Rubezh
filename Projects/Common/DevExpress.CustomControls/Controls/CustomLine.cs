@@ -13,7 +13,6 @@ namespace DevExpress.CustomControls
 {
 	[ToolboxItem(true)]
 	[XRDesigner("DevExpress.CustomControls.CustomLineDesigner")]
-	[DXDisplayName(typeof(ResFinder), "Resources.Common", "DevExpress.CustomControls.CustomLine", "Линия")] //TODO: Add localization
 	public class CustomLine : XRLine
 	{
 	}

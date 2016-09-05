@@ -10,7 +10,6 @@ namespace DevExpress.CustomControls
 {
 	[ToolboxItem(true)]
 	[XRDesigner("DevExpress.CustomControls.CustomImageDesigner")]
-	[DXDisplayName(typeof(ResFinder), "Resources.Common", "DevExpress.CustomControls.CustomImage", "Изображение")] //TODO: Add localization
 	public class CustomImage : XRPictureBox
 	{
 		public string CustomProperty { get; set; }
