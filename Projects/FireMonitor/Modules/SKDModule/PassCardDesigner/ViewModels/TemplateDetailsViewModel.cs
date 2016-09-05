@@ -10,7 +10,6 @@ using StrazhAPI.Enums;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -116,126 +115,44 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public void InitializeDesigner(Organisation organisation, ShortPassCardTemplate model)
 		{
 			OrganisationUID = organisation.UID;
-			var service = new PassCardTemplateReportService();
-			var parentTask = new Task(() =>
-			{
-				Trace.WriteLine("Outer task executing.");
-				TaskEx.Run(() =>
-				{
-					Trace.WriteLine("Get PassCardTemplate task executing.");
-					var s = PassCardTemplateHelper.GetDetails(model.UID);
-					Trace.WriteLine("Get PassCardTemplate task finish executing.");
-					return s;
-				}).ContinueWith(tt =>
-				{
-					Trace.WriteLine("Get PassCardTemplate task continuation start.");
-					PassCardTemplate = new Template(tt.Result);
-					Trace.WriteLine("Get PassCardTemplate task continuation finished.");
-				}, TaskContinuationOptions.OnlyOnRanToCompletion);
-
-				var additionalColumnTask = TaskEx.Run(() =>
-				{
-					Trace.WriteLine("Get AdditionalColumns task start.");
-					var ss = AdditionalColumnTypeHelper.GetByOrganisation(organisation.UID);
-					Trace.WriteLine("Get AdditionalColumns task finished.");
-					return ss;
-				});
-				var additionalColumnContinuation = additionalColumnTask.ContinueWith(ttt =>
-				{
-					Trace.WriteLine("Get AdditionalColumns task continuation start.");
-					var ss = service.GetEmptyDataSource(ttt.Result.Select(x => x.ToDataColumn()));
-					Trace.WriteLine("Get AdditionalColumns task continuation finished.");
-					return ss;
-				}, TaskContinuationOptions.OnlyOnRanToCompletion);
-
-				Trace.WriteLine("Parent task execution");
-				PassCardTemplate.Front.Report.DataSource = additionalColumnContinuation.Result;
-				PassCardTemplate.Front.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
-				if (PassCardTemplate.Back != null && PassCardTemplate.Back.Report != null)
-				{
-					PassCardTemplate.Back.Report.DataSource = additionalColumnContinuation.Result;
-					PassCardTemplate.Back.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
-				}
-				Trace.WriteLine("Parent task execution continue");
-				CurrentReport = PassCardTemplate.Front.Report;
-				UpdateTitle();
-				Trace.WriteLine("Parent task execution finished");
-			});
-			parentTask.Start();
-			//var service = new PassCardTemplateReportService();
-			//var task1 = Task.Factory.StartNew(() => PassCardTemplateHelper.GetDetails(model.UID))
-			//	.ContinueWith(t =>
-			//	{
-			//		PassCardTemplate = new Template(t.Result);
-			//	}, TaskContinuationOptions.OnlyOnRanToCompletion);
-
-			//var getDataSourceTask = Task.Factory.StartNew(() => AdditionalColumnTypeHelper.GetByOrganisation(organisation.UID));
-			//getDataSourceTask.ContinueWith(t => service.GetEmptyDataSource(t.Result.Select(x => x.ToDataColumn()))
-			//	, TaskContinuationOptions.OnlyOnRanToCompletion);
-
-			//Task.Factory.ContinueWhenAll(new[] { task1, getDataSourceTask }, tasks =>
-			//{
-			//	PassCardTemplate.Front.Report.DataSource = dataSource;
-			//	PassCardTemplate.Front.Report.DataMember = dataSource.Tables[0].TableName;
-			//	if (PassCardTemplate.Back != null && PassCardTemplate.Back.Report != null)
-			//	{
-			//		PassCardTemplate.Back.Report.DataSource = getDataSourceTask.Result;
-			//		PassCardTemplate.Back.Report.DataMember = getDataSourceTask.Result.Tables[0].TableName;
-			//	}
-			//	CurrentReport = PassCardTemplate.Front.Report;
-			//	UpdateTitle();
-			//});
+			LoadDesignerContent(organisation, model);
 		}
 
-		public void In(Organisation organisation, ShortPassCardTemplate model)
+		private void LoadDesignerContent(Organisation organisation, ShortPassCardTemplate model)
 		{
 			var service = new PassCardTemplateReportService();
-			var parentTask = new Task(() =>
+
+			var mainTask = new Task(() =>
 			{
-				Trace.WriteLine("Outer task executing.");
-				TaskEx.Run(() =>
+				var getCardTemplateTask = TaskEx.Run(() => PassCardTemplateHelper.GetDetails(model.UID));
+
+				var setCardTemplateContinuation = getCardTemplateTask.ContinueWith(tt =>
 				{
-					Trace.WriteLine("Get PassCardTemplate task executing.");
-					var s = PassCardTemplateHelper.GetDetails(model.UID);
-					Trace.WriteLine("Get PassCardTemplate task finish executing.");
-					return s;
-				}).ContinueWith(tt =>
-				{
-					Trace.WriteLine("Get PassCardTemplate task continuation start.");
 					PassCardTemplate = new Template(tt.Result);
-					Trace.WriteLine("Get PassCardTemplate task continuation finished.");
 				}, TaskContinuationOptions.OnlyOnRanToCompletion);
 
-				var additionalColumnTask = TaskEx.Run(() =>
-				{
-					Trace.WriteLine("Get AdditionalColumns task start.");
-					var ss = AdditionalColumnTypeHelper.GetByOrganisation(organisation.UID);
-					Trace.WriteLine("Get AdditionalColumns task finished.");
-					return ss;
-				});
-				var additionalColumnContinuation = additionalColumnTask.ContinueWith(ttt =>
-				{
-					Trace.WriteLine("Get AdditionalColumns task continuation start.");
-					var ss = service.GetEmptyDataSource(ttt.Result.Select(x => x.ToDataColumn()));
-					Trace.WriteLine("Get AdditionalColumns task continuation finished.");
-					return ss;
-				}, TaskContinuationOptions.OnlyOnRanToCompletion);
+				var additionalColumnTask = TaskEx.Run(() => AdditionalColumnTypeHelper.GetByOrganisation(organisation.UID));
 
-				Trace.WriteLine("Parent task execution");
+				var additionalColumnContinuation = additionalColumnTask.ContinueWith(ttt => service.GetEmptyDataSource(ttt.Result.Select(x => x.ToDataColumn())),
+					TaskContinuationOptions.OnlyOnRanToCompletion);
+
+				Task.WaitAll(setCardTemplateContinuation, additionalColumnContinuation);
+
 				PassCardTemplate.Front.Report.DataSource = additionalColumnContinuation.Result;
 				PassCardTemplate.Front.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
+
 				if (PassCardTemplate.Back != null && PassCardTemplate.Back.Report != null)
 				{
 					PassCardTemplate.Back.Report.DataSource = additionalColumnContinuation.Result;
 					PassCardTemplate.Back.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
 				}
-				Trace.WriteLine("Parent task execution continue");
+
 				CurrentReport = PassCardTemplate.Front.Report;
 				UpdateTitle();
-				Trace.WriteLine("Parent task execution finished");
 			});
-		}
 
+			mainTask.Start();
+		}
 		#endregion
 
 		#region Methods
