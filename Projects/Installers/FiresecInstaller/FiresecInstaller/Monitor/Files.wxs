@@ -279,8 +279,8 @@
 
 		<DirectoryRef Id="Monitor.Files.ruRU">
 			<Component Id="Monitor.Files.ruRU" Guid="B9DBC2CE-8AD6-4134-8F15-8E3AB6CFD25A">
-				<File Id="Monitor.ReportSystem.UI.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
-				<File Id="Monitor.DevExpress.CustomControls.resources.dll" Name="ReportSystem.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" />
+				<File Id="Monitor.ReportSystem.UI.resources.dll" Name="ReportSystem.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
+				<File Id="Monitor.DevExpress.CustomControls.resources.dll" Name="DevExpress.CustomControls.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" />
 			</Component>
 		</DirectoryRef>
 
