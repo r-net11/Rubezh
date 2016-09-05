@@ -72,6 +72,10 @@
       <Project>{903CA80D-886E-43AF-A631-BEB260F8F93D}</Project>
       <Name>StrazhService.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{e92c33ea-a314-44ec-bc73-5de6affb315b}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
