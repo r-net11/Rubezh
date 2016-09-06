@@ -211,6 +211,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Признак предпраздничного дня
+		/// </summary>
+		public bool IsBeforeHoliday { get; private set; }
+
 		public bool IsShowOnlyScheduledIntervals
 		{
 			get { return _isShowOnlyScheduledIntervals; }
@@ -261,6 +266,8 @@ namespace SKDModule.ViewModels
 			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
 
 			IsShowOnlyScheduledIntervals = true;
+
+			IsBeforeHoliday = !dayTimeTrack.IsIgnoreHoliday && HolidayHelper.GetByOrganisation(shortEmployee.OrganisationUID).Any(x => x.Type == HolidayType.BeforeHoliday && x.Date == dayTimeTrack.Date);
 
 			this.WhenAny(x => x.SelectedDayTimeTrackPart, x => x.Value)
 				.Subscribe(value =>

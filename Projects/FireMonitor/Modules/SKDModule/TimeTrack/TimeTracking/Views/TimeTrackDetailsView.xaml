@@ -21,6 +21,7 @@
 		<ResourceDictionary>
 			<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 			<ConvertersControls:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
+			<ConvertersControls:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 			<SolidColorBrush x:Key="SystemIntervalColorBrush" Color="Gray" />
 			<Style x:Key="TriggeredTextBlockStyle" TargetType="{StaticResource {x:Type TextBlock}}">
 				<Setter Property="TextBlock.Margin" Value="5" />
@@ -457,6 +458,22 @@
 						<TextBlock
 							Text="{Binding SlideTimeValue, Converter={StaticResource TimeSpanToStringConverter}, FallbackValue=00.00}"
 							VerticalAlignment="Center"/>
+						<StackPanel
+							Visibility="{Binding IsBeforeHoliday, Converter={StaticResource BoolToVisibilityConverter}}"
+							Orientation="Horizontal">
+							<TextBlock
+								Text="("
+								VerticalAlignment="Center"
+								Margin="5 5 1 5"/>
+							<Image
+								Source="/Controls;component/StateClassIcons/Attention.png"
+								Width="20"
+								Height="20"/>
+							<TextBlock
+								Text="{x:Static lang:CommonViews.BeforeHoliday}"
+								VerticalAlignment="Center"
+								Margin="1 5 5 5"/>
+						</StackPanel>
 					</DockPanel>
 					<DockPanel
 						Grid.Row="1"

@@ -214,6 +214,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to pre-holiday).
+        /// </summary>
+        public static string BeforeHoliday {
+            get {
+                return ResourceManager.GetString("BeforeHoliday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of Birth.
         /// </summary>
         public static string BirthDate {
