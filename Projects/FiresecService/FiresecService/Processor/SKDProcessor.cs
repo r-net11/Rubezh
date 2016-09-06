@@ -1,4 +1,6 @@
-﻿using StrazhDeviceSDK;
+﻿using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
+using StrazhDeviceSDK;
 using Common;
 using StrazhAPI;
 using StrazhAPI.GK;
@@ -68,7 +70,7 @@ namespace FiresecService
 		private static void OnNewJournalItem(JournalItem journalItem)
 		{
 			var cardNo = 0;
-			var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
+			var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == CommonResources.PasscardNumber);
 			if (journalDetalisationItem != null)
 			{
 				var cardNoString = journalDetalisationItem.Value;
@@ -125,7 +127,7 @@ namespace FiresecService
 								databaseService.CardTranslator.Save(card);
 								// Если разрешенное число проходов равно нулю, деактивируем "Гостевую" карту
 								if (card.AllowedPassCount == 0)
-									FiresecServiceManager.SafeFiresecService.DeleteCardFromEmployee(card, journalItem.UserName, "Разрешенное число проходов равно нулю");
+									FiresecServiceManager.SafeFiresecService.DeleteCardFromEmployee(card, journalItem.UserName, CommonErrors.PermittedPassNumberZero_Error);
 								// Уведомляем подключенных Клиентов о том, что был осуществлен проход по "Гостевой" карте
 								FiresecServiceManager.SafeFiresecService.FiresecService.NotifyGuestCardPassed(card);
 							}

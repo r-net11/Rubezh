@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhDAL;
@@ -67,16 +69,14 @@ namespace FiresecService.Service.Validators
 						case ScheduleSchemeType.Month:
 						case ScheduleSchemeType.SlideDay:
 							if (dayInterval.SlideTime != TimeSpan.Zero)
-								errorLinksWithScheduleSchemes.AppendLine(String.Format("{0} ({1}{2})", scheduleScheme.Name, scheduleScheme.Type.ToDescription().ToLower(), scheduleScheme.IsDeleted ? ", архивный" : null));
+								errorLinksWithScheduleSchemes.AppendLine(String.Format("{0} ({1}{2})", scheduleScheme.Name, scheduleScheme.Type.ToDescription().ToLower(), scheduleScheme.IsDeleted ? CommonResources.Archive : null));
 							break;
 					}
 				}
 				if (errorLinksWithScheduleSchemes.Length > 0)
 				{
 					var error =
-						String.Format(
-							"Чтобы задать в поле \"Обязательная продолжительность скользящего графика\" ненулевое значение, необходимо удалить связи дневного графика со следующими сменными или месячными графиками:\n\n{0}",
-							errorLinksWithScheduleSchemes);
+						String.Format(CommonErrors.SpecifyNorm_Error, errorLinksWithScheduleSchemes);
 					return new OperationResult(error);
 				}
 			}
@@ -91,17 +91,16 @@ namespace FiresecService.Service.Validators
 			foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 			{
 				if (dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night)
-					return new OperationResult("График содержит интервалы с переходом. Для сохранения сведений о дневном графике задайте значение 0 в поле \"Обязательная продолжительность скользящего графика\".\n\nЕсли вы хотите задать в поле \"Обязательная продолжительность скользящего графика\" ненулевое значение, сначала удалите интервалы с переходом, а затем введите необходимое значение");
+					return new OperationResult(CommonErrors.IntervalsWithTransfer_Error);
 				generalTimeSpan = generalTimeSpan.Add(dayIntervalPart.EndTime.Subtract(dayIntervalPart.BeginTime));
 			}
 
 			if (generalTimeSpan < dayInterval.SlideTime)
 			{
 				var error =
-					String.Format(
-						"Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})",
-						String.Format("{0} ч {1} мин", generalTimeSpan.Hours, generalTimeSpan.Minutes),
-						String.Format("{0} ч {1} мин", dayInterval.SlideTime.Hours, dayInterval.SlideTime.Minutes));
+					String.Format(CommonErrors.DurationOfDayIntervalsLessNorm_Error,
+						String.Format(CommonResources.HM, generalTimeSpan.Hours, generalTimeSpan.Minutes),
+						String.Format(CommonResources.HM, dayInterval.SlideTime.Hours, dayInterval.SlideTime.Minutes));
 				return new OperationResult(error);
 			}
 

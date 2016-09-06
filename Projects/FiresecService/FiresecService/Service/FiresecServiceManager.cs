@@ -5,6 +5,8 @@ using System;
 using System.ServiceModel;
 using Integration.Service;
 using KeyGenerator;
+using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhService;
 
 namespace FiresecService.Service
@@ -34,8 +36,8 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				Notifier.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-				Notifier.BalloonShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
+				Notifier.Log(string.Format(CommonErrors.StartHostService_Error,e.Message));
+				Notifier.BalloonShowFromServer(string.Format(CommonErrors.StartHostService_Error, e.Message));
 				return false;
 			}
 		}
@@ -46,7 +48,7 @@ namespace FiresecService.Service
 			{
 				var netpipeAddress = AppServerConnectionManager.ServerNamedPipesUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
-				Notifier.Log("Локальный адрес: " + netpipeAddress);
+				Notifier.Log(string.Format(CommonResources.LocalAddress,netpipeAddress));
 			}
 			catch (Exception e)
 			{
@@ -60,7 +62,7 @@ namespace FiresecService.Service
 			{
 				var remoteAddress = AppServerConnectionManager.ServerHttpUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
-				Notifier.Log("Удаленный адрес: " + remoteAddress);
+				Notifier.Log(string.Format(CommonResources.RemoteAddress,remoteAddress));
 			}
 			catch (Exception e)
 			{
@@ -74,7 +76,7 @@ namespace FiresecService.Service
 			{
 				var remoteAddress = AppServerConnectionManager.ServerTcpUri;
 				_serviceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
-				Notifier.Log("Удаленный адрес: " + remoteAddress);
+				Notifier.Log(string.Format(CommonResources.RemoteAddress, remoteAddress));
 			}
 			catch (Exception e)
 			{

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
@@ -52,7 +53,7 @@ namespace FiresecService
 			{
 				//MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
 				//Application.Current.MainWindow.Close();
-				throw new FileNotFoundException(Resources.ConfigFileNotExist);
+				throw new FileNotFoundException(CommonErrors.ConfigFileNotExist_Error);
 			}
 		}
 
