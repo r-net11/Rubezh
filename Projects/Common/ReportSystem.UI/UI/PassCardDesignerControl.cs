@@ -26,46 +26,13 @@ namespace ReportSystem.UI
 		{
 			var ts = (IToolboxService)e.DesignerHost.GetService(typeof(IToolboxService));
 
-			RemoveStandardItem(ts);
+			RemoveStandardItems(ts);
 			AddCustomItem(ts);
-
-			foreach (ToolboxItem item in ts.GetToolboxItems())
-			{
-				var tmpItem = item as LocalizableToolboxItem;
-
-				if (tmpItem == null) continue;
-
-				var itemName = tmpItem.TypeName;
-				if (itemName == typeof(XRChart).FullName
-					|| itemName == typeof(XRBarCode).FullName
-					|| itemName == typeof(XRZipCode).FullName
-					|| itemName == typeof(XRSparkline).FullName
-					|| itemName == typeof(XRPivotGrid).FullName
-					|| itemName == typeof(XRSubreport).FullName
-					|| itemName == typeof(XRTableOfContents).FullName
-					|| itemName == typeof(XRPageInfo).FullName
-					|| itemName == typeof(XRPageBreak).FullName
-					|| itemName == typeof(XRCrossBandLine).FullName
-					|| itemName == typeof(XRCrossBandBox).FullName
-					|| itemName == typeof(XRCheckBox).FullName
-					|| itemName == typeof(XRRichText).FullName
-					|| itemName == typeof(XRTable).FullName
-					|| itemName == typeof(XRPanel).FullName)
-				{
-					ts.RemoveToolboxItem(item);
-				}
-			}
 		}
 
-		private static void RemoveStandardItem(IToolboxService ts)
+		private static void RemoveStandardItems(IToolboxService ts)
 		{
-			ts.GetToolboxItems()
-				.OfType<ToolboxItem>()
-				.Where(x => (x.DisplayName == "Label" || x.DisplayName == "Текст")
-			                || (x.DisplayName == "PictureBox" || x.DisplayName == "Изображение")
-			                || (x.DisplayName == "Line" || x.DisplayName == "Линия")
-			                || (x.DisplayName == "Shape" || x.DisplayName == "Фигура"))
-				.ForEach(ts.RemoveToolboxItem);
+			ts.GetToolboxItems().OfType<ToolboxItem>().ForEach(ts.RemoveToolboxItem);
 		}
 
 		private static void AddCustomItem(IToolboxService ts)
@@ -76,7 +43,6 @@ namespace ReportSystem.UI
 			ts.AddToolboxItem(new LocalizableToolboxItem(typeof(CustomShape)));
 		}
 
-
 		public void OpenCurrentReport()
 		{
 			reportDesigner1.OpenReport(CurrentReport);
@@ -86,7 +52,6 @@ namespace ReportSystem.UI
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowDesignerTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowPreviewTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.AddNewDataSource, CommandVisibility.None);
-
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.AddNewDataSource, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.AddNewDataSource, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.InsertBottomMarginBand, CommandVisibility.None);
@@ -124,7 +89,6 @@ namespace ReportSystem.UI
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.VerbReportWizard, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.VerbRtfClear, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.VerbRtfLoadFile, CommandVisibility.None);
-
 
 			reportDesigner1.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);
 			reportDesigner1.SetCommandVisibility(ReportCommand.ShowHTMLViewTab, CommandVisibility.None);
