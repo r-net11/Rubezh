@@ -18,14 +18,12 @@ namespace ReportSystem.UI
 
 		public PassCardDesignerControl()
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			InitializeComponent();
 			reportDesigner1.DesignPanelLoaded += Loaded;
 		}
 
 		private void Loaded(object sender, DesignerLoadedEventArgs e)
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			var ts = (IToolboxService)e.DesignerHost.GetService(typeof(IToolboxService));
 
 			RemoveStandardItem(ts);
@@ -81,7 +79,6 @@ namespace ReportSystem.UI
 
 		public void OpenCurrentReport()
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			reportDesigner1.OpenReport(CurrentReport);
 
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);

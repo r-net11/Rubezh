@@ -13,7 +13,6 @@ namespace ReportSystem.UI.Reports
 	{
 		public PassCardTemplateReport(Image image)
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			InitializeComponent();
 			InitializeReport(image);
 			RemoveBands();
@@ -23,7 +22,6 @@ namespace ReportSystem.UI.Reports
 
 		private void OnDesignerLoaded(object sender, DesignerLoadedEventArgs designerLoadedEventArgs)
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			var detailBand = designerLoadedEventArgs.DesignerHost.GetService(typeof (IComponentChangeService)) as IComponentChangeService;
 
 			if (detailBand == null) return;
@@ -33,7 +31,6 @@ namespace ReportSystem.UI.Reports
 
 		private void DetailBandOnComponentChanged(object sender, ComponentChangedEventArgs e)
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			if (e == null || e.Member == null) return;
 
 			var detailBand = e.Component as DetailBand;
@@ -48,7 +45,6 @@ namespace ReportSystem.UI.Reports
 
 		private void InitializeReport(Image image)
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			ReportUnit = ReportUnit.TenthsOfAMillimeter;
 			DrawWatermark = true;
 
@@ -71,7 +67,6 @@ namespace ReportSystem.UI.Reports
 
 		private void RemoveBands()
 		{
-			DXDisplayNameAttribute.UseResourceManager = true; 
 			var band = Bands.GetBandByType(typeof(TopMarginBand));
 			if (band != null)
 				Bands.Remove(band);
