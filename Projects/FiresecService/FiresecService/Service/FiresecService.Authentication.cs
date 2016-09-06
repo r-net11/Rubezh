@@ -1,4 +1,6 @@
 ﻿using Common;
+using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Models;
 using System;
@@ -15,11 +17,11 @@ namespace FiresecService.Service
 		{
 			if (!CheckLogin(clientCredentials))
 			{
-				return OperationResult<bool>.FromError("Неверный логин или пароль", true);
+				return OperationResult<bool>.FromError(CommonErrors.IncorrectLoginPassword_Error, true);
 			}
 			if (!CheckRemoteAccessPermissions(clientCredentials))
 			{
-				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort, true);
+				return OperationResult<bool>.FromError(string.Format(CommonErrors.UserHaveNotPermissionToConnect_Error, clientCredentials.UserName,clientCredentials.ClientIpAddressAndPort), true);
 			}
 			return new OperationResult<bool>(true);
 		}
@@ -75,7 +77,7 @@ namespace FiresecService.Service
 		{
 			if (clientCredentials.ClientType == ClientType.ServiceMonitor)
 			{
-				clientCredentials.FriendlyUserName = "Монитор сервера";
+				clientCredentials.FriendlyUserName = CommonResources.ServerMonitor;
 				return true;
 			}
 

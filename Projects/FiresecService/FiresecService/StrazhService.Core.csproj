@@ -196,22 +196,12 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Automation\ProcedureThread.Callback.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -259,6 +249,10 @@
     <ProjectReference Include="..\KeyGenerator\KeyGenerator.csproj">
       <Project>{daab7f4f-33de-4a7d-b604-43233f8713e0}</Project>
       <Name>KeyGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{e92c33ea-a314-44ec-bc73-5de6affb315b}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

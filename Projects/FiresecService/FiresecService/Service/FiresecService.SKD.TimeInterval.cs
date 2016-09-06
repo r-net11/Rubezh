@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.StrazhService.Core.Common;
+using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
@@ -463,39 +464,39 @@ namespace FiresecService.Service
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Adding) == TimeTrackActions.Adding)
 			{
 				AddJournalMessage(JournalEventNameType.Добавление_интервала,
-								"Интервал рабочего времени (" + employee.FIO + ")",
+								string.Format(CommonResources.IntervalWorkTime,employee.FIO),
 								JournalEventDescriptionType.NULL,
-								"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								string.Format(CommonResources.IntervalAdded, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.EditBorders) == TimeTrackActions.EditBorders)
 			{
 				AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
-								"Интервал рабочего времени (" + employee.FIO + ")",
+								string.Format(CommonResources.IntervalWorkTime, employee.FIO),
 								JournalEventDescriptionType.NULL,
-								"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								string.Format(CommonResources.IntervalAddedToCalculations, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.Remove) == TimeTrackActions.Remove)
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_интервала,
 					null, JournalEventDescriptionType.Удаление,
-					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
+								string.Format(CommonResources.IntervalDeleted, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name));
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOffCalculation) == TimeTrackActions.TurnOffCalculation)
 			{
 				AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
-								"Интервал рабочего времени (" + employee.FIO + ")",
+								string.Format(CommonResources.IntervalWorkTime, employee.FIO),
 								JournalEventDescriptionType.NULL,
-								"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								string.Format(CommonResources.IntervalAddedToCalculations, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
 								currentUser.Name);
 			}
 			if ((dayTimeTrackPart.TimeTrackActions & TimeTrackActions.TurnOnCalculation) == TimeTrackActions.TurnOnCalculation)
 			{
 				AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
-								"Интервал рабочего времени (" + employee.FIO + ")",
+								string.Format(CommonResources.IntervalWorkTime, employee.FIO),
 								JournalEventDescriptionType.NULL,
-								"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
+								string.Format(CommonResources.IntervalDisableFromCalculations, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name),
 								currentUser.Name);
 			}
 		}
@@ -544,7 +545,7 @@ namespace FiresecService.Service
 			}
 			if (!operationResult.HasError)
 				AddJournalMessage(JournalEventNameType.Удаление_интервала, null, JournalEventDescriptionType.Удаление,
-					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
+								string.Format(CommonResources.IntervalDeleted, dayTimeTrackPart.EnterDateTime, dayTimeTrackPart.ExitDateTime, dayTimeTrackPart.TimeTrackZone.Name));
 			return operationResult;
 		}
 

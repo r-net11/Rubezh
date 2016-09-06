@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivePasscards_Error" xml:space="preserve">
+    <value>The number of active permits in the system database exceeds the value of the licensed. Download an application can not be</value>
+  </data>
+  <data name="AddingIntervalWithTransfer_Error" xml:space="preserve">
+    <value>To add a slot to the transition is necessary to remove the connection on the daily chart with the following weekly or monthly chart: \ n \ n {0}</value>
+  </data>
+  <data name="AnotherAdminConnected_Error" xml:space="preserve">
+    <value>Another administrator logged on to the computer '{0}'. Simultaneous operation of the two administrators in the system is not allowed. To log in, shut down the other computer</value>
+  </data>
+  <data name="AnotherMonitorConnected_Error" xml:space="preserve">
+    <value>Another instance of OZ logged on to the computer '{0}'. Simultaneous work on one PC and two more instances of OZ is not allowed.</value>
+  </data>
+  <data name="ChangeLockModeNotConfirmedByController_Error" xml:space="preserve">
+    <value>Translations into lock mode "{0}" is not confirmed by the controller</value>
+  </data>
+  <data name="ComponentNotFound_Error" xml:space="preserve">
+    <value> component configuration could not be found</value>
+  </data>
+  <data name="ConfigFileNotExist_Error" xml:space="preserve">
+    <value>No configuration file. Please reinstall the program.</value>
+  </data>
+  <data name="ConfigLicense_Error" xml:space="preserve">
+    <value>The configuration does not comply with the limits of the license. To continue the work load another license or change configuration</value>
+  </data>
+  <data name="CouldNotChangeLockMode_Error" xml:space="preserve">
+    <value>It is impossible to translate the castle "{0}" in this mode</value>
+  </data>
+  <data name="DB_Error" xml:space="preserve">
+    <value>DB Error: {0}</value>
+  </data>
+  <data name="DeleteFile_Error" xml:space="preserve">
+    <value>The error occurred during deleting the file: 
+ {0}</value>
+  </data>
+  <data name="Delete_Error" xml:space="preserve">
+    <value>Failed to delete the file '{0}'</value>
+  </data>
+  <data name="DeviceNotFound_Error" xml:space="preserve">
+    <value>The device is not found in the configuration</value>
+  </data>
+  <data name="DoorNotFound_Error" xml:space="preserve">
+    <value>The access point is not found in the configuration</value>
+  </data>
+  <data name="DoorWithoutEntranceDevice_Error" xml:space="preserve">
+    <value>At the access point is not specified input device</value>
+  </data>
+  <data name="DoorWithoutLock_Error" xml:space="preserve">
+    <value>For the access point is not found Castle</value>
+  </data>
+  <data name="DurationOfDayIntervalsLessNorm_Error" xml:space="preserve">
+    <value>The total duration of the intervals on the daily chart ({0}) must be greater than or equal to the duration of compulsory rotating schedule ({1})</value>
+  </data>
+  <data name="ExecuteOperation_Error" xml:space="preserve">
+    <value>The error in the operation at the server
+{0}
+{1}</value>
+  </data>
+  <data name="FileNotExistError_Error" xml:space="preserve">
+    <value>One of the configuration files are corrupt. Please reinstall the program.</value>
+  </data>
+  <data name="IncorrectLoginPassword_Error" xml:space="preserve">
+    <value>wrong login or password</value>
+  </data>
+  <data name="IntersectionDaySchedule_Error" xml:space="preserve">
+    <value>Crossing the daily charts in graphic scheme of '{0}'</value>
+  </data>
+  <data name="IntervalsWithTransfer_Error" xml:space="preserve">
+    <value>The schedule includes the transition intervals. first remove the ranges with the transition to save the information on the daily chart, specify a value of 0 in the "Mandatory duration rotating schedule ". 
+ If you want to set in the "Mandatory duration rotating schedule " non-zero value, and then enter the required value.</value>
+  </data>
+  <data name="LicenseAddCard_Error" xml:space="preserve">
+    <value>The number of active permits in accordance with a license can not exceed {0}. To create a new crossing purchase additional licenses.</value>
+  </data>
+  <data name="MaximumConnection_Error" xml:space="preserve">
+    <value>Has reached the maximum number of server connections allowed by the license</value>
+  </data>
+  <data name="PermittedPassNumberZero_Error" xml:space="preserve">
+    <value>Permitted number of passes is equal to zero</value>
+  </data>
+  <data name="PreviousPasscardNotFound_Error" xml:space="preserve">
+    <value>Found Previous Card</value>
+  </data>
+  <data name="ProcedureNotFound_Error" xml:space="preserve">
+    <value>The procedure could not be found</value>
+  </data>
+  <data name="ReciveFile_Error" xml:space="preserve">
+    <value>Error getting file</value>
+  </data>
+  <data name="RecivePasscardsError" xml:space="preserve">
+    <value>Error retrieving cards or cards templates</value>
+  </data>
+  <data name="RemoteConnectNotPermitted_Error" xml:space="preserve">
+    <value>Remote connections to the server are not allowed license</value>
+  </data>
+  <data name="ServerNotActivated_Error" xml:space="preserve">
+    <value>The server is not activated. Connection to the server is possible only after activation</value>
+  </data>
+  <data name="SpecifyNorm_Error" xml:space="preserve">
+    <value>To specify in the "Mandatory duration rotating schedule" non-zero value, you must remove the communication on the daily chart with the following interchangeable or monthly schedules: 
+
+ {0}</value>
+  </data>
+  <data name="StartHostService_Error" xml:space="preserve">
+    <value>Error starting service host: {0}</value>
+  </data>
+  <data name="TransferFile_Error" xml:space="preserve">
+    <value>In the process of file transfer '{0}' An error occurred:
+ {1}</value>
+  </data>
+  <data name="Transfer_Error" xml:space="preserve">
+    <value>File transfer error '{0}'</value>
+  </data>
+  <data name="UpdateFunctionUnable_Error" xml:space="preserve">
+    <value>Update Function Unable</value>
+  </data>
+  <data name="UserHaveNotPermissionToConnect_Error" xml:space="preserve">
+    <value>User {0} is not authorized to connect to the remote server host c: {1}</value>
+  </data>
+  <data name="UserNotFound_Error" xml:space="preserve">
+    <value>No user found</value>
+  </data>
+  <data name="ValidationDayIntervalRelationsAdd_Error" xml:space="preserve">
+    <value>Error validation Liaison with the addition of a time interval on the daily chart</value>
+  </data>
+  <data name="ValidationDayIntervalRelationsEdit_Error" xml:space="preserve">
+    <value>Error validation Relations at editing time interval day schedule</value>
+  </data>
+  <data name="ValidationDayInterval_Error" xml:space="preserve">
+    <value>Error validation time period day schedule</value>
+  </data>
+  <data name="ValidationInterval_Error" xml:space="preserve">
+    <value>Validation Error timeslot UID = '{0}</value>
+  </data>
+  <data name="WorkWithDB_Error" xml:space="preserve">
+    <value>Connection to DB error</value>
+  </data>
+  <data name="WritingAccessScheduleCanceled_Error" xml:space="preserve">
+    <value>Record all access controllers schedules canceled</value>
+  </data>
+  <data name="WritingLockPasswordsCanceled_Error" xml:space="preserve">
+    <value>Record locks passwords on all controllers canceled</value>
+  </data>
+  <data name="WritingPasscardsCanceled_Error" xml:space="preserve">
+    <value>Record passes for all controllers canceled</value>
+  </data>
+  <data name="ZoneNotFoundInConfig_Error" xml:space="preserve">
+    <value>The zone is not found in the configuration</value>
+  </data>
+  <data name="ZoneWithoutLock_Error" xml:space="preserve">
+    <value>For areas not found Castle</value>
+  </data>
+</root>

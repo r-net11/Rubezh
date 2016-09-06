@@ -1,4 +1,6 @@
 ﻿using Common;
+using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -172,7 +174,7 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException)
 			{
-				return new OperationResult("Не удалось подключиться к базе данных " + ConnectionString);
+				return new OperationResult(string.Format(CommonResources.DBCouldNotConnect, ConnectionString));
 			}
 			catch (Exception e)
 			{
@@ -186,7 +188,7 @@ namespace FiresecService
 		{
 			Logger.Error(e, codePlace);
 
-			const string msg = "Не удалось подключиться к базе данных";
+			var msg = CommonResources.DBCouldNotConnect;
 			Notifier.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
 			Notifier.BalloonShowFromServer(msg);
 		}
@@ -195,7 +197,7 @@ namespace FiresecService
 		{
 			Logger.Error(e, codePlace);
 
-			const string msg = "Возникла ошибка при работе с базой данных";
+			var msg = CommonErrors.WorkWithDB_Error;
 			Notifier.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Notifier.BalloonShowFromServer(msg);
 		}

@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivePasscards_Error" xml:space="preserve">
+    <value>Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна</value>
+  </data>
+  <data name="AddingIntervalWithTransfer_Error" xml:space="preserve">
+    <value>Для добавления интервала с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:
+
+{0}</value>
+  </data>
+  <data name="AnotherAdminConnected_Error" xml:space="preserve">
+    <value>Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере</value>
+  </data>
+  <data name="AnotherMonitorConnected_Error" xml:space="preserve">
+    <value>Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.</value>
+  </data>
+  <data name="ChangeLockModeNotConfirmedByController_Error" xml:space="preserve">
+    <value>Перевод в режим замка "{0}" не подтвержден контроллером</value>
+  </data>
+  <data name="ComponentNotFound_Error" xml:space="preserve">
+    <value>Не найден компонент в конфигурации</value>
+  </data>
+  <data name="ConfigFileNotExist_Error" xml:space="preserve">
+    <value>Отсутствует файл конфигурации. Пожалуйста, переустановите программу.</value>
+  </data>
+  <data name="ConfigLicense_Error" xml:space="preserve">
+    <value>Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию</value>
+  </data>
+  <data name="CouldNotChangeLockMode_Error" xml:space="preserve">
+    <value>Нельзя перевести замок "{0}" в данный режим</value>
+  </data>
+  <data name="DB_Error" xml:space="preserve">
+    <value>Ошибка БД: {0}</value>
+  </data>
+  <data name="DeleteFile_Error" xml:space="preserve">
+    <value>В процессе удаления файла возникла ошибка:
+{0}</value>
+  </data>
+  <data name="Delete_Error" xml:space="preserve">
+    <value>Ошибка удаления файла '{0}'</value>
+  </data>
+  <data name="DeviceNotFound_Error" xml:space="preserve">
+    <value>Устройство не найдено в конфигурации</value>
+  </data>
+  <data name="DoorNotFound_Error" xml:space="preserve">
+    <value>Точка доступа не найдена в конфигурации</value>
+  </data>
+  <data name="DoorWithoutEntranceDevice_Error" xml:space="preserve">
+    <value>У точки доступа не указано устройство входа</value>
+  </data>
+  <data name="DoorWithoutLock_Error" xml:space="preserve">
+    <value>Для точки доступа не найден замок</value>
+  </data>
+  <data name="DurationOfDayIntervalsLessNorm_Error" xml:space="preserve">
+    <value>Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})</value>
+  </data>
+  <data name="ExecuteOperation_Error" xml:space="preserve">
+    <value>Ошибка при выполнении операции на сервере 
+{0}
+{1}</value>
+  </data>
+  <data name="FileNotExistError_Error" xml:space="preserve">
+    <value>Один из конфигурационных файлов поврежден. Пожалуйста, переустановите программу.</value>
+  </data>
+  <data name="IncorrectLoginPassword_Error" xml:space="preserve">
+    <value>Неверный логин или пароль</value>
+  </data>
+  <data name="IntersectionDaySchedule_Error" xml:space="preserve">
+    <value>Пересечение дневных графиков в схеме графика работы '{0}'</value>
+  </data>
+  <data name="IntervalsWithTransfer_Error" xml:space="preserve">
+    <value>График содержит интервалы с переходом. Для сохранения сведений о дневном графике задайте значение 0 в поле "Обязательная продолжительность скользящего графика".
+Если вы хотите задать в поле "Обязательная продолжительность скользящего графика" ненулевое значение, сначала удалите интервалы с переходом, а затем введите необходимое значение</value>
+  </data>
+  <data name="LicenseAddCard_Error" xml:space="preserve">
+    <value>Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии.</value>
+  </data>
+  <data name="MaximumConnection_Error" xml:space="preserve">
+    <value>Достигнуто максимальное количество подключений к серверу, допускаемое лицензией</value>
+  </data>
+  <data name="PermittedPassNumberZero_Error" xml:space="preserve">
+    <value>Разрешенное число проходов равно нулю</value>
+  </data>
+  <data name="PreviousPasscardNotFound_Error" xml:space="preserve">
+    <value>Не найдена предыдущая карта</value>
+  </data>
+  <data name="ProcedureNotFound_Error" xml:space="preserve">
+    <value>Процедура не найдена</value>
+  </data>
+  <data name="ReciveFile_Error" xml:space="preserve">
+    <value>Ошибка получения файла</value>
+  </data>
+  <data name="RecivePasscardsError" xml:space="preserve">
+    <value>Ошибка при получении карт или шаблонов карт</value>
+  </data>
+  <data name="RemoteConnectNotPermitted_Error" xml:space="preserve">
+    <value>Удаленные подключения к серверу не разрешены лицензией</value>
+  </data>
+  <data name="ServerNotActivated_Error" xml:space="preserve">
+    <value>Сервер не активирован. Подключение к серверу возможно только после его активации</value>
+  </data>
+  <data name="SpecifyNorm_Error" xml:space="preserve">
+    <value>Чтобы задать в поле "Обязательная продолжительность скользящего графика" ненулевое значение, необходимо удалить связи дневного графика со следующими сменными или месячными графиками:
+
+{0}</value>
+  </data>
+  <data name="StartHostService_Error" xml:space="preserve">
+    <value>Ошибка при запуске хоста сервиса: {0}</value>
+  </data>
+  <data name="TransferFile_Error" xml:space="preserve">
+    <value>В процессе передачи файла '{0}' произошла ошибка:
+{1}</value>
+  </data>
+  <data name="Transfer_Error" xml:space="preserve">
+    <value>Ошибка передачи файла '{0}'</value>
+  </data>
+  <data name="UpdateFunctionUnable_Error" xml:space="preserve">
+    <value>Функция обновления ПО не доступна</value>
+  </data>
+  <data name="UserHaveNotPermissionToConnect_Error" xml:space="preserve">
+    <value>У пользователя {0} нет прав на подключение к удаленному серверу c хоста: {1}</value>
+  </data>
+  <data name="UserNotFound_Error" xml:space="preserve">
+    <value>Не найден пользователь</value>
+  </data>
+  <data name="ValidationDayIntervalRelationsAdd_Error" xml:space="preserve">
+    <value>Ошибка валидации по связям при добавлении временного интервала дневного графика</value>
+  </data>
+  <data name="ValidationDayIntervalRelationsEdit_Error" xml:space="preserve">
+    <value>Ошибка валидации по связям при редактировании временного интервала дневного графика</value>
+  </data>
+  <data name="ValidationDayInterval_Error" xml:space="preserve">
+    <value>Ошибка валидации временного интервала дневного графика</value>
+  </data>
+  <data name="ValidationInterval_Error" xml:space="preserve">
+    <value>Ошибка валидации временного интервала UID='{0}</value>
+  </data>
+  <data name="WorkWithDB_Error" xml:space="preserve">
+    <value>Возникла ошибка при работе с базой данных</value>
+  </data>
+  <data name="WritingAccessScheduleCanceled_Error" xml:space="preserve">
+    <value>Запись графиков доступа на все контроллеры отменена</value>
+  </data>
+  <data name="WritingLockPasswordsCanceled_Error" xml:space="preserve">
+    <value>Запись паролей замков на все контроллеры отменена</value>
+  </data>
+  <data name="WritingPasscardsCanceled_Error" xml:space="preserve">
+    <value>Запись пропусков на все контроллеры отменена</value>
+  </data>
+  <data name="ZoneNotFoundInConfig_Error" xml:space="preserve">
+    <value>Зона не найдена в конфигурации</value>
+  </data>
+  <data name="ZoneWithoutLock_Error" xml:space="preserve">
+    <value>Для зоны не найден замок</value>
+  </data>
+</root>

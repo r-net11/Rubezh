@@ -1,5 +1,6 @@
 ﻿using Common;
 using Integration.Service;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
@@ -45,7 +46,7 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-				return OperationResult<T>.FromError("Ошибка при выполнении операции на сервере" + "\n\r" + e.Message + "\n" + e.StackTrace);
+				return OperationResult<T>.FromError(string.Format(CommonErrors.ExecuteOperation_Error, e.Message, e.StackTrace));
 			}
 		}
 
