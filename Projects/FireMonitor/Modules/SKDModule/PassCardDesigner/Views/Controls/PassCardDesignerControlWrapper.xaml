@@ -10,7 +10,7 @@
 	d:DesignWidth="300">
     <Grid>
 		<WindowsFormsHost x:Name="WindowsFormsHost">
-			<ui:CardDesignerControl x:Name="PassCardDesigner" />
+			<ui:PassCardDesignerControl x:Name="PassCardDesigner" />
 		</WindowsFormsHost>
 	</Grid>
 </UserControl>

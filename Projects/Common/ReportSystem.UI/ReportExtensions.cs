@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using ReportSystem.UI.Reports;
 
@@ -29,6 +30,7 @@ namespace SKDModule.Reports
 
 			using (var ms = new MemoryStream(bytes))
 			{
+				DXDisplayNameAttribute.UseResourceManager = true;
 				var report = new PassCardTemplateReport(image);
 				report.LoadLayout(ms);
 				report.Watermark.Image = image;

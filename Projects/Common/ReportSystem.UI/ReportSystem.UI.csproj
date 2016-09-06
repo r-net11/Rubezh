@@ -133,12 +133,6 @@
     <Compile Include="Reports\PassCardTemplateReport.Designer.cs">
       <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\CardDesignerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\CardDesignerControl.Designer.cs">
-      <DependentUpon>CardDesignerControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\PassCardDesignerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -169,12 +163,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PassCardTemplateReport.ru-RU.resx">
       <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\CardDesignerControl.resx">
-      <DependentUpon>CardDesignerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\CardDesignerControl.ru-RU.resx">
-      <DependentUpon>CardDesignerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PassCardDesignerControl.resx">
       <DependentUpon>PassCardDesignerControl.cs</DependentUpon>
