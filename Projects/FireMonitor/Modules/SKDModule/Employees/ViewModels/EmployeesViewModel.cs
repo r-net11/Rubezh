@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 			var vm = new PrintingTemplatesDialogViewModel(SelectedItem.OrganisationUID);
 			if (DialogService.ShowModalWindow(vm))
 			{
-				var reports = FiresecManager.FiresecService.GetCardTemplateReportsForPrint(Filter, vm.Settings.SelectedTemplate.Item1);
+				var reports = FiresecManager.FiresecService.GetCardTemplateReportsForPrint(Filter, vm.GetSelectedTemplateId());
 
 				var resultXtraReports = new List<XtraReport>();
 				foreach (var xReport in reports.Result)
@@ -90,7 +90,6 @@ namespace SKDModule.ViewModels
 				//Print
 				var mergedReport = new MergedReport(resultXtraReports.ToArray(), vm.Settings.SelectedPaperKindSetting);
 				mergedReport.ShowPreviewDialog();
-
 			}
 		}
 

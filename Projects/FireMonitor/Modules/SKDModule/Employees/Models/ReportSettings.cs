@@ -13,13 +13,23 @@ namespace SKDModule.Employees.Models
 	public sealed class ReportSettings : BaseViewModel
 	{
 		private bool _isUseAttachedTemplates;
-		private bool _isUseCutMarks;
 		private int _width;
 		private int _height;
 		private Tuple<Guid, string> _selectedTemplate;
+		private Tuple<Guid, string> _selectedItem;
 		private IPaperKindSetting _selectedPaperKindSetting;
 		private List<Tuple<Guid, string>> _templateNames;
 		private List<IPaperKindSetting> _paperKindSettings;
+
+		public Tuple<Guid, string> SelectedItem
+		{
+			get { return _selectedItem; }
+			set
+			{
+				_selectedItem = value;
+				OnPropertyChanged(() => SelectedItem);
+			}
+		}
 
 		public int Width
 		{
@@ -38,17 +48,6 @@ namespace SKDModule.Employees.Models
 			{
 				_height = value;
 				OnPropertyChanged(() => Height);
-			}
-		}
-
-		public bool IsUseCutMarks
-		{
-			get { return _isUseCutMarks; }
-			set
-			{
-				if (_isUseCutMarks == value) return;
-				_isUseCutMarks = value;
-				OnPropertyChanged(() => IsUseCutMarks);
 			}
 		}
 
@@ -104,12 +103,12 @@ namespace SKDModule.Employees.Models
 			}
 		}
 
-		public ReportSettings()
+		public ReportSettings(Guid organisationUID)
 		{
-			IsUseCutMarks = true;
 			IsUseAttachedTemplates = true;
 			PaperKindSettings = new PaperKindSettingsFactory().GetAllPaperKindSettings();
 			SelectedPaperKindSetting = PaperKindSettings.FirstOrDefault();
+			LoadTemplatesInOrganisation(organisationUID);
 
 			this.WhenAny(x => x.SelectedPaperKindSetting, x => x.Value)
 				.Subscribe(value =>
@@ -119,6 +118,15 @@ namespace SKDModule.Employees.Models
 
 					Width = value.Width;
 					Height = value.Height;
+				});
+
+			this.WhenAny(x => x.SelectedItem, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (IsUseAttachedTemplates)
+						SelectedTemplate = null;
+
+					SelectedTemplate = SelectedItem;
 				});
 		}
 
@@ -130,7 +138,7 @@ namespace SKDModule.Employees.Models
 					if (t.Result != null && !t.Result.HasError)
 					{
 						TemplateNames = t.Result.Result.ToList();
-						SelectedTemplate = TemplateNames.FirstOrDefault();
+						SelectedItem = TemplateNames.FirstOrDefault();
 					}
 				}, TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
@@ -139,9 +147,8 @@ namespace SKDModule.Employees.Models
 		{
 			return new PrintReportSettings
 			{
-				IsUseCutMarks = IsUseCutMarks,
 				PaperKindSetting = SelectedPaperKindSetting,
-				TemplateGuid = IsUseAttachedTemplates ? (Guid?)null : SelectedTemplate.Item1
+				TemplateGuid = SelectedTemplate == null ? (Guid?) null : SelectedTemplate.Item1
 			};
 		}
 	}

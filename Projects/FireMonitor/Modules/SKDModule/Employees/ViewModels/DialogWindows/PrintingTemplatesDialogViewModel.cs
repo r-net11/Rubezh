@@ -6,23 +6,18 @@ namespace SKDModule.Employees.ViewModels.DialogWindows
 {
 	public class PrintingTemplatesDialogViewModel : SaveCancelDialogViewModel
 	{
-		private readonly Guid _organisationId;
 
-		public ReportSettings Settings { get; set; }
+		public ReportSettings Settings { get; private set; }
 
 		public PrintingTemplatesDialogViewModel(Guid organisationId)
 		{
-			_organisationId = organisationId;
-			Settings = new ReportSettings();
-			LoadTemplateNames();
+			Title = "Печать пропусков"; //TODO: Move to localization resources
+			Settings = new ReportSettings(organisationId);
 		}
 
-		private void LoadTemplateNames()
+		public Guid? GetSelectedTemplateId()
 		{
-			if (Settings == null)
-				throw new InvalidOperationException("Settings is null");
-
-			Settings.LoadTemplatesInOrganisation(_organisationId);
+			return Settings.SelectedTemplate == null ? (Guid?) null : Settings.SelectedTemplate.Item1;
 		}
 	}
 }
