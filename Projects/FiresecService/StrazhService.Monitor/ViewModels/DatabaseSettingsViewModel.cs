@@ -8,6 +8,7 @@ using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor.ViewModels
 {
@@ -153,7 +154,7 @@ namespace StrazhService.Monitor.ViewModels
 					sb.AppendLine(errors);
 			}
 
-			var msg = string.Format("Операция бэкапа базы завершилась {0}", backupResult ? "успешно" : string.Format("с ошибкой: \n\n{0}", sb));
+			var msg = string.Format(CommonViewModels.BackUpOperation, backupResult ? CommonViewModels.Success : string.Format(CommonViewModels.WithError, sb));
 
 			if (!backupResult)
 			{
@@ -185,7 +186,7 @@ namespace StrazhService.Monitor.ViewModels
 			var checkResult = ServiceRepository.Instance.DatabaseService.CheckConnection(DBServerAddress, DBServerPort,
 				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, out errors);
 
-			var msg = string.Format("Соединение с сервером {0} {1}", DBServerName, checkResult ? "успешно установлено" : string.Format("установить не удалось по причине ошибки: \n\n{0}", errors));
+			var msg = string.Format(CommonViewModels.ConnectionWithServer, DBServerName, checkResult ? CommonViewModels.SuccessConnected : string.Format(CommonViewModels.ConnectedWithError, errors));
 
 			if (!checkResult)
 			{
@@ -203,7 +204,7 @@ namespace StrazhService.Monitor.ViewModels
 		{
 			WriteToModel();
 			if (ServiceRepository.Instance.ServiceStateHolder.State != ServiceState.Stoped)
-				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера");
+				MessageBoxService.ShowWarning(CommonViewModels.SettingsTakeEffectAfterRestart);
 		}
 
 		private void ReadFromModel()

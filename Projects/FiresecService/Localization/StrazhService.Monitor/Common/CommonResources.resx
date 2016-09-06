@@ -117,4 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ServerStarted" xml:space="preserve">
+    <value>The server is running</value>
+  </data>
+  <data name="ServerStarts" xml:space="preserve">
+    <value>server starts</value>
+  </data>
+  <data name="ServerStoped" xml:space="preserve">
+    <value>The server is stopped</value>
+  </data>
+  <data name="ServiceNotFound" xml:space="preserve">
+    <value>Service "Server A.C.Tech " was not found. 
+For Management Service install it and restart the server monitor</value>
+  </data>
 </root>

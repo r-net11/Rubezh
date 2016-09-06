@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
+using Localization.StrazhService.Monitor.ViewModels;
 using StrazhService.Monitor.Events;
 
 namespace StrazhService.Monitor.ViewModels
@@ -102,13 +103,13 @@ namespace StrazhService.Monitor.ViewModels
 				zipFile.AddEntry("systeminfo.txt", memoryStream);
 				zipFile.Save();
 
-				var msg = "Операция сохранения логов и конфигурации завершилась успешно";
+				var msg = CommonViewModels.SaveLogOperationWithoutError;
 				Logger.Info(msg);
 				MessageBoxService.Show(msg);
 			}
 			catch (Exception e)
 			{
-				var msg = string.Format("Операция сохранения логов и конфигурации завершилась с ошибкой: {0}", e);
+				var msg = string.Format(CommonViewModels.SaveLogOperationWithError, e);
 				Logger.Warn(msg);
 				MessageBoxService.ShowWarning(msg);
 			}

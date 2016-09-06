@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor.ViewModels
 {
@@ -112,7 +113,7 @@ namespace StrazhService.Monitor.ViewModels
 		{
 			WriteToModel();
 			if (ServiceRepository.Instance.ServiceStateHolder.State != ServiceState.Stoped)
-				MessageBoxService.ShowWarning("Параметры вступят в силу после перезапуска сервера");
+				MessageBoxService.ShowWarning(CommonViewModels.SettingsTakeEffectAfterRestart);
 		}
 
 		private void OnSelectAttachmentsFolder()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Localization.StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor.Service
 {
@@ -18,15 +19,15 @@ namespace StrazhService.Monitor.Service
 			_notifyIcon.Visible = true;
 
 			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-			var menuItem1 = new System.Windows.Forms.MenuItem {Text = "Показать"};
+			var menuItem1 = new System.Windows.Forms.MenuItem {Text = CommonViewModels.Show};
 			menuItem1.Click += onShow;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 
-			var menuItem2 = new System.Windows.Forms.MenuItem {Text = "Выход"};
+			var menuItem2 = new System.Windows.Forms.MenuItem { Text = CommonViewModels.Exit};
 			menuItem2.Click += onClose;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-			_notifyIcon.Text = "Монитор сервера";
+			_notifyIcon.Text = CommonViewModels.ServerMonitor;
 		}
 
 		public static void Stop()

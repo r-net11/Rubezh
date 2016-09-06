@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.StrazhService.Core.Views {
+namespace Localization.StrazhService.Monitor.Errors {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Localization.StrazhService.Core.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CommonViews {
+    public class CommonErrors {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CommonViews() {
+        internal CommonErrors() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Localization.StrazhService.Core.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.StrazhService.Core.Views.CommonViews", typeof(CommonViews).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.StrazhService.Monitor.Errors.CommonErrors", typeof(CommonErrors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace Localization.StrazhService.Core.Views {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License Error reading file.
+        /// </summary>
+        public static string LicenseReading_Error {
+            get {
+                return ResourceManager.GetString("LicenseReading_Error", resourceCulture);
             }
         }
     }

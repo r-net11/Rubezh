@@ -117,4 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ServerStarted" xml:space="preserve">
+    <value>Сервер запущен</value>
+  </data>
+  <data name="ServerStarts" xml:space="preserve">
+    <value>Сервер запускается</value>
+  </data>
+  <data name="ServerStoped" xml:space="preserve">
+    <value>Сервер остановлен</value>
+  </data>
+  <data name="ServiceNotFound" xml:space="preserve">
+    <value>Служба "Сервер A.C.Tech" не обнаружена.
+Для управления службой установите ее и перезапустите монитор сервера</value>
+  </data>
 </root>

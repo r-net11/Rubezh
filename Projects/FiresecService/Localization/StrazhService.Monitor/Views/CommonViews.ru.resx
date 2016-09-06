@@ -117,4 +117,94 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="AllowRemoteConnection" xml:space="preserve">
+    <value>Разрешить удаленные соединения на сервере</value>
+  </data>
+  <data name="AuthenticationMethod" xml:space="preserve">
+    <value>Метод аутентификации</value>
+  </data>
+  <data name="CheckConnection" xml:space="preserve">
+    <value>Проверка соединения</value>
+  </data>
+  <data name="Connections" xml:space="preserve">
+    <value>Соединения</value>
+  </data>
+  <data name="CreateBackup" xml:space="preserve">
+    <value>Создать бэкап</value>
+  </data>
+  <data name="DataBase" xml:space="preserve">
+    <value>База данных</value>
+  </data>
+  <data name="DocumentsFolder" xml:space="preserve">
+    <value>Папка хранения файлов оправдательных документов</value>
+  </data>
+  <data name="IDNumber" xml:space="preserve">
+    <value>Ид. номер:</value>
+  </data>
+  <data name="InstanceName" xml:space="preserve">
+    <value>Название экземпляра</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>IP-адрес сервера</value>
+  </data>
+  <data name="LicenseStatus" xml:space="preserve">
+    <value>Статус лицензии:</value>
+  </data>
+  <data name="Licensing" xml:space="preserve">
+    <value>Лицензирование</value>
+  </data>
+  <data name="Log" xml:space="preserve">
+    <value>Лог</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="NoLicense" xml:space="preserve">
+    <value>Отсутствует лицензия</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="RefuseConnection" xml:space="preserve">
+    <value>Разорвать соединение</value>
+  </data>
+  <data name="ReportPort" xml:space="preserve">
+    <value>Порт сервиса отчетов</value>
+  </data>
+  <data name="RestartServer" xml:space="preserve">
+    <value>Перезапуск сервера</value>
+  </data>
+  <data name="SaveLogAndConfig" xml:space="preserve">
+    <value>Сохранить логи и конфигурацию</value>
+  </data>
+  <data name="ServicePort" xml:space="preserve">
+    <value>Порт сервера</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="StartServer" xml:space="preserve">
+    <value>Запуск сервера</value>
+  </data>
+  <data name="StopServer" xml:space="preserve">
+    <value>Остановка сервера</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="UploadLicense" xml:space="preserve">
+    <value>Загрузить лицензию</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
 </root>

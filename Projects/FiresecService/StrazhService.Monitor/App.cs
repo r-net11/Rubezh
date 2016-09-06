@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Configuration;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using Common;
 using Infrastructure.Common;
@@ -22,6 +25,10 @@ namespace StrazhService.Monitor
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			/// подключение культуры из файла с конфигом
+			var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+			Thread.CurrentThread.CurrentCulture = culture;
+			Thread.CurrentThread.CurrentUICulture = culture;
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
 

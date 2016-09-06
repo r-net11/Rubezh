@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-    mc:Ignorable="d" 
+	xmlns:lang="clr-namespace:Localization.StrazhService.Monitor.Views;assembly=Localization"
+	mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -25,19 +26,19 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.AllowRemoteConnection}" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
 			<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsRemoteConnectionsEnabled}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
 
-			<TextBlock Grid.Row="1" Grid.Column="0" Text="IP-адрес сервера" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.IpAddress}" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 			<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableIpAddresses}" SelectedItem="{Binding ServiceAddress}" IsEnabled="{Binding IsRemoteConnectionsEnabled}" VerticalAlignment="Center" Margin="2" />
 
-			<TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static lang:CommonViews.Port}" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 			<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
 
-			<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:CommonViews.ReportPort}" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 			<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
 
-			<TextBlock Grid.Row="4" Grid.Column="0" Text="Папка хранения файлов оправдательных документов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static lang:CommonViews.DocumentsFolder}" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Margin="2" />
 			<Grid Grid.Row="4" Grid.Column="1" >
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"/>
@@ -67,6 +68,6 @@
 				</Button>
 			</Grid>
 		</Grid>
-		<Button Grid.Row="1" Content="Применить" Command="{Binding ApplyCommand}" Width="100" HorizontalAlignment="Right" Margin="5"/>
+		<Button Grid.Row="1" Content="{x:Static lang:CommonViews.Accept}" Command="{Binding ApplyCommand}" Width="100" HorizontalAlignment="Right" Margin="5"/>
 	</Grid>
 </UserControl>

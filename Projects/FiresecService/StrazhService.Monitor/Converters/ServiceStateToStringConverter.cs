@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using Localization.StrazhService.Monitor.Common;
 
 namespace StrazhService.Monitor.Converters
 {
@@ -13,13 +14,13 @@ namespace StrazhService.Monitor.Converters
 			switch (serviceState)
 			{
 				case ServiceState.Stoped:
-					result = "Сервер остановлен";
+					result = CommonResources.ServerStoped;
 					break;
 				case ServiceState.Starting:
-					result = "Сервер запускается";
+					result = CommonResources.ServerStarts;
 					break;
 				case ServiceState.Started:
-					result = "Сервер запущен";
+					result = CommonResources.ServerStarted;
 					break;
 			}
 			return result;

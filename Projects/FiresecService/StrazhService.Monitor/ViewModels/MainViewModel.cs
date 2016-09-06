@@ -4,6 +4,8 @@ using Common;
 using FiresecClient;
 using KeyGenerator;
 using KeyGenerator.Entities;
+using Localization.StrazhService.Monitor.Errors;
+using Localization.StrazhService.Monitor.ViewModels;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using Infrastructure.Common;
@@ -34,7 +36,7 @@ namespace StrazhService.Monitor.ViewModels
 			_currentLicenseManager = currentLicenseManager;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
 			Current = this;
-			Title = "Монитор сервера";
+			Title = CommonViewModels.ServerMonitor;
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
@@ -184,8 +186,8 @@ namespace StrazhService.Monitor.ViewModels
 
 		#region <Лицензирование>
 
-		private const string LicLoadAccept = "Лицензия загружена";
-		private const string LicLoadFailed = "Лицензия отстутствует";
+		private string LicLoadAccept = CommonViewModels.LicenseUploaded;
+		private string LicLoadFailed = CommonViewModels.LicenseMissed;
 
 		private Dictionary<string, string> _licenseItems;
 
@@ -258,9 +260,9 @@ namespace StrazhService.Monitor.ViewModels
 		private static string PropertyConverter(object propertyValue)
 		{
 			if (propertyValue is bool)
-				return (bool)propertyValue ? "Включено" : "Отсутствует";
+				return (bool)propertyValue ? CommonViewModels.Include : CommonViewModels.Missing;
 			if (propertyValue is int)
-				return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : "Отсутствует";
+				return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : CommonViewModels.Missing;
 
 			return string.Empty;
 		}
@@ -285,8 +287,8 @@ namespace StrazhService.Monitor.ViewModels
 			}
 			else
 				MessageBoxService.ShowError(
-					"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
-					"Ошибка чтения файла лицензии");
+					CommonViewModels.FileIsNotLicense,
+					CommonErrors.LicenseReading_Error);
 		}
 
 		#endregion <Лицензирование>

@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Localization.StrazhService.Monitor.Common;
 using StrazhAPI.Models;
 using StrazhService.Monitor.Events;
 using StrazhService.Monitor.ViewModels;
@@ -66,7 +67,7 @@ namespace StrazhService.Monitor
 				SafeFiresecService.CoreLoadingLogChangedEvent += SafeFiresecService_CoreLoadingLogChangedEvent;
 
 				if (!ServiceRepository.Instance.WindowsServiceStatusMonitor.Start())
-					MessageBoxService.ShowWarning("Служба \"Сервер A.C.Tech\" не обнаружена.\nДля управления службой установите ее и перезапустите монитор сервера");
+					MessageBoxService.ShowWarning(CommonResources.ServiceNotFound);
 			}
 			catch (Exception e)
 			{
