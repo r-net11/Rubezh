@@ -48,10 +48,6 @@ namespace ReportSystem.UI.Reports
 			ReportUnit = ReportUnit.TenthsOfAMillimeter;
 			DrawWatermark = true;
 
-			//var dataSet = new Test();
-		//	DataSource = dataSet;
-		//	DataMember = dataSet.Tables[0].TableName;
-
 			DesignerOptions.ShowExportWarnings = false;
 			DesignerOptions.ShowPrintingWarnings = false;
 			DesignerOptions.ShowDesignerHints = false;

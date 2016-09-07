@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using DevExpress.CustomControls;
+﻿using DevExpress.CustomControls;
 using DevExpress.XtraPrinting.Native;
-using DevExpress.XtraReports.Design;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using DevExpress.XtraReports.UserDesigner.Native;
+using ReportSystem.UI.Services;
 using System.Drawing.Design;
 using System.Linq;
 using System.Windows.Forms;
@@ -47,6 +46,9 @@ namespace ReportSystem.UI
 		{
 			reportDesigner1.OpenReport(CurrentReport);
 
+			if (reportDesigner1.ActiveDesignPanel == null) return;
+
+			reportDesigner1.ActiveDesignPanel.AddService(typeof(IMenuCreationService), new CustomMenuCreationService(reportDesigner1.ActiveDesignPanel));
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowHTMLViewTab, CommandVisibility.None);
 			reportDesigner1.ActiveDesignPanel.SetCommandVisibility(ReportCommand.ShowDesignerTab, CommandVisibility.None);

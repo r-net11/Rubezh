@@ -61,6 +61,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.Utils.v13.2.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Utils.v13.2.UI, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.XtraBars.v13.2.dll</HintPath>
@@ -133,6 +134,7 @@
     <Compile Include="Reports\PassCardTemplateReport.Designer.cs">
       <DependentUpon>PassCardTemplateReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\CustomMenuCreationService.cs" />
     <Compile Include="UI\PassCardDesignerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
