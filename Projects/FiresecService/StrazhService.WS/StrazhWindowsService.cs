@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using Common;
+using Localization.StrazhService.WS.Errors;
 
 namespace StrazhService.WS
 {
@@ -49,10 +50,10 @@ namespace StrazhService.WS
 				exception = o;
 
 			if (exception == null)
-				exception = new Exception("UnhandledException!!! Сгенерировалось неидентифицируемое исключение!");
+				exception = new Exception(CommonErrors.UnhandledException_Error);
 
 			var errorMessage =
-				String.Format("В процессе работы сервера возникла необработанная ошибка в главном потоке."
+				String.Format(CommonErrors.MainThread_Error
 							  + Environment.NewLine + "Exception.Message: {0}"
 							  + Environment.NewLine + "Exception.Source: {1}"
 							  + Environment.NewLine + "Exception.StackTrace: {2}",

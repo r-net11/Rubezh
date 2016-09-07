@@ -6,6 +6,7 @@ using FiresecService.Service;
 using FiresecService.Service.Validators;
 using Integration.Service;
 using KeyGenerator;
+using Localization.StrazhService.WS.Common;
 using StrazhAPI.SKD;
 
 namespace StrazhService.WS
@@ -44,23 +45,23 @@ namespace StrazhService.WS
 				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
 
 				Logger.Info("Загрузка конфигурации");
-				Notifier.Log("Загрузка конфигурации");
+				Notifier.Log(CommonResources.LoadingConfiguration);
 				ConfigurationCashHelper.Update();
 
 				Logger.Info("Открытие хоста");
-				Notifier.Log("Открытие хоста");
+				Notifier.Log(CommonResources.OpenHost);
 				if (!FiresecServiceManager.Open(licenseManager, new IntegrationFacade(SKDManager.SKDConfiguration.OPCSettings)))
 					Logger.Error("При открытии хоста обнаружена ошибка");
 
 				Logger.Info("Создание конфигурации СКД");
-				Notifier.Log("Создание конфигурации СКД");
+				Notifier.Log(CommonResources.CreateConfiguration);
 				SKDProcessor.Start();
 
 				Logger.Info("Запуск сервиса отчетов");
-				Notifier.Log("Запуск сервиса отчетов");
+				Notifier.Log(CommonResources.ReportServiceStart);
 				ReportServiceManager.Run();
 				Logger.Info("Сервис отчетов запущен" + ReportServiceManager.Address);
-				Notifier.Log("Сервис отчетов запущен" + ReportServiceManager.Address);
+				Notifier.Log(string.Format(CommonResources.ReportServiceStarted, ReportServiceManager.Address));
 				foreach (var reportServiceAddress in ReportServiceManager.Addresses)
 				{
 					Logger.Info(reportServiceAddress);
@@ -68,11 +69,11 @@ namespace StrazhService.WS
 				}
 
 				Logger.Info("Запуск автоматизации");
-				Notifier.Log("Запуск автоматизации");
+				Notifier.Log(CommonResources.AutomationStart);
 				ScheduleRunner.Start();
 
 				Logger.Info("Готово");
-				Notifier.Log("Готово");
+				Notifier.Log(CommonResources.Done);
 				ProcedureRunner.RunOnServerRun();
 			}
 			catch (Exception e)

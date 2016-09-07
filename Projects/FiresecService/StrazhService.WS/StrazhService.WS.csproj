@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -94,6 +95,10 @@
     <ProjectReference Include="..\KeyGenerator\KeyGenerator.csproj">
       <Project>{daab7f4f-33de-4a7d-b604-43233f8713e0}</Project>
       <Name>KeyGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{e92c33ea-a314-44ec-bc73-5de6affb315b}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

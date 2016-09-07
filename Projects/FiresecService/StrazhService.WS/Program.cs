@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using Common;
+using Localization.StrazhService.WS.Common;
+using Localization.StrazhService.WS.Errors;
 
 namespace StrazhService.WS
 {
@@ -15,6 +20,10 @@ namespace StrazhService.WS
 		/// </summary>
 		private static void Main(string[] args)
 		{
+			var culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+			Thread.CurrentThread.CurrentCulture = culture;
+			Thread.CurrentThread.CurrentUICulture = culture;
+
 			if (args != null && args.Length == 1 && args[0].Length > 1
 				&& (args[0][0] == '-' || args[0][0] == '/'))
 			{
@@ -26,7 +35,7 @@ namespace StrazhService.WS
 					case "i":
 						if (!ServiceInstallerUtility.Install())
 						{
-							msg = "Ошибка регистрации сервиса";
+							msg = CommonErrors.RegistrationService_Error;
 							Logger.Error(msg);
 							Console.WriteLine(msg);
 						}
@@ -35,13 +44,13 @@ namespace StrazhService.WS
 					case "u":
 						if (!ServiceInstallerUtility.Uninstall())
 						{
-							msg = "Ошибка деинсталляции сервиса";
+							msg = CommonErrors.DeinstallationService_Error;
 							Logger.Error(msg);
 							Console.WriteLine(msg);
 						}
 						break;
 					default:
-						msg = string.Format("Нераспознанный параметр '{0}'", param);
+						msg = string.Format(CommonResources.UnrecognisedParameter, param);
 						Logger.Error(msg);
 						Console.WriteLine(msg);
 						break;
@@ -58,18 +67,18 @@ namespace StrazhService.WS
 						// Подписываемся на все неотловленные исключения, включая те, что были сгенерированы не в основном потоке
 						AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-						Console.WriteLine("Служба Сервера A.C.Tech");
+						Console.WriteLine(CommonResources.ServerService);
 						Console.WriteLine();
 						Console.WriteLine("StrazhService [/i | /u]");
 						Console.WriteLine();
-						Console.WriteLine("/i\tУстановка Сервера A.C.Tech в системе в качестве службы");
-						Console.WriteLine("/u\tУдаление Сервера A.C.Tech из списка служб системы");
+						Console.WriteLine(CommonResources.InstallationService);
+						Console.WriteLine(CommonResources.UninstallationService);
 						Console.WriteLine();
 
 #if DEBUG
 						Console.CancelKeyPress += (x, y) => service.DoStop();
 						service.DoStart();
-						Console.WriteLine("Сервер запущен. Нажмите Ctrl+C для остановки...");
+						Console.WriteLine(CommonResources.ServerStarted);
 						while (true)
 						{
 						}
@@ -101,10 +110,10 @@ namespace StrazhService.WS
 				exception = o;
 
 			if (exception == null)
-				exception = new Exception("UnhandledException!!! Сгенерировалось неидентифицируемое исключение!");
+				exception = new Exception(CommonErrors.UnhandledException_Error);
 
 			var errorMessage =
-				String.Format("В процессе работы сервера возникла необработанная ошибка в главном потоке."
+				String.Format(CommonErrors.MainThread_Error
 							  + Environment.NewLine + "Exception.Message: {0}"
 							  + Environment.NewLine + "Exception.Source: {1}"
 							  + Environment.NewLine + "Exception.StackTrace: {2}",

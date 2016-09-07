@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.Linq;
 using System.ServiceProcess;
+using Localization.StrazhService.WS.Common;
 
 namespace StrazhService.WS
 {
@@ -23,7 +24,7 @@ namespace StrazhService.WS
 			{
 				StartType = ServiceStartMode.Automatic,
 				ServiceName = "StrazhService",
-				Description = "Сервер A.C.Tech"
+				Description = CommonResources.Server
 			});
 		}
 	}
