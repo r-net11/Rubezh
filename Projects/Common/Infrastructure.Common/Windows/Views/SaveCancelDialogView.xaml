@@ -22,7 +22,7 @@
 				Command="{Binding SaveCommand}"
 				Content="{Binding SaveCaption}"
 				DockPanel.Dock="Right"
-				IsDefault="True"
+				IsDefault="{Binding IsPressEnterEnabled}"
 				Visibility="{Binding AllowSave, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ContentPresenter Content="{Binding CommandPanel}" />
 		</DockPanel>

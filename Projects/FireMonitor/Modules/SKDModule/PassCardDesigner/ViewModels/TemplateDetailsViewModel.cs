@@ -114,6 +114,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		public void InitializeDesigner(Organisation organisation, ShortPassCardTemplate model)
 		{
+			IsPressEnterEnabled = false;
 			OrganisationUID = organisation.UID;
 			LoadDesignerContent(organisation, model);
 		}
