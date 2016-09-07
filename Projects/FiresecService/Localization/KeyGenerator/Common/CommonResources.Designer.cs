@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KeyGenerator.Resources.Language {
+namespace Localization.KeyGenerator.Common {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace KeyGenerator.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class LicenseEntity {
+    public class CommonResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LicenseEntity() {
+        internal CommonResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KeyGenerator.Resources.Language.LicenseEntity", typeof(LicenseEntity).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.KeyGenerator.Common.CommonResources", typeof(CommonResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace KeyGenerator.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,72 +61,72 @@ namespace KeyGenerator.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Модуль &quot;Автоматизация&quot;.
+        ///   Looks up a localized string similar to Module &quot;Automation&quot;.
         /// </summary>
-        internal static string IsEnabledAutomation {
+        public static string IsEnabledAutomation {
             get {
                 return ResourceManager.GetString("IsEnabledAutomation", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Модуль &quot;Фотоверификация&quot;.
+        ///   Looks up a localized string similar to Module &quot;PhotoVerification&quot;.
         /// </summary>
-        internal static string IsEnabledPhotoVerification {
+        public static string IsEnabledPhotoVerification {
             get {
                 return ResourceManager.GetString("IsEnabledPhotoVerification", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Модуль &quot;Интеграция видео RVi&quot;.
+        ///   Looks up a localized string similar to Module &quot;Integration RVi&quot;.
         /// </summary>
-        internal static string IsEnabledRVI {
+        public static string IsEnabledRVI {
             get {
                 return ResourceManager.GetString("IsEnabledRVI", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сервер A.C. Tech.
+        ///   Looks up a localized string similar to Server A.C.Tech.
         /// </summary>
-        internal static string IsEnabledServer {
+        public static string IsEnabledServer {
             get {
                 return ResourceManager.GetString("IsEnabledServer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Модуль &quot;Учет рабочего времени&quot;.
+        ///   Looks up a localized string similar to Module &quot;Timesheet&quot;.
         /// </summary>
-        internal static string IsEnabledURV {
+        public static string IsEnabledURV {
             get {
                 return ResourceManager.GetString("IsEnabledURV", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Лицензия неограниченное количество пользователей.
+        ///   Looks up a localized string similar to Unlimited users license.
         /// </summary>
-        internal static string IsUnlimitedUsers {
+        public static string IsUnlimitedUsers {
             get {
                 return ResourceManager.GetString("IsUnlimitedUsers", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Оперативная задача (подключение).
+        ///   Looks up a localized string similar to Monitor (connections).
         /// </summary>
-        internal static string OperatorConnectionsNumber {
+        public static string OperatorConnectionsNumber {
             get {
                 return ResourceManager.GetString("OperatorConnectionsNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Всего пользователей.
+        ///   Looks up a localized string similar to Total users.
         /// </summary>
-        internal static string TotalUsers {
+        public static string TotalUsers {
             get {
                 return ResourceManager.GetString("TotalUsers", resourceCulture);
             }
