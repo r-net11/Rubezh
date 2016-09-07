@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ReportSystem.UI.Reports;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ReportSystem.UI.Reports;
-using SKDModule.PassCardDesigner.Model;
 
 namespace SKDModule.Employees.Views.DialogWindows
 {
@@ -30,8 +18,6 @@ namespace SKDModule.Employees.Views.DialogWindows
 			if (preview == null || preview.ReportPreviewControl == null) return;
 
 			preview.ReportPreviewControl.SetReport((PassCardTemplateReport)e.NewValue);
-			//designer.PassCardDesigner.CurrentReport = (XtraReport)e.NewValue;
-			//designer.PassCardDesigner.OpenCurrentReport();
 		}
 
 		public PassCardTemplateReport CurrentReport

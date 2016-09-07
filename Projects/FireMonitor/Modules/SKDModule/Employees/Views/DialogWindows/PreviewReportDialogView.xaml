@@ -10,7 +10,7 @@
     xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
     mc:Ignorable="d"
     Height="600"
-	Width="700">
+	Width="1150">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
