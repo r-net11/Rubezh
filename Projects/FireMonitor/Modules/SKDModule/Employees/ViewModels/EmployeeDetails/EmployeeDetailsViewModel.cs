@@ -549,20 +549,26 @@ namespace SKDModule.ViewModels
 				}
 			};
 			departmentSelectionViewModel.Initialize();
-			if (DialogService.ShowModalWindow(departmentSelectionViewModel) &&
-				(SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null) != null)
+			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
+				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null
+					? departmentSelectionViewModel.SelectedDepartment.Department
+					: null;
+
+				if (SelectedDepartment == null)
+					return;
+	
 				if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
 				{
 					var department = DepartmentHelper.GetDetails(SelectedDepartment.UID);
-					
+
 					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
 					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
 						department.ScheduleUID.HasValue)
 					{
 						SelectedSchedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
 					}
-					
+
 					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
 					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee &&
 						department.AccessTemplateUID.HasValue)
