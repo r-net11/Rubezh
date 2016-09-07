@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Localization.SKD.Common;
+using SKDModule.Events;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 
@@ -31,6 +33,23 @@ namespace SKDModule.ViewModels
 		private bool CanApplyToUserGroup()
 		{
 			return SelectedItem != null;
+		}
+
+		public AccessTemplatesViewModel()
+		{
+			ServiceFactoryBase.Events.GetEvent<NewAccessTemplateEvent>().Unsubscribe(OnNewAccessTemplate);
+			ServiceFactoryBase.Events.GetEvent<NewAccessTemplateEvent>().Subscribe(OnNewAccessTemplate);
+		}
+
+		private void OnNewAccessTemplate(AccessTemplate accessTemplate)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == accessTemplate.OrganisationUID);
+			if (organisation != null)
+			{
+				var viewModel = new AccessTemplateViewModel();
+				viewModel.InitializeModel(organisation.Organisation, accessTemplate, this);
+				organisation.AddChild(viewModel);
+			}
 		}
 
 		public override void Initialize(AccessTemplateFilter filter)

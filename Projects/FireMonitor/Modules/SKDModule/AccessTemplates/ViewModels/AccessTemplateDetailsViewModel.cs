@@ -1,8 +1,7 @@
-﻿using System.Windows.Navigation;
+﻿using System;
 using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -12,17 +11,20 @@ namespace SKDModule.ViewModels
 {
 	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<AccessTemplate>
 	{
-		Organisation Organisation { get; set; }
+		private Organisation Organisation { get; set; }
 		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public DeactivatingReadersSelectationViewModel DeactivatingReadersSelectationViewModel { get; private set; }
-		bool _isNew;
-		
-		public AccessTemplateDetailsViewModel() {  }
+		private bool _isNew;
 		
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
-			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID);
+			return Initialize(orgnaisation.UID, accessTemplate, parentViewModel);
+		}
+
+		public bool Initialize(Guid orgnaisationUID, AccessTemplate accessTemplate = null, ViewPartViewModel parentViewModel = null)
+		{
+			Organisation = OrganisationHelper.GetSingle(orgnaisationUID);
 			_isNew = accessTemplate == null;
 			if (_isNew)
 			{
@@ -45,7 +47,7 @@ namespace SKDModule.ViewModels
 			Description = Model.Description;
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -57,7 +59,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }

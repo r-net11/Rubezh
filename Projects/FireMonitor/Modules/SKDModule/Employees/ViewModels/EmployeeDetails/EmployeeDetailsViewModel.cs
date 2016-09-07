@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Localization.SKD.Common;
+﻿using Localization.SKD.Common;
 using Localization.SKD.ViewModels;
 using StrazhAPI;
 using StrazhAPI.SKD;
@@ -349,6 +348,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _needApplyAccessTemplateFromDepartment;
+		private Guid? _accessTemplateUID;
+
 		#region Document
 		string _number;
 		public string DocumentNumber
@@ -540,11 +542,43 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
+			{
+				DepartmentParamsApplyableToEmployeeViewModel =
+				{
+					ShowApplyToEmployeeSettings = true,
+					IsEmployee = IsEmployee
+				}
+			};
 			departmentSelectionViewModel.Initialize();
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
-				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
+				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null
+					? departmentSelectionViewModel.SelectedDepartment.Department
+					: null;
+
+				if (SelectedDepartment == null)
+					return;
+	
+				if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
+				{
+					var department = DepartmentHelper.GetDetails(SelectedDepartment.UID);
+
+					// Применить для сотрудника/посетителя график работ из графика работ по умолчанию для департамента
+					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee &&
+						department.ScheduleUID.HasValue)
+					{
+						SelectedSchedule = ScheduleHelper.GetShortByOrganisation(department.OrganisationUID).FirstOrDefault(x => x.UID == department.ScheduleUID);
+					}
+
+					// Применить для пропусков сотрудника режим доступа из режима доступа по умолчанию для департамента
+					if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee &&
+						department.AccessTemplateUID.HasValue)
+					{
+						_needApplyAccessTemplateFromDepartment = true;
+						_accessTemplateUID = department.AccessTemplateUID;
+					}
+				}
 			}
 		}
 
@@ -637,10 +671,29 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
+			ApplyAccessTemplateFromDepartment();
+
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);
 			if (saveResult && isLaunchEvent)
 				ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
 			return saveResult;
+		}
+
+		private void ApplyAccessTemplateFromDepartment()
+		{
+			if (!_needApplyAccessTemplateFromDepartment ||
+				Employee == null ||
+				Employee.Cards == null)
+				return;
+
+			Employee.Cards.ForEach(card =>
+			{
+				card.AccessTemplateUID = _accessTemplateUID;
+				if (CardHelper.Edit(card, Employee.Name))
+				{
+					ServiceFactoryBase.Events.GetEvent<CardAccessTemplateChangedEvent>().Publish(card);
+				}
+			});
 		}
 
 		bool IsLaunchEvent()

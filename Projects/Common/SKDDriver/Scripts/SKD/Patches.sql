@@ -1762,3 +1762,39 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_Type_Added_In_Table_DayI
 		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_Type_Added_In_Table_DayIntervalPart')
 	END
 GO
+
+-- В таблицу 'Department' добавлено поле 'AccessTemplateUID'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_AccessTemplateUID_Added_In_Table_Department')
+	BEGIN
+		ALTER TABLE [dbo].[Department] ADD [AccessTemplateUID] [uniqueidentifier] NULL
+		ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+		REFERENCES [dbo].[AccessTemplate] ([UID])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_AccessTemplate]
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_AccessTemplateUID_Added_In_Table_Department')
+	END
+GO
+
+-- В таблицу 'Department' добавлено поле 'ScheduleUID'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_ScheduleUID_Added_In_Table_Department')
+	BEGIN
+		ALTER TABLE [dbo].[Department] ADD [ScheduleUID] [uniqueidentifier] NULL
+		ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_Schedule] FOREIGN KEY([ScheduleUID])
+		REFERENCES [dbo].[Schedule] ([UID])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_Schedule]
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_ScheduleUID_Added_In_Table_Department')
+	END
+GO
+
+-- В таблицу 'Department' добавлено поле 'PassCardTemplateUID'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_PassCardTemplateUID_Added_In_Table_Department')
+	BEGIN
+		ALTER TABLE [dbo].[Department] ADD [PassCardTemplateUID] [uniqueidentifier] NULL
+		ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_PassCardTemplate] FOREIGN KEY([PassCardTemplateUID])
+		REFERENCES [dbo].[PassCardTemplate] ([UID])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_PassCardTemplate]
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_PassCardTemplateUID_Added_In_Table_Department')
+	END
+GO

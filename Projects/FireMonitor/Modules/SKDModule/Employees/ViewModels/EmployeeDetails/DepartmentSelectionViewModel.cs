@@ -20,6 +20,8 @@ namespace SKDModule.ViewModels
 		protected Guid _organisationUID;
 		protected Guid _firstSelectedDepartmentUID;
 
+		public DepartmentParamsApplyableToEmployeeViewModel DepartmentParamsApplyableToEmployeeViewModel { get; private set; }
+
 		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
 		{
 			Title = CommonViewModels.SelectDepart;
@@ -27,6 +29,7 @@ namespace SKDModule.ViewModels
 			_firstSelectedDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
 			ClearCommand = new RelayCommand(OnClear, () => SelectedDepartment != null);
+			DepartmentParamsApplyableToEmployeeViewModel = new DepartmentParamsApplyableToEmployeeViewModel();
 		}
 
 		public void Initialize()

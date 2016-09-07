@@ -12,6 +12,8 @@ namespace SKDModule.ViewModels
 	{
 		EmployeeFilter _filter;
 
+		public DepartmentParamsApplyableToEmployeeViewModel DepartmentParamsApplyableToEmployeeViewModel { get; private set; }
+
 		public EmployeeSelectionDialogViewModel(Guid selectedEmployeeUID, EmployeeFilter filter)
 		{
 			Initialize(filter);
@@ -34,6 +36,7 @@ namespace SKDModule.ViewModels
 			if (employeeModels == null)
 				return;
 			Employees = new ObservableCollection<ShortEmployee>(employeeModels);
+			DepartmentParamsApplyableToEmployeeViewModel = new DepartmentParamsApplyableToEmployeeViewModel();
 		}
 
 		public ObservableCollection<ShortEmployee> Employees { get; set; }
