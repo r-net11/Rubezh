@@ -1,15 +1,7 @@
-﻿using System.Collections;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Localization.Converters;
-using Infrastructure.Common;
+﻿using Localization.Converters;
 using License.Model.Entities;
 using System;
-using System.ComponentModel;
+using Localization.KeyGenerator.Common;
 
 namespace KeyGenerator.Entities
 {
@@ -18,33 +10,37 @@ namespace KeyGenerator.Entities
     {
 		public string UID { get; private set; }
 		public DateTime CreateDateTime { get; private set; }
+
         //[Description("Оперативная задача (подключение)")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "OperatorConnectionsNumber")]
+        [LocalizedDescription(typeof(CommonResources), "OperatorConnectionsNumber")]
 		public int OperatorConnectionsNumber { get; private set; }
 
 		//[Description("Всего пользователей")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "TotalUsers")]
+        [LocalizedDescription(typeof(CommonResources), "TotalUsers")]
 		public int TotalUsers { get; private set; }
 
 		//[Description("Лицензия неограниченное количество пользователей")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsUnlimitedUsers")]
+        [LocalizedDescription(typeof(CommonResources), "IsUnlimitedUsers")]
 		public bool IsUnlimitedUsers { get; private set; }
 
 		//[Description("Модуль \"Учет рабочего времени\"")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledURV")]
+        [LocalizedDescription(typeof(CommonResources), "IsEnabledURV")]
 		public bool IsEnabledURV { get; private set; }
+
 		//[Description("Модуль \"Фотоверификация\"")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledPhotoVerification")]
+        [LocalizedDescription(typeof(CommonResources), "IsEnabledPhotoVerification")]
 		public bool IsEnabledPhotoVerification { get; private set; }
+
 		//[Description("Модуль \"Интеграция видео RVi\"")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledRVI")]
+        [LocalizedDescription(typeof(CommonResources), "IsEnabledRVI")]
 		public bool IsEnabledRVI { get; private set; }
+
 		//[Description("Модуль \"Автоматизация\"")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledAutomation")]
+        [LocalizedDescription(typeof(CommonResources), "IsEnabledAutomation")]
 		public bool IsEnabledAutomation { get; private set; }
 
 		//[Description("Сервер A.C. Tech")]
-        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledServer")]
+        [LocalizedDescription(typeof(CommonResources), "IsEnabledServer")]
 		public bool IsEnabledServer { get; private set; }
 
 		public LicenseEntity(ILicenseEntity entity)
