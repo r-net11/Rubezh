@@ -47,11 +47,6 @@
     <Compile Include="LicenseFileManager.cs" />
     <Compile Include="ILicenseManager.cs" />
     <Compile Include="LicenseManager.cs" />
-    <Compile Include="Resources\Language\LicenseEntity.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LicenseEntity.resx</DependentUpon>
-    </Compile>
     <Compile Include="SecretFile.cs" />
     <Compile Include="UserKeyGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,10 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ACTechCert.cer" />
-    <EmbeddedResource Include="Resources\Language\LicenseEntity.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LicenseEntity.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
@@ -92,6 +83,10 @@
     <ProjectReference Include="..\..\Licence.Model\Licensing.Model.csproj">
       <Project>{b5d11993-2a32-40f7-bfb9-333b7348062e}</Project>
       <Name>Licensing.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{e92c33ea-a314-44ec-bc73-5de6affb315b}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
