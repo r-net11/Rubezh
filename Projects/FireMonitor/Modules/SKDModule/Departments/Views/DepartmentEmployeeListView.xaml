@@ -37,6 +37,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<FrameworkElement x:Name="dummyElement" Visibility="Collapsed" />
+		<!-- Список сотрудников подразделения -->
 		<DataGrid
 			Grid.Row="0"
 			ItemsSource="{Binding Employees}"
@@ -90,6 +91,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
+		<!-- Инструментальная панель для списка сотрудников подразделения -->
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal">
 				<ToolBarButton

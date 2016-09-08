@@ -183,8 +183,11 @@ CREATE TABLE [dbo].[Department](
 [RemovalDate] [datetime] NOT NULL ,
 [OrganisationUID] [uniqueidentifier] NULL,
 [ChiefUID] [uniqueidentifier] NOT NULL CONSTRAINT "Department_Chief_Default_Name" DEFAULT '00000000-0000-0000-0000-000000000000',
-Phone nvarchar(50) NULL,
-ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+[Phone] [nvarchar](50) NULL,
+[ExternalKey] [nvarchar](40) NOT NULL DEFAULT '-1',
+[AccessTemplateUID] [uniqueidentifier] NULL,
+[ScheduleUID] [uniqueidentifier] NULL,
+[PassCardTemplateUID] [uniqueidentifier] NULL
 CONSTRAINT [PK_Department_1] PRIMARY KEY CLUSTERED
 (
 [UID] ASC
@@ -808,6 +811,21 @@ REFERENCES [dbo].[AccessTemplate] ([UID])
 NOT FOR REPLICATION 
 ALTER TABLE [dbo].[AccessTemplateDeactivatingReader] NOCHECK CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate]
 
+ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+REFERENCES [dbo].[AccessTemplate] ([UID])
+NOT FOR REPLICATION 
+ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_AccessTemplate]
+
+ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_Schedule] FOREIGN KEY([ScheduleUID])
+REFERENCES [dbo].[Schedule] ([UID])
+NOT FOR REPLICATION 
+ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_Schedule]
+
+ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_PassCardTemplate] FOREIGN KEY([PassCardTemplateUID])
+REFERENCES [dbo].[PassCardTemplate] ([UID])
+NOT FOR REPLICATION 
+ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_PassCardTemplate]
+
 INSERT INTO Patches (Id) VALUES
 ('OrganisationUser')
 INSERT INTO Patches (Id) VALUES
@@ -1042,6 +1060,12 @@ INSERT INTO [dbo].[Patches] (Id) VALUES
 ('Column_AllowedPassCount_Added_In_Table_Card')
 INSERT INTO [dbo].[Patches] (Id) VALUES
 ('Column_Type_Added_In_Table_DayIntervalPart')
+INSERT INTO [dbo].[Patches] (Id) VALUES
+('Column_AccessTemplateUID_Added_In_Table_Department')
+INSERT INTO [dbo].[Patches] (Id) VALUES
+('Column_ScheduleUID_Added_In_Table_Department')
+INSERT INTO [dbo].[Patches] (Id) VALUES
+('Column_PassCardTemplateUID_Added_In_Table_Department')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

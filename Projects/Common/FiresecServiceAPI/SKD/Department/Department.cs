@@ -38,5 +38,23 @@ namespace StrazhAPI.SKD
 
 		[DataMember]
 		public Guid ChiefUID { get; set; }
+
+		/// <summary>
+		/// Идентификатор шаблона доступа
+		/// </summary>
+		[DataMember]
+		public Guid? AccessTemplateUID { get; set; }
+
+		/// <summary>
+		/// Идентификатор графика работы
+		/// </summary>
+		[DataMember]
+		public Guid? ScheduleUID { get; set; }
+
+		/// <summary>
+		/// Идентификатор шаблона пропуска
+		/// </summary>
+		[DataMember]
+		public Guid? PassCardTemplateUID { get; set; }
 	}
 }

@@ -145,6 +145,9 @@ namespace StrazhDAL
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.ChiefUID = tableItem.ChiefUID;
 			result.Phone = tableItem.Phone;
+			result.AccessTemplateUID = tableItem.AccessTemplateUID;
+			result.ScheduleUID = tableItem.ScheduleUID;
+			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
 
 			return result;
 		}
@@ -162,6 +165,10 @@ namespace StrazhDAL
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.Phone = apiItem.Phone;
+
+			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
+			tableItem.ScheduleUID = apiItem.ScheduleUID;
+			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";

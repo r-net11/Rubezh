@@ -275,7 +275,12 @@ namespace SKDModule.ViewModels
 
 		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
-			Organisation = organisation;
+			return Initialize(organisation.UID, model, parentViewModel);
+		}
+
+		public bool Initialize(Guid organisationUID, Schedule model = null, ViewPartViewModel parentViewModel = null)
+		{
+			Organisation = OrganisationHelper.GetSingle(organisationUID);
 			_isNew = model == null;
 			if (_isNew)
 			{

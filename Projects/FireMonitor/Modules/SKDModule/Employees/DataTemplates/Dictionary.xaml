@@ -48,4 +48,8 @@
 		<Views:ScheduleSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeSelectionDialogViewModel}">
+		<Views:EmployeeSelectionView />
+	</DataTemplate>
+
 </ResourceDictionary>
