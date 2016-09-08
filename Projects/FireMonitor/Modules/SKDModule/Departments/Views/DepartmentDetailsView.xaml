@@ -155,7 +155,7 @@
 				<TextBlock
 					Grid.Row="5"
 					Grid.Column="0"
-					Text="Шаблон доступа"
+					Text="{x:Static langCommon:CommonResources.AccessTemplate}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
@@ -180,7 +180,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedAccessTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -194,7 +194,7 @@
 				<TextBlock
 					Grid.Row="6"
 					Grid.Column="0"
-					Text="График работы"
+					Text="{x:Static langCommon:CommonResources.WorkSchedule}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
@@ -219,7 +219,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedSchedule, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -233,7 +233,7 @@
 				<TextBlock
 					Grid.Row="7"
 					Grid.Column="0"
-					Text="Шаблон пропуска"
+					Text="{x:Static langCommon:CommonResources.PasscardTemplate}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
@@ -258,7 +258,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedPassCardTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>

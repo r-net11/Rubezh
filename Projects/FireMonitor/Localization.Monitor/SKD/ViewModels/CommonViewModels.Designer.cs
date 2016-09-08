@@ -97,6 +97,15 @@ namespace Localization.SKD.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add element.
+        /// </summary>
+        public static string AddElement {
+            get {
+                return ResourceManager.GetString("AddElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to an additional column.
         /// </summary>
         public static string AdditionalColumn {
@@ -120,6 +129,24 @@ namespace Localization.SKD.ViewModels {
         public static string AdditionalColumnProperties {
             get {
                 return ResourceManager.GetString("AdditionalColumnProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new access template.
+        /// </summary>
+        public static string AddNewAccessTemplate {
+            get {
+                return ResourceManager.GetString("AddNewAccessTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new work schedule.
+        /// </summary>
+        public static string AddNewWorkSchedule {
+            get {
+                return ResourceManager.GetString("AddNewWorkSchedule", resourceCulture);
             }
         }
         
@@ -183,6 +210,15 @@ namespace Localization.SKD.ViewModels {
         public static string CanNotDeleteDaySchedule {
             get {
                 return ResourceManager.GetString("CanNotDeleteDaySchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose access template.
+        /// </summary>
+        public static string ChooseAccessTemplate {
+            get {
+                return ResourceManager.GetString("ChooseAccessTemplate", resourceCulture);
             }
         }
         
@@ -1245,6 +1281,33 @@ namespace Localization.SKD.ViewModels {
         public static string TypeDocumentEdition {
             get {
                 return ResourceManager.GetString("TypeDocumentEdition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpin access template.
+        /// </summary>
+        public static string UnpinAccessTemplate {
+            get {
+                return ResourceManager.GetString("UnpinAccessTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpin element.
+        /// </summary>
+        public static string UnpinElement {
+            get {
+                return ResourceManager.GetString("UnpinElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpin work schedule.
+        /// </summary>
+        public static string UnpinWorkSchedule {
+            get {
+                return ResourceManager.GetString("UnpinWorkSchedule", resourceCulture);
             }
         }
         

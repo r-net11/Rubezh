@@ -61,6 +61,15 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept for employee settings для сотрудника настройки подразделения по умолчанию:.
+        /// </summary>
+        public static string AcceptForEmplByDef {
+            get {
+                return ResourceManager.GetString("AcceptForEmplByDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to access Schedule.
         /// </summary>
         public static string AccessSchedule {

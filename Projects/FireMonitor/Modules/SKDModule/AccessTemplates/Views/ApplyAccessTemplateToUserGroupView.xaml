@@ -96,7 +96,7 @@
 							</GridViewColumn>
 							<!-- Колонка "Подразделение" -->
 							<GridViewColumn
-								Header="Подразделение"
+								Header="{x:Static langCommon:CommonResources.Department}"
 								layout:ProportionalColumn.Width="1"
 								tree:SortBehavior.SortComparer="{StaticResource EmployeeCardForApplyAccessTemplateToUserGroupViewModelDepartmentComparer}">
 								<GridViewColumn.CellTemplate>

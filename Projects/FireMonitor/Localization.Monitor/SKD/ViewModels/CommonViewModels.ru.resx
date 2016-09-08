@@ -546,4 +546,25 @@
   <data name="Zones" xml:space="preserve">
     <value>Зоны</value>
   </data>
+  <data name="AddElement" xml:space="preserve">
+    <value>Добавить элемент</value>
+  </data>
+  <data name="AddNewAccessTemplate" xml:space="preserve">
+    <value>Добавить новый шаблон доступа</value>
+  </data>
+  <data name="AddNewWorkSchedule" xml:space="preserve">
+    <value>Добавить новый график работы</value>
+  </data>
+  <data name="ChooseAccessTemplate" xml:space="preserve">
+    <value>Выбор шаблона доступа</value>
+  </data>
+  <data name="UnpinAccessTemplate" xml:space="preserve">
+    <value>Открепить шаблон доступа</value>
+  </data>
+  <data name="UnpinElement" xml:space="preserve">
+    <value>Открепить элемент</value>
+  </data>
+  <data name="UnpinWorkSchedule" xml:space="preserve">
+    <value>Открепить график работы</value>
+  </data>
 </root>

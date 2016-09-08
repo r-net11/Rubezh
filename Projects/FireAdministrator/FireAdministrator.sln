@@ -76,6 +76,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localizatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Converters", "..\Common\Localization.Converters\Localization.Converters.csproj", "{A99DAAC1-2126-4279-A463-40E4CE63E8BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "..\Common\Localization\Localization.csproj", "{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -466,6 +468,18 @@ Global
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|X64.ActiveCfg = Release|Any CPU
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|X64.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -499,5 +513,6 @@ Global
 		{BEDDB0D7-9739-4E46-A0BE-5275BBD84373} = {2EE2B650-8DC1-452D-A3A4-70CE4DA91315}
 		{56036069-BD05-4C22-8FCC-C55A75890B65} = {BEDDB0D7-9739-4E46-A0BE-5275BBD84373}
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 	EndGlobalSection
 EndGlobal

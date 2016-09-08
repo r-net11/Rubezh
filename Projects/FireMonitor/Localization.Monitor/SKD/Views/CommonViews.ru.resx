@@ -717,4 +717,7 @@
   <data name="BeforeHoliday" xml:space="preserve">
     <value>предпраздничный день)</value>
   </data>
+  <data name="AcceptForEmplByDef" xml:space="preserve">
+    <value>Применить для сотрудника настройки подразделения по умолчанию:</value>
+  </data>
 </root>

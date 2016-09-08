@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
@@ -87,10 +88,10 @@ namespace SKDModule.ViewModels
 		protected ItemsSelectionBaseViewModel()
 		{
 			ReleaseItemCommand = new RelayCommand(OnReleaseItem, CanReleaseItem);
-			ReleaseItemCommandText = "Открепить элемент";
+			ReleaseItemCommandText = CommonViewModels.UnpinElement;
 
 			AddItemCommand = new RelayCommand(OnAddItem, CanAddItem);
-			AddItemCommandText = "Добавить элемент";
+			AddItemCommandText = CommonViewModels.AddElement;
 		}
 
 		#endregion </Конструктор>

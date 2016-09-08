@@ -5,6 +5,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
 using StrazhAPI.SKD;
 
@@ -16,9 +17,9 @@ namespace SKDModule.ViewModels
 
 		public DepartmentScheduleSelectionViewModel()
 		{
-			Title = "Выбор графика работы";
-			ReleaseItemCommandText = "Открепить график работы";
-			AddItemCommandText = "Добавить новый график работы";
+			Title = CommonViewModels.SelectWorkSchedule;
+			ReleaseItemCommandText = CommonViewModels.UnpinWorkSchedule;
+			AddItemCommandText = CommonViewModels.AddNewWorkSchedule;
 		}
 
 		#endregion </Конструктор>

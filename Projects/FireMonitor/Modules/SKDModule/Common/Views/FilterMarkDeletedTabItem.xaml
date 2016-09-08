@@ -42,12 +42,12 @@
 		<CheckBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
 					IsChecked="{Binding OnlyDeleted}" 
 					IsEnabled="{Binding WithDeleted}" />
-		<TextBlock Text="C" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" />
+		<TextBlock Text="{x:Static lang:CommonViews.From}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" />
 		<Calendar Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Left" SelectionMode="SingleDate" 
 					SelectedDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}"
 					DisplayDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}" 
 					IsEnabled="{Binding WithDeleted}" />
-		<TextBlock Text="По" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" />
+		<TextBlock Text="{x:Static lang:CommonViews.To}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" />
 		<Calendar Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" SelectionMode="SingleDate" 
 					SelectedDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}"
 					DisplayDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}" 

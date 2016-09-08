@@ -547,4 +547,25 @@
   <data name="Zones" xml:space="preserve">
     <value>zone</value>
   </data>
+  <data name="AddElement" xml:space="preserve">
+    <value>Add element</value>
+  </data>
+  <data name="AddNewAccessTemplate" xml:space="preserve">
+    <value>Add new access template</value>
+  </data>
+  <data name="AddNewWorkSchedule" xml:space="preserve">
+    <value>Add new work schedule</value>
+  </data>
+  <data name="ChooseAccessTemplate" xml:space="preserve">
+    <value>Choose access template</value>
+  </data>
+  <data name="UnpinAccessTemplate" xml:space="preserve">
+    <value>Unpin access template</value>
+  </data>
+  <data name="UnpinElement" xml:space="preserve">
+    <value>Unpin element</value>
+  </data>
+  <data name="UnpinWorkSchedule" xml:space="preserve">
+    <value>Unpin work schedule</value>
+  </data>
 </root>

@@ -5,6 +5,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
 using StrazhAPI.SKD;
@@ -17,9 +18,9 @@ namespace SKDModule.ViewModels
 
 		public DepartmentPassCardTemplateSelectionViewModel()
 		{
-			Title = "Выбор шаблона доступа";
-			ReleaseItemCommandText = "Открепить шаблон доступа";
-			AddItemCommandText = "Добавить новый шаблон доступа";
+			Title = CommonViewModels.ChooseAccessTemplate;
+			ReleaseItemCommandText = CommonViewModels.UnpinAccessTemplate;
+			AddItemCommandText = CommonViewModels.AddNewAccessTemplate;
 		}
 
 		#endregion </Конструктор>

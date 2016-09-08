@@ -730,4 +730,7 @@
   <data name="BeforeHoliday" xml:space="preserve">
     <value>pre-holiday)</value>
   </data>
+  <data name="AcceptForEmplByDef" xml:space="preserve">
+    <value>Accept for employee settings для сотрудника настройки подразделения по умолчанию:</value>
+  </data>
 </root>
