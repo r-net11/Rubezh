@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessScheduleOffense" xml:space="preserve">
+    <value>Нарушение графика доступа</value>
+  </data>
+  <data name="AlwaysClosed" xml:space="preserve">
+    <value>Всегда закрыто</value>
+  </data>
+  <data name="AlwaysOpen" xml:space="preserve">
+    <value>Всегда открыто</value>
+  </data>
+  <data name="AnotherDoorOpen" xml:space="preserve">
+    <value>Открыта другая дверь шлюза</value>
+  </data>
+  <data name="BlackList" xml:space="preserve">
+    <value>Черный список</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>Кнопка</value>
+  </data>
+  <data name="ControllerBusy" xml:space="preserve">
+    <value>Контроллер занят</value>
+  </data>
+  <data name="ControllerNotFound" xml:space="preserve">
+    <value>Контроллер не найден</value>
+  </data>
+  <data name="ControllerNotFoundInConfig" xml:space="preserve">
+    <value>Не найден контроллер в конфигурации</value>
+  </data>
+  <data name="CouldNotOpenLockInAlwaysOpenMode" xml:space="preserve">
+    <value>Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО</value>
+  </data>
+  <data name="Debts" xml:space="preserve">
+    <value>Задолженность</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="Entrance" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Expiration" xml:space="preserve">
+    <value>Просрочка</value>
+  </data>
+  <data name="FingerprintOnly" xml:space="preserve">
+    <value>Только отпечаток пальца</value>
+  </data>
+  <data name="Forcing" xml:space="preserve">
+    <value>Принуждение</value>
+  </data>
+  <data name="NC004" xml:space="preserve">
+    <value>Четырехдверный контроллер</value>
+  </data>
+  <data name="Frozen" xml:space="preserve">
+    <value>Заморожена</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>Гостевая</value>
+  </data>
+  <data name="Guests" xml:space="preserve">
+    <value>Гостевой</value>
+  </data>
+  <data name="IncorectLockOpenMode" xml:space="preserve">
+    <value>Неверный метод открытия замка</value>
+  </data>
+  <data name="IncorectPassword" xml:space="preserve">
+    <value>Неверный пароль</value>
+  </data>
+  <data name="IncorrectLogin" xml:space="preserve">
+    <value>Неверный логин</value>
+  </data>
+  <data name="IncorrectPasscardPassword" xml:space="preserve">
+    <value>Неверный пароль пропуска</value>
+  </data>
+  <data name="KeepOpen" xml:space="preserve">
+    <value>Держать открытой</value>
+  </data>
+  <data name="Lock12" xml:space="preserve">
+    <value>Замок 1+2</value>
+  </data>
+  <data name="Lock123" xml:space="preserve">
+    <value>Замок 1+2+3</value>
+  </data>
+  <data name="Lock1234" xml:space="preserve">
+    <value>Замок 1+2+3+4</value>
+  </data>
+  <data name="Lock1324" xml:space="preserve">
+    <value>Замок 1+3 и 2+4</value>
+  </data>
+  <data name="Lock1423" xml:space="preserve">
+    <value>Замок 1+4 и 2+3</value>
+  </data>
+  <data name="Lock234" xml:space="preserve">
+    <value>Замок 2+3+4</value>
+  </data>
+  <data name="Lock34" xml:space="preserve">
+    <value>Замок 3+4</value>
+  </data>
+  <data name="LockBreaking" xml:space="preserve">
+    <value>Замок в состоянии 'Взлом'</value>
+  </data>
+  <data name="LockClosed" xml:space="preserve">
+    <value>Замок в режиме 'Закрыто'</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Заблокирована</value>
+  </data>
+  <data name="LockNotFoundInConfig" xml:space="preserve">
+    <value>Не найден замок в конфигурации</value>
+  </data>
+  <data name="LockSettingNotSupportForcing" xml:space="preserve">
+    <value>Настройки замка не поддерживает пропуск 'Принуждение'</value>
+  </data>
+  <data name="Lost" xml:space="preserve">
+    <value>Потеряна</value>
+  </data>
+  <data name="Maternal" xml:space="preserve">
+    <value>Материнский</value>
+  </data>
+  <data name="NoAccessPermissions" xml:space="preserve">
+    <value>Нет прав доступа</value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>Нет ошибки</value>
+  </data>
+  <data name="NoLinkWithController" xml:space="preserve">
+    <value>Нет связи с контроллером "{0}". {1}"</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Нормальный</value>
+  </data>
+  <data name="Normals" xml:space="preserve">
+    <value>Нормальное</value>
+  </data>
+  <data name="NotFoundInConfig" xml:space="preserve">
+    <value>Не найдено в конфигурации</value>
+  </data>
+  <data name="NC101" xml:space="preserve">
+    <value>Однодверный контроллер</value>
+  </data>
+  <data name="OperationCanceled" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Прочее</value>
+  </data>
+  <data name="PassbackToZone" xml:space="preserve">
+    <value>Повторный проход в зону</value>
+  </data>
+  <data name="Passcard" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="PasscardBlocked" xml:space="preserve">
+    <value>Пропуск заблокирован</value>
+  </data>
+  <data name="PasscardFingerprint" xml:space="preserve">
+    <value>Карта и отпечаток пальца</value>
+  </data>
+  <data name="PasscardFirst" xml:space="preserve">
+    <value>Сначала карта</value>
+  </data>
+  <data name="PasscardNumber" xml:space="preserve">
+    <value>Номер карты</value>
+  </data>
+  <data name="PasscardType" xml:space="preserve">
+    <value>Тип карты</value>
+  </data>
+  <data name="PasscardValidityExpired" xml:space="preserve">
+    <value>Срок действия пропуска истек или не наступил</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordFirst" xml:space="preserve">
+    <value>Сначала пароль</value>
+  </data>
+  <data name="PasswordOnly" xml:space="preserve">
+    <value>Только пароль</value>
+  </data>
+  <data name="PasswordOrCard" xml:space="preserve">
+    <value>Пароль или карта</value>
+  </data>
+  <data name="PasswordOrCardOrFingerprint" xml:space="preserve">
+    <value>Пароль или карта или отпечаток пальца</value>
+  </data>
+  <data name="Patrol" xml:space="preserve">
+    <value>Патруль</value>
+  </data>
+  <data name="Reader13InReader24Out" xml:space="preserve">
+    <value>Считыватель 1 или 3- Вход, Считыватель 2 или 4 - Выход</value>
+  </data>
+  <data name="Reader1InReader2Out" xml:space="preserve">
+    <value>Считыватель 1 - Вход, Считыватель 2 - Выход</value>
+  </data>
+  <data name="Reader3InReader4Out" xml:space="preserve">
+    <value>Считыватель 3 - Вход, Считыватель 4 - Выход</value>
+  </data>
+  <data name="Remote" xml:space="preserve">
+    <value>Удаленно</value>
+  </data>
+  <data name="SafeRoom" xml:space="preserve">
+    <value>Безопасная комната</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Секция</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Охрана</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Сервисная</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Таймаут</value>
+  </data>
+  <data name="NC002" xml:space="preserve">
+    <value>Двухдверный контроллер</value>
+  </data>
+  <data name="UnderProtection" xml:space="preserve">
+    <value>Под защитой</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="UnknownReason" xml:space="preserve">
+    <value>Неизвестная причина</value>
+  </data>
+  <data name="UserBlocked" xml:space="preserve">
+    <value>Пользователь был заблокирован</value>
+  </data>
+  <data name="UserIsIllegal" xml:space="preserve">
+    <value>Пользователь нелегальный</value>
+  </data>
+  <data name="UserLogged" xml:space="preserve">
+    <value>Пользователь уже залогинен</value>
+  </data>
+  <data name="Usual" xml:space="preserve">
+    <value>Обычный</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Обычная</value>
+  </data>
+  <data name="Vip" xml:space="preserve">
+    <value>Вип</value>
+  </data>
+  <data name="WaitPassConfirm" xml:space="preserve">
+    <value>Ожидание подтверждения прохода</value>
+  </data>
+  <data name="WriteAccessSchedulesOnController" xml:space="preserve">
+    <value>Запись графиков доступа на контроллер "{0}"</value>
+  </data>
+  <data name="WriteAccessSchedulesOnControllerCanceled" xml:space="preserve">
+    <value>Операция записи графиков доступа на контроллер "{0}" отменена</value>
+  </data>
+  <data name="WriteLockPasswordsOnController" xml:space="preserve">
+    <value>Запись паролей замков на контроллер "{0}"</value>
+  </data>
+  <data name="WriteLockPasswordsOnControllerCanceled" xml:space="preserve">
+    <value>Операция записи паролей замков на контроллер "{0}" отменена</value>
+  </data>
+  <data name="WritePasscardsOnController" xml:space="preserve">
+    <value>Запись пропусков на контроллер "{0}"</value>
+  </data>
+  <data name="WrongId" xml:space="preserve">
+    <value>Неверный идентификатор</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>LogOff</value>
+  </data>
+  <data name="MultiplayerUnlock" xml:space="preserve">
+    <value>Multiplayer Unlock</value>
+  </data>
+</root>

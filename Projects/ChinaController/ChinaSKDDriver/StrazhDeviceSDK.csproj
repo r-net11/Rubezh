@@ -106,9 +106,17 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Localization.Converters\Localization.Converters.csproj">
+      <Project>{a99daac1-2126-4279-a463-40e4ce63e8bc}</Project>
+      <Name>Localization.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>StrazhDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{e92c33ea-a314-44ec-bc73-5de6affb315b}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

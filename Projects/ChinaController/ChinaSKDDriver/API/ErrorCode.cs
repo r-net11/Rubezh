@@ -1,40 +1,55 @@
 ﻿using System.ComponentModel;
+using Localization.Converters;
+using Localization.StrazhDeviceSDK.Common;
 
 namespace StrazhDeviceSDK.API
 {
     public enum ErrorCode
     {
-		[Description("Нет ошибки")]
+		//[Description("Нет ошибки")]
+		[LocalizedDescription(typeof(CommonResources), "NoError")]
 		None = 0,
-		[Description("Неверный идентификатор")]
+		//[Description("Неверный идентификатор")]
+		[LocalizedDescription(typeof(CommonResources), "WrongId")]
 		Unauthorized = 16,
-		[Description("Пропуск заблокирован")]
+		//[Description("Пропуск заблокирован")]
+		[LocalizedDescription(typeof(CommonResources), "PasscardBlocked")]
 		CardLostOrCancelled = 17,
-		[Description("Нет прав доступа")]
+		//[Description("Нет прав доступа")]
+		[LocalizedDescription(typeof(CommonResources), "NoAccessPermissions")]
 		NoRight = 18,
-		[Description("Неверный метод открытия замка")]
+		//[Description("Неверный метод открытия замка")]
+		[LocalizedDescription(typeof(CommonResources), "IncorectLockOpenMode")]
 		UnlockModeError = 19,
-		[Description("Срок действия пропуска истек или не наступил")]
+		//[Description("Срок действия пропуска истек или не наступил")]
+		[LocalizedDescription(typeof(CommonResources), "PasscardValidityExpired")]
 		ValidityError = 20,
-		[Description("Повторный проход в зону")]
+		//[Description("Повторный проход в зону")]
+		[LocalizedDescription(typeof(CommonResources), "PassbackToZone")]
 		AntipassBack = 21,
-		[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
+		//[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
+		[LocalizedDescription(typeof(CommonResources), "LockSettingNotSupportForcing")]
 		IntimidationAlarmNotOn = 22,
-		[Description("Замок в режиме 'Закрыто'")]
+		//[Description("Замок в режиме 'Закрыто'")]
+		[LocalizedDescription(typeof(CommonResources), "LockClosed")]
 		DoorNcStatus = 23,
-		[Description("Открыта другая дверь шлюза")]
+		//[Description("Открыта другая дверь шлюза")]
+		[LocalizedDescription(typeof(CommonResources), "AnotherDoorOpen")]
 		AbInterlockStatus = 24,
 		//[Description("Патрульные карты")]
 		//PatrolCards = 25,
-		[Description("Замок в состоянии 'Взлом'")]
+		//[Description("Замок в состоянии 'Взлом'")]
+		[LocalizedDescription(typeof(CommonResources), "LockBreaking")]
 		DeviceIsUnderIntrusionAlam = 26,
-		[Description("Нарушение графика доступа")]
+		//[Description("Нарушение графика доступа")]
+		[LocalizedDescription(typeof(CommonResources), "AccessScheduleOffense")]
 		PeriodError = 32,
 		//[Description("Ошибочный временной диапазон для нерабочего дня")]
 		//TimeRangeErrorInHoliday = 33,
 		//[Description("")]
 		//NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
-		[Description("Неверный пароль пропуска")]
+		//[Description("Неверный пароль пропуска")]
+		[LocalizedDescription(typeof(CommonResources), "IncorrectPasscardPassword")]
 		CardCorrectInputPasswordError = 64,
 		//[Description("Карта верная, вышло время ввода пароля")]
 		//CardCorrectPasswordInputTimeout = 65,
@@ -50,7 +65,8 @@ namespace StrazhDeviceSDK.API
 		//CombinedOrderToOpenTheDoorError = 80,
 		//[Description("Требуется проверка при совместной попытке открыть дверь")]
 		//CombinedOrderToOpenTheDoorNeedVerified = 81,
-		[Description("Ожидание подтверждения прохода")]
+		//[Description("Ожидание подтверждения прохода")]
+		[LocalizedDescription(typeof(CommonResources), "WaitPassConfirm")]
 		VerificationPassedControlNotAuthorized = 96
 	}
 }

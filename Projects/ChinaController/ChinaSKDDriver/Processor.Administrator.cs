@@ -1,4 +1,6 @@
-﻿using StrazhDeviceSDK.API;
+﻿using Localization.StrazhDeviceSDK.Common;
+using Localization.StrazhDeviceSDK.Errors;
+using StrazhDeviceSDK.API;
 using Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
@@ -22,7 +24,7 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDDeviceInfo>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+					return OperationResult<SKDDeviceInfo>.FromError(String.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var deviceInfo = new SKDDeviceInfo();
 				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
@@ -34,7 +36,7 @@ namespace StrazhDeviceSDK
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе информации о прошивке на контроллере");
+					return OperationResult<SKDDeviceInfo>.FromError(CommonErrors.ExecuteOperationRequestInfoController_Error);
 				}
 
 				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
@@ -46,7 +48,7 @@ namespace StrazhDeviceSDK
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе сетевой информации на контроллере");
+					return OperationResult<SKDDeviceInfo>.FromError(CommonErrors.ExecuteOperationRequestNetController_Error);
 				}
 
 				var dateTime = deviceProcessor.Wrapper.GetDateTime();
@@ -56,12 +58,12 @@ namespace StrazhDeviceSDK
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе текущего времени на контроллере");
+					return OperationResult<SKDDeviceInfo>.FromError(CommonErrors.ExecuteOperationRequestTimeController_Error);
 				}
 
 				return new OperationResult<SKDDeviceInfo>(deviceInfo);
 			}
-			return OperationResult<SKDDeviceInfo>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDDeviceInfo>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		/// <summary>
@@ -81,14 +83,14 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(string.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				if (deviceProcessor.Wrapper.SetDateTime(DateTime.Now))
 					return new OperationResult<bool>(true);
 
-				return OperationResult<bool>.FromError("Ошибка при выполнении операции синхронизации времени на контроллере");
+				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationSynchTime_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> ResetController(Guid deviceUID)
@@ -97,15 +99,15 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.Reset();
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> RebootController(Guid deviceUID)
@@ -114,16 +116,16 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.Reboot();
 				deviceProcessor.Reconnect();
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		/// <summary>
@@ -141,13 +143,13 @@ namespace StrazhDeviceSDK
 				Logger.Info(String.Format("Выполняется Processor.SKDWriteTimeSheduleConfiguration для контроллера {0}", deviceProcessor.Device.Name));
 #endif
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				SKDProgressCallback progressCallback = null;
 
 				// Показываем индикатор хода выполнения операции
 				if (doProgress)
-					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
+					progressCallback = StartProgress(string.Format(CommonResources.WriteAccessSchedulesOnController, deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
 				for (var i = 0; i <= 127; i++)
 				{
@@ -210,7 +212,7 @@ namespace StrazhDeviceSDK
 
 					// Выполнение операции прервано пользователем
 					if (progressCallback != null && progressCallback.IsCanceled)
-						return OperationResult<bool>.FromCancel(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+						return OperationResult<bool>.FromCancel(String.Format(CommonResources.WriteAccessSchedulesOnControllerCanceled, deviceProcessor.Device.Name));
 
 
 					// Обновляем индикатор хода выполнения операции
@@ -224,7 +226,7 @@ namespace StrazhDeviceSDK
 						if (progressCallback != null)
 							StopProgress(progressCallback);
 
-						return OperationResult<bool>.FromError(String.Format("Ошибка при выполнении операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
+						return OperationResult<bool>.FromError(String.Format(CommonErrors.ExecuteOperationWriteAccessSchedule_Error, deviceProcessor.Device.Name));
 					}
 				}
 
@@ -234,7 +236,7 @@ namespace StrazhDeviceSDK
 
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<SKDDoorConfiguration> GetDoorConfiguration(Guid deviceUID)
@@ -250,11 +252,11 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDDoorConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDDoorConfiguration>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
 				if (nativeDoorConfiguration == null)
-					return OperationResult<SKDDoorConfiguration>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<SKDDoorConfiguration>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 
 				var doorConfiguration = new SKDDoorConfiguration();
 				doorConfiguration.AccessState = (StrazhAPI.SKD.AccessState)nativeDoorConfiguration.AccessState;
@@ -278,7 +280,7 @@ namespace StrazhDeviceSDK
 
 				return new OperationResult<SKDDoorConfiguration>(doorConfiguration);
 			}
-			return OperationResult<SKDDoorConfiguration>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDDoorConfiguration>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		/// <summary>
@@ -291,16 +293,16 @@ namespace StrazhDeviceSDK
 		{
 			var lockDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (lockDevice == null)
-				return OperationResult<bool>.FromError("Не найден замок в конфигурации");
+				return OperationResult<bool>.FromError(CommonResources.LockNotFoundInConfig);
 			var controllerDevice = lockDevice.Parent;
 			if (controllerDevice == null)
-				return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+				return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(String.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var nativeDoorConfiguration = new DoorConfiguration();
 				nativeDoorConfiguration.AccessState = (API.AccessState)doorConfiguration.AccessState;
@@ -333,9 +335,9 @@ namespace StrazhDeviceSDK
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, lockDevice.IntAddress);
 				return result
 					? new OperationResult<bool>(true)
-					: OperationResult<bool>.FromError("Ошибка при выполнении операции записи конфигурации замка на контроллер");
+					: OperationResult<bool>.FromError(CommonErrors.ExecuteOperationWriteConfig_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
@@ -344,12 +346,12 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<DoorType>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<DoorType>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var doorType = deviceProcessor.Wrapper.GetControllerDoorType();
 				return new OperationResult<DoorType>(doorType);
 			}
-			return OperationResult<DoorType>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<DoorType>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
@@ -358,16 +360,16 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetControllerDoorType(doorType);
 				//deviceProcessor.Reconnect();
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
@@ -376,15 +378,15 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetControllerPassword(name, oldPassword, password);
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
@@ -393,12 +395,12 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDControllerTimeSettings>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDControllerTimeSettings>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var doorType = deviceProcessor.Wrapper.GetControllerTimeSettings();
 				return new OperationResult<SKDControllerTimeSettings>(doorType);
 			}
-			return OperationResult<SKDControllerTimeSettings>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDControllerTimeSettings>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
@@ -407,15 +409,15 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetControllerTimeSettings(controllerTimeSettings);
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
@@ -424,12 +426,12 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDControllerNetworkSettings>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDControllerNetworkSettings>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var controllerNetworkSettings = deviceProcessor.Wrapper.GetDeviceNetInfo();
 				return new OperationResult<SKDControllerNetworkSettings>(controllerNetworkSettings);
 			}
-			return OperationResult<SKDControllerNetworkSettings>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDControllerNetworkSettings>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
@@ -438,15 +440,15 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(controllerNetworkSettings);
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<SKDAntiPassBackConfiguration> GetAntiPassBackConfiguration(Guid deviceUID)
@@ -455,12 +457,12 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDAntiPassBackConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDAntiPassBackConfiguration>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var antiPassBackConfiguration = deviceProcessor.Wrapper.GetAntiPassBackConfiguration();
 				return new OperationResult<SKDAntiPassBackConfiguration>(new SKDAntiPassBackConfiguration() { IsActivated = antiPassBackConfiguration.IsActivated, CurrentAntiPassBackMode = (SKDAntiPassBackMode)antiPassBackConfiguration.CurrentAntiPassBackMode });
 			}
-			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDAntiPassBackConfiguration>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
@@ -469,15 +471,15 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetAntiPassBackConfiguration(new AntiPassBackConfiguration() { IsActivated = antiPassBackConfiguration.IsActivated, CurrentAntiPassBackMode = (AntiPassBackMode)antiPassBackConfiguration.CurrentAntiPassBackMode });
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<SKDInterlockConfiguration> GetInterlockConfiguration(Guid deviceUID)
@@ -486,12 +488,12 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDInterlockConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDInterlockConfiguration>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var interlockConfiguration = deviceProcessor.Wrapper.GetInterlockConfiguration();
 				return new OperationResult<SKDInterlockConfiguration>(new SKDInterlockConfiguration() { IsActivated = interlockConfiguration.IsActivated, CurrentInterlockMode = (SKDInterlockMode)interlockConfiguration.CurrentInterlockMode });
 			}
-			return OperationResult<SKDInterlockConfiguration>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<SKDInterlockConfiguration>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> SetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
@@ -500,14 +502,14 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.SetInterlockConfiguration(new InterlockConfiguration() { IsActivated = interlockConfiguration.IsActivated, CurrentInterlockMode = (InterlockMode)interlockConfiguration.CurrentInterlockMode });
 				if (result)
 					return new OperationResult<bool>(true);
-				return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> StartSearchDevices()
@@ -515,7 +517,7 @@ namespace StrazhDeviceSDK
 			if (Wrapper.StartSearchDevices())
 				return new OperationResult<bool>(true);
 			else
-				return OperationResult<bool>.FromError("Ошибка при выполнении операции");
+				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperation_Error);
 		}
 
 		public static OperationResult<bool> StopSearchDevices()
@@ -523,7 +525,7 @@ namespace StrazhDeviceSDK
 			if (Wrapper.StopSearchDevices())
 				return new OperationResult<bool>(true);
 			else
-				return OperationResult<bool>.FromError("Ошибка при выполнении операции");
+				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperation_Error);
 		}
 
 		#region <Пароли замков>
@@ -534,7 +536,7 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<IEnumerable<SKDLocksPassword>>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+					return OperationResult<IEnumerable<SKDLocksPassword>>.FromError(String.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				IEnumerable<Password> passwords = deviceProcessor.Wrapper.GetAllPasswords();
 				var locksPasswords = passwords.Select(password => new SKDLocksPassword()
@@ -547,7 +549,7 @@ namespace StrazhDeviceSDK
 				}).ToList();
 				return new OperationResult<IEnumerable<SKDLocksPassword>>(locksPasswords);
 			}
-			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		private static bool IsPasswordAppliedToLock(int lockIndex, IList<int> locks, int locksCountToCheck)
@@ -564,17 +566,17 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(String.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				SKDProgressCallback progressCallback = null;
 
 				// Показываем индикатор хода выполнения операции
 				if (doProgress)
-					progressCallback = StartProgress(String.Format("Запись паролей замков на контроллер \"{0}\"", deviceProcessor.Device.Name), null, locksPasswords.Count() + 1, true, SKDProgressClientType.Administrator);
+					progressCallback = StartProgress(String.Format(CommonResources.WriteLockPasswordsOnController, deviceProcessor.Device.Name), null, locksPasswords.Count() + 1, true, SKDProgressClientType.Administrator);
 
 				// Сначала удаляем с контроллера все пароли замков, записанные ранее
 				if (!deviceProcessor.Wrapper.RemoveAllPasswords())
-					return OperationResult<bool>.FromError(String.Format("Ошибка удаления паролей замков на контроллере \"{0}\"", deviceProcessor.Device.Name));
+					return OperationResult<bool>.FromError(String.Format(CommonErrors.ExecuteOperationDeletePasswordController_Error, deviceProcessor.Device.Name));
 
 				// Обновляем индикатор хода выполнения операции
 				if (progressCallback != null)
@@ -636,7 +638,7 @@ namespace StrazhDeviceSDK
 
 					// Выполнение операции прервано пользователем
 					if (progressCallback != null && progressCallback.IsCanceled)
-						return OperationResult<bool>.FromCancel(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+						return OperationResult<bool>.FromCancel(String.Format(CommonResources.WriteLockPasswordsOnControllerCanceled, deviceProcessor.Device.Name));
 				}
 
 				// Останавливаем индикатор хода выполнения операции
@@ -645,7 +647,7 @@ namespace StrazhDeviceSDK
 
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		#endregion </Пароли замков>

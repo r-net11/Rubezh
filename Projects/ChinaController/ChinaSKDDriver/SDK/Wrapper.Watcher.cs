@@ -1,4 +1,5 @@
-﻿using StrazhDeviceSDK.API;
+﻿using Localization.StrazhDeviceSDK.Common;
+using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using StrazhAPI.Journal;
 using System;
@@ -20,7 +21,7 @@ namespace StrazhDeviceSDK
 		{
 			NativeWrapper.WRAP_Initialize();
 		}
-
+		
 		#region Connct
 
 		public int WrapConnect(string ipAddress, int port, string login, string password, out string error)
@@ -38,31 +39,31 @@ namespace StrazhDeviceSDK
 				switch (error)
 				{
 					case 1:
-						return "Неверный пароль";
+						return CommonResources.IncorectPassword;
 
 					case 2:
-						return "Неверный логин";
+						return CommonResources.IncorrectLogin;
 
 					case 3:
-						return "Таймаут";
+						return CommonResources.Timeout;
 
 					case 4:
-						return "Пользователь уже залогинен";
+						return CommonResources.UserLogged;
 
 					case 5:
-						return "Пользователь был заблокирован";
+						return CommonResources.UserBlocked;
 
 					case 6:
-						return "Пользователь нелегальный";
+						return CommonResources.UserIsIllegal;
 
 					case 7:
-						return "Контроллер занят";
+						return CommonResources.ControllerBusy;
 
 					case 9:
-						return "Контроллер не найден";
+						return CommonResources.ControllerNotFound;
 
 					default:
-						return "Неизвестная причина";
+						return CommonResources.UnknownReason;
 				}
 			}
 			return "";

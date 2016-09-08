@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Localization.Converters;
+using Localization.StrazhDeviceSDK.Common;
 
 namespace StrazhDeviceSDK.API
 {
@@ -41,25 +43,33 @@ namespace StrazhDeviceSDK.API
 	/// </summary>
 	public enum InterlockMode
 	{
-		[Description("Замок 1+2")]
+		//[Description("Замок 1+2")]
+		[LocalizedDescription(typeof(CommonResources), "Lock12")]
 		L1L2,
 
-		[Description("Замок 1+2+3")]
+		//[Description("Замок 1+2+3")]
+		[LocalizedDescription(typeof(CommonResources), "Lock123")]
 		L1L2L3,
 
-		[Description("Замок 1+2+3+4")]
+		//[Description("Замок 1+2+3+4")]
+		[LocalizedDescription(typeof(CommonResources), "Lock1234")]
+		
 		L1L2L3L4,
 
-		[Description("Замок 2+3+4")]
+		//[Description("Замок 2+3+4")]
+		[LocalizedDescription(typeof(CommonResources), "Lock234")]
 		L2L3L4,
 
-		[Description("Замок 1+3 и 2+4")]
+		//[Description("Замок 1+3 и 2+4")]
+		[LocalizedDescription(typeof(CommonResources), "Lock1324")]
 		L1L3_L2L4,
 
-		[Description("Замок 1+4 и 2+3")]
+		//[Description("Замок 1+4 и 2+3")]
+		[LocalizedDescription(typeof(CommonResources), "Lock1423")]
 		L1L4_L2L3,
 
-		[Description("Замок 3+4")]
+		//[Description("Замок 3+4")]
+		[LocalizedDescription(typeof(CommonResources), "Lock34")]
 		L3L4
 	}
 

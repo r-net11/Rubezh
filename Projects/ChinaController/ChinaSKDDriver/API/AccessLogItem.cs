@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using Localization.Converters;
+using Localization.StrazhDeviceSDK.Common;
 
 namespace StrazhDeviceSDK.API
 {
@@ -28,25 +30,32 @@ namespace StrazhDeviceSDK.API
 
 	public enum AccessMethodType
 	{
-		[Description("Неизвестно")]
+		//[Description("Неизвестно")]
+		[LocalizedDescription(typeof(CommonResources),"Unknown")]
 		NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
 
-		[Description("Только пароль")]
+		//[Description("Только пароль")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordOnly")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-		[Description("Карта")]
+		//[Description("Карта")]
+		[LocalizedDescription(typeof(CommonResources), "Passcard")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD,
 
-		[Description("Сначала карта")]
+		//[Description("Сначала карта")]
+		[LocalizedDescription(typeof(CommonResources), "PasscardFirst")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
 
-		[Description("Сначала пароль")]
+		//[Description("Сначала пароль")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordFirst")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
 
-		[Description("Удаленно")]
+		//[Description("Удаленно")]
+		[LocalizedDescription(typeof(CommonResources), "Remote")]
 		NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
-		[Description("Кнопка")]
+		//[Description("Кнопка")]
+		[LocalizedDescription(typeof(CommonResources), "Button")]
 		NET_ACCESS_DOOROPEN_METHOD_BUTTON
 	}
 }

@@ -127,7 +127,7 @@
     <value>Активно</value>
   </data>
   <data name="AutosearchDevices" xml:space="preserve">
-    <value>Автопоиск устройств</value>
+    <value>Автопоиск устройств</value>
   </data>
   <data name="BaseImage" xml:space="preserve">
     <value>Базовый рисунок</value>
@@ -211,14 +211,14 @@
     <value>Нажмите для выбора устройства</value>
   </data>
   <data name="Device_Selectation" xml:space="preserve">
-    <value>Выбор устройства</value>
+    <value>Выбор устройства</value>
   </data>
   <data name="Device_WriteCardsOnController" xml:space="preserve">
     <value>Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.
 Продолжить?</value>
   </data>
   <data name="Door_Creation" xml:space="preserve">
-    <value>Создание точки доступа</value>
+    <value>Создание точки доступа</value>
   </data>
   <data name="Door_DeleteConfirm" xml:space="preserve">
     <value>Вы действительно хотите удалить точку доступа "{0}"?</value>
@@ -272,10 +272,10 @@
     <value>Новое дневное расписание</value>
   </data>
   <data name="NewDevice" xml:space="preserve">
-    <value>Новое устройство</value>
+    <value>Новое устройство</value>
   </data>
   <data name="NewDoor" xml:space="preserve">
-    <value>Новая точка доступа</value>
+    <value>Новая точка доступа</value>
   </data>
   <data name="NewHoliday" xml:space="preserve">
     <value>Новый праздничный день</value>
@@ -371,7 +371,7 @@
     <value>Нажмите для выбора зон</value>
   </data>
   <data name="Zone_Selectation" xml:space="preserve">
-    <value>Выбор зоны</value>
+    <value>Выбор зоны</value>
   </data>
   <data name="OneWay" xml:space="preserve">
     <value>Односторонний</value>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
+using Localization.StrazhDeviceSDK.Common;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using Common;
@@ -91,7 +92,7 @@ namespace StrazhDeviceSDK
 					}
 					else
 					{
-						journalItem.ObjectName = "Не найдено в конфигурации";
+						journalItem.ObjectName = CommonResources.NotFoundInConfig;
 					}
 					switch (skdJournalItem.emOpenMethod)
 					{
@@ -129,20 +130,20 @@ namespace StrazhDeviceSDK
 							}
 							else
 							{
-								journalItem.ObjectName = "Не найдено в конфигурации";
+								journalItem.ObjectName = CommonResources.NotFoundInConfig;
 							}
 							break;
 					}
-					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
+					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.Direction, skdJournalItem.emEventType.ToDescription()));
 
 					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
 					{
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardType, skdJournalItem.emCardType.ToDescription()));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, skdJournalItem.CardNo));
 					}
 					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
 					{
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.Password, skdJournalItem.szPwd));
 						journalItem.CardNo = 0;
 					}
 					break;
@@ -161,12 +162,12 @@ namespace StrazhDeviceSDK
 					}
 					else
 					{
-						journalItem.ObjectName = "Не найдено в конфигурации";
+						journalItem.ObjectName = CommonResources.NotFoundInConfig;
 					}
 
 					if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
 					{
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, skdJournalItem.CardNo));
 					}
 					break;
 
@@ -181,7 +182,7 @@ namespace StrazhDeviceSDK
 					}
 					else
 					{
-						journalItem.ObjectName = "Не найдено в конфигурации";
+						journalItem.ObjectName = CommonResources.NotFoundInConfig;
 					}
 					break;
 
@@ -207,7 +208,7 @@ namespace StrazhDeviceSDK
 					}
 					else
 					{
-						journalItem.ObjectName = "Не найдено в конфигурации";
+						journalItem.ObjectName = CommonResources.NotFoundInConfig;
 					}
 					break;
 
@@ -222,7 +223,7 @@ namespace StrazhDeviceSDK
 					}
 					else
 					{
-						journalItem.ObjectName = "Не найдено в конфигурации";
+						journalItem.ObjectName = CommonResources.NotFoundInConfig;
 					}
 					break;
 			}

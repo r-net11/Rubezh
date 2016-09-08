@@ -189,7 +189,7 @@
   <data name="CalcIgnore" xml:space="preserve">
     <value>Не учитывать в расчетах</value>
   </data>
-  <data name="CertificatePrint" xml:space="preserve">
+  <data name="PrintPasscard" xml:space="preserve">
     <value>Печать удостоверения</value>
   </data>
   <data name="CheckEmplAccessTempl" xml:space="preserve">
@@ -285,7 +285,7 @@
   <data name="DeleteFile" xml:space="preserve">
     <value>Удалить файл</value>
   </data>
-  <data name="DeletePass" xml:space="preserve">
+  <data name="DeletePasscard" xml:space="preserve">
     <value>Удалить пропуск</value>
   </data>
   <data name="DepartCancel" xml:space="preserve">
@@ -366,7 +366,7 @@
   <data name="EditEmpl" xml:space="preserve">
     <value>Редактировать сотрудника</value>
   </data>
-  <data name="EditPass" xml:space="preserve">
+  <data name="EditPasscard" xml:space="preserve">
     <value>Редактировать пропуск</value>
   </data>
   <data name="Employees" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ParentDepart" xml:space="preserve">
     <value>Родительское подразделение</value>
   </data>
-  <data name="PassAdd" xml:space="preserve">
+  <data name="PasscardAdd" xml:space="preserve">
     <value>Добавить пропуск</value>
   </data>
   <data name="Passcards" xml:space="preserve">

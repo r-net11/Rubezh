@@ -1,4 +1,6 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.Converters;
+using Localization.StrazhDeviceSDK.Common;
+using StrazhAPI.SKD;
 using System.ComponentModel;
 
 namespace StrazhDeviceSDK.API
@@ -176,73 +178,93 @@ namespace StrazhDeviceSDK.API
 
 	public enum AccessState
 	{
-		[Description("Нормальный")]
+		//[Description("Нормальный")]
+		[LocalizedDescription(typeof(CommonResources), "Normal")]
 		ACCESS_STATE_NORMAL,
 
-		[Description("Всегда закрыто")]
+		//[Description("Всегда закрыто")]
+		[LocalizedDescription(typeof(CommonResources), "AlwaysClosed")]
 		ACCESS_STATE_CLOSEALWAYS,
 
-		[Description("Всегда открыто")]
+		//[Description("Всегда открыто")]
+		[LocalizedDescription(typeof(CommonResources), "AlwaysOpen")]
 		ACCESS_STATE_OPENALWAYS
 	}
 
 	public enum AccessMode
 	{
-		[Description("Под защитой")]
+		//[Description("Под защитой")]
+		[LocalizedDescription(typeof(CommonResources), "UnderProtection")]
 		ACCESS_MODE_HANDPROTECTED,
 
-		[Description("Безопасная комната")]
+		//[Description("Безопасная комната")]
+		[LocalizedDescription(typeof(CommonResources), "SafeRoom")]
 		ACCESS_MODE_SAFEROOM,
 
-		[Description("Прочее")]
+		//[Description("Прочее")]
+		[LocalizedDescription(typeof(CommonResources), "Other")]
 		ACCESS_MODE_OTHER
 	}
 
 	public enum DoorOpenMethod
 	{
-		[Description("Не известно")]
+		//[Description("Не известно")]
+		[LocalizedDescription(typeof(CommonResources), "Unknown")]
 		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
 
-		[Description("Только пароль")]
+		//[Description("Только пароль")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordOnly")]
 		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
 
-		[Description("Карта")]
+		//[Description("Карта")]
+		[LocalizedDescription(typeof(CommonResources), "Passcard")]
 		CFG_DOOR_OPEN_METHOD_CARD,
 
-		[Description("Пароль или карта")]
+		//[Description("Пароль или карта")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordOrCard")]
 		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
 
-		[Description("Сначала карта")]
+		//[Description("Сначала карта")]
+		[LocalizedDescription(typeof(CommonResources), "PasscardFirst")]
 		CFG_DOOR_OPEN_METHOD_CARD_FIRST,
 
-		[Description("Сначала пароль")]
+		//[Description("Сначала пароль")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordFirst")]
 		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
 
-		[Description("Секция")]
+		//[Description("Секция")]
+		[LocalizedDescription(typeof(CommonResources), "Section")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
 
-		[Description("Только отпечаток пальца")]
+		//[Description("Только отпечаток пальца")]
+		[LocalizedDescription(typeof(CommonResources), "FingerprintOnly")]
 		CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
 
-		[Description("Пароль или карта или отпечаток пальца")]
+		//[Description("Пароль или карта или отпечаток пальца")]
+		[LocalizedDescription(typeof(CommonResources), "PasswordOrCardOrFingerprint")]
 		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
 
-		[Description("Карта и отпечаток пальца")]
+		//[Description("Карта и отпечаток пальца")]
+		[LocalizedDescription(typeof(CommonResources), "PasscardFingerprint")]
 		CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
 
-		[Description("Multiplayer Unlock")]
+		//[Description("Multiplayer Unlock")]
+		[LocalizedDescription(typeof(CommonResources), "MultiplayerUnlock")]
 		CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 	}
 
 	public enum DoorFirstEnterStatus
 	{
-		[Description("Не известно")]
+		//[Description("Не известно")]
+		[LocalizedDescription(typeof(CommonResources), "Unknown")]
 		ACCESS_FIRSTENTER_STATUS_UNKNOWN = 0,
 
-		[Description("Держать открытой")]
+		//[Description("Держать открытой")]
+		[LocalizedDescription(typeof(CommonResources), "KeepOpen")]
 		ACCESS_FIRSTENTER_STATUS_KEEPOPEN = 1,
 
-		[Description("Нормальный")]
+		//[Description("Нормальный")]
+		[LocalizedDescription(typeof(CommonResources), "Normal")]
 		ACCESS_FIRSTENTER_STATUS_NORMAL = 2
 	}
 

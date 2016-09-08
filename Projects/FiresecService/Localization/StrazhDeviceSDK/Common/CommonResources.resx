@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessScheduleOffense" xml:space="preserve">
+    <value>Access Violation schedule</value>
+  </data>
+  <data name="AlwaysClosed" xml:space="preserve">
+    <value>Always closed</value>
+  </data>
+  <data name="AlwaysOpen" xml:space="preserve">
+    <value>Always open</value>
+  </data>
+  <data name="AnotherDoorOpen" xml:space="preserve">
+    <value>Open another door lock</value>
+  </data>
+  <data name="BlackList" xml:space="preserve">
+    <value>Black list</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>Button</value>
+  </data>
+  <data name="ControllerBusy" xml:space="preserve">
+    <value>The controller is busy</value>
+  </data>
+  <data name="ControllerNotFound" xml:space="preserve">
+    <value>The controller can not be found</value>
+  </data>
+  <data name="ControllerNotFoundInConfig" xml:space="preserve">
+    <value>controller configuration was not found</value>
+  </data>
+  <data name="CouldNotOpenLockInAlwaysOpenMode" xml:space="preserve">
+    <value>You can not close the castle, located in Mode ALWAYS OPEN</value>
+  </data>
+  <data name="Debts" xml:space="preserve">
+    <value>debts</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Entrance" xml:space="preserve">
+    <value>entrance</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Expiration" xml:space="preserve">
+    <value>expiration</value>
+  </data>
+  <data name="FingerprintOnly" xml:space="preserve">
+    <value>Only fingerprint</value>
+  </data>
+  <data name="Forcing" xml:space="preserve">
+    <value>Compulsion</value>
+  </data>
+  <data name="NC004" xml:space="preserve">
+    <value>Four controller</value>
+  </data>
+  <data name="Frozen" xml:space="preserve">
+    <value>frozen</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="Guests" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="IncorectLockOpenMode" xml:space="preserve">
+    <value>Incorrect method of opening the lock</value>
+  </data>
+  <data name="IncorectPassword" xml:space="preserve">
+    <value>Incorrect password</value>
+  </data>
+  <data name="IncorrectLogin" xml:space="preserve">
+    <value>Invalid login</value>
+  </data>
+  <data name="IncorrectPasscardPassword" xml:space="preserve">
+    <value>Invalid password pass</value>
+  </data>
+  <data name="KeepOpen" xml:space="preserve">
+    <value>Keep an open</value>
+  </data>
+  <data name="Lock12" xml:space="preserve">
+    <value>Castle 1 + 2</value>
+  </data>
+  <data name="Lock123" xml:space="preserve">
+    <value>Castle 1 + 2 + 3</value>
+  </data>
+  <data name="Lock1234" xml:space="preserve">
+    <value>Castle 1 + 2 + 3 + 4</value>
+  </data>
+  <data name="Lock1324" xml:space="preserve">
+    <value>Castle 1 + 3 and 2 + 4</value>
+  </data>
+  <data name="Lock1423" xml:space="preserve">
+    <value>Castle 1 + 4 and 2 + 3</value>
+  </data>
+  <data name="Lock234" xml:space="preserve">
+    <value>Castle 2 + 3 + 4</value>
+  </data>
+  <data name="Lock34" xml:space="preserve">
+    <value>Castle 3 + 4</value>
+  </data>
+  <data name="LockBreaking" xml:space="preserve">
+    <value>Castle in the 'Hacking'</value>
+  </data>
+  <data name="LockClosed" xml:space="preserve">
+    <value>Castle in 'closed'</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>locked</value>
+  </data>
+  <data name="LockNotFoundInConfig" xml:space="preserve">
+    <value>castle in configuration was not found</value>
+  </data>
+  <data name="LockSettingNotSupportForcing" xml:space="preserve">
+    <value>Lock settings does not support skipping 'Coercion'</value>
+  </data>
+  <data name="Lost" xml:space="preserve">
+    <value>lost</value>
+  </data>
+  <data name="Maternal" xml:space="preserve">
+    <value>Maternal</value>
+  </data>
+  <data name="NoAccessPermissions" xml:space="preserve">
+    <value>No access rights</value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>No error</value>
+  </data>
+  <data name="NoLinkWithController" xml:space="preserve">
+    <value>No communication with the controller "{0}". {1}"</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Normals" xml:space="preserve">
+    <value>normal</value>
+  </data>
+  <data name="NotFoundInConfig" xml:space="preserve">
+    <value>in the configuration can not be found</value>
+  </data>
+  <data name="NC101" xml:space="preserve">
+    <value>single-door controller</value>
+  </data>
+  <data name="OperationCanceled" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="PassbackToZone" xml:space="preserve">
+    <value>Repeated passage in the zone</value>
+  </data>
+  <data name="Passcard" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="PasscardBlocked" xml:space="preserve">
+    <value>skipping disabled</value>
+  </data>
+  <data name="PasscardFingerprint" xml:space="preserve">
+    <value>Map and fingerprint</value>
+  </data>
+  <data name="PasscardFirst" xml:space="preserve">
+    <value>First map</value>
+  </data>
+  <data name="PasscardNumber" xml:space="preserve">
+    <value>Card number</value>
+  </data>
+  <data name="PasscardType" xml:space="preserve">
+    <value>Type of card</value>
+  </data>
+  <data name="PasscardValidityExpired" xml:space="preserve">
+    <value>pass has expired or has not come</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordFirst" xml:space="preserve">
+    <value>First password</value>
+  </data>
+  <data name="PasswordOnly" xml:space="preserve">
+    <value>password Only</value>
+  </data>
+  <data name="PasswordOrCard" xml:space="preserve">
+    <value>Password Card</value>
+  </data>
+  <data name="PasswordOrCardOrFingerprint" xml:space="preserve">
+    <value>Password card or fingerprint</value>
+  </data>
+  <data name="Patrol" xml:space="preserve">
+    <value>Patrol</value>
+  </data>
+  <data name="Reader13InReader24Out" xml:space="preserve">
+    <value>Reader 1 or 3 Entrance, Reader 2 or 4 - Exit</value>
+  </data>
+  <data name="Reader1InReader2Out" xml:space="preserve">
+    <value>Reader 1 - Entrance, Reader 2 - Exit</value>
+  </data>
+  <data name="Reader3InReader4Out" xml:space="preserve">
+    <value>Reader 3 - Entrance, Reader 4 - Exit</value>
+  </data>
+  <data name="Remote" xml:space="preserve">
+    <value>Remotely</value>
+  </data>
+  <data name="SafeRoom" xml:space="preserve">
+    <value>Safe room</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Time-out</value>
+  </data>
+  <data name="NC002" xml:space="preserve">
+    <value>The two-door controller</value>
+  </data>
+  <data name="UnderProtection" xml:space="preserve">
+    <value>under the protection of</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="UnknownReason" xml:space="preserve">
+    <value>unknown cause</value>
+  </data>
+  <data name="UserBlocked" xml:space="preserve">
+    <value>This user was blocked</value>
+  </data>
+  <data name="UserIsIllegal" xml:space="preserve">
+    <value>User is illegal</value>
+  </data>
+  <data name="UserLogged" xml:space="preserve">
+    <value>User already logged</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Usuals" xml:space="preserve">
+    <value>Usual</value>
+  </data>
+  <data name="Vip" xml:space="preserve">
+    <value>Vip</value>
+  </data>
+  <data name="WaitPassConfirm" xml:space="preserve">
+    <value>Waiting for confirmation of passage</value>
+  </data>
+  <data name="WriteAccessSchedulesOnController" xml:space="preserve">
+    <value>Write access to the controller schedules "{0}"</value>
+  </data>
+  <data name="WriteAccessSchedulesOnControllerCanceled" xml:space="preserve">
+    <value>A write access to the controller schedules "{0}" canceled</value>
+  </data>
+  <data name="WriteLockPasswordsOnController" xml:space="preserve">
+    <value>Record locks passwords on the controller "{0}"</value>
+  </data>
+  <data name="WriteLockPasswordsOnControllerCanceled" xml:space="preserve">
+    <value>A write lock password to the controller "{0}" canceled</value>
+  </data>
+  <data name="WritePasscardsOnController" xml:space="preserve">
+    <value>Record passes to the controller "{0}"</value>
+  </data>
+  <data name="WrongId" xml:space="preserve">
+    <value>Wrong ID</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>LogOff</value>
+  </data>
+  <data name="MultiplayerUnlock" xml:space="preserve">
+    <value>Multiplayer Unlock</value>
+  </data>
+</root>

@@ -1,4 +1,6 @@
-﻿using StrazhAPI.SKD;
+﻿using Localization.Converters;
+using Localization.StrazhDeviceSDK.Common;
+using StrazhAPI.SKD;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -398,28 +400,36 @@ namespace StrazhDeviceSDK.NativeAPI
 
 		public enum NET_ACCESSCTLCARD_TYPE
 		{
-			[Description("Неизвестно")]
+			//[Description("Неизвестно")]
+			[LocalizedDescription(typeof(CommonResources), "Unknown")]
 			NET_ACCESSCTLCARD_TYPE_UNKNOWN = -1,
 
-			[Description("Обычный")]
+			//[Description("Обычный")]
+			[LocalizedDescription(typeof(CommonResources), "Usual")]
 			NET_ACCESSCTLCARD_TYPE_GENERAL,
 
-			[Description("VIP")]
+			//[Description("VIP")]
+			[LocalizedDescription(typeof(CommonResources), "Vip")]
 			NET_ACCESSCTLCARD_TYPE_VIP,
 
-			[Description("Гостевой")]
+			//[Description("Гостевой")]
+			[LocalizedDescription(typeof(CommonResources), "Guests")]
 			NET_ACCESSCTLCARD_TYPE_GUEST,
 
-			[Description("Охрана")]
+			//[Description("Охрана")]
+			[LocalizedDescription(typeof(CommonResources), "Security")]
 			NET_ACCESSCTLCARD_TYPE_PATROL,
 
-			[Description("Черный список")]
+			//[Description("Черный список")]
+			[LocalizedDescription(typeof(CommonResources), "BlackList")]
 			NET_ACCESSCTLCARD_TYPE_BLACKLIST,
 
-			[Description("Принуждение")]
+			//[Description("Принуждение")]
+			[LocalizedDescription(typeof(CommonResources), "Forcing")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
 
-			[Description("Материнский")]
+			//[Description("Материнский")]
+			[LocalizedDescription(typeof(CommonResources), "Maternal")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
 		}
 
@@ -767,13 +777,16 @@ namespace StrazhDeviceSDK.NativeAPI
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
-			[Description("Неизвестно")]
+			//[Description("Неизвестно")]
+			[LocalizedDescription(typeof(CommonResources), "Unknown")]
 			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
 
-			[Description("Вход")]
+			//[Description("Вход")]
+			[LocalizedDescription(typeof(CommonResources), "Entrance")]
 			NET_ACCESS_CTL_EVENT_ENTRY,
 
-			[Description("Выход")]
+			//[Description("Выход")]
+			[LocalizedDescription(typeof(CommonResources), "Exit")]
 			NET_ACCESS_CTL_EVENT_EXIT
 		}
 
@@ -786,25 +799,32 @@ namespace StrazhDeviceSDK.NativeAPI
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
 		{
-			[Description("Неизвестно")]
+			//[Description("Неизвестно")]
+			[LocalizedDescription(typeof(CommonResources), "Unknown")]
 			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
 
-			[Description("Пароль")]
+			//[Description("Пароль")]
+			[LocalizedDescription(typeof(CommonResources), "Password")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-			[Description("Карта")]
+			//[Description("Карта")]
+			[LocalizedDescription(typeof(CommonResources), "Passcard")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD,
 
-			[Description("Сначала карта")]
+			//[Description("Сначала карта")]
+			[LocalizedDescription(typeof(CommonResources), "PasscarFirst")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
 
-			[Description("Сначала пароль")]
+			//[Description("Сначала пароль")]
+			[LocalizedDescription(typeof(CommonResources), "PasswordFirst")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
 
-			[Description("Удаленно")]
+			//[Description("Удаленно")]
+			[LocalizedDescription(typeof(CommonResources), "Remote")]
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
-			[Description("Кнопка")]
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
 			NET_ACCESS_DOOROPEN_METHOD_BUTTON
 		}
 

@@ -1,4 +1,6 @@
-﻿using StrazhDeviceSDK.API;
+﻿using Localization.StrazhDeviceSDK.Common;
+using Localization.StrazhDeviceSDK.Errors;
+using StrazhDeviceSDK.API;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
@@ -180,7 +182,7 @@ namespace StrazhDeviceSDK
 
 			// Показываем индикатор выполнения операции
 			if (doProgress)
-				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
+				progressCallback = Processor.StartProgress(String.Format(CommonResources.WritePasscardsOnController, device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
 			foreach (var card in cards)
@@ -203,7 +205,7 @@ namespace StrazhDeviceSDK
 
 				// Пользователь отменил операцию
 				if (progressCallback != null && progressCallback.IsCanceled)
-					return new List<string> { "Операция отменена" };
+					return new List<string> { CommonResources.OperationCanceled };
 
 				// Обновляем индикатор выполнения операции
 				if (progressCallback != null)
@@ -215,7 +217,7 @@ namespace StrazhDeviceSDK
 				{
 					if (controllerCardItem.HasError)
 					{
-						errors.Add("Ошибка при записи карты " + controllerCardItem.Card.Number + " в контроллер " + device.Name);
+						errors.Add(string.Format(CommonErrors.ExecuteOperationWritePasscardController_Error, controllerCardItem.Card.Number, device.Name));
 					}
 				}
 			}
@@ -326,7 +328,7 @@ namespace StrazhDeviceSDK
 							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							if (cardInfo == null)
 							{
-								controllerCardItem.Error = string.Format("Отсутствует связь с контроллером {0}", deviceProcessor.Device.Name);
+								controllerCardItem.Error = string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason);
 							}
 							break;
 					}
@@ -335,20 +337,20 @@ namespace StrazhDeviceSDK
 					{
 						var operationName = "";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
-							operationName = "добавления";
+							operationName = CommonErrors.Adding_Error;
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Edit)
-							operationName = "редактирования";
+							operationName = CommonErrors.Edition_Error;
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
-							operationName = "удаления";
+							operationName = CommonErrors.Delete_Error;
 						//if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
 						//	operationName = "сброса ограничения на повторный проход";
 
-						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
+						controllerCardItem.Error = string.Format(CommonErrors.ExecuteOperationPasscard_Error, operationName, controllerCardItem.Card.Number, deviceProcessor.Device.Name);
 					}
 				}
 				else
 				{
-					controllerCardItem.Error = "Не найден контроллер в конфигурации";
+					controllerCardItem.Error = CommonResources.ControllerNotFoundInConfig;
 				}
 			}
 		}

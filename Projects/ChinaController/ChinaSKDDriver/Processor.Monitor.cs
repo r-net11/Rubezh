@@ -1,4 +1,6 @@
 ﻿using System;
+using Localization.StrazhDeviceSDK.Common;
+using Localization.StrazhDeviceSDK.Errors;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using System.Collections.Generic;
@@ -16,16 +18,16 @@ namespace StrazhDeviceSDK
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+						return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 					var result = deviceProcessor.Wrapper.OpenDoor(device.IntAddress);
 					if (result)
 						return new OperationResult<bool>(true);
 					else
-						return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
+						return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationController_Error);
 				}
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static OperationResult<bool> CloseDoor(SKDDevice device)
@@ -36,7 +38,7 @@ namespace StrazhDeviceSDK
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+						return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
 					if (result)
@@ -47,16 +49,16 @@ namespace StrazhDeviceSDK
 					{
 						if (device.State != null && (device.State.AccessState == AccessState.OpenAlways))
 						{
-							return OperationResult<bool>.FromError("Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО");
+							return OperationResult<bool>.FromError(CommonResources.CouldNotOpenLockInAlwaysOpenMode);
 						}
 						else
 						{
-							return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
+							return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationController_Error);
 						}
 					}
 				}
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		/// <summary>
@@ -72,11 +74,11 @@ namespace StrazhDeviceSDK
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(String.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)
-					return OperationResult<bool>.FromError("Ошибка при удалении всех пропусков на контроллере");
+					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDeletePasscardsController_Error);
 
 				var cardWriter = new CardWriter();
 				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates, doProgress);
@@ -86,7 +88,7 @@ namespace StrazhDeviceSDK
 				}
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 
 		public static CardWriter AddCard(SKDCard skdCard, AccessTemplate accessTemplate)
@@ -125,16 +127,16 @@ namespace StrazhDeviceSDK
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+						return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 					var result = deviceProcessor.Wrapper.PromptWarning(device.IntAddress);
 					if (result)
 						return new OperationResult<bool>(true);
 					else
-						return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
+						return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationController_Error);
 				}
 			}
-			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError(CommonResources.ControllerNotFoundInConfig);
 		}
 	}
 }
