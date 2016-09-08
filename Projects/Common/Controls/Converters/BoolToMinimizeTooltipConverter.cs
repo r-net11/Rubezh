@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.Common.Controls;
 
 namespace Controls.Converters
 {
@@ -8,7 +9,7 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var val = parameter != null && System.Convert.ToBoolean(parameter) ? !(bool)value : (bool)value;
-			return val ? "Свернуть" : "Развернуть";
+			return val ? CommonResources.Minimize : CommonResources.Maximize;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

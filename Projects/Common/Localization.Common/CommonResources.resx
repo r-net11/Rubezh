@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PullOff" xml:space="preserve">
-    <value>Снять отключение</value>
+  <data name="NC002" xml:space="preserve">
+    <value>The two-door controller</value>
   </data>
-  <data name="SwitchOff" xml:space="preserve">
-    <value>Отключить</value>
+  <data name="NC004" xml:space="preserve">
+    <value>Four controller</value>
+  </data>
+  <data name="NC101" xml:space="preserve">
+    <value>single-door controller</value>
   </data>
 </root>

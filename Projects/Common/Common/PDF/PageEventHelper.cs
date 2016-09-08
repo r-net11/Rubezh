@@ -1,6 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
+using Localization.Common.Common;
 
 namespace Common.PDF
 {
@@ -73,7 +74,7 @@ namespace Common.PDF
 			if (PrintPages)
 			{
 				int pageN = writer.PageNumber;
-				String text = "Страница " + pageN + " из ";
+				String text = string.Format(CommonResources.PageFrom, pageN);
 
 				float len = PDFStyle.BaseFont.GetWidthPoint(text, FontSize);
 

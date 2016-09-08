@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.Common.Controls;
+using StrazhAPI;
 using StrazhAPI.GK;
 using System;
 using System.Windows.Data;
@@ -13,16 +14,16 @@ namespace Controls.Converters
 			switch (stateClass)
 			{
 				case XStateClass.On:
-					return "Открыто";
+					return CommonResources.On;
 
 				case XStateClass.Off:
-					return "Закрыто";
+					return CommonResources.Off;
 
 				case XStateClass.TurningOff:
-					return "Закрывается";
+					return CommonResources.TurningOff;
 
 				case XStateClass.Fire1:
-					return "Тревога";
+					return CommonResources.Alarm;
 			}
 			return stateClass.ToDescription();
 		}

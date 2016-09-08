@@ -76,7 +76,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localizatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Converters", "..\Common\Localization.Converters\Localization.Converters.csproj", "{A99DAAC1-2126-4279-A463-40E4CE63E8BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "..\Common\Localization\Localization.csproj", "{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Common", "..\Common\Localization.Common\Localization.Common.csproj", "{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

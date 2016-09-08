@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.Common.Controls;
 
 namespace Controls.Converters
 {
@@ -10,7 +11,7 @@ namespace Controls.Converters
 			if (!(value is int))
 				return "";
 			if ((int)value == -1)
-				return "Любой";
+				return CommonResources.Any;
 			return value;
 		}
 

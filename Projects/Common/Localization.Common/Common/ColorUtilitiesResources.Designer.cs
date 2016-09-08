@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Common.Resources.Language {
+namespace Localization.Common.Common {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ColorUtilities {
+    public class ColorUtilitiesResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ColorUtilities() {
+        internal ColorUtilitiesResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Common.Resources.Language.ColorUtilities", typeof(ColorUtilities).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Common.Common.ColorUtilitiesResources", typeof(ColorUtilitiesResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Common.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бледно-голубой.
         /// </summary>
-        internal static string AliceBlue {
+        public static string AliceBlue {
             get {
                 return ResourceManager.GetString("AliceBlue", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Античный белый.
         /// </summary>
-        internal static string AntiqueWhite {
+        public static string AntiqueWhite {
             get {
                 return ResourceManager.GetString("AntiqueWhite", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Аквамарин.
         /// </summary>
-        internal static string Aquamarine {
+        public static string Aquamarine {
             get {
                 return ResourceManager.GetString("Aquamarine", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лазурный.
         /// </summary>
-        internal static string Azure {
+        public static string Azure {
             get {
                 return ResourceManager.GetString("Azure", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Беж.
         /// </summary>
-        internal static string Beige {
+        public static string Beige {
             get {
                 return ResourceManager.GetString("Beige", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бисквитный.
         /// </summary>
-        internal static string Bisque {
+        public static string Bisque {
             get {
                 return ResourceManager.GetString("Bisque", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Черный.
         /// </summary>
-        internal static string Black {
+        public static string Black {
             get {
                 return ResourceManager.GetString("Black", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Миндальный.
         /// </summary>
-        internal static string BlanchedAlmond {
+        public static string BlanchedAlmond {
             get {
                 return ResourceManager.GetString("BlanchedAlmond", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Синий.
         /// </summary>
-        internal static string Blue {
+        public static string Blue {
             get {
                 return ResourceManager.GetString("Blue", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Сине-Фиолетовый.
         /// </summary>
-        internal static string BlueViolet {
+        public static string BlueViolet {
             get {
                 return ResourceManager.GetString("BlueViolet", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Коричневый.
         /// </summary>
-        internal static string Brown {
+        public static string Brown {
             get {
                 return ResourceManager.GetString("Brown", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Плотной древесины.
         /// </summary>
-        internal static string BurlyWood {
+        public static string BurlyWood {
             get {
                 return ResourceManager.GetString("BurlyWood", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Серо-синий.
         /// </summary>
-        internal static string CadetBlue {
+        public static string CadetBlue {
             get {
                 return ResourceManager.GetString("CadetBlue", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Шартрез.
         /// </summary>
-        internal static string Chartreuse {
+        public static string Chartreuse {
             get {
                 return ResourceManager.GetString("Chartreuse", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Шоколадный.
         /// </summary>
-        internal static string Chocolate {
+        public static string Chocolate {
             get {
                 return ResourceManager.GetString("Chocolate", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Коралловый.
         /// </summary>
-        internal static string Coral {
+        public static string Coral {
             get {
                 return ResourceManager.GetString("Coral", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Васильковый.
         /// </summary>
-        internal static string CornflowerBlue {
+        public static string CornflowerBlue {
             get {
                 return ResourceManager.GetString("CornflowerBlue", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Молодой кукурузы.
         /// </summary>
-        internal static string Cornsilk {
+        public static string Cornsilk {
             get {
                 return ResourceManager.GetString("Cornsilk", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Малиновый.
         /// </summary>
-        internal static string Crimson {
+        public static string Crimson {
             get {
                 return ResourceManager.GetString("Crimson", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Циановый.
         /// </summary>
-        internal static string Cyan {
+        public static string Cyan {
             get {
                 return ResourceManager.GetString("Cyan", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-синий.
         /// </summary>
-        internal static string DarkBlue {
+        public static string DarkBlue {
             get {
                 return ResourceManager.GetString("DarkBlue", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-циановый.
         /// </summary>
-        internal static string DarkCyan {
+        public static string DarkCyan {
             get {
                 return ResourceManager.GetString("DarkCyan", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный золотисто-красный.
         /// </summary>
-        internal static string DarkGoldenrod {
+        public static string DarkGoldenrod {
             get {
                 return ResourceManager.GetString("DarkGoldenrod", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-серый.
         /// </summary>
-        internal static string DarkGray {
+        public static string DarkGray {
             get {
                 return ResourceManager.GetString("DarkGray", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-зеленый.
         /// </summary>
-        internal static string DarkGreen {
+        public static string DarkGreen {
             get {
                 return ResourceManager.GetString("DarkGreen", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный хаки.
         /// </summary>
-        internal static string DarkKhaki {
+        public static string DarkKhaki {
             get {
                 return ResourceManager.GetString("DarkKhaki", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный фуксин.
         /// </summary>
-        internal static string DarkMagenta {
+        public static string DarkMagenta {
             get {
                 return ResourceManager.GetString("DarkMagenta", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный оливково-зеленый.
         /// </summary>
-        internal static string DarkOliveGreen {
+        public static string DarkOliveGreen {
             get {
                 return ResourceManager.GetString("DarkOliveGreen", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-оранжевый.
         /// </summary>
-        internal static string DarkOrange {
+        public static string DarkOrange {
             get {
                 return ResourceManager.GetString("DarkOrange", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-лиловый.
         /// </summary>
-        internal static string DarkOrchid {
+        public static string DarkOrchid {
             get {
                 return ResourceManager.GetString("DarkOrchid", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-красный.
         /// </summary>
-        internal static string DarkRed {
+        public static string DarkRed {
             get {
                 return ResourceManager.GetString("DarkRed", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-лососевый.
         /// </summary>
-        internal static string DarkSalmon {
+        public static string DarkSalmon {
             get {
                 return ResourceManager.GetString("DarkSalmon", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный морской волны.
         /// </summary>
-        internal static string DarkSeaGreen {
+        public static string DarkSeaGreen {
             get {
                 return ResourceManager.GetString("DarkSeaGreen", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный аспидно-синий.
         /// </summary>
-        internal static string DarkSlateBlue {
+        public static string DarkSlateBlue {
             get {
                 return ResourceManager.GetString("DarkSlateBlue", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темный аспидно-серый.
         /// </summary>
-        internal static string DarkSlateGray {
+        public static string DarkSlateGray {
             get {
                 return ResourceManager.GetString("DarkSlateGray", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-бирюзовый.
         /// </summary>
-        internal static string DarkTurquoise {
+        public static string DarkTurquoise {
             get {
                 return ResourceManager.GetString("DarkTurquoise", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-фиолетовый.
         /// </summary>
-        internal static string DarkViolet {
+        public static string DarkViolet {
             get {
                 return ResourceManager.GetString("DarkViolet", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Насыщенный розовый.
         /// </summary>
-        internal static string DeepPink {
+        public static string DeepPink {
             get {
                 return ResourceManager.GetString("DeepPink", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Насыщенный небесно-голубой.
         /// </summary>
-        internal static string DeepSkyBlue {
+        public static string DeepSkyBlue {
             get {
                 return ResourceManager.GetString("DeepSkyBlue", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Тускло-серый.
         /// </summary>
-        internal static string DimGray {
+        public static string DimGray {
             get {
                 return ResourceManager.GetString("DimGray", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Защитно-синий.
         /// </summary>
-        internal static string DodgerBlue {
+        public static string DodgerBlue {
             get {
                 return ResourceManager.GetString("DodgerBlue", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Кирпичный.
         /// </summary>
-        internal static string Firebrick {
+        public static string Firebrick {
             get {
                 return ResourceManager.GetString("Firebrick", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Цветочно-белый.
         /// </summary>
-        internal static string FloralWhite {
+        public static string FloralWhite {
             get {
                 return ResourceManager.GetString("FloralWhite", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лесной зелени.
         /// </summary>
-        internal static string ForestGreen {
+        public static string ForestGreen {
             get {
                 return ResourceManager.GetString("ForestGreen", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Гейнсборо.
         /// </summary>
-        internal static string Gainsboro {
+        public static string Gainsboro {
             get {
                 return ResourceManager.GetString("Gainsboro", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Призрачно-белый.
         /// </summary>
-        internal static string GhostWhite {
+        public static string GhostWhite {
             get {
                 return ResourceManager.GetString("GhostWhite", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Золотистый.
         /// </summary>
-        internal static string Gold {
+        public static string Gold {
             get {
                 return ResourceManager.GetString("Gold", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Золотисто-красный.
         /// </summary>
-        internal static string Goldenrod {
+        public static string Goldenrod {
             get {
                 return ResourceManager.GetString("Goldenrod", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Серый.
         /// </summary>
-        internal static string Gray {
+        public static string Gray {
             get {
                 return ResourceManager.GetString("Gray", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Зелёный.
         /// </summary>
-        internal static string Green {
+        public static string Green {
             get {
                 return ResourceManager.GetString("Green", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Зелено-желтый.
         /// </summary>
-        internal static string GreenYellow {
+        public static string GreenYellow {
             get {
                 return ResourceManager.GetString("GreenYellow", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Медовой росы.
         /// </summary>
-        internal static string Honeydew {
+        public static string Honeydew {
             get {
                 return ResourceManager.GetString("Honeydew", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Яркий розовый.
         /// </summary>
-        internal static string HotPink {
+        public static string HotPink {
             get {
                 return ResourceManager.GetString("HotPink", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Киноварь.
         /// </summary>
-        internal static string IndianRed {
+        public static string IndianRed {
             get {
                 return ResourceManager.GetString("IndianRed", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Индиго.
         /// </summary>
-        internal static string Indigo {
+        public static string Indigo {
             get {
                 return ResourceManager.GetString("Indigo", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Слоновой кости.
         /// </summary>
-        internal static string Ivory {
+        public static string Ivory {
             get {
                 return ResourceManager.GetString("Ivory", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Хаки.
         /// </summary>
-        internal static string Khaki {
+        public static string Khaki {
             get {
                 return ResourceManager.GetString("Khaki", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лавандовый.
         /// </summary>
-        internal static string Lavender {
+        public static string Lavender {
             get {
                 return ResourceManager.GetString("Lavender", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лаваднового румянца.
         /// </summary>
-        internal static string LavenderBlush {
+        public static string LavenderBlush {
             get {
                 return ResourceManager.GetString("LavenderBlush", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Зеленой лужайки.
         /// </summary>
-        internal static string LawnGreen {
+        public static string LawnGreen {
             get {
                 return ResourceManager.GetString("LawnGreen", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лимонного шифона.
         /// </summary>
-        internal static string LemonChiffon {
+        public static string LemonChiffon {
             get {
                 return ResourceManager.GetString("LemonChiffon", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-голубой.
         /// </summary>
-        internal static string LightBlue {
+        public static string LightBlue {
             get {
                 return ResourceManager.GetString("LightBlue", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-коралловый.
         /// </summary>
-        internal static string LightCoral {
+        public static string LightCoral {
             get {
                 return ResourceManager.GetString("LightCoral", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-циановый.
         /// </summary>
-        internal static string LightCyan {
+        public static string LightCyan {
             get {
                 return ResourceManager.GetString("LightCyan", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-желтый золотистый.
         /// </summary>
-        internal static string LightGoldenrodYellow {
+        public static string LightGoldenrodYellow {
             get {
                 return ResourceManager.GetString("LightGoldenrodYellow", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-серый.
         /// </summary>
-        internal static string LightGray {
+        public static string LightGray {
             get {
                 return ResourceManager.GetString("LightGray", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-зеленый.
         /// </summary>
-        internal static string LightGreen {
+        public static string LightGreen {
             get {
                 return ResourceManager.GetString("LightGreen", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-розовый.
         /// </summary>
-        internal static string LightPink {
+        public static string LightPink {
             get {
                 return ResourceManager.GetString("LightPink", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-лососевый.
         /// </summary>
-        internal static string LightSalmon {
+        public static string LightSalmon {
             get {
                 return ResourceManager.GetString("LightSalmon", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светлый морской волны.
         /// </summary>
-        internal static string LightSeaGreen {
+        public static string LightSeaGreen {
             get {
                 return ResourceManager.GetString("LightSeaGreen", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светлый небесно-голубой.
         /// </summary>
-        internal static string LightSkyBlue {
+        public static string LightSkyBlue {
             get {
                 return ResourceManager.GetString("LightSkyBlue", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светлый аспидно-серый.
         /// </summary>
-        internal static string LightSlateGray {
+        public static string LightSlateGray {
             get {
                 return ResourceManager.GetString("LightSlateGray", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светлый голубовато-стальной.
         /// </summary>
-        internal static string LightSteelBlue {
+        public static string LightSteelBlue {
             get {
                 return ResourceManager.GetString("LightSteelBlue", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Светло-желтый.
         /// </summary>
-        internal static string LightYellow {
+        public static string LightYellow {
             get {
                 return ResourceManager.GetString("LightYellow", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лайма.
         /// </summary>
-        internal static string Lime {
+        public static string Lime {
             get {
                 return ResourceManager.GetString("Lime", resourceCulture);
             }
@@ -738,7 +738,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Зеленого лайма.
         /// </summary>
-        internal static string LimeGreen {
+        public static string LimeGreen {
             get {
                 return ResourceManager.GetString("LimeGreen", resourceCulture);
             }
@@ -747,7 +747,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Льняной.
         /// </summary>
-        internal static string Linen {
+        public static string Linen {
             get {
                 return ResourceManager.GetString("Linen", resourceCulture);
             }
@@ -756,7 +756,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Фуксин.
         /// </summary>
-        internal static string Magenta {
+        public static string Magenta {
             get {
                 return ResourceManager.GetString("Magenta", resourceCulture);
             }
@@ -765,7 +765,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Темно-бордовый.
         /// </summary>
-        internal static string Maroon {
+        public static string Maroon {
             get {
                 return ResourceManager.GetString("Maroon", resourceCulture);
             }
@@ -774,7 +774,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный аквамариновый.
         /// </summary>
-        internal static string MediumAquamarine {
+        public static string MediumAquamarine {
             get {
                 return ResourceManager.GetString("MediumAquamarine", resourceCulture);
             }
@@ -783,7 +783,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный голубой.
         /// </summary>
-        internal static string MediumBlue {
+        public static string MediumBlue {
             get {
                 return ResourceManager.GetString("MediumBlue", resourceCulture);
             }
@@ -792,7 +792,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный лиловый.
         /// </summary>
-        internal static string MediumOrchid {
+        public static string MediumOrchid {
             get {
                 return ResourceManager.GetString("MediumOrchid", resourceCulture);
             }
@@ -801,7 +801,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный пурпурный.
         /// </summary>
-        internal static string MediumPurple {
+        public static string MediumPurple {
             get {
                 return ResourceManager.GetString("MediumPurple", resourceCulture);
             }
@@ -810,7 +810,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный морской волны.
         /// </summary>
-        internal static string MediumSeaGreen {
+        public static string MediumSeaGreen {
             get {
                 return ResourceManager.GetString("MediumSeaGreen", resourceCulture);
             }
@@ -819,7 +819,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный аспидно-синий.
         /// </summary>
-        internal static string MediumSlateBlue {
+        public static string MediumSlateBlue {
             get {
                 return ResourceManager.GetString("MediumSlateBlue", resourceCulture);
             }
@@ -828,7 +828,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Весенне-зеленый.
         /// </summary>
-        internal static string MediumSpringGreen {
+        public static string MediumSpringGreen {
             get {
                 return ResourceManager.GetString("MediumSpringGreen", resourceCulture);
             }
@@ -837,7 +837,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный бирюзовый.
         /// </summary>
-        internal static string MediumTurquoise {
+        public static string MediumTurquoise {
             get {
                 return ResourceManager.GetString("MediumTurquoise", resourceCulture);
             }
@@ -846,7 +846,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Умеренный лилово-красный.
         /// </summary>
-        internal static string MediumVioletRed {
+        public static string MediumVioletRed {
             get {
                 return ResourceManager.GetString("MediumVioletRed", resourceCulture);
             }
@@ -855,7 +855,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Синей полносчи.
         /// </summary>
-        internal static string MidnightBlue {
+        public static string MidnightBlue {
             get {
                 return ResourceManager.GetString("MidnightBlue", resourceCulture);
             }
@@ -864,7 +864,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Мятного крема.
         /// </summary>
-        internal static string MintCream {
+        public static string MintCream {
             get {
                 return ResourceManager.GetString("MintCream", resourceCulture);
             }
@@ -873,7 +873,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Туманно-розовый.
         /// </summary>
-        internal static string MistyRose {
+        public static string MistyRose {
             get {
                 return ResourceManager.GetString("MistyRose", resourceCulture);
             }
@@ -882,7 +882,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Мокасин.
         /// </summary>
-        internal static string Moccasin {
+        public static string Moccasin {
             get {
                 return ResourceManager.GetString("Moccasin", resourceCulture);
             }
@@ -891,7 +891,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Белый-навахо.
         /// </summary>
-        internal static string NavajoWhite {
+        public static string NavajoWhite {
             get {
                 return ResourceManager.GetString("NavajoWhite", resourceCulture);
             }
@@ -900,7 +900,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Флотский.
         /// </summary>
-        internal static string Navy {
+        public static string Navy {
             get {
                 return ResourceManager.GetString("Navy", resourceCulture);
             }
@@ -909,7 +909,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Старого кружева.
         /// </summary>
-        internal static string OldLace {
+        public static string OldLace {
             get {
                 return ResourceManager.GetString("OldLace", resourceCulture);
             }
@@ -918,7 +918,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Оливковый.
         /// </summary>
-        internal static string Olive {
+        public static string Olive {
             get {
                 return ResourceManager.GetString("Olive", resourceCulture);
             }
@@ -927,7 +927,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Нежно-оливковый.
         /// </summary>
-        internal static string OliveDrab {
+        public static string OliveDrab {
             get {
                 return ResourceManager.GetString("OliveDrab", resourceCulture);
             }
@@ -936,7 +936,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Оранжевый.
         /// </summary>
-        internal static string Orange {
+        public static string Orange {
             get {
                 return ResourceManager.GetString("Orange", resourceCulture);
             }
@@ -945,7 +945,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Оранжево-красный.
         /// </summary>
-        internal static string OrangeRed {
+        public static string OrangeRed {
             get {
                 return ResourceManager.GetString("OrangeRed", resourceCulture);
             }
@@ -954,7 +954,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лиловый.
         /// </summary>
-        internal static string Orchid {
+        public static string Orchid {
             get {
                 return ResourceManager.GetString("Orchid", resourceCulture);
             }
@@ -963,7 +963,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бледный золотисто-красный.
         /// </summary>
-        internal static string PaleGoldenrod {
+        public static string PaleGoldenrod {
             get {
                 return ResourceManager.GetString("PaleGoldenrod", resourceCulture);
             }
@@ -972,7 +972,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бледно-зеленый.
         /// </summary>
-        internal static string PaleGreen {
+        public static string PaleGreen {
             get {
                 return ResourceManager.GetString("PaleGreen", resourceCulture);
             }
@@ -981,7 +981,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бледно-бирюзовый.
         /// </summary>
-        internal static string PaleTurquoise {
+        public static string PaleTurquoise {
             get {
                 return ResourceManager.GetString("PaleTurquoise", resourceCulture);
             }
@@ -990,7 +990,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бледный лилово-красный.
         /// </summary>
-        internal static string PaleVioletRed {
+        public static string PaleVioletRed {
             get {
                 return ResourceManager.GetString("PaleVioletRed", resourceCulture);
             }
@@ -999,7 +999,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Побега папайи.
         /// </summary>
-        internal static string PapayaWhip {
+        public static string PapayaWhip {
             get {
                 return ResourceManager.GetString("PapayaWhip", resourceCulture);
             }
@@ -1008,7 +1008,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Персиковый.
         /// </summary>
-        internal static string PeachPuff {
+        public static string PeachPuff {
             get {
                 return ResourceManager.GetString("PeachPuff", resourceCulture);
             }
@@ -1017,7 +1017,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Перу.
         /// </summary>
-        internal static string Peru {
+        public static string Peru {
             get {
                 return ResourceManager.GetString("Peru", resourceCulture);
             }
@@ -1026,7 +1026,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Розовый.
         /// </summary>
-        internal static string Pink {
+        public static string Pink {
             get {
                 return ResourceManager.GetString("Pink", resourceCulture);
             }
@@ -1035,7 +1035,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Сливовый.
         /// </summary>
-        internal static string Plum {
+        public static string Plum {
             get {
                 return ResourceManager.GetString("Plum", resourceCulture);
             }
@@ -1044,7 +1044,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Голубой пороши.
         /// </summary>
-        internal static string PowderBlue {
+        public static string PowderBlue {
             get {
                 return ResourceManager.GetString("PowderBlue", resourceCulture);
             }
@@ -1053,7 +1053,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Пурпурный.
         /// </summary>
-        internal static string Purple {
+        public static string Purple {
             get {
                 return ResourceManager.GetString("Purple", resourceCulture);
             }
@@ -1062,7 +1062,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Красный.
         /// </summary>
-        internal static string Red {
+        public static string Red {
             get {
                 return ResourceManager.GetString("Red", resourceCulture);
             }
@@ -1071,7 +1071,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Розово-коричневый.
         /// </summary>
-        internal static string RosyBrown {
+        public static string RosyBrown {
             get {
                 return ResourceManager.GetString("RosyBrown", resourceCulture);
             }
@@ -1080,7 +1080,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Королевский голубой.
         /// </summary>
-        internal static string RoyalBlue {
+        public static string RoyalBlue {
             get {
                 return ResourceManager.GetString("RoyalBlue", resourceCulture);
             }
@@ -1089,7 +1089,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Кожанного седла.
         /// </summary>
-        internal static string SaddleBrown {
+        public static string SaddleBrown {
             get {
                 return ResourceManager.GetString("SaddleBrown", resourceCulture);
             }
@@ -1098,7 +1098,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Лососевый.
         /// </summary>
-        internal static string Salmon {
+        public static string Salmon {
             get {
                 return ResourceManager.GetString("Salmon", resourceCulture);
             }
@@ -1107,7 +1107,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Рыжеватый.
         /// </summary>
-        internal static string SandyBrown {
+        public static string SandyBrown {
             get {
                 return ResourceManager.GetString("SandyBrown", resourceCulture);
             }
@@ -1116,7 +1116,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Морской волны.
         /// </summary>
-        internal static string SeaGreen {
+        public static string SeaGreen {
             get {
                 return ResourceManager.GetString("SeaGreen", resourceCulture);
             }
@@ -1125,7 +1125,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Морской раковины.
         /// </summary>
-        internal static string SeaShell {
+        public static string SeaShell {
             get {
                 return ResourceManager.GetString("SeaShell", resourceCulture);
             }
@@ -1134,7 +1134,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Охра.
         /// </summary>
-        internal static string Sienna {
+        public static string Sienna {
             get {
                 return ResourceManager.GetString("Sienna", resourceCulture);
             }
@@ -1143,7 +1143,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Серебристый.
         /// </summary>
-        internal static string Silver {
+        public static string Silver {
             get {
                 return ResourceManager.GetString("Silver", resourceCulture);
             }
@@ -1152,7 +1152,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Небесно-голубой.
         /// </summary>
-        internal static string SkyBlue {
+        public static string SkyBlue {
             get {
                 return ResourceManager.GetString("SkyBlue", resourceCulture);
             }
@@ -1161,7 +1161,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Аспидно-синий.
         /// </summary>
-        internal static string SlateBlue {
+        public static string SlateBlue {
             get {
                 return ResourceManager.GetString("SlateBlue", resourceCulture);
             }
@@ -1170,7 +1170,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Аспидно-серый.
         /// </summary>
-        internal static string SlateGray {
+        public static string SlateGray {
             get {
                 return ResourceManager.GetString("SlateGray", resourceCulture);
             }
@@ -1179,7 +1179,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Снежный.
         /// </summary>
-        internal static string Snow {
+        public static string Snow {
             get {
                 return ResourceManager.GetString("Snow", resourceCulture);
             }
@@ -1188,7 +1188,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Весенней зелени.
         /// </summary>
-        internal static string SpringGreen {
+        public static string SpringGreen {
             get {
                 return ResourceManager.GetString("SpringGreen", resourceCulture);
             }
@@ -1197,7 +1197,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Голубовато-стальной.
         /// </summary>
-        internal static string SteelBlue {
+        public static string SteelBlue {
             get {
                 return ResourceManager.GetString("SteelBlue", resourceCulture);
             }
@@ -1206,7 +1206,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Дубильной коры.
         /// </summary>
-        internal static string Tan {
+        public static string Tan {
             get {
                 return ResourceManager.GetString("Tan", resourceCulture);
             }
@@ -1215,7 +1215,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Зеленовато-голубой.
         /// </summary>
-        internal static string Teal {
+        public static string Teal {
             get {
                 return ResourceManager.GetString("Teal", resourceCulture);
             }
@@ -1224,7 +1224,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Чертополоха.
         /// </summary>
-        internal static string Thistle {
+        public static string Thistle {
             get {
                 return ResourceManager.GetString("Thistle", resourceCulture);
             }
@@ -1233,7 +1233,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Томатный.
         /// </summary>
-        internal static string Tomato {
+        public static string Tomato {
             get {
                 return ResourceManager.GetString("Tomato", resourceCulture);
             }
@@ -1242,7 +1242,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Прозрачный.
         /// </summary>
-        internal static string Transparent {
+        public static string Transparent {
             get {
                 return ResourceManager.GetString("Transparent", resourceCulture);
             }
@@ -1251,7 +1251,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Бирюзовый.
         /// </summary>
-        internal static string Turquoise {
+        public static string Turquoise {
             get {
                 return ResourceManager.GetString("Turquoise", resourceCulture);
             }
@@ -1260,7 +1260,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Фиолетовый.
         /// </summary>
-        internal static string Violet {
+        public static string Violet {
             get {
                 return ResourceManager.GetString("Violet", resourceCulture);
             }
@@ -1269,7 +1269,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Пшеничный.
         /// </summary>
-        internal static string Wheat {
+        public static string Wheat {
             get {
                 return ResourceManager.GetString("Wheat", resourceCulture);
             }
@@ -1278,7 +1278,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Белый.
         /// </summary>
-        internal static string White {
+        public static string White {
             get {
                 return ResourceManager.GetString("White", resourceCulture);
             }
@@ -1287,7 +1287,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Дымчатый.
         /// </summary>
-        internal static string WhiteSmoke {
+        public static string WhiteSmoke {
             get {
                 return ResourceManager.GetString("WhiteSmoke", resourceCulture);
             }
@@ -1296,7 +1296,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Желтый.
         /// </summary>
-        internal static string Yellow {
+        public static string Yellow {
             get {
                 return ResourceManager.GetString("Yellow", resourceCulture);
             }
@@ -1305,7 +1305,7 @@ namespace Common.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Желто-зеленый.
         /// </summary>
-        internal static string YellowGreen {
+        public static string YellowGreen {
             get {
                 return ResourceManager.GetString("YellowGreen", resourceCulture);
             }

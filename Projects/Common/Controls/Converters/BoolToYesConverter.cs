@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.Common.Controls;
 
 namespace Controls.Converters
 {
@@ -9,7 +10,7 @@ namespace Controls.Converters
 		{
 			bool boolValue = (bool)value;
 			if (boolValue)
-				return "Да";
+				return CommonResources.Yes;
 			return "";
 		}
 

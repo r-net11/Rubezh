@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows;
+using Localization.Common.Controls;
 using Microsoft.Win32;
 using System;
 using System.IO;
@@ -58,7 +59,7 @@ namespace Controls
 				}
 				catch (Exception)
 				{
-					MessageBoxService.ShowWarning("Невозможно загрузить фото");
+					MessageBoxService.ShowWarning(CommonResources.UnableToUploadPhoto);
 					SetNoPhoto();
 				}
 			}
@@ -124,14 +125,14 @@ namespace Controls
 				if (fileName != null)
 				{
 					if (Path.GetExtension(fileName) == "" || System.Drawing.Image.FromFile(fileName) == null)
-						MessageBoxService.Show("В буфере обмена отсутствуют изображения");
+						MessageBoxService.Show(CommonResources.NoImageInBuffer);
 					else
 						Data = System.IO.File.ReadAllBytes(fileName);
 				}
 			}
 			catch (Exception)
 			{
-				MessageBoxService.Show("Ошибка при загрузке файла из буфера обмена");
+				MessageBoxService.Show(CommonResources.ErrorWhileLoadingImgFromBuffer);
 			}
 		}
 

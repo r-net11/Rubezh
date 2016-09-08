@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Converters", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localization\Localization.csproj", "{E92C33EA-A314-44EC-BC73-5DE6AFFB315B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Common", "..\Common\Localization.Common\Localization.Common.csproj", "{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -451,6 +453,20 @@ Global
 		{E92C33EA-A314-44EC-BC73-5DE6AFFB315B}.Release|Win32.ActiveCfg = Release|Any CPU
 		{E92C33EA-A314-44EC-BC73-5DE6AFFB315B}.Release|x64.ActiveCfg = Release|Any CPU
 		{E92C33EA-A314-44EC-BC73-5DE6AFFB315B}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -477,5 +493,6 @@ Global
 		{B5DCA126-F996-4A80-B395-F4FD42576981} = {260E0272-0B58-40EB-9FBD-B16DF1E36214}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

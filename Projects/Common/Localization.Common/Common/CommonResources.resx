@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Attention" xml:space="preserve">
+  <data name="Alarm" xml:space="preserve">
     <value>Тревога</value>
   </data>
   <data name="AutoOff" xml:space="preserve">
@@ -150,7 +150,7 @@
   <data name="Info" xml:space="preserve">
     <value>Информация</value>
   </data>
-  <data name="No" xml:space="preserve">
+  <data name="None" xml:space="preserve">
     <value>Нет</value>
   </data>
   <data name="Norm" xml:space="preserve">
@@ -161,6 +161,12 @@
   </data>
   <data name="On" xml:space="preserve">
     <value>Включено</value>
+  </data>
+  <data name="PageFrom" xml:space="preserve">
+    <value>Страница {0} из </value>
+  </data>
+  <data name="PDFFiles" xml:space="preserve">
+    <value>Файлы PDF|*.pdf</value>
   </data>
   <data name="Service" xml:space="preserve">
     <value>Требуется обслуживание</value>

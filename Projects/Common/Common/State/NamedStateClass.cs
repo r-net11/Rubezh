@@ -1,4 +1,5 @@
-﻿using StrazhAPI.GK;
+﻿using Localization.Common.Common;
+using StrazhAPI.GK;
 
 namespace Common
 {
@@ -7,7 +8,7 @@ namespace Common
 		public NamedStateClass()
 		{
 			StateClass = XStateClass.No;
-			Name = "Нет";
+			Name = CommonResources.None;
 		}
 
 		public XStateClass StateClass { get; set; }

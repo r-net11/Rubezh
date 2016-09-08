@@ -62,6 +62,7 @@
 				<File Id="Server.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Server.TargetDir)" />
 				<!-- Библиотека локализации-->
 				<File Id="Server.Localization.dll" Name="Localization.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">
@@ -145,6 +146,7 @@
 		<DirectoryRef Id="Server.ru">
 			<Component Id="Server.Files.ru" Guid="*">
 				<File Id="Server.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Server.TargetDir)ru\" />
+				<File Id="Server.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Server.TargetDir)ru\" />
 			</Component>
 		</DirectoryRef>
 		<DirectoryRef Id="AppData.ServerLocation">

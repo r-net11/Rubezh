@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localizatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Converters", "..\Common\Localization.Converters\Localization.Converters.csproj", "{A99DAAC1-2126-4279-A463-40E4CE63E8BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization.Common", "..\Common\Localization.Common\Localization.Common.csproj", "{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -474,6 +476,18 @@ Global
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|x64.ActiveCfg = Release|Any CPU
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -506,5 +520,6 @@ Global
 		{E9F19434-9DBA-4645-A946-F8B54819A521} = {7C5CB4A0-7F30-446F-96ED-0E3693176556}
 		{9C43D88B-02F1-449E-B2F8-0552A0B89992} = {E9F19434-9DBA-4645-A946-F8B54819A521}
 		{A99DAAC1-2126-4279-A463-40E4CE63E8BC} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{7E6FD9C0-24E0-4F56-9907-59EBF5AD8F9C} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 	EndGlobalSection
 EndGlobal

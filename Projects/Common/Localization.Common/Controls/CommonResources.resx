@@ -117,7 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Name" xml:space="preserve">
-    <value>Нет</value>
+  <data name="Alarm" xml:space="preserve">
+    <value>Тревога</value>
+  </data>
+  <data name="Any" xml:space="preserve">
+    <value>Любой</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Закрыта</value>
+  </data>
+  <data name="CleanPhoto" xml:space="preserve">
+    <value>Очистить фото</value>
+  </data>
+  <data name="ErrorWhileLoadingImgFromBuffer" xml:space="preserve">
+    <value>Ошибка при загрузке файла из буфера обмена</value>
+  </data>
+  <data name="Fire1" xml:space="preserve">
+    <value>Сработка 1</value>
+  </data>
+  <data name="Fire2" xml:space="preserve">
+    <value>Сработка 2</value>
+  </data>
+  <data name="LoadImage" xml:space="preserve">
+    <value>Загрузить фото из файла</value>
+  </data>
+  <data name="Maximize" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="NoImageInBuffer" xml:space="preserve">
+    <value>В буфере обмена отсутствуют изображения</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Закрыто</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Открыто</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыта</value>
+  </data>
+  <data name="BufferImage" xml:space="preserve">
+    <value>Загрузить фото из буфера обмена</value>
+  </data>
+  <data name="PullOff" xml:space="preserve">
+    <value>Снять отключение</value>
+  </data>
+  <data name="ScanImage" xml:space="preserve">
+    <value>Загрузить фото из сканера</value>
+  </data>
+  <data name="SwitchOff" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="TurningOff" xml:space="preserve">
+    <value>Закрывается</value>
+  </data>
+  <data name="TurningOn" xml:space="preserve">
+    <value>Открывается</value>
+  </data>
+  <data name="UnableToUploadPhoto" xml:space="preserve">
+    <value>Невозможно загрузить фото</value>
+  </data>
+  <data name="Validate_Error" xml:space="preserve">
+    <value>Неверный формат IP адреса</value>
+  </data>
+  <data name="WebcamImage" xml:space="preserve">
+    <value>Загрузить фото из веб-камеры</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Additional" xml:space="preserve">
+    <value>Дополнительные</value>
+  </data>
+  <data name="Availible" xml:space="preserve">
+    <value>Доступные</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CloseAllExceptThis" xml:space="preserve">
+    <value>Закрыть все кроме этого</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Elements" xml:space="preserve">
+    <value>Элементы</value>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Заполнить</value>
+  </data>
+  <data name="FillProportionality" xml:space="preserve">
+    <value>Заполнить пропорционально</value>
+  </data>
+  <data name="GoToNextTabGroup" xml:space="preserve">
+    <value>Перейти к следующей группе вкладок</value>
+  </data>
+  <data name="GoToPrevTabGroup" xml:space="preserve">
+    <value>Перейти к предыдущей группе вкладок</value>
+  </data>
+  <data name="InitialSize" xml:space="preserve">
+    <value>Исходный размер</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Недавние</value>
+  </data>
+  <data name="NewHorizontalTabGroup" xml:space="preserve">
+    <value>Новая горизонтальная группа вкладок</value>
+  </data>
+  <data name="NewVerticalTabGroup" xml:space="preserve">
+    <value>Новая вертикальная группа вкладок</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="SaveProportions" xml:space="preserve">
+    <value>Сохранить пропорции</value>
+  </data>
+  <data name="Standart" xml:space="preserve">
+    <value>Стандартные</value>
   </data>
 </root>

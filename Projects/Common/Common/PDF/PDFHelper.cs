@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Localization.Common.Common;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,8 @@ namespace Common.PDF
 		{
 			var saveDialog = new SaveFileDialog()
 			{
-				Filter = "Файлы PDF|*.pdf",
-				DefaultExt = "Файлы PDF|*.pdf"
+				Filter = CommonResources.PDFFiles,
+				DefaultExt = CommonResources.PDFFiles
 			};
 			return saveDialog.ShowDialog().Value ? saveDialog.FileName : null;
 		}

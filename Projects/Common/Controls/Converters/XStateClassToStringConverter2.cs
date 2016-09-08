@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.Common.Controls;
+using StrazhAPI;
 using StrazhAPI.GK;
 using System;
 using System.Windows.Data;
@@ -12,11 +13,11 @@ namespace Controls.Converters
 			var stateClass = (XStateClass)value;
 			if (stateClass == XStateClass.Fire1)
 			{
-				return "Сработка 1";
+				return CommonResources.Fire1;
 			}
 			if (stateClass == XStateClass.Fire2)
 			{
-				return "Сработка 2";
+				return CommonResources.Fire2;
 			}
 			var result = stateClass.ToDescription();
 			return result;

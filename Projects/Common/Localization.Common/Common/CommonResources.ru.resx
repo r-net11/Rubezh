@@ -117,7 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Yes" xml:space="preserve">
-    <value>Да</value>
+  <data name="Alarm" xml:space="preserve">
+    <value>Тревога</value>
+  </data>
+  <data name="AutoOff" xml:space="preserve">
+    <value>Автоматика отключена</value>
+  </data>
+  <data name="ConnectionLost" xml:space="preserve">
+    <value>Потеря связи</value>
+  </data>
+  <data name="DBMissmatch" xml:space="preserve">
+    <value>База данных устройства не соответствует базе данных ПК</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Неисправность</value>
+  </data>
+  <data name="Fire1" xml:space="preserve">
+    <value>Пожар 1</value>
+  </data>
+  <data name="Fire2" xml:space="preserve">
+    <value>Пожар 2</value>
+  </data>
+  <data name="HasLicense" xml:space="preserve">
+    <value>Лицензия обнаружена</value>
+  </data>
+  <data name="HasNoLicense" xml:space="preserve">
+    <value>Лицензия отсутствует</value>
+  </data>
+  <data name="Ignore" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Norm" xml:space="preserve">
+    <value>Норма</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="PageFrom" xml:space="preserve">
+    <value>Страница {0} из </value>
+  </data>
+  <data name="PDFFiles" xml:space="preserve">
+    <value>Файлы PDF|*.pdf</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Требуется обслуживание</value>
+  </data>
+  <data name="TechnologicalRegime" xml:space="preserve">
+    <value>Контроллер в технологическом режиме</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="TurningOff" xml:space="preserve">
+    <value>Выключается</value>
+  </data>
+  <data name="TurningOn" xml:space="preserve">
+    <value>Включается</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
   </data>
 </root>

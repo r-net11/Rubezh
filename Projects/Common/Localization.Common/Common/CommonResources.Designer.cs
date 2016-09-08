@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Common.Resources.Language.State {
+namespace Localization.Common.Common {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Common.Resources.Language.State {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class XStateClass {
+    public class CommonResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal XStateClass() {
+        internal CommonResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Common.Resources.Language.State.XStateClass", typeof(XStateClass).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Common.Common.CommonResources", typeof(CommonResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Common.Resources.Language.State {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,16 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Тревога.
         /// </summary>
-        internal static string Attention {
+        public static string Alarm {
             get {
-                return ResourceManager.GetString("Attention", resourceCulture);
+                return ResourceManager.GetString("Alarm", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Автоматика отключена.
         /// </summary>
-        internal static string AutoOff {
+        public static string AutoOff {
             get {
                 return ResourceManager.GetString("AutoOff", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Потеря связи.
         /// </summary>
-        internal static string ConnectionLost {
+        public static string ConnectionLost {
             get {
                 return ResourceManager.GetString("ConnectionLost", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to База данных устройства не соответствует базе данных ПК.
         /// </summary>
-        internal static string DBMissmatch {
+        public static string DBMissmatch {
             get {
                 return ResourceManager.GetString("DBMissmatch", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Неисправность.
         /// </summary>
-        internal static string Failure {
+        public static string Failure {
             get {
                 return ResourceManager.GetString("Failure", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Пожар 1.
         /// </summary>
-        internal static string Fire1 {
+        public static string Fire1 {
             get {
                 return ResourceManager.GetString("Fire1", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Пожар 2.
         /// </summary>
-        internal static string Fire2 {
+        public static string Fire2 {
             get {
                 return ResourceManager.GetString("Fire2", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Лицензия обнаружена.
         /// </summary>
-        internal static string HasLicense {
+        public static string HasLicense {
             get {
                 return ResourceManager.GetString("HasLicense", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Лицензия отсутствует.
         /// </summary>
-        internal static string HasNoLicense {
+        public static string HasNoLicense {
             get {
                 return ResourceManager.GetString("HasNoLicense", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Отключено.
         /// </summary>
-        internal static string Ignore {
+        public static string Ignore {
             get {
                 return ResourceManager.GetString("Ignore", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Информация.
         /// </summary>
-        internal static string Info {
+        public static string Info {
             get {
                 return ResourceManager.GetString("Info", resourceCulture);
             }
@@ -162,16 +162,16 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Нет.
         /// </summary>
-        internal static string No {
+        public static string None {
             get {
-                return ResourceManager.GetString("No", resourceCulture);
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Норма.
         /// </summary>
-        internal static string Norm {
+        public static string Norm {
             get {
                 return ResourceManager.GetString("Norm", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Выключено.
         /// </summary>
-        internal static string Off {
+        public static string Off {
             get {
                 return ResourceManager.GetString("Off", resourceCulture);
             }
@@ -189,16 +189,34 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Включено.
         /// </summary>
-        internal static string On {
+        public static string On {
             get {
                 return ResourceManager.GetString("On", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Страница {0} из .
+        /// </summary>
+        public static string PageFrom {
+            get {
+                return ResourceManager.GetString("PageFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Файлы PDF|*.pdf.
+        /// </summary>
+        public static string PDFFiles {
+            get {
+                return ResourceManager.GetString("PDFFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Требуется обслуживание.
         /// </summary>
-        internal static string Service {
+        public static string Service {
             get {
                 return ResourceManager.GetString("Service", resourceCulture);
             }
@@ -207,7 +225,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Контроллер в технологическом режиме.
         /// </summary>
-        internal static string TechnologicalRegime {
+        public static string TechnologicalRegime {
             get {
                 return ResourceManager.GetString("TechnologicalRegime", resourceCulture);
             }
@@ -216,7 +234,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Тест.
         /// </summary>
-        internal static string Test {
+        public static string Test {
             get {
                 return ResourceManager.GetString("Test", resourceCulture);
             }
@@ -225,7 +243,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Выключается.
         /// </summary>
-        internal static string TurningOff {
+        public static string TurningOff {
             get {
                 return ResourceManager.GetString("TurningOff", resourceCulture);
             }
@@ -234,7 +252,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Включается.
         /// </summary>
-        internal static string TurningOn {
+        public static string TurningOn {
             get {
                 return ResourceManager.GetString("TurningOn", resourceCulture);
             }
@@ -243,7 +261,7 @@ namespace Common.Resources.Language.State {
         /// <summary>
         ///   Looks up a localized string similar to Неизвестно.
         /// </summary>
-        internal static string Unknown {
+        public static string Unknown {
             get {
                 return ResourceManager.GetString("Unknown", resourceCulture);
             }

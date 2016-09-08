@@ -51,6 +51,7 @@
 				<File Id="Administrator.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Administrator.TargetDir)" />
 				<!-- Библиотека локализации-->
 				<File Id="Administrator.Localization.dll" Name="Localization.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
 			<Component Id="Administrator.DB" Guid="76B6255A-2D45-4909-B52A-C53822E10671">
@@ -218,7 +219,8 @@
 		<DirectoryRef Id="Administrator.ru">
 			<Component Id="Administrator.Files.ru" Guid="*">
 			<!-- Библиотека локализации-->
-			<File Id="Administrator.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />
+				<File Id="Administrator.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />
+				<File Id="Administrator.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />
 			</Component>
 		</DirectoryRef>
 	</Fragment>
