@@ -80,6 +80,9 @@ namespace FiresecService.Report.Export
 				zonesReportFilter.ReportDateTime = filter.IsUseDateTimeNow ? DateTime.Now : filter.StartDate;
 			}
 
+			tmpFilter.Timestamp = DateTime.Now;
+			tmpFilter.PrintUser = false;
+
 			return tmpFilter;
 		}
 
@@ -136,9 +139,6 @@ namespace FiresecService.Report.Export
 					case ReportFormatEnum.Xlsx:
 						report.ExportToXlsx(path);
 						break;
-						//	case ReportFormatEnum.Xps:
-						//		report.PrintingSystem.ExportToXps(path, new DevExpress.XtraPrinting.XpsExportOptions());
-						//		break;
 				}
 			}
 			catch (Exception e)
