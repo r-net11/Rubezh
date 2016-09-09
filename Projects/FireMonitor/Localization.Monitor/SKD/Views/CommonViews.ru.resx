@@ -180,9 +180,6 @@
   <data name="BorderColor" xml:space="preserve">
     <value>Цвет границы</value>
   </data>
-  <data name="BorderWidth" xml:space="preserve">
-    <value>Ширина границы, пикс.</value>
-  </data>
   <data name="Break" xml:space="preserve">
     <value>Перерыв</value>
   </data>
@@ -719,5 +716,8 @@
   </data>
   <data name="AcceptForEmplByDef" xml:space="preserve">
     <value>Применить для сотрудника настройки подразделения по умолчанию:</value>
+  </data>
+  <data name="Border_Width" xml:space="preserve">
+    <value>Ширина границы, пикс.</value>
   </data>
 </root>
