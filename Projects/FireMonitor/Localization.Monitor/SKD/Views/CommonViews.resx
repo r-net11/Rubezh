@@ -181,9 +181,6 @@
   <data name="BorderColor" xml:space="preserve">
     <value>The color of the border</value>
   </data>
-  <data name="BorderWidth" xml:space="preserve">
-    <value>The width of the border pixels.</value>
-  </data>
   <data name="Break" xml:space="preserve">
     <value>Break</value>
   </data>
@@ -732,5 +729,8 @@
   </data>
   <data name="AcceptForEmplByDef" xml:space="preserve">
     <value>Accept for employee settings для сотрудника настройки подразделения по умолчанию:</value>
+  </data>
+  <data name="Border_Width" xml:space="preserve">
+    <value>The width of the border pixels.</value>
   </data>
 </root>

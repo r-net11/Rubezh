@@ -277,9 +277,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="SKD\Views\CommonViews.ru.Designer.cs">
-      <DependentUpon>CommonViews.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>CommonViews.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Strazh\Common\CommonResources.Designer.cs">
       <DependentUpon>CommonResources.resx</DependentUpon>
@@ -719,9 +719,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SKD\Views\CommonViews.ru.resx">
+      <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.ru.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Strazh\Common\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

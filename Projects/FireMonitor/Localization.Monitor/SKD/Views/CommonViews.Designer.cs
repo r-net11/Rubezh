@@ -259,20 +259,20 @@ namespace Localization.SKD.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The width of the border pixels..
+        /// </summary>
+        public static string Border_Width {
+            get {
+                return ResourceManager.GetString("Border_Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The color of the border.
         /// </summary>
         public static string BorderColor {
             get {
                 return ResourceManager.GetString("BorderColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The width of the border pixels..
-        /// </summary>
-        public static string BorderWidth {
-            get {
-                return ResourceManager.GetString("BorderWidth", resourceCulture);
             }
         }
         

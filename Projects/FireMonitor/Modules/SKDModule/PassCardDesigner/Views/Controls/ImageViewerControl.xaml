@@ -62,7 +62,7 @@
 			<TextBlock
 				Grid.Row="3"
 				Foreground="White"
-				Text="{x:Static lang:CommonViews.BorderWidth}"
+				Text="{x:Static lang:CommonViews.Border_Width}"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
 				Margin="5"/>
