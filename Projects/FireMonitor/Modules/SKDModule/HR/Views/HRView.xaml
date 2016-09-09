@@ -207,7 +207,7 @@
 					<ToolBarButton
 						Command="{Binding OpenDesignerCommand}"
 						ImageSource="GraphicalDesigner"
-						ToolTip="{x:Static lang:CommonViews.PassDesigner}" />
+						ToolTip="{x:Static lang:CommonViews.PassCardDesigner}" />
 					<ToolBarButton
 						Command="{Binding CopyCommand}"
 						ImageSource="Copy"
@@ -220,8 +220,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="{x:Static lang:CommonViews.Restore}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -245,8 +244,7 @@
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="{x:Static lang:CommonViews.Restore}"
-							Visibility="{Binding IsWithDeleted,
-						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
@@ -258,8 +256,7 @@
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Delete"
 						ToolTip="{x:Static lang:CommonViews.ArchiveDataDisplay}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -338,7 +335,7 @@
 
 			<!-- Вкладка "Шаблоны пропусков" -->
 			<TabItem
-				Header="{x:Static lang:CommonViews.PassTemplates}"
+				Header="{x:Static lang:CommonViews.PassCardTemplates}"
 				IsSelected="{Binding IsPassCardTemplatesSelected}"
 				Visibility="{Binding CanSelectPassCardTemplates,
 			                              Converter={StaticResource BoolToVisibilityConverter}}">

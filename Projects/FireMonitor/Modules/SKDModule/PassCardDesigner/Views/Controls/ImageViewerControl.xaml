@@ -62,7 +62,7 @@
 			<TextBlock
 				Grid.Row="3"
 				Foreground="White"
-				Text="{x:Static lang:CommonViews.BorderWidth}"
+				Text="Ширина границы, пикс."
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
 				Margin="5"/>

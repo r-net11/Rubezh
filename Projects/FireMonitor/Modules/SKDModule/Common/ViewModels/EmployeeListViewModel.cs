@@ -42,6 +42,11 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
+			if(parent == null)
+				throw new ArgumentNullException("parent");
+			if(parent.Organisation == null)
+				throw new InvalidOperationException("parent.organisation");
+
 			Parent = parent;
 			IsWithDeleted = isWithDeleted;
 			IsOrganisationDeleted = Parent.IsOrganisationDeleted;
@@ -139,7 +144,7 @@ namespace SKDModule.ViewModels
 		private void OnEdit()
 		{
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel();
-			if (employeeDetailsViewModel.Initialize(Parent.OrganisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
+			if (employeeDetailsViewModel.Initialize(Parent.Organisation, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
 				DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.Model);
@@ -148,7 +153,9 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return !Parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !Parent.IsDeleted && SelectedEmployee != null
+				&& !SelectedEmployee.IsDeleted
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);

@@ -13,11 +13,10 @@ namespace SKDModule.ViewModels
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Schedule>
 	{
 		#region Fields
-
 		private const int DefaultMinutesValue = 5;
-		Organisation Organisation;
-		IEnumerable<ScheduleScheme> _schemes;
-		bool _isNew;
+		private Organisation _organisation;
+		private IEnumerable<ScheduleScheme> _schemes;
+		private bool _isNew;
 		#endregion
 
 		#region Properties
@@ -249,7 +248,7 @@ namespace SKDModule.ViewModels
 			Model = new Schedule
 			{
 				Name = CommonViewModels.NewWorkSchedule,
-				OrganisationUID = Organisation.UID,
+				OrganisationUID = _organisation.UID,
 			};
 
 			AllowedLate = DefaultMinutesValue;
@@ -273,14 +272,9 @@ namespace SKDModule.ViewModels
 			IsEnabledOvertime = Model.IsEnabledOvertime;
 		}
 
-		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, Schedule model = null, ViewPartViewModel parentViewModel = null)
 		{
-			return Initialize(organisation.UID, model, parentViewModel);
-		}
-
-		public bool Initialize(Guid organisationUID, Schedule model = null, ViewPartViewModel parentViewModel = null)
-		{
-			Organisation = OrganisationHelper.GetSingle(organisationUID);
+			_organisation = organisation;
 			_isNew = model == null;
 			if (_isNew)
 			{
@@ -296,7 +290,7 @@ namespace SKDModule.ViewModels
 			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
 			_schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter
 			{
-				OrganisationUIDs = new List<Guid> { Organisation.UID },
+				OrganisationUIDs = new List<Guid> { _organisation.UID },
 				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 				WithDays = false,
 			});

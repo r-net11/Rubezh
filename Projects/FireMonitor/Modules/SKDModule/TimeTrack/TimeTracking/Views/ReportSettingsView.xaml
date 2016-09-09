@@ -41,7 +41,7 @@
 								<Style>
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding FillViewModel.HasSelected}" Value="false">
-                                            <Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}" />
+											<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
@@ -65,7 +65,7 @@
 								<Style>
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding LeadViewModel.HasSelected}" Value="false">
-                                            <Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}" />
+											<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
@@ -89,7 +89,7 @@
 								<Style>
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding HRViewModel.HasSelected}" Value="false">
-                                            <Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}" />
+											<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>

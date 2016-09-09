@@ -5,6 +5,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Localization.SKD.Views;
 using SKDModule.Events;
 using StrazhAPI.SKD;
 
@@ -16,21 +17,24 @@ namespace SKDModule.ViewModels
 
 		public DepartmentScheduleSelectionViewModel()
 		{
-			Title = "Выбор графика работы";
-			ReleaseItemCommandText = "Открепить график работы";
-			AddItemCommandText = "Добавить новый график работы";
+			Title = CommonViews.TitleChooseScheduleWork;
+			ReleaseItemCommandText = CommonViews.ButtonDetachScheduleWork;
+			AddItemCommandText = CommonViews.ButtonAddNewScheduleWork;
 		}
 
 		#endregion </Конструктор>
 
 		#region <Методы>
 
-		protected override void InitializeItems(Guid organisationUID, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
+		protected override void InitializeItems(Organisation organisation, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
+			if(organisation == null)
+				throw new ArgumentNullException("organisation");
+
 			Items = new ObservableCollection<Schedule>(ScheduleHelper.Get(new ScheduleFilter
 			{
 				LogicalDeletationType = logicalDeletationType,
-				OrganisationUIDs = new List<Guid> { organisationUID },
+				OrganisationUIDs = new List<Guid> { organisation.UID },
 				UserUID = FiresecManager.CurrentUser.UID
 			}));
 		}
@@ -38,10 +42,11 @@ namespace SKDModule.ViewModels
 		protected override void OnAddItem()
 		{
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
-			scheduleDetailsViewModel.Initialize(_organisationUID);
+			scheduleDetailsViewModel.Initialize(CurrentOrganisation);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
 				Items.Add(scheduleDetailsViewModel.Model);
+				SelectedItem = scheduleDetailsViewModel.Model;
 				ServiceFactoryBase.Events.GetEvent<NewScheduleEvent>().Publish(scheduleDetailsViewModel.Model);
 			}
 		}

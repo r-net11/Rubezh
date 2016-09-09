@@ -14,7 +14,7 @@
 		<Border Background="{DynamicResource BackgroundBrush}">
 			<DockPanel Margin="10">
 				<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                    <TextBlock Margin="2" VerticalAlignment="Center" Foreground="White" Text="{x:Static lang:CommonViews.PassTemplate}" />
+                    <TextBlock Margin="2" VerticalAlignment="Center" Foreground="White" Text="{x:Static lang:CommonViews.PassCardTemplate}" />
 					<ComboBox Width="200" DisplayMemberPath="Name" ItemsSource="{Binding PassCardTemplates}" SelectedItem="{Binding SelectedPassCardTemplate}" />
 				</StackPanel>
 				<clientPlans:PlanDesignerView />

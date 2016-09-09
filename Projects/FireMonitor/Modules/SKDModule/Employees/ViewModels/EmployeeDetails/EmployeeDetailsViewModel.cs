@@ -17,21 +17,27 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortEmployee>
 	{
-		Organisation _organisation;
-		PersonType _personType;
-		bool _isNew;
+		private Organisation _organisation;
+		private PersonType _personType;
+		private bool _isNew;
+
 		public ObservableCollection<Gender> Genders { get; private set; }
 		public ObservableCollection<EmployeeDocumentType> DocumentTypes { get; private set; }
-		bool _isWithDeleted;
 
 		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
+			if(organisation == null)
+				throw new ArgumentNullException("organisation");
+
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
-			return Initialize(organisation.UID, employee, employeesViewModel.PersonType, isWithDeleted: employeesViewModel.IsWithDeleted);
+			return Initialize(organisation, employee, employeesViewModel.PersonType, isWithDeleted: employeesViewModel.IsWithDeleted);
 		}
 
-		public bool Initialize(Guid organisationUID, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true, bool isWithDeleted = false)
+		public bool Initialize(Organisation organisation, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true, bool isWithDeleted = false)
 		{
+			if(organisation == null)
+				throw new ArgumentNullException("organisation");
+
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
@@ -39,7 +45,6 @@ namespace SKDModule.ViewModels
 
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
-			_isWithDeleted = isWithDeleted;
 
 			Genders = new ObservableCollection<Gender>();
 			foreach (Gender item in Enum.GetValues(typeof(Gender)))
@@ -53,7 +58,7 @@ namespace SKDModule.ViewModels
 				DocumentTypes.Add(item);
 			}
 
-			_organisation = OrganisationHelper.GetSingle(organisationUID);
+			_organisation = organisation;
 			_personType = personType;
 			IsEmployee = _personType == PersonType.Employee;
 			_isNew = employee == null;
@@ -61,7 +66,7 @@ namespace SKDModule.ViewModels
 			{
 				Employee = new Employee
 				{
-					OrganisationUID = organisationUID,
+					OrganisationUID = organisation.UID,
 					RemovalDate = DateTime.Now,
 					ScheduleStartDate = DateTime.Now
 				};
@@ -540,9 +545,10 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand SelectDepartmentCommand { get; private set; }
+
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(_organisation, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty)
 			{
 				DepartmentParamsApplyableToEmployeeViewModel =
 				{
@@ -559,7 +565,7 @@ namespace SKDModule.ViewModels
 
 				if (SelectedDepartment == null)
 					return;
-	
+
 				if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
 				{
 					var department = DepartmentHelper.GetDetails(SelectedDepartment.UID);

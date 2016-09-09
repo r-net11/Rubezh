@@ -196,8 +196,8 @@
   <data name="ChooseCancel" xml:space="preserve">
     <value>Cancel selection</value>
   </data>
-  <data name="ChooseClick" xml:space="preserve">
-    <value>Press to select</value>
+  <data name="HyperlinkClickToSelect" xml:space="preserve">
+    <value>Click to select</value>
   </data>
   <data name="ChooseDepartClick" xml:space="preserve">
     <value>Press to select the unit</value>
@@ -571,13 +571,13 @@
   <data name="Passcards" xml:space="preserve">
     <value>passes</value>
   </data>
-  <data name="PassDesigner" xml:space="preserve">
+  <data name="PassCardDesigner" xml:space="preserve">
     <value>skip Designer</value>
   </data>
-  <data name="PassTemplate" xml:space="preserve">
-    <value>skip pattern:</value>
+  <data name="PassCardTemplate" xml:space="preserve">
+    <value>skip pattern</value>
   </data>
-  <data name="PassTemplates" xml:space="preserve">
+  <data name="PassCardTemplates" xml:space="preserve">
     <value>Pass Patterns</value>
   </data>
   <data name="Password" xml:space="preserve">
@@ -729,5 +729,44 @@
   </data>
   <data name="BeforeHoliday" xml:space="preserve">
     <value>pre-holiday)</value>
+  </data>
+  <data name="LabelScheduleWork" xml:space="preserve">
+    <value>Timetable</value>
+  </data>
+  <data name="ButtonAddAccessTemplate" xml:space="preserve">
+    <value>Add access template</value>
+  </data>
+  <data name="ButtonAddElement" xml:space="preserve">
+    <value>Add element</value>
+  </data>
+  <data name="ButtonAddNewScheduleWork" xml:space="preserve">
+    <value>Add new timetable</value>
+  </data>
+  <data name="ButtonAddPassCardTemplate" xml:space="preserve">
+    <value>Add new pass card template</value>
+  </data>
+  <data name="ButtonDetachAccessTemplate" xml:space="preserve">
+    <value>Detach access template</value>
+  </data>
+  <data name="ButtonDetachElement" xml:space="preserve">
+    <value>Detach element</value>
+  </data>
+  <data name="ButtonDetachPassCardTemplate" xml:space="preserve">
+    <value>Detach pass card template</value>
+  </data>
+  <data name="ButtonDetachScheduleWork" xml:space="preserve">
+    <value>Detach timetable</value>
+  </data>
+  <data name="TextDetach" xml:space="preserve">
+    <value>Detach</value>
+  </data>
+  <data name="TitleChooseAccessTemplate" xml:space="preserve">
+    <value>Select the access template</value>
+  </data>
+  <data name="TitleChoosePassCardTemplate" xml:space="preserve">
+    <value>Pass card template selection</value>
+  </data>
+  <data name="TitleChooseScheduleWork" xml:space="preserve">
+    <value>Timetable selection</value>
   </data>
 </root>

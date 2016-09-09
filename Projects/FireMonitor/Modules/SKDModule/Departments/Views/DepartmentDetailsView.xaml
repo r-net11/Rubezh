@@ -31,51 +31,46 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<TextBlock
-					Grid.Row="0"
-					Grid.Column="0"
 					Text="{x:Static langCommon:CommonResources.Name}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<TextBox
 					MaxLength="50"
-					Grid.Row="0"
 					Grid.Column="1"
 					Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-					Margin="2" />
-
+					VerticalAlignment="Center"
+					Margin="5" />
 				<TextBlock
 					Grid.Row="1"
-					Grid.Column="0"
 					Text="{x:Static langCommon:CommonResources.Note}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<TextBox
 					Grid.Row="1"
 					Grid.Column="1"
 					MaxLength="50"
 					Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-					Margin="2" />
-
+					VerticalAlignment="Center"
+					Margin="5" />
 				<TextBlock
 					Grid.Row="2"
-					Grid.Column="0"
 					Text="{x:Static lang:CommonViews.Head}"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
 					Foreground="White"
 					Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}"
-					Margin="2"/>
+					Margin="5"/>
 				<StackPanel
 					Grid.Row="2"
 					Grid.Column="1"
 					Orientation="Horizontal"
 					VerticalAlignment="Center"
 					Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}"
-					Margin="2">
+					Margin="5">
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock>
@@ -87,7 +82,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="False">
-                                               	<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}" />
+                                               	<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}" />
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -97,21 +92,19 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-
 				<TextBlock
 					Grid.Row="3"
-					Grid.Column="0"
 					Text="{x:Static lang:CommonViews.ParentDepart}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<StackPanel
 					Grid.Row="3"
 					Grid.Column="1"
 					Orientation="Horizontal"
 					VerticalAlignment="Center"
-					Margin="2" >
+					Margin="5" >
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink
 							Command="{Binding SelectDepartmentCommand}"
@@ -126,7 +119,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedDepartment, Converter={StaticResource NullToBoolConverter}}" Value="False">
-                                                <Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.ChooseClick}" />
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}" />
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -136,36 +129,33 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-
 				<TextBlock
 					Grid.Row="4"
-					Grid.Column="0"
 					Text="{x:Static lang:CommonViews.Phone}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<TextBox
 					Grid.Row="4"
 					Grid.Column="1"
 					MaxLength="50"
 					Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
-					Margin="2" />
-
+					VerticalAlignment="Center"
+					Margin="5" />
 				<TextBlock
 					Grid.Row="5"
-					Grid.Column="0"
-					Text="Шаблон доступа"
+					Text="{x:Static lang:CommonViews.AccessTemplate}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<StackPanel
 					Grid.Row="5"
 					Grid.Column="1"
 					Orientation="Horizontal"
 					VerticalAlignment="Center"
-					Margin="2">
+					Margin="5">
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink
 							Command="{Binding SelectAccessTemplateCommand}"
@@ -180,7 +170,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedAccessTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -190,21 +180,19 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-
 				<TextBlock
 					Grid.Row="6"
-					Grid.Column="0"
-					Text="График работы"
+					Text="{x:Static lang:CommonViews.LabelScheduleWork}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<StackPanel
 					Grid.Row="6"
 					Grid.Column="1"
 					Orientation="Horizontal"
 					VerticalAlignment="Center"
-					Margin="2">
+					Margin="5">
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink
 							Command="{Binding SelectScheduleCommand}"
@@ -219,7 +207,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedSchedule, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>
@@ -229,21 +217,19 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-
 				<TextBlock
 					Grid.Row="7"
-					Grid.Column="0"
-					Text="Шаблон пропуска"
+					Text="{x:Static lang:CommonViews.PassCardTemplate}"
 					Foreground="White"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					Margin="2"/>
+					Margin="5"/>
 				<StackPanel
 					Grid.Row="7"
 					Grid.Column="1"
 					Orientation="Horizontal"
 					VerticalAlignment="Center"
-					Margin="2">
+					Margin="5">
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink
 							Command="{Binding SelectPassCardTemplateCommand}"
@@ -258,7 +244,7 @@
 												<Setter Property="TextBlock.TextDecorations" Value="Underline" />
 											</DataTrigger>
 											<DataTrigger Binding="{Binding SelectedPassCardTemplate, Converter={StaticResource NullToBoolConverter}}" Value="False">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора"/>
+												<Setter Property="TextBlock.Text" Value="{x:Static lang:CommonViews.HyperlinkClickToSelect}"/>
 												<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 											</DataTrigger>
 										</Style.Triggers>

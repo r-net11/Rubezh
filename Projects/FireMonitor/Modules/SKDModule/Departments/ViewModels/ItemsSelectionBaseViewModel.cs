@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Views;
 using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		#region <Свойства и поля>
 
-		protected Guid _organisationUID;
+		protected Organisation CurrentOrganisation;
 
 		private ObservableCollection<TItem> _items;
 		private TItem _selectedItem;
@@ -87,10 +88,10 @@ namespace SKDModule.ViewModels
 		protected ItemsSelectionBaseViewModel()
 		{
 			ReleaseItemCommand = new RelayCommand(OnReleaseItem, CanReleaseItem);
-			ReleaseItemCommandText = "Открепить элемент";
+			ReleaseItemCommandText = CommonViews.ButtonDetachElement;
 
 			AddItemCommand = new RelayCommand(OnAddItem, CanAddItem);
-			AddItemCommandText = "Добавить элемент";
+			AddItemCommandText = CommonViews.ButtonAddElement;
 		}
 
 		#endregion </Конструктор>
@@ -114,14 +115,17 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public virtual void Initialize(Guid organisationUID, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, TItem selectedItem = default(TItem))
+		public virtual void Initialize(Organisation organisation, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, TItem selectedItem = default(TItem))
 		{
-			_organisationUID = organisationUID;
-			InitializeItems(organisationUID, logicalDeletationType);
+			if(organisation == null)
+				throw new ArgumentNullException("organisation");
+
+			CurrentOrganisation = organisation;
+			InitializeItems(CurrentOrganisation, logicalDeletationType);
 			InitializeSelectedItem(selectedItem);
 		}
 
-		protected virtual void InitializeItems(Guid organisationUID, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
+		protected virtual void InitializeItems(Organisation organisation, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
 			Items = new ObservableCollection<TItem>();
 		}

@@ -17,16 +17,18 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentSelectionViewModel : SaveCancelDialogViewModel
 	{
-		protected Guid _organisationUID;
-		protected Guid _firstSelectedDepartmentUID;
-
+		protected Guid FirstSelectedDepartmentUID { get; set; }
+		protected Organisation CurrentOrganisation { get; set; }
 		public DepartmentParamsApplyableToEmployeeViewModel DepartmentParamsApplyableToEmployeeViewModel { get; private set; }
 
-		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
+		public DepartmentSelectionViewModel(Organisation organisation, Guid departmentUID)
 		{
+			if (organisation == null)
+				throw new ArgumentNullException("organisation");
+
 			Title = CommonViewModels.SelectDepart;
-			_organisationUID = organisationUID;
-			_firstSelectedDepartmentUID = departmentUID;
+			CurrentOrganisation = organisation;
+			FirstSelectedDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
 			ClearCommand = new RelayCommand(OnClear, () => SelectedDepartment != null);
 			DepartmentParamsApplyableToEmployeeViewModel = new DepartmentParamsApplyableToEmployeeViewModel();
@@ -54,7 +56,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			SelectedDepartment = AllDepartments.FirstOrDefault(x => x.Department.UID == _firstSelectedDepartmentUID);
+			SelectedDepartment = AllDepartments.FirstOrDefault(x => x.Department.UID == FirstSelectedDepartmentUID);
 			if (SelectedDepartment != null)
 			{
 				SelectedDepartment.ExpandToThis();
@@ -63,7 +65,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual IEnumerable<ShortDepartment> GetDepartments()
 		{
-			return DepartmentHelper.GetByOrganisation(_organisationUID);
+			return DepartmentHelper.GetByOrganisation(CurrentOrganisation.UID);
 		}
 
 		void SetChildren(DepartmentSelectionItemViewModel department)
@@ -99,7 +101,7 @@ namespace SKDModule.ViewModels
 			if (hasParentDepartment)
 				parentDepartmentUID = SelectedDepartment.Department.UID;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
-			departmentDetailsViewModel.Initialize(_organisationUID, parentDepartmentUID);
+			departmentDetailsViewModel.Initialize(CurrentOrganisation, parentDepartmentUID);
 
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
@@ -137,7 +139,7 @@ namespace SKDModule.ViewModels
 	{
 		readonly Guid _departmentUID;
 
-		public DepartmentParentSelectionViewModel(Guid organisationUID, Guid parentDepartmentUID, Guid departmentUID) : base(organisationUID, parentDepartmentUID)
+		public DepartmentParentSelectionViewModel(Organisation organisation, Guid parentDepartmentUID, Guid departmentUID) : base(organisation, parentDepartmentUID)
 		{
 			_departmentUID = departmentUID;
 			Title = CommonViewModels.SelectParentDepart;
@@ -145,7 +147,7 @@ namespace SKDModule.ViewModels
 
 		protected override IEnumerable<ShortDepartment> GetDepartments()
 		{
-			var filter = new DepartmentFilter { OrganisationUIDs = new List<Guid> { _organisationUID }, ExceptUIDs = new List<Guid> { _departmentUID } };
+			var filter = new DepartmentFilter { OrganisationUIDs = new List<Guid> { CurrentOrganisation.UID }, ExceptUIDs = new List<Guid> { _departmentUID } };
 			return DepartmentHelper.Get(filter);
 		}
 	}

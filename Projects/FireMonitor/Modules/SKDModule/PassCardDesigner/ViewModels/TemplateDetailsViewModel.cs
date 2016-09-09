@@ -146,6 +146,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		public bool ShowPassCardPropertiesDialog(Organisation organisation, ShortPassCardTemplate model = null)
 		{
+			if(organisation == null)
+				throw new ArgumentNullException("organisation");
+
 			OrganisationUID = organisation.UID;
 			_isNew = model == null;
 

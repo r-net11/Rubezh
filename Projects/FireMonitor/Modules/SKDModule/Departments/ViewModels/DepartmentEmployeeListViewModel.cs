@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Common;
-using FiresecClient;
+﻿using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -9,6 +7,7 @@ using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SKDModule.ViewModels
 {
@@ -48,12 +47,12 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Parent.UID }, OrganisationUIDs = new List<Guid>{ Parent.OrganisationUID }, LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
+			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Parent.UID }, OrganisationUIDs = new List<Guid>{ Parent.Organisation.UID }, LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { Parent.OrganisationUID }, WithDeletedDepartments = true }; }
+			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { Parent.Organisation.UID }, WithDeletedDepartments = true }; }
 		}
 
 		protected override Guid GetParentUID(Employee employee)

@@ -235,7 +235,7 @@
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentParamsApplyableToEmployeeViewModel.cs" />
-    <Compile Include="Departments\ViewModels\DepartmentPassCardTemplateSelectionViewModel.cs" />
+    <Compile Include="Departments\ViewModels\PassCardTemplateSelectionViewModel.cs" />
     <Compile Include="Departments\ViewModels\DepartmentAccessTemplateSelectionViewModel.cs" />
     <Compile Include="Departments\ViewModels\ItemsSelectionBaseViewModel.cs" />
     <Compile Include="Departments\ViewModels\DepartmentScheduleSelectionViewModel.cs" />

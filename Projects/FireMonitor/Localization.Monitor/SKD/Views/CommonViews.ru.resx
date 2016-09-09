@@ -198,7 +198,7 @@
   <data name="ChooseCancel" xml:space="preserve">
     <value>Отменить выбор</value>
   </data>
-  <data name="ChooseClick" xml:space="preserve">
+  <data name="HyperlinkClickToSelect" xml:space="preserve">
     <value>Нажмите для выбора</value>
   </data>
   <data name="ChooseDepartClick" xml:space="preserve">
@@ -567,13 +567,13 @@
   <data name="Passcards" xml:space="preserve">
     <value>Пропуска</value>
   </data>
-  <data name="PassDesigner" xml:space="preserve">
+  <data name="PassCardDesigner" xml:space="preserve">
     <value>Дизайнер пропуска</value>
   </data>
-  <data name="PassTemplate" xml:space="preserve">
-    <value>Шаблон пропуска: </value>
+  <data name="PassCardTemplate" xml:space="preserve">
+    <value>Шаблон пропуска</value>
   </data>
-  <data name="PassTemplates" xml:space="preserve">
+  <data name="PassCardTemplates" xml:space="preserve">
     <value>Шаблоны пропусков</value>
   </data>
   <data name="Password" xml:space="preserve">
@@ -716,5 +716,44 @@
   </data>
   <data name="BeforeHoliday" xml:space="preserve">
     <value>предпраздничный день)</value>
+  </data>
+  <data name="LabelScheduleWork" xml:space="preserve">
+    <value>График работы</value>
+  </data>
+  <data name="ButtonAddAccessTemplate" xml:space="preserve">
+    <value>Добавить новый шаблон доступа</value>
+  </data>
+  <data name="ButtonAddElement" xml:space="preserve">
+    <value>Добавить элемент</value>
+  </data>
+  <data name="ButtonAddNewScheduleWork" xml:space="preserve">
+    <value>Добавить новый график работы</value>
+  </data>
+  <data name="ButtonAddPassCardTemplate" xml:space="preserve">
+    <value>Добавить новый шаблон пропуска</value>
+  </data>
+  <data name="ButtonDetachAccessTemplate" xml:space="preserve">
+    <value>Открепить шаблон доступа</value>
+  </data>
+  <data name="ButtonDetachElement" xml:space="preserve">
+    <value>Открепить элемент</value>
+  </data>
+  <data name="ButtonDetachPassCardTemplate" xml:space="preserve">
+    <value>Открепить шаблон пропуска</value>
+  </data>
+  <data name="ButtonDetachScheduleWork" xml:space="preserve">
+    <value>Открепить график работы</value>
+  </data>
+  <data name="TextDetach" xml:space="preserve">
+    <value>Открепить</value>
+  </data>
+  <data name="TitleChooseAccessTemplate" xml:space="preserve">
+    <value>Выбор шаблона доступа</value>
+  </data>
+  <data name="TitleChoosePassCardTemplate" xml:space="preserve">
+    <value>Выбор шаблона пропуска</value>
+  </data>
+  <data name="TitleChooseScheduleWork" xml:space="preserve">
+    <value>Выбор графика работы</value>
   </data>
 </root>

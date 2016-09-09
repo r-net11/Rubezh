@@ -15,7 +15,7 @@
 		<views:ItemsSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type viewModels:DepartmentPassCardTemplateSelectionViewModel}">
+	<DataTemplate DataType="{x:Type viewModels:PassCardTemplateSelectionViewModel}">
 		<views:ItemsSelectionView />
 	</DataTemplate>
 

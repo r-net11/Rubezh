@@ -1,31 +1,24 @@
-﻿using System;
-using Localization.SKD.ViewModels;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
+﻿using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
+using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<AccessTemplate>
 	{
-		private Organisation Organisation { get; set; }
-		public AccessTemplate Model { get; private set; }
-		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
-		public DeactivatingReadersSelectationViewModel DeactivatingReadersSelectationViewModel { get; private set; }
+		private string _name;
+		private string _description;
 		private bool _isNew;
-		
-		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
-		{
-			return Initialize(orgnaisation.UID, accessTemplate, parentViewModel);
-		}
 
-		public bool Initialize(Guid orgnaisationUID, AccessTemplate accessTemplate = null, ViewPartViewModel parentViewModel = null)
+		public bool Initialize(Organisation organisation, AccessTemplate accessTemplate = null, ViewPartViewModel parentViewModel = null)
 		{
-			Organisation = OrganisationHelper.GetSingle(orgnaisationUID);
+			Organisation = organisation;
 			_isNew = accessTemplate == null;
+
 			if (_isNew)
 			{
 				Title = CommonViewModels.CreateAccessTempl;
@@ -40,14 +33,11 @@ namespace SKDModule.ViewModels
 			DeactivatingReadersSelectationViewModel = new DeactivatingReadersSelectationViewModel(AccessDoorsSelectationViewModel.GetSelectedDoorsUids(), Model.DeactivatingReaders);
 			return true;
 		}
+		private Organisation Organisation { get; set; }
+		public AccessTemplate Model { get; private set; }
+		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
+		public DeactivatingReadersSelectationViewModel DeactivatingReadersSelectationViewModel { get; private set; }
 
-		public void CopyProperties()
-		{
-			Name = Model.Name;
-			Description = Model.Description;
-		}
-
-		private string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -59,7 +49,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -71,6 +60,12 @@ namespace SKDModule.ViewModels
 					OnPropertyChanged(() => Description);
 				}
 			}
+		}
+
+		public void CopyProperties()
+		{
+			Name = Model.Name;
+			Description = Model.Description;
 		}
 
 		protected override bool CanSave()
@@ -88,13 +83,13 @@ namespace SKDModule.ViewModels
 
 			Model.Name = Name;
 			Model.Description = Description;
-			
+
 			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
-			
+
 			Model.DeactivatingReaders = DeactivatingReadersSelectationViewModel.GetReaders();
 			Model.DeactivatingReaders.ForEach(x => x.AccessTemplateUID = Model.UID);
-			
+
 			Model.OrganisationUID = Organisation.UID;
 
 			if (!AccessTemplateHelper.Save(Model, _isNew)) return false;
