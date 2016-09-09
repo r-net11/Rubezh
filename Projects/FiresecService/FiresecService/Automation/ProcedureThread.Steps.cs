@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-//using System.Windows.Media;
 using Property = StrazhAPI.Automation.Property;
 
 namespace FiresecService
@@ -1042,23 +1041,24 @@ namespace FiresecService
 		private void ExportReport(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportReportArguments;
-			FiresecServiceManager.SafeFiresecService.ExportReport(
-				new ReportExportFilter
-				{
-					EndDate = GetValue<DateTime>(arguments.EndDate),
-					StartDate = GetValue<DateTime>(arguments.StartDate),
-					Path = GetValue<string>(arguments.FilePath),
-					ReportFilter = arguments.ReportFilter,
-					ReportType = arguments.ReportType,
-					ReportFormat = arguments.ReportFormat,
-					IsFilterNameInHeader = arguments.IsFilterNameInHeader,
-					IsShowArchive = arguments.IsUseArchive,
-					IsUseExpirationDate = arguments.IsUseExpirationDate,
-					ReportEndDateType = arguments.ReportEndDateType,
-					IsUseDateTimeNow = arguments.IsUseDateTimeNow,
-					ReportPeriodType = arguments.ReportPeriodType,
-					IsUseDateInFileName = arguments.IsUseDateInFileName
-				});
+			var filter = new ReportExportFilter
+			{
+				EndDate = GetValue<DateTime>(arguments.EndDate),
+				StartDate = GetValue<DateTime>(arguments.StartDate),
+				Path = GetValue<string>(arguments.FilePath),
+				ReportFilter = arguments.ReportFilter,
+				ReportType = arguments.ReportType,
+				ReportFormat = arguments.ReportFormat,
+				IsFilterNameInHeader = arguments.IsFilterNameInHeader,
+				IsShowArchive = arguments.IsUseArchive,
+				IsUseExpirationDate = arguments.IsUseExpirationDate,
+				ReportEndDateType = arguments.ReportEndDateType,
+				IsUseDateTimeNow = arguments.IsUseDateTimeNow,
+				ReportPeriodType = arguments.ReportPeriodType,
+				IsUseDateInFileName = arguments.IsUseDateInFileName
+			};
+
+			FiresecServiceManager.SafeFiresecService.ExportReport(filter);
 		}
 
 		private void ImportOrganisation(ProcedureStep procedureStep)
