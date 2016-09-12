@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Windows.Navigation;
 
 namespace StrazhAPI.Extensions
 {
@@ -25,10 +21,6 @@ namespace StrazhAPI.Extensions
 			return endOfTheMonth;
 		}
 
-		/// <summary>
-		/// Returns a DateTime representing the Monday of the current week. Depends on System.Globalization
-		/// </summary>
-		/// <returns></returns>
 		public static DateTime PreviosWeekMonday(this DateTime date)
 		{
 			const int daysInWeek = 7;
@@ -63,7 +55,7 @@ namespace StrazhAPI.Extensions
 
 		public static DateTime PreviosEndDay(this DateTime date)
 		{
-			return date.Date.AddSeconds(-1); //Так же, можно использовать AddTicks(-1), если будет нужна бОльшая точность результирующего значения DateTime.
+			return date.Date.AddSeconds(-1);
 		}
 
 		public static DateTime ResetTime(this DateTime date)
@@ -84,8 +76,7 @@ namespace StrazhAPI.Extensions
 
 		public static DateTime NextMonth(this DateTime date)
 		{
-			const int daysInMonth = 31;
-			return date.AddDays(daysInMonth);
+			return date.AddMonths(1);
 		}
 	}
 }
