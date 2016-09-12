@@ -217,7 +217,7 @@
 		</DirectoryRef>
 		<!-- Локализация-->
 		<DirectoryRef Id="Administrator.ru">
-			<Component Id="Administrator.Files.ru" Guid="*">
+			<Component Id="Administrator.Files.ru" Guid="779C5751-1286-4470-8E99-9F917FC1D423">
 			<!-- Библиотека локализации-->
 				<File Id="Administrator.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />
 				<File Id="Administrator.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Administrator.TargetDir)ru\" />

@@ -144,7 +144,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="Server.ru">
-			<Component Id="Server.Files.ru" Guid="*">
+			<Component Id="Server.Files.ru" Guid="3FAF2D79-5BAF-4C8E-87D0-AFBBBA56ADF4">
 				<File Id="Server.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Server.TargetDir)ru\" />
 				<File Id="Server.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Server.TargetDir)ru\" />
 			</Component>
