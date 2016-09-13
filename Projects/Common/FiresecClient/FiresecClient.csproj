@@ -202,6 +202,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Localization.Common\Localization.Common.csproj">
+      <Project>{7e6fd9c0-24e0-4f56-9907-59ebf5ad8f9c}</Project>
+      <Name>Localization.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
