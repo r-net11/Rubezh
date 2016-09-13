@@ -3,6 +3,7 @@ using System.Linq;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Enums;
+using StrazhAPI.Extensions;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure.Common;
@@ -15,6 +16,12 @@ namespace AutomationModule.ViewModels
 {
 	public class ExportReportStepViewModel : BaseStepViewModel
 	{
+		private bool _isUseArchiveSection;
+		private bool _isUseExpirationDateSection;
+		private bool _isUsePeriodOfExecuteSection;
+		private bool _isDatePeriodEnabled;
+		private bool _isUseDateTimeNow;
+
 		#region Properties
 		public List<ReportType> ReportTypes { get; set; }
 		public bool IsUseDateTimeNowSection
@@ -37,8 +44,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private bool _isUseArchiveSection;
-
 		public bool IsUseArchiveSection
 		{
 			get { return _isUseArchiveSection; }
@@ -50,8 +55,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private bool _isUseExpirationDateSection;
-
 		public bool UseExpirationDateSection
 		{
 			get { return _isUseExpirationDateSection; }
@@ -62,7 +65,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => UseExpirationDateSection);
 			}
 		}
-		private bool _isUsePeriodOfExecuteSection;
 
 		public bool IsUsePeriodOfExecuteSection
 		{
@@ -74,7 +76,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => IsUsePeriodOfExecuteSection);
 			}
 		}
-		private bool _isDatePeriodEnabled;
 
 		public bool IsDatePeriodEnabled
 		{
@@ -118,7 +119,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ICollectionView AvailableFiltersCollection { get; private set; }
-		private List<SKDReportFilter> _cachedFilters { get; set; }
+		private List<SKDReportFilter> CachedFilters { get; set; }
 		private ExportReportArguments ExportReportArguments { get; set; }
 		public ArgumentViewModel FilePath { get; private set; }
 		public ArgumentViewModel StartDate { get; private set; }
@@ -155,7 +156,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private bool _isUseDateTimeNow;
 		public bool IsUseDateTimeNow
 		{
 			get { return _isUseDateTimeNow; }
@@ -187,26 +187,20 @@ namespace AutomationModule.ViewModels
 		}
 		#endregion
 
-		public RelayCommand ReportChangedCommand { get; private set; }
-
-		public RelayCommand PeriodChangedCommand { get; private set; }
-
-		public RelayCommand IsUseExpiredDateChangedCommand { get; private set; }
-		public RelayCommand ReportFormatChangedCommand { get; private set; }
-
 		public ExportReportStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
 			ReportChangedCommand = new RelayCommand(OnReportChanged);
 			PeriodChangedCommand = new RelayCommand(OnPeriodChanged);
 			IsUseExpiredDateChangedCommand = new RelayCommand(OnIsUseExpiredDateChanged);
+
 			ExportReportArguments = stepViewModel.Step.ExportReportArguments;
 			FilePath = new ArgumentViewModel(ExportReportArguments.FilePath, stepViewModel.Update, UpdateContent);
 			StartDate = new ArgumentViewModel(ExportReportArguments.StartDate, stepViewModel.Update, UpdateContent);
 			EndDate = new ArgumentViewModel(ExportReportArguments.EndDate, stepViewModel.Update, UpdateContent);
 			ReportTypes = ((ReportType[])Enum.GetValues(typeof(ReportType))).OrderBy(x => x.ToDescription()).ToList();
-			_cachedFilters = FiresecManager.FiresecService.GetAllFilters().Result;
-			AvailableFiltersCollection = CollectionViewSource.GetDefaultView(_cachedFilters);
+			CachedFilters = FiresecManager.FiresecService.GetAllFilters().Result;
+			AvailableFiltersCollection = CollectionViewSource.GetDefaultView(CachedFilters);
 			AvailableFiltersCollection.Filter = ReportFilter;
 			OnReportChanged();
 		}
@@ -227,10 +221,14 @@ namespace AutomationModule.ViewModels
 		public void OnIsUseExpiredDateChanged()
 		{
 			if (!IsUseExpiredDate)
+			{
 				IsDatePeriodEnabled = false;
+			}
 			else if ((IsUsePeriodOfExecuteSection && IsUseExpiredDate && SelectedReportPeriod == ReportPeriodType.Arbitrary)
-					|| (UseExpirationDateSection && IsUseExpiredDate && SelectedEndDateType == EndDateType.Arbitrary))
+			         || (UseExpirationDateSection && IsUseExpiredDate && SelectedEndDateType == EndDateType.Arbitrary))
+			{
 				IsDatePeriodEnabled = true;
+			}
 		}
 
 		public void OnPeriodChanged()
@@ -244,46 +242,71 @@ namespace AutomationModule.ViewModels
 			switch (reportType)
 			{
 				case ReportType.CardsReport:
-					UseExpirationDateSection = true;
-					IsUseExpiredDate = false;
-					IsUseArchiveSection = false;
-					IsUseDateTimeNowSection = false;
-					IsUsePeriodOfExecuteSection = false;
-					IsDatePeriodEnabled = false;
+					ShowUseExpirationDateUISection();
 					break;
 				case ReportType.DepartmentsReport:
 				case ReportType.PositionsReport:
 				case ReportType.EmployeeReport:
-					IsUseArchiveSection = true;
-					UseExpirationDateSection = false;
-					IsUseDateTimeNowSection = false;
-					IsUsePeriodOfExecuteSection = false;
+					ShowIsUseArchiveUISection();
 					break;
 				case ReportType.EmployeeZonesReport:
-					IsUseDateTimeNowSection = true;
-					IsUseDateTimeNow = true;
-					UseExpirationDateSection = false;
-					IsUseArchiveSection = false;
-					IsUsePeriodOfExecuteSection = false;
+					ShowIsUseDateTimeNowUISection();
 					break;
 				case ReportType.EventsReport:
 				case ReportType.EmployeeRootReport:
 				case ReportType.DisciplineReport:
 				case ReportType.DocumentsReport:
-					IsUsePeriodOfExecuteSection = true;
-					IsUseDateTimeNowSection = false;
-					UseExpirationDateSection = false;
-					IsUseArchiveSection = false;
-					IsDatePeriodEnabled = false;
+					ShowIsUsePeriodOfExecuteUISection();
 					OnPeriodChanged();
 					break;
 				default:
-					UseExpirationDateSection = false;
-					IsUseArchiveSection = false;
-					IsUseDateTimeNowSection = false;
-					IsUsePeriodOfExecuteSection = false;
+					HideAllCustomUISections();
 					break;
 			}
+		}
+
+		private void ShowUseExpirationDateUISection()
+		{
+			UseExpirationDateSection = true;
+			IsUseExpiredDate = false;
+			IsUseArchiveSection = false;
+			IsUseDateTimeNowSection = false;
+			IsUsePeriodOfExecuteSection = false;
+			IsDatePeriodEnabled = false;
+		}
+
+		private void ShowIsUseArchiveUISection()
+		{
+			IsUseArchiveSection = true;
+			UseExpirationDateSection = false;
+			IsUseDateTimeNowSection = false;
+			IsUsePeriodOfExecuteSection = false;
+		}
+
+		private void ShowIsUseDateTimeNowUISection()
+		{
+			IsUseDateTimeNowSection = true;
+			IsUseDateTimeNow = true;
+			UseExpirationDateSection = false;
+			IsUseArchiveSection = false;
+			IsUsePeriodOfExecuteSection = false;
+		}
+
+		private void ShowIsUsePeriodOfExecuteUISection()
+		{
+			IsUsePeriodOfExecuteSection = true;
+			IsUseDateTimeNowSection = false;
+			UseExpirationDateSection = false;
+			IsUseArchiveSection = false;
+			IsDatePeriodEnabled = false;
+		}
+
+		private void HideAllCustomUISections()
+		{
+			UseExpirationDateSection = false;
+			IsUseArchiveSection = false;
+			IsUseDateTimeNowSection = false;
+			IsUsePeriodOfExecuteSection = false;
 		}
 
 		public override void UpdateContent()
@@ -295,7 +318,11 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return string.Format(StepCommonViewModel.ExportReport,SelectedReportType.ToDescription(),SelectedFilter); }
+			get { return string.Format(StepCommonViewModel.ExportReport,SelectedReportType.ToDescription(), SelectedFilter); }
 		}
+
+		public RelayCommand ReportChangedCommand { get; private set; }
+		public RelayCommand PeriodChangedCommand { get; private set; }
+		public RelayCommand IsUseExpiredDateChangedCommand { get; private set; }
 	}
 }

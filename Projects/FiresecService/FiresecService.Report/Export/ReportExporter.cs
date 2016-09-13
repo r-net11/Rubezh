@@ -3,6 +3,7 @@ using System.IO;
 using Common;
 using DevExpress.XtraReports.UI;
 using StrazhAPI.Enums;
+using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.Templates;
@@ -53,11 +54,7 @@ namespace FiresecService.Report.Export
 			if (period != null)
 			{
 				period.PeriodType = filter.ReportPeriodType;
-				if (filter.ReportPeriodType == ReportPeriodType.Arbitrary)
-				{
-					period.DateTimeFrom = filter.StartDate;
-					period.DateTimeTo = filter.EndDate;
-				}
+				SetDatePeriod(period, filter);
 			}
 
 			var reportFilter = tmpFilter as CardsReportFilter;
@@ -67,9 +64,7 @@ namespace FiresecService.Report.Export
 				if (filter.IsUseExpirationDate)
 				{
 					reportFilter.ExpirationType = filter.ReportEndDateType;
-
-					if (filter.ReportEndDateType == EndDateType.Arbitrary)
-						reportFilter.ExpirationDate = filter.EndDate;
+					SetExpirationDate(reportFilter, filter);
 				}
 			}
 
@@ -81,6 +76,51 @@ namespace FiresecService.Report.Export
 			}
 
 			return tmpFilter;
+		}
+
+		private static void SetExpirationDate(CardsReportFilter reportFilter, ReportExportFilter filter)
+		{
+			switch (filter.ReportEndDateType)
+			{
+				case EndDateType.Day:
+					reportFilter.ExpirationDate = DateTime.Today.NextDay();
+					break;
+
+				case EndDateType.Week:
+					reportFilter.ExpirationDate = DateTime.Today.NextWeek();
+					break;
+
+				case EndDateType.Month:
+					reportFilter.ExpirationDate = DateTime.Today.NextMonth();
+					break;
+
+				case EndDateType.Arbitrary:
+					reportFilter.ExpirationDate = filter.EndDate;
+					break;
+			}
+		}
+
+		private static void SetDatePeriod(IReportFilterPeriod filter, ReportExportFilter reportFilter)
+		{
+			switch (reportFilter.ReportPeriodType)
+			{
+				case ReportPeriodType.Month:
+					filter.DateTimeFrom = DateTime.Today.PreviosStartMonth();
+					filter.DateTimeFrom = DateTime.Today.PreviosEndMonth();
+					break;
+				case ReportPeriodType.Week:
+					filter.DateTimeFrom = DateTime.Today.PreviosWeekMonday();
+					filter.DateTimeFrom = DateTime.Today.PreviosWeekSunday();
+					break;
+				case ReportPeriodType.Day:
+					filter.DateTimeFrom = DateTime.Today.PreviosStartDay();
+					filter.DateTimeFrom = DateTime.Today.PreviosEndDay();
+					break;
+				case ReportPeriodType.Arbitrary:
+					filter.DateTimeFrom = reportFilter.StartDate;
+					filter.DateTimeTo = reportFilter.EndDate;
+					break;
+			}
 		}
 
 		protected string GetPath(BaseReport report, ReportExportFilter filter)
@@ -136,9 +176,6 @@ namespace FiresecService.Report.Export
 					case ReportFormatEnum.Xlsx:
 						report.ExportToXlsx(path);
 						break;
-						//	case ReportFormatEnum.Xps:
-						//		report.PrintingSystem.ExportToXps(path, new DevExpress.XtraPrinting.XpsExportOptions());
-						//		break;
 				}
 			}
 			catch (Exception e)
