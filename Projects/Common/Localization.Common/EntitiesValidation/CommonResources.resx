@@ -117,25 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GeneralLength" xml:space="preserve">
+  <data name="DayScheduleIntersectDayIntervals" xml:space="preserve">
+    <value>Дневной график '{0}' пересекает временные интервалы дневного графика '{1}':</value>
+  </data>
+  <data name="HM" xml:space="preserve">
     <value>{0} ч {1} мин</value>
   </data>
-  <data name="SlideTime" xml:space="preserve">
-    <value>{0} ч {1} мин</value>
-  </data>
-  <data name="ValidateDayIntervalPartWithTransitionOnAddingOrEditing_Error" xml:space="preserve">
-    <value>Для добавления интервала с переходом необходимо установить в поле "Суммарная продолжительность интервалов дневного графика" значение 0</value>
-  </data>
-  <data name="ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting_Error" xml:space="preserve">
-    <value>Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})</value>
-  </data>
-  <data name="ValidateNewDayIntervalPartIntersection_Error" xml:space="preserve">
-    <value>Интервалы не должны пересекаться</value>
-  </data>
-  <data name="ValidateNewDayIntervalPartLength_Error" xml:space="preserve">
+  <data name="IntervalMustNotHaveNullLength" xml:space="preserve">
     <value>Интервал не может иметь нулевую продолжительность</value>
   </data>
-  <data name="ValidateNewDayIntervalPartOrder_Error" xml:space="preserve">
-    <value>Интервалы должны идти последовательно</value>
+  <data name="IntervalMustNotIntersect" xml:space="preserve">
+    <value>Интервалы не должны пересекаться</value>
+  </data>
+  <data name="IntervalWithTransfer" xml:space="preserve">
+    <value>Для добавления интервала с переходом необходимо установить в поле "Суммарная продолжительность интервалов дневного графика" значение 0</value>
+  </data>
+  <data name="SummarizeLengthDayIntervals" xml:space="preserve">
+    <value>Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})</value>
   </data>
 </root>

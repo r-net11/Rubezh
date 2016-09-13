@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntitiesValidation.Resources.Language {
+namespace Localization.Common.EntitiesValidation {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace EntitiesValidation.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DayIntervalValidator {
+    public class CommonResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DayIntervalValidator() {
+        internal CommonResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EntitiesValidation.Resources.Language.DayIntervalValidator", typeof(DayIntervalValidator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Common.EntitiesValidation.CommonResources", typeof(CommonResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace EntitiesValidation.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,18 +63,54 @@ namespace EntitiesValidation.Resources.Language {
         /// <summary>
         ///   Looks up a localized string similar to Дневной график &apos;{0}&apos; пересекает временные интервалы дневного графика &apos;{1}&apos;:.
         /// </summary>
-        internal static string DayIntervalPartsWithIntersection {
+        public static string DayScheduleIntersectDayIntervals {
             get {
-                return ResourceManager.GetString("DayIntervalPartsWithIntersection", resourceCulture);
+                return ResourceManager.GetString("DayScheduleIntersectDayIntervals", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to - [{0}-{1}].
+        ///   Looks up a localized string similar to {0} ч {1} мин.
         /// </summary>
-        internal static string dayIntervalPartsWithIntersection_BeginEndInterval {
+        public static string HM {
             get {
-                return ResourceManager.GetString("dayIntervalPartsWithIntersection_BeginEndInterval", resourceCulture);
+                return ResourceManager.GetString("HM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интервал не может иметь нулевую продолжительность.
+        /// </summary>
+        public static string IntervalMustNotHaveNullLength {
+            get {
+                return ResourceManager.GetString("IntervalMustNotHaveNullLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интервалы не должны пересекаться.
+        /// </summary>
+        public static string IntervalMustNotIntersect {
+            get {
+                return ResourceManager.GetString("IntervalMustNotIntersect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Для добавления интервала с переходом необходимо установить в поле &quot;Суммарная продолжительность интервалов дневного графика&quot; значение 0.
+        /// </summary>
+        public static string IntervalWithTransfer {
+            get {
+                return ResourceManager.GetString("IntervalWithTransfer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1}).
+        /// </summary>
+        public static string SummarizeLengthDayIntervals {
+            get {
+                return ResourceManager.GetString("SummarizeLengthDayIntervals", resourceCulture);
             }
         }
     }
