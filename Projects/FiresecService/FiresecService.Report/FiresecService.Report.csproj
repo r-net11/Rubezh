@@ -48,75 +48,61 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Charts.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Charts.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Charts.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Data.v14.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Data.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.DataAccess.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.DataAccess.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.DataAccess.v14.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.DataAccess.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Office.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Office.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Office.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Office.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.PivotGrid.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.PivotGrid.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.PivotGrid.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.PivotGrid.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Printing.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.RichEdit.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.RichEdit.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.RichEdit.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.RichEdit.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Sparkline.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Sparkline.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Sparkline.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v14.1.Service, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Xpf.Printing.v14.2.Service, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpf.Printing.v14.1.Service.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Printing.v14.2.Service.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpo.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Xpo.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpo.v14.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpo.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraCharts.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraCharts.v14.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraCharts.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraGauges.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraGauges.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraGauges.v14.1.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraGauges.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraReports.v14.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraReports.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v14.1.Service, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v14.2.Service, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraReports.v14.1.Service.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraReports.v14.2.Service.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

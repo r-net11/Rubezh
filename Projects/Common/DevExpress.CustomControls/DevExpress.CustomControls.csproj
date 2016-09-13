@@ -31,33 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.Data.v13.2.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Data.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Printing.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.Printing.v13.2.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Printing.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Utils.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Utils.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.Utils.v13.2.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Utils.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraEditors.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.XtraEditors.v13.2.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraEditors.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.XtraReports.v13.2.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraReports.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 13.2\DevExpress.XtraReports.v13.2.Extensions.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.XtraReports.v14.2.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
