@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DataTruncated" xml:space="preserve">
+    <value>Превышен максимальный размер строки</value>
+  </data>
   <data name="DBError" xml:space="preserve">
     <value>Ошибка БД</value>
+  </data>
+  <data name="FailedConnect" xml:space="preserve">
+    <value>Не удается соединиться с сервером {0}</value>
+  </data>
+  <data name="SafeOperationCall" xml:space="preserve">
+    <value>Ошибка при вызове операции</value>
+  </data>
+  <data name="SQLConnectionFaild" xml:space="preserve">
+    <value>При установлении соединения с SQL Server произошла ошибка</value>
   </data>
 </root>

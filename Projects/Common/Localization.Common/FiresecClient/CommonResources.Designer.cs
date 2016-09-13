@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecClient.Resources.Language.Service {
+namespace Localization.Common.FiresecClient {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace FiresecClient.Resources.Language.Service {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SafeFiresecService {
+    public class CommonResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SafeFiresecService() {
+        internal CommonResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecClient.Resources.Language.Service.SafeFiresecService", typeof(SafeFiresecService).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Common.FiresecClient.CommonResources", typeof(CommonResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecClient.Resources.Language.Service {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,27 @@ namespace FiresecClient.Resources.Language.Service {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Превышен максимальный размер строки.
+        /// </summary>
+        public static string DataTruncated {
+            get {
+                return ResourceManager.GetString("DataTruncated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка БД.
+        /// </summary>
+        public static string DBError {
+            get {
+                return ResourceManager.GetString("DBError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не удается соединиться с сервером {0}.
         /// </summary>
-        internal static string FailedConnect {
+        public static string FailedConnect {
             get {
                 return ResourceManager.GetString("FailedConnect", resourceCulture);
             }
@@ -72,9 +90,18 @@ namespace FiresecClient.Resources.Language.Service {
         /// <summary>
         ///   Looks up a localized string similar to Ошибка при вызове операции.
         /// </summary>
-        internal static string SafeOperationCall {
+        public static string SafeOperationCall {
             get {
                 return ResourceManager.GetString("SafeOperationCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При установлении соединения с SQL Server произошла ошибка.
+        /// </summary>
+        public static string SQLConnectionFaild {
+            get {
+                return ResourceManager.GetString("SQLConnectionFaild", resourceCulture);
             }
         }
     }

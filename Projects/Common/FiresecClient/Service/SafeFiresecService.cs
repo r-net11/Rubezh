@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.Windows.Threading;
 using Common;
+using Localization.Common.FiresecClient;
 using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
@@ -49,7 +50,7 @@ namespace FiresecClient
 						return SafeOperationCall(func, methodName, false);
 				}
 			}
-			return OperationResult<T>.FromError("Ошибка при вызове операции");
+			return OperationResult<T>.FromError(CommonResources.SafeOperationCall);
 		}
 
 		T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
@@ -194,7 +195,7 @@ namespace FiresecClient
 				{
 					Logger.Error(e, "Исключение при вызове FiresecService.Connect ");
 				}
-				return OperationResult<bool>.FromError("Не удается соединиться с сервером " + _serverAddress, false);
+				return OperationResult<bool>.FromError(string.Format(CommonResources.FailedConnect, _serverAddress), false);
 			}, "Connect");
 		}
 

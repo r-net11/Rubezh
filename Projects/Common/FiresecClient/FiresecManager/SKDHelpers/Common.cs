@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Localization.Common.FiresecClient;
+using StrazhAPI;
 using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers
@@ -14,8 +15,8 @@ namespace FiresecClient.SKDHelpers
 			if (operationResult.HasError)
 			{
 				if (operationResult.Error.Contains("String or binary data would be truncated"))
-					operationResult.Error = "Превышен максимальный размер строки";
-				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
+					operationResult.Error = CommonResources.DataTruncated;
+				if (!operationResult.Error.Contains(CommonResources.SQLConnectionFaild) &&
 					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
 					showError)
 				{
@@ -36,7 +37,7 @@ namespace FiresecClient.SKDHelpers
 			{
 				//if (operationResult.Error.Contains("String or binary data would be truncated"))
 				//    operationResult.Error = "Превышен максимальный размер строки";
-				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
+				if (!operationResult.Error.Contains(CommonResources.SQLConnectionFaild) &&
 					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
 					showError)
 				{

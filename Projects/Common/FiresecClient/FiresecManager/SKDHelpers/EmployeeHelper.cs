@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization.Common.FiresecClient;
 using StrazhAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -26,7 +27,7 @@ namespace FiresecClient.SKDHelpers
 		public static bool MarkDeleted(Guid uid, string name)
 		{
 			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployee(uid, name);
-			if (operationResult != null && operationResult.HasError &&!operationResult.Error.Contains("Ошибка БД"))
+			if (operationResult != null && operationResult.HasError &&!operationResult.Error.Contains(CommonResources.DBError))
 				return true;
 			return Common.ShowErrorIfExists(operationResult);
 		}
