@@ -99,9 +99,9 @@ namespace Localization.Common.Controls {
         /// <summary>
         ///   Looks up a localized string similar to Доступные.
         /// </summary>
-        public static string Availible {
+        public static string Available {
             get {
-                return ResourceManager.GetString("Availible", resourceCulture);
+                return ResourceManager.GetString("Available", resourceCulture);
             }
         }
         

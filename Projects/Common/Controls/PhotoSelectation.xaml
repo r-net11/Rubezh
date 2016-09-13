@@ -1,7 +1,8 @@
 <UserControl x:Class="Controls.PhotoSelectation"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:local="clr-namespace:Controls">
+			 xmlns:local="clr-namespace:Controls"
+			 xmlns:lang="clr-namespace:Localization.Common.Controls;assembly=Localization.Common">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -9,11 +10,11 @@
 		</Grid.RowDefinitions>
 		<Image Grid.Row="0" Name="PhotoImage" Stretch="Uniform" />
 		<StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
-			<local:ToolBarButton ImageSource="Webcam"  ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" Visibility="Collapsed" />
-			<local:ToolBarButton ImageSource="Scanner"  ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
-			<local:ToolBarButton ImageSource="Paste"  ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
-			<local:ToolBarButton ImageSource="Load"  ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
-			<local:ToolBarButton ImageSource="Close"  ToolTip="Очитстить фото" Click="RemoveButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Webcam"  ToolTip="{x:Static lang:CommonResources.WebcamImage}" Click="WebCamButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Scanner"  ToolTip="{x:Static lang:CommonResources.ScanImage}" Click="ScannerButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Paste"  ToolTip="{x:Static lang:CommonResources.BufferImage}" Click="PasteButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Load"  ToolTip="{x:Static lang:CommonResources.LoadImage}" Click="OpenButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Close"  ToolTip="{x:Static lang:CommonResources.CleanPhoto}" Click="RemoveButton_Click" IsEnabled="True" />
 		</StackPanel>
 	</Grid>
 </UserControl>

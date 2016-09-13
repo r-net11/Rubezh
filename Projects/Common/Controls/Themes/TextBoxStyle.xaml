@@ -3,7 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
 	xmlns:loc="clr-namespace:Controls"
-	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+	xmlns:lang="clr-namespace:Localization.Common.Controls;assembly=Localization.Common">
 
 	<Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBoxBase}">
 		<Setter Property="SnapsToDevicePixels" Value="True" />
@@ -26,17 +27,17 @@
 						Command="ApplicationCommands.Copy"
 						FontSize="12"
 						ImageSource="BCopy"
-						Text="Копировать" />
+						Text="{x:Static lang:CommonResources.Copy}" />
 					<loc:IconedMenuItem
 						Command="ApplicationCommands.Cut"
 						FontSize="12"
 						ImageSource="BCut"
-						Text="Вырезать" />
+						Text="{x:Static lang:CommonResources.Cut}" />
 					<loc:IconedMenuItem
 						Command="ApplicationCommands.Paste"
 						FontSize="12"
 						ImageSource="BPaste"
-						Text="Вставить" />
+						Text="{x:Static lang:CommonResources.Paste}" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>

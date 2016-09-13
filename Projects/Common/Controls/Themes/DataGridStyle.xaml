@@ -2,7 +2,8 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-	xmlns:local="clr-namespace:Controls">
+	xmlns:local="clr-namespace:Controls"
+	xmlns:lang="clr-namespace:Localization.Common.Controls;assembly=Localization.Common">
 
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
@@ -282,9 +283,9 @@
 		<Setter Property="ContextMenu">
 			<Setter.Value>
 				<ContextMenu OverridesDefaultStyle="True">
-					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="{x:Static lang:CommonResources.Add}" />
+					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="{x:Static lang:CommonResources.Delete}" />
+					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="{x:Static lang:CommonResources.Edit}" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>

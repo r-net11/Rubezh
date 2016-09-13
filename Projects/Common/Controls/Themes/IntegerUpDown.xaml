@@ -2,12 +2,13 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:ext="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-	xmlns:loc="clr-namespace:Controls">
+	xmlns:loc="clr-namespace:Controls"
+	xmlns:lang="clr-namespace:Localization.Common.Controls;assembly=Localization.Common">
 
 	<ContextMenu x:Key="UpDownContextMenu">
-		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Copy" ImageSource="BCopy"  Text="Копировать" />
-		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Cut" ImageSource="BCut"  Text="Вырезать" />
-		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Paste" ImageSource="BPaste"  Text="Вставить" />
+		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Copy" ImageSource="BCopy"  Text="{x:Static lang:CommonResources.Copy}" />
+		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Cut" ImageSource="BCut"  Text="{x:Static lang:CommonResources.Cut}" />
+		<loc:IconedMenuItem HorizontalAlignment="Left" Command="ApplicationCommands.Paste" ImageSource="BPaste"  Text="{x:Static lang:CommonResources.Paste}" />
 	</ContextMenu>
 
 	<Style BasedOn="{StaticResource {x:Type ext:WatermarkTextBox}}" TargetType="{x:Type ext:WatermarkTextBox}">

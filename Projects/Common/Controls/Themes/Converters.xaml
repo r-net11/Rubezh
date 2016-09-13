@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Converters="clr-namespace:Controls.Converters">
+	xmlns:Converters="clr-namespace:Controls.Converters"
+	xmlns:lang="clr-namespace:Localization.Common.Controls;assembly=Localization.Common">
 
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 	<Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
@@ -62,9 +63,9 @@
 	<Converters:JournalEventNameTypeToIconConverter x:Key="JournalEventNameTypeToIconConverter"/>
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
-		<Converters:SwitchCase Then="Заполнить" When="Fill" />
-		<Converters:SwitchCase Then="Исходный размер" When="None" />
-		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
-		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
+		<Converters:SwitchCase Then="{x:Static lang:CommonResources.Fill}" When="Fill" />
+		<Converters:SwitchCase Then="{x:Static lang:CommonResources.InitialSize}" When="None" />
+		<Converters:SwitchCase Then="{x:Static lang:CommonResources.SaveProportions}" When="Uniform" />
+		<Converters:SwitchCase Then="{x:Static lang:CommonResources.FillProportionality}" When="UniformToFill" />
 	</Converters:SwitchConverter>
 </ResourceDictionary>
