@@ -44,12 +44,12 @@
 				<File Id="Server.HigLabo.Net.dll" Name="HigLabo.Net.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />
 				<!--<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />-->
 
-				<File Id="Server.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Printing.v14.1.Core.dll" Name="DevExpress.Printing.v14.1.Core.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpf.Printing.v14.1.Service.dll" Name="DevExpress.Xpf.Printing.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.1.dll" Name="DevExpress.XtraReports.v14.1.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.1.Service.dll" Name="DevExpress.XtraReports.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Data.v14.2.dll" Name="DevExpress.Data.v14.2.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Printing.v14.2.Core.dll" Name="DevExpress.Printing.v14.2.Core.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Xpf.Printing.v14.2.Service.dll" Name="DevExpress.Xpf.Printing.v14.2.Service.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.XtraReports.v14.2.dll" Name="DevExpress.XtraReports.v14.2.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.XtraReports.v14.2.Service.dll" Name="DevExpress.XtraReports.v14.2.Service.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Xpo.v14.2.dll" Name="DevExpress.Xpo.v14.2.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
