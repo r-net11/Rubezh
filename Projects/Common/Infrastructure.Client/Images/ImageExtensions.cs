@@ -45,7 +45,7 @@ namespace Infrastructure.Client.Converters
 			return extensionList.Split(';').Contains(Path.GetExtension(fileName).ToLower());
 		}
 
-		public static byte[] ToByteArray(this Image image, ImageFormat format = null)
+		public static byte[] ToByteArray(this Image image)
 		{
 			if (image == null)
 				return null;
