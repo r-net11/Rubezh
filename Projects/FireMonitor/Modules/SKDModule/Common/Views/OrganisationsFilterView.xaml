@@ -25,6 +25,7 @@
 					<TextBlock
 						Margin="2"
 						VerticalAlignment="Center"
+						Style="{StaticResource IsDeletedStyle}"
 						Text="{Binding Name}" />
 				</StackPanel>
 			</RadioButton>
@@ -43,6 +44,7 @@
 					<TextBlock
 						Margin="2"
 						VerticalAlignment="Center"
+						Style="{StaticResource IsDeletedStyle}"
 						Text="{Binding Name}" />
 				</StackPanel>
 			</CheckBox>
@@ -63,7 +65,7 @@
 				</ContentControl.Style>
 			</ContentControl>
 		</DataTemplate>
-		<CollectionViewSource x:Key="cvsOrganisations" Source="{Binding Organisations.Items}">
+		<CollectionViewSource x:Key="cvsOrganisations" Source="{Binding Organisations.Items, IsAsync=True}">
 			<CollectionViewSource.SortDescriptions>
 				<componentModel:SortDescription PropertyName="Name" />
 			</CollectionViewSource.SortDescriptions>

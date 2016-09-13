@@ -10,7 +10,6 @@ namespace SKDModule.ViewModels
 	public class EmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>
 	{
 		public EmployeesFilterViewModel()
-			: base()
 		{
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			SelectNoneCommand = new RelayCommand(OnSelectNone);

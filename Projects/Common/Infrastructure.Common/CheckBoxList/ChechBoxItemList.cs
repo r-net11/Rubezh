@@ -1,5 +1,6 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Infrastructure.Common.CheckBoxList
@@ -9,7 +10,7 @@ namespace Infrastructure.Common.CheckBoxList
 	{
 		public CheckBoxItemList()
 		{
-			Items = new List<T>();
+			Items = new ObservableCollection<T>();
 		}
 
 		public void Add(T item)
@@ -18,7 +19,7 @@ namespace Infrastructure.Common.CheckBoxList
 			item.ItemsList = this;
 		}
 
-		public List<T> Items { get; private set; }
+		public ObservableCollection<T> Items { get; private set; }
 
 		public bool HasCheckedItems
 		{

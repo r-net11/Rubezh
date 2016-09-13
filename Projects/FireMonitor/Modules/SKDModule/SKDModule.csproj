@@ -169,6 +169,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -207,6 +208,7 @@
     </Compile>
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
+    <Compile Include="Common\CurrentUserDeletedOrganisationsProvider.cs" />
     <Compile Include="Common\CurrentUserFilteredOrganisationsProvider.cs" />
     <Compile Include="Common\CurrentUserOrganisationsProvider.cs" />
     <Compile Include="Common\IOrganisationsProvider.cs" />

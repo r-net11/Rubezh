@@ -11,7 +11,6 @@ namespace SKDModule.ViewModels
 	public class DepartmentsFilterViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentFilterItemViewModel, DepartmentDetailsViewModel>
 	{
 		public DepartmentsFilterViewModel()
-			: base()
 		{
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
