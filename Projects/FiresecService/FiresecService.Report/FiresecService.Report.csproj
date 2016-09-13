@@ -218,8 +218,6 @@
     <Compile Include="Operations\GeneralReportSearchOperation.cs" />
     <Compile Include="Operations\BaseReportSearchOperation.cs" />
     <Compile Include="ReportFactory.cs" />
-    <Compile Include="Reports\Base.cs" />
-    <Compile Include="Reports\PrintPassCardTemplate.cs" />
     <Compile Include="Services\SearchReportService.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\EmployeeRootReport.cs">

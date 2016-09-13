@@ -124,6 +124,9 @@ namespace SKDModule.ViewModels
 			var vm = new PreviewReportDialogViewModel(Organisation, Card.PassCardTemplateUID);
 			if (DialogService.ShowModalWindow(vm))
 			{
+				if (Card.PassCardTemplateUID == vm.SelectedTemplate.UID)
+					return;
+
 				Card.PassCardTemplateUID = vm.SelectedTemplate.UID;
 				Task.Factory.StartNew(() => CardHelper.Edit(Card, EmployeeCardsViewModel.Employee.Name));
 			}
@@ -167,7 +170,7 @@ namespace SKDModule.ViewModels
 		{
 			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
-		
+
 		private void OnSelectCard()
 		{
 			EmployeeCardsViewModel.SelectCard(this);
