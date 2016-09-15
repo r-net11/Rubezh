@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Localization.Reports.ViewModels;
+using StrazhAPI.Extensions;
 using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -197,20 +198,20 @@ namespace ReportsModule.ViewModels
 					{
 						case ReportPeriodType.Day:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today.AddDays(-1);
-							DateTimeTo = DateTime.Today.AddSeconds(-1);
+							DateTimeFrom = DateTime.Today.PreviosStartDay();
+							DateTimeTo = DateTime.Today.PreviosEndDay();
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Week:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today.AddDays(1 - (int)DateTime.Today.DayOfWeek).AddDays(-7);
-							DateTimeTo = DateTimeFrom.AddDays(6);
+							DateTimeFrom = DateTime.Today.PreviosWeekMonday();
+							DateTimeTo = DateTime.Today.PreviosWeekSunday();
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Month:
 							_isLoaded = false;
-							DateTimeFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month -1, 1);
-							DateTimeTo = DateTimeFrom.AddDays(DateTime.DaysInMonth(DateTimeFrom.Year, DateTimeFrom.Month) - 1);
+							DateTimeFrom = DateTime.Today.PreviosStartMonth();
+							DateTimeTo = DateTime.Today.PreviosEndMonth();
 							_isLoaded = true;
 							break;
 					}

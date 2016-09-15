@@ -1,4 +1,6 @@
-﻿using Localization.SKD.ViewModels;
+﻿using System.Threading.Tasks;
+using Localization.SKD.ViewModels;
+using SKDModule.Common;
 using StrazhAPI.SKD;
 using Infrastructure.Common;
 
@@ -46,7 +48,7 @@ namespace SKDModule.ViewModels
 		{
 			base.Save();
 			Filter.EmployeeFilter = EmployeesFilterViewModel.Filter;
-			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
+			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs;
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs;
 			Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
@@ -62,10 +64,19 @@ namespace SKDModule.ViewModels
 				_isWithDeleted = value;
 				OnPropertyChanged(() => IsWithDeleted);
 				Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-				EmployeesFilterViewModel.Initialize(Filter.EmployeeFilter);
-				PositionsFilterViewModel.Initialize(Filter.EmployeeFilter.PositionUIDs, Filter.LogicalDeletationType);
-				DepartmentsFilterViewModel.Initialize(Filter.EmployeeFilter.DepartmentUIDs, Filter.LogicalDeletationType);
+				Filter.EmployeeFilter.LogicalDeletationType = IsWithDeleted
+					? LogicalDeletationType.All
+					: LogicalDeletationType.Active;
+				UpdateUI();
 			}
+		}
+
+		private void UpdateUI()
+		{
+			Task.Factory.StartNew(() => EmployeesFilterViewModel.Initialize(Filter.EmployeeFilter));
+			Task.Factory.StartNew(() => PositionsFilterViewModel.Initialize(Filter.EmployeeFilter.PositionUIDs, Filter.LogicalDeletationType));
+			Task.Factory.StartNew(() => DepartmentsFilterViewModel.Initialize(Filter.EmployeeFilter.DepartmentUIDs, Filter.LogicalDeletationType));
+			Task.Factory.StartNew(() => UpdateOrganisations(IsWithDeleted ? new CurrentUserDeletedOrganisationsProvider() : null));
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
