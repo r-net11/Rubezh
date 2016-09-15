@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization.Common.InfrastructurePlans;
 
 namespace Infrustructure.Plans.Services
 {
@@ -36,7 +37,7 @@ namespace Infrustructure.Plans.Services
 			var elementsGroup = new GroupItem()
 			{
 				Alias = ElementAlias,
-				Name = "Элементы",
+				Name = CommonResources.Elements,
 				Order = 1000,
 			};
 			_groups.Add(ElementAlias, elementsGroup);

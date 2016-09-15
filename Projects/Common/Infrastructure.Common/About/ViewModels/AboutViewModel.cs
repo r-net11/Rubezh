@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Reflection;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.About.ViewModels
 {
@@ -9,10 +10,10 @@ namespace Infrastructure.Common.About.ViewModels
 	{
 		public AboutViewModel()
 		{
-			Title = "О программе";
+			Title = CommonResources.About;
 			Sizable = false;
 			AllowSave = false;
-			CancelCaption = "Закрыть";
+			CancelCaption = CommonResources.Close;
 		}
 
 		public string Product

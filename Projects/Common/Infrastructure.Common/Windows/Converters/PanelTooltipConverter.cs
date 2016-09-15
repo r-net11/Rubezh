@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.Windows.Converters
 {
@@ -10,8 +11,8 @@ namespace Infrastructure.Common.Windows.Converters
 			var isLeftPanel = parameter == null || System.Convert.ToBoolean(parameter);
 			var isVisible = System.Convert.ToBoolean(value);
 			return isLeftPanel ?
-				(isVisible ? "Свернуть левую часть" : "Развернуть планы") :
-				(isVisible ? "Свернуть планы" : "Развернуть левую часть");
+				(isVisible ? CommonResources.MinimizeLeftPart : CommonResources.MaximizePlans) :
+				(isVisible ? CommonResources.MinimizePlans : CommonResources.MaximizeLeftPart);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

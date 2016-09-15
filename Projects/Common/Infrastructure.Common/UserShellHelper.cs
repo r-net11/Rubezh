@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
 using Common;
+using Localization.Common.InfrastructureCommon;
 using StrazhAPI.Enums;
 using Microsoft.Win32;
 
@@ -53,7 +54,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				throw new Exception(errorMessage ?? string.Format("Ошибка при настройке реестра '{0}'", key), e);
+				throw new Exception(errorMessage ?? string.Format(CommonResources.RegisterSettingsError, key), e);
 			}
 			return false;
 		}
@@ -64,7 +65,7 @@ namespace Infrastructure.Common
 			var key = Registry.CurrentUser.OpenSubKey(ShellRegistryKey);
 			if (key == null)
 			{
-				throw new Exception(string.Format("Ошибка при обращении к ключу реестра '{0}'", ShellRegistryKey));
+				throw new Exception(string.Format(CommonResources.RegisterKeyError, ShellRegistryKey));
 			}
 			var value = key.GetValue(ShellRegistryName);
 			if (value == null)
@@ -108,13 +109,13 @@ namespace Infrastructure.Common
 			var cmd = shellType == ShellType.Default 
 				? string.Empty
 				: string.Format(@"{0}\{1}", assemblyPath, shellName);
-			return SetOrDeleteKey(shellType != ShellType.Default, ShellRegistryKey, ShellRegistryName, cmd, "Ошибка при установке типа оболочки рабочего стола");
+			return SetOrDeleteKey(shellType != ShellType.Default, ShellRegistryKey, ShellRegistryName, cmd, CommonResources.ShellError);
 		}
 
 		public static void DisableTaskManager(bool disable)
 		{
 			Logger.Info(string.Format("Запретить для данной учетной записи Windows доступ к диспетчеру задач? {0}", disable));
-			SetOrDeleteKey(disable, PoliciesSystemRegistryKey, DisableTaskMgrRegistryName, "1", "Ошибка при отключении диспетчера задач");
+			SetOrDeleteKey(disable, PoliciesSystemRegistryKey, DisableTaskMgrRegistryName, "1", CommonResources.DisableTaskManagerError);
 		}
 
 		#endregion </Управление системой>

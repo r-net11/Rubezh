@@ -117,4 +117,157 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="AnotherAppRun_Question" xml:space="preserve">
+    <value>Другой экземпляр программы уже запущен. Завершить?</value>
+  </data>
+  <data name="AppServer" xml:space="preserve">
+    <value>Сервер приложений</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value>Логическое</value>
+  </data>
+  <data name="Build" xml:space="preserve">
+    <value>Собрана </value>
+  </data>
+  <data name="BuildDate" xml:space="preserve">
+    <value>dd.MM.yyyy в HH:mmm</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ChooseDate" xml:space="preserve">
+    <value>Выберите дату</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="COMServerWarning" xml:space="preserve">
+    <value>Предупреждение COM Сервера</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="ConnectionWithServer" xml:space="preserve">
+    <value>Соединение с сервером</value>
+  </data>
+  <data name="ControlElements" xml:space="preserve">
+    <value>Элементы управления</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Все права защищены.</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Дата и время</value>
+  </data>
+  <data name="DisableTaskManagerError" xml:space="preserve">
+    <value>Ошибка при отключении диспетчера задач</value>
+  </data>
+  <data name="Double" xml:space="preserve">
+    <value>Вещественное</value>
+  </data>
+  <data name="ErrorWhileAppWork" xml:space="preserve">
+    <value>Во время работы программы произошла ошибка</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>События</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>При выполнении операции возникло исключение</value>
+  </data>
+  <data name="FireMonitor" xml:space="preserve">
+    <value>Оперативная задача</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Помощь</value>
+  </data>
+  <data name="HR" xml:space="preserve">
+    <value>Картотека</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Целое</value>
+  </data>
+  <data name="Maximize" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="MaximizeLeftPart" xml:space="preserve">
+    <value>Развернуть левую часть</value>
+  </data>
+  <data name="MaximizePlans" xml:space="preserve">
+    <value>Развернуть планы</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="MinimizeLeftPart" xml:space="preserve">
+    <value>Свернуть левую часть</value>
+  </data>
+  <data name="MinimizePlans" xml:space="preserve">
+    <value>Свернуть планы</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NormalSize" xml:space="preserve">
+    <value>Нормальный размер</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Объект</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="RegisterKeyError" xml:space="preserve">
+    <value>Ошибка при обращении к ключу реестра '{0}'</value>
+  </data>
+  <data name="RegisterSettingsError" xml:space="preserve">
+    <value>Ошибка при настройке реестра '{0}'</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Отчёты</value>
+  </data>
+  <data name="ShellError" xml:space="preserve">
+    <value>Ошибка при установке типа оболочки рабочего стола</value>
+  </data>
+  <data name="SKD" xml:space="preserve">
+    <value>СКД</value>
+  </data>
+  <data name="Smtp_Error" xml:space="preserve">
+    <value>Неверно заданы параметры smtp-сервера</value>
+  </data>
+  <data name="Strazh" xml:space="preserve">
+    <value>Страж</value>
+  </data>
+  <data name="Strazh_UpperCase" xml:space="preserve">
+    <value>СТРАЖ</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Строка</value>
+  </data>
+  <data name="TimeTracking" xml:space="preserve">
+    <value>Учет рабочего времени</value>
+  </data>
+  <data name="UnknownElement" xml:space="preserve">
+    <value>Неизвестный элемент</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
 </root>

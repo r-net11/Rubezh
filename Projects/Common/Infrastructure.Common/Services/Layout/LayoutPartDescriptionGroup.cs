@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Localization.Common.InfrastructureCommon;
+using Localization.Converters;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -6,16 +8,20 @@ namespace Infrastructure.Common.Services.Layout
 	{
 		Root,
 
-		[Description("Общие")]
+		[LocalizedDescription(typeof(CommonResources),"Common")]
+		//[Description("Общие")]
 		Common,
 
-		[Description("СКД")]
+		[LocalizedDescription(typeof(CommonResources),"SKD")]
+		//[Description("СКД")]
 		SKD,
 
-		[Description("Видео")]
+		[LocalizedDescription(typeof(CommonResources),"Video")]
+		//[Description("Видео")]
 		Video,
 
-		[Description("Элементы управления")]
+		[LocalizedDescription(typeof(CommonResources),"ControlElements")]
+		//[Description("Элементы управления")]
 		Control,
 	}
 }

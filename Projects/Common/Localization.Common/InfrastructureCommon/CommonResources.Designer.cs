@@ -59,5 +59,464 @@ namespace Localization.Common.InfrastructureCommon {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to О программе.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Администратор.
+        /// </summary>
+        public static string Administrator {
+            get {
+                return ResourceManager.GetString("Administrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Другой экземпляр программы уже запущен. Завершить?.
+        /// </summary>
+        public static string AnotherAppRun_Question {
+            get {
+                return ResourceManager.GetString("AnotherAppRun_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сервер приложений.
+        /// </summary>
+        public static string AppServer {
+            get {
+                return ResourceManager.GetString("AppServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Логическое.
+        /// </summary>
+        public static string Boolean {
+            get {
+                return ResourceManager.GetString("Boolean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Собрана .
+        /// </summary>
+        public static string Build {
+            get {
+                return ResourceManager.GetString("Build", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd.MM.yyyy в HH:mmm.
+        /// </summary>
+        public static string BuildDate {
+            get {
+                return ResourceManager.GetString("BuildDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отмена.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите дату.
+        /// </summary>
+        public static string ChooseDate {
+            get {
+                return ResourceManager.GetString("ChooseDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Закрыть.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Общие.
+        /// </summary>
+        public static string Common {
+            get {
+                return ResourceManager.GetString("Common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Предупреждение COM Сервера.
+        /// </summary>
+        public static string COMServerWarning {
+            get {
+                return ResourceManager.GetString("COMServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Конфигурация.
+        /// </summary>
+        public static string Configuration {
+            get {
+                return ResourceManager.GetString("Configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Соединение с сервером.
+        /// </summary>
+        public static string ConnectionWithServer {
+            get {
+                return ResourceManager.GetString("ConnectionWithServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Элементы управления.
+        /// </summary>
+        public static string ControlElements {
+            get {
+                return ResourceManager.GetString("ControlElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Копировать.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все права защищены..
+        /// </summary>
+        public static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата и время.
+        /// </summary>
+        public static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при отключении диспетчера задач.
+        /// </summary>
+        public static string DisableTaskManagerError {
+            get {
+                return ResourceManager.GetString("DisableTaskManagerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вещественное.
+        /// </summary>
+        public static string Double {
+            get {
+                return ResourceManager.GetString("Double", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Во время работы программы произошла ошибка.
+        /// </summary>
+        public static string ErrorWhileAppWork {
+            get {
+                return ResourceManager.GetString("ErrorWhileAppWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to События.
+        /// </summary>
+        public static string Events {
+            get {
+                return ResourceManager.GetString("Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При выполнении операции возникло исключение.
+        /// </summary>
+        public static string Exception {
+            get {
+                return ResourceManager.GetString("Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Оперативная задача.
+        /// </summary>
+        public static string FireMonitor {
+            get {
+                return ResourceManager.GetString("FireMonitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помощь.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Картотека.
+        /// </summary>
+        public static string HR {
+            get {
+                return ResourceManager.GetString("HR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Целое.
+        /// </summary>
+        public static string Integer {
+            get {
+                return ResourceManager.GetString("Integer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Развернуть.
+        /// </summary>
+        public static string Maximize {
+            get {
+                return ResourceManager.GetString("Maximize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Развернуть левую часть.
+        /// </summary>
+        public static string MaximizeLeftPart {
+            get {
+                return ResourceManager.GetString("MaximizeLeftPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Развернуть планы.
+        /// </summary>
+        public static string MaximizePlans {
+            get {
+                return ResourceManager.GetString("MaximizePlans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свернуть.
+        /// </summary>
+        public static string Minimize {
+            get {
+                return ResourceManager.GetString("Minimize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свернуть левую часть.
+        /// </summary>
+        public static string MinimizeLeftPart {
+            get {
+                return ResourceManager.GetString("MinimizeLeftPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свернуть планы.
+        /// </summary>
+        public static string MinimizePlans {
+            get {
+                return ResourceManager.GetString("MinimizePlans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нормальный размер.
+        /// </summary>
+        public static string NormalSize {
+            get {
+                return ResourceManager.GetString("NormalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Объект.
+        /// </summary>
+        public static string Object {
+            get {
+                return ResourceManager.GetString("Object", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ОК.
+        /// </summary>
+        public static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при обращении к ключу реестра &apos;{0}&apos;.
+        /// </summary>
+        public static string RegisterKeyError {
+            get {
+                return ResourceManager.GetString("RegisterKeyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при настройке реестра &apos;{0}&apos;.
+        /// </summary>
+        public static string RegisterSettingsError {
+            get {
+                return ResourceManager.GetString("RegisterSettingsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отчёты.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при установке типа оболочки рабочего стола.
+        /// </summary>
+        public static string ShellError {
+            get {
+                return ResourceManager.GetString("ShellError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to СКД.
+        /// </summary>
+        public static string SKD {
+            get {
+                return ResourceManager.GetString("SKD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверно заданы параметры smtp-сервера.
+        /// </summary>
+        public static string Smtp_Error {
+            get {
+                return ResourceManager.GetString("Smtp_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Страж.
+        /// </summary>
+        public static string Strazh {
+            get {
+                return ResourceManager.GetString("Strazh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to СТРАЖ.
+        /// </summary>
+        public static string Strazh_UpperCase {
+            get {
+                return ResourceManager.GetString("Strazh_UpperCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Строка.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Учет рабочего времени.
+        /// </summary>
+        public static string TimeTracking {
+            get {
+                return ResourceManager.GetString("TimeTracking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неизвестный элемент.
+        /// </summary>
+        public static string UnknownElement {
+            get {
+                return ResourceManager.GetString("UnknownElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Версия.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Видео.
+        /// </summary>
+        public static string Video {
+            get {
+                return ResourceManager.GetString("Video", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Да.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
     }
 }

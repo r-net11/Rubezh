@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using System;
 using System.Windows.Input;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common
 {
@@ -58,7 +59,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+				MessageBoxService.ShowException(e, CommonResources.Exception);
 			}
 		}
 

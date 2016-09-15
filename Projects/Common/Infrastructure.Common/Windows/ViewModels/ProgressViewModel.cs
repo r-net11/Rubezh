@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Common.Windows.ViewModels
+﻿using Localization.Common.InfrastructureCommon;
+
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
 	{
@@ -61,9 +63,9 @@
 			set
 			{
 				if (value)
-					CancelText = "Отмена";
+					CancelText = CommonResources.Cancel;
 				else
-					CancelText = "Закрыть";
+					CancelText = CommonResources.Close;
 
 				_canCancel = value;
 				OnPropertyChanged(() => CanCancel);

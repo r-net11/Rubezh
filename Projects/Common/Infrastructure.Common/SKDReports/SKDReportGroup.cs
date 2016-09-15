@@ -1,19 +1,25 @@
 ﻿using System.ComponentModel;
+using Localization.Common.InfrastructureCommon;
+using Localization.Converters;
 
 namespace Infrastructure.Common.SKDReports
 {
 	public enum SKDReportGroup
 	{
-		[DescriptionAttribute("Конфигурация")]
+		[LocalizedDescription(typeof(CommonResources), "Configuration")]
+		//[DescriptionAttribute("Конфигурация")]
 		Configuration = 100,
 
-		[DescriptionAttribute("События")]
+		[LocalizedDescription(typeof(CommonResources), "Events")]
+		//[DescriptionAttribute("События")]
 		Events = 200,
 
-		[DescriptionAttribute("Картотека")]
+		[LocalizedDescription(typeof(CommonResources), "HR")]
+		//[DescriptionAttribute("Картотека")]
 		HR = 300,
 
-		[DescriptionAttribute("Учет рабочего времени")]
+		[LocalizedDescription(typeof(CommonResources), "TimeTracking")]
+		//[DescriptionAttribute("Учет рабочего времени")]
 		TimeTracking = 400,
 	}
 }

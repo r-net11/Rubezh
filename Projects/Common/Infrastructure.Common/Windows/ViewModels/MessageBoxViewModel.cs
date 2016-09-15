@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Windows;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -14,10 +15,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 			NoCommand = new RelayCommand(OnNo);
 			CopyCommand = new RelayCommand(OnCopy);
 
-			Title = title ?? "СТРАЖ";
+			Title = title ?? CommonResources.Strazh_UpperCase;
 
 			if (title == null && isException)
-				Title = "Во время работы программы произошла ошибка";
+				Title = CommonResources.ErrorWhileAppWork;
 
 			IsException = isException;
 			Message = message;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -18,7 +19,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public DateSelectionViewModel(DateTime dateTime)
 		{
-			Title = "Выберите дату";
+			Title = CommonResources.ChooseDate;
 			DateTime = dateTime;
 		}
 	}

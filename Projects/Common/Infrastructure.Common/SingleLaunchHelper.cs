@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common
 {
@@ -23,7 +24,7 @@ namespace Infrastructure.Common
 				if (processes.Count() > 1)
 				{
 					if (!force)
-						result = MessageBoxService.ShowQuestion("Другой экземпляр программы уже запущен. Завершить?");
+						result = MessageBoxService.ShowQuestion(CommonResources.AnotherAppRun_Question);
 
 					if (result)
 					{
@@ -119,7 +120,7 @@ namespace Infrastructure.Common
 		}
 		private bool RequestConfirmation()
 		{
-			return MessageBoxService.ShowConfirmation("Другой экземпляр программы уже запущен. Завершить?");
+			return MessageBoxService.ShowConfirmation(CommonResources.AnotherAppRun_Question);
 		}
 		private void WaitingHandler(object startInfo)
 		{

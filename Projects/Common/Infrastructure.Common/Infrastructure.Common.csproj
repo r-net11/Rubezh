@@ -480,6 +480,14 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Localization.Common\Localization.Common.csproj">
+      <Project>{7e6fd9c0-24e0-4f56-9907-59ebf5ad8f9c}</Project>
+      <Name>Localization.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization.Converters\Localization.Converters.csproj">
+      <Project>{a99daac1-2126-4279-a463-40e4ce63e8bc}</Project>
+      <Name>Localization.Converters</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
