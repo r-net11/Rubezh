@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -27,8 +28,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public OverridedSaveCancelDialogViewModel()
 		{
 			AllowSave = true;
-			SaveCaption = "ОК";
-			CancelCaption = "Отмена";
+			SaveCaption = CommonResources.OK;
+			CancelCaption = CommonResources.Cancel;
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			CommandPanel = null;

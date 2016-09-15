@@ -1,4 +1,5 @@
 ﻿using Common;
+using Localization.Common.InfrastructureCommon;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
@@ -26,7 +27,7 @@ namespace Infrastructure.Common.Mail
 				}
 				else
 				{
-					MessageBoxService.ShowError("Неверно заданы параметры smtp-сервера");
+					MessageBoxService.ShowError(CommonResources.Smtp_Error);
 				}
 			}
 			catch (Exception e)

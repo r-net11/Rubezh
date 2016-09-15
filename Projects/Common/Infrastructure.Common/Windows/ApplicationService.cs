@@ -1,4 +1,5 @@
-﻿using StrazhAPI.Models;
+﻿using Localization.Common.InfrastructureCommon;
+using StrazhAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
@@ -204,7 +205,7 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
-			IsReportEnabled = Modules.Any(item => item.Name == "Отчёты");
+			IsReportEnabled = Modules.Any(item => item.Name == CommonResources.Reports);
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)

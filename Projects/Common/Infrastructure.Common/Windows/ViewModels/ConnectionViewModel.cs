@@ -1,10 +1,12 @@
-﻿namespace Infrastructure.Common.Windows.ViewModels
+﻿using Localization.Common.InfrastructureCommon;
+
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public sealed class ConnectionViewModel : WindowBaseViewModel
 	{
 		public ConnectionViewModel(bool restrictClose = true)
 		{
-			Title = "Соединение с сервером";
+			Title = CommonResources.ConnectionWithServer;
 			if (ConnectionSettingsManager.IsRemote && !string.IsNullOrEmpty(ConnectionSettingsManager.RemoteAddress))
 				Title += "\n" + ConnectionSettingsManager.RemoteAddress;
 

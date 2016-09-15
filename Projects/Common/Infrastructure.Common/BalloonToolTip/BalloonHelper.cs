@@ -3,6 +3,7 @@ using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using System;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Localization.Common.InfrastructureCommon;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
@@ -12,22 +13,22 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void ShowFromFiresec(string text)
 		{
-			Show("Страж", text);
+			Show(CommonResources.Strazh, text);
 		}
 
 		public static void ShowFromAdm(string text)
 		{
-			Show("Администратор", text);
+			Show(CommonResources.Administrator, text);
 		}
 
 		public static void ShowFromMonitor(string text)
 		{
-			Show("Оперативная задача", text);
+			Show(CommonResources.FireMonitor, text);
 		}
 
 		public static void ShowFromServer(string text)
 		{
-			Show("Сервер приложений", text);
+			Show(CommonResources.AppServer, text);
 		}
 
 		private static void Show(string title, string text)

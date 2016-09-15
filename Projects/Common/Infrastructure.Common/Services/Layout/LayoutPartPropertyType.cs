@@ -1,25 +1,34 @@
 ﻿using System.ComponentModel;
+using Localization.Common.InfrastructureCommon;
+using Localization.Converters;
 
 namespace Infrastructure.Common.Services.Layout
 {
 	public enum LayoutPartPropertyType
 	{
-		[Description("Целое")]
+
+		[LocalizedDescription(typeof(CommonResources), "Integer")]
+		//[Description("Целое")]
 		Integer,
 
-		[Description("Вещественное")]
+		[LocalizedDescription(typeof(CommonResources), "Double")]
+		//[Description("Вещественное")]
 		Double,
 
-		[Description("Логическое")]
+		[LocalizedDescription(typeof(CommonResources), "Boolean")]
+		//[Description("Логическое")]
 		Boolean,
 
-		[Description("Дата и время")]
+		[LocalizedDescription(typeof(CommonResources), "DateTime")]
+		//[Description("Дата и время")]
 		DateTime,
 
-		[Description("Строка")]
+		[LocalizedDescription(typeof(CommonResources), "String")]
+		//[Description("Строка")]
 		String,
 
-		[Description("Объект")]
+		[LocalizedDescription(typeof(CommonResources), "Object")]
+		//[Description("Объект")]
 		Object,
 	}
 }
