@@ -1,8 +1,12 @@
-﻿using StrazhAPI;
+﻿using System;
+using FiresecService.Report.Helpers;
+using FiresecService.Report.Services;
+using ReportSystem.Api.DTO;
+using StrazhAPI;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.Helpers;
 using StrazhDAL;
 using System.Collections.Generic;
 
@@ -10,6 +14,16 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
+		public OperationResult<IEnumerable<ReportDTO>> GetCardTemplateReportsForPrint(EmployeeFilter filter, Guid? selectedTemplate)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				var service = new SearchReportService(filter, selectedTemplate, db);
+				service.Execute();
+				return new OperationResult<IEnumerable<ReportDTO>>(service.SearchResult);
+			}
+		}
+
 		public OperationResult<List<string>> GetAllReportNames()
 		{
 			return new OperationResult<List<string>>(ReportingHelpers.GetReportNames());

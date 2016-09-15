@@ -1,18 +1,19 @@
-using System.CodeDom;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
+using ReportSystem.UI.Data;
+using ReportSystem.UI.Reports;
 using Localization.SKD.Errors;
 using Localization.SKD.ViewModels;
 using SKDModule.PassCardDesigner.Model;
 using SKDModule.ViewModels;
 using StrazhAPI.Enums;
+using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -115,15 +116,46 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		public void InitializeDesigner(Organisation organisation, ShortPassCardTemplate model)
 		{
+			IsPressEnterEnabled = false;
 			OrganisationUID = organisation.UID;
-
-			PassCardTemplate = new Template(PassCardTemplateHelper.GetDetails(model.UID));
-
-			CurrentReport = PassCardTemplate.Front.Report;
-
-			UpdateTitle();
+			LoadDesignerContent(organisation, model);
 		}
 
+		private void LoadDesignerContent(Organisation organisation, ShortPassCardTemplate model)
+		{
+			var service = new PassCardTemplateReportService();
+
+			var mainTask = new Task(() =>
+			{
+				var getCardTemplateTask = TaskEx.Run(() => PassCardTemplateHelper.GetDetails(model.UID));
+
+				var setCardTemplateContinuation = getCardTemplateTask.ContinueWith(tt =>
+				{
+					PassCardTemplate = new Template(tt.Result);
+				}, TaskContinuationOptions.OnlyOnRanToCompletion);
+
+				var additionalColumnTask = TaskEx.Run(() => AdditionalColumnTypeHelper.GetByOrganisation(organisation.UID));
+
+				var additionalColumnContinuation = additionalColumnTask.ContinueWith(ttt => service.GetEmptyDataSource(ttt.Result.Select(x => x.ToDataColumn())),
+					TaskContinuationOptions.OnlyOnRanToCompletion);
+
+				Task.WaitAll(setCardTemplateContinuation, additionalColumnContinuation);
+
+				PassCardTemplate.Front.Report.DataSource = additionalColumnContinuation.Result;
+				PassCardTemplate.Front.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
+
+				if (PassCardTemplate.Back != null && PassCardTemplate.Back.Report != null)
+				{
+					PassCardTemplate.Back.Report.DataSource = additionalColumnContinuation.Result;
+					PassCardTemplate.Back.Report.DataMember = additionalColumnContinuation.Result.Tables[0].TableName;
+				}
+
+				CurrentReport = PassCardTemplate.Front.Report;
+				UpdateTitle();
+			});
+
+			mainTask.Start();
+		}
 		#endregion
 
 		#region Methods
@@ -175,6 +207,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			Task.Factory.StartNew(() => _configurationProvider.SaveDefaultPropertiesFrom(PassCardTemplate));
 
 			if (!task.Result)
+
 			{
 				MessageBoxService.ShowError(CommonErrors.AccessTemplate_Error);
 				return false;

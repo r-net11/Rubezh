@@ -206,6 +206,10 @@
       <Project>{7e6fd9c0-24e0-4f56-9907-59ebf5ad8f9c}</Project>
       <Name>Localization.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReportSystem.Api\ReportSystem.Api.csproj">
+      <Project>{5322c4da-a0e6-4033-b45f-fce03b8b074e}</Project>
+      <Name>ReportSystem.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

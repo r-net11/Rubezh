@@ -2,13 +2,14 @@
 using Localization.StrazhService.Core.Errors;
 using StrazhDeviceSDK;
 using Common;
-using StrazhAPI;
-using StrazhAPI.Journal;
-using StrazhAPI.SKD;
 using FiresecService.Properties;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using StrazhDAL;
+using StrazhDeviceSDK;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,16 +23,25 @@ namespace FiresecService.Service
 		{
 			get
 			{
+				return CurrentClientCredentials != null ? CurrentClientCredentials.FriendlyUserName : "<Нет>";
 				if (CurrentClientCredentials != null)
 					return CurrentClientCredentials.FriendlyUserName;
 				return CommonResources.None;
 			}
 		}
 
-		private IList<Guid> _criticalOperationRunningControllerGuids = new List<Guid>();
-		private object _criticalOperationRunningControllerGuidsLock = new object();
+		private readonly IList<Guid> _criticalOperationRunningControllerGuids = new List<Guid>();
+		private readonly object _criticalOperationRunningControllerGuidsLock = new object();
 
 		#region Employee
+
+		public OperationResult<IEnumerable<Employee>> GetFullEmployeeData(EmployeeFilter filter)
+		{
+			using (var ds = new SKDDatabaseService())
+			{
+				return ds.EmployeeTranslator.GetFullList(filter);
+			}
+		}
 
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
@@ -1983,6 +1993,22 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.PassCardTemplateTranslator.GetFullList(filter);
+			}
+		}
+
+		public OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.PassCardTemplateTranslator.GetTemplateNames(organisationId);
+			}
+		}
+
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1993,14 +2019,19 @@ namespace FiresecService.Service
 
 		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
-			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
-			else
-				AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
-
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PassCardTemplateTranslator.Save(item);
+				var result = databaseService.PassCardTemplateTranslator.Save(item);
+
+				if (result.HasError)
+					return result;
+
+				if (isNew)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
+				else
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование, uid: item.UID);
+
+				return result;
 			}
 		}
 

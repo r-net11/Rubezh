@@ -129,14 +129,14 @@
 								ImageSource="Edit"
 								ToolTip="{x:Static lang:CommonViews.EditPasscard}" />
 							<ToolBarButton
-								Command="{Binding SelectedCard.PrintCommand}"
-								ImageSource="Print"
-								ToolTip="{x:Static lang:CommonViews.PrintPasscard}" />
-							<ToolBarButton
 								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
 								Visibility="{Binding CanShowResetRepeatEnterButton, Converter={StaticResource BoolToVisibilityConverter}}"
 								ImageSource="DropAllApb"
 								ToolTip="{x:Static langCommon:CommonResources.ResetAntiPassBack}" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.OpenPrintPreviewWindowCommand}"
+								ImageSource="Preview"
+								ToolTip="Предварительный просмотр пропуска"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>

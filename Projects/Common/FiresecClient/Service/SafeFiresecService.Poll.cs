@@ -70,7 +70,7 @@ namespace FiresecClient
 			{
 				try
 				{
-					if (IsDisconnecting)
+					if (_isDisconnecting)
 						return;
 
 					if (SuspendPoll)

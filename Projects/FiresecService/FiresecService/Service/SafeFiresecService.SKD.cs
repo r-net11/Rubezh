@@ -17,51 +17,57 @@ namespace FiresecService.Service
 	{
 		#region Employee
 
+		public OperationResult<IEnumerable<Employee>> GetFullEmployeeData(EmployeeFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.GetFullEmployeeData(filter));
+		}
+
+
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
+			return SafeContext.Execute(() => FiresecService.GetEmployeeList(filter));
 		}
 
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<Employee>>(() => FiresecService.GetEmployeeDetails(uid));
+			return SafeContext.Execute(() => FiresecService.GetEmployeeDetails(uid));
 		}
 
 		public OperationResult SaveEmployee(Employee item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployee(item, isNew));
+			return SafeContext.Execute(() => FiresecService.SaveEmployee(item, isNew));
 		}
 
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid, name));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployee(uid, name));
 		}
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			var result = SafeContext.Execute(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
 			return result;
 		}
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
+			var result = SafeContext.Execute(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
 
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
+			return SafeContext.Execute(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
 		}
 
 		public OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
+			return SafeContext.Execute(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
 
 		public OperationResult RestoreEmployee(Guid uid, string name)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name));
+			return SafeContext.Execute(() => FiresecService.RestoreEmployee(uid, name));
 		}
 
 		#endregion Employee
@@ -557,6 +563,16 @@ namespace FiresecService.Service
 		#endregion
 
 		#region PassCardTemplate
+
+		public OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId)
+		{
+			return SafeContext.Execute(() => FiresecService.GetTemplateNames(organisationId));
+		}
+
+		public OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.GetFullPassCardTemplateList(filter));
+		}
 
 		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{

@@ -4,7 +4,6 @@ using System.IO;
 using System.ServiceModel;
 using StrazhAPI.Enums;
 using StrazhAPI.Models;
-using StrazhAPI.Plans.Elements;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
 
@@ -14,6 +13,9 @@ namespace StrazhAPI
 	public partial interface IFiresecServiceSKD
 	{
 		#region Employee
+
+		[OperationContract]
+		OperationResult<IEnumerable<Employee>> GetFullEmployeeData(EmployeeFilter filter);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
@@ -389,6 +391,12 @@ namespace StrazhAPI
 		#region PassCardTemplate
 
 		[OperationContract]
+		OperationResult<IEnumerable<Tuple<Guid, string>>> GetTemplateNames(Guid organisationId);
+
+		[OperationContract]
+		OperationResult<IEnumerable<PassCardTemplate>> GetFullPassCardTemplateList(PassCardTemplateFilter filter);
+
+		[OperationContract]
 		OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);
 
 		[OperationContract]
@@ -397,14 +405,6 @@ namespace StrazhAPI
 		[OperationContract]
 		[ServiceKnownType(typeof(PassCardTemplateSide))]
 		[ServiceKnownType(typeof(PassCardTemplate))]
-		[ServiceKnownType(typeof(List<ElementRectangle>))]
-		[ServiceKnownType(typeof(List<ElementEllipse>))]
-		[ServiceKnownType(typeof(List<ElementTextBlock>))]
-		[ServiceKnownType(typeof(List<ElementPolygon>))]
-		[ServiceKnownType(typeof(List<ElementPolyline>))]
-		[ServiceKnownType(typeof(List<ElementBase>))]
-		[ServiceKnownType(typeof(List<ElementPassCardImageProperty>))]
-		[ServiceKnownType(typeof(List<ElementPassCardTextProperty>))]
 		OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew);
 
 		[OperationContract]

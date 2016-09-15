@@ -12,23 +12,22 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService// : IFiresecService
 	{
-		FiresecServiceFactory FiresecServiceFactory;
+		private readonly string _serverAddress;
+		private bool _isDisconnecting;
+		private FiresecServiceFactory _firesecServiceFactory;
+		private ClientCredentials _clientCredentials;
+
 		public IFiresecService FiresecService { get; set; }
-		string _serverAddress;
-		ClientCredentials _clientCredentials;
-		bool IsDisconnecting = false;
 
 		public SafeFiresecService(string serverAddress)
 		{
-			FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
+			_firesecServiceFactory = new FiresecServiceFactory();
 			_serverAddress = serverAddress;
-			FiresecService = FiresecServiceFactory.Create(serverAddress);
+			FiresecService = _firesecServiceFactory.Create(serverAddress);
 
 			StartOperationQueueThread();
-			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
-			{
-				StopOperationQueueThread();
-			};
+
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) => StopOperationQueueThread();
 		}
 
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)
@@ -155,7 +154,7 @@ namespace FiresecClient
 
 		bool Recover()
 		{
-			if (IsDisconnecting)
+			if (_isDisconnecting)
 				return false;
 
 			Logger.Error("SafeFiresecService.Recover");
@@ -163,9 +162,9 @@ namespace FiresecClient
 			SuspendPoll = true;
 			try
 			{
-				FiresecServiceFactory.Dispose();
-				FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
-				FiresecService = FiresecServiceFactory.Create(_serverAddress);
+				_firesecServiceFactory.Dispose();
+				_firesecServiceFactory = new FiresecServiceFactory();
+				FiresecService = _firesecServiceFactory.Create(_serverAddress);
 				FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
 				return true;
 			}
@@ -201,10 +200,10 @@ namespace FiresecClient
 
 		public void Dispose()
 		{
-			IsDisconnecting = true;
+			_isDisconnecting = true;
 			Disconnect(FiresecServiceFactory.UID);
 			StopPoll();
-			FiresecServiceFactory.Dispose();
+			_firesecServiceFactory.Dispose();
 		}
 
 		/// <summary>

@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Common;
+using StrazhAPI;
+using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Common;
-using StrazhAPI;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecClient
 {
 	public class FiresecServiceFactory
 	{
 		public static Guid UID = Guid.NewGuid();
-		ChannelFactory<IFiresecService> ChannelFactory;
+		private ChannelFactory<IFiresecService> _channelFactory;
 
 		public IFiresecService Create(string serverAddress)
 		{
@@ -23,6 +21,7 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "FiresecServiceFactory.Create");
 			}
+
 			return null;
 		}
 
@@ -31,44 +30,49 @@ namespace FiresecClient
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
-			ChannelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
 
-			foreach (OperationDescription operationDescription in ChannelFactory.Endpoint.Contract.Operations)
+			_channelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
+
+			foreach (var operationDescription in _channelFactory.Endpoint.Contract.Operations)
 			{
-				DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
+				var dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>();
+
 				if (dataContractSerializerOperationBehavior != null)
 					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
 			}
 
-			ChannelFactory.Open();
+			_channelFactory.Open();
 
-			IFiresecService firesecService = ChannelFactory.CreateChannel();
+			var firesecService = _channelFactory.CreateChannel();
 			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
 			return firesecService;
 		}
 
 		public void Dispose()
 		{
+			if (_channelFactory == null) return;
+
 			try
 			{
-				if (ChannelFactory != null)
-				{
-					try
-					{
-						ChannelFactory.Close();
-					}
-					catch { }
-					try
-					{
-						ChannelFactory.Abort();
-					}
-					catch { }
-					ChannelFactory = null;
-				}
+				_channelFactory.Close();
+			}
+			catch (CommunicationException)
+			{
+				if (_channelFactory != null)
+					_channelFactory.Abort();
+			}
+			catch (TimeoutException)
+			{
+				if (_channelFactory != null)
+					_channelFactory.Abort();
 			}
 			catch (Exception e)
 			{
+				if(_channelFactory != null)
+					_channelFactory.Abort();
+
 				Logger.Error(e, "FiresecServiceFactory.Dispose");
+				throw;
 			}
 		}
 	}

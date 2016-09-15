@@ -5,6 +5,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 	public class SaveCancelDialogViewModel : DialogViewModel
 	{
 		private bool _isCancelled;
+		private bool _isPressEnterEnabled; //Поле, позволяющее кастомизировать поведение окна, при нажатии на кнопку Enter.
+
+		public bool IsPressEnterEnabled
+		{
+			get { return _isPressEnterEnabled; }
+			set
+			{
+				if (_isPressEnterEnabled == value) return;
+				_isPressEnterEnabled = value;
+				OnPropertyChanged(() => IsPressEnterEnabled);
+			}
+		}
 
 		public bool IsCancelled
 		{
@@ -23,6 +35,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public SaveCancelDialogViewModel()
 		{
+			IsPressEnterEnabled = true;
 			AllowSave = true;
 			SaveCaption = "ОК";
 			CancelCaption = "Отмена";

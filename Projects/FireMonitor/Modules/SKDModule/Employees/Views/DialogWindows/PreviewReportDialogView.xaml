@@ -1,0 +1,117 @@
+﻿<UserControl
+	x:Class="SKDModule.Employees.Views.DialogWindows.PreviewReportDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:types="clr-namespace:SKDModule.PassCardDesigner.Model"
+	xmlns:sys="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:dialogWindows="clr-namespace:SKDModule.Employees.Views.DialogWindows"
+    xmlns:customControls="clr-namespace:Controls.CustomControls;assembly=Controls"
+    mc:Ignorable="d"
+    Height="600"
+	Width="1150">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+			<InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+			<DataTemplate x:Key="SingleViewTemplate">
+				<Grid>
+					<dialogWindows:ReportPreviewControlWrapper
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
+						Margin="20 5 20 10"/>
+				</Grid>
+			</DataTemplate>
+			<DataTemplate x:Key="DoubleViewTemplate" DataType="{x:Type types:Template}">
+				<Grid DataContext="{Binding}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<dialogWindows:ReportPreviewControlWrapper
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Front.Report}"
+						Margin="20 5 5 10"/>
+					<dialogWindows:ReportPreviewControlWrapper
+						Grid.Column="1"
+						CurrentReport="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=DataContext.Back.Report}"
+						Margin="5 5 20 10"/>
+				</Grid>
+			</DataTemplate>
+			<Style x:Key="SelectationContentStyle" TargetType="{x:Type ContentControl}">
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding IsDualTemplateEnabled}" Value="True">
+						<Setter Property="ContentTemplate" Value="{StaticResource DoubleViewTemplate}" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding IsDualTemplateEnabled}" Value="False">
+						<Setter Property="ContentTemplate" Value="{StaticResource SingleViewTemplate}" />
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+			<CollectionViewSource x:Key="cvsTemplatesCollection" Source="{Binding TemplatesCollection, IsAsync=True}">
+				<CollectionViewSource.SortDescriptions>
+					<sys:SortDescription PropertyName="Caption" />
+				</CollectionViewSource.SortDescriptions>
+			</CollectionViewSource>
+		</ResourceDictionary>
+	</UserControl.Resources>
+    <Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+		<Border BorderBrush="{StaticResource BorderButtonBrush}" BorderThickness="1">
+			<Grid Background="{StaticResource BackgroundBrush}">
+				<Grid
+					x:Name="Grid"
+					IsEnabled="{Binding IsBusy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<StackPanel
+						Orientation="Horizontal"
+						HorizontalAlignment="Center">
+						<TextBlock
+							Text="Шаблон пропуска"
+							VerticalAlignment="Center"
+							Foreground="White"
+							Margin="5 10"/>
+						<ComboBox
+							ItemsSource="{Binding Source={StaticResource cvsTemplatesCollection}}"
+							SelectedItem="{Binding SelectedTemplate}"
+							VerticalAlignment="Center"
+							DisplayMemberPath="Caption"
+							Width="120"
+							Margin="5 10" />
+					</StackPanel>
+					<Separator
+						Grid.Row="1"
+						Style="{x:Null}"
+						Background="White"
+						Height="1"
+						Margin="20 10"/>
+					<ContentControl
+						Grid.Row="2"
+						DataContext="{Binding SelectedTemplate}"
+						Style="{StaticResource SelectationContentStyle}"/>
+				</Grid>
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Visibility="{Binding ElementName=Grid, Path=IsEnabled, Mode=TwoWay, FallbackValue=Visible, UpdateSourceTrigger=PropertyChanged,
+								Converter={StaticResource InversedBoolToVisibilityConverter}}">
+					<customControls:BisyIndicator
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Width="50"
+						Height="50" />
+					<TextBlock
+						Text="Получение данных от сервера..."
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Foreground="White"/>
+				</StackPanel>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

@@ -8,6 +8,9 @@
 				<ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Style TargetType="{x:Type Rectangle}" />
+			<Style TargetType="{x:Type UserControl}">
+				<Setter Property="Background" Value="Green" />
+			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

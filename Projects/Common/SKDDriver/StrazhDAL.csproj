@@ -32,15 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v14.1">
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Data.v14.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Printing.v14.1.Core">
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraReports.v14.1">
-      <HintPath>..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.XtraReports.v14.1.dll</HintPath>
-    </Reference>
     <Reference Include="LinqKit">
       <HintPath>..\..\..\3rdParty\LinqKit.dll</HintPath>
     </Reference>

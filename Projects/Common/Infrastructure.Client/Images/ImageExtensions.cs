@@ -45,16 +45,13 @@ namespace Infrastructure.Client.Converters
 			return extensionList.Split(';').Contains(Path.GetExtension(fileName).ToLower());
 		}
 
-		public static byte[] ToByteArray(this Image image, ImageFormat format = null)
+		public static byte[] ToByteArray(this Image image)
 		{
 			if (image == null)
 				return null;
-
-			using (var ms = new MemoryStream())
-			{
-				image.Save(ms, format ?? ImageFormat.Bmp);
-				return ms.ToArray();
-			}
+			var imageConverter = new ImageConverter();
+			var xByte = (byte[]) imageConverter.ConvertTo(image, typeof (byte[]));
+			return xByte;
 		}
 	}
 }

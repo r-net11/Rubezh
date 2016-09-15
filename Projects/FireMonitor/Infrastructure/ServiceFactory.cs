@@ -17,28 +17,23 @@ namespace Infrastructure
 		private static StartupService _startupService;
 		public static StartupService StartupService
 		{
-			get
-			{
-				if (_startupService == null)
-					_startupService = new StartupService(ClientType.Monitor);
-				return _startupService;
-			}
+			get { return _startupService ?? (_startupService = new StartupService(ClientType.Monitor)); }
 		}
 		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
 		public static LoginService LoginService { get; private set; }
-		
+
 		/// <summary>
 		/// Сервис, который определяет видимость элементов UI ОЗ, согласно данным лицензии
 		/// </summary>
 		public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
 
-		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService, IUiElementsVisibilityService uiElementsVisibilityService)
+		public static void Initialize(ILayoutService layoutService, ISecurityService securityService, IUiElementsVisibilityService uiElementsVisibilityService)
 		{
-			ServiceFactoryBase.Events = Events = new EventAggregator();
-			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
+			Events = Events = new EventAggregator();
+			SecurityService = securityService;
 			ResourceService = new ResourceService();
-			Layout = ILayoutService;
+			Layout = layoutService;
 			LoginService = new LoginService(ClientType.Monitor, CommonResources.OTAuth);
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();

@@ -109,20 +109,6 @@ namespace Infrastructure.Common
 			}
 		}
 
-		///// <summary>
-		///// URI Сервера отчетов
-		///// </summary>
-		//public static string ReportServerUri
-		//{
-		//	get
-		//	{
-		//		//return IsRemote
-		//		//	? String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportServerPort, AppServerServices.ReportServiceName)
-		//		//	: String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ReportServiceName);
-		//		return String.Format("net.tcp://{0}:{1}/{2}/", ServerAddress, ReportServerPort, AppServerServices.ReportServiceName);
-		//	}
-		//}
-
 		/// <summary>
 		/// Определяет расположение Сервера приложений (локально/удаленно)
 		/// </summary>

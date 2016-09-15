@@ -1,4 +1,5 @@
 ﻿using Common;
+using DevExpress.DocumentServices.ServiceModel;
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
 using DevExpress.Xpf.Printing;
@@ -23,7 +24,7 @@ namespace ReportsModule.ViewModels
 
 		public void Build(object args)
 		{
-			CreateDocument(args);
+			CreateDocumentInternal(args);
 		}
 
 		public string SelectedPage

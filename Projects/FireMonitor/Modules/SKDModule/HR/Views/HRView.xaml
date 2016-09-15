@@ -35,6 +35,10 @@
 							ImageSource="Edit"
 							ToolTip="{Binding EditCommandToolTip}" />
 						<ToolBarButton
+							Command="{Binding PrintTemplatesCommand}"
+							ImageSource="Print"
+							ToolTip="Печать пропусков"/>
+						<ToolBarButton
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="{x:Static lang:CommonViews.Restore}"
@@ -70,8 +74,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="{x:Static lang:CommonViews.Restore}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -102,8 +105,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="{x:Static lang:CommonViews.Restore}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -134,8 +136,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="{x:Static lang:CommonViews.Restore}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -220,8 +221,7 @@
 						Command="{Binding RestoreCommand}"
 						ImageSource="Redo"
 						ToolTip="{x:Static lang:CommonViews.Restore}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
 
@@ -245,24 +245,20 @@
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="{x:Static lang:CommonViews.Restore}"
-							Visibility="{Binding IsWithDeleted,
-						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Add"
 						ToolTip="{x:Static lang:CommonViews.ArchiveDataDisplay}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ToolBarButton
 						Command="{Binding ChangeIsDeletedCommand}"
 						ImageSource="Delete"
 						ToolTip="{x:Static lang:CommonViews.ArchiveDataDisplay}"
-						Visibility="{Binding IsWithDeleted,
-					                                    Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Grid>
-
 			<!-- Кнопка "Фильтр" общая для всех вкладок кроме вкладки "Организации" -->
 			<ToolBarButton
 				Command="{Binding EditFilterCommand}"
@@ -286,7 +282,6 @@
 				</Grid>
 			</StackPanel>
 		</StackPanel>
-
 		<TabControl Grid.Row="1">
 			<!-- Вкладка "Сотрудники/Посетители" -->
 			<TabItem
@@ -340,8 +335,7 @@
 			<TabItem
 				Header="{x:Static lang:CommonViews.PassTemplates}"
 				IsSelected="{Binding IsPassCardTemplatesSelected}"
-				Visibility="{Binding CanSelectPassCardTemplates,
-			                              Converter={StaticResource BoolToVisibilityConverter}}">
+				Visibility="{Binding CanSelectPassCardTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
 			</TabItem>
 		</TabControl>

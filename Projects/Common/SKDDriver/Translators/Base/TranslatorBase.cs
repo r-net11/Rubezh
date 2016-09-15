@@ -1,4 +1,5 @@
-﻿using StrazhAPI;
+﻿using Common;
+using StrazhAPI;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace StrazhDAL
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
-			if (apiItems == null || apiItems.Count() == 0)
+			if (apiItems == null || !apiItems.Any())
 				return new OperationResult();
 			foreach (var apiItem in apiItems)
 			{

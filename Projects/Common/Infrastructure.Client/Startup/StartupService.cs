@@ -103,7 +103,7 @@ namespace Infrastructure.Client.Startup
 		private void InternalThreadEntryPoint(object parameter)
 		{
 			_viewModel = new StartupViewModel(_clientType);
-			_viewModel.Closed += new EventHandler(StartupClosed);
+			_viewModel.Closed += StartupClosed;
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			_syncEvent.Set();
 			DialogService.ShowModalWindow(_viewModel);
@@ -120,7 +120,7 @@ namespace Infrastructure.Client.Startup
 			if (IsActive)
 			{
 				MessageBoxService.ResetMessageBoxHandler();
-				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
+				ApplicationService.Invoke(() => { throw new StartupCancellationException(); });
 			}
 		}
 		private void CloseSplashImage()
