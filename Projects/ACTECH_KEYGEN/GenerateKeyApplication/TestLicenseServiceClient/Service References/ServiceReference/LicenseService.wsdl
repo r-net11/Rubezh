@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="LicenseService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/License.Model.Entities" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILicenseService_GetDemoLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDemoLicense" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_GetDemoLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDemoLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_GetProductLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductLicense" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_GetProductLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_TestConnection_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnection" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_TestConnection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_TestConnectionWithParameter_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnectionWithParameter" />
+  </wsdl:message>
+  <wsdl:message name="ILicenseService_TestConnectionWithParameter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestConnectionWithParameterResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ILicenseService">
+    <wsdl:operation name="GetDemoLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicenseService/GetDemoLicense" message="tns:ILicenseService_GetDemoLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicenseService/GetDemoLicenseResponse" message="tns:ILicenseService_GetDemoLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicenseService/GetProductLicense" message="tns:ILicenseService_GetProductLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicenseService/GetProductLicenseResponse" message="tns:ILicenseService_GetProductLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestConnection">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicenseService/TestConnection" message="tns:ILicenseService_TestConnection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicenseService/TestConnectionResponse" message="tns:ILicenseService_TestConnection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestConnectionWithParameter">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicenseService/TestConnectionWithParameter" message="tns:ILicenseService_TestConnectionWithParameter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicenseService/TestConnectionWithParameterResponse" message="tns:ILicenseService_TestConnectionWithParameter_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ILicenseService" type="tns:ILicenseService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDemoLicense">
+      <soap:operation soapAction="http://tempuri.org/ILicenseService/GetDemoLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductLicense">
+      <soap:operation soapAction="http://tempuri.org/ILicenseService/GetProductLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestConnection">
+      <soap:operation soapAction="http://tempuri.org/ILicenseService/TestConnection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestConnectionWithParameter">
+      <soap:operation soapAction="http://tempuri.org/ILicenseService/TestConnectionWithParameter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LicenseService">
+    <wsdl:port name="BasicHttpBinding_ILicenseService" binding="tns:BasicHttpBinding_ILicenseService">
+      <soap:address location="http://ws-srt01-1370.rubezh.local/LicenseService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

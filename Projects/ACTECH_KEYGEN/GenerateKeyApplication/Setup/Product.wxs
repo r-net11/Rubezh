@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define ProductName="ACTechKeyGen" ?>
+<?define ManufacturerName="Strazh" ?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Product Id="*" Name="$(var.ProductName)" Language="1033" Codepage="1252" Version="1.0.0.0" Manufacturer="$(var.ManufacturerName)" UpgradeCode="4265EC8A-DE75-4823-9DB6-D76DDB2AD243">
+		<Package Id="*" Keywords="Installer" Description="ACTechKeyGen Installer" Comments="ACTechKeyGen Installer" Manufacturer="Strazh" InstallerVersion="200" Languages="1033" SummaryCodepage="1252" Compressed="yes" InstallScope="perMachine" />
+		<Media Id="1" Cabinet="Setup.cab" EmbedCab="yes"/>
+		<Icon Id="key_32.ico" SourceFile="key.ico"/>
+
+		<Upgrade Id="D694CD41-EEF0-412E-815F-E9D27CC6F606">
+			<UpgradeVersion OnlyDetect="no" Minimum="1.0.0.0" IncludeMinimum="yes" Property="PREVIOUSFOUND"/>
+		</Upgrade>
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+		<Property Id="INSTALLLOCATION" Secure="yes">
+			<RegistrySearch Id="RegistySearchInstallLocation" Type="directory" Root="HKCU" Key="Software\[Manufacturer]\ACTechKeyGen" Name="INSTALLLOCATION"/>
+		</Property>
+
+		<!-- Application Components -->
+		<Feature Id="Complete" Title="ACTechKeyGen" Description="The complete package." Display="expand" Level="1" ConfigurableDirectory="INSTALLLOCATION">
+			<ComponentGroupRef Id="Application" />
+			<ComponentRef Id="ACTechKeyGenExecutable"/>
+			<ComponentGroupRef Id="Binaries"/>
+		</Feature>
+
+		<!-- Directories -->
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="DesktopFolder" Name="Desktop"/>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="ACTechKeyGen"/>
+			</Directory>
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLLOCATION" Name="ACTechKeyGen" />
+			</Directory>
+		</Directory>
+	</Product>
+
+	<Fragment>
+		<Component Id="ACTechKeyGenExecutable" Directory="INSTALLLOCATION" Guid="D0869AB2-9932-4D6E-AA8E-385196C1C955">
+			<File Id="ACTechKeyGen.exe" Name="ACTechKeyGen.exe" DiskId="1" Vital="yes" Source="$(var.GenerateKeyApplication.TargetPath)" KeyPath="yes">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+                          Advertise="yes"
+                          Directory="ApplicationProgramsFolder"
+                          Name="ACTechKeyGen"
+                          Icon="key_32.ico"
+                          Description="License Generator"
+                          WorkingDirectory="INSTALLLOCATION"/>
+				<Shortcut Id="DesktopMenuShortcut"
+                          Advertise="yes"
+                          Directory="DesktopFolder"
+                          Name="ACTechKeyGen"
+                          Icon="key_32.ico"
+                          Description="License Generator"
+                          WorkingDirectory="INSTALLLOCATION"/>
+			</File>
+			<RemoveFolder Id="ApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+		</Component>
+		<ComponentGroup Id="Application" Directory="INSTALLLOCATION">
+			<Component Id="WriteInstallLocation" Guid="*" Permanent="yes">
+				<RegistryValue Id="RegistryInstallLocation" Root="HKCU" Key="Software\[Manufacturer]\ACTechKeyGen" Type="string" Name="INSTALLLOCATION" Value="[INSTALLLOCATION]"/>
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

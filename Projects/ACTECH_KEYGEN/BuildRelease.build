@@ -1,0 +1,31 @@
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <target name="run">
+    <call target="BuildAll" />
+  </target>
+  <target name="BuildAll">
+    <delete dir="..\bin\A.C.Tech" />
+    <msbuild project="..\..\Projects\FiresecService\FiresecService.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
+    <msbuild project="..\..\Projects\FireMonitor\FireMonitor.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
+    <msbuild project="..\..\Projects\FireAdministrator\FireAdministrator.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
+    <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+      <property name="InstallerAssemblyNamePrefix" value="${property::get-value('InstallerAssemblyNamePrefix')}" />
+      <property name="InstallerAssemblyName" value="${property::get-value('InstallerAssemblyName')}" />
+      <property name="OurProductVersion" value="${property::get-value('OurProductVersion')}" />
+      <property name="OurProductBuildNumber" value="${property::get-value('OurProductBuildNumber')}" />
+    </msbuild>
+    <copy todir="..\bin\A.C.Tech\">
+      <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+  </target>
+</project>

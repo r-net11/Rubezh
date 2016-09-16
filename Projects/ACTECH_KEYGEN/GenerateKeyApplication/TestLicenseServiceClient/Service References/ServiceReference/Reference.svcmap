@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="47f4fc11-77f3-4001-ae0e-c6d2484e6ebd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://ws-srt01-1370.rubezh.local/LicenseService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="LicenseService.xsd" MetadataType="Schema" ID="23155455-aece-41ce-9991-b2eec21942c1" SourceId="1" SourceUrl="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd1" />
+    <MetadataFile FileName="LicenseService.wsdl" MetadataType="Wsdl" ID="7466e65e-f43c-4d83-a98b-c0ab84bf0bb1" SourceId="1" SourceUrl="http://ws-srt01-1370.rubezh.local/LicenseService.svc?wsdl" />
+    <MetadataFile FileName="LicenseService1.xsd" MetadataType="Schema" ID="4bad7a03-5d23-4f3b-8570-9078188be660" SourceId="1" SourceUrl="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd0" />
+    <MetadataFile FileName="LicenseService2.xsd" MetadataType="Schema" ID="57245c53-5a24-42b4-90b3-bf45dfe64423" SourceId="1" SourceUrl="http://ws-srt01-1370.rubezh.local/LicenseService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
