@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Localization.Common;
+using Localization.Common.Common;
 using Localization.Converters;
 
 namespace StrazhAPI.GK
