@@ -258,15 +258,6 @@
     <Resource Include="Monitor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="FS_Types">
-      <Guid>{B86C6AD7-5766-4233-AF55-707B45661224}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="mscoree">
       <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
       <VersionMajor>2</VersionMajor>

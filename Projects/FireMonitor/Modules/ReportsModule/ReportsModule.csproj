@@ -35,58 +35,31 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Mvvm.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Mvvm.v14.2">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Mvvm.v14.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Xpf.Core.v14.2">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Core.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v14.2.resources, Version=14.2.3.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Xpf.Docking.v14.2">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Docking.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Docking.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Xpf.Layout.v14.2.Core">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Layout.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Docking.v14.2.resources, Version=14.2.3.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Xpf.Printing.v14.2">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Printing.v14.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Layout.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v14.2.resources, Version=14.2.3.0, Culture=de, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Ribbon.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      
-      <Private>True</Private>
+    <Reference Include="DevExpress.Xpf.Ribbon.v14.2">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.2\DevExpress.Xpf.Ribbon.v14.2.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
