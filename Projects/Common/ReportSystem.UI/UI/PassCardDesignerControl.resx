@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="&gt;&gt;commandBarItem19.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem17.Name" xml:space="preserve">
     <value>commandBarItem17</value>
@@ -130,7 +130,7 @@
     <value>Выровнять текст элемента по ширине</value>
   </data>
   <data name="&gt;&gt;commandBarItem26.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="bar2.Text" xml:space="preserve">
     <value>Standard Controls</value>
@@ -148,7 +148,7 @@
     <value>Выровнять по правым краям выделенные элементы</value>
   </data>
   <data name="&gt;&gt;commandBarItem24.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem7.Name" xml:space="preserve">
     <value>commandBarItem7</value>
@@ -173,7 +173,7 @@
     <value>commandBarItem29</value>
   </data>
   <data name="&gt;&gt;commandBarItem36.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem4.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -182,10 +182,10 @@
     <value>Шрифт</value>
   </data>
   <data name="&gt;&gt;barSubItem7.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem3.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="commandColorBarItem1.Glyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -220,7 +220,7 @@
     <value>242, 166</value>
   </data>
   <data name="&gt;&gt;commandBarItem13.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem5.Caption" xml:space="preserve">
     <value>По центру</value>
@@ -271,7 +271,7 @@
     <value>Горизонтальный отступ</value>
   </data>
   <data name="&gt;&gt;fieldListDockPanel1_Container.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignControlContainer, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem5.Caption" xml:space="preserve">
     <value>Окна</value>
@@ -283,7 +283,7 @@
     <value>883, 84</value>
   </data>
   <data name="&gt;&gt;commandBarItem16.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem2.Name" xml:space="preserve">
     <value>commandBarItem2</value>
@@ -301,13 +301,13 @@
     <value>barSubItem11</value>
   </data>
   <data name="&gt;&gt;bar2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barEditItem2.Hint" xml:space="preserve">
     <value>Изменение размера шрифта</value>
   </data>
   <data name="&gt;&gt;barEditItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem14.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -316,7 +316,7 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;barSubItem6.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem4.Hint" xml:space="preserve">
     <value>Выровнять текст элемента по левому краю</value>
@@ -324,8 +324,8 @@
   <data name="&gt;&gt;commandBarItem3.Name" xml:space="preserve">
     <value>commandBarItem3</value>
   </data>
-  <assembly alias="DevExpress.Utils.v13.2" name="DevExpress.Utils.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-  <data name="xrDesignBarManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v13.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <assembly alias="DevExpress.Utils.v14.2" name="DevExpress.Utils.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+  <data name="xrDesignBarManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v14.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxMy4yLCBWZXJzaW9uPTEzLjIu
         OS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
@@ -855,10 +855,10 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;designBar3.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem42.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem50.Caption" xml:space="preserve">
     <value>Приблизить</value>
@@ -876,13 +876,13 @@
     <value>Top</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem28.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;xrZoomBarEditItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRZoomBarEditItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRZoomBarEditItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem3.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -894,13 +894,13 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;designBar2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem16.Caption" xml:space="preserve">
     <value>Подогнать по сетке</value>
   </data>
   <data name="&gt;&gt;commandBarItem15.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem4.Name" xml:space="preserve">
     <value>barSubItem4</value>
@@ -915,7 +915,7 @@
     <value>Редактировать</value>
   </data>
   <data name="&gt;&gt;commandBarItem22.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -933,7 +933,7 @@
     <value>&amp;Инстументы</value>
   </data>
   <data name="&gt;&gt;barStaticItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarStaticItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarStaticItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem22.Name" xml:space="preserve">
     <value>commandBarItem22</value>
@@ -952,13 +952,13 @@
     <value>commandBarItem10</value>
   </data>
   <data name="&gt;&gt;commandBarItem9.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barEditItem1.Name" xml:space="preserve">
     <value>barEditItem1</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandColorBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem9.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
@@ -976,7 +976,7 @@
     <value>Шрифт</value>
   </data>
   <data name="&gt;&gt;barSubItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem2.Hint" xml:space="preserve">
     <value>Применение курсивного начертания к выделенному тексту</value>
@@ -994,7 +994,7 @@
     <value>Удалить вертикальное свободное пространство между выбранными элементами</value>
   </data>
   <data name="&gt;&gt;commandBarItem18.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -1006,7 +1006,7 @@
     <value>Установить цвет текста элемента управления</value>
   </data>
   <data name="&gt;&gt;commandBarItem21.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem9.Caption" xml:space="preserve">
     <value>Выравнивание элементов</value>
@@ -1021,7 +1021,7 @@
     <value />
   </data>
   <data name="&gt;&gt;barSubItem13.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem42.Caption" xml:space="preserve">
     <value>&amp;Удалить</value>
@@ -1045,13 +1045,13 @@
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;designBar4.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem12.Hint" xml:space="preserve">
     <value>Выровнять по верхним краям выделенные элементы</value>
   </data>
   <data name="&gt;&gt;commandBarItem35.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barEditItem2.Name" xml:space="preserve">
     <value>barEditItem2</value>
@@ -1075,10 +1075,10 @@
     <value />
   </data>
   <data name="&gt;&gt;barDockControlBottom.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designBar5.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlTop.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
@@ -1092,7 +1092,7 @@
   <data name="barSubItem2.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
-  <data name="xrDesignDockManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v13.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="xrDesignDockManager1.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v14.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFpEZXZFeHByZXNzLlV0aWxzLnYxMy4yLCBWZXJzaW9uPTEzLjIu
         OS4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI4OGQxNzU0ZDcwMGU0OWEMAwAAAFFT
@@ -1194,7 +1194,7 @@
     <value>Копировать элемент в буфер обмена</value>
   </data>
   <data name="&gt;&gt;commandBarItem11.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem18.Hint" xml:space="preserve">
     <value>Сделать одинаковым размер выделенных элементов</value>
@@ -1203,7 +1203,7 @@
     <value>1</value>
   </data>
   <data name="&gt;&gt;commandBarItem34.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem24.Name" xml:space="preserve">
     <value>commandBarItem24</value>
@@ -1212,7 +1212,7 @@
     <value>Сделать одинаковый размер</value>
   </data>
   <data name="&gt;&gt;bar1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem49.Hint" xml:space="preserve">
     <value>Отдалить область рисования</value>
@@ -1245,13 +1245,13 @@
     <value>Удалить элемент</value>
   </data>
   <data name="&gt;&gt;commandBarItem8.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designBar1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignBar, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem23.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="designBar4.Text" xml:space="preserve">
     <value>Расположение</value>
@@ -1260,7 +1260,7 @@
     <value>Удалить</value>
   </data>
   <data name="&gt;&gt;barDockControlRight.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem21.Caption" xml:space="preserve">
     <value>Уменьшить</value>
@@ -1287,7 +1287,7 @@
     <value>Инструменты</value>
   </data>
   <data name="&gt;&gt;commandBarItem14.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="recentlyUsedItemsComboBox1.AppearanceDropDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
@@ -1317,7 +1317,7 @@
     <value>commandBarItem14</value>
   </data>
   <data name="&gt;&gt;commandBarItem43.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="fieldListDockPanel1_Container.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1326,13 +1326,13 @@
     <value>Шрифт</value>
   </data>
   <data name="&gt;&gt;commandBarItem6.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandColorBarItem1.Name" xml:space="preserve">
     <value>commandColorBarItem1</value>
   </data>
   <data name="&gt;&gt;designRepositoryItemComboBox2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem36.Name" xml:space="preserve">
     <value>commandBarItem36</value>
@@ -1350,7 +1350,7 @@
     <value>commandBarItem11</value>
   </data>
   <data name="&gt;&gt;recentlyUsedItemsComboBox1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barDockControlRight.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1359,7 +1359,7 @@
     <value>Главное меню</value>
   </data>
   <data name="&gt;&gt;commandBarItem7.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barDockControlTop.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -1368,7 +1368,7 @@
     <value>Выровнять текст элемента по центру</value>
   </data>
   <data name="&gt;&gt;commandBarItem50.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlBottom.Size" type="System.Drawing.Size, System.Drawing">
     <value>883, 25</value>
@@ -1383,13 +1383,13 @@
     <value>120</value>
   </data>
   <data name="&gt;&gt;barDockControlTop.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="xrBarToolbarsListItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;commandBarItem4.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;xrZoomBarEditItem1.Name" xml:space="preserve">
     <value>xrZoomBarEditItem1</value>
@@ -1404,16 +1404,16 @@
     <value>По горизонтали</value>
   </data>
   <data name="&gt;&gt;commandBarItem20.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;reportDesigner1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignMdiController, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignMdiController, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem8.Caption" xml:space="preserve">
     <value>По сетке</value>
   </data>
   <data name="&gt;&gt;xrBarToolbarsListItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRBarToolbarsListItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRBarToolbarsListItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barDockControlRight.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -1428,16 +1428,16 @@
     <value>Одинаковое горизонтальное пространство</value>
   </data>
   <data name="&gt;&gt;barSubItem10.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem13.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
     <value>Horizontal</value>
   </data>
   <data name="&gt;&gt;commandBarItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem30.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem27.Name" xml:space="preserve">
     <value>commandBarItem27</value>
@@ -1463,20 +1463,20 @@
   <data name="&gt;&gt;barSubItem10.Name" xml:space="preserve">
     <value>barSubItem10</value>
   </data>
-  <data name="recentlyUsedItemsComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
+  <data name="recentlyUsedItemsComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.2">
     <value>Combo</value>
   </data>
   <data name="commandBarItem23.Hint" xml:space="preserve">
     <value>Сделать одинаковым вертикальное пространство между элементами</value>
   </data>
   <data name="&gt;&gt;commandBarItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandColorBarItem2.Caption" xml:space="preserve">
     <value>Цвет&amp; фона</value>
   </data>
   <data name="&gt;&gt;barSubItem12.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem9.Name" xml:space="preserve">
     <value>commandBarItem9</value>
@@ -1485,7 +1485,7 @@
     <value>commandBarItem13</value>
   </data>
   <data name="&gt;&gt;commandBarItem25.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem20.Caption" xml:space="preserve">
     <value>Увеличить</value>
@@ -1506,13 +1506,13 @@
     <value />
   </data>
   <data name="&gt;&gt;commandBarItem27.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem15.Caption" xml:space="preserve">
     <value>Ширина</value>
   </data>
   <data name="&gt;&gt;commandBarItem3.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem21.Hint" xml:space="preserve">
     <value>Уменьшить горизонтальное свободное пространство между выделенными элементами</value>
@@ -1533,7 +1533,7 @@
     <value>commandBarItem25</value>
   </data>
   <data name="&gt;&gt;commandBarItem10.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem36.Caption" xml:space="preserve">
     <value>&amp;Вставить</value>
@@ -1548,7 +1548,7 @@
     <value>&amp;Подчеркнутый</value>
   </data>
   <data name="&gt;&gt;commandBarItem37.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem29.Hint" xml:space="preserve">
     <value>Переместить выделенные элементы на передний план</value>
@@ -1557,7 +1557,7 @@
     <value>&amp;Копировать</value>
   </data>
   <data name="&gt;&gt;xrDesignBarManager1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignBarManager, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignBarManager, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>883, 550</value>
@@ -1577,11 +1577,11 @@
   <data name="barSubItem14.Caption" xml:space="preserve">
     <value>Порядок</value>
   </data>
-  <data name="designRepositoryItemComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
+  <data name="designRepositoryItemComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.2">
     <value>Combo</value>
   </data>
   <data name="&gt;&gt;commandBarItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem17.Hint" xml:space="preserve">
     <value>Сделать одинаковой высоту выделенных элементов</value>
@@ -1599,13 +1599,13 @@
     <value>Строка статуса</value>
   </data>
   <data name="&gt;&gt;commandBarItem49.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem13.Hint" xml:space="preserve">
     <value>Выровнять выделенные элементы по центру горизонтальной линии</value>
   </data>
   <data name="&gt;&gt;barSubItem8.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;designBar2.Name" xml:space="preserve">
     <value>designBar2</value>
@@ -1617,16 +1617,16 @@
     <value>commandBarItem18</value>
   </data>
   <data name="&gt;&gt;barSubItem9.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem10.Hint" xml:space="preserve">
     <value>Выровнять выделенные элементы по центру вертикальной линии</value>
   </data>
   <data name="&gt;&gt;commandBarItem38.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem11.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barDockControlBottom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1644,13 +1644,13 @@
     <value />
   </data>
   <data name="&gt;&gt;barDockControlLeft.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem15.Hint" xml:space="preserve">
     <value>Сделать одинаковой ширину выделенных элементов</value>
   </data>
   <data name="&gt;&gt;commandBarItem17.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem15.Name" xml:space="preserve">
     <value>commandBarItem15</value>
@@ -1659,9 +1659,9 @@
     <value>Выровнять выделенные элементы по вертикали</value>
   </data>
   <data name="&gt;&gt;designRepositoryItemComboBox1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="designRepositoryItemComboBox2.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v13.2">
+  <data name="designRepositoryItemComboBox2.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v14.2">
     <value>Combo</value>
   </data>
   <data name="&gt;&gt;barSubItem8.Name" xml:space="preserve">
@@ -1683,7 +1683,7 @@
     <value>0, 441</value>
   </data>
   <data name="&gt;&gt;commandBarItem29.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem25.Caption" xml:space="preserve">
     <value>Уменьшить</value>
@@ -1692,7 +1692,7 @@
     <value>2</value>
   </data>
   <data name="&gt;&gt;barSubItem14.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem43.Caption" xml:space="preserve">
     <value>Выделить &amp;Все</value>
@@ -1716,7 +1716,7 @@
     <value>Выберите или введите значение масштаба</value>
   </data>
   <data name="&gt;&gt;barDockPanelsListItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.BarDockPanelsListItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.BarDockPanelsListItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="barSubItem13.Caption" xml:space="preserve">
     <value>Центрировать</value>
@@ -1740,10 +1740,10 @@
     <value>commandBarItem37</value>
   </data>
   <data name="&gt;&gt;commandBarItem12.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.CommandBarItem, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem4.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem9.Caption" xml:space="preserve">
     <value>По левым краям</value>
@@ -1764,13 +1764,13 @@
     <value>&amp;Курсив</value>
   </data>
   <data name="&gt;&gt;barEditItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarEditItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="commandBarItem6.Caption" xml:space="preserve">
     <value>По правому краю</value>
   </data>
   <data name="&gt;&gt;barSubItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem2.Name" xml:space="preserve">
     <value>barSubItem2</value>
@@ -1779,7 +1779,7 @@
     <value>Формат</value>
   </data>
   <data name="&gt;&gt;xrDesignDockManager1.Type" xml:space="preserve">
-    <value>DevExpress.XtraReports.UserDesigner.XRDesignDockManager, DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>DevExpress.XtraReports.UserDesigner.XRDesignDockManager, DevExpress.XtraReports.v14.2.Extensions, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;commandBarItem19.Name" xml:space="preserve">
     <value>commandBarItem19</value>

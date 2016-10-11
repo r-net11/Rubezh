@@ -85,7 +85,7 @@
 			this.PageWidth = 2100;
 			this.PaperKind = System.Drawing.Printing.PaperKind.A4;
 			this.ReportUnit = DevExpress.XtraReports.UI.ReportUnit.TenthsOfAMillimeter;
-			this.Version = "13.2";
+			this.Version = "14.2";
 			this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.XtraReportMerged_BeforePrint);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
