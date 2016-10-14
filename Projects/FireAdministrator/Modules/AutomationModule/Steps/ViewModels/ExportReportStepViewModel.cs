@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using FiresecClient;
+using Infrastructure.Common;
+using Localization.Automation.ViewModels;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Enums;
-using StrazhAPI.Extensions;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecClient;
-using Infrastructure.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
-using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -225,7 +224,7 @@ namespace AutomationModule.ViewModels
 				IsDatePeriodEnabled = false;
 			}
 			else if ((IsUsePeriodOfExecuteSection && IsUseExpiredDate && SelectedReportPeriod == ReportPeriodType.Arbitrary)
-			         || (UseExpirationDateSection && IsUseExpiredDate && SelectedEndDateType == EndDateType.Arbitrary))
+					 || (UseExpirationDateSection && IsUseExpiredDate && SelectedEndDateType == EndDateType.Arbitrary))
 			{
 				IsDatePeriodEnabled = true;
 			}
@@ -256,6 +255,7 @@ namespace AutomationModule.ViewModels
 				case ReportType.EmployeeRootReport:
 				case ReportType.DisciplineReport:
 				case ReportType.DocumentsReport:
+				case ReportType.WorkingTimeReport:
 					ShowIsUsePeriodOfExecuteUISection();
 					OnPeriodChanged();
 					break;
@@ -318,7 +318,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return string.Format(StepCommonViewModel.ExportReport,SelectedReportType.ToDescription(), SelectedFilter); }
+			get { return string.Format(StepCommonViewModel.ExportReport, SelectedReportType.ToDescription(), SelectedFilter); }
 		}
 
 		public RelayCommand ReportChangedCommand { get; private set; }

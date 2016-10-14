@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using Common;
+﻿using Common;
 using DevExpress.XtraReports.UI;
+using FiresecService.Report.Templates;
 using StrazhAPI.Enums;
 using StrazhAPI.Extensions;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.Templates;
+using System;
+using System.IO;
 
 namespace FiresecService.Report.Export
 {
@@ -106,15 +106,15 @@ namespace FiresecService.Report.Export
 			{
 				case ReportPeriodType.Month:
 					filter.DateTimeFrom = DateTime.Today.PreviosStartMonth();
-					filter.DateTimeFrom = DateTime.Today.PreviosEndMonth();
+					filter.DateTimeTo = DateTime.Today.PreviosEndMonth();
 					break;
 				case ReportPeriodType.Week:
 					filter.DateTimeFrom = DateTime.Today.PreviosWeekMonday();
-					filter.DateTimeFrom = DateTime.Today.PreviosWeekSunday();
+					filter.DateTimeTo = DateTime.Today.PreviosWeekSunday();
 					break;
 				case ReportPeriodType.Day:
 					filter.DateTimeFrom = DateTime.Today.PreviosStartDay();
-					filter.DateTimeFrom = DateTime.Today.PreviosEndDay();
+					filter.DateTimeTo = DateTime.Today.PreviosEndDay();
 					break;
 				case ReportPeriodType.Arbitrary:
 					filter.DateTimeFrom = reportFilter.StartDate;
@@ -180,7 +180,7 @@ namespace FiresecService.Report.Export
 			}
 			catch (Exception e)
 			{
-                Logger.Error(e, "ExportReport");
+				Logger.Error(e, "ExportReport");
 				throw;
 			}
 		}
