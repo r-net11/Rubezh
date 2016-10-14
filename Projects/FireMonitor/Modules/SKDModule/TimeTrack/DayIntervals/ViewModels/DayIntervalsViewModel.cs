@@ -1,12 +1,12 @@
-﻿using Localization.SKD.Common;
-using Localization.SKD.ViewModels;
-using StrazhAPI.SKD;
-using FiresecClient;
+﻿using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,7 +116,8 @@ namespace SKDModule.ViewModels
 					DayIntervalUID = copy.UID,
 					BeginTime = item.BeginTime,
 					EndTime = item.EndTime,
-					TransitionType = item.TransitionType
+					TransitionType = item.TransitionType,
+					Type = item.Type
 				};
 				copy.DayIntervalParts.Add(dayIntervalPart);
 				copy.SlideTime = source.SlideTime;
