@@ -1,6 +1,8 @@
-﻿using System.IO;
-using System.Text;
-using Common;
+﻿using Common;
+using FiresecService.Automation;
+using FiresecService.Service;
+using HigLabo.Mime;
+using HigLabo.Net.Smtp;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.Automation.Enums;
@@ -11,14 +13,12 @@ using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using FiresecService.Automation;
-using FiresecService.Service;
-using HigLabo.Mime;
-using HigLabo.Net.Smtp;
 using StrazhDAL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Property = StrazhAPI.Automation.Property;
 
@@ -290,93 +290,93 @@ namespace FiresecService
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
-				{
-					variable1 = GetValue<bool>(arithmeticArguments.Argument1);
-					variable2 = GetValue<bool>(arithmeticArguments.Argument2);
-					bool result = false;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
-						result = (bool) variable1 & (bool) variable2;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
-						result = (bool) variable1 || (bool) variable2;
-					if (resultVariable != null)
-						resultVariable.ExplicitValue.BoolValue = result;
-					break;
-				}
+					{
+						variable1 = GetValue<bool>(arithmeticArguments.Argument1);
+						variable2 = GetValue<bool>(arithmeticArguments.Argument2);
+						bool result = false;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
+							result = (bool)variable1 & (bool)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
+							result = (bool)variable1 || (bool)variable2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.BoolValue = result;
+						break;
+					}
 
 				case ExplicitType.Integer:
-				{
-					variable1 = GetValue<int>(arithmeticArguments.Argument1);
-					variable2 = GetValue<int>(arithmeticArguments.Argument2);
-					int result = 0;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-						result = (int) variable1 + (int) variable2;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-						result = (int) variable1 - (int) variable2;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
-						result = (int) variable1*(int) variable2;
-					if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int) variable2 != 0))
-						result = (int) variable1/(int) variable2;
-					if (resultVariable != null)
-						resultVariable.ExplicitValue.IntValue = result;
-					break;
-				}
+					{
+						variable1 = GetValue<int>(arithmeticArguments.Argument1);
+						variable2 = GetValue<int>(arithmeticArguments.Argument2);
+						int result = 0;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (int)variable1 + (int)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (int)variable1 - (int)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
+							result = (int)variable1 * (int)variable2;
+						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
+							result = (int)variable1 / (int)variable2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.IntValue = result;
+						break;
+					}
 
 				case ExplicitType.DateTime:
-				{
-					variable1 = GetValue<DateTime>(arithmeticArguments.Argument1);
-					variable2 = new TimeSpan();
-					switch (arithmeticArguments.TimeType)
 					{
-						case TimeType.Sec:
-							variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
-							break;
+						variable1 = GetValue<DateTime>(arithmeticArguments.Argument1);
+						variable2 = new TimeSpan();
+						switch (arithmeticArguments.TimeType)
+						{
+							case TimeType.Sec:
+								variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
+								break;
 
-						case TimeType.Min:
-							variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
-							break;
+							case TimeType.Min:
+								variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
+								break;
 
-						case TimeType.Hour:
-							variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
-							break;
+							case TimeType.Hour:
+								variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
+								break;
 
-						case TimeType.Day:
-							variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
-							break;
-					}
-					var result = new DateTime();
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-						result = (DateTime) variable1 + (TimeSpan) variable2;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-						result = (DateTime) variable1 - (TimeSpan) variable2;
+							case TimeType.Day:
+								variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
+								break;
+						}
+						var result = new DateTime();
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (DateTime)variable1 + (TimeSpan)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (DateTime)variable1 - (TimeSpan)variable2;
 
-					if (resultVariable != null)
-						resultVariable.ExplicitValue.DateTimeValue = result;
-					break;
-				}
-				case ExplicitType.Time:
-				{
-					variable1 = GetValue<TimeSpan>(arithmeticArguments.Argument1);
-					variable2 = GetValue<TimeSpan>(arithmeticArguments.Argument2);
-
-					var result = new TimeSpan();
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-						result = (TimeSpan) variable1 + (TimeSpan) variable2;
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-						result = (TimeSpan) variable1 - (TimeSpan) variable2;
-
-					if (resultVariable != null)
-						resultVariable.ExplicitValue.TimeSpanValue = result.WithoutDays();
-					break;
-				}
-				case ExplicitType.String:
-				{
-					variable1 = GetValue<string>(arithmeticArguments.Argument1);
-					variable2 = GetValue<string>(arithmeticArguments.Argument2);
-					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.StringValue = String.Concat((string) variable1, (string) variable2);
-					break;
-				}
+							resultVariable.ExplicitValue.DateTimeValue = result;
+						break;
+					}
+				case ExplicitType.Time:
+					{
+						variable1 = GetValue<TimeSpan>(arithmeticArguments.Argument1);
+						variable2 = GetValue<TimeSpan>(arithmeticArguments.Argument2);
+
+						var result = new TimeSpan();
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (TimeSpan)variable1 + (TimeSpan)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (TimeSpan)variable1 - (TimeSpan)variable2;
+
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.TimeSpanValue = result.WithoutDays();
+						break;
+					}
+				case ExplicitType.String:
+					{
+						variable1 = GetValue<string>(arithmeticArguments.Argument1);
+						variable2 = GetValue<string>(arithmeticArguments.Argument2);
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							if (resultVariable != null)
+								resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
+						break;
+					}
 			}
 		}
 
@@ -513,39 +513,39 @@ namespace FiresecService
 				return null;
 
 			if (param1.GetType().IsEnum || param1 is int)
-				return (conditionType == ConditionType.IsEqual && (int) param1 == (int) param2)
-				       || (conditionType == ConditionType.IsNotEqual && (int) param1 != (int) param2)
-				       || (conditionType == ConditionType.IsMore && (int) param1 > (int) param2)
-				       || (conditionType == ConditionType.IsNotMore && (int) param1 <= (int) param2)
-				       || (conditionType == ConditionType.IsLess && (int) param1 < (int) param2)
-				       || (conditionType == ConditionType.IsNotLess && (int) param1 >= (int) param2);
+				return (conditionType == ConditionType.IsEqual && (int)param1 == (int)param2)
+					   || (conditionType == ConditionType.IsNotEqual && (int)param1 != (int)param2)
+					   || (conditionType == ConditionType.IsMore && (int)param1 > (int)param2)
+					   || (conditionType == ConditionType.IsNotMore && (int)param1 <= (int)param2)
+					   || (conditionType == ConditionType.IsLess && (int)param1 < (int)param2)
+					   || (conditionType == ConditionType.IsNotLess && (int)param1 >= (int)param2);
 
 			if (param1 is DateTime)
-				return (conditionType == ConditionType.IsEqual && (DateTime) param1 == (DateTime) param2)
-				       || (conditionType == ConditionType.IsNotEqual && (DateTime) param1 != (DateTime) param2)
-				       || (conditionType == ConditionType.IsMore && (DateTime) param1 > (DateTime) param2)
-				       || (conditionType == ConditionType.IsNotMore && (DateTime) param1 <= (DateTime) param2)
-				       || (conditionType == ConditionType.IsLess && (DateTime) param1 < (DateTime) param2)
-				       || (conditionType == ConditionType.IsNotLess && (DateTime) param1 >= (DateTime) param2);
+				return (conditionType == ConditionType.IsEqual && (DateTime)param1 == (DateTime)param2)
+					   || (conditionType == ConditionType.IsNotEqual && (DateTime)param1 != (DateTime)param2)
+					   || (conditionType == ConditionType.IsMore && (DateTime)param1 > (DateTime)param2)
+					   || (conditionType == ConditionType.IsNotMore && (DateTime)param1 <= (DateTime)param2)
+					   || (conditionType == ConditionType.IsLess && (DateTime)param1 < (DateTime)param2)
+					   || (conditionType == ConditionType.IsNotLess && (DateTime)param1 >= (DateTime)param2);
 
 			if (param1 is TimeSpan)
-				return (conditionType == ConditionType.IsEqual && (TimeSpan) param1 == (TimeSpan) param2)
-				       || (conditionType == ConditionType.IsNotEqual && (TimeSpan) param1 != (TimeSpan) param2)
-				       || (conditionType == ConditionType.IsMore && (TimeSpan) param1 > (TimeSpan) param2)
-				       || (conditionType == ConditionType.IsNotMore && (TimeSpan) param1 <= (TimeSpan) param2)
-				       || (conditionType == ConditionType.IsLess && (TimeSpan) param1 < (TimeSpan) param2)
-				       || (conditionType == ConditionType.IsNotLess && (TimeSpan) param1 >= (TimeSpan) param2);
+				return (conditionType == ConditionType.IsEqual && (TimeSpan)param1 == (TimeSpan)param2)
+					   || (conditionType == ConditionType.IsNotEqual && (TimeSpan)param1 != (TimeSpan)param2)
+					   || (conditionType == ConditionType.IsMore && (TimeSpan)param1 > (TimeSpan)param2)
+					   || (conditionType == ConditionType.IsNotMore && (TimeSpan)param1 <= (TimeSpan)param2)
+					   || (conditionType == ConditionType.IsLess && (TimeSpan)param1 < (TimeSpan)param2)
+					   || (conditionType == ConditionType.IsNotLess && (TimeSpan)param1 >= (TimeSpan)param2);
 
 			if (param1 is string)
-				return (conditionType == ConditionType.IsEqual && (string) param1 == (string) param2)
-				       || (conditionType == ConditionType.IsNotEqual && (string) param1 != (string) param2)
-				       || (conditionType == ConditionType.StartsWith && ((string) param1).StartsWith((string) param2))
-				       || (conditionType == ConditionType.EndsWith && ((string) param1).EndsWith((string) param2))
-				       || (conditionType == ConditionType.Contains && ((string) param1).Contains((string) param2));
+				return (conditionType == ConditionType.IsEqual && (string)param1 == (string)param2)
+					   || (conditionType == ConditionType.IsNotEqual && (string)param1 != (string)param2)
+					   || (conditionType == ConditionType.StartsWith && ((string)param1).StartsWith((string)param2))
+					   || (conditionType == ConditionType.EndsWith && ((string)param1).EndsWith((string)param2))
+					   || (conditionType == ConditionType.Contains && ((string)param1).Contains((string)param2));
 
 			if (param1 is bool)
-				return (conditionType == ConditionType.IsEqual && (bool) param1 == (bool) param2)
-				       || (conditionType == ConditionType.IsNotEqual && (bool) param1 != (bool) param2);
+				return (conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2)
+					   || (conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2);
 
 			return null;
 		}
@@ -850,7 +850,7 @@ namespace FiresecService
 				{
 					if (!string.IsNullOrEmpty(JournalItem.UserName) && JournalItem.EmployeeUID == Guid.Empty)
 					{
-						var user =	FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
+						var user = FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
 								.Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
 						if (user != null)
 							value = user.UID;
@@ -1057,6 +1057,8 @@ namespace FiresecService
 				ReportPeriodType = arguments.ReportPeriodType,
 				IsUseDateInFileName = arguments.IsUseDateInFileName
 			};
+			filter.ReportFilter.Timestamp = DateTime.Now;
+			filter.ReportFilter.User = JournalItem.UserName;
 
 			FiresecServiceManager.SafeFiresecService.ExportReport(filter);
 		}
