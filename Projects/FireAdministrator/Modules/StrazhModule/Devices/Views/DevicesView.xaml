@@ -161,6 +161,7 @@
 														HorizontalAlignment="Left"
 														VerticalAlignment="Center"
 														BorderThickness="0"
+														MaxLength="250"
 														Foreground="{DynamicResource ForegroundColorDark}"
 														Text="{Binding Name,
 													                        UpdateSourceTrigger=PropertyChanged}" />

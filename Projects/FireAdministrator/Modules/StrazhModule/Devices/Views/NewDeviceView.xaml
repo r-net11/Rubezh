@@ -35,15 +35,15 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="{x:Static lang:CommonViews.Denomination}" />
+						<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="{x:Static lang:CommonViews.Denomination}" />
 					</GridView.Columns>
 				</GridView>
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Margin="2">
 			<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-                <Label Content="{x:Static lang:CommonViews.Name}" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
-				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left" />
+				<Label Content="{x:Static lang:CommonViews.Name}" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
+				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left" MaxLength="250" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>
