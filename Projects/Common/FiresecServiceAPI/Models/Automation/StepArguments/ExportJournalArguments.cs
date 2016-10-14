@@ -108,6 +108,7 @@ namespace StrazhAPI.Automation
 	[XmlInclude(typeof(SchedulesReportFilter))]
 	[XmlInclude(typeof(WorkingTimeReportFilter))]
 	[XmlInclude(typeof(EmployeeAccessReportFilter))]
+	[XmlInclude(typeof(EmployeeDoorsReportFilter))]
 	public class ExportReportArguments
 	{
 		public ExportReportArguments()
