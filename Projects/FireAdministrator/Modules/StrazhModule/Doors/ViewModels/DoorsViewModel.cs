@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 using Common;
-using Localization.Strazh.Common;
-using Localization.Strazh.ViewModels;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -16,10 +7,19 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.SKD;
 using StrazhModule.Events;
 using StrazhModule.Plans;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace StrazhModule.ViewModels
@@ -165,15 +165,6 @@ namespace StrazhModule.ViewModels
 			var doorViewModel = doorUID == Guid.Empty ? null : Doors.FirstOrDefault(x => x.Door.UID == doorUID);
 			if (doorViewModel != null)
 				OnEdit(doorViewModel.Door);
-		}
-
-		public override void OnShow()
-		{
-			if(Doors != null)
-				Doors.Sort(x => x.Name);
-
-			base.OnShow();
-			SelectedDoor = SelectedDoor;
 		}
 
 		#region ISelectable<Guid> Members

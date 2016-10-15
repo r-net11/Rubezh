@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 using Common;
-using Localization.Strazh.Common;
-using Localization.Strazh.ViewModels;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -15,10 +6,19 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Localization.Strazh.Common;
+using Localization.Strazh.ViewModels;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.SKD;
 using StrazhModule.Events;
 using StrazhModule.Plans;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace StrazhModule.ViewModels
@@ -201,16 +201,7 @@ namespace StrazhModule.ViewModels
 
 		static IElementZone GetElementSKDZone(ElementBase element)
 		{
-			return element as ElementRectangleSKDZone ?? (IElementZone) (element as ElementPolygonSKDZone);
-		}
-
-		public override void OnShow()
-		{
-			if(Zones != null)
-				Zones.Sort(x => x.Name);
-
-			SelectedZone = SelectedZone;
-			base.OnShow();
+			return element as ElementRectangleSKDZone ?? (IElementZone)(element as ElementPolygonSKDZone);
 		}
 
 		protected override void UpdateRibbonItems()
