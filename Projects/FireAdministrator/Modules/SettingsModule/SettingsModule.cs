@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using Localization.Settings.Common;
-using StrazhAPI;
-using StrazhAPI.Enums;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
+using Localization.Settings.Common;
 using SettingsModule.ViewModels;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using System.Collections.Generic;
 //using System.Collections.ObjectModel;
 //using System;
 //using Infrastructure.Common.Theme;
@@ -25,15 +25,18 @@ namespace SettingsModule
 
 		public override void Initialize()
 		{
-		//	SettingsViewModel.Initialize();
+			//	SettingsViewModel.Initialize();
 		}
 		public override void AfterInitialize()
 		{
 			base.AfterInitialize();
-			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), _settingsViewModel.ShowSettingsCommand, "BSettings", CommonResources.AppSetting)
+			if (_settingsViewModel != null)
 			{
-				Order = int.MaxValue - 1
-			});
+				ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), _settingsViewModel.ShowSettingsCommand, "BSettings", CommonResources.AppSetting)
+				{
+					Order = int.MaxValue - 1
+				});
+			}
 			//ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), new ObservableCollection<RibbonMenuItemViewModel>()
 			//{
 			//	new RibbonMenuItemViewModel("Параметры", SettingsViewModel.ShowSettingsCommand, "BSettings"),
