@@ -19,16 +19,16 @@ namespace AutomationModule.ViewModels
 		private bool _isUseExpirationDateSection;
 		private bool _isUsePeriodOfExecuteSection;
 		private bool _isDatePeriodEnabled;
-		private bool _isUseDateTimeNow;
+		private bool _isUseDateTimeNowSection;
 
 		#region Properties
 		public List<ReportType> ReportTypes { get; set; }
 		public bool IsUseDateTimeNowSection
 		{
-			get { return ExportReportArguments.IsUseDateTimeNow; }
+			get { return _isUseDateTimeNowSection; }
 			set
 			{
-				ExportReportArguments.IsUseDateTimeNow = value;
+				_isUseDateTimeNowSection = value;
 				OnPropertyChanged(() => IsUseDateTimeNowSection);
 			}
 		}
@@ -157,10 +157,10 @@ namespace AutomationModule.ViewModels
 
 		public bool IsUseDateTimeNow
 		{
-			get { return _isUseDateTimeNow; }
+			get { return ExportReportArguments.IsUseDateTimeNow; }
 			set
 			{
-				_isUseDateTimeNow = value;
+				ExportReportArguments.IsUseDateTimeNow = value;
 				OnPropertyChanged(() => IsUseDateTimeNow);
 			}
 		}
@@ -286,7 +286,6 @@ namespace AutomationModule.ViewModels
 		private void ShowIsUseDateTimeNowUISection()
 		{
 			IsUseDateTimeNowSection = true;
-			IsUseDateTimeNow = true;
 			UseExpirationDateSection = false;
 			IsUseArchiveSection = false;
 			IsUsePeriodOfExecuteSection = false;

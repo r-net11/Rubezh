@@ -1,7 +1,7 @@
-﻿using Localization.FiresecService.Report.Common;
+﻿using FiresecService.Report.DataSources;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace FiresecService.Report.Templates
 			// Detail
 			//
 			detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            xrTableContent});
+			xrTableContent});
 			detail.Dpi = 254F;
 			detail.HeightF = 64F;
 			detail.Name = "Detail";
@@ -60,13 +60,13 @@ namespace FiresecService.Report.Templates
 			// xrTableContent
 			//
 			xrTableContent.Borders = (DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right)
-			                         | DevExpress.XtraPrinting.BorderSide.Bottom;
+									 | DevExpress.XtraPrinting.BorderSide.Bottom;
 			xrTableContent.Dpi = 254F;
 			xrTableContent.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			xrTableContent.Name = "xrTableContent";
 			xrTableContent.OddStyleName = "xrControlStyle1";
 			xrTableContent.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
-			xrTableContent.Rows.AddRange(new[] {xrTableRow2});
+			xrTableContent.Rows.AddRange(new[] { xrTableRow2 });
 			xrTableContent.SizeF = new System.Drawing.SizeF(2550F, 63.5F);
 			xrTableContent.StylePriority.UseBorders = false;
 			xrTableContent.StylePriority.UsePadding = false;
@@ -105,7 +105,7 @@ namespace FiresecService.Report.Templates
 			//
 			// xrTableCell9
 			//
-			xrTableCell9.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Zone")});
+			xrTableCell9.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Zone") });
 			xrTableCell9.Dpi = 254F;
 			xrTableCell9.Name = "xrTableCell9";
 			xrTableCell9.Weight = 0.15384615384615386D;
@@ -113,7 +113,7 @@ namespace FiresecService.Report.Templates
 			// xrTableCell10
 			//
 			xrTableCell10.DataBindings.AddRange(new[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EnterDateTime", "{0:dd.MM.yyyy HH:mm:ss}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EnterDateTime", "{0:dd.MM.yyyy HH:mm:ss}")});
 			xrTableCell10.Dpi = 254F;
 			xrTableCell10.Name = "xrTableCell10";
 			xrTableCell10.Weight = 0.10056871617686532D;
@@ -124,7 +124,7 @@ namespace FiresecService.Report.Templates
 			{
 				if (xrTableCellExit != null)
 				{
-					xrTableCellExit.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ExitDateTime", "{0:dd.MM.yyyy HH:mm:ss}")});
+					xrTableCellExit.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ExitDateTime", "{0:dd.MM.yyyy HH:mm:ss}") });
 					xrTableCellExit.Dpi = 254F;
 					xrTableCellExit.Name = "xrTableCellExit";
 					xrTableCellExit.Weight = 0.10056870156204054D;
@@ -133,28 +133,28 @@ namespace FiresecService.Report.Templates
 			//
 			// xrTableCell12
 			//
-			xrTableCell12.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period")});
+			xrTableCell12.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period") });
 			xrTableCell12.Dpi = 254F;
 			xrTableCell12.Name = "xrTableCell12";
 			xrTableCell12.Weight = 0.105D;
 			//
 			// xrTableCell13
 			//
-			xrTableCell13.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
+			xrTableCell13.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee") });
 			xrTableCell13.Dpi = 254F;
 			xrTableCell13.Name = "xrTableCell13";
 			xrTableCell13.Weight = 0.31367849608366905D;
 			//
 			// xrTableCell14
 			//
-			xrTableCell14.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Orgnisation")});
+			xrTableCell14.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Orgnisation") });
 			xrTableCell14.Dpi = 254F;
 			xrTableCell14.Name = "xrTableCell14";
 			xrTableCell14.Weight = 0.15384615384615386D;
 			//
 			// xrTableCell15
 			//
-			xrTableCell15.DataBindings.AddRange(new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
+			xrTableCell15.DataBindings.AddRange(new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department") });
 			xrTableCell15.Dpi = 254F;
 			xrTableCell15.Name = "xrTableCell15";
 			xrTableCell15.Weight = 0.15384615384615386D;
@@ -163,8 +163,8 @@ namespace FiresecService.Report.Templates
 			//
 			xrTableCell16.DataBindings.AddRange(
 				filter.IsEmployee
-				? new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")}
-				: new[] {new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Escort")});
+				? new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position") }
+				: new[] { new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Escort") });
 			xrTableCell16.Dpi = 254F;
 			xrTableCell16.Name = "xrTableCell16";
 			xrTableCell16.Weight = 0.15384615384615386D;
@@ -173,7 +173,7 @@ namespace FiresecService.Report.Templates
 			//
 			groupHeader1.BackColor = System.Drawing.Color.LightGray;
 			groupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            xrTableHeader});
+			xrTableHeader});
 			groupHeader1.Dpi = 254F;
 			groupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
 			groupHeader1.HeightF = 64F;
@@ -186,12 +186,12 @@ namespace FiresecService.Report.Templates
 			//
 			xrTableHeader.BackColor = System.Drawing.Color.DarkGray;
 			xrTableHeader.Borders = ((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-			                         | DevExpress.XtraPrinting.BorderSide.Right)
-			                        | DevExpress.XtraPrinting.BorderSide.Bottom;
+									 | DevExpress.XtraPrinting.BorderSide.Right)
+									| DevExpress.XtraPrinting.BorderSide.Bottom;
 			xrTableHeader.Dpi = 254F;
 			xrTableHeader.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			xrTableHeader.Name = "xrTableHeader";
-			xrTableHeader.Rows.AddRange(new[] {xrTableRow1});
+			xrTableHeader.Rows.AddRange(new[] { xrTableRow1 });
 			xrTableHeader.SizeF = new System.Drawing.SizeF(2550F, 63.5F);
 			xrTableHeader.StylePriority.UseBackColor = false;
 			xrTableHeader.StylePriority.UseBorders = false;
@@ -303,8 +303,8 @@ namespace FiresecService.Report.Templates
 			// EmployeeZonesReport
 			//
 			Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            detail,
-            groupHeader1});
+			detail,
+			groupHeader1});
 			DataMember = "Data";
 			DataSourceSchema = resources.GetString("$DataSourceSchema");
 			ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
@@ -312,7 +312,7 @@ namespace FiresecService.Report.Templates
 			Landscape = true;
 			PageHeight = 2100;
 			PageWidth = 2970;
-			StyleSheet.AddRange(new[] {xrControlStyle1});
+			StyleSheet.AddRange(new[] { xrControlStyle1 });
 			Version = "14.1";
 			Controls.SetChildIndex(groupHeader1, 0);
 			Controls.SetChildIndex(detail, 0);
@@ -345,7 +345,7 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<EmployeeZonesReportFilter>();
 			if (filter.UseCurrentDate)
-				filter.ReportDateTime = default(DateTime?);
+				filter.ReportDateTime = DateTime.Now;
 
 			var dataSet = new EmployeeZonesDataSet();
 
