@@ -1,12 +1,11 @@
 ﻿using Common;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using FiresecService.Report.DataSources;
+using FiresecService.Report.Model;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using FiresecService.Report.Model;
-using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -64,10 +63,8 @@ namespace FiresecService.Report.Templates
 		{
 			if (filter.IsDefault && filter.Organisations.IsEmpty())
 			{
-				var firstOrganisation = dataProvider.Organisations.OrderBy(x => x.Value.Name).FirstOrDefault();
-
-				if (firstOrganisation.Value != null)
-					filter.Organisations = new List<Guid> {firstOrganisation.Key};
+				var organisations = dataProvider.Organisations.Where(x => !x.Value.IsDeleted);
+				filter.Organisations = organisations.Select(x => x.Key).ToList();
 			}
 		}
 
@@ -119,12 +116,15 @@ namespace FiresecService.Report.Templates
 		{
 			var parents = new List<OrganisationBaseObjectInfo<Department>>();
 
-			for (var current = department; current.Item.ParentDepartmentUID.HasValue; )
+			for (var current = department; current.Item.ParentDepartmentUID.HasValue;)
 			{
-				if (!dataProvider.Departments.ContainsKey(current.Item.ParentDepartmentUID.Value)) continue;
-
-				current = dataProvider.Departments[current.Item.ParentDepartmentUID.Value];
-				parents.Insert(0, current);
+				if (dataProvider.Departments.ContainsKey(current.Item.ParentDepartmentUID.Value))
+				{
+					current = dataProvider.Departments[current.Item.ParentDepartmentUID.Value];
+					parents.Insert(0, current);
+				}
+				else
+					break;
 			}
 
 			parents.Add(department);
