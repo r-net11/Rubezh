@@ -1330,6 +1330,13 @@ namespace FiresecService
 			return null;
 		}
 
+		private void RunProgram(ProcedureStep procedureStep)
+		{
+			var processName = GetValue<string>(procedureStep.RunProgramArguments.PathArgument);
+			var parameters = GetValue<string>(procedureStep.RunProgramArguments.ParametersArgument);
+			System.Diagnostics.Process.Start(processName, parameters);
+		}
+
 		private static void ExecuteFiresecScript(ProcedureStep step)
 		{
 			if (step != null && step.ExecuteFireSecScriptArguments != null)
@@ -1356,5 +1363,6 @@ namespace FiresecService
 					break;
 			}
 		}
+
 	}
 }

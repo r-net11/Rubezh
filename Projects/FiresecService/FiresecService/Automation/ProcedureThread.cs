@@ -187,7 +187,7 @@ namespace FiresecService
 					{
 						var condition = Compare(initialValue, value, forArguments.ConditionType);
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
+						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
 						{
 							if (IsTimeOut)
 								return Result.Normal;
@@ -402,6 +402,10 @@ namespace FiresecService
 
 				case ProcedureStepType.GuardZoneControl:
 					GuardZoneControl(procedureStep);
+					break;
+
+				case ProcedureStepType.RunProgram:
+					RunProgram(procedureStep);
 					break;
 			}
 			return Result.Normal;
