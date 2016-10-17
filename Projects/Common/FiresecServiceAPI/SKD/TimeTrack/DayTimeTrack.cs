@@ -1,11 +1,9 @@
-﻿using System.Text;
-using StrazhAPI.Extensions;
+﻿using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
-using Logger = Common.Logger;
 
 namespace StrazhAPI.SKD
 {
@@ -168,7 +166,7 @@ namespace StrazhAPI.SKD
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, _nighTimeSpans);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
 
-			if(SlideTime != TimeSpan.Zero)
+			if (SlideTime != TimeSpan.Zero)
 				CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
@@ -256,7 +254,7 @@ namespace StrazhAPI.SKD
 				calcNightIntervals.Add(new TimeTrackPart
 				{
 					EnterDateTime = new DateTime(),
-					ExitDateTime = new DateTime() +  NightSettings.NightEndTime
+					ExitDateTime = new DateTime() + NightSettings.NightEndTime
 				});
 				calcNightIntervals.Add(new TimeTrackPart
 				{
@@ -320,26 +318,26 @@ namespace StrazhAPI.SKD
 				_nighTimeSpans.Add(nightSettings);
 				nightTimeForToday = nightSettings.NightEndTime - nightSettings.NightEndTime;
 			}
-			else if(nightSettings.NightStartTime > nightSettings.NightEndTime)
+			else if (nightSettings.NightStartTime > nightSettings.NightEndTime)
 			{
-				var tmp = new NightSettings {NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59)};
+				var tmp = new NightSettings { NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59) };
 				nightTimeForToday = tmp.NightEndTime - tmp.NightStartTime;
 				_nighTimeSpans.Add(tmp);
-				_nighTimeSpans.Add(new NightSettings{NightStartTime = new TimeSpan(), NightEndTime = nightSettings.NightEndTime});
+				_nighTimeSpans.Add(new NightSettings { NightStartTime = new TimeSpan(), NightEndTime = nightSettings.NightEndTime });
 			}
 		}
 
 		private List<TimeTrackTotal> GetTotalBalance(List<TimeTrackTotal> totalCollection)
 		{
 			var abcence = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Late
-			                                         || x.TimeTrackType == TimeTrackType.Absence
-			                                         || x.TimeTrackType == TimeTrackType.EarlyLeave
-			                                         || x.TimeTrackType == TimeTrackType.DocumentAbsence)
+													 || x.TimeTrackType == TimeTrackType.Absence
+													 || x.TimeTrackType == TimeTrackType.EarlyLeave
+													 || x.TimeTrackType == TimeTrackType.DocumentAbsence)
 													 .Select(x => x.TimeSpan)
 													 .Aggregate(default(TimeSpan), (span, timeSpan) => span + timeSpan);
 
 			var overtime = totalCollection.Where(x => x.TimeTrackType == TimeTrackType.Overtime
-			                                           || x.TimeTrackType == TimeTrackType.DocumentOvertime)
+													   || x.TimeTrackType == TimeTrackType.DocumentOvertime)
 													   .Select(x => x.TimeSpan)
 													   .Aggregate(default(TimeSpan), (span, timeSpan) => span + timeSpan);
 
@@ -384,7 +382,7 @@ namespace StrazhAPI.SKD
 			{
 				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime))
 				{
-					if(combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && notAllowedOvertime != default(int))
+					if (combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && notAllowedOvertime != default(int))
 						continue;
 
 					combinedTimeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
@@ -431,7 +429,7 @@ namespace StrazhAPI.SKD
 				NightSettings currentNightSetting;
 				if (el.TimeTrackPartType == TimeTrackType.Presence && IsIntersectWithNightSettings(el, nightSettings, out currentNightSetting))
 				{
-					var night = new TimeTrackPart {TimeTrackPartType = TimeTrackType.Night};
+					var night = new TimeTrackPart { TimeTrackPartType = TimeTrackType.Night };
 					//Вычисляем время входа нового интервала ночного времени
 					if (el.EnterDateTime.TimeOfDay <= currentNightSetting.NightStartTime)
 					{
@@ -454,17 +452,17 @@ namespace StrazhAPI.SKD
 
 					//Вычисляем как и в какую сторону смещать интервал явки
 					if (el.EnterDateTime.TimeOfDay < night.EnterDateTime.TimeOfDay
-					    && el.ExitDateTime.GetValueOrDefault().TimeOfDay <= night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+						&& el.ExitDateTime.GetValueOrDefault().TimeOfDay <= night.ExitDateTime.GetValueOrDefault().TimeOfDay)
 					{
 						el.ExitDateTime = night.EnterDateTime;
 					}
 					else if (el.EnterDateTime.TimeOfDay >= night.EnterDateTime.TimeOfDay
-					         && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+							 && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
 					{
 						el.EnterDateTime = night.ExitDateTime.GetValueOrDefault();
 					}
 					else if (el.EnterDateTime.TimeOfDay < night.EnterDateTime.TimeOfDay
-					         && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
+							 && el.ExitDateTime.GetValueOrDefault().TimeOfDay > night.ExitDateTime.GetValueOrDefault().TimeOfDay)
 					{
 						var tmpExitTime = el.ExitDateTime;
 						el.ExitDateTime = night.EnterDateTime;
@@ -481,7 +479,7 @@ namespace StrazhAPI.SKD
 						el.TimeTrackPartType = TimeTrackType.Night;
 					}
 
-					if(el.TimeTrackPartType != TimeTrackType.Night)
+					if (el.TimeTrackPartType != TimeTrackType.Night)
 						resultCollection.Add(night);
 				}
 
@@ -493,7 +491,7 @@ namespace StrazhAPI.SKD
 
 		private static List<TimeTrackPart> TransferPresentToOvertime(IEnumerable<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime) //TODO: Create tests
 		{
-			var totalPresentTime = - slideTime;
+			var totalPresentTime = -slideTime;
 
 			var resultCollection = new List<TimeTrackPart>();
 
@@ -835,7 +833,7 @@ namespace StrazhAPI.SKD
 			{
 				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i].Value, combinedTimeSpans[i + 1].Value);
 
-				if(!combinedInterval.EndTime.HasValue) continue;
+				if (!combinedInterval.EndTime.HasValue) continue;
 
 				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.GetValueOrDefault().TimeOfDay >= combinedInterval.EndTime.GetValueOrDefault().TimeOfDay);
 				var timeTrackPart = new TimeTrackPart
@@ -920,11 +918,11 @@ namespace StrazhAPI.SKD
 				case DocumentType.Absence:
 					if (documentTimeTrack.IsOutside)
 						return TimeTrackType.DocumentAbsence;
-					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
+					return hasPlannedTimeTrack ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
 				case DocumentType.AbsenceReasonable:
 					if (documentTimeTrack.IsOutside)
 						return TimeTrackType.DocumentAbsenceReasonable;
-					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsenceReasonable : TimeTrackType.None;
+					return hasPlannedTimeTrack ? TimeTrackType.DocumentAbsenceReasonable : TimeTrackType.None;
 				default:
 					return TimeTrackType.None;
 			}
@@ -1252,7 +1250,7 @@ namespace StrazhAPI.SKD
 				else
 				{
 					if (trackPart.ExitDateTime != null && ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
-					                                       (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end)))
+														   (trackPart.ExitDateTime.Value.TimeOfDay >= start && trackPart.ExitDateTime.Value.TimeOfDay <= end)))
 					{
 						var minStartTime = trackPart.EnterDateTime.TimeOfDay < start ? start : trackPart.EnterDateTime.TimeOfDay;
 						var minEndTime = trackPart.ExitDateTime.Value.TimeOfDay > end ? end : trackPart.ExitDateTime.Value.TimeOfDay;
@@ -1274,7 +1272,7 @@ namespace StrazhAPI.SKD
 			return timeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
 				.Where(x => x.ExitDateTime != null && ((x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
-				                                       ||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date)))
+													   || (x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date)))
 				.ToList();
 		}
 
@@ -1331,15 +1329,15 @@ namespace StrazhAPI.SKD
 		private string GetMaxDocumentCode()
 		{
 			var allDocumentTotals = Totals.Where(x => x.TimeTrackType == TimeTrackType.DocumentAbsence
-			                               || x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable
-			                               || x.TimeTrackType == TimeTrackType.DocumentOvertime
-			                               || x.TimeTrackType == TimeTrackType.DocumentPresence).ToList();
+										   || x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable
+										   || x.TimeTrackType == TimeTrackType.DocumentOvertime
+										   || x.TimeTrackType == TimeTrackType.DocumentPresence).ToList();
 			var maxDocumentIntervals = allDocumentTotals.Where(x => x.TimeSpan == allDocumentTotals.Max(span => span.TimeSpan));
 			var documents = Documents.Where(doc => maxDocumentIntervals.Any(x => x.TimeTrackType == GetTimeTrackTypeFromDocument(doc))).ToList();
 
 			var timeTrackDocument = documents.FirstOrDefault(doc => doc.TimeTrackDocumentType.Code == documents.Min(x => x.TimeTrackDocumentType.Code));
 
-			return timeTrackDocument !=null ? timeTrackDocument.TimeTrackDocumentType.ShortName : string.Empty;
+			return timeTrackDocument != null ? timeTrackDocument.TimeTrackDocumentType.ShortName : string.Empty;
 		}
 
 		private static TimeTrackType GetTimeTrackTypeFromDocument(TimeTrackDocument document)
