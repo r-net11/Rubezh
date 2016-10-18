@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using Common;
+﻿using Common;
 using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using KeyGenerator;
 using KeyGenerator.Entities;
 using Localization.StrazhService.Monitor.Errors;
 using Localization.StrazhService.Monitor.ViewModels;
 using StrazhAPI.Journal;
 using StrazhAPI.Models;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Threading;
 
@@ -55,13 +55,13 @@ namespace StrazhService.Monitor.ViewModels
 		private void ServiceStateHolderOnServiceStateChanged(ServiceState serviceState)
 		{
 			if (serviceState == ServiceState.Stoped)
-				_dispatcher.BeginInvoke((Action) (() =>
-				{
-					// Очистка соединений
-					Clients.Clear();
-					// Очистка лога загрузки Сервера
-					LogsViewModel.Log = string.Empty;
-				}));
+				_dispatcher.BeginInvoke((Action)(() =>
+			   {
+				   // Очистка соединений
+				   Clients.Clear();
+				   // Очистка лога загрузки Сервера
+				   LogsViewModel.Log = string.Empty;
+			   }));
 		}
 
 		#region <Управление службой>
@@ -89,23 +89,17 @@ namespace StrazhService.Monitor.ViewModels
 			}
 		}
 
-		public void AddClient(ClientCredentials clientCredentials)
+		void AddClient(ClientCredentials clientCredentials)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = new ClientViewModel(clientCredentials);
-				Clients.Add(connectionViewModel);
-			}));
+			var connectionViewModel = new ClientViewModel(clientCredentials);
+			Clients.Add(connectionViewModel);
 		}
 
-		public void RemoveClient(Guid uid)
+		void RemoveClient(Guid uid)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
-				if (connectionViewModel != null)
-					Clients.Remove(connectionViewModel);
-			}));
+			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+			if (connectionViewModel != null)
+				Clients.Remove(connectionViewModel);
 		}
 
 		public void EditClient(Guid uid, string userName)
