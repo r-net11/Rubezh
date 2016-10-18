@@ -1,6 +1,6 @@
-﻿using StrazhAPI;
+﻿using LinqKit;
+using StrazhAPI;
 using StrazhAPI.SKD;
-using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -153,18 +153,18 @@ namespace StrazhDAL
 				if (tableItem == null)
 					return new OperationResult<OrganisationDetails>(null);
 				var organisationDetails = new OrganisationDetails
-					{
-						Description = tableItem.Description,
-						IsDeleted = tableItem.IsDeleted,
-						Name = tableItem.Name,
-						RemovalDate = tableItem.RemovalDate,
-						UID = tableItem.UID,
-						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
-						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
-						ChiefUID = tableItem.ChiefUID,
-						HRChiefUID = tableItem.HRChiefUID,
-						Phone = tableItem.Phone
-					};
+				{
+					Description = tableItem.Description,
+					IsDeleted = tableItem.IsDeleted,
+					Name = tableItem.Name,
+					RemovalDate = tableItem.RemovalDate,
+					UID = tableItem.UID,
+					DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
+					UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
+					ChiefUID = tableItem.ChiefUID,
+					HRChiefUID = tableItem.HRChiefUID,
+					Phone = tableItem.Phone
+				};
 				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
 				{
@@ -289,10 +289,6 @@ namespace StrazhDAL
 			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
-			var systemTypesSaveResult =
-				DatabaseService.TimeTrackDocumentTypeTranslator.AddSystemDocumentTypesForOrganisation(apiItem.UID);
-			if (systemTypesSaveResult.HasError)
-				return systemTypesSaveResult;
 
 			try
 			{
@@ -302,7 +298,11 @@ namespace StrazhDAL
 				var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
 				if (tableItem == null)
 				{
-					tableItem = new DataAccess.Organisation {UID = apiItem.UID, Name = apiItem.Name, Description = apiItem.Description};
+					OperationResult systemTypesSaveResult = DatabaseService.TimeTrackDocumentTypeTranslator.AddSystemDocumentTypesForOrganisation(apiItem.UID);
+					if (systemTypesSaveResult.HasError)
+						return systemTypesSaveResult;
+
+					tableItem = new DataAccess.Organisation { UID = apiItem.UID, Name = apiItem.Name, Description = apiItem.Description };
 					if (apiItem.Photo != null)
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
