@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using Common;
+using Infrastructure.Common;
 using StrazhAPI.Integration.OPC;
 using System;
 using System.IO;
@@ -53,13 +54,13 @@ namespace Integration.Service.OPCIntegration
 			}
 		}
 
-		public void ProcessRequest()
+		void ProcessRequest()
 		{
 			var result = _httpListener.BeginGetContext(ListenerCallback, _httpListener);
 			result.AsyncWaitHandle.WaitOne();
 		}
 
-		public void ListenerCallback(IAsyncResult result)
+		void ListenerCallback(IAsyncResult result)
 		{
 			try
 			{
@@ -72,8 +73,9 @@ namespace Integration.Service.OPCIntegration
 					CreateResponse(context.Response, info.ToString());
 				}
 			}
-			catch (ObjectDisposedException)
+			catch (ObjectDisposedException e)
 			{
+				Logger.Error(e, "HttpClient.ListenerCallback");
 				//Not doing anything with the exception. HttpListener.Stop() method can throw this exception.
 			}
 
@@ -81,7 +83,7 @@ namespace Integration.Service.OPCIntegration
 
 		public WebRequestInfo Read(HttpListenerRequest request)
 		{
-			var info = new WebRequestInfo {HttpMethod = request.HttpMethod, Url = request.Url};
+			var info = new WebRequestInfo { HttpMethod = request.HttpMethod, Url = request.Url };
 
 			if (request.HasEntityBody)
 			{
@@ -117,9 +119,9 @@ namespace Integration.Service.OPCIntegration
 			return info;
 		}
 
-		private static void CreateResponse(HttpListenerResponse response, string body)
+		static void CreateResponse(HttpListenerResponse response, string body)
 		{
-			response.StatusCode = (int) HttpStatusCode.OK;
+			response.StatusCode = (int)HttpStatusCode.OK;
 			response.StatusDescription = HttpStatusCode.OK.ToString();
 			var buffer = Encoding.UTF8.GetBytes(body);
 			response.ContentLength64 = buffer.Length;
@@ -138,7 +140,7 @@ namespace Integration.Service.OPCIntegration
 			return webRequest;
 		}
 
-		private static void SetRequestBody(WebRequest webRequest, string body)
+		static void SetRequestBody(WebRequest webRequest, string body)
 		{
 			var buffer = Encoding.UTF8.GetBytes(body);
 			webRequest.ContentLength = buffer.Length;
