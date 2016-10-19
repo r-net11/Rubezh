@@ -7,6 +7,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class WindowBaseViewModel : BaseViewModel
 	{
+		private int _titleMaxLength = 200;
 		public event EventHandler Closed;
 
 		public event CancelEventHandler Closing;
@@ -60,6 +61,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return _title; }
 			set
 			{
+				if (value.Length > _titleMaxLength)
+					value = value.Substring(0, _titleMaxLength);
 				_title = value;
 				OnPropertyChanged("Title");
 			}

@@ -15,10 +15,10 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.Name}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
-			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static lang:CommonViews.Name}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" MaxLength="50" />
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.Description}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:CommonViews.Description}" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 		</Grid>
 	</Border>

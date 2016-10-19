@@ -30,8 +30,8 @@
 					Grid.Row="0"
 					Grid.Column="1"
 					Margin="2"
-					Text="{Binding Caption,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}"
+					MaxLength="50" />
 				<Label
 					Grid.Row="1"
 					Grid.Column="0"
@@ -42,7 +42,7 @@
 					Grid.Column="1"
 					Margin="2"
 					Text="{Binding Description,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+										UpdateSourceTrigger=PropertyChanged}" />
 				<Label
 					Grid.Row="2"
 					Grid.Column="0"
@@ -54,7 +54,7 @@
 					Margin="2"
 					Minimum="10"
 					Value="{Binding Width,
-				                                          UpdateSourceTrigger=PropertyChanged}" />
+														  UpdateSourceTrigger=PropertyChanged}" />
 				<Label
 					Grid.Row="3"
 					Grid.Column="0"
@@ -66,7 +66,7 @@
 					Margin="2"
 					Minimum="10"
 					Value="{Binding Height,
-				                                          UpdateSourceTrigger=PropertyChanged}" />
+														  UpdateSourceTrigger=PropertyChanged}" />
 				<Label
 					Grid.Row="4"
 					Grid.Column="0"
@@ -77,10 +77,10 @@
 					Grid.Column="1"
 					Margin="2"
 					SelectedColor="{Binding BackgroundColor,
-				                                        UpdateSourceTrigger=PropertyChanged}" />
+														UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
-        <TabItem Header="{x:Static lang:CommonViews.Picture}">
+		<TabItem Header="{x:Static lang:CommonViews.Picture}">
 			<Grid DataContext="{Binding ImagePropertiesViewModel}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />

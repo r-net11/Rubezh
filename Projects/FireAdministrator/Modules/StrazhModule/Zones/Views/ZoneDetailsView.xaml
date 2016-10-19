@@ -20,7 +20,7 @@
 			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 			<Label Grid.Row="1" Grid.Column="0" Content="{x:Static lang:CommonViews.Denomination}" HorizontalAlignment="Right" />
-			<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+			<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" MaxLength="50" />
 
             <Label Grid.Row="2" Grid.Column="0" Content="{x:Static lang:CommonViews.Note}" HorizontalAlignment="Right" />
 			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
