@@ -47,6 +47,8 @@
 				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Administrator.TargetDir)" />
 
+				<File Id="Administrator.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Administrator.TargetDir)" />
+
 				<!-- Конвертер Description для локализации-->
 				<File Id="Administrator.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Administrator.TargetDir)" />
 				<!-- Библиотека локализации-->
