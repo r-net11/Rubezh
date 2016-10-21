@@ -158,6 +158,7 @@ namespace StrazhAPI.SKD
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
 				CombinedTimeTrackParts = TransferPresentToOvertime(CombinedTimeTrackParts, SlideTime);
+				CombinedTimeTrackParts = TransferDocumentAbcenseToNone(CombinedTimeTrackParts, SlideTime);
 			}
 
 			if (NightSettings != null && NightSettings.IsNightSettingsEnabled)
@@ -524,10 +525,47 @@ namespace StrazhAPI.SKD
 						continue;
 					}
 				}
-
 				resultCollection.Add(el);
 			}
+			return resultCollection;
+		}
 
+		static List<TimeTrackPart> TransferDocumentAbcenseToNone(IEnumerable<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime)
+		{
+			var totalPresentTime = -slideTime;
+			var resultCollection = new List<TimeTrackPart>();
+
+			foreach (var el in combinedTimeTrackParts)
+			{
+				if (el.TimeTrackPartType == TimeTrackType.DocumentAbsence || el.TimeTrackPartType == TimeTrackType.DocumentAbsenceReasonable)
+				{
+
+					if (totalPresentTime == default(TimeSpan))
+					{
+						el.TimeTrackPartType = TimeTrackType.None;
+						resultCollection.Add(el);
+						continue;
+					}
+					totalPresentTime += el.Delta;
+
+					if (totalPresentTime > default(TimeSpan))
+					{
+						var tmpExitTime = el.ExitDateTime;
+						el.ExitDateTime = tmpExitTime - totalPresentTime;
+						var overtimeTrackPart = new TimeTrackPart
+						{
+							EnterDateTime = el.ExitDateTime.GetValueOrDefault(),
+							ExitDateTime = tmpExitTime,
+							TimeTrackPartType = TimeTrackType.None
+						};
+						resultCollection.Add(el);
+						resultCollection.Add(overtimeTrackPart);
+						totalPresentTime = default(TimeSpan);
+						continue;
+					}
+				}
+				resultCollection.Add(el);
+			}
 			return resultCollection;
 		}
 
