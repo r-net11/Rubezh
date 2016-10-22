@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Painters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xaml;
-using Common;
-using Infrustructure.Plans.Painters;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -88,6 +88,7 @@ namespace Infrastructure.Common.Services.Content
 			catch (Exception e)
 			{
 				Logger.Error(e, "ContentService.GetBitmapContent");
+				return null;
 			}
 			return bitmap;
 		}
@@ -185,7 +186,7 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public Guid AddContent(byte[] data, Guid? uid)
 		{
-			if(data == null)
+			if (data == null)
 				throw new ArgumentNullException("data");
 
 			if (uid == null)
