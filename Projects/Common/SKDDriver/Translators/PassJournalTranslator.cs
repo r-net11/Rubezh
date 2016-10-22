@@ -1,11 +1,11 @@
 ﻿using Common;
+using LinqKit;
 using StrazhAPI;
 using StrazhAPI.SKD;
-using LinqKit;
+using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using StrazhDAL.DataAccess;
 using Employee = StrazhDAL.DataAccess.Employee;
 using EmployeeDay = StrazhAPI.SKD.EmployeeDay;
 using OperationResult = StrazhAPI.OperationResult;
@@ -108,7 +108,7 @@ namespace StrazhDAL
 					}
 				}
 				else if (linkedInterval.EnterTime < currentDayTimeTrackPart.ExitDateTime &&
-				          linkedInterval.ExitTime > currentDayTimeTrackPart.EnterDateTime)
+						  linkedInterval.ExitTime > currentDayTimeTrackPart.EnterDateTime)
 				{
 					resultCollection.Add(new DayTimeTrackPart
 					{
@@ -159,7 +159,7 @@ namespace StrazhDAL
 
 		public OperationResult AddCustomPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
 		{
-			if(dayTimeTrackPart == null) return new OperationResult("ERROR");
+			if (dayTimeTrackPart == null) return new OperationResult("ERROR");
 
 			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.UID != dayTimeTrackPart.UID)
 				.Where(
@@ -167,7 +167,7 @@ namespace StrazhDAL
 						dayTimeTrackPart.ExitDateTime > x.EnterTime
 						&& dayTimeTrackPart.EnterDateTime < x.ExitTime).ToList();
 
-			if(linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
+			if (linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
 
 			try
 			{
@@ -259,14 +259,15 @@ namespace StrazhDAL
 
 			var intervalsCollection = GetIntervalsFromPreviousMonth(employee, date, passJournals);
 
-			intervalsCollection.AddRange(passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date));
+			intervalsCollection.AddRange(passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date <= date.Date
+				&& (x.ExitTime == null || x.ExitTime != null && x.ExitTime.Value.Date >= date.Date)));
 
 			foreach (var passJournal in intervalsCollection)
 			{
 				var timeTrackPart = new TimeTrackPart
 				{
 					EnterDateTime = passJournal.EnterTime,
-					ExitDateTime =  passJournal.ExitTime,
+					ExitDateTime = passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
 					IsForURVZone = schedule.ScheduleZones.Any(x => x.ZoneUID == passJournal.ZoneUID),
 					PassJournalUID = passJournal.UID,
@@ -387,7 +388,7 @@ namespace StrazhDAL
 
 				if (dateTime.HasValue)
 					quiery = quiery.Where(e => e.EnterTime <= dateTime.GetValueOrDefault() && e.ExitTime >= dateTime.GetValueOrDefault()
-						                  || e.EnterTime <= dateTime.GetValueOrDefault() && !e.ExitTime.HasValue);
+										  || e.EnterTime <= dateTime.GetValueOrDefault() && !e.ExitTime.HasValue);
 				else
 					quiery = quiery.Where(x => !x.ExitTime.HasValue);
 
@@ -398,7 +399,7 @@ namespace StrazhDAL
 
 				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Logger.Error(e);
 				return new List<PassJournal>();
