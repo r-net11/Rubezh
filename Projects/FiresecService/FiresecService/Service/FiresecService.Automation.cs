@@ -1,8 +1,8 @@
-﻿using Localization.StrazhService.Core.Errors;
+﻿using FiresecService.Automation;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Automation;
 using StrazhAPI.AutomationCallback;
-using FiresecService.Automation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,8 @@ namespace FiresecService.Service
 			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
-				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
+				var clientLogin = GetLogin(clientUID);
+				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientLogin);
 				var result = ProcedureRunner.Run(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}

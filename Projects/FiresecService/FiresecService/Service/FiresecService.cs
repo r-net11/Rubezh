@@ -3,7 +3,6 @@ using FiresecService.Service.Validators;
 using Infrastructure.Common;
 using Integration.Service;
 using KeyGenerator;
-using Localization.StrazhService.Core.Common;
 using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Enums;
@@ -31,9 +30,9 @@ namespace FiresecService.Service
 
 		public FiresecService(ILicenseManager licenseManager, IIntegrationService integrationService)
 		{
-			if(licenseManager == null)
+			if (licenseManager == null)
 				throw new ArgumentNullException("License Manager");
-			if(integrationService == null)
+			if (integrationService == null)
 				throw new ArgumentNullException("IntegrationService");
 
 			_licenseManager = licenseManager;
@@ -41,6 +40,12 @@ namespace FiresecService.Service
 
 			// Записываем состояние лицензии в журнал системы при запуске сервера
 			AddJournalMessage(_licenseManager.IsValidExistingKey() ? JournalEventNameType.Лицензия_обнаружена : JournalEventNameType.Отсутствует_лицензия, null);
+		}
+
+		static string GetLogin(Guid clientUID)
+		{
+			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+			return clientInfo == null ? null : clientInfo.ClientCredentials.UserName;
 		}
 
 		private ClientCredentials CurrentClientCredentials;
@@ -298,7 +303,7 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (!_licenseManager.CurrentLicense.IsUnlimitedUsers &&
-				    databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
+					databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
 					return OperationResult<bool>.FromError(CommonErrors.ActivePasscards_Error);
 			}
 			return new OperationResult<bool>(true);
@@ -332,7 +337,7 @@ namespace FiresecService.Service
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
 			DisconnectRepeatUser(clientCredentials, ClientType.Administrator); //TODO: remove it
-			// Может быть только одно подключение Администратора
+																			   // Может быть только одно подключение Администратора
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
 				return OperationResult<bool>.FromError(string.Format(
@@ -343,17 +348,17 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
- 		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
- 		/// Необходим для корректного обнаружения мёртвых соединений.
- 		/// Работает только при повторном входе клиента с одного ip-адреса.
- 		/// </summary>
- 		/// <param name="clientCredentials">Информация о клиенте</param>
- 		/// <param name="clientType">Информация о типе клиента</param>
- 		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
- 		{
- 			var existingClient = ClientsManager.ClientInfos
- 									.Where(x => x.ClientCredentials.ClientType == clientType)
- 									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress);
+		/// Данный метод реализован в качестве временной и частичной замены функционала обмена сообщениями.
+		/// Необходим для корректного обнаружения мёртвых соединений.
+		/// Работает только при повторном входе клиента с одного ip-адреса.
+		/// </summary>
+		/// <param name="clientCredentials">Информация о клиенте</param>
+		/// <param name="clientType">Информация о типе клиента</param>
+		private void DisconnectRepeatUser(ClientCredentials clientCredentials, ClientType clientType)
+		{
+			var existingClient = ClientsManager.ClientInfos
+									.Where(x => x.ClientCredentials.ClientType == clientType)
+									.FirstOrDefault(x => x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress);
 			if (existingClient == null)
 				return;
 
@@ -364,7 +369,7 @@ namespace FiresecService.Service
 				existingClient.ClientCredentials.ClientType,
 				existingClient.ClientCredentials.ClientIpAddressAndPort));
 			SendDisconnectClientCommand(existingClient.UID, false);
- 		}
+		}
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
@@ -403,7 +408,7 @@ namespace FiresecService.Service
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<LicenseData> GetLicenseData()
 		{
-			if(!_licenseManager.IsValidExistingKey())
+			if (!_licenseManager.IsValidExistingKey())
 				return new OperationResult<LicenseData>();
 
 			return new OperationResult<LicenseData>(new LicenseData

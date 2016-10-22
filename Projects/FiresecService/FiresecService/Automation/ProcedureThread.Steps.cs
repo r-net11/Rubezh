@@ -1058,9 +1058,11 @@ namespace FiresecService
 				IsUseDateInFileName = arguments.IsUseDateInFileName
 			};
 			filter.ReportFilter.Timestamp = DateTime.Now;
-			var user = FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration().Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
-			filter.ReportFilter.User = user.Name;
-			filter.ReportFilter.UserUID = user.UID;
+			if (User != null)
+			{
+				filter.ReportFilter.User = User.Name;
+				filter.ReportFilter.UserUID = User.UID;
+			}
 
 			FiresecServiceManager.SafeFiresecService.ExportReport(filter);
 		}
