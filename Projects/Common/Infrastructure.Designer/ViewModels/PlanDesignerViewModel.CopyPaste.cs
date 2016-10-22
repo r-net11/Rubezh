@@ -75,6 +75,11 @@ namespace Infrastructure.Designer.ViewModels
 		}
 		private bool CanPaste(IInputElement obj)
 		{
+			if (this.DesignerCanvas != null && this.DesignerCanvas.Toolbox != null)
+			{
+				if (!this.DesignerCanvas.Toolbox.IsEnabled)
+					return false;
+			}
 			return _buffer.Count > 0;
 		}
 
