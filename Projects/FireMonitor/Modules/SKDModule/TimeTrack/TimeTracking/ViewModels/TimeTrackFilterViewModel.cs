@@ -1,9 +1,9 @@
-﻿using Localization.SKD.ViewModels;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
+﻿using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Localization.SKD.ViewModels;
 using SKDModule.Model;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -71,6 +71,11 @@ namespace SKDModule.ViewModels
 			{
 				_startDate = value;
 				OnPropertyChanged(() => StartDate);
+				if (IsFreePeriod && value.AddYears(1) <= _endDate)
+				{
+					_endDate = value.AddYears(1);
+					OnPropertyChanged(() => EndDate);
+				}
 			}
 		}
 
@@ -82,6 +87,11 @@ namespace SKDModule.ViewModels
 			{
 				_endDate = value;
 				OnPropertyChanged(() => EndDate);
+				if (IsFreePeriod && value.AddYears(-1) >= _startDate)
+				{
+					_startDate = value.AddYears(-1);
+					OnPropertyChanged(() => StartDate);
+				}
 			}
 		}
 
