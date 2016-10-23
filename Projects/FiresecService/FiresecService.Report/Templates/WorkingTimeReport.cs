@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using DevExpress.Office.Utils;
+﻿using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System;
 using System.Data;
 using System.Linq;
@@ -113,8 +111,8 @@ namespace FiresecService.Report.Templates
 						}
 
 						var absence = dayTimeTrack.Totals.Where(x => x.TimeTrackType == TimeTrackType.Absence
-						                                        || x.TimeTrackType == TimeTrackType.EarlyLeave
-						                                        || x.TimeTrackType == TimeTrackType.Late)
+																|| x.TimeTrackType == TimeTrackType.EarlyLeave
+																|| x.TimeTrackType == TimeTrackType.Late)
 																.Select(x => x.TimeSpan.TotalHours);
 						if (absence != null)
 						{
@@ -136,7 +134,7 @@ namespace FiresecService.Report.Templates
 
 					dataRow.ScheduleDay = totalScheduleDay.ToString("f1");
 					dataRow.ScheduleNight = totalScheduleNight.ToString("f1");
-					dataRow.RealPresence = totalPresence.ToString("f1");
+					dataRow.RealPresence = (totalPresence + totalNight).ToString("f1");
 					dataRow.RealNightTime = totalNight.ToString("f1");
 					dataRow.TotalAbsence = totalAbsence.ToString("f1");
 					dataRow.TotalNonAcceptedOvertime = totalOvertime.ToString("f1");
