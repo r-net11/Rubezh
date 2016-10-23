@@ -64,7 +64,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderWidth}" />
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Borderwidth}" />
                 <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderColor}" />
                 <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BackgroungColor}" />
                 <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Indent}" />

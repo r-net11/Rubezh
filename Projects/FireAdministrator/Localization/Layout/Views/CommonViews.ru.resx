@@ -147,7 +147,7 @@
   <data name="BorderColor" xml:space="preserve">
     <value>Цвет границы</value>
   </data>
-  <data name="BorderWidth" xml:space="preserve">
+  <data name="Borderwidth" xml:space="preserve">
     <value>Ширина границы</value>
   </data>
   <data name="DeleteLayout" xml:space="preserve">

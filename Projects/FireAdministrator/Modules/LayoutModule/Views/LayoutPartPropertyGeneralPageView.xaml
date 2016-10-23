@@ -45,7 +45,7 @@
             <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Minimal}" />
             <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Fix}" />
 
-            <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderWidth}" />
+            <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Borderwidth}" />
             <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BorderColor}" />
             <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.BackgroungColor}" />
             <Label Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Content="{x:Static lang:CommonViews.Indent}" />

@@ -129,7 +129,7 @@
   <data name="BorderColor" xml:space="preserve">
     <value>Border color</value>
   </data>
-  <data name="BorderWidth" xml:space="preserve">
+  <data name="Borderwidth" xml:space="preserve">
     <value>Border width</value>
   </data>
   <data name="CloseValidationPanel" xml:space="preserve">

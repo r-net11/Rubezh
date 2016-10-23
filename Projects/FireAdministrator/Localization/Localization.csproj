@@ -161,9 +161,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FireAdministrator\Views\CommonViews.Designer.cs">
-      <DependentUpon>CommonViews.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>CommonViews.resx</DependentUpon>
     </Compile>
     <Compile Include="FireAdministrator\Views\CommonViews.ru.Designer.cs">
       <DependentUpon>CommonViews.ru.resx</DependentUpon>

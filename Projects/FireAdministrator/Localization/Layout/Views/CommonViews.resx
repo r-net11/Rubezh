@@ -157,7 +157,7 @@
     <value>The color of the border</value>
     <comment>google translate</comment>
   </data>
-  <data name="BorderWidth" xml:space="preserve">
+  <data name="Borderwidth" xml:space="preserve">
     <value>border Width</value>
     <comment>google translate</comment>
   </data>
