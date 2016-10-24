@@ -41,6 +41,8 @@ namespace StrazhAPI.Models
 			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 			ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
 			ElementDoors = new List<ElementDoor>();
+			ElementRectangleOPCZones = new List<ElementRectangleOPCZone>();
+			ElementPolygonOPCZones = new List<ElementPolygonOPCZone>();
 
 			ElementExtensions = new List<ElementBase>();
 		}
