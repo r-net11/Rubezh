@@ -93,6 +93,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ExportReportArguments.ReportFilter = value;
+				AvailableFiltersCollection.MoveCurrentTo(value);
 				OnPropertyChanged(() => SelectedFilter);
 			}
 		}
