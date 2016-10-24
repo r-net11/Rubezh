@@ -205,7 +205,7 @@ namespace Infrustructure.Plans.Painters
 
 		public Brush GetBrush(IElementBackground element)
 		{
-			if (element.BackgroundImageSource.HasValue)
+			if (element.BackgroundImageSource.HasValue && element.BackgroundImageSource.Value != Guid.Empty)
 			{
 				CacheBrush(element);
 				return _pictureBrushes[element.BackgroundImageSource.Value];
