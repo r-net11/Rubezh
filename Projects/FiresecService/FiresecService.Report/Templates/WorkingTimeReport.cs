@@ -73,7 +73,7 @@ namespace FiresecService.Report.Templates
 
 						totalScheduleDay += dayTimeTrack.SlideTime != default(TimeSpan)
 											? dayTimeTrack.SlideTime.TotalHours
-											: dayTimeTrack.PlannedTimeTrackParts.Aggregate(default(double), (current, plannedPart) => current + plannedPart.Delta.TotalHours);
+											: dayTimeTrack.PlannedTimeTrackParts.Where(x => x.TimeTrackPartType != TimeTrackType.Break).Aggregate(default(double), (current, plannedPart) => current + plannedPart.Delta.TotalHours);
 
 						var presence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
 						if (presence != null)
