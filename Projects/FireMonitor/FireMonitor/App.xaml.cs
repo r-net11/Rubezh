@@ -148,7 +148,7 @@ namespace FireMonitor
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
 			if (ShellIntegrationHelper.IsIntegrated && !IsClosingOnException)
-				ShellIntegrationHelper.ShutDown();
+				ShellIntegrationHelper.Reboot();
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
 
