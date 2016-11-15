@@ -506,6 +506,7 @@
     <Compile Include="SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackZone.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
+    <Compile Include="StrazhDataContractResolver.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
     <Compile Include="Models\Plans\ElementPolygon.cs" />

@@ -4,13 +4,13 @@ using System.Windows.Media;
 
 namespace StrazhAPI.Models.Layouts
 {
-	[DataContract]
-	public class LayoutPartImageProperties : LayoutPartReferenceProperties
-	{
-		[DataMember]
-		public Stretch Stretch { get; set; }
+    [DataContract(Name = "LayoutPartImageProperties", Namespace = "")]
+    public class LayoutPartImageProperties : LayoutPartReferenceProperties
+    {
+        [DataMember]
+        public Stretch Stretch { get; set; }
 
-		[DataMember]
-		public ResourceType ImageType { get; set; }
-	}
+        [DataMember]
+        public ResourceType ImageType { get; set; }
+    }
 }

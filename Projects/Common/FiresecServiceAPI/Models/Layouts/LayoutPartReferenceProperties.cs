@@ -3,10 +3,10 @@ using System.Runtime.Serialization;
 
 namespace StrazhAPI.Models.Layouts
 {
-	[DataContract]
-	public class LayoutPartReferenceProperties : ILayoutProperties
-	{
-		[DataMember]
-		public Guid ReferenceUID { get; set; }
-	}
+    [DataContract(Name = "LayoutPartReferenceProperties", Namespace = "")]
+    public class LayoutPartReferenceProperties : ILayoutProperties
+    {
+        [DataMember]
+        public Guid ReferenceUID { get; set; }
+    }
 }

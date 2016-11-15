@@ -183,6 +183,7 @@
     <Compile Include="State\XStateClass.cs" />
     <Compile Include="State\IDeviceState.cs" />
     <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="StrazhXmlReader.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="VisualHelper.cs" />

@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 
 namespace StrazhAPI.Models.Layouts
 {
-	[DataContract]
-	public class LayoutPartPlansProperties : ILayoutProperties
-	{
-		[DataMember]
-		public List<Guid> Plans { get; set; }
+    [DataContract(Name = "LayoutPartPlansProperties", Namespace = "")]
+    public class LayoutPartPlansProperties : ILayoutProperties
+    {
+        [DataMember]
+        public List<Guid> Plans { get; set; }
 
-		[DataMember]
-		public LayoutPartPlansType Type { get; set; }
-	}
+        [DataMember]
+        public LayoutPartPlansType Type { get; set; }
+    }
 }
