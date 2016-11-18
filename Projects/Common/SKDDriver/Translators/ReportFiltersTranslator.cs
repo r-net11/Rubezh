@@ -26,10 +26,17 @@ namespace StrazhDAL
 
         public OperationResult<List<SKDReportFilter>> GetAllFilters()
         {
-            var result = GetDefaultFilters().ToList();
-            result.AddRange(_context.Filters.Select(x => GetFilterFromXml(x.XMLContent, (ReportType)x.Type)));
-
-            return new OperationResult<List<SKDReportFilter>>(result);
+            try
+            {
+                var result = GetDefaultFilters().ToList();
+                result.AddRange(_context.Filters.Select(x => GetFilterFromXml(x.XMLContent, (ReportType)x.Type)));
+                return new OperationResult<List<SKDReportFilter>>(result);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message, "ReportFiltersTranslator.GetAllFilters");
+                return OperationResult<List<SKDReportFilter>>.FromError(e.Message);
+            }
         }
 
         private static IEnumerable<SKDReportFilter> GetDefaultFilters()
@@ -59,7 +66,6 @@ namespace StrazhDAL
                 Logger.Error(e);
                 return OperationResult<List<SKDReportFilter>>.FromError(e.Message);
             }
-
             return new OperationResult<List<SKDReportFilter>>(result);
         }
 
@@ -125,8 +131,8 @@ namespace StrazhDAL
             }
             catch (Exception e)
             {
-                Logger.Error(e);
-				throw;
+                Logger.Error(e, "ReportsFilterTranslator.Remove");
+                return OperationResult<bool>.FromError(e.Message);
             }
         }
 
@@ -152,8 +158,8 @@ namespace StrazhDAL
             }
             catch (Exception e)
             {
-                Logger.Error(e);
-				throw;
+                Logger.Error(e, "ReportsFilterTranslator.Save");
+                return OperationResult<bool>.FromError(e.Message);
             }
 
             return new OperationResult<bool>(true);
