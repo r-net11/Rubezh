@@ -43,19 +43,26 @@ namespace StrazhDAL
 
 		private void InitializeData()
 		{
-			_PassJournalTranslator = DatabaseService.PassJournalTranslator;
-			_Employees = Context.Employees.Where(x => !x.IsDeleted).ToList();
-			_Holidays = Context.Holidays.Where(x => !x.IsDeleted).ToList();
-			_Schedules = Context.Schedules.Where(x => !x.IsDeleted).ToList();
-			_ScheduleSchemes = Context.ScheduleSchemes.Where(x => !x.IsDeleted).ToList();
-			_ScheduleDays = Context.ScheduleDays.ToList();
-			_ScheduleZones = Context.ScheduleZones.ToList();
-			_PassJournals = _PassJournalTranslator.Context.PassJournals.ToList();
-			_DayIntervals = Context.DayIntervals.ToList();
-			_DayIntervalParts = Context.DayIntervalParts.ToList();
-			_TimeTrackDocuments = Context.TimeTrackDocuments.ToList();
-			_TimeTrackDocumentTypes = Context.TimeTrackDocumentTypes.ToList();
-			_NightSettings = Context.NightSettings.ToList();
+			try
+			{
+				_PassJournalTranslator = DatabaseService.PassJournalTranslator;
+				_Employees = Context.Employees.Where(x => !x.IsDeleted).ToList();
+				_Holidays = Context.Holidays.Where(x => !x.IsDeleted).ToList();
+				_Schedules = Context.Schedules.Where(x => !x.IsDeleted).ToList();
+				_ScheduleSchemes = Context.ScheduleSchemes.Where(x => !x.IsDeleted).ToList();
+				_ScheduleDays = Context.ScheduleDays.ToList();
+				_ScheduleZones = Context.ScheduleZones.ToList();
+				_PassJournals = _PassJournalTranslator.Context.PassJournals.ToList();
+				_DayIntervals = Context.DayIntervals.ToList();
+				_DayIntervalParts = Context.DayIntervalParts.ToList();
+				_TimeTrackDocuments = Context.TimeTrackDocuments.ToList();
+				_TimeTrackDocumentTypes = Context.TimeTrackDocumentTypes.ToList();
+				_NightSettings = Context.NightSettings.ToList();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e.Message, "TimeTrackTranslator.InitializeData");
+			}
 		}
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
