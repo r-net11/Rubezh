@@ -96,7 +96,7 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-            <TabItem Header="{x:Static lang:CommonViews.AccessPoint}" Visibility="{Binding HasOrganisationDoors, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="{x:Static lang:CommonViews.AccessPoint}">
 				<Grid DataContext="{Binding OrganisationDoorsViewModel}">
 					<Grid.Resources>
 						<CollectionViewSource x:Key="cvsOrganisationItems" Source="{Binding Items}">

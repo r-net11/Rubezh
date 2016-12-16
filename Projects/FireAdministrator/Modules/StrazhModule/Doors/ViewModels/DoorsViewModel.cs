@@ -10,6 +10,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
 using Localization.Strazh.Common;
 using Localization.Strazh.ViewModels;
+using StrazhAPI;
 using StrazhAPI.Models;
 using StrazhAPI.Plans.Elements;
 using StrazhAPI.SKD;
@@ -96,6 +97,7 @@ namespace StrazhModule.ViewModels
 				var doorViewModel = new DoorViewModel(doorDetailsViewModel.Door);
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
+				ServiceFactoryBase.Events.GetEvent<SKDDoorsChangedEvent>().Publish(null);
 				ServiceFactory.SaveService.SKDChanged = true;
 				SKDPlanExtension.Instance.Cache.BuildSafe<SKDDoor>();
 				return doorDetailsViewModel;
@@ -130,7 +132,7 @@ namespace StrazhModule.ViewModels
 			index = Math.Min(index, Doors.Count - 1);
 			if (index > -1)
 				SelectedDoor = Doors[index];
-
+			ServiceFactoryBase.Events.GetEvent<SKDDoorsChangedEvent>().Publish(null);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
@@ -151,6 +153,7 @@ namespace StrazhModule.ViewModels
 				}
 
 				doorDetailsViewModel.Door.OnChanged();
+				ServiceFactoryBase.Events.GetEvent<SKDDoorsChangedEvent>().Publish(null);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

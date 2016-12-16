@@ -258,6 +258,7 @@
     <Compile Include="Printing\PrintReportSettings.cs" />
     <Compile Include="Printing\UserKindSetting.cs" />
     <Compile Include="SKDCallbackResult.cs" />
+    <Compile Include="SKDDoorsChangedEvent.cs" />
     <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />
     <Compile Include="IFiresecServiceSKD.cs" />

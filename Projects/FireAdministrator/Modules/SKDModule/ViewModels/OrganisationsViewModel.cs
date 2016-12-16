@@ -1,12 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using Infrastructure.ViewModels;
-using Localization.SKD.ViewModels;
-using StrazhAPI.SKD;
-using FiresecClient;
+﻿using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Infrastructure.ViewModels;
+using Localization.SKD.ViewModels;
+using StrazhAPI;
+using StrazhAPI.SKD;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -25,6 +27,7 @@ namespace SKDModule.ViewModels
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			ShowOrHideDeletedCommand = new RelayCommand(OnShowOrHideDeleted);
+			ServiceFactoryBase.Events.GetEvent<SKDDoorsChangedEvent>().Subscribe(OnSKDDoorsChanged);
 		}
 
 		public void Initialize(LogicalDeletationType logicalDeletationType)
@@ -74,8 +77,6 @@ namespace SKDModule.ViewModels
 					OrganisationDoorsViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
-
-				HasOrganisationDoors = OrganisationDoorsViewModel != null && OrganisationDoorsViewModel.Items.Count > 0;
 			}
 		}
 
@@ -98,17 +99,6 @@ namespace SKDModule.ViewModels
 			{
 				_organisationUsersViewModel = value;
 				OnPropertyChanged(() => OrganisationUsersViewModel);
-			}
-		}
-
-		private bool _hasOrganisationDoors;
-		public bool HasOrganisationDoors
-		{
-			get { return _hasOrganisationDoors; }
-			set
-			{
-				_hasOrganisationDoors = value;
-				OnPropertyChanged(() => HasOrganisationDoors);
 			}
 		}
 
@@ -214,6 +204,11 @@ namespace SKDModule.ViewModels
 		{
 			OrganisationDoorsViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
+		}
+
+		void OnSKDDoorsChanged(object unnecessaryObj)
+		{
+			SelectedOrganisation = SelectedOrganisation;
 		}
 	}
 }
