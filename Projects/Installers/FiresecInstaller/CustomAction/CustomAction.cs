@@ -1,10 +1,10 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Deployment.WindowsInstaller;
+using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using Microsoft.Deployment.WindowsInstaller;
-using System;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace CustomAction
 {
@@ -91,9 +91,9 @@ namespace CustomAction
 				var login = session[SqlServerLogin];
 				var password = session[SqlServerPassword];
 
-				var msg = String.Format(@"Соединение с сервером {0}\{1},{2}", address, instanceName, port);
+				var msg = String.Format(@"Соединение с сервером {0}:{1}", address, port);
 				string errors;
-				if (!CheckSqlServerConnection(address, port, instanceName, dbIntegratedSecurity, login, password, out errors))
+				if (!CheckSqlServerConnection(address, port, dbIntegratedSecurity, login, password, out errors))
 				{
 					msg = String.Format("{0} установить не удалось по причине ошибки: \n\n{1}", msg, errors);
 					MessageBox.Show(msg, String.Format("Установка {0}", session[ProductName]), MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -226,10 +226,10 @@ namespace CustomAction
 		/// <param name="userPwd">Пароль (только для SQL Server аутентификации)</param>
 		/// <param name="errors">Ошибки, возникшие в процессе проверки соединения</param>
 		/// <returns>true - в случае успеха, false - в противном случае</returns>
-		private static bool CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd, out string errors)
+		private static bool CheckSqlServerConnection(string ipAddress, int ipPort, bool useIntegratedSecurity, string userID, string userPwd, out string errors)
 		{
 			errors = null;
-			var connectionString = BuildConnectionString(ipAddress, ipPort, instanceName, "master", useIntegratedSecurity, userID, userPwd);
+			var connectionString = BuildConnectionString(ipAddress, ipPort, "master", useIntegratedSecurity, userID, userPwd);
 			using (var connection = new SqlConnection(connectionString))
 			{
 				try
@@ -245,10 +245,10 @@ namespace CustomAction
 			return true;
 		}
 
-		private static string BuildConnectionString(string ipAddress, int ipPort, string instanceName, string db, bool useIntegratedSecurity, string userID, string userPwd)
+		private static string BuildConnectionString(string ipAddress, int ipPort, string db, bool useIntegratedSecurity, string userID, string userPwd)
 		{
 			var csb = new SqlConnectionStringBuilder();
-			csb.DataSource = String.Format(@"{0}{1},{2}", ipAddress, String.IsNullOrEmpty(instanceName) ? String.Empty : String.Format(@"\{0}", instanceName), ipPort);
+			csb.DataSource = String.Format(@"{0},{1}", ipAddress, ipPort);
 			csb.InitialCatalog = db;
 			csb.IntegratedSecurity = useIntegratedSecurity;
 			if (!csb.IntegratedSecurity)
@@ -319,7 +319,7 @@ namespace CustomAction
 
 			return ActionResult.Success;
 		}
-		
+
 		/// <summary>
 		/// В конфигурационном файле приложения прописывает культуру
 		/// </summary>
@@ -330,7 +330,7 @@ namespace CustomAction
 			var culture = session[Culture];
 			var filePath = Path.Combine(applicationProperties.DestinationFolder, applicationProperties.AppConfigFileName);
 			var xDoc = ReadConfigFile(session, filePath);
-			if(xDoc == null)
+			if (xDoc == null)
 				return;
 			SetAppSettingsNodeChildElementValueByKey(xDoc, XDocCultureKey, culture);
 			WriteConfigFile(xDoc, filePath);
