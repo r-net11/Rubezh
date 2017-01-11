@@ -115,6 +115,8 @@ namespace StrazhDAL.DataAccess
 		
 		private bool _IsOpen;
 		
+		private string _IsNeedAdjustmentOriginal;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -143,6 +145,8 @@ namespace StrazhDAL.DataAccess
     partial void OnIsForceClosedChanged();
     partial void OnIsOpenChanging(bool value);
     partial void OnIsOpenChanged();
+    partial void OnIsNeedAdjustmentOriginalChanging(string value);
+    partial void OnIsNeedAdjustmentOriginalChanged();
     #endregion
 		
 		public PassJournal()
@@ -386,6 +390,26 @@ namespace StrazhDAL.DataAccess
 					this._IsOpen = value;
 					this.SendPropertyChanged("IsOpen");
 					this.OnIsOpenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNeedAdjustmentOriginal", CanBeNull=false)]
+		public string IsNeedAdjustmentOriginal
+		{
+			get
+			{
+				return this._IsNeedAdjustmentOriginal;
+			}
+			set
+			{
+				if ((this._IsNeedAdjustmentOriginal != value))
+				{
+					this.OnIsNeedAdjustmentOriginalChanging(value);
+					this.SendPropertyChanging();
+					this._IsNeedAdjustmentOriginal = value;
+					this.SendPropertyChanged("IsNeedAdjustmentOriginal");
+					this.OnIsNeedAdjustmentOriginalChanged();
 				}
 			}
 		}

@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="PassJournal">
   <DataContextMoniker Name="/PassJournalDataContext" />
   <nestedChildShapes>
-    <classShape Id="f6107889-0b15-4507-b490-d4f9b32712b1" absoluteBounds="3.5, 0.5, 2, 3.1170068359375">
+    <classShape Id="f6107889-0b15-4507-b490-d4f9b32712b1" absoluteBounds="3.5, 0.5, 2, 3.3093082682291666">
       <DataClassMoniker Name="/PassJournalDataContext/PassJournal" />
       <nestedChildShapes>
-        <elementListCompartment Id="27f91be7-e2fa-4f4f-8dbb-b7d1c6609c10" absoluteBounds="3.5149999999999997, 0.96, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="27f91be7-e2fa-4f4f-8dbb-b7d1c6609c10" absoluteBounds="3.5149999999999997, 0.96, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="bd9caefb-9f83-4ea6-9c0c-b3f90e54ff8f" absoluteBounds="5.875, 0.5, 2, 2.3478011067708335">
