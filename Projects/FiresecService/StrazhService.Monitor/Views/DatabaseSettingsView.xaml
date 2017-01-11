@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:lang="clr-namespace:Localization.StrazhService.Monitor.Views;assembly=Localization"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	mc:Ignorable="d" 
 	d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
@@ -64,30 +65,16 @@
 				Margin="2"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
-				Text="{x:Static lang:CommonViews.InstanceName}"
-				Foreground="{DynamicResource ForegroundColorLight}"/>
-			<TextBox
-				Grid.Row="2"
-				Grid.Column="1"
-				VerticalAlignment="Center"
-				Margin="2"
-				Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
-			<TextBlock
-				Grid.Row="3"
-				Grid.Column="0"
-				Margin="2"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
 				Text="{x:Static lang:CommonViews.AuthenticationMethod}"
 				Foreground="{DynamicResource ForegroundColorLight}"/>
 			<ComboBox
-				Grid.Row="3"
+				Grid.Row="2"
 				Grid.Column="1"
 				ItemsSource="{Binding AvailableSqlServerAuthenticationModes}"
 				SelectedItem="{Binding SqlServerAuthenticationMode}"
 				Margin="3"/>
 			<TextBlock
-				Grid.Row="4"
+				Grid.Row="3"
 				Grid.Column="0"
 				Margin="2"
 				HorizontalAlignment="Right"
@@ -95,27 +82,27 @@
 				Text="{x:Static lang:CommonViews.Login}"
 				Foreground="{DynamicResource ForegroundColorLight}"/>
 			<TextBox
-				Grid.Row="4"
+				Grid.Row="3"
 				Grid.Column="1"
 				IsEnabled="{Binding UseSqlServerAuthentication}"
 				VerticalAlignment="Center"
 				Margin="2"
 				Text="{Binding DBUserID, UpdateSourceTrigger=PropertyChanged}" />
 			<TextBlock
-				Grid.Row="5"
+				Grid.Row="4"
 				Grid.Column="0"
 				Margin="2"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
 				Text="{x:Static lang:CommonViews.Password}"
 				Foreground="{DynamicResource ForegroundColorLight}"/>
-			<TextBox
-				Grid.Row="5"
+			<Controls:PasswordBoxControl
+				Grid.Row="4"
 				Grid.Column="1"
 				IsEnabled="{Binding UseSqlServerAuthentication}"
 				VerticalAlignment="Center"
 				Margin="2"
-				Text="{Binding DBUserPwd, UpdateSourceTrigger=PropertyChanged}" />
+				Password="{Binding DBUserPwd, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 		<Grid
 			Grid.Row="1">

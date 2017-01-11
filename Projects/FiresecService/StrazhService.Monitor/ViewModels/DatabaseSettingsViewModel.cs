@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Localization.StrazhService.Monitor.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Localization.StrazhService.Monitor.ViewModels;
 
 namespace StrazhService.Monitor.ViewModels
 {
@@ -17,24 +16,11 @@ namespace StrazhService.Monitor.ViewModels
 	/// </summary>
 	public class DatabaseSettingsViewModel : BaseViewModel
 	{
-		private string _dbServerName;
 		private string _dbServerAddress;
 		private int _dbServerPort;
 		private SqlServerAuthenticationMode _sqlServerAuthenticationMode;
 		private string _dbUserID;
 		private string _dbUserPwd;
-
-		public string DBServerName
-		{
-			get { return _dbServerName; }
-			set
-			{
-				if (_dbServerName == value)
-					return;
-				_dbServerName = value;
-				OnPropertyChanged(() => DBServerName);
-			}
-		}
 
 		/// <summary>
 		/// IP-адрес сервера
@@ -148,8 +134,7 @@ namespace StrazhService.Monitor.ViewModels
 			foreach (var dbName in new[] { "Journal_1", "PassJournal_1", "SKD" })
 			{
 				string errors;
-				backupResult &= ServiceRepository.Instance.DatabaseService.CreateBackup(DBServerAddress, DBServerPort,
-					DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, dbName, Path.Combine(dlg.SelectedPath, string.Format("{0}.bak", dbName)), out errors);
+				backupResult &= ServiceRepository.Instance.DatabaseService.CreateBackup(DBServerAddress, DBServerPort, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, dbName, Path.Combine(dlg.SelectedPath, string.Format("{0}.bak", dbName)), out errors);
 				if (!string.IsNullOrEmpty(errors))
 					sb.AppendLine(errors);
 			}
@@ -176,17 +161,16 @@ namespace StrazhService.Monitor.ViewModels
 				SqlServerAuthenticationMode.SqlServer
 			};
 		}
-		
+
 		private void OnCheckSqlServerConnection()
 		{
 			Logger.Info("Проверка соединения с СУБД");
 
 			string errors;
 
-			var checkResult = ServiceRepository.Instance.DatabaseService.CheckConnection(DBServerAddress, DBServerPort,
-				DBServerName, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, out errors);
+			var checkResult = ServiceRepository.Instance.DatabaseService.CheckConnection(DBServerAddress, DBServerPort, SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows, DBUserID, DBUserPwd, out errors);
 
-			var msg = string.Format(CommonViewModels.ConnectionWithServer, DBServerName, checkResult ? CommonViewModels.SuccessConnected : string.Format(CommonViewModels.ConnectedWithError, errors));
+			var msg = string.Format(CommonViewModels.ConnectionWithServer, string.Format("{0}:{1}", DBServerAddress, DBServerPort), checkResult ? CommonViewModels.SuccessConnected : string.Format(CommonViewModels.ConnectedWithError, errors));
 
 			if (!checkResult)
 			{
@@ -212,7 +196,6 @@ namespace StrazhService.Monitor.ViewModels
 			var settings = AppServerSettingsHelper.AppServerSettings;
 			DBServerAddress = settings.DBServerAddress;
 			DBServerPort = settings.DBServerPort;
-			DBServerName = settings.DBServerName;
 			SqlServerAuthenticationMode = settings.DBUseIntegratedSecurity
 				? SqlServerAuthenticationMode.Windows
 				: SqlServerAuthenticationMode.SqlServer;
@@ -225,7 +208,6 @@ namespace StrazhService.Monitor.ViewModels
 			var settings = AppServerSettingsHelper.AppServerSettings;
 			settings.DBServerAddress = DBServerAddress;
 			settings.DBServerPort = DBServerPort;
-			settings.DBServerName = DBServerName;
 			settings.DBUseIntegratedSecurity = SqlServerAuthenticationMode == SqlServerAuthenticationMode.Windows;
 			settings.DBUserID = DBUserID;
 			settings.DBUserPwd = DBUserPwd;
