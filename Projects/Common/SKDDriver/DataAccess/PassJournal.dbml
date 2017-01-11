@@ -14,7 +14,7 @@
       <Column Name="IsAddedManually" Type="System.Boolean" CanBeNull="false" />
       <Column Name="IsForceClosed" Type="System.Boolean" CanBeNull="false" />
       <Column Name="IsOpen" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="IsNeedAdjustmentOriginal" Type="System.String" CanBeNull="false" />
+      <Column Name="IsNeedAdjustmentOriginal" Type="System.Boolean" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeDay" Member="EmployeeDays">

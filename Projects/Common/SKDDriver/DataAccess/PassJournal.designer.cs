@@ -115,7 +115,7 @@ namespace StrazhDAL.DataAccess
 		
 		private bool _IsOpen;
 		
-		private string _IsNeedAdjustmentOriginal;
+		private bool _IsNeedAdjustmentOriginal;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -145,7 +145,7 @@ namespace StrazhDAL.DataAccess
     partial void OnIsForceClosedChanged();
     partial void OnIsOpenChanging(bool value);
     partial void OnIsOpenChanged();
-    partial void OnIsNeedAdjustmentOriginalChanging(string value);
+    partial void OnIsNeedAdjustmentOriginalChanging(bool value);
     partial void OnIsNeedAdjustmentOriginalChanged();
     #endregion
 		
@@ -394,8 +394,8 @@ namespace StrazhDAL.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNeedAdjustmentOriginal", CanBeNull=false)]
-		public string IsNeedAdjustmentOriginal
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNeedAdjustmentOriginal")]
+		public bool IsNeedAdjustmentOriginal
 		{
 			get
 			{
