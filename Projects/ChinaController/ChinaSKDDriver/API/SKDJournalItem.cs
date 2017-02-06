@@ -1,5 +1,5 @@
-﻿using StrazhDeviceSDK.NativeAPI;
-using StrazhAPI.Journal;
+﻿using StrazhAPI.Journal;
+using StrazhDeviceSDK.NativeAPI;
 using System;
 
 namespace StrazhDeviceSDK.API
@@ -33,5 +33,6 @@ namespace StrazhDeviceSDK.API
 		public string szDoorName;
 
 		public ErrorCode ErrorCode { get; set; }
+		public int No { get; set; }
 	}
 }

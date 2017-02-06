@@ -1,19 +1,18 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
+﻿using Common;
+using Infrastructure.Common;
 using Localization.StrazhDeviceSDK.Common;
-using StrazhDeviceSDK.API;
-using StrazhDeviceSDK.NativeAPI;
-using Common;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
+using StrazhDAL;
+using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Infrastructure.Common;
-using StrazhDAL;
 
 namespace StrazhDeviceSDK
 {
@@ -51,7 +50,7 @@ namespace StrazhDeviceSDK
 		{
 			if (skdJournalItem.LoginID != LoginID)
 				return;
-			
+
 			var journalItem = new JournalItem
 			{
 				JournalItemType = skdJournalItem.JournalItemType,
@@ -59,7 +58,8 @@ namespace StrazhDeviceSDK
 				DeviceDateTime = skdJournalItem.DeviceDateTime,
 				JournalEventNameType = skdJournalItem.JournalEventNameType,
 				DescriptionText = skdJournalItem.Description,
-				ErrorCode = (JournalErrorCode) skdJournalItem.ErrorCode
+				ErrorCode = (JournalErrorCode)skdJournalItem.ErrorCode,
+				No = skdJournalItem.No
 			};
 			var cardNo = 0;
 			if (Int32.TryParse(skdJournalItem.CardNo, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out cardNo))
@@ -339,26 +339,19 @@ namespace StrazhDeviceSDK
 
 				if (_isOfflineLogEnabled)
 				{
-					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
 					Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
-					Task.Factory.StartNew(() =>
+
+					using (var journalTranslator = new JournalTranslator())
 					{
-						using (var journalTranslator = new JournalTranslator())
-						{
-							var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
-							getLastJournalItemTimeProducedByControllerEvent.Set();
-							if (!timeOperationResult.HasError)
-							{
-								var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
-								offlineLogItems.ForEach(Wrapper_NewJournalItem);
-							}
-						}
-						Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
-					});
+						var lastItemNoResult = journalTranslator.GetLastJournalItemNoByController(Device.UID);
+						var offlineAccessSKDJournalItems = lastItemNoResult.HasError ? new List<SKDJournalItem>() : Wrapper.GetOfflineSKDJournalItems(lastItemNoResult.Result);
+						var lastAlarmJournaItemNoResult = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
+						var offlineAlarmSKDJournalItems = lastAlarmJournaItemNoResult.HasError ? new List<SKDJournalItem>() : Wrapper.GetOfflineAlarmSKDJournalItems(lastAlarmJournaItemNoResult.Result);
+						(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(Wrapper_NewJournalItem);
+					}
+					Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
 
-					getLastJournalItemTimeProducedByControllerEvent.WaitOne();
 				}
-
 				if (ConnectionAppeared != null)
 					ConnectionAppeared(this);
 			}

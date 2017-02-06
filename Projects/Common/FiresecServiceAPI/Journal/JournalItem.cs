@@ -1,7 +1,7 @@
-﻿using System;
+﻿using StrazhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.SKD;
 
 namespace StrazhAPI.Journal
 {
@@ -14,6 +14,9 @@ namespace StrazhAPI.Journal
 			JournalDetalisationItems = new List<JournalDetalisationItem>();
 			JournalObjectType = JournalObjectType.None;
 		}
+
+		[DataMember]
+		public int No { get; set; }
 
 		[DataMember]
 		public JournalItemType JournalItemType { get; set; }

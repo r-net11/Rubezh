@@ -24,6 +24,12 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('ControllerUID')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'No')
+BEGIN
+	ALTER TABLE Journal ADD No int NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('No')
+END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GetLastJournalItemProducedByController')
 BEGIN
 	exec [dbo].[sp_executesql] @statement = N'
