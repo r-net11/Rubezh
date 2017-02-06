@@ -47,10 +47,10 @@ SELECT @ConstraintName = Name
 FROM SYS.DEFAULT_CONSTRAINTS
 WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName)
 AND PARENT_COLUMN_ID = (
-    SELECT column_id FROM sys.columns
-    WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
+	SELECT column_id FROM sys.columns
+	WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
 IF @ConstraintName IS NOT NULL
-    EXEC('ALTER TABLE '+@tableName+' DROP CONSTRAINT ' + @ConstraintName)
+	EXEC('ALTER TABLE '+@tableName+' DROP CONSTRAINT ' + @ConstraintName)
 END
 GO
 
@@ -132,8 +132,6 @@ INSERT INTO Patches (Id) VALUES
 ('RemoveEnterTimeOriginalColumn')
 INSERT INTO Patches (Id) VALUES
 ('RemoveExitTimeOriginalColumn')
-INSERT INTO Patches (Id) VALUES
-('RemoveIsNeedAdjustmentOriginalColumn')
 INSERT INTO Patches (Id) VALUES
 ('RemoveNotTakeInCalculationsOriginalColumn')
 
