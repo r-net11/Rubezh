@@ -10,7 +10,7 @@ namespace StrazhAPI.Models
 		{
 			VideoIntegrationProvider = VideoIntegrationProvider.RviOperator;
 			Ip = "localhost";
-			Port = 8000;
+			Port = 8091;
 			Login = "strazh";
 			Password = "strazh12345";
 		}
