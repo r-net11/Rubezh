@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using StrazhAPI.Journal;
+﻿using System.Linq;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using StrazhAPI.Journal;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace StrazhDeviceSDK
 {
@@ -26,10 +28,9 @@ namespace StrazhDeviceSDK
 		/// Получает все тревожные события из оффлайн журнала
 		/// </summary>
 		/// <returns>Список тревожных событий</returns>
-		public List<NativeWrapper.WRAP_NET_LOG_INFO> GetFirstNativeAlarmLogItemsFromQuery(int logItemsCount)
+		public List<AlarmLogItem> GetAllAlarmLogItems()
 		{
-			var logs = new List<NativeWrapper.WRAP_NET_LOG_INFO>();
-			var isBreak = false;
+			var logs = new List<AlarmLogItem>();
 
 			NativeWrapper.WRAP_QueryStart(LoginID);
 
@@ -45,16 +46,14 @@ namespace StrazhDeviceSDK
 				var nativeLogs = (NativeWrapper.WRAP_Dev_QueryLogList_Result)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.WRAP_Dev_QueryLogList_Result)));
 				Marshal.FreeCoTaskMem(intPtr);
 				intPtr = IntPtr.Zero;
+
 				for (var i = 0; i < result; i++)
 				{
-					isBreak = logs.Count >= logItemsCount;
-					if (isBreak)
-						break;
-					logs.Add(nativeLogs.Logs[i]);
+					var logItem = NativeLogToAlarmLogItem(nativeLogs.Logs[i]);
+					logs.Add(logItem);
 				}
-				if (isBreak)
-					break;
 			}
+
 			NativeWrapper.WRAP_QueryStop();
 			return logs;
 		}
@@ -141,11 +140,11 @@ namespace StrazhDeviceSDK
 					journalItem.DoorNo = alarmLogItem.Channel;
 					break;
 				case AlarmType.DoorNotClose:
-					{
-						journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
-						journalItem.DoorNo = alarmLogItem.Channel;
-						break;
-					}
+				{
+					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
+					journalItem.DoorNo = alarmLogItem.Channel;
+					break;
+				}
 				case AlarmType.ReaderChassisIntruded:
 					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_начало;
 					journalItem.szReaderID = (alarmLogItem.Channel + 1).ToString();
@@ -156,45 +155,6 @@ namespace StrazhDeviceSDK
 					break;
 			}
 			journalItem.CardNo = alarmLogItem.CardId;
-
-			return journalItem;
-		}
-
-		public SKDJournalItem NativeLogToSKDJournalItem(NativeWrapper.WRAP_NET_LOG_INFO nativeLog)
-		{
-			var journalItem = new SKDJournalItem();
-
-			journalItem.JournalItemType = JournalItemType.Offline;
-			journalItem.LoginID = LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = NET_TIMEToDateTime(nativeLog.stuTime);
-			var alarmLogMessage = JsonConvert.DeserializeObject<AlarmLogMessage>(nativeLog.szLogMessage);
-			switch (alarmLogMessage.AlarmType)
-			{
-				case AlarmType.BreakIn:
-					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
-					break;
-				case AlarmType.Duress:
-					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
-					break;
-				case AlarmType.AlarmLocal:
-					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога_начало;
-					break;
-				case AlarmType.DoorNotClose:
-					{
-						journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта_начало;
-						break;
-					}
-				case AlarmType.ReaderChassisIntruded:
-					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера_начало;
-					journalItem.szReaderID = (alarmLogMessage.Channel + 1).ToString();
-					break;
-				case AlarmType.Repeatenter:
-					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
-					break;
-			}
-			journalItem.DoorNo = alarmLogMessage.Channel;
-			journalItem.CardNo = alarmLogMessage.CardId;
 
 			return journalItem;
 		}

@@ -2,6 +2,7 @@
 using Localization.StrazhDeviceSDK.Common;
 using StrazhAPI.SKD;
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace StrazhDeviceSDK.NativeAPI
@@ -390,7 +391,7 @@ namespace StrazhDeviceSDK.NativeAPI
 		{
 			NET_ACCESSCTLCARD_STATE_UNKNOWN = -1,
 			NET_ACCESSCTLCARD_STATE_NORMAL = 0,                 // Normal
-			NET_ACCESSCTLCARD_STATE_LOSE = 0x01,              // Lose
+			NET_ACCESSCTLCARD_STATE_LOSE   = 0x01,              // Lose
 			NET_ACCESSCTLCARD_STATE_LOGOFF = 0x02,              // Logoff
 			NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,              // Freeze
 			NET_ACCESSCTLCARD_STATE_ARREARAGE = 0x08,           // Arrears
@@ -654,9 +655,6 @@ namespace StrazhDeviceSDK.NativeAPI
 		#endregion Holidays
 
 		#region Acceses
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_Access_Info(int loginID, int recordNo, IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_BeginGetAll_Accesses(int loginID, ref int finderID);
@@ -1040,26 +1038,26 @@ namespace StrazhDeviceSDK.NativeAPI
 
 		public enum NET_SENSE_METHOD
 		{
-			NET_SENSE_UNKNOWN = -1,     //Unknowed type
-			NET_SENSE_DOOR = 0,         //Door Contact
-			NET_SENSE_PASSIVEINFRA,     //Passive Infrared
-			NET_SENSE_GAS,              //Gase Induce)
-			NET_SENSE_SMOKING,          //Smoking Induce
-			NET_SENSE_WATER,            //Wwater Induce)
-			NET_SENSE_ACTIVEFRA,        //Initiative Infrared
-			NET_SENSE_GLASS,            //Glass Broken
-			NET_SENSE_EMERGENCYSWITCH,  //Emergency switch
-			NET_SENSE_SHOCK,            //Shock
-			NET_SENSE_DOUBLEMETHOD,     //Double Method(Infrare+Microwave)
-			NET_SENSE_THREEMETHOD,      //Three Method
-			NET_SENSE_TEMP,             //Temperature
-			NET_SENSE_HUMIDITY,         //Humidity
+			NET_SENSE_UNKNOWN = -1,		//Unknowed type
+			NET_SENSE_DOOR = 0,			//Door Contact
+			NET_SENSE_PASSIVEINFRA,		//Passive Infrared
+			NET_SENSE_GAS,				//Gase Induce)
+			NET_SENSE_SMOKING,			//Smoking Induce
+			NET_SENSE_WATER,			//Wwater Induce)
+			NET_SENSE_ACTIVEFRA,		//Initiative Infrared
+			NET_SENSE_GLASS,			//Glass Broken
+			NET_SENSE_EMERGENCYSWITCH,	//Emergency switch
+			NET_SENSE_SHOCK,			//Shock
+			NET_SENSE_DOUBLEMETHOD,		//Double Method(Infrare+Microwave)
+			NET_SENSE_THREEMETHOD,		//Three Method
+			NET_SENSE_TEMP,				//Temperature
+			NET_SENSE_HUMIDITY,			//Humidity
 			NET_SENSE_WIND,             //Wind
-			NET_SENSE_CALLBUTTON,       //Call button
+			NET_SENSE_CALLBUTTON,		//Call button
 			NET_SENSE_GASPRESSURE,      //Gas Pressure
 			NET_SENSE_GASCONCENTRATION, //Gas Concentration
 			NET_SENSE_GASFLOW,          //Gas Flow
-			NET_SENSE_OTHER,            //Other
+			NET_SENSE_OTHER,			//Other
 			NET_SENSE_OIL,              //oil detectionЎк?gasoline, diesel vehicles detection
 			NET_SENSE_MILEAGE,          //mileage detection
 			NET_SENSE_URGENCYBUTTON,    //Urgency button
@@ -1077,7 +1075,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			NET_SENSE_TEMP1500,        //1500 temperature sensor
 			NET_SENSE_TEMPDS18B20,     //DS18B20 temperature sensor
 			NET_SENSE_HUMIDITY1500,     //1500 humidity sensor
-			NET_SENSE_NUM,              //Number of enumeration type
+			NET_SENSE_NUM,				//Number of enumeration type
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

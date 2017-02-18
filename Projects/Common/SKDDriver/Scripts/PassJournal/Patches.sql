@@ -147,6 +147,20 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveIsNeedAdjustmentOriginalColumn')
+BEGIN
+	DECLARE @ConstraintName nvarchar(200)
+	SELECT @ConstraintName = df.name 
+	FROM sys.default_constraints df
+	INNER JOIN sys.columns c ON df.parent_object_id = c.object_id AND df.parent_column_id = c.column_id
+	WHERE c.name = 'IsNeedAdjustmentOriginal'
+	DECLARE @sql NVARCHAR(max) = 'alter table dbo.PassJournal drop constraint [' + @ConstraintName + ']
+	ALTER TABLE [PassJournal] DROP COLUMN [IsNeedAdjustmentOriginal]'; 
+	EXEC(@sql)
+	INSERT INTO Patches (Id) VALUES('RemoveIsNeedAdjustmentOriginalColumn')
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveNotTakeInCalculationsOriginalColumn')
 BEGIN
 	ALTER TABLE [PassJournal] DROP COLUMN [NotTakeInCalculationsOriginal]

@@ -1,8 +1,8 @@
 ﻿using StrazhAPI;
-using StrazhAPI.Journal;
 using System;
 using System.Data.Linq;
 using System.Linq;
+using StrazhAPI.Journal;
 
 namespace StrazhDAL
 {
@@ -74,28 +74,28 @@ namespace StrazhDAL
 			}
 		}
 
-		public OperationResult<int> GetLastJournalItemNoByController(Guid controllerUid)
+		public OperationResult<DateTime> GetLastJournalItemTimeProducedByController(Guid controllerUid)
 		{
-			var journals = Context.Journals.Where(x => x.ControllerUID == controllerUid)
-				.Where(x => x.Name == (int)JournalEventNameType.Проход_запрещен || x.Name == (int)JournalEventNameType.Проход_разрешен).ToList();
-			var result = 0;
-			if (journals.Count > 0)
-				result = journals.Max(x => x.No);
-			return new OperationResult<int>(result);
-		}
+			try
+			{
+				var journalResult = Context.GetLastJournalItemProducedByController(controllerUid);
+				var journalResultItems = journalResult.ToArray();
+				
+				if (journalResultItems.Length != 1)
+					return OperationResult<DateTime>.FromError("Нет зарегистрированных событий");
+				
+				var deviceDate = journalResultItems[0].DeviceDate;
+				
+				if  (!deviceDate.HasValue)
+					return OperationResult<DateTime>.FromError("Для зарегистрированного события не зафиксировано время на устройстве");
+				
+				return new OperationResult<DateTime>(journalResultItems[0].DeviceDate.Value);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<DateTime>.FromError(e.Message);
+			}
 
-		public OperationResult<int> GetLastAlarmJournalItemNoByController(Guid controllerUid)
-		{
-			var journals = Context.Journals.Where(x => x.ControllerUID == controllerUid)
-				.Where(x => x.Name == (int)JournalEventNameType.Принуждение
-				|| x.Name == (int)JournalEventNameType.Взлом
-				|| x.Name == (int)JournalEventNameType.Дверь_не_закрыта_начало
-				|| x.Name == (int)JournalEventNameType.Дверь_не_закрыта_конец
-				|| x.Name == (int)JournalEventNameType.Повторный_проход).ToList();
-			var result = 0;
-			if (journals.Count > 0)
-				result = journals.Max(x => x.No);
-			return new OperationResult<int>(result);
 		}
 
 		public void Dispose()

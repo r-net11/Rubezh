@@ -1,9 +1,9 @@
-﻿using StrazhAPI.Journal;
-using StrazhDeviceSDK.API;
+﻿using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using StrazhAPI.Journal;
 
 namespace StrazhDeviceSDK
 {
@@ -76,7 +76,7 @@ namespace StrazhDeviceSDK
 				CardNo = nativeAccess.szCardNo,
 				Password = nativeAccess.szPwd,
 				Time = NET_TIMEToDateTime(nativeAccess.stuTime),
-				MethodType = (AccessMethodType)nativeAccess.emMethod,
+				MethodType = (AccessMethodType) nativeAccess.emMethod,
 				Status = nativeAccess.bStatus,
 				ReaderID = nativeAccess.szReaderID,
 				DoorNo = nativeAccess.nDoor,
@@ -134,23 +134,29 @@ namespace StrazhDeviceSDK
 			return resultAccesses;
 		}
 
-		public SKDJournalItem NativeAccessToSKDJournalItem(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccess)
+		public SKDJournalItem AccessLogItemToJournalItem(AccessLogItem accessLogItem)
 		{
 			var journalItem = new SKDJournalItem();
+
 			journalItem.JournalItemType = JournalItemType.Offline;
 			journalItem.LoginID = LoginID;
 			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = NET_TIMEToDateTime(nativeAccess.stuTime);
-			journalItem.JournalEventNameType = nativeAccess.bStatus ? JournalEventNameType.Проход_разрешен : JournalEventNameType.Проход_запрещен;
-			journalItem.CardNo = nativeAccess.szCardNo;
-			journalItem.DoorNo = nativeAccess.nDoor;
-			journalItem.bStatus = nativeAccess.bStatus;
-			journalItem.emCardType = nativeAccess.emCardType;
-			journalItem.emOpenMethod = nativeAccess.emMethod;
-			journalItem.szPwd = nativeAccess.szPwd;
-			journalItem.szReaderID = nativeAccess.szReaderID;
-			journalItem.ErrorCode = (ErrorCode)nativeAccess.nErrorCode;
-			journalItem.No = nativeAccess.nRecNo;
+			journalItem.DeviceDateTime = accessLogItem.Time;
+			journalItem.JournalEventNameType = accessLogItem.Status
+				? JournalEventNameType.Проход_разрешен
+				: JournalEventNameType.Проход_запрещен;
+			journalItem.CardNo = accessLogItem.CardNo;
+			journalItem.DoorNo = accessLogItem.DoorNo;
+			journalItem.bStatus = accessLogItem.Status;
+			journalItem.emCardType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)accessLogItem.CardType;
+			journalItem.emOpenMethod = (NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)accessLogItem.MethodType;
+			journalItem.szPwd = accessLogItem.Password;
+			//journalItem.nAction = 
+			//journalItem.emStatus = 
+			journalItem.szReaderID = accessLogItem.ReaderID;
+			//journalItem.szDoorName = 
+			journalItem.ErrorCode = accessLogItem.ErrorCode;
+
 			return journalItem;
 		}
 	}
