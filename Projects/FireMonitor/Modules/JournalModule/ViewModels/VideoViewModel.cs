@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.IO;
 using Localization.Journal.ViewModels;
@@ -7,7 +9,9 @@ namespace JournalModule.ViewModels
 {
 	public class VideoViewModel : DialogViewModel
 	{
-		public string VideoPath { get; private set; }
+	    private bool _hasGetVideoAction;
+
+        public string VideoPath { get; private set; }
 
 		public event EventHandler Play;
 		public event EventHandler Stop;
@@ -24,10 +28,20 @@ namespace JournalModule.ViewModels
 			Stop(this, EventArgs.Empty);
 		}
 
-		public VideoViewModel(string videoPath)
+		public VideoViewModel(string videoPath, Action getVideoAction = null)
 		{
 			VideoPath = videoPath;
 			Title = CommonViewModels.Videoclip;
+		    
+            if (getVideoAction != null)
+            {
+                _hasGetVideoAction = true;
+                Task.Factory.StartNew(() =>
+                {
+                    getVideoAction();
+                    ApplicationService.Invoke(OnPlay);
+                });
+            }
 		}
 
 		public override bool OnClosing(bool isCanceled)
@@ -41,7 +55,11 @@ namespace JournalModule.ViewModels
 		public override void Loaded()
 		{
 			base.Loaded();
-			OnPlay();
+
+		    if (!_hasGetVideoAction)
+		    {
+                OnPlay();
+            }
 		}
 	}
 }
