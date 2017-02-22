@@ -1,4 +1,5 @@
 ﻿using System;
+using RVI.MediaSource;
 using RviClient.UI.VideoCell;
 
 namespace RviClient.UI
@@ -13,7 +14,7 @@ namespace RviClient.UI
 		/// <summary>
 		/// Проигрыватель
 		/// </summary>
-		MediaSourcePlayer.MediaPlayer MediaPlayer { get; }
+		MediaPlayer MediaPlayer { get; }
 
 		/// <summary>
 		/// Всегда показывать инструментальные панели

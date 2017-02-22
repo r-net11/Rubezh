@@ -46,15 +46,17 @@
     <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
     </Reference>
-    <Reference Include="MediaSourcePlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\RVI_VSS\MediaSourcePlayer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="RVI.Client">
+      <HintPath>..\..\..\..\3rdParty\RVI_VMS\RVI.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RVI.MediaSource">
+      <HintPath>..\..\..\..\3rdParty\RVI_VMS\RVI.MediaSource.dll</HintPath>
     </Reference>
     <Reference Include="SdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\..\..\..\3rdParty\RVI_VSS\SdkWrapper.dll</HintPath>
