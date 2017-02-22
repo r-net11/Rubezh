@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Common;
 using MediaSourcePlayer;
+using RVI.MediaSource;
 using RviClient.UI.VideoCell;
 
 namespace RviClient.UI
@@ -102,7 +103,7 @@ namespace RviClient.UI
 		/// <summary>
 		/// Проигрыватель
 		/// </summary>
-		public MediaSourcePlayer.MediaPlayer MediaPlayer { get; private set; }
+		public MediaPlayer MediaPlayer { get; private set; }
 
 
 		/// <summary>
