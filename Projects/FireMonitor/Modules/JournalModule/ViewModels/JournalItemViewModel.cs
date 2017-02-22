@@ -246,8 +246,7 @@ namespace JournalModule.ViewModels
 			var videoPath = AppDataFolderHelper.GetTempFileName() + ".mkv";
 			try
 			{
-				RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, JournalItem.VideoUID, JournalItem.CameraUID, videoPath);
-				DialogService.ShowModalWindow(new VideoViewModel(videoPath));
+                DialogService.ShowModalWindow(new VideoViewModel(videoPath, () => RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, JournalItem.VideoUID, JournalItem.CameraUID, videoPath)));
 			}
 			catch (CommunicationObjectFaultedException e)
 			{
