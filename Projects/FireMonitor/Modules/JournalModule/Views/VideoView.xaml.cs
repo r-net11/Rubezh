@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using Common;
 using JournalModule.ViewModels;
 using MediaSourcePlayer.MediaSource;
+using RVI.MediaSource.MediaSources;
 
 namespace JournalModule.Views
 {
@@ -53,7 +54,7 @@ namespace JournalModule.Views
 				return;
 			try
 			{
-				videoCellControl.MediaPlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(model.VideoPath)));
+				videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromFile(model.VideoPath));
 				videoCellControl.MediaPlayer.Play();
 			}
 			catch (Exception e)
