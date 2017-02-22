@@ -6,6 +6,7 @@ using System.Windows;
 using Common;
 using Infrastructure.Common.Windows;
 using MediaSourcePlayer.MediaSource;
+using RVI.MediaSource.MediaSources;
 using StrazhAPI.Models;
 using VideoModule.ViewModels;
 
@@ -60,7 +61,7 @@ namespace VideoModule.Views
 					ApplicationService.Invoke(() =>
 					{
 						Logger.Info(string.Format("Камера '{0}'. Реквизиты для начала трансляции получены. Адрес='{1}', Издатель='{2}'", viewModel.Camera.Name, ipEndPoint, vendorId));
-						videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+						videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromServerOnlineStream(ipEndPoint, vendorId));
 						Logger.Info(string.Format("Камера '{0}'. Старт трансляции.", viewModel.Camera.Name));
 						videoCellControl.MediaPlayer.Play();
 					});
