@@ -61,7 +61,7 @@ namespace VideoModule.Views
 					Logger.Info(string.Format("Камера '{0}'. Попытка начать трансляцию.", viewModel.Camera.Name));
 					while (!viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 					{
-						Thread.Sleep(30000);
+						Thread.Sleep(10000);
 						Logger.Info(string.Format("Камера '{0}'. Очередная попытка начать трансляцию.", viewModel.Camera.Name));
 					}
                     ApplicationService.Invoke(() =>
