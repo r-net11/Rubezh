@@ -139,7 +139,7 @@ namespace StrazhDeviceSDK
 			var journalItem = new SKDJournalItem();
 			journalItem.JournalItemType = JournalItemType.Offline;
 			journalItem.LoginID = LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.SystemDateTime = NET_TIMEToDateTime(nativeAccess.stuTime);
 			journalItem.DeviceDateTime = NET_TIMEToDateTime(nativeAccess.stuTime);
 			journalItem.JournalEventNameType = nativeAccess.bStatus ? JournalEventNameType.Проход_разрешен : JournalEventNameType.Проход_запрещен;
 			journalItem.CardNo = nativeAccess.szCardNo;

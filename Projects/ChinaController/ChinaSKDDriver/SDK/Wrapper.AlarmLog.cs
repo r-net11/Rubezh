@@ -124,7 +124,7 @@ namespace StrazhDeviceSDK
 
 			journalItem.JournalItemType = JournalItemType.Offline;
 			journalItem.LoginID = LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.SystemDateTime = alarmLogItem.DateTime;
 			journalItem.DeviceDateTime = alarmLogItem.DateTime;
 			switch (alarmLogItem.AlarmType)
 			{
@@ -166,7 +166,7 @@ namespace StrazhDeviceSDK
 
 			journalItem.JournalItemType = JournalItemType.Offline;
 			journalItem.LoginID = LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.SystemDateTime = NET_TIMEToDateTime(nativeLog.stuTime);
 			journalItem.DeviceDateTime = NET_TIMEToDateTime(nativeLog.stuTime);
 			var alarmLogMessage = JsonConvert.DeserializeObject<AlarmLogMessage>(nativeLog.szLogMessage);
 			switch (alarmLogMessage.AlarmType)

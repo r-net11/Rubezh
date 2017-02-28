@@ -1,7 +1,7 @@
 ﻿using Localization.StrazhDeviceSDK.Common;
+using StrazhAPI.Journal;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
-using StrazhAPI.Journal;
 using System;
 using System.Threading;
 
@@ -21,7 +21,7 @@ namespace StrazhDeviceSDK
 		{
 			NativeWrapper.WRAP_Initialize();
 		}
-		
+
 		#region Connct
 
 		public int WrapConnect(string ipAddress, int port, string login, string password, out string error)
@@ -135,8 +135,8 @@ namespace StrazhDeviceSDK
 		{
 			var journalItem = new SKDJournalItem();
 			journalItem.LoginID = wrapJournalItem.LoginID;
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = Wrapper.NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
+			journalItem.SystemDateTime = NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
+			journalItem.DeviceDateTime = NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
 
 			switch (wrapJournalItem.ExtraEventType)
 			{
