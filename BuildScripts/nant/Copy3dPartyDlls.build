@@ -4,6 +4,7 @@
   <target name="run">
     <call target="rvivssToFiresecService" />
     <call target="rvivssToFireAdministratorAndFireMonitor" />
+    <call target="rvivmsToFireAdministratorAndFireMonitor" />
   </target>
 
   <target name="rvivssToFiresecService">
@@ -31,28 +32,66 @@
     <!-- FireAdministrator -->
     <copy todir="..\..\Projects\FireAdministrator\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\3rdParty\RVI_VSS">
-        <include name="**" />
-        <exclude name="readme.txt" />
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
+        <include name="SdkWrapper.dll" />
       </fileset>
     </copy>
     <copy todir="..\..\Projects\FireAdministrator\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\3rdParty\RVI_VSS">
-        <include name="**" />
-        <exclude name="readme.txt" />
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
+        <include name="SdkWrapper.dll" />
       </fileset>
     </copy>
 
     <!-- FireMonitor -->
     <copy todir="..\..\Projects\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\3rdParty\RVI_VSS">
-        <include name="**" />
-        <exclude name="readme.txt" />
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
+        <include name="SdkWrapper.dll" />
       </fileset>
     </copy>
     <copy todir="..\..\Projects\FireMonitor\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="RVI_VSS.Utils.dll" />
+        <include name="SdkWrapper.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="rvivmsToFireAdministratorAndFireMonitor">
+    <!-- FireAdministrator -->
+    <copy todir="..\..\Projects\FireAdministrator\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VMS">
         <include name="**" />
-        <exclude name="readme.txt" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\FireAdministrator\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VMS">
+        <include name="**" />
+      </fileset>
+    </copy>
+
+    <!-- FireMonitor -->
+    <copy todir="..\..\Projects\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VMS">
+        <include name="**" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\FireMonitor\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VMS">
+        <include name="**" />
       </fileset>
     </copy>
   </target>
