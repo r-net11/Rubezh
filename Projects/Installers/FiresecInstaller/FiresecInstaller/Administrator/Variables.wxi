@@ -10,4 +10,5 @@
   <?define Administrator.DeployFirmware.TargetDir="..\..\..\..\..\Deploy\GKFirmware\"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
   <?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>
+  <?define VMSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VMS\"?>
 </Include>

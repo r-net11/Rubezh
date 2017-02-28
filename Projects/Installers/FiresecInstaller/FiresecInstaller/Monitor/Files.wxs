@@ -163,15 +163,26 @@
 				<File Id="Monitor.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.MediaSourcePlayer.dll" Name="MediaSourcePlayer.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.NativePlayerWrap.dll" Name="NativePlayerWrap.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.PlayerPoolService.dll" Name="PlayerPoolService.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.PlayerService.dll" Name="PlayerService.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.PlayerServiceApi.dll" Name="PlayerServiceApi.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.RviVssDec.exe" Name="RviVssDec.exe" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
+
+        <File Id="Monitor.Ninject.dll" Name="Ninject.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.Ninject.xml" Name="Ninject.xml" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.Client.dll" Name="RVI.Client.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.Decoder.exe" Name="RVI.Decoder.exe" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.MarshalObjects.dll" Name="RVI.MarshalObjects.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.MediaSource.dll" Name="RVI.MediaSource.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.NativePlayerProtocol.dll" Name="RVI.NativePlayerProtocol.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.NativePlayerWrap.dll" Name="RVI.NativePlayerWrap.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.PlayerPoolService.dll" Name="RVI.PlayerPoolService.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.PlayerService.dll" Name="RVI.PlayerService.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.PlayerServiceAPI.dll" Name="RVI.PlayerServiceAPI.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.Task.Core.dll" Name="RVI.Task.Core.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.TaskClient.Core.dll" Name="RVI.TaskClient.Core.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.TaskClient.dll" Name="RVI.TaskClient.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.TaskServer.Interface.dll" Name="RVI.TaskServer.Interface.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Monitor.RVI.RVI.Utils.dll" Name="RVI.Utils.dll" Source="$(var.VMSDll.TargetDir)" />
+      </Component>
 
 		</DirectoryRef>
 
@@ -206,9 +217,11 @@
 				<File Id="Monitor.DsSdk.dll" Name="DsSdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.gdiplus.dll" Name="gdiplus.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.h264dec.dll" Name="h264dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.HWDecode.dll" Name="HWDecode.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Infra.dll" Name="Infra.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.H264Play.dll" Name="H264Play.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.hi_h264dec_v.dll" Name="hi_h264dec_v.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.HW_H265Decoder.dll" Name="HW_H265Decoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.Infra.dll" Name="Infra.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.jpegdec.dll" Name="jpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
@@ -235,9 +248,10 @@
 				<File Id="Monitor.msvcm80.dll" Name="msvcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.msvcp80.dll" Name="msvcp80.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.msvcr80.dll" Name="msvcr80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.NativePlayer.dll" Name="NativePlayer.dll" Source="$(var.Monitor.TargetDir)dll\" />
+				<File Id="Monitor.RVI.NativePlayer.dll" Name="RVI.NativePlayer.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.npf.sys" Name="npf.sys" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.NetSdk.dll" Name="NetSdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.npf.sys" Name="npf.sys" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.npf64.sys" Name="npf64.sys" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
@@ -252,7 +266,8 @@
 				<File Id="Monitor.SensorUI.dll" Name="SensorUI.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.Stream.dll" Name="Stream.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.StreamAnalyzer.dll" Name="StreamAnalyzer.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.StreamReader.dll" Name="StreamReader.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <File Id="Monitor.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.SuperRender.dll" Name="SuperRender.dll" Source="$(var.Monitor.TargetDir)dll\" />
 				<File Id="Monitor.swresample_1.dll" Name="swresample-1.dll" Source="$(var.Monitor.TargetDir)dll\" />
