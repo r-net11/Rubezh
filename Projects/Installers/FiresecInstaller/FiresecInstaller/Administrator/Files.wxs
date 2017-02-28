@@ -121,15 +121,26 @@
 				<File Id="Administrator.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.MediaSourcePlayer.dll" Name="MediaSourcePlayer.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.NativePlayerWrap.dll" Name="NativePlayerWrap.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.PlayerPoolService.dll" Name="PlayerPoolService.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.PlayerService.dll" Name="PlayerService.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.PlayerServiceApi.dll" Name="PlayerServiceApi.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Administrator.RviVssDec.exe" Name="RviVssDec.exe" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Administrator.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
+
+        <File Id="Administrator.Ninject.dll" Name="Ninject.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.Ninject.xml" Name="Ninject.xml" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.Client.dll" Name="RVI.Client.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.Decoder.exe" Name="RVI.Decoder.exe" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.MarshalObjects.dll" Name="RVI.MarshalObjects.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.MediaSource.dll" Name="RVI.MediaSource.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.NativePlayerProtocol.dll" Name="RVI.NativePlayerProtocol.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.NativePlayerWrap.dll" Name="RVI.NativePlayerWrap.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.PlayerPoolService.dll" Name="RVI.PlayerPoolService.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.PlayerService.dll" Name="RVI.PlayerService.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.PlayerServiceAPI.dll" Name="RVI.PlayerServiceAPI.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.Task.Core.dll" Name="RVI.Task.Core.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.TaskClient.Core.dll" Name="RVI.TaskClient.Core.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.TaskClient.dll" Name="RVI.TaskClient.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.TaskServer.Interface.dll" Name="RVI.TaskServer.Interface.dll" Source="$(var.VMSDll.TargetDir)" />
+        <File Id="Administrator.RVI.RVI.Utils.dll" Name="RVI.Utils.dll" Source="$(var.VMSDll.TargetDir)" />
+      </Component>
 		</DirectoryRef>
 
 		<!-- DLL'ки для работы с видео  -->
@@ -162,9 +173,11 @@
 				<File Id="Administrator.DsSdk.dll" Name="DsSdk.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.gdiplus.dll" Name="gdiplus.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.h264dec.dll" Name="h264dec.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.HWDecode.dll" Name="HWDecode.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.Infra.dll" Name="Infra.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.H264Play.dll" Name="H264Play.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.hi_h264dec_v.dll" Name="hi_h264dec_v.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.HW_H265Decoder.dll" Name="HW_H265Decoder.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.Infra.dll" Name="Infra.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.jpegdec.dll" Name="jpegdec.dll" Source="$(var.Administrator.TargetDir)dll\" />
@@ -191,9 +204,10 @@
 				<File Id="Administrator.msvcm80.dll" Name="msvcm80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.msvcp80.dll" Name="msvcp80.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.msvcr80.dll" Name="msvcr80.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.NativePlayer.dll" Name="NativePlayer.dll" Source="$(var.Administrator.TargetDir)dll\" />
+				<File Id="Administrator.RVI.NativePlayer.dll" Name="RVI.NativePlayer.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.npf.sys" Name="npf.sys" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.NetSdk.dll" Name="NetSdk.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.npf.sys" Name="npf.sys" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.npf64.sys" Name="npf64.sys" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.Administrator.TargetDir)dll\" />
@@ -208,7 +222,8 @@
 				<File Id="Administrator.SensorUI.dll" Name="SensorUI.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.Stream.dll" Name="Stream.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.StreamAnalyzer.dll" Name="StreamAnalyzer.dll" Source="$(var.Administrator.TargetDir)dll\" />
-				<File Id="Administrator.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.StreamReader.dll" Name="StreamReader.dll" Source="$(var.Administrator.TargetDir)dll\" />
+        <File Id="Administrator.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.SuperRender.dll" Name="SuperRender.dll" Source="$(var.Administrator.TargetDir)dll\" />
 				<File Id="Administrator.swresample_1.dll" Name="swresample-1.dll" Source="$(var.Administrator.TargetDir)dll\" />
