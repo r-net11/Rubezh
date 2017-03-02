@@ -13,7 +13,9 @@ namespace VideoModule.Views
 {
 	public partial class LayoutPartCameraView
 	{
-		public LayoutPartCameraView()
+        private CancellationTokenSource _cts;
+
+        public LayoutPartCameraView()
 		{
 			InitializeComponent();
 
@@ -24,7 +26,8 @@ namespace VideoModule.Views
 
 		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
 		{
-			StartPlaying();
+            videoCellControl.MediaPlayer.Close();
+            StartPlaying();
 		}
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
@@ -38,45 +41,73 @@ namespace VideoModule.Views
 			if (viewModel == null)
 				return;
 
-			Task.Factory.StartNew(() =>
-			{
-				try
-				{
-					IPEndPoint ipEndPoint;
-					int vendorId;
-					Logger.Info(string.Format("Камера '{0}'. Попытка начать трансляцию.", viewModel.Camera.Name));
-					while (!viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
-					{
-						Thread.Sleep(30000);
-						Logger.Info(string.Format("Камера '{0}'. Очередная попытка начать трансляцию.", viewModel.Camera.Name));
-					}
-					ApplicationService.Invoke(() =>
-					{
-						Logger.Info(string.Format("Камера '{0}'. Реквизиты для начала трансляции получены. Адрес='{1}', Издатель='{2}'", viewModel.Camera.Name, ipEndPoint, vendorId));
-						videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromServerOnlineStream(ipEndPoint, vendorId));
-						Logger.Info(string.Format("Камера '{0}'. Старт трансляции.", viewModel.Camera.Name));
-						videoCellControl.MediaPlayer.Play();
-					});
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, string.Format("Камера '{0}'. Исключительная ситуация при попытке трансляции.", viewModel.Camera.Name));
-					ApplicationService.Invoke(() =>
-					{
-						videoCellControl.ShowReconnectButton = true;
-					});
-				}
-			});
-		}
+            _cts = new CancellationTokenSource();
+
+            Task.Factory.StartNew(() => PrepareToTranslation(viewModel, _cts.Token), _cts.Token);
+        }
+
+        private void PrepareToTranslation(LayoutPartCameraViewModel viewModel, CancellationToken cancellationToken)
+        {
+            try
+            {
+                IPEndPoint ipEndPoint;
+                int vendorId;
+                Logger.Info(string.Format("Камера '{0}'. Попытка начать трансляцию.", viewModel.Camera.Name));
+                while (!viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    Thread.Sleep(10000);
+                    Logger.Info(string.Format("Камера '{0}'. Очередная попытка начать трансляцию.", viewModel.Camera.Name));
+                }
+                ApplicationService.Invoke(() =>
+                {
+                    Logger.Info(
+                        string.Format(
+                            "Камера '{0}'. Реквизиты для начала трансляции получены. Адрес='{1}', Издатель='{2}'",
+                            viewModel.Camera.Name, ipEndPoint, vendorId));
+
+                    videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromServerOnlineStream(ipEndPoint, vendorId));
+                    Logger.Info(string.Format("Камера '{0}'. Старт трансляции.", viewModel.Camera.Name));
+                    videoCellControl.MediaPlayer.Play();
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                Logger.Info(string.Format("Камера '{0}'. Прервана попытка начать трансляцию.", viewModel.Camera.Name));
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e,
+                    string.Format("Камера '{0}'. Исключительная ситуация при попытке трансляции.", viewModel.Camera.Name));
+                ApplicationService.Invoke(() =>
+                {
+                    videoCellControl.ShowReconnectButton = true;
+                });
+            }
+        }
 
 		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
 		{
-			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
-			videoCellControl.MediaPlayer.Stop();
-			videoCellControl.MediaPlayer.Close();
+            CancelPrepareToTranslation();
+            StopPlaying();
 
+            videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
 			DataContextChanged -= OnDataContextChanged;
 			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
 		}
-	}
+
+        private void CancelPrepareToTranslation()
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+            }
+        }
+
+        private void StopPlaying()
+        {
+            videoCellControl.MediaPlayer.Stop();
+            videoCellControl.MediaPlayer.Close();
+        }
+    }
 }
