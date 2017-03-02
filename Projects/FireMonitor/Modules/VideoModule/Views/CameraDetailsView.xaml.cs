@@ -92,8 +92,6 @@ namespace VideoModule.Views
 	    private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 	    {
 	        CancelPrepareToTranslation();
-
-            // Останавливаем видео ячейку и освобождаем занятые ей ресурсы
 			StopPlaying();
 
 			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
@@ -105,8 +103,6 @@ namespace VideoModule.Views
 		private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
 		{
 		    CancelPrepareToTranslation();
-
-			// Останавливаем видео ячейку и освобождаем занятые ей ресурсы, если данное окно не закрывали, а вышли из приложения (т.к. окно не модальное)
 			StopPlaying();
 		}
 

@@ -110,7 +110,8 @@ namespace VideoModule.Views
 
 		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
 		{
-			StartPlaying();
+            videoCellControl.MediaPlayer.Close();
+            StartPlaying();
 		}
 
         private void CancelPrepareToTranslation()
