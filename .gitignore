@@ -1,5 +1,8 @@
-﻿BuildScripts/bin/GK
+BuildScripts/bin/GK
 BuildScripts/bin/Integration
+BuildScripts/buildlog_BuildRelease.xml
+BuildScripts/buildlog_Copy3dPartyDlls.xml
+BuildScripts/buildlog_CopySDK.xml
 buildlog.xml
 Documents/Manual/Ñîñòîÿíèÿ.docx
 
