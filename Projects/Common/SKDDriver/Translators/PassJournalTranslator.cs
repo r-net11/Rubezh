@@ -29,16 +29,15 @@ namespace StrazhDAL
 			Context.Dispose();
 		}
 
-		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
+		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID, DateTime dateTime)
 		{
 			try
 			{
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
-				var tmpDateTime = DateTime.Now;
 
 				if (exitPassJournal != null)
 				{
-					exitPassJournal.ExitTime = tmpDateTime;
+					exitPassJournal.ExitTime = dateTime;
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
 					exitPassJournal.IsOpen = default(bool);
 				}
@@ -50,7 +49,7 @@ namespace StrazhDAL
 						UID = Guid.NewGuid(),
 						EmployeeUID = employeeUID,
 						ZoneUID = zoneUID,
-						EnterTime = tmpDateTime,
+						EnterTime = dateTime,
 						ExitTime = null,
 						IsOpen = true
 					};

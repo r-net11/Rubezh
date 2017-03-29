@@ -34,5 +34,19 @@ namespace StrazhDeviceSDK.API
 
 		public ErrorCode ErrorCode { get; set; }
 		public int No { get; set; }
+
+		public bool IsPass { get { return JournalEventNameType == JournalEventNameType.Проход_разрешен || JournalEventNameType == JournalEventNameType.Проход_запрещен; } }
+		public bool IsAlarm
+		{
+			get
+			{
+				return JournalEventNameType == JournalEventNameType.Принуждение
+					|| JournalEventNameType == JournalEventNameType.Взлом
+					|| JournalEventNameType == JournalEventNameType.Дверь_не_закрыта_начало
+					|| JournalEventNameType == JournalEventNameType.Повторный_проход
+					|| JournalEventNameType == JournalEventNameType.Вскрытие_контроллера_начало
+					|| JournalEventNameType == JournalEventNameType.Местная_тревога_начало;
+			}
+		}
 	}
 }

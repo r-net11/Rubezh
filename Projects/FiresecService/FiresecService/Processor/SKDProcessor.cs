@@ -1,14 +1,14 @@
-﻿using Localization.StrazhService.Core.Common;
+﻿using Common;
+using FiresecService.Service;
+using Localization.StrazhService.Core.Common;
 using Localization.StrazhService.Core.Errors;
-using StrazhDeviceSDK;
-using Common;
 using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
-using FiresecService.Service;
 using StrazhDAL;
+using StrazhDeviceSDK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +97,7 @@ namespace FiresecService
 						}
 
 						// Для онлайн событий прохода выполняем фиксацию факта прохода в БД журнала проходов
-						if (journalItem.JournalItemType == JournalItemType.Online && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
+						if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{
 							var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (readerDevice != null && readerDevice.Zone != null)
@@ -105,7 +105,7 @@ namespace FiresecService
 								var zoneUID = readerDevice.Zone.UID;
 								using (var passJournalTranslator = new PassJournalTranslator())
 								{
-									passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
+									passJournalTranslator.AddPassJournal(employeeUID, zoneUID, journalItem.SystemDateTime);
 								}
 							}
 						}
@@ -113,7 +113,7 @@ namespace FiresecService
 
 					// Бизнес-логика для приложенной к считывателю "Гостевой" карты, если контроллер разрешает проход
 					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен &&
-					    journalItem.ObjectUID != Guid.Empty)
+						journalItem.ObjectUID != Guid.Empty)
 					{
 						var getCardOperationResult = databaseService.CardTranslator.Get(cardNo);
 						if (!getCardOperationResult.HasError)
@@ -427,7 +427,7 @@ namespace FiresecService
 						{
 							cardWriter = Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 						}
-						if ((PendingCardAction) pendingCard.Action == PendingCardAction.ResetRepeatEnter)
+						if ((PendingCardAction)pendingCard.Action == PendingCardAction.ResetRepeatEnter)
 						{
 							List<Guid> doorsGuids = deviceProcessor.Device.Children.Where(x => x.DriverType == SKDDriverType.Reader && x.Door != null).Select(x => x.Door.UID).ToList();
 							cardWriter = Processor.ResetRepeatEnter(card, doorsGuids);

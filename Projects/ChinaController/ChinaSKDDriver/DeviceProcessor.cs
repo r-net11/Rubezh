@@ -13,11 +13,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace StrazhDeviceSDK
 {
 	public class DeviceProcessor
 	{
+		int _lastJournalItemNo { get; set; }
+		int _lastAlarmJournalItemNo { get; set; }
+
+		bool _isOfflineReadOutStart { get; set; }
+
+		List<SKDJournalItem> _onlineJournalItems { get; set; }
 		public Wrapper Wrapper { get; private set; }
 
 		public SKDDevice Device { get; private set; }
@@ -42,14 +49,16 @@ namespace StrazhDeviceSDK
 		{
 			Device = device;
 			Wrapper = new Wrapper();
-			Wrapper.NewJournalItem -= Wrapper_NewJournalItem;
 			Wrapper.NewJournalItem += Wrapper_NewJournalItem;
+			_onlineJournalItems = new List<SKDJournalItem>();
 		}
 
-		private void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
+		void OnNewJournalItem(SKDJournalItem skdJournalItem)
 		{
 			if (skdJournalItem.LoginID != LoginID)
 				return;
+
+			skdJournalItem.No = skdJournalItem.IsAlarm ? ++_lastAlarmJournalItemNo : skdJournalItem.IsPass ? ++_lastJournalItemNo : 0; // костыль, потому что с контроллера при онлайн проходе не приходит номер события
 
 			var journalItem = new JournalItem
 			{
@@ -258,6 +267,17 @@ namespace StrazhDeviceSDK
 				NewJournalItem(journalItem);
 		}
 
+		void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
+		{
+			if (_isOfflineReadOutStart)
+			{
+				lock (_onlineJournalItems)
+					_onlineJournalItems.Add(skdJournalItem);
+			}
+			else
+				OnNewJournalItem(skdJournalItem);
+		}
+
 		private void OnConnectionChanged(bool isConnected, bool fireJournalItemEvent = true)
 		{
 			IsConnected = isConnected;
@@ -339,18 +359,24 @@ namespace StrazhDeviceSDK
 
 				if (_isOfflineLogEnabled)
 				{
-					Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
-
-					using (var journalTranslator = new JournalTranslator())
+					Task.Factory.StartNew(() =>
 					{
-						var lastItemNoResult = journalTranslator.GetLastJournalItemNoByController(Device.UID);
-						var offlineAccessSKDJournalItems = lastItemNoResult.HasError ? new List<SKDJournalItem>() : Wrapper.GetOfflineSKDJournalItems(lastItemNoResult.Result);
-						var lastAlarmJournaItemNoResult = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
-						var offlineAlarmSKDJournalItems = lastAlarmJournaItemNoResult.HasError ? new List<SKDJournalItem>() : Wrapper.GetOfflineAlarmSKDJournalItems(lastAlarmJournaItemNoResult.Result);
-						(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(Wrapper_NewJournalItem);
-					}
-					Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
+						_isOfflineReadOutStart = true;
+						Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
 
+						var offlineAccessSKDJournalItems = Wrapper.GetOfflineSKDJournalItems(_lastJournalItemNo);
+						var offlineAlarmSKDJournalItems = Wrapper.GetOfflineAlarmSKDJournalItems(_lastAlarmJournalItemNo);
+						(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(OnNewJournalItem);
+
+						lock (_onlineJournalItems)
+						{
+							_onlineJournalItems.ForEach(OnNewJournalItem);
+							_onlineJournalItems.Clear();
+						}
+
+						_isOfflineReadOutStart = false;
+						Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
+					});
 				}
 				if (ConnectionAppeared != null)
 					ConnectionAppeared(this);
@@ -393,6 +419,21 @@ namespace StrazhDeviceSDK
 
 		private void OnStart()
 		{
+			using (var journalTranslator = new JournalTranslator())
+			{
+				var lastJournalItemNo = journalTranslator.GetLastJournalItemNoByController(Device.UID);
+				var lastAlarmJournalItemNo = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
+				while (lastAlarmJournalItemNo.HasError || lastAlarmJournalItemNo.HasError)
+				{
+					Logger.Error("Контроллер '{0}'. Процесс получения событий с контроллера не запущен. Не удалось получить номер последнего события и БД.", Device.Name);
+					Thread.Sleep(1000);
+					lastJournalItemNo = journalTranslator.GetLastJournalItemNoByController(Device.UID);
+					lastAlarmJournalItemNo = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
+				}
+				_lastJournalItemNo = lastJournalItemNo.Result;
+				_lastAlarmJournalItemNo = lastAlarmJournalItemNo.Result;
+			}
+
 			var attemptCount = 0;
 
 			while (true)

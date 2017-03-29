@@ -1,6 +1,6 @@
-﻿using StrazhDeviceSDK.API;
+﻿using StrazhAPI.Journal;
+using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
-using StrazhAPI.Journal;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -16,9 +16,9 @@ namespace StrazhDeviceSDK
 		private const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
 		private const int DH_ALARM_ACCESS_CTL_STATUS = 0x3185;
 		private const int DH_ALARM_CHASSISINTRUDED = 0x3173;
-		private const int DH_ALARM_OPENDOORGROUP = 0x318c;	 // Multi-people group unlock event
+		private const int DH_ALARM_OPENDOORGROUP = 0x318c;   // Multi-people group unlock event
 		private const int DH_ALARM_FINGER_PRINT = 0x318d;
-		private const int DH_ALARM_ALARM_EX2 = 0x2175;		// local alarm event
+		private const int DH_ALARM_ALARM_EX2 = 0x2175;      // local alarm event
 		private const int DH_ALARM_ACCESS_LOCK_STATUS = 0x31a8; // Door status events
 
 		public static void Initialize()
@@ -87,7 +87,7 @@ namespace StrazhDeviceSDK
 
 		private static bool OnfMessCallBackDelegate(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, UInt32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			var journalItem = new SKDJournalItem { LoginID = lLoginID, SystemDateTime = DateTime.Now };
+			var journalItem = new SKDJournalItem { LoginID = lLoginID };
 
 			switch (lCommand)
 			{
@@ -110,6 +110,7 @@ namespace StrazhDeviceSDK
 						journalItem.szReaderID = eventInfo.szReaderID;
 						journalItem.CardNo = eventInfo.szCardNo;
 						journalItem.ErrorCode = (ErrorCode)eventInfo.nErrorCode;
+						journalItem.No = eventInfo.nPunchingRecNo;
 						break;
 					}
 
@@ -262,6 +263,7 @@ namespace StrazhDeviceSDK
 					journalItem.Description = lCommand.ToString();
 					break;
 			}
+			journalItem.SystemDateTime = journalItem.DeviceDateTime.HasValue ? journalItem.DeviceDateTime.Value : DateTime.Now;
 
 			AddJournalItem(journalItem);
 			return true;
