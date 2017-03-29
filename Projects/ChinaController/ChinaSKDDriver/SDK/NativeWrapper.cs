@@ -427,6 +427,10 @@ namespace StrazhDeviceSDK.NativeAPI
 			[LocalizedDescription(typeof(CommonResources), "Forcing")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
 
+			//[Description("Принуждение")]
+			[LocalizedDescription(typeof(CommonResources), "Forcing")]
+			NET_ACCESSCTLCARD_TYPE_POLLING,
+
 			//[Description("Материнский")]
 			[LocalizedDescription(typeof(CommonResources), "Maternal")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
@@ -796,7 +800,8 @@ namespace StrazhDeviceSDK.NativeAPI
 		{
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
-			NET_ACCESS_CTL_STATUS_TYPE_CLOSE
+			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+			NET_ACCESS_CTL_STATUS_TYPE_ABNORMAL
 		}
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
@@ -827,7 +832,35 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			//[Description("Кнопка")]
 			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT = 10,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT = 11,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_PERSONS = 12,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_KEY = 13,
+
+			//[Description("Кнопка")]
+			[LocalizedDescription(typeof(CommonResources), "Button")]
+			NET_ACCESS_DOOROPEN_METHOD_COERCE_PWD = 14
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -851,6 +884,8 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			public int nAction;
 			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
+
+			public int No;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -937,6 +972,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szSnapURL;
 
 			public int nErrorCode;
+
+			public int nPunchingRecNo;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -950,6 +987,7 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			public NET_TIME stuTime;
 			public int nAction;
+			public uint nEventId;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -962,6 +1000,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szDoorName;
 
 			public NET_TIME stuTime;
+			public uint nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -977,6 +1016,8 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
+			public uint nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -992,6 +1033,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szCardNo;
 
 			public NET_TIME stuTime;
+			public uint nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1013,6 +1055,8 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
+
+			public uint nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
