@@ -1,5 +1,4 @@
-﻿using System.Drawing.Text;
-using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraReports.UI;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD.ReportFilters;
 using System;
@@ -12,7 +11,7 @@ using System.Text;
 
 namespace FiresecService.Report.Templates
 {
-	public abstract partial class BaseReport : XtraReport, IFilteredReport
+	public partial class BaseReport : XtraReport, IFilteredReport
 	{
 		private readonly float _topMargin;
 		private readonly float _bottomMargin;
@@ -118,9 +117,9 @@ namespace FiresecService.Report.Templates
 		/// <summary>
 		/// Фиксированная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
 		/// </summary>
-		protected abstract bool ForcedLandscape
+		protected virtual bool ForcedLandscape
 		{
-			get;
+			get { return false; }
 		}
 
 		protected virtual DataSet CreateDataSet(DataProvider dataProvider)
@@ -184,6 +183,22 @@ namespace FiresecService.Report.Templates
 			footer.Controls.Add(label);
 			Bands.Add(footer);
 			label.WidthF = footer.RightF;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.lFilterName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", CommonResources.FilterWithColon)});
+			this.lPeriod.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", CommonResources.DuringPeriod)});
+			this.lUserName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", CommonResources.UserWithColon)});
+			this.lTimestamp.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+			new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", CommonResources.ReportDate)});
+			this.lPage.Format = CommonResources.PageOf;
+
 		}
 
 		private string BuildFilterString()

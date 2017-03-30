@@ -1,6 +1,6 @@
-﻿using StrazhAPI.Enums;
+﻿using FiresecService.Report.Templates;
+using StrazhAPI.Enums;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.Templates;
 using System.Diagnostics;
 
 namespace FiresecService.Report

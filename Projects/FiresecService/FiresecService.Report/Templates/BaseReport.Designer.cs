@@ -1,6 +1,4 @@
-﻿using Localization.FiresecService.Report.Common;
-
-namespace FiresecService.Report.Templates
+﻿namespace FiresecService.Report.Templates
 {
 	partial class BaseReport
 	{
@@ -43,14 +41,15 @@ namespace FiresecService.Report.Templates
 			this.lTimestamp = new DevExpress.XtraReports.UI.XRLabel();
 			this.Timestamp = new DevExpress.XtraReports.Parameters.Parameter();
 			this.lPage = new DevExpress.XtraReports.UI.XRPageInfo();
+			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// TopMargin
 			// 
 			this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.lReportName,
-            this.lFilterName,
-            this.lPeriod});
+			this.lReportName,
+			this.lFilterName,
+			this.lPeriod});
 			this.TopMargin.Dpi = 254F;
 			this.TopMargin.HeightF = 350F;
 			this.TopMargin.Name = "TopMargin";
@@ -62,14 +61,14 @@ namespace FiresecService.Report.Templates
 			this.lReportName.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Top;
 			this.lReportName.CanShrink = true;
 			this.lReportName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.ReportName, "Text", "")});
+			new DevExpress.XtraReports.UI.XRBinding(this.ReportName, "Text", "")});
 			this.lReportName.Dpi = 254F;
 			this.lReportName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
 			this.lReportName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 142.875F);
 			this.lReportName.Multiline = true;
 			this.lReportName.Name = "lReportName";
 			this.lReportName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			this.lReportName.SizeF = new System.Drawing.SizeF(1700F, 58.42F);
+			this.lReportName.SizeF = new System.Drawing.SizeF(1686.771F, 58.42F);
 			this.lReportName.StylePriority.UseFont = false;
 			this.lReportName.StylePriority.UseTextAlignment = false;
 			this.lReportName.Text = "xrLabel1";
@@ -86,12 +85,12 @@ namespace FiresecService.Report.Templates
 			this.lFilterName.AutoWidth = true;
 			this.lFilterName.CanGrow = false;
 			this.lFilterName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", CommonResources.FilterWithColon)});
+			new DevExpress.XtraReports.UI.XRBinding(this.FilterName, "Text", "Filter: {0}")});
 			this.lFilterName.Dpi = 254F;
 			this.lFilterName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 278.8542F);
 			this.lFilterName.Name = "lFilterName";
 			this.lFilterName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			this.lFilterName.SizeF = new System.Drawing.SizeF(1700F, 58.42001F);
+			this.lFilterName.SizeF = new System.Drawing.SizeF(1686.771F, 58.42001F);
 			this.lFilterName.StylePriority.UseTextAlignment = false;
 			this.lFilterName.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
@@ -106,12 +105,12 @@ namespace FiresecService.Report.Templates
 			this.lPeriod.AutoWidth = true;
 			this.lPeriod.CanShrink = true;
 			this.lPeriod.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", CommonResources.DuringPeriod)});
+			new DevExpress.XtraReports.UI.XRBinding(this.Period, "Text", "During the period of {0}")});
 			this.lPeriod.Dpi = 254F;
 			this.lPeriod.LocationFloat = new DevExpress.Utils.PointFloat(0F, 220.4341F);
 			this.lPeriod.Name = "lPeriod";
 			this.lPeriod.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			this.lPeriod.SizeF = new System.Drawing.SizeF(1700F, 58.42001F);
+			this.lPeriod.SizeF = new System.Drawing.SizeF(1686.771F, 58.42F);
 			this.lPeriod.StylePriority.UseTextAlignment = false;
 			this.lPeriod.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
@@ -123,9 +122,9 @@ namespace FiresecService.Report.Templates
 			// BottomMargin
 			// 
 			this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.lUserName,
-            this.lTimestamp,
-            this.lPage});
+			this.lUserName,
+			this.lTimestamp,
+			this.lPage});
 			this.BottomMargin.Dpi = 254F;
 			this.BottomMargin.HeightF = 280F;
 			this.BottomMargin.Name = "BottomMargin";
@@ -138,7 +137,7 @@ namespace FiresecService.Report.Templates
 			this.lUserName.AutoWidth = true;
 			this.lUserName.CanGrow = false;
 			this.lUserName.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", CommonResources.UserWithColon)});
+			new DevExpress.XtraReports.UI.XRBinding(this.UserName, "Text", "User: {0}")});
 			this.lUserName.Dpi = 254F;
 			this.lUserName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 90.16997F);
 			this.lUserName.Name = "lUserName";
@@ -158,7 +157,7 @@ namespace FiresecService.Report.Templates
 			this.lTimestamp.AutoWidth = true;
 			this.lTimestamp.CanShrink = true;
 			this.lTimestamp.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", CommonResources.ReportDate)});
+			new DevExpress.XtraReports.UI.XRBinding(this.Timestamp, "Text", "Date and time of the report: {0: dd.MM.yyyy HH: mm: ss}")});
 			this.lTimestamp.Dpi = 254F;
 			this.lTimestamp.LocationFloat = new DevExpress.Utils.PointFloat(0F, 31.75F);
 			this.lTimestamp.Name = "lTimestamp";
@@ -177,19 +176,26 @@ namespace FiresecService.Report.Templates
 			// 
 			this.lPage.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
 			this.lPage.Dpi = 254F;
-			this.lPage.Format = CommonResources.PageOf;
+			this.lPage.Format = "Page {0} of {1}";
 			this.lPage.LocationFloat = new DevExpress.Utils.PointFloat(1300.479F, 90.16997F);
 			this.lPage.Name = "lPage";
 			this.lPage.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-			this.lPage.SizeF = new System.Drawing.SizeF(399.5208F, 58.42F);
+			this.lPage.SizeF = new System.Drawing.SizeF(386.292F, 58.42F);
 			this.lPage.StylePriority.UseTextAlignment = false;
 			this.lPage.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+			// 
+			// Detail
+			// 
+			this.Detail.Dpi = 254F;
+			this.Detail.HeightF = 254F;
+			this.Detail.Name = "Detail";
 			// 
 			// BaseReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.TopMargin,
-            this.BottomMargin});
+			this.TopMargin,
+			this.BottomMargin,
+			this.Detail});
 			this.Dpi = 254F;
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
@@ -198,13 +204,13 @@ namespace FiresecService.Report.Templates
 			this.PageWidth = 2100;
 			this.PaperKind = System.Drawing.Printing.PaperKind.A4;
 			this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
-            this.ReportName,
-            this.FilterName,
-            this.Period,
-            this.UserName,
-            this.Timestamp});
+			this.ReportName,
+			this.FilterName,
+			this.Period,
+			this.UserName,
+			this.Timestamp});
 			this.ReportUnit = DevExpress.XtraReports.UI.ReportUnit.TenthsOfAMillimeter;
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.BaseReport_DataSourceDemanded);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -225,5 +231,6 @@ namespace FiresecService.Report.Templates
 		private DevExpress.XtraReports.Parameters.Parameter Timestamp;
 		private DevExpress.XtraReports.UI.XRPageInfo lPage;
 		private DevExpress.XtraReports.UI.XRLabel lReportName;
+		protected DevExpress.XtraReports.UI.DetailBand Detail;
 	}
 }

@@ -117,42 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.DataSourceSchema" xml:space="preserve">
-    <value>&lt;?xml version="1.0"?&gt;
-&lt;xs:schema id="DataSet402" targetNamespace="http://tempuri.org/DataSet402.xsd" xmlns:mstns="http://tempuri.org/DataSet402.xsd" xmlns="http://tempuri.org/DataSet402.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified"&gt;
-  &lt;xs:element name="DataSet402" msdata:IsDataSet="true" msdata:UseCurrentLocale="true"&gt;
-	&lt;xs:complexType&gt;
-	  &lt;xs:choice minOccurs="0" maxOccurs="unbounded"&gt;
-		&lt;xs:element name="Employee"&gt;
-		  &lt;xs:complexType&gt;
-			&lt;xs:sequence&gt;
-			  &lt;xs:element name="Name" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="Organisation" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="Department" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="Position" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="UID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" /&gt;
-			&lt;/xs:sequence&gt;
-		  &lt;/xs:complexType&gt;
-		&lt;/xs:element&gt;
-		&lt;xs:element name="Data"&gt;
-		  &lt;xs:complexType&gt;
-			&lt;xs:sequence&gt;
-			  &lt;xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="DateTime" type="xs:dateTime" minOccurs="0" /&gt;
-			  &lt;xs:element name="Door" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="Zone" type="xs:string" minOccurs="0" /&gt;
-			  &lt;xs:element name="PassCard" type="xs:string" minOccurs="0" /&gt;
-			&lt;/xs:sequence&gt;
-		  &lt;/xs:complexType&gt;
-		&lt;/xs:element&gt;
-	  &lt;/xs:choice&gt;
-	&lt;/xs:complexType&gt;
-  &lt;/xs:element&gt;
-  &lt;xs:annotation&gt;
-	&lt;xs:appinfo&gt;
-	  &lt;msdata:Relationship name="Employee_Data" msdata:parent="Employee" msdata:child="Data" msdata:parentkey="UID" msdata:childkey="EmployeeUID" /&gt;
-	&lt;/xs:appinfo&gt;
-  &lt;/xs:annotation&gt;
-&lt;/xs:schema&gt;</value>
-  </data>
 </root>
