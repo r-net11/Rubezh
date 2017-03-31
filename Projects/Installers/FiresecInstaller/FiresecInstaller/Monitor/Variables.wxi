@@ -11,6 +11,7 @@
 	<?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
 	<?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
 	<?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>
-  <?define VMSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VMS\"?>
-  <?define var.FireMonitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\" ?>
+	<?define VMSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VMS\"?>
+	<?define var.FireMonitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\" ?>
+	<?define Monitor.DevExpress.TargetDir	="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\"?>
 </Include>

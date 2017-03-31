@@ -1,170 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<?include Variables.wxi?>
-	<Fragment>
-		<DirectoryRef Id="MONITORLOCATION">
-			<Component Id="Monitor.Files" Guid="35F81BB8-7F2D-4B9E-BD61-4C140FF0E654">
-				<File Id="Monitor.StrazhMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
-				<File Id="Monitor.StrazhMonitor.exe.config" Name="StrazhMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.StrazhMonitor.exe.manifest" Name="StrazhMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Designer.dll" Name="Infrastructure.Designer.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
+         xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <?include Variables.wxi?>
+    <Fragment>
+        <DirectoryRef Id="MONITORLOCATION">
+            <Component Id="Monitor.Files" Guid="35F81BB8-7F2D-4B9E-BD61-4C140FF0E654">
+                <File Id="Monitor.StrazhMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
+                <File Id="Monitor.StrazhMonitor.exe.config" Name="StrazhMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.StrazhMonitor.exe.manifest" Name="StrazhMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Infrastructure.Designer.dll" Name="Infrastructure.Designer.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
 
-				<File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.RviClient.UI.dll" Name="RviClient.UI.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.RviClient.UI.dll" Name="RviClient.UI.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 
-				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Monitor.TargetDir)" />
 
 
-				<!--..\..\..\..\..\..\3rdParty\Rx-Xaml.2.1.30214.0\-->
-				<!-- MYLIBS -->
-				<File Id="Monitor.Microsoft.Bcl.Build.Tasks.dll" Name="Microsoft.Bcl.Build.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Build.1.0.14\" />
-				<File Id="Monitor.Microsoft.Threading.Tasks.dll" Name="Microsoft.Threading.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
-				<File Id="Monitor.Microsoft.Threading.Tasks.Extensions.Desktop.dll" Name="Microsoft.Threading.Tasks.Extensions.Desktop.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
-				<File Id="Monitor.Microsoft.Threading.Tasks.Extensions.dll" Name="Microsoft.Threading.Tasks.Extensions.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
-				<File Id="Monitor.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
-				<File Id="Monitor.ReactiveUI.Blend.dll" Name="ReactiveUI.Blend.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
-				<File Id="Monitor.ReactiveUI.dll" Name="ReactiveUI.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-core.4.6.7\" />
-				<File Id="Monitor.ReactiveUI.NLog.dll" Name="ReactiveUI.NLog.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-nlog.4.6.7\" />
-				<File Id="Monitor.ReactiveUI.Routing.dll" Name="ReactiveUI.Routing.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
-				<File Id="Monitor.ReactiveUI.Xaml.dll" Name="ReactiveUI.Xaml.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
-				<File Id="Monitor.System.IO.dll" Name="System.IO.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
-				<File Id="Monitor.System.Reactive.Core.dll" Name="System.Reactive.Core.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Core.2.1.30214.0\" />
-				<File Id="Monitor.System.Reactive.Interfaces.dll" Name="System.Reactive.Interfaces.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Interfaces.2.1.30214.0\" />
-				<File Id="Monitor.System.Reactive.Linq.dll" Name="System.Reactive.Linq.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Linq.2.1.30214.0\" />
-				<File Id="Monitor.System.Reactive.PlatformServices.dll" Name="System.Reactive.PlatformServices.dll" Source="..\..\..\..\..\..\3rdParty\Rx-PlatformServices.2.1.30214.0\" />
-				<File Id="Monitor.System.Reactive.Windows.Threading.dll" Name="System.Reactive.Windows.Threading.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Xaml.2.1.30214.0\" />
-				<File Id="Monitor.System.Runtime.dll" Name="System.Runtime.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
-				<File Id="Monitor.System.Threading.Tasks.dll" Name="System.Threading.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
-				<!-- MyLYBS -->
-				<File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Core.dll" Name="SharpVectors.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Css.dll" Name="SharpVectors.Css.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Dom.dll" Name="SharpVectors.Dom.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Model.dll" Name="SharpVectors.Model.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Rendering.Wpf.dll" Name="SharpVectors.Rendering.Wpf.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.SharpVectors.Runtime.dll" Name="SharpVectors.Runtime.dll" Source="$(var.Monitor.TargetDir)" />
+                <!--..\..\..\..\..\..\3rdParty\Rx-Xaml.2.1.30214.0\-->
+                <!-- MYLIBS -->
+                <File Id="Monitor.Microsoft.Bcl.Build.Tasks.dll" Name="Microsoft.Bcl.Build.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Build.1.0.14\" />
+                <File Id="Monitor.Microsoft.Threading.Tasks.dll" Name="Microsoft.Threading.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
+                <File Id="Monitor.Microsoft.Threading.Tasks.Extensions.Desktop.dll" Name="Microsoft.Threading.Tasks.Extensions.Desktop.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
+                <File Id="Monitor.Microsoft.Threading.Tasks.Extensions.dll" Name="Microsoft.Threading.Tasks.Extensions.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.Async.1.0.16\" />
+                <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
+                <File Id="Monitor.ReactiveUI.Blend.dll" Name="ReactiveUI.Blend.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
+                <File Id="Monitor.ReactiveUI.dll" Name="ReactiveUI.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-core.4.6.7\" />
+                <File Id="Monitor.ReactiveUI.NLog.dll" Name="ReactiveUI.NLog.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-nlog.4.6.7\" />
+                <File Id="Monitor.ReactiveUI.Routing.dll" Name="ReactiveUI.Routing.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
+                <File Id="Monitor.ReactiveUI.Xaml.dll" Name="ReactiveUI.Xaml.dll" Source="..\..\..\..\..\..\3rdParty\reactiveui-xaml.4.6.7\" />
+                <File Id="Monitor.System.IO.dll" Name="System.IO.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
+                <File Id="Monitor.System.Reactive.Core.dll" Name="System.Reactive.Core.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Core.2.1.30214.0\" />
+                <File Id="Monitor.System.Reactive.Interfaces.dll" Name="System.Reactive.Interfaces.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Interfaces.2.1.30214.0\" />
+                <File Id="Monitor.System.Reactive.Linq.dll" Name="System.Reactive.Linq.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Linq.2.1.30214.0\" />
+                <File Id="Monitor.System.Reactive.PlatformServices.dll" Name="System.Reactive.PlatformServices.dll" Source="..\..\..\..\..\..\3rdParty\Rx-PlatformServices.2.1.30214.0\" />
+                <File Id="Monitor.System.Reactive.Windows.Threading.dll" Name="System.Reactive.Windows.Threading.dll" Source="..\..\..\..\..\..\3rdParty\Rx-Xaml.2.1.30214.0\" />
+                <File Id="Monitor.System.Runtime.dll" Name="System.Runtime.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
+                <File Id="Monitor.System.Threading.Tasks.dll" Name="System.Threading.Tasks.dll" Source="..\..\..\..\..\..\3rdParty\Microsoft.Bcl.1.1.7\" />
+                <!-- MyLYBS -->
+                <File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Core.dll" Name="SharpVectors.Core.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Css.dll" Name="SharpVectors.Css.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Dom.dll" Name="SharpVectors.Dom.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Model.dll" Name="SharpVectors.Model.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Rendering.Wpf.dll" Name="SharpVectors.Rendering.Wpf.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.SharpVectors.Runtime.dll" Name="SharpVectors.Runtime.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.DevExpress.Mvvm.v14.2.dll" Name="DevExpress.Mvvm.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Core.v14.2.dll" Name="DevExpress.Xpf.Core.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Docking.v14.2.dll" Name="DevExpress.Xpf.Docking.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Layout.v14.2.Core.dll" Name="DevExpress.Xpf.Layout.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Printing.v14.2.dll" Name="DevExpress.Xpf.Printing.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.2.dll" Name="DevExpress.Xpf.Ribbon.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
+                <!-- Конвертер Description для локализации-->
+                <File Id="Monitor.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Monitor.TargetDir)" />
+                <!-- Библиотека локализации-->
+                <File Id="Monitor.Localization.dll" Name="Localization.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Monitor.TargetDir)" />
 
-				<!-- Конвертер Description для локализации-->
-				<File Id="Monitor.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Monitor.TargetDir)" />
-				<!-- Библиотека локализации-->
-				<File Id="Monitor.Localization.dll" Name="Localization.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Monitor.TargetDir)" />
+            <!--Designer of cards -->
+                <File Id="Monitor.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.ReportSystem.UI.dll" Name="ReportSystem.UI.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.DevExpress.CustomControls.dll" Name="DevExpress.CustomControls.dll" Source="$(var.Monitor.TargetDir)" />
 
-			<!--Designer of cards -->
-				<File Id="Monitor.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.ReportSystem.UI.dll" Name="ReportSystem.UI.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.CustomControls.dll" Name="DevExpress.CustomControls.dll" Source="$(var.Monitor.TargetDir)" />
-
-				<File Id="Monitor.DevExpress.Charts.14.2.Core.dll" Name="DevExpress.Charts.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.CodeParser.v14.2.dll" Name="DevExpress.CodeParser.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Data.v14.2.dll" Name="DevExpress.Data.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.DataAccess.v14.2.dll" Name="DevExpress.DataAccess.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.DataAccess.v14.2.UI.dll" Name="DevExpress.DataAccess.v14.2.UI.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Office.v14.2.Core.dll" Name="DevExpress.Office.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.PivotGrid.v14.2.Core.dll" Name="DevExpress.PivotGrid.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Printing.v14.2.Core.dll" Name="DevExpress.Printing.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.RichEdit.v14.2.Core.dll" Name="DevExpress.RichEdit.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Sparkline.v14.2.Core.dll" Name="DevExpress.Sparkline.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Utils.v14.2.dll" Name="DevExpress.Utils.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Utils.v14.2.UI.dll" Name="DevExpress.Utils.v14.2.UI.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraBars.v14.2.dll" Name="DevExpress.XtraBars.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraCharts.v14.2.dll" Name="DevExpress.XtraCharts.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraCharts.v14.2.Extensions.dll" Name="DevExpress.XtraCharts.v14.2.Extensions.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraCharts.v14.2.Wizard.dll" Name="DevExpress.XtraCharts.v14.2.Wizard.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraEditors.v14.2.dll" Name="DevExpress.XtraEditors.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraNavBar.v14.2.dll" Name="DevExpress.XtraNavBar.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraPivotGrid.v14.2.dll" Name="DevExpress.XtraPivotGrid.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraPrinting.v14.2.dll" Name="DevExpress.XtraPrinting.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraReports.v14.2.dll" Name="DevExpress.XtraReports.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraReports.v14.2.Extensions.dll" Name="DevExpress.XtraReports.v14.2.Extensions.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.DevExpress.XtraTreeList.v14.2.dll" Name="DevExpress.XtraTreeList.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraVerticalGrid.v14.2.dll" Name="DevExpress.XtraVerticalGrid.v14.2.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.XtraGauges.v14.2.Core.dll" Name="DevExpress.XtraGauges.v14.2.Core.dll" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.DevExpress.Charts.v15.1.Core.dll"								Name="DevExpress.Charts.v15.1.Core.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Data.v15.1.dll"									Name="DevExpress.Data.v15.1.dll"								Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.DataAccess.v15.1.dll"								Name="DevExpress.DataAccess.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Mvvm.v15.1.dll"									Name="DevExpress.Mvvm.v15.1.dll"								Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Office.v15.1.Core.dll"								Name="DevExpress.Office.v15.1.Core.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.PivotGrid.v15.1.Core.dll"							Name="DevExpress.PivotGrid.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Printing.v15.1.Core.dll"							Name="DevExpress.Printing.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.RichEdit.v15.1.Core.dll"							Name="DevExpress.RichEdit.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Sparkline.v15.1.Core.dll"							Name="DevExpress.Sparkline.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Utils.v15.1.dll"									Name="DevExpress.Utils.v15.1.dll"								Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Utils.v15.1.UI.dll"								Name="DevExpress.Utils.v15.1.UI.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Core.v15.1.dll"								Name="DevExpress.Xpf.Core.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Docking.v15.1.dll"								Name="DevExpress.Xpf.Docking.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.DocumentViewer.v15.1.Core.dll"					Name="DevExpress.Xpf.DocumentViewer.v15.1.Core.dll"				Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Layout.v15.1.Core.dll"							Name="DevExpress.Xpf.Layout.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Printing.v15.1.dll"							Name="DevExpress.Xpf.Printing.v15.1.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Printing.v15.1.Service.dll"					Name="DevExpress.Xpf.Printing.v15.1.Service.dll"				Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.Ribbon.v15.1.dll"								Name="DevExpress.Xpf.Ribbon.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.Xpf.WpfReportDesigner.v15.1.dll"					Name="DevExpress.Xpf.WpfReportDesigner.v15.1.dll"				Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraBars.v15.1.dll"								Name="DevExpress.XtraBars.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraCharts.v15.1.dll"								Name="DevExpress.XtraCharts.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraEditors.v15.1.dll"								Name="DevExpress.XtraEditors.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraGauges.v15.1.Core.dll"							Name="DevExpress.XtraGauges.v15.1.Core.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraPivotGrid.v15.1.dll"							Name="DevExpress.XtraPivotGrid.v15.1.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraPrinting.v15.1.dll"							Name="DevExpress.XtraPrinting.v15.1.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraReports.v15.1.dll"								Name="DevExpress.XtraReports.v15.1.dll"							Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraReports.v15.1.Extensions.dll"					Name="DevExpress.XtraReports.v15.1.Extensions.dll"				Source="$(var.Monitor.DevExpress.TargetDir)" />
+                <File Id="Monitor.DevExpress.XtraRichEdit.v15.1.dll"							Name="DevExpress.XtraRichEdit.v15.1.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
       </Component>
 
-			<Component Id="Monitor.Layout.Files" Guid="6E2D6946-0C75-4D03-99C4-15626279F0F1">
-				<File Id="Monitor.StrazhMonitor.Layout.exe" Name="StrazhMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-				<File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
-			</Component>
+            <Component Id="Monitor.Layout.Files" Guid="6E2D6946-0C75-4D03-99C4-15626279F0F1">
+                <File Id="Monitor.StrazhMonitor.Layout.exe" Name="StrazhMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+                <File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
+                <File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+            </Component>
 
-			<Component Id="Monitor.DB" Guid="34B6DA90-EDF2-481B-8A4B-81925C3F14EF">
-				<File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
-			</Component>
+            <Component Id="Monitor.DB" Guid="34B6DA90-EDF2-481B-8A4B-81925C3F14EF">
+                <File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Monitor.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+            </Component>
 
-			<Component Id="Monitor.PLANS_MODULE" Guid="BCE01C91-97B9-486E-AD4E-21D309759454">
-				<File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
-			</Component>
+            <Component Id="Monitor.PLANS_MODULE" Guid="BCE01C91-97B9-486E-AD4E-21D309759454">
+                <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
+            </Component>
 
-			<Component Id="Monitor.STRAZH_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
-				<File Id="Monitor.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-			</Component>
+            <Component Id="Monitor.STRAZH_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
+                <File Id="Monitor.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+            </Component>
 
-			<Component Id="Monitor.VIDEO_MODULE" Guid="4C6E6639-0386-4DC2-BFAE-234DE1528513">
-				<File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-			</Component>
+            <Component Id="Monitor.VIDEO_MODULE" Guid="4C6E6639-0386-4DC2-BFAE-234DE1528513">
+                <File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+            </Component>
 
-			<Component Id="Monitor.Revisor" Guid="AA2FC99F-30EF-40F2-BDB1-55CE691D50A9">
-				<File Id="Monitor.Revisor.exe" Name="Revisor.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-				<File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
-			</Component>
+            <Component Id="Monitor.Revisor" Guid="AA2FC99F-30EF-40F2-BDB1-55CE691D50A9">
+                <File Id="Monitor.Revisor.exe" Name="Revisor.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+                <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+            </Component>
 
-			<Component Id="Monitor.VIDEO_MODULE_DLL" Guid="143E0D61-BA70-4766-92C9-5DD5A9021E6C">
-				<File Id="Monitor.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+            <Component Id="Monitor.VIDEO_MODULE_DLL" Guid="143E0D61-BA70-4766-92C9-5DD5A9021E6C">
+                <File Id="Monitor.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Monitor.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Monitor.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Monitor.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Monitor.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
 
         <File Id="Monitor.Ninject.dll" Name="Ninject.dll" Source="$(var.VMSDll.TargetDir)" />
         <File Id="Monitor.Ninject.xml" Name="Ninject.xml" Source="$(var.VMSDll.TargetDir)" />
@@ -184,154 +180,146 @@
         <File Id="Monitor.RVI.RVI.Utils.dll" Name="RVI.Utils.dll" Source="$(var.VMSDll.TargetDir)" />
       </Component>
 
-		</DirectoryRef>
+        </DirectoryRef>
 
 
-		<!-- DLL'ки для работы с видео  -->
-		<DirectoryRef Id="Monitor.dll">
-			<Component Id="Monitor.Files.dll" Guid="9BBB9BE2-AB1B-4BCF-A83E-763AA93FF0A0">
-				<File Id="Monitor.aacdec.dll" Name="aacdec.dll" Source="$(var.Monitor.TargetDir)dll\" KeyPath="yes"/>
-				<File Id="Monitor.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.adpcmdec.dll" Name="adpcmdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.amrdec.dll" Name="amrdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.AmrDll.dll" Name="AmrDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.atl80.dll" Name="atl80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.AudioRender.dll" Name="AudioRender.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avcodec_56.dll" Name="avcodec-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avdevice_56.dll" Name="avdevice-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avfilter_5.dll" Name="avfilter-5.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avformat_56.dll" Name="avformat-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.avutil_54.dll" Name="avutil-54.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.D3DX9_43.dll" Name="D3DX9_43.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.DhDecode.dll" Name="DhDecode.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dhdvr.dll" Name="dhdvr.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dhlog.dll" Name="dhlog.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dhplay.dll" Name="dhplay.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.DllDeinterlace.dll" Name="DllDeinterlace.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dllh264.dll" Name="dllh264.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.dllmpeg4.dll" Name="dllmpeg4.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.DsSdk.dll" Name="DsSdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.gdiplus.dll" Name="gdiplus.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.h264dec.dll" Name="h264dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+        <!-- DLL'ки для работы с видео  -->
+        <DirectoryRef Id="Monitor.dll">
+            <Component Id="Monitor.Files.dll" Guid="9BBB9BE2-AB1B-4BCF-A83E-763AA93FF0A0">
+                <File Id="Monitor.aacdec.dll" Name="aacdec.dll" Source="$(var.Monitor.TargetDir)dll\" KeyPath="yes"/>
+                <File Id="Monitor.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.adpcmdec.dll" Name="adpcmdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.amrdec.dll" Name="amrdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.AmrDll.dll" Name="AmrDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.atl80.dll" Name="atl80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.AudioRender.dll" Name="AudioRender.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avcodec_56.dll" Name="avcodec-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avdevice_56.dll" Name="avdevice-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avfilter_5.dll" Name="avfilter-5.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avformat_56.dll" Name="avformat-56.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.avutil_54.dll" Name="avutil-54.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.D3DX9_43.dll" Name="D3DX9_43.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.DhDecode.dll" Name="DhDecode.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dhdvr.dll" Name="dhdvr.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dhlog.dll" Name="dhlog.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dhplay.dll" Name="dhplay.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.DllDeinterlace.dll" Name="DllDeinterlace.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dllh264.dll" Name="dllh264.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.dllmpeg4.dll" Name="dllmpeg4.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.DsSdk.dll" Name="DsSdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.gdiplus.dll" Name="gdiplus.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.h264dec.dll" Name="h264dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.H264Play.dll" Name="H264Play.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.hi_h264dec_v.dll" Name="hi_h264dec_v.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.HW_H265Decoder.dll" Name="HW_H265Decoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.Infra.dll" Name="Infra.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.jpegdec.dll" Name="jpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.json.dll" Name="json.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.log4cplus.properties" Name="log4cplus.properties" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.LogMoudle.dll" Name="LogMoudle.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mfc80.dll" Name="mfc80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mfc80u.dll" Name="mfc80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mfcm80.dll" Name="mfcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mfcm80u.dll" Name="mfcm80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Microsoft.VC80.ATL.manifest" Name="Microsoft.VC80.ATL.manifest" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Microsoft.VC80.CRT.manifest" Name="Microsoft.VC80.CRT.manifest" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.MP_Render.dll" Name="MP_Render.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.MP_VIE.dll" Name="MP_VIE.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mp2dec.dll" Name="mp2dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mp3dec.dll" Name="mp3dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.msvcm80.dll" Name="msvcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.msvcp80.dll" Name="msvcp80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.msvcr80.dll" Name="msvcr80.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.RVI.NativePlayer.dll" Name="RVI.NativePlayer.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.jpegdec.dll" Name="jpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.json.dll" Name="json.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.log4cplus.properties" Name="log4cplus.properties" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.LogMoudle.dll" Name="LogMoudle.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mfc80.dll" Name="mfc80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mfc80u.dll" Name="mfc80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mfcm80.dll" Name="mfcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mfcm80u.dll" Name="mfcm80u.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Microsoft.VC80.ATL.manifest" Name="Microsoft.VC80.ATL.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Microsoft.VC80.CRT.manifest" Name="Microsoft.VC80.CRT.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.MP_Render.dll" Name="MP_Render.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.MP_VIE.dll" Name="MP_VIE.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mp2dec.dll" Name="mp2dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mp3dec.dll" Name="mp3dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.msvcm80.dll" Name="msvcm80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.msvcp80.dll" Name="msvcp80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.msvcr80.dll" Name="msvcr80.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.RVI.NativePlayer.dll" Name="RVI.NativePlayer.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.NetSdk.dll" Name="NetSdk.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.npf.sys" Name="npf.sys" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.npf64.sys" Name="npf64.sys" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Nvdcdll.dll" Name="Nvdcdll.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.NvdcPlayerDll.dll" Name="NvdcPlayerDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.postproc.dll" Name="postproc.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.QosControl.dll" Name="QosControl.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Sadp.dll" Name="Sadp.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.SDL2.dll" Name="SDL2.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.SensorUI.dll" Name="SensorUI.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.Stream.dll" Name="Stream.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.StreamAnalyzer.dll" Name="StreamAnalyzer.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.npf64.sys" Name="npf64.sys" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Nvdcdll.dll" Name="Nvdcdll.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.NvdcPlayerDll.dll" Name="NvdcPlayerDll.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.postproc.dll" Name="postproc.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.QosControl.dll" Name="QosControl.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Sadp.dll" Name="Sadp.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.SDL2.dll" Name="SDL2.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.SensorUI.dll" Name="SensorUI.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.Stream.dll" Name="Stream.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.StreamAnalyzer.dll" Name="StreamAnalyzer.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.StreamReader.dll" Name="StreamReader.dll" Source="$(var.Monitor.TargetDir)dll\" />
         <File Id="Monitor.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.SuperRender.dll" Name="SuperRender.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.swresample_1.dll" Name="swresample-1.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.swscale_3.dll" Name="swscale-3.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.Monitor.TargetDir)dll\" />
-				<File Id="Monitor.vcomp.dll" Name="vcomp.dll" Source="$(var.Monitor.TargetDir)dll\" />
-			</Component>
-		</DirectoryRef>
+                <File Id="Monitor.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.SuperRender.dll" Name="SuperRender.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.swresample_1.dll" Name="swresample-1.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.swscale_3.dll" Name="swscale-3.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.Monitor.TargetDir)dll\" />
+                <File Id="Monitor.vcomp.dll" Name="vcomp.dll" Source="$(var.Monitor.TargetDir)dll\" />
+            </Component>
+        </DirectoryRef>
 
-		<!-- Локализация для DevExpress -->
-		<DirectoryRef Id="Monitor.ru">
-			<Component Id="Monitor.Files.ru" Guid="A8AF540B-40EA-478F-9201-7BC892DD9A2F">
-				<File Id="Monitor.DevExpress.Data.v14.2.resources.dll" Name="DevExpress.Data.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" KeyPath="yes"/>
-				<File Id="Monitor.DevExpress.Printing.v14.2.Core.resources.dll" Name="DevExpress.Printing.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.DataAccess.v14.2.resources.dll" Name="DevExpress.DataAccess.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.DataAccess.v14.2.UI.resources.dll" Name="DevExpress.DataAccess.v14.2.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Office.v14.2.Core.resources.dll" Name="DevExpress.Office.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.PivotGrid.v14.2.Core.resources.dll" Name="DevExpress.PivotGrid.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.RichEdit.v14.2.Core.resources.dll" Name="DevExpress.RichEdit.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Sparkline.v14.2.Core.resources.dll" Name="DevExpress.Sparkline.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Utils.v14.2.resources.dll" Name="DevExpress.Utils.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Utils.v14.2.UI.resources.dll" Name="DevExpress.Utils.v14.2.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Xpo.v14.2.resources.dll" Name="DevExpress.Xpo.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraBars.v14.2.resources.dll" Name="DevExpress.XtraBars.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraCharts.v14.2.resources.dll" Name="DevExpress.XtraCharts.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraCharts.v14.2.Wizard.resources.dll" Name="DevExpress.XtraCharts.v14.2.Wizard.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraEditors.v14.2.resources.dll" Name="DevExpress.XtraEditors.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraGauges.v14.2.Core.resources.dll" Name="DevExpress.XtraGauges.v14.2.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraGrid.v14.2.resources.dll" Name="DevExpress.XtraGrid.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraLayout.v14.2.resources.dll" Name="DevExpress.XtraLayout.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraNavBar.v14.2.resources.dll" Name="DevExpress.XtraNavBar.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraPivotGrid.v14.2.resources.dll" Name="DevExpress.XtraPivotGrid.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraPrinting.v14.2.resources.dll" Name="DevExpress.XtraPrinting.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraReports.v14.2.Extensions.resources.dll" Name="DevExpress.XtraReports.v14.2.Extensions.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraReports.v14.2.resources.dll" Name="DevExpress.XtraReports.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraRichEdit.v14.2.resources.dll" Name="DevExpress.XtraRichEdit.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraTreeList.v14.2.resources.dll" Name="DevExpress.XtraTreeList.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraVerticalGrid.v14.2.resources.dll" Name="DevExpress.XtraVerticalGrid.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.XtraWizard.v14.2.resources.dll" Name="DevExpress.XtraWizard.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Xpf.Core.v14.2.resources.dll" Name="DevExpress.Xpf.Core.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Xpf.Printing.v14.2.resources.dll" Name="DevExpress.Xpf.Printing.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Xpf.Docking.v14.2.resources.dll" Name="DevExpress.Xpf.Docking.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.2.resources.dll" Name="DevExpress.Xpf.Ribbon.v14.2.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
-			</Component>
-				<!-- Библиотека локализации-->
-		</DirectoryRef>
+        <!-- Локализация для DevExpress -->
+        <DirectoryRef Id="Monitor.ru">
+            <Component Id="Monitor.Files.ru" Guid="A8AF540B-40EA-478F-9201-7BC892DD9A2F">
+                <File Id="Monitor.DevExpress.Data.v15.1.resources.dll"						Name="DevExpress.Data.v15.1.resources.dll"						Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.DataAccess.v15.1.resources.dll"				Name="DevExpress.DataAccess.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Office.v15.1.Core.resources.dll"				Name="DevExpress.Office.v15.1.Core.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.PivotGrid.v15.1.Core.resources.dll"			Name="DevExpress.PivotGrid.v15.1.Core.resources.dll"			Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Printing.v15.1.Core.resources.dll"				Name="DevExpress.Printing.v15.1.Core.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.RichEdit.v15.1.Core.resources.dll"				Name="DevExpress.RichEdit.v15.1.Core.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Sparkline.v15.1.Core.resources.dll"			Name="DevExpress.Sparkline.v15.1.Core.resources.dll"			Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Utils.v15.1.resources.dll"						Name="DevExpress.Utils.v15.1.resources.dll"						Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Utils.v15.1.UI.resources.dll"					Name="DevExpress.Utils.v15.1.UI.resources.dll"					Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Xpf.Core.v15.1.resources.dll"					Name="DevExpress.Xpf.Core.v15.1.resources.dll"					Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Xpf.Docking.v15.1.resources.dll"				Name="DevExpress.Xpf.Docking.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll"	Name="DevExpress.Xpf.DocumentViewer.v15.1.Core.resources.dll"	Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Xpf.Printing.v15.1.resources.dll"				Name="DevExpress.Xpf.Printing.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.Xpf.Ribbon.v15.1.resources.dll"				Name="DevExpress.Xpf.Ribbon.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraBars.v15.1.resources.dll"					Name="DevExpress.XtraBars.v15.1.resources.dll"					Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraCharts.v15.1.resources.dll"				Name="DevExpress.XtraCharts.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraEditors.v15.1.resources.dll"				Name="DevExpress.XtraEditors.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraGauges.v15.1.Core.resources.dll"			Name="DevExpress.XtraGauges.v15.1.Core.resources.dll"			Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraPivotGrid.v15.1.resources.dll"				Name="DevExpress.XtraPivotGrid.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraPrinting.v15.1.resources.dll"				Name="DevExpress.XtraPrinting.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraReports.v15.1.resources.dll"				Name="DevExpress.XtraReports.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraReports.v15.1.Extensions.resources.dll"	Name="DevExpress.XtraReports.v15.1.Extensions.resources.dll"	Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.DevExpress.XtraRichEdit.v15.1.resources.dll"				Name="DevExpress.XtraRichEdit.v15.1.resources.dll"				Source="$(var.Monitor.DevExpress.TargetDir)ru\" />
+                <File Id="Monitor.Localization.resources.dll"								Name="Localization.resources.dll"								Source="$(var.Monitor.TargetDir)ru\" />
+                <File Id="Monitor.Localization.Common.resources.dll"						Name="Localization.Common.resources.dll"						Source="$(var.Monitor.TargetDir)ru\" />
+            </Component>
+                <!-- Библиотека локализации-->
+        </DirectoryRef>
 
-		<DirectoryRef Id="Monitor.Files.ruRU">
-			<Component Id="Monitor.Files.ruRU" Guid="B9DBC2CE-8AD6-4134-8F15-8E3AB6CFD25A">
-				<File Id="Monitor.ReportSystem.UI.resources.dll" Name="ReportSystem.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
-			</Component>
-		</DirectoryRef>
+        <DirectoryRef Id="Monitor.Files.ruRU">
+            <Component Id="Monitor.Files.ruRU" Guid="B9DBC2CE-8AD6-4134-8F15-8E3AB6CFD25A">
+                <File Id="Monitor.ReportSystem.UI.resources.dll" Name="ReportSystem.UI.resources.dll" Source="$(var.Monitor.TargetDir)ru-RU\" KeyPath="yes" />
+            </Component>
+        </DirectoryRef>
 
-		<DirectoryRef Id="Monitor.ShellFolder">
-			<Component Id="Monitor.Integrate" Guid="2D8C468D-304E-438B-AED3-90B731E00081">
-				<File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />
-				<File Id="Monitor.Desintegrate.cmd" Name="Desintegrate.cmd" Source="Data\Shell\" />
-				<File Id="Monitor.Integrate.reg" Name="Integrate.reg" Source="Data\Shell\" />
-				<File Id="Monitor.Desintegrate.reg" Name="Desintegrate.reg" Source="Data\Shell\" />
-				<File Id="Monitor.Integrate_x64.reg" Name="Integrate x64.reg" Source="Data\Shell\" />
-				<File Id="Monitor.Integrate_x32.reg" Name="Integrate x32.reg" Source="Data\Shell\" />
-			</Component>
-		</DirectoryRef>
-	</Fragment>
+        <DirectoryRef Id="Monitor.ShellFolder">
+            <Component Id="Monitor.Integrate" Guid="2D8C468D-304E-438B-AED3-90B731E00081">
+                <File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />
+                <File Id="Monitor.Desintegrate.cmd" Name="Desintegrate.cmd" Source="Data\Shell\" />
+                <File Id="Monitor.Integrate.reg" Name="Integrate.reg" Source="Data\Shell\" />
+                <File Id="Monitor.Desintegrate.reg" Name="Desintegrate.reg" Source="Data\Shell\" />
+                <File Id="Monitor.Integrate_x64.reg" Name="Integrate x64.reg" Source="Data\Shell\" />
+                <File Id="Monitor.Integrate_x32.reg" Name="Integrate x32.reg" Source="Data\Shell\" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
 </Wix>

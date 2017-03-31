@@ -2,213 +2,214 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<?include Variables.wxi?>
-	<Fragment>
+    <?include Variables.wxi?>
+    <Fragment>
 
-		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
-				<File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
-				<File Id="Server.StrazhService.Monitor.exe.config" Name="StrazhService.Monitor.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
-				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Server.TargetDir)" />
+        <DirectoryRef Id="SERVERLOCATION">
+            <Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
+                <File Id="Server.StrazhService.Monitor.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
+                <File Id="Server.StrazhService.Monitor.exe.config" Name="StrazhService.Monitor.exe.config" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
+                <File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
+                <File Id="Server.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Server.TargetDir)" />
 
-				<File Id="Server.RviClient.dll" Name="RviClient.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.RviClient.dll" Name="RviClient.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Server.TargetDir)" />
 
-				<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Newtonsoft.Json.7.0.10\" />
+                <File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Newtonsoft.Json.7.0.10\" />
 
-				<File Id="Server.HigLabo.Converter.dll" Name="HigLabo.Converter.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
-				<File Id="Server.HigLabo.Mail.dll" Name="HigLabo.Mail.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
-				<File Id="Server.HigLabo.Mime.dll" Name="HigLabo.Mime.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
-				<File Id="Server.HigLabo.Net.dll" Name="HigLabo.Net.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />
-				<!--<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />-->
+                <File Id="Server.HigLabo.Converter.dll" Name="HigLabo.Converter.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+                <File Id="Server.HigLabo.Mail.dll" Name="HigLabo.Mail.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+                <File Id="Server.HigLabo.Mime.dll" Name="HigLabo.Mime.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+                <File Id="Server.HigLabo.Net.dll" Name="HigLabo.Net.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />
+                <!--<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />-->
 
-				<File Id="Server.DevExpress.Data.v14.2.dll" Name="DevExpress.Data.v14.2.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Printing.v14.2.Core.dll" Name="DevExpress.Printing.v14.2.Core.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpf.Printing.v14.2.Service.dll" Name="DevExpress.Xpf.Printing.v14.2.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.2.dll" Name="DevExpress.XtraReports.v14.2.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.XtraReports.v14.2.Service.dll" Name="DevExpress.XtraReports.v14.2.Service.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.DevExpress.Xpo.v14.2.dll" Name="DevExpress.Xpo.v14.2.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
-				<!--<File Id="Server.AutoMapper.Net4.dll" Name="AutoMapper.Net4.dll" Source="$(var.Server.TargetDir)" />-->
-				<File Id="Server.AutoMapper.dll" Name="AutoMapper.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.DevExpress.Data.v15.1.dll"									Name="DevExpress.Data.v15.1.dll"					Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+                <File Id="Server.DevExpress.Printing.v15.1.Core.dll"						Name="DevExpress.Printing.v15.1.Core.dll"			Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+                <File Id="Server.DevExpress.Xpf.Printing.v15.1.Service.dll"					Name="DevExpress.Xpf.Printing.v15.1.Service.dll"	Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+                <File Id="Server.DevExpress.XtraReports.v15.1.dll"							Name="DevExpress.XtraReports.v15.1.dll"				Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+                <File Id="Server.DevExpress.XtraReports.v15.1.Service.dll"					Name="DevExpress.XtraReports.v15.1.Service.dll"		Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+                <File Id="Server.DevExpress.Xpo.v15.1.dll"									Name="DevExpress.Xpo.v15.1.dll"						Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+              
+                <File Id="Server.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.GenerateKeyApplication.Common.dll" Name="GenerateKeyApplication.Common.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Licensing.Model.dll" Name="Licensing.Model.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Integration.Service.dll" Name="Integration.Service.dll" Source="$(var.Server.TargetDir)" />
+                <!--<File Id="Server.AutoMapper.Net4.dll" Name="AutoMapper.Net4.dll" Source="$(var.Server.TargetDir)" />-->
+                <File Id="Server.AutoMapper.dll" Name="AutoMapper.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Server.TargetDir)" />
 
-				<!-- Конвертер Description для локализации-->
-				<File Id="Server.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Server.TargetDir)" />
-				<!-- Библиотека локализации-->
-				<File Id="Server.Localization.dll" Name="Localization.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Server.TargetDir)" />
-			</Component>
+                <!-- Конвертер Description для локализации-->
+                <File Id="Server.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Server.TargetDir)" />
+                <!-- Библиотека локализации-->
+                <File Id="Server.Localization.dll" Name="Localization.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Localization.Common.dll" Name="Localization.Common.dll" Source="$(var.Server.TargetDir)" />
+            </Component>
 
-			<Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">
-				<File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+            <Component Id="Server.StrazhService" Guid="E72DB552-F756-4614-9E1B-BB137A5C3484">
+                <File Id="Server.StrazhService.exe" Name="StrazhService.exe" Source="$(var.Server.TargetDir)" KeyPath="yes" />
 
-				<!-- Tell WiX to install the Service -->
-				<ServiceInstall Id="ServiceInstaller"
-								Type="ownProcess"
-								Name="$(var.Server_Service_Name)"
-								DisplayName="$(var.Server_Service_DisplayName)"
-								Description="$(var.Server_Service_Description)"
-								Start="auto"
-								ErrorControl="ignore" >
+                <!-- Tell WiX to install the Service -->
+                <ServiceInstall Id="ServiceInstaller"
+                                Type="ownProcess"
+                                Name="$(var.Server_Service_Name)"
+                                DisplayName="$(var.Server_Service_DisplayName)"
+                                Description="$(var.Server_Service_Description)"
+                                Start="auto"
+                                ErrorControl="ignore" >
 
-					<util:ServiceConfig FirstFailureActionType="restart"
-										SecondFailureActionType="restart"
-										ThirdFailureActionType="none"
-										RestartServiceDelayInSeconds="1"
-										ResetPeriodInDays="1"/>
+                    <util:ServiceConfig FirstFailureActionType="restart"
+                                        SecondFailureActionType="restart"
+                                        ThirdFailureActionType="none"
+                                        RestartServiceDelayInSeconds="1"
+                                        ResetPeriodInDays="1"/>
 
-				</ServiceInstall>
+                </ServiceInstall>
 
-				<!-- Tell WiX to start the Service -->
-				<ServiceControl Id="StartService"
-								Start="install"
-								Stop="both"
-								Remove="uninstall"
-								Name="$(var.Server_Service_Name)"
-								Wait="yes">
-				</ServiceControl>
-			</Component>
+                <!-- Tell WiX to start the Service -->
+                <ServiceControl Id="StartService"
+                                Start="install"
+                                Stop="both"
+                                Remove="uninstall"
+                                Name="$(var.Server_Service_Name)"
+                                Wait="yes">
+                </ServiceControl>
+            </Component>
 
-			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
-				<File Id="Server.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
+            <Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
+                <File Id="Server.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
 
-				<?if $(var.Platform) = x64 ?>
-				<File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
-				<?else ?>
-				<File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
-				<?endif ?>
+                <?if $(var.Platform) = x64 ?>
+                <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+                <?else ?>
+                <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+                <?endif ?>
 
-				<File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll" Name="Microsoft.SqlServer.ConnectionInfo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.Management.Sdk.Sfc.dll" Name="Microsoft.SqlServer.Management.Sdk.Sfc.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.Smo.dll" Name="Microsoft.SqlServer.Smo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll" Name="Microsoft.SqlServer.SqlClrProvider.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-			</Component>
+                <File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll" Name="Microsoft.SqlServer.ConnectionInfo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.Management.Sdk.Sfc.dll" Name="Microsoft.SqlServer.Management.Sdk.Sfc.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.Smo.dll" Name="Microsoft.SqlServer.Smo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll" Name="Microsoft.SqlServer.SqlClrProvider.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+                <File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+            </Component>
 
-			<!-- Dahua SDK -->
-			<Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
-				<File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
-				<File Id="Server.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Infra.dll" Name="Infra.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.json.dll" Name="json.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
-			</Component>
+            <!-- Dahua SDK -->
+            <Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
+                <File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+                <File Id="Server.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Infra.dll" Name="Infra.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.json.dll" Name="json.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
+            </Component>
 
-			<Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
-				<File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
+            <Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
+                <File Id="Server.Dll.Api.dll" Name="Api.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Server.Dll.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Server.Dll.RVI_VSS.Utils.dll" Name="RVI_VSS.Utils.dll" Source="$(var.VSSDll.TargetDir)" />
+                <File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+            </Component>
 
-		</DirectoryRef>
+        </DirectoryRef>
 
-		<DirectoryRef Id="Server.ru">
-			<Component Id="Server.Files.ru" Guid="3FAF2D79-5BAF-4C8E-87D0-AFBBBA56ADF4">
-				<File Id="Server.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Server.TargetDir)ru\" />
-				<File Id="Server.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Server.TargetDir)ru\" />
-			</Component>
-		</DirectoryRef>
-		<DirectoryRef Id="AppData.ServerLocation">
-			<Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
-				<Component Id="AppData.ServerLocation.Sounds" Guid="78116F78-F905-4B10-85DA-6E8A36FD1338">
-					<File Id="AppData.ServerLocation.Sound1.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
-					<File Id="AppData.ServerLocation.Sound2.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
-					<File Id="AppData.ServerLocation.Sound3.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
-					<File Id="AppData.ServerLocation.Sound4.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound4.wav" />
-					<File Id="AppData.ServerLocation.Sound5.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound5.wav" />
-					<File Id="AppData.ServerLocation.Sound6.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound6.wav" />
-					<File Id="AppData.ServerLocation.Sound7.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound7.wav" />
-					<File Id="AppData.ServerLocation.Sound8.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound8.wav" />
-					<File Id="AppData.ServerLocation.Sound9.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound9.wav" />
-				</Component>
-			</Directory>
+        <DirectoryRef Id="Server.ru">
+            <Component Id="Server.Files.ru" Guid="3FAF2D79-5BAF-4C8E-87D0-AFBBBA56ADF4">
+                <File Id="Server.Localization.resources.dll" Name="Localization.resources.dll" Source="$(var.Server.TargetDir)ru\" />
+                <File Id="Server.Localization.Common.resources.dll" Name="Localization.Common.resources.dll" Source="$(var.Server.TargetDir)ru\" />
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="AppData.ServerLocation">
+            <Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
+                <Component Id="AppData.ServerLocation.Sounds" Guid="78116F78-F905-4B10-85DA-6E8A36FD1338">
+                    <File Id="AppData.ServerLocation.Sound1.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
+                    <File Id="AppData.ServerLocation.Sound2.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
+                    <File Id="AppData.ServerLocation.Sound3.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
+                    <File Id="AppData.ServerLocation.Sound4.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound4.wav" />
+                    <File Id="AppData.ServerLocation.Sound5.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound5.wav" />
+                    <File Id="AppData.ServerLocation.Sound6.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound6.wav" />
+                    <File Id="AppData.ServerLocation.Sound7.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound7.wav" />
+                    <File Id="AppData.ServerLocation.Sound8.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound8.wav" />
+                    <File Id="AppData.ServerLocation.Sound9.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound9.wav" />
+                </Component>
+            </Directory>
 
-			<Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
-				<File Id="Server.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" KeyPath="yes" />
-			</Component>
+            <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
+                <File Id="Server.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" KeyPath="yes" />
+            </Component>
 
-			<!--<Directory Id="AppData.ServerConfigLocation" Name="Config">
-				<Component Id="AppData.ServerLocation.Config" Guid="4B2FABCC-4278-41ba-A803-D7D246204188">
-					<File Id="Server.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
-					<File Id="Server.PlansConfiguration.xml" Name="PlansConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
-					<File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
-					<File Id="Server.SKDConfiguration.xml" Name="SKDConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SKDConfiguration.xml" />
-					<File Id="Server.SKDLibraryConfiguration.xml" Name="SKDLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SKDLibraryConfiguration.xml" />
-					<File Id="Server.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
-					<File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
-				</Component>
-			</Directory>-->
-		</DirectoryRef>
+            <!--<Directory Id="AppData.ServerConfigLocation" Name="Config">
+                <Component Id="AppData.ServerLocation.Config" Guid="4B2FABCC-4278-41ba-A803-D7D246204188">
+                    <File Id="Server.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
+                    <File Id="Server.PlansConfiguration.xml" Name="PlansConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
+                    <File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
+                    <File Id="Server.SKDConfiguration.xml" Name="SKDConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SKDConfiguration.xml" />
+                    <File Id="Server.SKDLibraryConfiguration.xml" Name="SKDLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SKDLibraryConfiguration.xml" />
+                    <File Id="Server.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
+                    <File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
+                </Component>
+            </Directory>-->
+        </DirectoryRef>
 
-		<DirectoryRef Id="AppData.EmptyLocation">
-			<Component Id="Server.AppData.EmptyLocation" Guid="DC26DBD5-10E2-4102-992C-27334A8EEC9A">
-				<File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
-			</Component>
-		</DirectoryRef>
+        <DirectoryRef Id="AppData.EmptyLocation">
+            <Component Id="Server.AppData.EmptyLocation" Guid="DC26DBD5-10E2-4102-992C-27334A8EEC9A">
+                <File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
+            </Component>
+        </DirectoryRef>
 
-		<DirectoryRef Id="AppData.FiresecLocation">
-			<Component Id="AppData.FiresecLocation.Permissions" Guid="986D1DD4-7089-4FA6-B98C-1803BEAF4AA4">
-				<CreateFolder>
-					<util:PermissionEx User="Users" GenericAll="yes" />
-				</CreateFolder>
-			</Component>
-		</DirectoryRef>
+        <DirectoryRef Id="AppData.FiresecLocation">
+            <Component Id="AppData.FiresecLocation.Permissions" Guid="986D1DD4-7089-4FA6-B98C-1803BEAF4AA4">
+                <CreateFolder>
+                    <util:PermissionEx User="Users" GenericAll="yes" />
+                </CreateFolder>
+            </Component>
+        </DirectoryRef>
 
-		<DirectoryRef Id="AppData.FiresecLocation">
-			<Component Id="AppData.Manual_Admin.pdf">
-				<File Id="Server.Manual_Admin.pdf" Name="manual_admin.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
-			</Component>
-			<Component Id="AppData.Manual_User.pdf">
-				<File Id="Server.Manual_User.pdf" Name="manual_user.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
-			</Component>
+        <DirectoryRef Id="AppData.FiresecLocation">
+            <Component Id="AppData.Manual_Admin.pdf">
+                <File Id="Server.Manual_Admin.pdf" Name="manual_admin.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
+            </Component>
+            <Component Id="AppData.Manual_User.pdf">
+                <File Id="Server.Manual_User.pdf" Name="manual_user.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
+            </Component>
 
-			<!-- Конфигурационный файл AppServerSettings.xml со значениями по умолчанию -->
-			<Component Id="AppData.AppServerSettings.xml">
-				<File Id="AppData.AppServerSettings.xml" Name="AppServerSettings.xml" Source="..\..\..\..\..\Deploy\" />
-			</Component>
-		</DirectoryRef>
+            <!-- Конфигурационный файл AppServerSettings.xml со значениями по умолчанию -->
+            <Component Id="AppData.AppServerSettings.xml">
+                <File Id="AppData.AppServerSettings.xml" Name="AppServerSettings.xml" Source="..\..\..\..\..\Deploy\" />
+            </Component>
+        </DirectoryRef>
 
-	</Fragment>
+    </Fragment>
 </Wix>
