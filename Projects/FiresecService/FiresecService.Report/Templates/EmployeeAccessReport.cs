@@ -1,10 +1,10 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
+using FiresecService.Report.Model;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using FiresecService.Report.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -121,6 +121,20 @@ namespace FiresecService.Report.Templates
 				}
 			}
 			return dataSet;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell1.Text = CommonResources.Zone;
+			this.xrTableCell2.Text = CommonResources.PasscardType;
+			this.xrTableCell3.Text = CommonResources.PasscardNumber;
+			this.xrTableCell4.Text = CommonResources.Employee;
+			this.xrTableCell5.Text = CommonResources.Organization;
+			this.xrTableCell6.Text = CommonResources.Department;
+			this.xrTableCell7.Text = CommonResources.Position;
+			this.xrTableCell8.Text = CommonResources.AccessTemplate;
 		}
 
 		private void AddRow(EmployeeAccessDataSet ds, EmployeeInfo employee, SKDCard card, CardDoor door, AccessTemplate template, Dictionary<Guid, Tuple<Tuple<SKDZone, string>, Tuple<SKDZone, string>>> zoneMap, List<Guid> addedZones)

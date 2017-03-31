@@ -31,7 +31,6 @@ namespace FiresecService.Report.Templates
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CardsReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -41,6 +40,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -51,9 +51,8 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell13 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
-			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
-			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -62,9 +61,7 @@ namespace FiresecService.Report.Templates
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable1});
-			this.Detail.Dpi = 254F;
 			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
 			// 
 			// xrTable1
 			// 
@@ -93,7 +90,7 @@ namespace FiresecService.Report.Templates
             this.xrTableCell5,
             this.xrTableCell6,
             this.xrTableCell7,
-			this.xrTableCell15});
+            this.xrTableCell15});
 			this.xrTableRow1.Dpi = 254F;
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
@@ -113,7 +110,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell2.Dpi = 254F;
 			this.xrTableCell2.Name = "xrTableCell2";
 			this.xrTableCell2.StylePriority.UseTextAlignment = false;
-			this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+			this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			this.xrTableCell2.Weight = 0.12571083858863555D;
 			// 
 			// xrTableCell3
@@ -213,7 +210,7 @@ namespace FiresecService.Report.Templates
             this.xrTableCell12,
             this.xrTableCell13,
             this.xrTableCell14,
-			this.xrTableCell16});
+            this.xrTableCell16});
 			this.xrTableRow2.Dpi = 254F;
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.StylePriority.UseBackColor = false;
@@ -224,7 +221,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell8.CanGrow = false;
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = CommonResources.Type;
+			this.xrTableCell8.Text = "A type";
 			this.xrTableCell8.Weight = 0.12571086683732885D;
 			// 
 			// xrTableCell9
@@ -232,7 +229,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell9.CanGrow = false;
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
-			this.xrTableCell9.Text = CommonResources.Number;
+			this.xrTableCell9.Text = "room";
 			this.xrTableCell9.Weight = 0.12571086683732882D;
 			// 
 			// xrTableCell10
@@ -240,7 +237,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell10.CanGrow = false;
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
-			this.xrTableCell10.Text = CommonResources.Employee;
+			this.xrTableCell10.Text = "employee";
 			this.xrTableCell10.Weight = 0.21011672786380392D;
 			// 
 			// xrTableCell11
@@ -248,7 +245,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell11.CanGrow = false;
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = CommonResources.Organization;
+			this.xrTableCell11.Text = "Organization";
 			this.xrTableCell11.Weight = 0.17180478673465094D;
 			// 
 			// xrTableCell12
@@ -256,7 +253,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell12.CanGrow = false;
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = CommonResources.Department;
+			this.xrTableCell12.Text = "Subdivision";
 			this.xrTableCell12.Weight = 0.17180485067450335D;
 			// 
 			// xrTableCell13
@@ -264,7 +261,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell13.CanGrow = false;
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = CommonResources.Position;
+			this.xrTableCell13.Text = "Position";
 			this.xrTableCell13.Weight = 0.17447252362047758D;
 			// 
 			// xrTableCell14
@@ -272,7 +269,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell14.CanGrow = false;
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
-			this.xrTableCell14.Text = CommonResources.Validity;
+			this.xrTableCell14.Text = "Validity";
 			this.xrTableCell14.Weight = 0.097302454354983539D;
 			// 
 			// xrTableCell16
@@ -280,7 +277,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell16.CanGrow = false;
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
-			this.xrTableCell16.Text = CommonResources.PassNumbers;
+			this.xrTableCell16.Text = "number of passes";
 			this.xrTableCell16.Weight = 0.07D;
 			// 
 			// xrControlStyle1
@@ -303,7 +300,7 @@ namespace FiresecService.Report.Templates
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
@@ -314,7 +311,6 @@ namespace FiresecService.Report.Templates
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;

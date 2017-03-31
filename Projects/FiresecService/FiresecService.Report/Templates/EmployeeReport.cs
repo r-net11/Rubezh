@@ -1,10 +1,10 @@
-﻿using System;
-using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraReports.UI;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
+using System;
 using System.Data;
 using System.Drawing.Printing;
 
@@ -111,11 +111,36 @@ namespace FiresecService.Report.Templates
 				base.ApplySort();
 		}
 
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell37.Text = CommonResources.PersonnelNumber;
+			this.xrTableCell39.Text = CommonResources.Phone;
+			this.xrTableCell35.Text = CommonResources.WorkSchedule;
+			this.xrTableCell1.Text = CommonResources.LastName;
+			this.xrTableCell3.Text = CommonResources.FirstName;
+			this.xrTableCell9.Text = CommonResources.SecondName;
+			this.xrTableCell7.Text = CommonResources.Organization;
+			this.xrTableCell5.Text = CommonResources.Department;
+			this.xrTableCell11.Text = CommonResources.Position;
+			this.xrTableCell13.Text = CommonResources.Document;
+			this.xrTableCell15.Text = CommonResources.Number;
+			this.xrTableCell17.Text = CommonResources.Citizenship;
+			this.xrTableCell19.Text = CommonResources.Sex;
+			this.xrTableCell23.Text = CommonResources.BirthDate;
+			this.xrTableCell27.Text = CommonResources.BirthPlace;
+			this.xrTableCell29.Text = CommonResources.IssuedBy;
+			this.xrTableCell31.Text = CommonResources.IssueDate;
+			this.xrTableCell33.Text = CommonResources.ExpireDate;
+			this.EmployeeText.Expression = string.Format("Iif([IsEmployee] == True, \'{0}\', \'{1}\')", CommonResources.InfoAboutEmployee, CommonResources.InfoAboutVisitor);
+		}
+
 		private void Detail_BeforePrint(object sender, PrintEventArgs e)
 		{
 			var currentRow = GetCurrentRow<EmployeeDataSet.DataRow>();
 			xrLeftTable.BeginInit();
-			for (; xrLeftTable.Rows.Count > 3; )
+			for (; xrLeftTable.Rows.Count > 3;)
 				xrLeftTable.Rows.RemoveAt(3);
 			var cardRows = currentRow.GetPassCardsRows();
 			foreach (var cardRow in cardRows)

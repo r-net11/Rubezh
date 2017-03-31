@@ -1,8 +1,8 @@
-﻿using Localization.FiresecService.Report.Common;
+﻿using FiresecService.Report.DataSources;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System;
 using System.Data;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace FiresecService.Report.Templates
 				filter.PassCardTemprorary = true;
 			}
 
-			var cardFilter = new CardFilter {EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter)};
+			var cardFilter = new CardFilter { EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter) };
 			if (filter.PassCardForcing)
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)
@@ -103,6 +103,20 @@ namespace FiresecService.Report.Templates
 				}
 			}
 			return dataSet;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell8.Text = CommonResources.Type;
+			this.xrTableCell9.Text = CommonResources.Number;
+			this.xrTableCell10.Text = CommonResources.Employee;
+			this.xrTableCell11.Text = CommonResources.Organization;
+			this.xrTableCell12.Text = CommonResources.Department;
+			this.xrTableCell13.Text = CommonResources.Position;
+			this.xrTableCell14.Text = CommonResources.Validity;
+			this.xrTableCell16.Text = CommonResources.PassNumbers;
 		}
 	}
 }

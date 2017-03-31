@@ -112,6 +112,19 @@ namespace FiresecService.Report.Templates
 			Detail.SortFields.Add(new GroupField("Department", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
 		}
 
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell16.Text = CommonResources.Level;
+			this.xrTableCell11.Text = CommonResources.Department;
+			this.xrTableCell12.Text = CommonResources.Phone;
+			this.xrTableCell13.Text = CommonResources.Head;
+			this.xrTableCell14.Text = CommonResources.UpstayDepart;
+			this.xrTableCell15.Text = CommonResources.Note;
+			this.xrTableCellArchiveHeader.Text = CommonResources.Archive;
+		}
+
 		private List<OrganisationBaseObjectInfo<Department>> GetParents(DataProvider dataProvider, OrganisationBaseObjectInfo<Department> department)
 		{
 			var parents = new List<OrganisationBaseObjectInfo<Department>>();

@@ -1,8 +1,8 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -57,7 +57,7 @@ namespace FiresecService.Report.Templates
 						crossNightTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
 
 
-						if(filter.ShowAllViolation && dayTimeTrack.PlannedTimeTrackParts.IsEmpty()) continue;
+						if (filter.ShowAllViolation && dayTimeTrack.PlannedTimeTrackParts.IsEmpty()) continue;
 
 						var dataRow = dataSet.Data.NewDataRow();
 						dataRow.Employee = employee.Name;
@@ -97,7 +97,7 @@ namespace FiresecService.Report.Templates
 							if (filter.ShowOvertime)
 								dataRow.Overtime = GetFormattedTime(overtime);
 
-							if((filter.ShowAbsence && !string.IsNullOrEmpty(dataRow.Absence))
+							if ((filter.ShowAbsence && !string.IsNullOrEmpty(dataRow.Absence))
 								|| (filter.ShowLate && !string.IsNullOrEmpty(dataRow.Late))
 								|| (filter.ShowEarlуLeave && !string.IsNullOrEmpty(dataRow.EarlyLeave))
 								|| (filter.ShowOvertime && !string.IsNullOrEmpty(dataRow.Overtime)))
@@ -110,9 +110,27 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell1N.Text = CommonResources.Date;
+			this.xrTableCell2N.Text = CommonResources.Day;
+			this.xrTableCell3N.Text = CommonResources.Coming;
+			this.xrTableCell4N.Text = CommonResources.Exit;
+			this.xrTableCell5N.Text = CommonResources.Employee;
+			this.xrTableCell6N.Text = CommonResources.Organization;
+			this.xrTableCell7N.Text = CommonResources.Department;
+			this.xrTableCell8N.Text = CommonResources.Lateness;
+			this.xrTableCell9N.Text = CommonResources.EarlyLeave;
+			this.xrTableCell10N.Text = CommonResources.Absence;
+			this.xrTableCell11N.Text = CommonResources.Timeovers;
+			this.xrLabel1.Summary.FormatString = CommonResources.TottallyRecords;
+		}
+
 		private string GetFormattedTime(TimeSpan time)
 		{
-			return time == TimeSpan.Zero ? string.Empty : string.Format("{0:00}:{1:00}", (int) time.TotalHours, time.Minutes);
+			return time == TimeSpan.Zero ? string.Empty : string.Format("{0:00}:{1:00}", (int)time.TotalHours, time.Minutes);
 		}
 
 		private static string GetFirstEnterString(DayTimeTrack dayTimeTrack)
@@ -123,7 +141,7 @@ namespace FiresecService.Report.Templates
 				.DefaultIfEmpty()
 				.Min();
 
-			if(resultDateTime == default(DateTime)) return string.Empty;
+			if (resultDateTime == default(DateTime)) return string.Empty;
 
 			return resultDateTime.Date < dayTimeTrack.Date
 				? CommonResources.PreviouslyDay

@@ -1,11 +1,10 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -56,7 +55,7 @@ namespace FiresecService.Report.Templates
 				filter.ZoneOut = true;
 			}
 
-			var cardFilter = new CardFilter {EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter)};
+			var cardFilter = new CardFilter { EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter) };
 			if (filter.PassCardForcing)
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)
@@ -137,6 +136,22 @@ namespace FiresecService.Report.Templates
 				}
 			}
 			return dataSet;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell1.Text = CommonResources.Door;
+			this.xrTableCell2.Text = CommonResources.FromZone;
+			this.xrTableCell3.Text = CommonResources.ToZone;
+			this.xrTableCell4.Text = CommonResources.AccessSchedule;
+			this.xrTableCell5.Text = CommonResources.PasscardType;
+			this.xrTableCell6.Text = CommonResources.PasscardNumber;
+			this.xrTableCell7.Text = CommonResources.Employee;
+			this.xrTableCell8.Text = CommonResources.Organization;
+			this.xrTableCell9.Text = CommonResources.Department;
+			this.xrTableCell10.Text = CommonResources.Position;
 		}
 	}
 

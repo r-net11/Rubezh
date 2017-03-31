@@ -1,8 +1,8 @@
-﻿using Localization.FiresecService.Report.Common;
+﻿using FiresecService.Report.DataSources;
+using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System.Data;
 using System.Linq;
 
@@ -51,8 +51,8 @@ namespace FiresecService.Report.Templates
 					if (documentType == null) continue;
 
 					if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||
-					    filter.Presence && documentType.DocumentType == DocumentType.Presence ||
-					    filter.Overtime && documentType.DocumentType == DocumentType.Overtime ||
+						filter.Presence && documentType.DocumentType == DocumentType.Presence ||
+						filter.Overtime && documentType.DocumentType == DocumentType.Overtime ||
 						filter.AbcenseReasonable && documentType.DocumentType == DocumentType.AbsenceReasonable)
 					{
 						var row = ds.Data.NewDataRow();
@@ -69,6 +69,21 @@ namespace FiresecService.Report.Templates
 				}
 			}
 			return ds;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell10.Text = CommonResources.Employee;
+			this.xrTableCell11.Text = CommonResources.StartDate;
+			this.xrTableCell12.Text = CommonResources.EndDate;
+			this.xrTableCell13.Text = CommonResources.StartTime;
+			this.xrTableCell8.Text = CommonResources.EndTime;
+			this.xrTableCell1.Text = CommonResources.Type;
+			this.xrTableCell9.Text = CommonResources.Document;
+			this.xrTableCell2.Text = CommonResources.LitteralCode;
+			this.xrTableCell15.Text = CommonResources.NumCode;
 		}
 	}
 }

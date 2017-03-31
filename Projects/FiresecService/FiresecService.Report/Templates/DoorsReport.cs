@@ -1,8 +1,8 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -79,6 +79,21 @@ namespace FiresecService.Report.Templates
 						dataSet.Data.Rows.Add(dataRow);
 					}));
 			return dataSet;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell8.Text = CommonResources.Door;
+			this.xrTableCell9.Text = CommonResources.Controller;
+			this.xrTableCell10.Text = CommonResources.IPAddress;
+			this.xrTableCell11.Text = CommonResources.ReaderIn;
+			this.xrTableCell12.Text = CommonResources.Zone1;
+			this.xrTableCell13.Text = CommonResources.ReaderOut;
+			this.xrTableCell16.Text = CommonResources.Zone2;
+			this.xrTableCell17.Text = CommonResources.Organization;
+			this.xrTableCell14.Text = CommonResources.Note;
 		}
 	}
 }

@@ -31,7 +31,6 @@ namespace FiresecService.Report.Templates
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeAccessReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -62,9 +61,7 @@ namespace FiresecService.Report.Templates
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable2});
-			this.Detail.Dpi = 254F;
 			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
 			// 
 			// xrTable2
 			// 
@@ -104,6 +101,8 @@ namespace FiresecService.Report.Templates
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Zone")});
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
+			this.xrTableCell9.StylePriority.UseTextAlignment = false;
+			this.xrTableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			this.xrTableCell9.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell10
@@ -214,56 +213,56 @@ namespace FiresecService.Report.Templates
 			// 
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
-			this.xrTableCell1.Text = CommonResources.Zone;
+			this.xrTableCell1.Text = "Zone";
 			this.xrTableCell1.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell2
 			// 
 			this.xrTableCell2.Dpi = 254F;
 			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Text = CommonResources.PasscardType;
+			this.xrTableCell2.Text = "pass type";
 			this.xrTableCell2.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell3
 			// 
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
-			this.xrTableCell3.Text = CommonResources.PasscardNumber;
+			this.xrTableCell3.Text = "Number of passes";
 			this.xrTableCell3.Weight = 0.12451361867704279D;
 			// 
 			// xrTableCell4
 			// 
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Text = CommonResources.Employee;
+			this.xrTableCell4.Text = "employee";
 			this.xrTableCell4.Weight = 0.18317868901526491D;
 			// 
 			// xrTableCell5
 			// 
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Text = CommonResources.Organization;
+			this.xrTableCell5.Text = "Organization";
 			this.xrTableCell5.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell6
 			// 
 			this.xrTableCell6.Dpi = 254F;
 			this.xrTableCell6.Name = "xrTableCell6";
-			this.xrTableCell6.Text = CommonResources.Department;
+			this.xrTableCell6.Text = "Subdivision";
 			this.xrTableCell6.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell7
 			// 
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.Text = CommonResources.Position;
+			this.xrTableCell7.Text = "Position";
 			this.xrTableCell7.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell8
 			// 
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
-			this.xrTableCell8.Text = CommonResources.AccessTemplate;
+			this.xrTableCell8.Text = "access Template";
 			this.xrTableCell8.Weight = 0.15384615384615386D;
 			// 
 			// xrControlStyle1
@@ -286,7 +285,7 @@ namespace FiresecService.Report.Templates
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
@@ -297,7 +296,6 @@ namespace FiresecService.Report.Templates
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable2;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
