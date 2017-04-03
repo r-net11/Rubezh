@@ -152,6 +152,29 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.EmployeeHeaderCell.Text = CommonResources.Employee;
+			this.DepartmentHeaderCell.Text = CommonResources.Department;
+			this.PositionHeaderCell.Text = CommonResources.Position;
+			this.WorkingTimeHeaderCell.Text = CommonResources.WorkTimeSchedule;
+			this.RealTotalTimeHeaderCell.Text = CommonResources.FactWorkTime;
+			this.NonAcceptedAdjustmentsHeaderCell.Text = CommonResources.ScheduleDeviationNotConfirmed;
+			this.DocumentsTimeHeaderCell.Text = CommonResources.DocumentTime;
+			this.WorkingTimeHeaderCell2.Text = CommonResources.Tottally;
+			this.WorkingTimeHeaderCell3.Text = CommonResources.IncludeNightTime;
+			this.RealTotalTimeHeaderCell2.Text = CommonResources.Tottally;
+			this.RealTotalTimeHeaderCell3.Text = CommonResources.IncludeNightWork;
+			this.NonAcceptedAdjustmentsHeaderCell2.Text = CommonResources.AbsenceInclEarlyLeaveLate;
+			this.NonAcceptedAdjustmentsHeaderCell3.Text = CommonResources.TimeoverOutSchedule;
+			this.DocumentsTimeHeaderCell2.Text = CommonResources.Presence;
+			this.DocumentsTimeHeaderCell3.Text = CommonResources.ReasonAbsence;
+			this.DocumentsTimeHeaderCell4.Text = CommonResources.NotReasonAbsence;
+			this.DocumentsTimeHeaderCell5.Text = CommonResources.Overtime;
+		}
+
 		private double GetBalanceWithoutNonAcceptedOvertime(double totalDocumentOvertime, double totalAbsence, double totalDocumentAbsence, double totalOvertime, bool allowOnlyAcceptedOvertime)
 		{
 			return allowOnlyAcceptedOvertime

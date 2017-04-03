@@ -1,6 +1,4 @@
-﻿using Localization.FiresecService.Report.Common;
-
-namespace FiresecService.Report.Templates
+﻿namespace FiresecService.Report.Templates
 {
 	partial class PositionsReport
 	{
@@ -31,7 +29,6 @@ namespace FiresecService.Report.Templates
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PositionsReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -50,9 +47,7 @@ namespace FiresecService.Report.Templates
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable1});
-			this.Detail.Dpi = 254F;
 			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
 			// 
@@ -67,7 +62,7 @@ namespace FiresecService.Report.Templates
 			this.xrTable1.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
-			this.xrTable1.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
+			this.xrTable1.SizeF = new System.Drawing.SizeF(1686.771F, 63.5F);
 			this.xrTable1.StylePriority.UseBorders = false;
 			this.xrTable1.StylePriority.UsePadding = false;
 			this.xrTable1.StylePriority.UseTextAlignment = false;
@@ -89,6 +84,8 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.StylePriority.UseBorders = false;
+			this.xrTableCell1.StylePriority.UseTextAlignment = false;
+			this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			this.xrTableCell1.Weight = 0.22222222222222221D;
 			// 
 			// xrTableCell2
@@ -124,7 +121,7 @@ namespace FiresecService.Report.Templates
 			this.xrTable3.Name = "xrTable3";
 			this.xrTable3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow3});
-			this.xrTable3.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
+			this.xrTable3.SizeF = new System.Drawing.SizeF(1686.771F, 63.5F);
 			this.xrTable3.StylePriority.UseBorders = false;
 			this.xrTable3.StylePriority.UseTextAlignment = false;
 			this.xrTable3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
@@ -149,7 +146,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell13.CanGrow = false;
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = CommonResources.Position;
+			this.xrTableCell13.Text = "Position";
 			this.xrTableCell13.Weight = 1.6666666666666667D;
 			// 
 			// xrTableCell15
@@ -158,7 +155,7 @@ namespace FiresecService.Report.Templates
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.StylePriority.UseBackColor = false;
-			this.xrTableCell15.Text = CommonResources.Note;
+			this.xrTableCell15.Text = "Note";
 			this.xrTableCell15.Weight = 1.6666666666666665D;
 			// 
 			// xrControlStyle1
@@ -178,7 +175,7 @@ namespace FiresecService.Report.Templates
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
@@ -189,7 +186,6 @@ namespace FiresecService.Report.Templates
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable3;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow3;

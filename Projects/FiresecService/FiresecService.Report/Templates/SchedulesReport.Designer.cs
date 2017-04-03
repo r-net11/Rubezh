@@ -30,10 +30,7 @@ namespace FiresecService.Report.Templates
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 196F, 240F, 150F, 0F, 0F, 210F, 0F, 0F, 200F, 0F, 0F };
-
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchedulesReport));
-			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCellEmployeeData = new DevExpress.XtraReports.UI.XRTableCell();
@@ -71,18 +68,16 @@ namespace FiresecService.Report.Templates
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-			//
+			// 
 			// Detail
-			//
+			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable1});
-			this.Detail.Dpi = 254F;
 			this.Detail.HeightF = 64F;
-			this.Detail.Name = "Detail";
-			//
+			// 
 			// xrTable1
-			//
-			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right)
+			// 
+			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.Dpi = 254F;
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
@@ -96,9 +91,9 @@ namespace FiresecService.Report.Templates
 			this.xrTable1.StylePriority.UsePadding = false;
 			this.xrTable1.StylePriority.UseTextAlignment = false;
 			this.xrTable1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			//
+			// 
 			// xrTableRow1
-			//
+			// 
 			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
             this.xrTableCellEmployeeData,
             this.xrTableCellOrganisationData,
@@ -111,145 +106,132 @@ namespace FiresecService.Report.Templates
             this.xrTableCellFirstEnterLastExitValueData,
             this.xrTableCellAllowedLateData,
             this.xrTableCellAllowedEarlyLeaveData,
-			this.xrTableCellAbsenceData,
-			this.xrTableCellOvertimeData});
+            this.xrTableCellAbsenceData,
+            this.xrTableCellOvertimeData});
 			this.xrTableRow1.Dpi = 254F;
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
-			//
+			// 
 			// xrTableCellEmployeeData
-			//
+			// 
 			this.xrTableCellEmployeeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
 			this.xrTableCellEmployeeData.Dpi = 254F;
 			this.xrTableCellEmployeeData.Name = "xrTableCellEmployeeData";
-			this.xrTableCellEmployeeData.WidthF = columnsWidth[0];
-			//this.xrTableCellEmployeeData.Weight = 0.12426037128155046D;
-			//this.xrTableCell3.WidthF = columnsWidth[0];
-			//
+			this.xrTableCellEmployeeData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellOrganisationData
-			//
+			// 
 			this.xrTableCellOrganisationData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation")});
 			this.xrTableCellOrganisationData.Dpi = 254F;
 			this.xrTableCellOrganisationData.Name = "xrTableCellOrganisationData";
-			this.xrTableCellOrganisationData.WidthF = columnsWidth[1];
-			//this.xrTableCellOrganisationData.WidthF = columnsWidth[1];
-			//
+			this.xrTableCellOrganisationData.Weight = 0.094117647058823528D;
+			// 
 			// xrTableCellDepartmentData
-			//
+			// 
 			this.xrTableCellDepartmentData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
 			this.xrTableCellDepartmentData.Dpi = 254F;
 			this.xrTableCellDepartmentData.Name = "xrTableCellDepartmentData";
-			this.xrTableCellDepartmentData.WidthF = columnsWidth[1];
-			//this.xrTableCellDepartmentData.WidthF = columnsWidth[2];
-			//
+			this.xrTableCellDepartmentData.StylePriority.UseTextAlignment = false;
+			this.xrTableCellDepartmentData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			this.xrTableCellDepartmentData.Weight = 0.094117647058823528D;
+			// 
 			// xrTableCellPositionData
-			//
+			// 
 			this.xrTableCellPositionData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
 			this.xrTableCellPositionData.Dpi = 254F;
 			this.xrTableCellPositionData.Name = "xrTableCellPositionData";
-			//	this.xrTableCellPositionData.Text = "xrTableCell6";
-			this.xrTableCellPositionData.WidthF = columnsWidth[0];
-			//this.xrTableCellPositionData.WidthF = columnsWidth[3];
-			//
+			this.xrTableCellPositionData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCell1ScheduleData
-			//
+			// 
 			this.xrTableCell1ScheduleData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Schedule")});
 			this.xrTableCell1ScheduleData.Dpi = 254F;
 			this.xrTableCell1ScheduleData.Name = "xrTableCell1ScheduleData";
-			this.xrTableCell1ScheduleData.WidthF = columnsWidth[0];
-			//this.xrTableCell1ScheduleData.WidthF = columnsWidth[4];
-			//
+			this.xrTableCell1ScheduleData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellScheduleTypeData
-			//
+			// 
 			this.xrTableCellScheduleTypeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleType")});
 			this.xrTableCellScheduleTypeData.Dpi = 254F;
 			this.xrTableCellScheduleTypeData.Name = "xrTableCellScheduleTypeData";
-			//this.xrTableCellScheduleTypeData.Weight = 0.0994083454199797D;
-			this.xrTableCellScheduleTypeData.WidthF = columnsWidth[5];
-			//
+			this.xrTableCellScheduleTypeData.Weight = 0.082352941176470587D;
+			// 
 			// xrTableCellBaseScheduleData
-			//
+			// 
 			this.xrTableCellBaseScheduleData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.BaseSchedule")});
 			this.xrTableCellBaseScheduleData.Dpi = 254F;
 			this.xrTableCellBaseScheduleData.Name = "xrTableCellBaseScheduleData";
-			this.xrTableCellBaseScheduleData.WidthF = columnsWidth[0];
-			//this.xrTableCellBaseScheduleData.WidthF = columnsWidth[6];
-			//
+			this.xrTableCellBaseScheduleData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellUseHolidayValueData
-			//
+			// 
 			this.xrTableCellUseHolidayValueData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.UseHolidayValue")});
 			this.xrTableCellUseHolidayValueData.Dpi = 254F;
 			this.xrTableCellUseHolidayValueData.Name = "xrTableCellUseHolidayValueData";
 			this.xrTableCellUseHolidayValueData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellUseHolidayValueData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellUseHolidayValueData.WidthF = columnsWidth[2];
-			//this.xrTableCellUseHolidayValueData.WidthF = columnsWidth[7];
-			//
+			this.xrTableCellUseHolidayValueData.Weight = 0.058823529411764705D;
+			// 
 			// xrTableCellFirstEnterLastExitValueData
-			//
+			// 
 			this.xrTableCellFirstEnterLastExitValueData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.FirstEnterLastExitValue")});
 			this.xrTableCellFirstEnterLastExitValueData.Dpi = 254F;
 			this.xrTableCellFirstEnterLastExitValueData.Name = "xrTableCellFirstEnterLastExitValueData";
 			this.xrTableCellFirstEnterLastExitValueData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellFirstEnterLastExitValueData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			//this.xrTableCellFirstEnterLastExitValueData.Weight = 0.066272295889769808D;
-			this.xrTableCellFirstEnterLastExitValueData.WidthF = columnsWidth[8];
-			//
+			this.xrTableCellFirstEnterLastExitValueData.Weight = 0.0784313725490196D;
+			// 
 			// xrTableCellAllowedLateData
-			//
+			// 
 			this.xrTableCellAllowedLateData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedLate")});
 			this.xrTableCellAllowedLateData.Dpi = 254F;
 			this.xrTableCellAllowedLateData.Name = "xrTableCellAllowedLateData";
 			this.xrTableCellAllowedLateData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellAllowedLateData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellAllowedLateData.WidthF = columnsWidth[0];
-			//this.xrTableCellAllowedLateData.WidthF = columnsWidth[9];
-			//
+			this.xrTableCellAllowedLateData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellAllowedEarlyLeaveData
-			//
+			// 
 			this.xrTableCellAllowedEarlyLeaveData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedEarlyLeave")});
 			this.xrTableCellAllowedEarlyLeaveData.Dpi = 254F;
 			this.xrTableCellAllowedEarlyLeaveData.Name = "xrTableCellAllowedEarlyLeaveData";
 			this.xrTableCellAllowedEarlyLeaveData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellAllowedEarlyLeaveData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellAllowedEarlyLeaveData.WidthF = columnsWidth[0];
-			//this.xrTableCellAllowedEarlyLeaveData.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellAllowedEarlyLeaveData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellAbsenceData
-			//
+			// 
 			this.xrTableCellAbsenceData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedAbsence")});
 			this.xrTableCellAbsenceData.Dpi = 254F;
 			this.xrTableCellAbsenceData.Name = "xrTableCellAbsenceData";
 			this.xrTableCellAbsenceData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellAbsenceData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellAbsenceData.WidthF = columnsWidth[0];
-			//this.xrTableCellAbsenceData.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellAbsenceData.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellOvertimeData
-			//
+			// 
 			this.xrTableCellOvertimeData.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedOvertime")});
 			this.xrTableCellOvertimeData.Dpi = 254F;
 			this.xrTableCellOvertimeData.Name = "xrTableCellOvertimeData";
 			this.xrTableCellOvertimeData.StylePriority.UseTextAlignment = false;
 			this.xrTableCellOvertimeData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-			this.xrTableCellOvertimeData.WidthF = columnsWidth[0];
-			//this.xrTableCellOvertimeData.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellOvertimeData.Weight = 0.076862745098039212D;
+			// 
 			// GroupHeader1
-			//
+			// 
 			this.GroupHeader1.BackColor = System.Drawing.Color.LightGray;
 			this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable2});
@@ -260,12 +242,12 @@ namespace FiresecService.Report.Templates
 			this.GroupHeader1.Name = "GroupHeader1";
 			this.GroupHeader1.RepeatEveryPage = true;
 			this.GroupHeader1.StylePriority.UseBackColor = false;
-			//
+			// 
 			// xrTable2
-			//
+			// 
 			this.xrTable2.BackColor = System.Drawing.Color.DarkGray;
-			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-            | DevExpress.XtraPrinting.BorderSide.Right)
+			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable2.Dpi = 254F;
 			this.xrTable2.KeepTogether = true;
@@ -280,9 +262,9 @@ namespace FiresecService.Report.Templates
 			this.xrTable2.StylePriority.UsePadding = false;
 			this.xrTable2.StylePriority.UseTextAlignment = false;
 			this.xrTable2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			//
+			// 
 			// xrTableRow2
-			//
+			// 
 			this.xrTableRow2.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
             this.xrTableCellEmployeeHeader,
@@ -296,8 +278,8 @@ namespace FiresecService.Report.Templates
             this.xrTableCellFirstEnterLastExitValueHeader,
             this.xrTableCellAllowedLateHeader,
             this.xrTableCellAllowedEarlyLeaveHeader,
-			this.xrTableCellAbsenceHeader,
-			this.xrTableCellOvertimeHeader});
+            this.xrTableCellAbsenceHeader,
+            this.xrTableCellOvertimeHeader});
 			this.xrTableRow2.Dpi = 254F;
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
@@ -305,131 +287,118 @@ namespace FiresecService.Report.Templates
 			this.xrTableRow2.StylePriority.UseTextAlignment = false;
 			this.xrTableRow2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			this.xrTableRow2.Weight = 11.5D;
-			//
+			// 
 			// xrTableCellEmployeeHeader
-			//
+			// 
 			this.xrTableCellEmployeeHeader.Dpi = 254F;
 			this.xrTableCellEmployeeHeader.Name = "xrTableCellEmployeeHeader";
-			this.xrTableCellEmployeeHeader.Text = CommonResources.Employee;
-			this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellEmployeeHeader.WidthF = columnsWidth[0];
-			//
+			this.xrTableCellEmployeeHeader.Text = "employee";
+			this.xrTableCellEmployeeHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellOrganisationHeader
-			//
+			// 
 			this.xrTableCellOrganisationHeader.Dpi = 254F;
 			this.xrTableCellOrganisationHeader.Name = "xrTableCellOrganisationHeader";
-			this.xrTableCellOrganisationHeader.Text = CommonResources.Organization;
-			this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
-			//this.xrTableCellOrganisationHeader.WidthF = columnsWidth[1];
-			//
+			this.xrTableCellOrganisationHeader.Text = "Organization";
+			this.xrTableCellOrganisationHeader.Weight = 0.094117647058823528D;
+			// 
 			// xrTableCell1DepartmentHeader
-			//
+			// 
 			this.xrTableCell1DepartmentHeader.Dpi = 254F;
 			this.xrTableCell1DepartmentHeader.Name = "xrTableCell1DepartmentHeader";
-			this.xrTableCell1DepartmentHeader.Text = CommonResources.Department;
-			this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[1];
-			//this.xrTableCell1DepartmentHeader.WidthF = columnsWidth[2];
-			//
+			this.xrTableCell1DepartmentHeader.Text = "Subdivision";
+			this.xrTableCell1DepartmentHeader.Weight = 0.094117647058823528D;
+			// 
 			// xrTableCellPositionHeader
-			//
+			// 
 			this.xrTableCellPositionHeader.Dpi = 254F;
 			this.xrTableCellPositionHeader.Name = "xrTableCellPositionHeader";
-			this.xrTableCellPositionHeader.Text = CommonResources.Position;
-			this.xrTableCellPositionHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellPositionHeader.WidthF = columnsWidth[3];
-			//
+			this.xrTableCellPositionHeader.Text = "Position";
+			this.xrTableCellPositionHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellScheduleHeader
-			//
+			// 
 			this.xrTableCellScheduleHeader.Dpi = 254F;
 			this.xrTableCellScheduleHeader.Name = "xrTableCellScheduleHeader";
-			this.xrTableCellScheduleHeader.Text = CommonResources.WorkSchedule;
-			this.xrTableCellScheduleHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellScheduleHeader.WidthF = columnsWidth[4];
-			//
+			this.xrTableCellScheduleHeader.Text = "Schedule";
+			this.xrTableCellScheduleHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellScheduleTypeHeader
-			//
+			// 
 			this.xrTableCellScheduleTypeHeader.Dpi = 254F;
 			this.xrTableCellScheduleTypeHeader.Name = "xrTableCellScheduleTypeHeader";
-			this.xrTableCellScheduleTypeHeader.Text = CommonResources.ScheduleType;
-			//this.xrTableCellScheduleTypeHeader.Weight = 0.099408282217894856D;
-			this.xrTableCellScheduleTypeHeader.WidthF = columnsWidth[5];
-			//
+			this.xrTableCellScheduleTypeHeader.Text = "Type of schedule";
+			this.xrTableCellScheduleTypeHeader.Weight = 0.082352941176470587D;
+			// 
 			// xrTableCellBaseScheduleHeader
-			//
+			// 
 			this.xrTableCellBaseScheduleHeader.Dpi = 254F;
 			this.xrTableCellBaseScheduleHeader.Name = "xrTableCellBaseScheduleHeader";
-			this.xrTableCellBaseScheduleHeader.Text = CommonResources.BasicSchedule;
-			this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellBaseScheduleHeader.WidthF = columnsWidth[6];
-			//
+			this.xrTableCellBaseScheduleHeader.Text = "Basic schedule";
+			this.xrTableCellBaseScheduleHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellUseHolidayValueHeader
-			//
+			// 
 			this.xrTableCellUseHolidayValueHeader.Dpi = 254F;
 			this.xrTableCellUseHolidayValueHeader.Name = "xrTableCellUseHolidayValueHeader";
-			this.xrTableCellUseHolidayValueHeader.Text = CommonResources.IgnoreHolidays;
-			this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[2];
-			//this.xrTableCellUseHolidayValueHeader.WidthF = columnsWidth[7];
-			//
+			this.xrTableCellUseHolidayValueHeader.Text = "It does not teach. idle.";
+			this.xrTableCellUseHolidayValueHeader.Weight = 0.058823529411764705D;
+			// 
 			// xrTableCellFirstEnterLastExitValueHeader
-			//
+			// 
 			this.xrTableCellFirstEnterLastExitValueHeader.Dpi = 254F;
 			this.xrTableCellFirstEnterLastExitValueHeader.Name = "xrTableCellFirstEnterLastExitValueHeader";
-			this.xrTableCellFirstEnterLastExitValueHeader.Text = CommonResources.FirstEntrLastExt;
-			//this.xrTableCellFirstEnterLastExitValueHeader.Weight = 0.066272188446225511D;
-			this.xrTableCellFirstEnterLastExitValueHeader.WidthF = columnsWidth[8];
-			//
+			this.xrTableCellFirstEnterLastExitValueHeader.Text = "Teaches. only the first entry and the last exit";
+			this.xrTableCellFirstEnterLastExitValueHeader.Weight = 0.0784313725490196D;
+			// 
 			// xrTableCellAllowedLateHeader
-			//
+			// 
 			this.xrTableCellAllowedLateHeader.Dpi = 254F;
 			this.xrTableCellAllowedLateHeader.Name = "xrTableCellAllowedLateHeader";
-			this.xrTableCellAllowedLateHeader.Text = CommonResources.IgnoreAllowedLate;
-			this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellAllowedLateHeader.WidthF = columnsWidth[9];
-			//
+			this.xrTableCellAllowedLateHeader.Text = "It does not teach. delay less";
+			this.xrTableCellAllowedLateHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellAllowedEarlyLeaveHeader
-			//
+			// 
 			this.xrTableCellAllowedEarlyLeaveHeader.Dpi = 254F;
 			this.xrTableCellAllowedEarlyLeaveHeader.Name = "xrTableCellAllowedEarlyLeaveHeader";
-			this.xrTableCellAllowedEarlyLeaveHeader.Text = CommonResources.IgnoreEarlyLeave;
-			this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellAllowedEarlyLeaveHeader.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellAllowedEarlyLeaveHeader.Text = "It does not teach. Early care less";
+			this.xrTableCellAllowedEarlyLeaveHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellAbsenceHeader
-			//
+			// 
 			this.xrTableCellAbsenceHeader.Dpi = 254F;
 			this.xrTableCellAbsenceHeader.Name = "xrTableCellAbsenceHeader";
-			this.xrTableCellAbsenceHeader.Text = CommonResources.IgnoreAbsence;
-			this.xrTableCellAbsenceHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellAbsenceHeader.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellAbsenceHeader.Text = "It does not teach. no less than";
+			this.xrTableCellAbsenceHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrTableCellOvertimeHeader
-			//
+			// 
 			this.xrTableCellOvertimeHeader.Dpi = 254F;
 			this.xrTableCellOvertimeHeader.Name = "xrTableCellOvertimeHeader";
-			this.xrTableCellOvertimeHeader.Text = CommonResources.IgnoreTimeover;
-			this.xrTableCellOvertimeHeader.WidthF = columnsWidth[0];
-			//this.xrTableCellOvertimeHeader.WidthF = columnsWidth[10];
-			//
+			this.xrTableCellOvertimeHeader.Text = "It does not teach. processing less";
+			this.xrTableCellOvertimeHeader.Weight = 0.076862745098039212D;
+			// 
 			// xrControlStyle1
-			//
+			// 
 			this.xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
 			this.xrControlStyle1.Name = "xrControlStyle1";
 			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
-			//
+			// 
 			// FirstEnterLastExitValue
-			//
+			// 
 			this.FirstEnterLastExitValue.DataMember = "Data";
-			this.FirstEnterLastExitValue.Expression = string.Format(" Iif([FirstEnterLastExit] == True, {0}, {1})", CommonResources.Yes, CommonResources.No);
+			this.FirstEnterLastExitValue.Expression = " Iif([FirstEnterLastExit] == True, \'Yes\', \'No\')";
 			this.FirstEnterLastExitValue.Name = "FirstEnterLastExitValue";
-			//
+			// 
 			// UseHolidayValue
-			//
+			// 
 			this.UseHolidayValue.DataMember = "Data";
-			this.UseHolidayValue.Expression = string.Format(" Iif([UseHoliday] != True, {0}, {1})", CommonResources.Yes, CommonResources.No);
+			this.UseHolidayValue.Expression = " Iif([UseHoliday] != True, \'Yes\', \'No\')";
 			this.UseHolidayValue.Name = "UseHolidayValue";
-			//
+			// 
 			// SchedulesReport
-			//
+			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail,
             this.GroupHeader1});
@@ -445,7 +414,7 @@ namespace FiresecService.Report.Templates
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
@@ -456,7 +425,6 @@ namespace FiresecService.Report.Templates
 
 		#endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;

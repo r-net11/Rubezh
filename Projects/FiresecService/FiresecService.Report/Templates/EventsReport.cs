@@ -1,17 +1,16 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using Infrastructure.Common;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using StrazhDAL;
 
 namespace FiresecService.Report.Templates
 {
@@ -39,7 +38,7 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<EventsReportFilter>();
 			var dataSet = new EventsDataSet();
-			var archiveFilter = new ArchiveFilter {StartDate = filter.DateTimeFrom, EndDate = filter.DateTimeTo};
+			var archiveFilter = new ArchiveFilter { StartDate = filter.DateTimeFrom, EndDate = filter.DateTimeTo };
 
 			if (!filter.JournalEventNameTypes.IsEmpty())
 				archiveFilter.JournalEventNameTypes = filter.JournalEventNameTypes;
@@ -147,6 +146,20 @@ namespace FiresecService.Report.Templates
 				Logger.Error(e, "Report401.GetFilteredJournalItems");
 				return OperationResult<List<JournalItem>>.FromError(e.Message);
 			}
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell8.Text = CommonResources.SystemDate;
+			this.xrTableCell9.Text = CommonResources.DeviceDate;
+			this.xrTableCell10.Text = CommonResources.Name;
+			this.xrTableCell11.Text = CommonResources.Elaboration;
+			this.xrTableCell12.Text = CommonResources.Object;
+			this.xrTableCell13.Text = CommonResources.User;
+			this.xrTableCell14.Text = CommonResources.Subsystem;
+			this.xrLabel1.Summary.FormatString = CommonResources.TottallyEvents;
 		}
 
 		private string BuildQuery(ArchiveFilter archiveFilter)

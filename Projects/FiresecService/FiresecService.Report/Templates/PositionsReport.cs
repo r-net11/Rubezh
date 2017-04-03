@@ -1,9 +1,8 @@
 ﻿using Common;
+using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -67,6 +66,14 @@ namespace FiresecService.Report.Templates
 				});
 
 			return ds;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCell13.Text = CommonResources.Position;
+			this.xrTableCell15.Text = CommonResources.Note;
 		}
 	}
 }

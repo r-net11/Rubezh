@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using FiresecService.Report.DataSources;
 using Localization.FiresecService.Report.Common;
 using StrazhAPI;
 using StrazhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
 using System.Data;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -59,7 +59,7 @@ namespace FiresecService.Report.Templates
 					dataRow.AllowedLate = scheduleResult.AllowedLate == default(int) ? string.Empty : scheduleResult.AllowedLate.ToString();
 					dataRow.AllowedEarlyLeave = scheduleResult.AllowedEarlyLeave == default(int) ? string.Empty : scheduleResult.AllowedEarlyLeave.ToString();
 					dataRow.AllowedAbsence = scheduleResult.AllowedAbsentLowThan == default(int) ? string.Empty : scheduleResult.AllowedAbsentLowThan.ToString();
-					dataRow.AllowedOvertime =  scheduleResult.NotAllowOvertimeLowerThan == default(int) ? string.Empty : scheduleResult.NotAllowOvertimeLowerThan.ToString();
+					dataRow.AllowedOvertime = scheduleResult.NotAllowOvertimeLowerThan == default(int) ? string.Empty : scheduleResult.NotAllowOvertimeLowerThan.ToString();
 
 					var scheduleSchemeResult = dataProvider.DatabaseService.ScheduleSchemeTranslator.GetSingle(scheduleResult.ScheduleSchemeUID);
 					if (scheduleSchemeResult.Result != null)
@@ -73,6 +73,27 @@ namespace FiresecService.Report.Templates
 			}
 
 			return dataSet;
+		}
+
+		protected override void BeforeReportPrint()
+		{
+			base.BeforeReportPrint();
+
+			this.xrTableCellEmployeeHeader.Text = CommonResources.Employee;
+			this.xrTableCellOrganisationHeader.Text = CommonResources.Organization;
+			this.xrTableCell1DepartmentHeader.Text = CommonResources.Department;
+			this.xrTableCellPositionHeader.Text = CommonResources.Position;
+			this.xrTableCellScheduleHeader.Text = CommonResources.WorkSchedule;
+			this.xrTableCellScheduleTypeHeader.Text = CommonResources.ScheduleType;
+			this.xrTableCellBaseScheduleHeader.Text = CommonResources.BasicSchedule;
+			this.xrTableCellUseHolidayValueHeader.Text = CommonResources.IgnoreHolidays;
+			this.xrTableCellFirstEnterLastExitValueHeader.Text = CommonResources.FirstEntrLastExt;
+			this.xrTableCellAllowedLateHeader.Text = CommonResources.IgnoreAllowedLate;
+			this.xrTableCellAllowedEarlyLeaveHeader.Text = CommonResources.IgnoreEarlyLeave;
+			this.xrTableCellAbsenceHeader.Text = CommonResources.IgnoreAbsence;
+			this.xrTableCellOvertimeHeader.Text = CommonResources.IgnoreTimeover;
+			this.FirstEnterLastExitValue.Expression = string.Format(" Iif([FirstEnterLastExit] == True, {0}, {1})", CommonResources.Yes, CommonResources.No);
+			this.UseHolidayValue.Expression = string.Format(" Iif([UseHoliday] != True, {0}, {1})", CommonResources.Yes, CommonResources.No);
 		}
 	}
 }
