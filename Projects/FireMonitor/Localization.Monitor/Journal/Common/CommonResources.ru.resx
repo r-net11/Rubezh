@@ -136,7 +136,7 @@
     <value>Журнал событий {0}</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Название</value>
+    <value>Название</value>
   </data>
   <data name="Object" xml:space="preserve">
     <value>Объект</value>
@@ -148,7 +148,7 @@
     <value>Подсистема</value>
   </data>
   <data name="SystemTime" xml:space="preserve">
-    <value>Дата в системе</value>
+    <value>Дата в системе</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Пользователь</value>
