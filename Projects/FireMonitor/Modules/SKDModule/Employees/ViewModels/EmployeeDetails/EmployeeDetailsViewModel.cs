@@ -1,13 +1,13 @@
-﻿using Localization.SKD.Common;
-using Localization.SKD.ViewModels;
-using StrazhAPI;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
+﻿using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.SKD.Common;
+using Localization.SKD.ViewModels;
 using SKDModule.Events;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 				if (employee != null)
 				{
 					Employee = EmployeeHelper.GetDetails(employee.UID) ?? new Employee();
-                    Title = string.Format(IsEmployee ? CommonViewModels.EmployeeProperties : CommonViewModels.VisitorProperties, employee.FIO);
+					Title = string.Format(IsEmployee ? CommonViewModels.EmployeeProperties : CommonViewModels.VisitorProperties, employee.FIO);
 				}
 			}
 			CopyProperties();
@@ -111,7 +111,7 @@ namespace SKDModule.ViewModels
 			}
 			SelectedDepartment = Employee.Department;
 			TextColumns = new List<TextColumnViewModel>();
-			GraphicsColumns = new List<IGraphicsColumnViewModel> {new PhotoColumnViewModel(Employee.Photo)};
+			GraphicsColumns = new List<IGraphicsColumnViewModel> { new PhotoColumnViewModel(Employee.Photo) };
 			SelectedGraphicsColumn = GraphicsColumns.FirstOrDefault();
 			var additionalColumnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (additionalColumnTypes != null && additionalColumnTypes.Any())
@@ -126,7 +126,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 			HasAdditionalGraphicsColumns = GraphicsColumns.Count > 1;
-            GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? CommonViewModels.PhotoGraphData : CommonViewModels.Photo;
+			GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? CommonViewModels.PhotoGraphData : CommonViewModels.Photo;
 		}
 
 		public Employee Employee { get; private set; }
@@ -163,7 +163,7 @@ namespace SKDModule.ViewModels
 		bool _canEditPosition;
 		public bool CanEditPosition
 		{
-			get { return IsEmployee && _canEditPosition ; }
+			get { return IsEmployee && _canEditPosition; }
 		}
 
 		ShortDepartment _selectedDepartment;
@@ -247,8 +247,9 @@ namespace SKDModule.ViewModels
 
 		public string ScheduleString
 		{
-			get {
-                return HasSelectedSchedule ? string.Format(CommonViewModels.SomeWithSome, SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy")) : string.Empty;
+			get
+			{
+				return HasSelectedSchedule ? string.Format(CommonViewModels.SomeWithSome, SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy")) : string.Empty;
 			}
 		}
 
@@ -559,7 +560,7 @@ namespace SKDModule.ViewModels
 
 				if (SelectedDepartment == null)
 					return;
-	
+
 				if (departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyScheduleToEmployee || departmentSelectionViewModel.DepartmentParamsApplyableToEmployeeViewModel.NeedApplyAccessTemplateToEmployee)
 				{
 					var department = DepartmentHelper.GetDetails(SelectedDepartment.UID);
@@ -701,11 +702,11 @@ namespace SKDModule.ViewModels
 			if ((Employee.Department != null && SelectedDepartment == null) ||
 				(Employee.Position != null && SelectedPosition == null))
 				return true;
-			if((Employee.Department == null && SelectedDepartment != null) ||
+			if ((Employee.Department == null && SelectedDepartment != null) ||
 				(Employee.Position == null && SelectedPosition != null))
 				return true;
 			return (SelectedDepartment != null && Employee.Department.UID != SelectedDepartment.UID) ||
-			       (SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID);
+				   (SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID);
 		}
 	}
 }

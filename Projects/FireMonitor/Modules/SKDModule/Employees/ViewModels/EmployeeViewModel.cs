@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
+﻿using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
+using StrazhAPI.SKD;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : OrganisationElementViewModel<EmployeeViewModel, ShortEmployee>
 	{
+		public EmployeeViewModel()
+		{
+			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Subscribe(OnUpdateAdditionalColumns);
+		}
+
 		public string DepartmentName
 		{
 			get
@@ -170,5 +177,26 @@ namespace SKDModule.ViewModels
 		}
 
 		public IEnumerable<SKDCard> Cards { get { return EmployeeCardsViewModel != null ? EmployeeCardsViewModel.Cards.Select(x => x.Card) : new List<SKDCard>(); } }
+
+		internal void Unsubscribe()
+		{
+			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Unsubscribe(OnUpdateAdditionalColumns);
+		}
+
+		void OnUpdateAdditionalColumns(List<ShortAdditionalColumnType> columnsTypes)
+		{
+			if (!IsOrganisation)
+			{
+				foreach (var columnType in columnsTypes.Where(x => x.DataType == AdditionalColumnDataType.Text && x.IsInGrid))
+				{
+					var employee = EmployeeHelper.GetDetails(Model.UID);
+					if (employee != null)
+					{
+						var columnValue = employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == columnType.UID);
+						Model.TextColumns.Add(new TextColumn { ColumnTypeUID = columnType.UID, Text = columnValue.TextData });
+					}
+				}
+			}
+		}
 	}
 }

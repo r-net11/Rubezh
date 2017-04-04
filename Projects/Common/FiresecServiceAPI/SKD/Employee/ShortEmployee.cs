@@ -7,6 +7,10 @@ namespace StrazhAPI.SKD
 	[DataContract]
 	public class ShortEmployee : IOrganisationElement
 	{
+		public ShortEmployee()
+		{
+			TextColumns = new List<TextColumn>();
+		}
 		[DataMember]
 		public Guid UID { get; set; }
 

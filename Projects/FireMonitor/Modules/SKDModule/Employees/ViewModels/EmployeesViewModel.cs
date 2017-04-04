@@ -4,25 +4,17 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using ReportSystem.Api.DTO;
+using Localization.SKD.ViewModels;
 using ReportSystem.UI.Data;
 using ReportSystem.UI.Reports;
 using SKDModule.Employees.ViewModels.DialogWindows;
 using SKDModule.Events;
-using SKDModule.Reports;
 using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using Localization.SKD.ViewModels;
-using StrazhAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -72,7 +64,7 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser();
+			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser().ToList();
 			if (columnTypes == null)
 				return;
 			AdditionalColumnTypes = columnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text && x.IsInGrid).ToList();
@@ -80,7 +72,7 @@ namespace SKDModule.ViewModels
 			{
 				AdditionalColumnNames.Add(columnType.Name);
 			}
-			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
+			ServiceFactoryBase.Events.GetEvent<UpdateAdditionalColumns>().Publish(columnTypes);
 		}
 
 		protected override void Remove()
@@ -95,6 +87,7 @@ namespace SKDModule.ViewModels
 				}
 
 				SelectedItem.EmployeeCardsViewModel.Cards.Clear();
+				SelectedItem.Unsubscribe();
 			}
 		}
 
@@ -190,12 +183,12 @@ namespace SKDModule.ViewModels
 
 		public string AddCommandToolTip
 		{
-			get { return string.Format(CommonViewModels.Add,ItemRemovingName); }
+			get { return string.Format(CommonViewModels.Add, ItemRemovingName); }
 		}
 
 		public string RemoveCommandToolTip
 		{
-			get { return string.Format(CommonViewModels.Delete,ItemRemovingName); }
+			get { return string.Format(CommonViewModels.Delete, ItemRemovingName); }
 		}
 
 		public string EditCommandToolTip
@@ -219,7 +212,7 @@ namespace SKDModule.ViewModels
 			if (viewModel != null)
 			{
 				var model = EmployeeHelper.GetSingleShort(employeeUID);
-				if(model != null)
+				if (model != null)
 					viewModel.Update(model);
 			}
 		}
