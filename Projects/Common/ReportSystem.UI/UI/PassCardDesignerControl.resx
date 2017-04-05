@@ -854,9 +854,6 @@
   <data name="&gt;&gt;barSubItem10.Name" xml:space="preserve">
     <value>barSubItem10</value>
   </data>
-  <data name="recentlyUsedItemsComboBox1.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v15.1">
-    <value>Combo</value>
-  </data>
   <data name="commandBarItem23.Hint" xml:space="preserve">
     <value>Сделать одинаковым вертикальное пространство между элементами</value>
   </data>
