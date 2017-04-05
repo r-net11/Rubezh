@@ -122,7 +122,7 @@
     <value>0</value>
   </data>
   <assembly alias="DevExpress.Data.v15.1" name="DevExpress.Data.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-  <data name="xrPictureBox1.LocationFloat" type="DevExpress.Utils.PointFloat, DevExpress.Data.v15.1">
+  <data name="xrPictureBox1.LocationF" type="DevExpress.Utils.PointFloat, DevExpress.Data.v15.1">
     <value>0, 0</value>
   </data>
   <data name="Detail.TextAlignment" type="DevExpress.XtraPrinting.TextAlignment, DevExpress.Data.v15.1">
