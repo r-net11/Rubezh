@@ -52,7 +52,6 @@ namespace ReportSystem.UI.Reports
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.Detail.StylePriority.UseBackColor = false;
 			this.Detail.StylePriority.UseBorderDashStyle = false;
-			this.Detail.StylePriority.UseTextAlignment = false;
 			// 
 			// xrPictureBox1
 			// 
@@ -87,7 +86,7 @@ namespace ReportSystem.UI.Reports
 			this.ShowPrintMarginsWarning = false;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "15.1";
+			this.Version = "14.2";
 			this.Watermark.ImageViewMode = DevExpress.XtraPrinting.Drawing.ImageViewMode.Stretch;
 			this.Watermark.Text = resources.GetString("PassCardTemplateReport.Watermark.Text");
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
