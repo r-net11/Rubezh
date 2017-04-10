@@ -379,4 +379,7 @@
   <data name="Zone_Selectation" xml:space="preserve">
     <value>Selecting a Zone</value>
   </data>
+  <data name="ControllerFirmwareUpdated" xml:space="preserve">
+    <value>The controller firmware has been successfully updated</value>
+  </data>
 </root>

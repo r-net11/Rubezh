@@ -1,10 +1,8 @@
-﻿using Localization.StrazhService.Core.Common;
-using Localization.StrazhService.Core.Errors;
-using StrazhDeviceSDK;
-using Common;
-using FiresecService.Properties;
+﻿using Common;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
+using Localization.StrazhService.Core.Common;
+using Localization.StrazhService.Core.Errors;
 using StrazhAPI;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
@@ -366,7 +364,7 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (!_licenseManager.CanAddCard(databaseService.CardTranslator.GetCardsCount()))
-					return	OperationResult<bool>.FromError(string.Format(CommonErrors.LicenseAddCard_Error, _licenseManager.CurrentLicense.TotalUsers));
+					return OperationResult<bool>.FromError(string.Format(CommonErrors.LicenseAddCard_Error, _licenseManager.CurrentLicense.TotalUsers));
 
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
@@ -519,7 +517,7 @@ namespace FiresecService.Service
 		public OperationResult DeletedCard(SKDCard card)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_карты, card.Number.ToString(), JournalEventDescriptionType.Удаление,
-				string.Format(CommonResources.PasscardWithNumber,card.Number), uid: card.UID);
+				string.Format(CommonResources.PasscardWithNumber, card.Number), uid: card.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.CardTranslator.Delete(card.UID);
@@ -649,7 +647,7 @@ namespace FiresecService.Service
 				var markDeleledResult = databaseService.OrganisationTranslator.MarkDeleted(uid);
 				if (markDeleledResult.HasError)
 				{
-					errors.Add(string.Format(CommonErrors.DB_Error,markDeleledResult.Error));
+					errors.Add(string.Format(CommonErrors.DB_Error, markDeleledResult.Error));
 				}
 
 				return errors.Count > 0 ? new OperationResult(String.Join("\n", errors)) : new OperationResult();
@@ -1093,8 +1091,12 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Обновление_ПО_Контроллера, device);
-				return OperationResult<bool>.FromError(CommonErrors.UpdateFunctionUnable_Error);
+				if (Processor.DeviceProcessors.Single(x => x.Device.UID == device.UID).UpdateFirmware(fileName))
+				{
+					AddSKDJournalMessage(JournalEventNameType.Обновление_ПО_Контроллера, device);
+					return new OperationResult<bool>(true);
+				}
+				return OperationResult<bool>.FromError(CommonErrors.UpdateFirmware_Error);
 			}
 			return OperationResult<bool>.FromError(CommonErrors.DeviceNotFound_Error);
 		}
@@ -2148,7 +2150,7 @@ namespace FiresecService.Service
 			if (idToRemove.HasValue)
 			{
 				var removeResult = RemoveFile(idToRemove.Value);
-				if(removeResult.HasError)
+				if (removeResult.HasError)
 					return new OperationResult<bool>(false);
 			}
 
@@ -2175,9 +2177,9 @@ namespace FiresecService.Service
 					var frontAttachment = GetAttachmentForTemplateSide(template.Front);
 					var backAttachment = GetAttachmentForTemplateSide(template.Back);
 
-					if(frontAttachment != null)
+					if (frontAttachment != null)
 						result.Add(frontAttachment);
-					if(backAttachment != null)
+					if (backAttachment != null)
 						result.Add(backAttachment);
 				}
 

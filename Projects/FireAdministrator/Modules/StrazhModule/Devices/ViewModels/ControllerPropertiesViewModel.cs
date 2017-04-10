@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using Common;
-using Localization.Strazh.ViewModels;
-using StrazhAPI.Enums;
-using Infrastructure.Common.Windows.ViewModels;
-using StrazhAPI.SKD;
-using Infrastructure.Common;
+﻿using Common;
 using FiresecClient;
-using Infrastructure.Common.Windows;
 using Infrastructure;
-using System.ComponentModel;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Localization.Strazh.ViewModels;
+using Microsoft.Win32;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
-using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace StrazhModule.ViewModels
 {
@@ -41,7 +38,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
-            Title = CommonViewModels.Controller_Config;
+			Title = CommonViewModels.Controller_Config;
 			Device = device;
 			DeviceInfo = deviceInfo;
 
@@ -49,6 +46,7 @@ namespace StrazhModule.ViewModels
 			RebootCommand = new RelayCommand(OnReboot);
 			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 			RewriteConfigurationCommand = new RelayCommand(OnRewriteConfiguration);
+			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmwareCommand);
 			IsCriticalOperationsEnabled = true;
 
 #if DEBUG
@@ -137,6 +135,20 @@ namespace StrazhModule.ViewModels
 			WriteConfiguration();
 		}
 
+		public RelayCommand UpdateFirmwareCommand { get; private set; }
+		void OnUpdateFirmwareCommand()
+		{
+			var openFileDialog = new OpenFileDialog() { Filter = "*Binary Files|*.bin" };
+			if (openFileDialog.ShowDialog().Value)
+			{
+				var result = FiresecManager.FiresecService.SKDUpdateFirmware(Device, openFileDialog.FileName);
+				if (result.HasError)
+					MessageBoxService.ShowError(result.Error);
+				else
+					MessageBoxService.ShowWarning(CommonViewModels.ControllerFirmwareUpdated);
+			}
+		}
+
 		/// <summary>
 		/// Проверяет текущую конфигурацию на наличие ошибок
 		/// </summary>
@@ -194,7 +206,7 @@ namespace StrazhModule.ViewModels
 #endif
 					_configurationChangedWaitHandle.WaitOne();
 				}
-				
+
 				//Thread.Sleep(TimeSpan.FromSeconds(2));
 
 #if DEBUG

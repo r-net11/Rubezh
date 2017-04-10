@@ -1,23 +1,22 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Shapes;
-using Common;
+﻿using Common;
 using DeviceControls;
-using Localization.Strazh.ViewModels;
-using Infrastructure.Events;
-using StrazhAPI;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using Localization.Strazh.ViewModels;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using StrazhModule.Events;
 using StrazhModule.Plans;
-using FiresecClient;
+using System;
+using System.Windows;
+using System.Windows.Shapes;
 
 namespace StrazhModule.ViewModels
 {
@@ -117,7 +116,7 @@ namespace StrazhModule.ViewModels
 						case DoorType.OneWay:
 							return CommonViewModels.OneWay;
 						case DoorType.TwoWay:
-                            return CommonViewModels.TwoWay;
+							return CommonViewModels.TwoWay;
 					}
 				}
 				return string.Empty;

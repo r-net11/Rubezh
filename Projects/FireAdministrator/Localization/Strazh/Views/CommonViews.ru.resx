@@ -504,4 +504,7 @@
   <data name="Mode" xml:space="preserve">
     <value>Режим</value>
   </data>
+  <data name="UpdateFirmware" xml:space="preserve">
+    <value>Обновить прошивку</value>
+  </data>
 </root>

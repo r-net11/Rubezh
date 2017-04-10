@@ -379,4 +379,7 @@
   <data name="TwoWay" xml:space="preserve">
     <value>Двухсторонний</value>
   </data>
+  <data name="ControllerFirmwareUpdated" xml:space="preserve">
+    <value>Прошивка контроллера успешно обновлена</value>
+  </data>
 </root>

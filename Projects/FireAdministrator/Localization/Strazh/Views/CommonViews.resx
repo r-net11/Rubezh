@@ -505,4 +505,7 @@
   <data name="ZoneNotSpecified" xml:space="preserve">
     <value>Zone not specified</value>
   </data>
+  <data name="UpdateFirmware" xml:space="preserve">
+    <value>Update firmware</value>
+  </data>
 </root>

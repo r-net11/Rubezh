@@ -229,6 +229,9 @@
   <data name="Transfer_Error" xml:space="preserve">
     <value>File transfer error '{0}'</value>
   </data>
+  <data name="UpdateFirmware_Error" xml:space="preserve">
+    <value>An error occurred while updating the firmware</value>
+  </data>
   <data name="UpdateFunctionUnable_Error" xml:space="preserve">
     <value>Update Function Unable</value>
   </data>

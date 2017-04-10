@@ -231,6 +231,9 @@
   <data name="Transfer_Error" xml:space="preserve">
     <value>Ошибка передачи файла '{0}'</value>
   </data>
+  <data name="UpdateFirmware_Error" xml:space="preserve">
+    <value>При обновлении прошивки возникла ошибка</value>
+  </data>
   <data name="UpdateFunctionUnable_Error" xml:space="preserve">
     <value>Функция обновления ПО не доступна</value>
   </data>

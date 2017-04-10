@@ -417,6 +417,11 @@ namespace StrazhDeviceSDK
 			}
 		}
 
+		public bool UpdateFirmware(string fileName)
+		{
+			return NativeWrapper.WRAP_Upgrade(LoginID, fileName);
+		}
+
 		private void OnStart()
 		{
 			using (var journalTranslator = new JournalTranslator())
