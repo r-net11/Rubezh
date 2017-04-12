@@ -505,6 +505,9 @@
     <value>Режим</value>
   </data>
   <data name="UpdateFirmware" xml:space="preserve">
-    <value>Обновить прошивку</value>
+    <value>Обновить ПО</value>
+  </data>
+  <data name="ObsoleteFirmware" xml:space="preserve">
+    <value>Внимание! На контроллере устаревшая версия ПО. Обновить ПО на контроллере можно во вкладке "Настройки"</value>
   </data>
 </root>

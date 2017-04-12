@@ -1,8 +1,8 @@
 ﻿using Common;
+using StrazhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using StrazhAPI.GK;
 
 namespace StrazhAPI.SKD
 {
@@ -54,6 +54,16 @@ namespace StrazhAPI.SKD
 		{
 			if (StateChanged != null)
 				StateChanged();
+		}
+
+		public bool CanControl
+		{
+			get
+			{
+				return StateClass != XStateClass.ConnectionLost
+								&& StateClass != XStateClass.Failure
+								&& StateClass != XStateClass.Attention;
+			}
 		}
 
 		#region IDeviceState<XStateClass> Members

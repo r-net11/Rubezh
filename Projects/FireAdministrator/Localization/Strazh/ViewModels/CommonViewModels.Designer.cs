@@ -727,6 +727,15 @@ namespace Localization.Strazh.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You installed an older version of the software on the controller. This controller will be in the &quot;Failure&quot;.
+        /// </summary>
+        public static string UpdateToObsoleteFirmware {
+            get {
+                return ResourceManager.GetString("UpdateToObsoleteFirmware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to verification.
         /// </summary>
         public static string Verification {

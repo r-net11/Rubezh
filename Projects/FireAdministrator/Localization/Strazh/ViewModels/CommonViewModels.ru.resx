@@ -382,4 +382,7 @@
   <data name="ControllerFirmwareUpdated" xml:space="preserve">
     <value>Прошивка контроллера успешно обновлена</value>
   </data>
+  <data name="UpdateToObsoleteFirmware" xml:space="preserve">
+    <value>Вы установили устаревшую версию ПО на контроллер. Этот контроллер будет в состоянии "Неисправность"</value>
+  </data>
 </root>

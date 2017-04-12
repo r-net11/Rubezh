@@ -9,6 +9,7 @@ using Localization.Strazh.ViewModels;
 using Microsoft.Win32;
 using StrazhAPI.Enums;
 using StrazhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
@@ -18,10 +19,11 @@ namespace StrazhModule.ViewModels
 {
 	public class ControllerPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private EventWaitHandle _configurationChangedWaitHandle;
+		EventWaitHandle _configurationChangedWaitHandle;
 
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
+		public bool IsObsoleteFirmware { get; private set; }
 
 		private bool _isCriticalOperationsEnabled;
 		public bool IsCriticalOperationsEnabled
@@ -41,6 +43,7 @@ namespace StrazhModule.ViewModels
 			Title = CommonViewModels.Controller_Config;
 			Device = device;
 			DeviceInfo = deviceInfo;
+			IsObsoleteFirmware = deviceInfo.SoftwareBuildDate < SKDDeviceInfo.LastSoftwareBuildDate;
 
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
@@ -138,14 +141,36 @@ namespace StrazhModule.ViewModels
 		public RelayCommand UpdateFirmwareCommand { get; private set; }
 		void OnUpdateFirmwareCommand()
 		{
-			var openFileDialog = new OpenFileDialog() { Filter = "*Binary Files|*.bin" };
+			var openFileDialog = new OpenFileDialog() { Filter = "Binary Files|*.bin" };
 			if (openFileDialog.ShowDialog().Value)
 			{
 				var result = FiresecManager.FiresecService.SKDUpdateFirmware(Device, openFileDialog.FileName);
 				if (result.HasError)
+				{
 					MessageBoxService.ShowError(result.Error);
+				}
 				else
+				{
+					var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+					for (int i = 0; i < 10 && (deviceInfoResult.HasError || deviceInfoResult.Result.SoftwareBuildDate == new DateTime() || deviceInfoResult.Result.CurrentDateTime == new DateTime()); i++)
+					{
+						Thread.Sleep(1000);
+						deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+					}
+					if (!deviceInfoResult.HasError)
+					{
+						DeviceInfo = deviceInfoResult.Result;
+						IsObsoleteFirmware = DeviceInfo.SoftwareBuildDate < SKDDeviceInfo.LastSoftwareBuildDate;
+						OnPropertyChanged(() => DeviceInfo);
+						OnPropertyChanged(() => IsObsoleteFirmware);
+						if (IsObsoleteFirmware)
+						{
+							MessageBoxService.ShowWarning(CommonViewModels.UpdateToObsoleteFirmware);
+							return;
+						}
+					}
 					MessageBoxService.ShowWarning(CommonViewModels.ControllerFirmwareUpdated);
+				}
 			}
 		}
 

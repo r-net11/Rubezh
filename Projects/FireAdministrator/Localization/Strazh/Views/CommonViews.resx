@@ -506,6 +506,9 @@
     <value>Zone not specified</value>
   </data>
   <data name="UpdateFirmware" xml:space="preserve">
-    <value>Update firmware</value>
+    <value>Update software</value>
+  </data>
+  <data name="ObsoleteFirmware" xml:space="preserve">
+    <value>Warning! The controller has an older version of the software. You can update the software in the "settings" tab</value>
   </data>
 </root>

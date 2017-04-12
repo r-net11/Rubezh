@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 using StrazhAPI.GK;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common.Windows;
 
 namespace StrazhModule.Devices
 {
@@ -40,9 +36,8 @@ namespace StrazhModule.Devices
 		public static bool CanOpen(SKDDevice device)
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
+				&& device.State.CanControl
 				&& device.State.StateClass != XStateClass.On
-				&& device.State.StateClass != XStateClass.ConnectionLost
-				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState == AccessState.Normal;
 		}
 
@@ -69,9 +64,8 @@ namespace StrazhModule.Devices
 		public static bool CanClose(SKDDevice device)
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
+				&& device.State.CanControl
 				&& device.State.StateClass != XStateClass.Off
-				&& device.State.StateClass != XStateClass.ConnectionLost
-				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState == AccessState.Normal;
 		}
 
@@ -98,8 +92,7 @@ namespace StrazhModule.Devices
 		public static bool CanSetAccessStateToNormal(SKDDevice device)
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
-				&& device.State.StateClass != XStateClass.ConnectionLost
-				&& device.State.StateClass != XStateClass.Attention
+				&& device.State.CanControl
 				&& device.State.AccessState != AccessState.Normal;
 		}
 
@@ -126,8 +119,7 @@ namespace StrazhModule.Devices
 		public static bool CanSetAccessStateToCloseAlways(SKDDevice device)
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
-				&& device.State.StateClass != XStateClass.ConnectionLost
-				&& device.State.StateClass != XStateClass.Attention
+				&& device.State.CanControl
 				&& device.State.AccessState != AccessState.CloseAlways;
 		}
 
@@ -154,8 +146,7 @@ namespace StrazhModule.Devices
 		public static bool CanSetAccessStateToOpenAlways(SKDDevice device)
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
-				&& device.State.StateClass != XStateClass.ConnectionLost
-				&& device.State.StateClass != XStateClass.Attention
+				&& device.State.CanControl
 				&& device.State.AccessState != AccessState.OpenAlways;
 		}
 

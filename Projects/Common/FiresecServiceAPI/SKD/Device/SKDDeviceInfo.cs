@@ -25,5 +25,7 @@ namespace StrazhAPI.SKD
 
 		[DataMember]
 		public DateTime CurrentDateTime { get; set; }
+
+		public static DateTime LastSoftwareBuildDate { get { return new DateTime(2016, 09, 23); } }
 	}
 }

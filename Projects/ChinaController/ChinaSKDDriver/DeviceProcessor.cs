@@ -297,10 +297,7 @@ namespace StrazhDeviceSDK
 
 			var connectionLostSKDStates = new SKDStates();
 
-			var allDevices = new List<SKDDevice>(Device.Children);
-			allDevices.Add(Device);
-
-			foreach (var device in allDevices)
+			foreach (var device in Device.ChildrenAndSelf)
 			{
 				if (isConnected)
 				{
@@ -356,30 +353,46 @@ namespace StrazhDeviceSDK
 			{
 				Logger.Info(String.Format("Контроллер '{0}'. Доступен по сети. Синхронизируем время.", Device.UID));
 				ControllersTimeSynchronizer.Synchronize(Device);
+				var deviceInfo = Wrapper.GetDeviceSoftwareInfo();
+				var isCorrectFirmwareVersion = deviceInfo.SoftwareBuildDate >= SKDDeviceInfo.LastSoftwareBuildDate;
 
-				if (_isOfflineLogEnabled)
+				if (isCorrectFirmwareVersion)
 				{
-					Task.Factory.StartNew(() =>
+					if (_isOfflineLogEnabled)
 					{
-						_isOfflineReadOutStart = true;
-						Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
-
-						var offlineAccessSKDJournalItems = Wrapper.GetOfflineSKDJournalItems(_lastJournalItemNo);
-						var offlineAlarmSKDJournalItems = Wrapper.GetOfflineAlarmSKDJournalItems(_lastAlarmJournalItemNo);
-						(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(OnNewJournalItem);
-
-						lock (_onlineJournalItems)
+						Task.Factory.StartNew(() =>
 						{
-							_onlineJournalItems.ForEach(OnNewJournalItem);
-							_onlineJournalItems.Clear();
-						}
+							_isOfflineReadOutStart = true;
+							Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
 
-						_isOfflineReadOutStart = false;
-						Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
-					});
+							var offlineAccessSKDJournalItems = Wrapper.GetOfflineSKDJournalItems(_lastJournalItemNo);
+							var offlineAlarmSKDJournalItems = Wrapper.GetOfflineAlarmSKDJournalItems(_lastAlarmJournalItemNo);
+							(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(OnNewJournalItem);
+
+							lock (_onlineJournalItems)
+							{
+								_onlineJournalItems.ForEach(OnNewJournalItem);
+								_onlineJournalItems.Clear();
+							}
+
+							_isOfflineReadOutStart = false;
+							Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
+						});
+					}
+					if (ConnectionAppeared != null)
+						ConnectionAppeared(this);
 				}
-				if (ConnectionAppeared != null)
-					ConnectionAppeared(this);
+				else
+				{
+					var errorSKDStates = new SKDStates();
+					foreach (var device in Device.ChildrenAndSelf)
+					{
+						device.State.StateClass = XStateClass.Failure;
+						device.State.StateClasses = new List<XStateClass> { device.State.StateClass };
+						errorSKDStates.DeviceStates.Add(device.State);
+						Processor.OnStatesChanged(errorSKDStates);
+					}
+				}
 			}
 		}
 
@@ -477,7 +490,7 @@ namespace StrazhDeviceSDK
 			Start();
 		}
 
-		public void Connect()
+		void Connect()
 		{
 			var addresss = "";
 			var port = 0;

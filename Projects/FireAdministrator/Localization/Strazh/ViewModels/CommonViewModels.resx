@@ -382,4 +382,7 @@
   <data name="ControllerFirmwareUpdated" xml:space="preserve">
     <value>The controller firmware has been successfully updated</value>
   </data>
+  <data name="UpdateToObsoleteFirmware" xml:space="preserve">
+    <value>You installed an older version of the software on the controller. This controller will be in the "Failure"</value>
+  </data>
 </root>

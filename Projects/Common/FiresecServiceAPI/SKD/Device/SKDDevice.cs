@@ -187,6 +187,17 @@ namespace StrazhAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
+		public IEnumerable<SKDDevice> ChildrenAndSelf
+		{
+			get
+			{
+				yield return this;
+				foreach (var child in Children)
+					yield return child;
+			}
+		}
+
 		[DataMember]
 		public SKDAntiPassBackConfiguration AntiPassBackConfiguration { get; set; }
 

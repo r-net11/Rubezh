@@ -11,31 +11,34 @@
 	<TabControl>
 		<TabItem Header="{x:Static lang:CommonViews.Information}">
 			<Border CornerRadius="5" Background="White" Margin="5">
-				<StackPanel DataContext="{Binding DeviceInfo}" Margin="5">
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.DeviceType}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding DeviceType}" Margin="2" />
+				<StackPanel>
+					<StackPanel DataContext="{Binding DeviceInfo}" Margin="5">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.DeviceType}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding DeviceType}" Margin="2" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.ReleaseDate}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding SoftwareBuildDate, StringFormat=dd-MM-yyyy}" Margin="2" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.SoftwareVersion}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding SoftwareVersion}" Margin="2" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.IPaddress}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding IP}" Margin="2" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.Mask}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding SubnetMask}" Margin="2" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{x:Static lang:CommonViews.MainGateway}" Width="200" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Text="{Binding DefaultGateway}" Margin="2" />
+						</StackPanel>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.ReleaseDate}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding SoftwareBuildDate, StringFormat=dd-MM-yyyy}" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.SoftwareVersion}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding SoftwareVersion}" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.IPaddress}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding IP}" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.Mask}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding SubnetMask}" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="{x:Static lang:CommonViews.MainGateway}" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding DefaultGateway}" Margin="2" />
-					</StackPanel>
+					<TextBlock Text="{x:Static lang:CommonViews.ObsoleteFirmware}" TextWrapping="Wrap" TextAlignment="Center" Margin="5" Visibility="{Binding IsObsoleteFirmware, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</StackPanel>
 			</Border>
 		</TabItem>

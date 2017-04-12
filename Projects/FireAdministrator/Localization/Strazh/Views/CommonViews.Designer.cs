@@ -862,6 +862,15 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning! The controller has an older version of the software. You can update the software in the &quot;settings&quot; tab.
+        /// </summary>
+        public static string ObsoleteFirmware {
+            get {
+                return ResourceManager.GetString("ObsoleteFirmware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Public method.
         /// </summary>
         public static string OpenMethod {
@@ -1168,7 +1177,7 @@ namespace Localization.Strazh.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update firmware.
+        ///   Looks up a localized string similar to Update software.
         /// </summary>
         public static string UpdateFirmware {
             get {
