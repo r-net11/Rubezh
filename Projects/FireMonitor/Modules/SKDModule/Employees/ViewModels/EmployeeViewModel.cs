@@ -193,7 +193,7 @@ namespace SKDModule.ViewModels
 					if (employee != null)
 					{
 						var columnValue = employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == columnType.UID);
-						Model.TextColumns.Add(new TextColumn { ColumnTypeUID = columnType.UID, Text = columnValue.TextData });
+						Model.TextColumns.Add(new TextColumn { ColumnTypeUID = columnType.UID, Text = columnValue != null ? columnValue.TextData : string.Empty });
 					}
 				}
 			}
