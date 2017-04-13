@@ -358,7 +358,7 @@ namespace StrazhDeviceSDK
 
 				if (isCorrectFirmwareVersion)
 				{
-					if (_isOfflineLogEnabled && _lastJournalItemNo > 0)
+					if (_isOfflineLogEnabled)
 					{
 						Task.Factory.StartNew(() =>
 						{
