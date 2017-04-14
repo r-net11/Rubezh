@@ -166,6 +166,7 @@
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="AppServerSettingsHelper.cs" />
+    <Compile Include="ControllersInfoHelper.cs" />
     <Compile Include="Layouts\LayoutPartIdentities.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="NetworkHelper.cs" />

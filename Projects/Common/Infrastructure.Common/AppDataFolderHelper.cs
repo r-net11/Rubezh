@@ -96,6 +96,11 @@ namespace Infrastructure.Common
 			return Path.Combine(AppDataFolderName, "GlobalSettings.xml");
 		}
 
+		public static string GetControllersInfoFileName()
+		{
+			return Path.Combine(AppDataFolderName, "ControllersInfo.xml");
+		}
+
 		public static string GetAppServerSettingsFileName()
 		{
 			return Path.Combine(AppDataFolderName, "AppServerSettings.xml");

@@ -5,7 +5,6 @@ using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
 using StrazhAPI.SKD;
-using StrazhDAL;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using System;
@@ -21,7 +20,6 @@ namespace StrazhDeviceSDK
 	{
 		int _lastJournalItemNo { get; set; }
 		int _lastAlarmJournalItemNo { get; set; }
-
 		bool _isOfflineReadOutStart { get; set; }
 
 		List<SKDJournalItem> _onlineJournalItems { get; set; }
@@ -58,7 +56,13 @@ namespace StrazhDeviceSDK
 			if (skdJournalItem.LoginID != LoginID)
 				return;
 
-			skdJournalItem.No = skdJournalItem.IsAlarm ? ++_lastAlarmJournalItemNo : skdJournalItem.IsPass ? ++_lastJournalItemNo : 0; // костыль, потому что с контроллера при онлайн проходе не приходит номер события
+			if (skdJournalItem.IsAlarm || skdJournalItem.IsPass)
+			{
+				_lastJournalItemNo = Wrapper.GetAccessLogItemsCount();
+				_lastAlarmJournalItemNo = Wrapper.GetAlarmLogItemsCount();
+				skdJournalItem.No = skdJournalItem.IsAlarm ? _lastAlarmJournalItemNo : skdJournalItem.IsPass ? _lastJournalItemNo : 0; // костыль, потому что с контроллера при онлайн проходе не приходит номер события
+				ControllersInfoHelper.SetControllerInfo(Device.UID, _lastJournalItemNo, _lastAlarmJournalItemNo, Wrapper.GetDeviceMacAddress());
+			}
 
 			var journalItem = new JournalItem
 			{
@@ -358,6 +362,14 @@ namespace StrazhDeviceSDK
 
 				if (isCorrectFirmwareVersion)
 				{
+					var macAddress = Wrapper.GetDeviceMacAddress();
+					if (macAddress != ControllersInfoHelper.GetControllerMacAddress(Device.UID))
+					{
+						_lastJournalItemNo = Wrapper.GetAccessLogItemsCount();
+						_lastAlarmJournalItemNo = Wrapper.GetAlarmLogItemsCount();
+						ControllersInfoHelper.SetControllerInfo(Device.UID, _lastJournalItemNo, _lastAlarmJournalItemNo, macAddress);
+					}
+
 					if (_isOfflineLogEnabled)
 					{
 						Task.Factory.StartNew(() =>
@@ -437,20 +449,8 @@ namespace StrazhDeviceSDK
 
 		private void OnStart()
 		{
-			using (var journalTranslator = new JournalTranslator())
-			{
-				var lastJournalItemNo = journalTranslator.GetLastJournalItemNoByController(Device.UID);
-				var lastAlarmJournalItemNo = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
-				while (lastAlarmJournalItemNo.HasError || lastAlarmJournalItemNo.HasError)
-				{
-					Logger.Error("Контроллер '{0}'. Процесс получения событий с контроллера не запущен. Не удалось получить номер последнего события и БД.", Device.Name);
-					Thread.Sleep(1000);
-					lastJournalItemNo = journalTranslator.GetLastJournalItemNoByController(Device.UID);
-					lastAlarmJournalItemNo = journalTranslator.GetLastAlarmJournalItemNoByController(Device.UID);
-				}
-				_lastJournalItemNo = lastJournalItemNo.Result;
-				_lastAlarmJournalItemNo = lastAlarmJournalItemNo.Result;
-			}
+			_lastJournalItemNo = ControllersInfoHelper.GetJournalItemsCount(Device.UID);
+			_lastAlarmJournalItemNo = ControllersInfoHelper.GetAlarmJournaItemsCount(Device.UID);
 
 			var attemptCount = 0;
 
