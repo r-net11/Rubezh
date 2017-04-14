@@ -4,7 +4,13 @@
 
 typedef int					AV_int32;	
 typedef unsigned int		AV_uint32;	
-typedef int					AV_BOOL;		
+
+#ifndef __OBJC__
+typedef int					AV_BOOL;
+#else
+typedef BOOL				AV_BOOL;
+#endif	
+
 typedef void*				AV_HANDLE;		
 typedef unsigned char		AV_BYTE;	
 typedef float				AV_float;

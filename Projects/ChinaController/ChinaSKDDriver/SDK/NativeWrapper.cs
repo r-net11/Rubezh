@@ -85,6 +85,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			ACCESS_STATE_NORMAL,
 			ACCESS_STATE_CLOSEALWAYS,
 			ACCESS_STATE_OPENALWAYS,
+			ACCESS_STATE_NOPERSONNC,
+			ACCESS_STATE_NOPERSONNO
 		}
 
 		public enum CFG_ACCESS_MODE
@@ -105,8 +107,10 @@ namespace StrazhDeviceSDK.NativeAPI
 			CFG_DOOR_OPEN_METHOD_SECTION,
 			CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
 			CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
+			CFG_DOOR_OPEN_METHOD_PWD_AND_CARD_AND_FINGERPINT = 9,
+			CFG_DOOR_OPEN_METHOD_PWD_AND_FINGERPRINT = 10,
 			CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
-			CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
+			CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12,
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -262,6 +266,17 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szTimeZoneDesc;
+			public int nSandbyServerNum;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+			public CFG_NTP_SERVER[] stuStandbyServer;
+		}
+
+		public struct CFG_NTP_SERVER
+		{
+			public bool bEnable;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szAddress;
+			public int nPort;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -300,6 +315,13 @@ namespace StrazhDeviceSDK.NativeAPI
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_AUTO_REMOTE_CHECK_INFO
+		{
+			public bool bEnable;
+			public int nTimeSechdule;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
@@ -314,6 +336,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			public byte abUnlockHoldInterval;
 			public byte abCloseTimeout;
 			public byte abOpenAlwaysTimeIndex;
+			public byte abCloseAlwaysTimeIndex;
 			public byte abHolidayTimeIndex;
 			public byte abBreakInAlarmEnable;
 			public byte abRepeatEnterAlarmEnable;
@@ -326,11 +349,15 @@ namespace StrazhDeviceSDK.NativeAPI
 			public byte abRemoteDetail;
 			public byte abHandicapTimeOut;
 			public byte abCheckCloseSensor;
+			public byte abAutoRemoteCheck;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+			public byte[] reverse;
 
 			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 			public int nUnlockHoldInterval;
 			public int nCloseTimeout;
 			public int nOpenAlwaysTimeIndex;
+			public int nCloseAlwaysTimeIndex;
 			public int nHolidayTimeRecoNo;
 			public bool bBreakInAlarmEnable;
 			public bool bRepeatEnterAlarm;
@@ -347,6 +374,12 @@ namespace StrazhDeviceSDK.NativeAPI
 			public CFG_REMOTE_DETAIL_INFO stuRemoteDetail;
 			public CFG_HANDICAP_TIMEOUT_INFO stuHandicapTimeOut;
 			public bool bCloseCheckSensor;
+			public CFG_AUTO_REMOTE_CHECK_INFO stuAutoRemoteCheck;
+			public bool bLocalControlEnable;
+			public bool bRemoteControlEnable;
+			public int nSensorDelay;
+			public int nHumanStatusSensitivity;
+			public int nDetectSensitivity;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -426,10 +459,6 @@ namespace StrazhDeviceSDK.NativeAPI
 			//[Description("Принуждение")]
 			[LocalizedDescription(typeof(CommonResources), "Forcing")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
-
-			//[Description("Принуждение")]
-			[LocalizedDescription(typeof(CommonResources), "Forcing")]
-			NET_ACCESSCTLCARD_TYPE_POLLING,
 
 			//[Description("Материнский")]
 			[LocalizedDescription(typeof(CommonResources), "Maternal")]
@@ -779,6 +808,25 @@ namespace StrazhDeviceSDK.NativeAPI
 
 		#endregion Logs
 
+		#region offlineLog
+		[StructLayout(LayoutKind.Sequential)]
+		public struct GetEventLog_Struct
+		{
+			ALARM_ALARM_INFO_EX2 x_ALARM_ALARM_INFO_EX2;
+			ALARM_CHASSISINTRUDED_INFO x_ALARM_CHASSISINTRUDED_INFO;
+			ALARM_ACCESS_CTL_NOT_CLOSE_INFO x_ALARM_ACCESS_CTL_NOT_CLOSE_INFO;
+			ALARM_ACCESS_CTL_BREAK_IN_INFO x_ALARM_ACCESS_CTL_BREAK_IN_INFO;
+			ALARM_ACCESS_CTL_REPEAT_ENTER_INFO x_ALARM_ACCESS_CTL_REPEAT_ENTER_INFO;
+			ALARM_ACCESS_CTL_DURESS_INFO x_ALARM_ACCESS_CTL_DURESS_INFO;
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetEventLog(int loginID, int eventId, IntPtr pBuf);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetEventLog2(int loginID);
+		#endregion offlineLog
+
 		#region Events
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
@@ -800,8 +848,7 @@ namespace StrazhDeviceSDK.NativeAPI
 		{
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
-			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
-			NET_ACCESS_CTL_STATUS_TYPE_ABNORMAL
+			NET_ACCESS_CTL_STATUS_TYPE_CLOSE
 		}
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
@@ -832,35 +879,7 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			//[Description("Кнопка")]
 			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT = 10,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT = 11,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_PERSONS = 12,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_KEY = 13,
-
-			//[Description("Кнопка")]
-			[LocalizedDescription(typeof(CommonResources), "Button")]
-			NET_ACCESS_DOOROPEN_METHOD_COERCE_PWD = 14
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -987,7 +1006,8 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			public NET_TIME stuTime;
 			public int nAction;
-			public uint nEventId;
+
+			public int nEventID;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1000,7 +1020,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szDoorName;
 
 			public NET_TIME stuTime;
-			public uint nEventID;
+
+			public int nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1017,7 +1038,7 @@ namespace StrazhDeviceSDK.NativeAPI
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
 
-			public uint nEventID;
+			public int nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1033,7 +1054,8 @@ namespace StrazhDeviceSDK.NativeAPI
 			public string szCardNo;
 
 			public NET_TIME stuTime;
-			public uint nEventID;
+
+			public int nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1055,8 +1077,6 @@ namespace StrazhDeviceSDK.NativeAPI
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
-
-			public uint nEventID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

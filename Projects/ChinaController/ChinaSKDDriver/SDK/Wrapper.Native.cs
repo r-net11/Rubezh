@@ -62,7 +62,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Потеря_связи
+				JournalEventNameType = JournalEventNameType.Потеря_связи
 			};
 			AddJournalItem(journalItem);
 		}
@@ -73,7 +73,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Восстановление_связи
+				JournalEventNameType = JournalEventNameType.Восстановление_связи
 			};
 			AddJournalItem(journalItem);
 
@@ -111,6 +111,7 @@ namespace StrazhDeviceSDK
 						journalItem.CardNo = eventInfo.szCardNo;
 						journalItem.ErrorCode = (ErrorCode)eventInfo.nErrorCode;
 						journalItem.No = eventInfo.nPunchingRecNo;
+
 						break;
 					}
 
@@ -125,6 +126,7 @@ namespace StrazhDeviceSDK
 						journalItem.DoorNo = eventInfo.nDoor;
 						journalItem.nAction = eventInfo.nAction;
 						journalItem.szDoorName = eventInfo.szDoorName;
+						journalItem.No = eventInfo.nEventID;
 						break;
 					}
 
@@ -134,6 +136,7 @@ namespace StrazhDeviceSDK
 						var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)));
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 						journalItem.DoorNo = eventInfo.nDoor;
+						journalItem.No = eventInfo.nEventID;
 						break;
 					}
 
@@ -144,6 +147,7 @@ namespace StrazhDeviceSDK
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 						journalItem.DoorNo = eventInfo.nDoor;
 						journalItem.szDoorName = eventInfo.szDoorName;
+						journalItem.No = eventInfo.nEventID;
 						break;
 					}
 
@@ -154,6 +158,7 @@ namespace StrazhDeviceSDK
 						journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 						journalItem.DoorNo = eventInfo.nDoor;
 						journalItem.CardNo = eventInfo.szCardNo;
+						journalItem.No = eventInfo.nEventID;
 						break;
 					}
 

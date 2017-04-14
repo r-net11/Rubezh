@@ -123,16 +123,16 @@
 
             <!-- Dahua SDK -->
             <Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
-                <File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
-                <File Id="Server.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.Infra.dll" Name="Infra.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.json.dll" Name="json.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
-                <File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
+                <File Id="Server.avnetsdk.dll"						 Name="avnetsdk.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" KeyPath="yes" />
+                <File Id="Server.dhconfigsdk.dll"					 Name="dhconfigsdk.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.dhnetsdk.dll"						 Name="dhnetsdk.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.Infra.dll"							 Name="Infra.dll"						 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.json.dll"							 Name="json.dll"						 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.NetFramework.dll"					 Name="NetFramework.dll"				 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.Stream.dll"						 Name="Stream.dll"						 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.StreamSvr.dll"						 Name="StreamSvr.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.CPPWrapper.dll"					 Name="CPPWrapper.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.StrazhDeviceSDK.dll"				 Name="StrazhDeviceSDK.dll"				 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
             </Component>
 
             <Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
