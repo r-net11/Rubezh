@@ -193,6 +193,7 @@ namespace StrazhDeviceSDK
 					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
 					break;
 			}
+			journalItem.No = alarmLogMessage.LogNo;
 			journalItem.DoorNo = alarmLogMessage.Channel;
 			journalItem.CardNo = alarmLogMessage.CardId;
 

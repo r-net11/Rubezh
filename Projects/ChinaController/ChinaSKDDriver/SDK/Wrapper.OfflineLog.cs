@@ -28,7 +28,6 @@ namespace StrazhDeviceSDK
 			for (int i = 0; i <= alarmLogItems.Count - 1; i++)
 			{
 				var skdJournalItem = NativeLogToSKDJournalItem(alarmLogItems[i]);
-				skdJournalItem.No = lastReceivedRecordNumber + 1 + i;
 				result.Add(skdJournalItem);
 			}
 			return result;
