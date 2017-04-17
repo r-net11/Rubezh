@@ -41,6 +41,17 @@ namespace Infrastructure.Common
 			Save();
 		}
 
+		public static void ChangeControllerInfo(Guid deviceUid, int journalItemsCount, int alarmJournalItemsCount)
+		{
+			var info = Infos.FirstOrDefault(x => x.DeviceUid == deviceUid);
+			if (info != null)
+			{
+				info.JournalItemsCount = journalItemsCount;
+				info.AlarmJournlItemsCount = alarmJournalItemsCount;
+				Save();
+			}
+		}
+
 		public static string GetControllerMacAddress(Guid deviceUid)
 		{
 			var info = Infos.FirstOrDefault(x => x.DeviceUid == deviceUid);

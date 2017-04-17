@@ -132,7 +132,7 @@
                 <File Id="Server.Stream.dll"						 Name="Stream.dll"						 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
                 <File Id="Server.StreamSvr.dll"						 Name="StreamSvr.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
                 <File Id="Server.CPPWrapper.dll"					 Name="CPPWrapper.dll"					 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
-                <File Id="Server.StrazhDeviceSDK.dll"				 Name="StrazhDeviceSDK.dll"				 Source="..\..\..\..\..\..\Projects\ChinaController\Redistributables_1\" />
+                <File Id="Server.StrazhDeviceSDK.dll"				 Name="StrazhDeviceSDK.dll"				 Source="$(var.Server.TargetDir)" />
             </Component>
 
             <Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">

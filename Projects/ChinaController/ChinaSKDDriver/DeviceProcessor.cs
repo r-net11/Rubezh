@@ -56,13 +56,10 @@ namespace StrazhDeviceSDK
 			if (skdJournalItem.LoginID != LoginID)
 				return;
 
-			if (skdJournalItem.IsAlarm || skdJournalItem.IsPass)
-			{
-				_lastJournalItemNo = Wrapper.GetAccessLogItemsCount();
-				_lastAlarmJournalItemNo = Wrapper.GetAlarmLogItemsCount();
-				skdJournalItem.No = skdJournalItem.IsAlarm ? _lastAlarmJournalItemNo : skdJournalItem.IsPass ? _lastJournalItemNo : 0; // костыль, потому что с контроллера при онлайн проходе не приходит номер события
-				ControllersInfoHelper.SetControllerInfo(Device.UID, _lastJournalItemNo, _lastAlarmJournalItemNo, Wrapper.GetDeviceMacAddress());
-			}
+			if (skdJournalItem.IsAlarm)
+				ControllersInfoHelper.ChangeControllerInfo(Device.UID, _lastJournalItemNo, ++_lastAlarmJournalItemNo);
+			else if (skdJournalItem.IsPass)
+				ControllersInfoHelper.ChangeControllerInfo(Device.UID, ++_lastJournalItemNo, _lastAlarmJournalItemNo);
 
 			var journalItem = new JournalItem
 			{
@@ -363,7 +360,8 @@ namespace StrazhDeviceSDK
 				if (isCorrectFirmwareVersion)
 				{
 					var macAddress = Wrapper.GetDeviceMacAddress();
-					if (macAddress != ControllersInfoHelper.GetControllerMacAddress(Device.UID))
+					var isNewController = macAddress != ControllersInfoHelper.GetControllerMacAddress(Device.UID);
+					if (isNewController)
 					{
 						_lastJournalItemNo = Wrapper.GetAccessLogItemsCount();
 						_lastAlarmJournalItemNo = Wrapper.GetAlarmLogItemsCount();
