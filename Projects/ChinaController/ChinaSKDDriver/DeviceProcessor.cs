@@ -23,6 +23,7 @@ namespace StrazhDeviceSDK
 		bool _isOfflineReadOutStart { get; set; }
 
 		List<SKDJournalItem> _onlineJournalItems { get; set; }
+		public SKDControllerTimeSettings TimeSettings { get; set; }
 		public Wrapper Wrapper { get; private set; }
 
 		public SKDDevice Device { get; private set; }
@@ -354,6 +355,7 @@ namespace StrazhDeviceSDK
 			{
 				Logger.Info(String.Format("Контроллер '{0}'. Доступен по сети. Синхронизируем время.", Device.UID));
 				ControllersTimeSynchronizer.Synchronize(Device);
+				GetTimeSettings();
 				var deviceInfo = Wrapper.GetDeviceSoftwareInfo();
 				var isCorrectFirmwareVersion = deviceInfo.SoftwareBuildDate >= SKDDeviceInfo.LastSoftwareBuildDate;
 
@@ -377,6 +379,7 @@ namespace StrazhDeviceSDK
 
 							var offlineAccessSKDJournalItems = Wrapper.GetOfflineSKDJournalItems(_lastJournalItemNo);
 							var offlineAlarmSKDJournalItems = Wrapper.GetOfflineAlarmSKDJournalItems(_lastAlarmJournalItemNo);
+							offlineAccessSKDJournalItems.ForEach(x => Processor.TimeZoneCorrection(x, this));
 							(offlineAccessSKDJournalItems.Concat(offlineAlarmSKDJournalItems)).OrderBy(x => x.DeviceDateTime).ForEach(OnNewJournalItem);
 
 							lock (_onlineJournalItems)
@@ -518,6 +521,27 @@ namespace StrazhDeviceSDK
 			string error;
 			LoginID = Wrapper.Connect(addresss, port, login, password, out error);
 			LoginFailureReason = error;
+		}
+
+		void GetTimeSettings()
+		{
+			var timeSettings = Processor.GetControllerTimeSettings(Device.UID);
+			for (int i = 0; i < 10 && timeSettings.HasError; i++)
+			{
+				Thread.Sleep(1000);
+				timeSettings = Processor.GetControllerTimeSettings(Device.UID);
+			}
+
+			if (timeSettings.HasError)
+			{
+				Logger.Info(String.Format("Контроллер '{0}'. Не удалось получить актуальные временные настройки.", Device.UID));
+				if (TimeSettings == null)
+					TimeSettings = new SKDControllerTimeSettings();
+			}
+			else
+			{
+				TimeSettings = timeSettings.Result;
+			}
 		}
 	}
 }

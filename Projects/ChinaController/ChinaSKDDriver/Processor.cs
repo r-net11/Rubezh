@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using StrazhDeviceSDK.API;
-using StrazhAPI;
+﻿using StrazhAPI;
 using StrazhAPI.GK;
 using StrazhAPI.Journal;
-using System.Linq;
 using StrazhAPI.SKD;
 using StrazhAPI.SKD.Device;
+using StrazhDeviceSDK.API;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StrazhDeviceSDK
 {
@@ -72,6 +72,22 @@ namespace StrazhDeviceSDK
 				foreach (var deviceProcessor in DeviceProcessors)
 					deviceProcessor.Stop();
 			Wrapper.Deinitialize();
+		}
+
+		public static void TimeZoneCorrection(SKDJournalItem item, DeviceProcessor deviceProcessor = null)
+		{
+			if (deviceProcessor == null)
+				deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.LoginID == item.LoginID);
+
+			if (deviceProcessor != null)
+			{
+				var delta = TimeZoneTypeToTimeSpan(deviceProcessor.TimeSettings.TimeZone);
+				if (item.DeviceDateTime.HasValue)
+				{
+					item.DeviceDateTime = item.DeviceDateTime.Value.Add(delta);
+					item.SystemDateTime = item.DeviceDateTime.HasValue ? item.DeviceDateTime.Value : new DateTime();
+				}
+			}
 		}
 
 		#region Callback

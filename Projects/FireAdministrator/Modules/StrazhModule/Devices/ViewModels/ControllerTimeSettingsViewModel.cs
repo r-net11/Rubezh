@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
+﻿using FiresecClient;
 using Infrastructure.Common;
-using FiresecClient;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Localization.Strazh.Common;
 using Localization.Strazh.ViewModels;
 using StrazhAPI.SKD;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace StrazhModule.ViewModels
 {
@@ -138,7 +136,7 @@ namespace StrazhModule.ViewModels
 			if (result.Result)
 			{
 				GetDeviceTime();
-                MessageBoxService.Show(CommonViewModels.ControllerTimeSettings_SynchSuccess);
+				MessageBoxService.Show(CommonViewModels.ControllerTimeSettings_SynchSuccess);
 			}
 			else
 			{
@@ -165,6 +163,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
+				GetDeviceTime();
 				HasChanged = true;
 			}
 		}

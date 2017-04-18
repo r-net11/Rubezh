@@ -1,9 +1,9 @@
-﻿using Localization.StrazhDeviceSDK.Common;
+﻿using Common;
+using Localization.StrazhDeviceSDK.Common;
 using Localization.StrazhDeviceSDK.Errors;
-using StrazhDeviceSDK.API;
-using Common;
 using StrazhAPI;
 using StrazhAPI.SKD;
+using StrazhDeviceSDK.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +85,7 @@ namespace StrazhDeviceSDK
 				if (!deviceProcessor.IsConnected)
 					return OperationResult<bool>.FromError(string.Format(CommonResources.NoLinkWithController, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
-				if (deviceProcessor.Wrapper.SetDateTime(DateTime.Now))
+				if (deviceProcessor.Wrapper.SetDateTime(DateTime.UtcNow.Add(TimeZoneTypeToTimeSpan(deviceProcessor.Wrapper.GetControllerTimeSettings().TimeZone))))
 					return new OperationResult<bool>(true);
 
 				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationSynchTime_Error);
@@ -154,7 +154,7 @@ namespace StrazhDeviceSDK
 				for (var i = 0; i <= 127; i++)
 				{
 					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i) ??
-					                     new SKDWeeklyInterval();
+										 new SKDWeeklyInterval();
 
 					var timeShedules = new List<TimeShedule>();
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.OrderBy(x => x.DayOfWeek))
@@ -413,7 +413,11 @@ namespace StrazhDeviceSDK
 
 				var result = deviceProcessor.Wrapper.SetControllerTimeSettings(controllerTimeSettings);
 				if (result)
+				{
+					SynchronizeTime(deviceUID);
+					deviceProcessor.TimeSettings = controllerTimeSettings;
 					return new OperationResult<bool>(true);
+				}
 				else
 					return OperationResult<bool>.FromError(CommonErrors.ExecuteOperationDevice_Error);
 			}
@@ -526,6 +530,80 @@ namespace StrazhDeviceSDK
 				return new OperationResult<bool>(true);
 			else
 				return OperationResult<bool>.FromError(CommonErrors.ExecuteOperation_Error);
+		}
+
+		public static TimeSpan TimeZoneTypeToTimeSpan(SKDTimeZoneType timeZone)
+		{
+			switch (timeZone)
+			{
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_0:
+				default:
+					return new TimeSpan();
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_1:
+					return TimeSpan.FromHours(1);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_2:
+					return TimeSpan.FromHours(2);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_3:
+					return TimeSpan.FromHours(3);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_4:
+					return TimeSpan.FromHours(3.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_5:
+					return TimeSpan.FromHours(4);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_6:
+					return TimeSpan.FromHours(4.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_7:
+					return TimeSpan.FromHours(5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_8:
+					return TimeSpan.FromHours(5.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_9:
+					return TimeSpan.FromHours(5.75);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_10:
+					return TimeSpan.FromHours(6);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_11:
+					return TimeSpan.FromHours(6.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_12:
+					return TimeSpan.FromHours(7);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_13:
+					return TimeSpan.FromHours(8);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_14:
+					return TimeSpan.FromHours(9);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_15:
+					return TimeSpan.FromHours(9.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_16:
+					return TimeSpan.FromHours(10);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_17:
+					return TimeSpan.FromHours(11);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_18:
+					return TimeSpan.FromHours(12);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_19:
+					return TimeSpan.FromHours(13);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_20:
+					return TimeSpan.FromHours(-1);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_21:
+					return TimeSpan.FromHours(-2);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_22:
+					return TimeSpan.FromHours(-3);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_23:
+					return TimeSpan.FromHours(-3.5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_24:
+					return TimeSpan.FromHours(-4);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_25:
+					return TimeSpan.FromHours(-5);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_26:
+					return TimeSpan.FromHours(-6);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_27:
+					return TimeSpan.FromHours(-7);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_28:
+					return TimeSpan.FromHours(-8);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_29:
+					return TimeSpan.FromHours(-9);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_30:
+					return TimeSpan.FromHours(-10);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_31:
+					return TimeSpan.FromHours(-11);
+				case SKDTimeZoneType.EM_CFG_TIME_ZONE_32:
+					return TimeSpan.FromHours(-12);
+			}
 		}
 
 		#region <Пароли замков>

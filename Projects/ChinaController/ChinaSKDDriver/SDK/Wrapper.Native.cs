@@ -268,7 +268,7 @@ namespace StrazhDeviceSDK
 					journalItem.Description = lCommand.ToString();
 					break;
 			}
-			journalItem.SystemDateTime = journalItem.DeviceDateTime.HasValue ? journalItem.DeviceDateTime.Value : DateTime.Now;
+			Processor.TimeZoneCorrection(journalItem);
 
 			AddJournalItem(journalItem);
 			return true;
