@@ -7,8 +7,6 @@ namespace StrazhModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			if (!x.Device.Driver.IsController || !y.Device.Driver.IsController) return 0;
-
 			return string.Compare(x.Device.Name, y.Device.Name);
 		}
 	}
