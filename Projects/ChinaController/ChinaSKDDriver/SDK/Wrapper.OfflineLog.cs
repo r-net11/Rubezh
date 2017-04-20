@@ -14,8 +14,9 @@ namespace StrazhDeviceSDK
 			var actualRecordNumber = GetAccessLogItemsCount();
 			for (int i = lastReceivedRecordNumber + 1; i <= actualRecordNumber; i++)
 			{
-				var nativeAccessInfo = WRAP_Get_Native_Access_Info(i);
-				result.Add(NativeAccessToSKDJournalItem(nativeAccessInfo));
+				NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccessInfo;
+				if (WRAP_Get_Native_Access_Info(i, out nativeAccessInfo))
+					result.Add(NativeAccessToSKDJournalItem(nativeAccessInfo));
 			}
 			return result;
 		}
@@ -33,19 +34,23 @@ namespace StrazhDeviceSDK
 			return result;
 		}
 
-		public NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC WRAP_Get_Native_Access_Info(int recordNo)
+		public bool WRAP_Get_Native_Access_Info(int recordNo, out NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccessInfo)
 		{
 			var structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC));
 			var intPtr = Marshal.AllocCoTaskMem(structSize);
 
 			var result = NativeWrapper.WRAP_Get_Access_Info(LoginID, recordNo, intPtr);
-			if (!result)
-				return default(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC);
-
-			var nativeAccess = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-			return nativeAccess;
+			if (result)
+			{
+				nativeAccessInfo = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
+				Marshal.FreeCoTaskMem(intPtr);
+				intPtr = IntPtr.Zero;
+			}
+			else
+			{
+				nativeAccessInfo = default(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC);
+			}
+			return result;
 		}
 
 		public class SKDJournalItemComparer : IComparer<SKDJournalItem>

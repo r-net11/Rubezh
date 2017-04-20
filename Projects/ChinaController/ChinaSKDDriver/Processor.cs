@@ -85,7 +85,7 @@ namespace StrazhDeviceSDK
 				if (item.DeviceDateTime.HasValue)
 				{
 					item.DeviceDateTime = item.DeviceDateTime.Value.Add(delta);
-					item.SystemDateTime = item.DeviceDateTime.HasValue ? item.DeviceDateTime.Value : new DateTime();
+					item.SystemDateTime = item.DeviceDateTime.HasValue ? item.DeviceDateTime.Value : new DateTime(1900, 1, 1);
 				}
 			}
 		}
