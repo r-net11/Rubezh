@@ -11,6 +11,7 @@ namespace Infrastructure.Common
 	public static class ControllersInfoHelper
 	{
 		static string FileName = AppDataFolderHelper.GetControllersInfoFileName();
+		static XmlSerializer _xmlSerializer = XmlSerializer.FromTypes(new[] { typeof(List<ControllerInfo>) })[0];
 
 		static List<ControllerInfo> Infos { get; set; }
 
@@ -80,8 +81,7 @@ namespace Infrastructure.Common
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
-						var xmlSerializer = XmlSerializer.FromTypes(new[] { typeof(List<ControllerInfo>) })[0];
-						Infos = (List<ControllerInfo>)xmlSerializer.Deserialize(fileStream);
+						Infos = (List<ControllerInfo>)_xmlSerializer.Deserialize(fileStream);
 					}
 				}
 			}
@@ -95,10 +95,9 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var xmlSerializer = XmlSerializer.FromTypes(new[] { typeof(List<ControllerInfo>) })[0];
 				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				{
-					xmlSerializer.Serialize(fileStream, Infos);
+					_xmlSerializer.Serialize(fileStream, Infos);
 				}
 			}
 			catch (Exception e)
