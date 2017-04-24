@@ -22,7 +22,6 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeZonesReportFilter>();
 
 			var resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeZonesReport));
-			var detail = new DevExpress.XtraReports.UI.DetailBand();
 			var xrTableContent = new DevExpress.XtraReports.UI.XRTable();
 			var xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
 			var xrTableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -51,11 +50,11 @@ namespace FiresecService.Report.Templates
 			//
 			// Detail
 			//
-			detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+			Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
 			xrTableContent});
-			detail.Dpi = 254F;
-			detail.HeightF = 64F;
-			detail.Name = "Detail";
+			Detail.Dpi = 254F;
+			Detail.HeightF = 64F;
+			Detail.Name = "Detail";
 			//
 			// xrTableContent
 			//
@@ -303,7 +302,7 @@ namespace FiresecService.Report.Templates
 			// EmployeeZonesReport
 			//
 			Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-			detail,
+			Detail,
 			groupHeader1});
 			DataMember = "Data";
 			DataSourceSchema = resources.GetString("$DataSourceSchema");
@@ -313,9 +312,9 @@ namespace FiresecService.Report.Templates
 			PageHeight = 2100;
 			PageWidth = 2970;
 			StyleSheet.AddRange(new[] { xrControlStyle1 });
-			Version = "14.1";
+			Version = "15.1";
 			Controls.SetChildIndex(groupHeader1, 0);
-			Controls.SetChildIndex(detail, 0);
+			Controls.SetChildIndex(Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(xrTableContent)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(xrTableHeader)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
