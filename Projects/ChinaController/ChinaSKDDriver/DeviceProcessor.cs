@@ -403,8 +403,8 @@ namespace StrazhDeviceSDK
 						device.State.StateClass = XStateClass.Failure;
 						device.State.StateClasses = new List<XStateClass> { device.State.StateClass };
 						errorSKDStates.DeviceStates.Add(device.State);
-						Processor.OnStatesChanged(errorSKDStates);
 					}
+					Processor.OnStatesChanged(errorSKDStates);
 				}
 			}
 		}
