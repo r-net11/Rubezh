@@ -69,8 +69,7 @@ namespace StrazhDeviceSDK
 				DeviceDateTime = skdJournalItem.DeviceDateTime,
 				JournalEventNameType = skdJournalItem.JournalEventNameType,
 				DescriptionText = skdJournalItem.Description,
-				ErrorCode = (JournalErrorCode)skdJournalItem.ErrorCode,
-				No = skdJournalItem.No
+				ErrorCode = (JournalErrorCode)skdJournalItem.ErrorCode
 			};
 			var cardNo = 0;
 			if (Int32.TryParse(skdJournalItem.CardNo, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out cardNo))

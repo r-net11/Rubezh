@@ -16,9 +16,6 @@ namespace StrazhAPI.Journal
 		}
 
 		[DataMember]
-		public int No { get; set; }
-
-		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 
 		[DataMember]

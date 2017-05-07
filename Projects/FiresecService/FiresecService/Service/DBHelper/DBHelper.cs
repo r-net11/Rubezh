@@ -39,8 +39,8 @@ namespace FiresecService
 						string detalization = JournalDetalisationItem.ListToString(journalItem.JournalDetalisationItems);
 
 						sqCommand.CommandText = @"Insert Into Journal" +
-							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID,VideoUID,CameraUID,ErrorCode,ControllerUID,No) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19)";
+							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID,VideoUID,CameraUID,ErrorCode,ControllerUID) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18)";
 						sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.UID);
 						sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.SystemDateTime);
 						sqCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceDateTime ?? DBNull.Value);
@@ -59,7 +59,6 @@ namespace FiresecService
 						sqCommand.Parameters.AddWithValue("@p16", journalItem.CameraUID == Guid.Empty ? DBNull.Value : (object)journalItem.CameraUID);
 						sqCommand.Parameters.AddWithValue("@p17", (object)((int)journalItem.ErrorCode));
 						sqCommand.Parameters.AddWithValue("@p18", journalItem.ControllerUID == Guid.Empty ? DBNull.Value : (object)journalItem.ControllerUID);
-						sqCommand.Parameters.AddWithValue("@p19", journalItem.No);
 						sqCommand.ExecuteNonQuery();
 
 						dataContext.Close();
