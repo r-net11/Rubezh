@@ -100,6 +100,10 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingNotTakeInCalculationsOrig
 		INSERT INTO Patches (Id) VALUES ('AddingNotTakeInCalculationsOriginalColumn')
 	END
 GO
+IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'PassJournal' AND COLUMN_NAME = 'IsNeedAdjustmentOriginal')
+	BEGIN
+		ALTER TABLE PassJournal ADD [IsNeedAdjustmentOriginal] bit NOT NULL DEFAULT 0
+	END
 
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropColumnDefaultConstraint')
 BEGIN
