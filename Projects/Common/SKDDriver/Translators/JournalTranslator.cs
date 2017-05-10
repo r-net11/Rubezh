@@ -1,5 +1,4 @@
 ﻿using StrazhAPI;
-using StrazhAPI.Journal;
 using System;
 using System.Data.Linq;
 using System.Linq;
@@ -72,31 +71,6 @@ namespace StrazhDAL
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
 			}
-		}
-
-		public OperationResult<int> GetLastJournalItemNoByController(Guid controllerUid)
-		{
-			var journals = Context.Journals.Where(x => x.ControllerUID == controllerUid)
-				.Where(x => x.Name == (int)JournalEventNameType.Проход_запрещен || x.Name == (int)JournalEventNameType.Проход_разрешен).ToList();
-			var result = 0;
-			if (journals.Count > 0)
-				result = journals.Max(x => x.No);
-			return new OperationResult<int>(result);
-		}
-
-		public OperationResult<int> GetLastAlarmJournalItemNoByController(Guid controllerUid)
-		{
-			var journals = Context.Journals.Where(x => x.ControllerUID == controllerUid)
-				.Where(x => x.Name == (int)JournalEventNameType.Принуждение
-				|| x.Name == (int)JournalEventNameType.Взлом
-				|| x.Name == (int)JournalEventNameType.Дверь_не_закрыта_начало
-				|| x.Name == (int)JournalEventNameType.Повторный_проход
-				|| x.Name == (int)JournalEventNameType.Вскрытие_контроллера_начало
-				|| x.Name == (int)JournalEventNameType.Местная_тревога_начало).ToList();
-			var result = 0;
-			if (journals.Count > 0)
-				result = journals.Max(x => x.No);
-			return new OperationResult<int>(result);
 		}
 
 		public void Dispose()

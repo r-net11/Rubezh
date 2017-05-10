@@ -20,7 +20,6 @@
       <Column Name="CameraUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="ErrorCode" Type="System.Int32" DbType="int" CanBeNull="true" />
       <Column Name="ControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Member="No" Type="System.Int32" CanBeNull="false" />
     </Type>
   </Table>
   <Function Name="dbo.GetLastJournalItemProducedByController" Method="GetLastJournalItemProducedByController">
