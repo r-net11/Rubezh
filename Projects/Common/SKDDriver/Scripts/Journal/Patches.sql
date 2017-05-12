@@ -24,11 +24,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('ControllerUID')
 END
 GO
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Journal' AND COLUMN_NAME = 'No')
-	BEGIN
-		ALTER TABLE [Journal] DROP COLUMN [No]
-	END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GetLastJournalItemProducedByController')
 BEGIN
 	exec [dbo].[sp_executesql] @statement = N'
