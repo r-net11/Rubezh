@@ -104,7 +104,7 @@ IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pas
 	BEGIN
 		ALTER TABLE PassJournal ADD [IsNeedAdjustmentOriginal] bit NOT NULL DEFAULT 0
 	END
-
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropColumnDefaultConstraint')
 BEGIN
 	exec [dbo].[sp_executesql] @statement = N'
