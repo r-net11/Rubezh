@@ -151,6 +151,18 @@ namespace StrazhDeviceSDK
 			journalItem.szReaderID = nativeAccess.szReaderID;
 			journalItem.ErrorCode = (ErrorCode)nativeAccess.nErrorCode;
 			journalItem.No = nativeAccess.nRecNo;
+
+			switch (nativeAccess.szReaderID)
+			{
+				case "1":
+				case "3":
+					journalItem.emEventType = NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_ENTRY;
+					break;
+				case "2":
+				case "4":
+					journalItem.emEventType = NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_EXIT;
+					break;
+			}
 			return journalItem;
 		}
 	}
