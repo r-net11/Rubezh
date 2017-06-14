@@ -97,6 +97,9 @@
     <None Include="Service References\RviIntegrationServiceReference\RviIntegratorClient.RviIntegrationServiceReference.AlarmRulesOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviIntegratorClient.RviIntegrationServiceReference.AlarmRuleStopExecutionOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\RviIntegrationServiceReference\RviIntegratorClient.RviIntegrationServiceReference.AlarmSetChannelOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -167,7 +170,7 @@
     <None Include="Service References\RviIntegrationServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RviIntegrationServiceReference\service21.xsd">
+    <None Include="Service References\RviIntegrationServiceReference\service3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RviIntegrationVideoStreamingServiceReference\Message1.xsd">

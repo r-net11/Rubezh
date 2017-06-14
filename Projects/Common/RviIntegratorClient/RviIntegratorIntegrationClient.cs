@@ -341,7 +341,68 @@ namespace RviIntegratorClient
 			}
 		}
 
-		public bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out System.Net.IPEndPoint ipEndPoint, out int vendorId)
+        /// <summary>
+        /// Прерывает работу тревожного правила
+        /// </summary>
+        /// <param name="systemConfiguration"></param>
+        /// <param name="ruleName"></param>
+        public void AlarmRuleStopExecution(SystemConfiguration systemConfiguration, string ruleName)
+        {
+            const string integrationName = "RviИнтегратор.AlarmRuleStopExecution";
+            using (var client = CreateIntegrationClient(systemConfiguration))
+            {
+                var sessionUID = Guid.NewGuid();
+
+                var sessionInitialiazationIn = new SessionInitialiazationIn();
+                sessionInitialiazationIn.Header = new HeaderRequest()
+                {
+                    Request = Guid.NewGuid(),
+                    Session = sessionUID
+                };
+                sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+                sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+                var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+                var alarmRulesIn = new AlarmRulesIn();
+                alarmRulesIn.Header = new HeaderRequest()
+                {
+                    Request = Guid.NewGuid(),
+                    Session = sessionUID
+                };
+                var alarmRulesOut = client.GetAlarmRules(alarmRulesIn);
+                if (alarmRulesOut != null && alarmRulesOut.AlarmRules != null)
+                {
+                    var alarmRule = alarmRulesOut.AlarmRules.FirstOrDefault(x => x.Name == ruleName);
+                    if (alarmRule != null)
+                    {
+                        var alarmRuleStopExecutionIn = new AlarmRuleStopExecutionIn();
+                        alarmRuleStopExecutionIn.Header = new HeaderRequest()
+                        {
+                            Request = Guid.NewGuid(),
+                            Session = sessionUID
+                        };
+                        alarmRuleStopExecutionIn.AlarmRuleGuid = alarmRule.Guid;
+
+                        Logger.Info(string.Format("Вызов {0}", integrationName));
+                        var alarmRuleStopExecutionOut = client.AlarmRuleStopExecution(alarmRuleStopExecutionIn);
+                        if (alarmRuleStopExecutionOut.Header.HeaderResponseMessage.Code != 0)
+                        {
+                            Logger.Error(string.Format("Ошибка при вызове {0}: {1}", integrationName, alarmRuleStopExecutionOut.Header.HeaderResponseMessage.Information));
+                        }
+                    }
+                }
+
+                var sessionCloseIn = new SessionCloseIn();
+                sessionCloseIn.Header = new HeaderRequest()
+                {
+                    Request = Guid.NewGuid(),
+                    Session = sessionUID
+                };
+                var sessionCloseOut = client.SessionClose(sessionCloseIn);
+            }
+        }
+
+        public bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out System.Net.IPEndPoint ipEndPoint, out int vendorId)
 		{
 			ipEndPoint = null;
 			vendorId = -1;

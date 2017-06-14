@@ -21,6 +21,13 @@ namespace RviCommonClient
 
 		void AlarmRuleExecute(SystemConfiguration systemConfiguration, string ruleName);
 
+        /// <summary>
+        /// Прерывает работу тревожного правила
+        /// </summary>
+        /// <param name="systemConfiguration"></param>
+        /// <param name="ruleName"></param>
+        void AlarmRuleStopExecution(SystemConfiguration systemConfiguration, string ruleName);
+
 		bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out IPEndPoint ipEndPoint, out int vendorId);
 	}
 }

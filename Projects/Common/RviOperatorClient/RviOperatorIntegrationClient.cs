@@ -321,7 +321,17 @@ namespace RviOperatorClient
 			}
 		}
 
-		public bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out System.Net.IPEndPoint ipEndPoint, out int vendorId)
+	    /// <summary>
+	    /// Прерывает работу тревожного правила
+	    /// </summary>
+	    /// <param name="systemConfiguration"></param>
+	    /// <param name="ruleName"></param>
+	    public void AlarmRuleStopExecution(SystemConfiguration systemConfiguration, string ruleName)
+	    {
+            throw new NotImplementedException();
+	    }
+
+	    public bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out System.Net.IPEndPoint ipEndPoint, out int vendorId)
 		{
 			ipEndPoint = null;
 			vendorId = -1;
