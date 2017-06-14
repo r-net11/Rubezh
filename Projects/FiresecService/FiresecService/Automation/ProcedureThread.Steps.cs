@@ -630,6 +630,17 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
 		}
 
+        /// <summary>
+        /// Остановить выполнение тревожного правила
+        /// </summary>
+        /// <param name="procedureStep"></param>
+        public void RviAlarmStop(ProcedureStep procedureStep)
+        {
+            var rviAlarmStopArguments = procedureStep.RviAlarmStopArguments;
+            var name = GetValue<string>(rviAlarmStopArguments.NameArgument);
+            RviClient.RviClientHelper.AlarmRuleStopExecution(ConfigurationCashHelper.SystemConfiguration, name);
+        }
+
 		private void ControlSKDDevice(ProcedureStep procedureStep)
 		{
 			var deviceUid = GetValue<Guid>(procedureStep.ControlSKDDeviceArguments.SKDDeviceArgument);

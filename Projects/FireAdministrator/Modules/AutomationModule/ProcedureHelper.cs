@@ -368,7 +368,8 @@ namespace AutomationModule
 			switch (procedureStepType)
 			{
 				case ProcedureStepType.RviAlarm:
-				case ProcedureStepType.StopRecord:
+                case ProcedureStepType.RviAlarmStop:
+                case ProcedureStepType.StopRecord:
 				case ProcedureStepType.StartRecord:
 				case ProcedureStepType.Ptz:
 				case ProcedureStepType.ControlSKDZone:

@@ -52,6 +52,7 @@ namespace StrazhAPI.Automation
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
+            RviAlarmStopArguments = new RviAlarmStopArguments();
 			ExportReportArguments = new ExportReportArguments();
 			GetDateTimeNowArguments = new GetDateTimeNowArguments();
 			ExecuteFireSecScriptArguments = new ExecuteFireSecScriptArguments();
@@ -193,6 +194,12 @@ namespace StrazhAPI.Automation
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
+
+        /// <summary>
+        /// Аргументы вызова процедуры остановки выполнения тревожного правила
+        /// </summary>
+        [DataMember]
+        public RviAlarmStopArguments RviAlarmStopArguments { get; set; }
 
 		[DataMember]
 		public ExportReportArguments ExportReportArguments { get; set; }

@@ -69,6 +69,7 @@ namespace FireAdministrator
 					ProcedureStepType.StartRecord,
 					ProcedureStepType.Ptz,
 					ProcedureStepType.RviAlarm,
+					ProcedureStepType.RviAlarmStop,
 					ProcedureStepType.GenerateGuid,
 					ProcedureStepType.Pause
 				};
@@ -85,7 +86,8 @@ namespace FireAdministrator
 					{
 						ProcedureStepType.StartRecord,
 						ProcedureStepType.Ptz,
-						ProcedureStepType.RviAlarm
+						ProcedureStepType.RviAlarm,
+						ProcedureStepType.RviAlarmStop
 					}));
 				
 				return;
@@ -119,6 +121,7 @@ namespace FireAdministrator
 					ProcedureStepType.StartRecord,
 					ProcedureStepType.Ptz,
 					ProcedureStepType.RviAlarm,
+					ProcedureStepType.RviAlarmStop,
 					ProcedureStepType.GenerateGuid,
 					ProcedureStepType.Pause
 				};
@@ -136,7 +139,8 @@ namespace FireAdministrator
 					{
 						ProcedureStepType.StartRecord,
 						ProcedureStepType.Ptz,
-						ProcedureStepType.RviAlarm
+						ProcedureStepType.RviAlarm,
+						ProcedureStepType.RviAlarmStop
 					}));
 				return;
 			}

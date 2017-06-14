@@ -74,6 +74,16 @@ namespace RviClient
 			GetRviClient(systemConfiguration.RviSettings.VideoIntegrationProvider).AlarmRuleExecute(systemConfiguration, ruleName);
 		}
 
+        /// <summary>
+        /// Остановить выполнение тревожного правила
+        /// </summary>
+        /// <param name="systemConfiguration"></param>
+        /// <param name="ruleName"></param>
+        public static void AlarmRuleStopExecution(SystemConfiguration systemConfiguration, string ruleName)
+        {
+            GetRviClient(systemConfiguration.RviSettings.VideoIntegrationProvider).AlarmRuleStopExecution(systemConfiguration, ruleName);
+        }
+
 		public static bool PrepareToTranslation(SystemConfiguration systemConfiguration, Camera camera, out IPEndPoint ipEndPoint, out int vendorId)
 		{
 			return GetRviClient(systemConfiguration.RviSettings.VideoIntegrationProvider).PrepareToTranslation(systemConfiguration, camera, out ipEndPoint, out vendorId);

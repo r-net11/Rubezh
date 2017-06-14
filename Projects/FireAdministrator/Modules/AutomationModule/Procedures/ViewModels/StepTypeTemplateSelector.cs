@@ -47,7 +47,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StartRecordTemplate { get; set; }
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
-		public DataTemplate ExportReportStepTemplate { get; set; }
+        public DataTemplate RviAlarmStopTemplate { get; set; }
+        public DataTemplate ExportReportStepTemplate { get; set; }
 		public DataTemplate GetDateTimeNowTemplate { get; set; }
 		public DataTemplate GetSkdDevicePropertyTemplate { get; set; }
 		public DataTemplate GetDoorPropertyTemplate { get; set; }
@@ -140,7 +141,9 @@ namespace AutomationModule.ViewModels
 				return StopRecordTemplate;
 			if (item is RviAlarmStepViewModel)
 				return RviAlarmTemplate;
-			if (item is ExportReportStepViewModel)
+            if (item is RviAlarmStopStepViewModel)
+                return RviAlarmStopTemplate;
+            if (item is ExportReportStepViewModel)
 				return ExportReportStepTemplate;
 			if (item is GetDateTimeNowStepViewModel)
 				return GetDateTimeNowTemplate;

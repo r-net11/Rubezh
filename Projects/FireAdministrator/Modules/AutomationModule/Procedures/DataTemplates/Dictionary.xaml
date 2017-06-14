@@ -264,7 +264,11 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="getDateTimeNowTemplate">
+  <DataTemplate x:Key="rviAlarmStopTemplate">
+    <Views:RviAlarmStopStepView />
+  </DataTemplate>
+
+  <DataTemplate x:Key="getDateTimeNowTemplate">
 		<Views:GetDateTimeNowStepView />
 	</DataTemplate>
 
@@ -326,6 +330,7 @@
 		RandomTemplate="{StaticResource randomTemplate}"
 		RunProgramTemplate="{StaticResource RunProgramTemplate}"
 		RviAlarmTemplate="{StaticResource rviAlarmTemplate}"
+		RviAlarmStopTemplate="{StaticResource rviAlarmStopTemplate}"
 		SendEmailTemplate="{StaticResource sendEmailTemplate}"
 		SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
 		SetValueTemplate="{StaticResource setValueTemplate}"

@@ -243,6 +243,8 @@ namespace AutomationModule.ViewModels
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Ptz));
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarm))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarm));
+            if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarmStop))
+                stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarmStop));
 
             return new StepTypeViewModel(CommonViewModels.StepTypeSelection_VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}

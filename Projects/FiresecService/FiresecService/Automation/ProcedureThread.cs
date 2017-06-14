@@ -369,6 +369,11 @@ namespace FiresecService
 					RviAlarm(procedureStep);
 					break;
 
+                // Остановить выполнение тревожного правила в RVi Оператор
+                case ProcedureStepType.RviAlarmStop:
+                    RviAlarmStop(procedureStep);
+                    break;
+
 				case ProcedureStepType.ExportReport:
 					ExportReport(procedureStep);
 					break;

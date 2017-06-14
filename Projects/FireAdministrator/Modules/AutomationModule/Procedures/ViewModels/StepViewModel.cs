@@ -164,6 +164,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.RviAlarm:
 					return new RviAlarmStepViewModel(this);
 
+                case ProcedureStepType.RviAlarmStop:
+                    return new RviAlarmStopStepViewModel(this);
+
 				case ProcedureStepType.GetDateTimeNow:
 					return new GetDateTimeNowStepViewModel(this);
 

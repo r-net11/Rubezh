@@ -213,6 +213,7 @@
     <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RviAlarmStopArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendOPCCommandArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetJournalItemGuidArguments.cs" />

@@ -137,9 +137,11 @@
       <DependentUpon>GuardZonesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
-      <DependentUpon>StringDetailsView.xaml</DependentUpon>    </Compile>
+      <DependentUpon>StringDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\ScriptListView.xaml.cs">
-      <DependentUpon>ScriptListView.xaml</DependentUpon>    </Compile>
+      <DependentUpon>ScriptListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Steps\ViewModels\PauseStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RviAlarmStopStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendOPCCommandStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
@@ -318,6 +321,9 @@
     </Compile>
     <Compile Include="Steps\Views\PtzStepView.xaml.cs">
       <DependentUpon>PtzStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RviAlarmStopStepView.xaml.cs">
+      <DependentUpon>RviAlarmStopStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SendOPCCommandStepView.xaml.cs">
       <DependentUpon>SendOPCCommandStepView.xaml</DependentUpon>
@@ -657,6 +663,10 @@
     <Page Include="Steps\Views\PtzStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RviAlarmStopStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\SendOPCCommandStepView.xaml">
       <SubType>Designer</SubType>

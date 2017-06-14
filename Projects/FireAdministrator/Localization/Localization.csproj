@@ -562,6 +562,7 @@
     <EmbeddedResource Include="Automation\ViewModels\CommonViewModels.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViewModels.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Automation\ViewModels\StepCommonViewModel.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

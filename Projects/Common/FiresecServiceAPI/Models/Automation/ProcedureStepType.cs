@@ -176,6 +176,9 @@ namespace StrazhAPI.Automation
 		SendOPCScript,
 
 		[Description("Оперативное управление охранной зоной")]
-		GuardZoneControl
+		GuardZoneControl,
+
+		[Description("Отменить тревогу в RVI Оператор")]
+		RviAlarmStop
 	}
 }
