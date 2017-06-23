@@ -149,7 +149,7 @@ namespace StrazhDeviceSDK
 					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
 					{
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardType, skdJournalItem.emCardType.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, skdJournalItem.CardNo));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, journalItem.CardNo.ToString()));
 					}
 					if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
 					{
@@ -177,7 +177,7 @@ namespace StrazhDeviceSDK
 
 					if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
 					{
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, skdJournalItem.CardNo));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem(CommonResources.PasscardNumber, journalItem.CardNo.ToString()));
 					}
 					break;
 
