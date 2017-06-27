@@ -69,14 +69,7 @@ namespace FiresecService
 
 		private static void OnNewJournalItem(JournalItem journalItem)
 		{
-			var cardNo = 0;
-			var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == CommonResources.PasscardNumber);
-			if (journalDetalisationItem != null)
-			{
-				var cardNoString = journalDetalisationItem.Value;
-				Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-				//journalItem.JournalDetalisationItems.Remove(journalDetalisationItem);
-			}
+			var cardNo = journalItem.CardNo;
 
 			if (cardNo > 0)
 			{
