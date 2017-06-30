@@ -185,7 +185,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanSelectPassCardTemplates
 		{
-			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_PassCards_View); }
+			get { return false && FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_PassCards_View); }
 		}
 
 		public bool CanSelectOrganisations

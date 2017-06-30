@@ -185,11 +185,11 @@ namespace SecurityModule.ViewModels
 												new PermissionViewModel(PermissionType.Oper_SKD_AccessTemplates_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_AccessTemplates_Etit),
 											}),
-											new PermissionViewModel(CommonViewModels.Permissions_PassTemplate, new List<PermissionViewModel>
-											{
-												new PermissionViewModel(PermissionType.Oper_SKD_PassCards_View),
-												new PermissionViewModel(PermissionType.Oper_SKD_PassCards_Etit),
-											}),
+											//new PermissionViewModel(CommonViewModels.Permissions_PassTemplate, new List<PermissionViewModel>
+											//{
+											//	new PermissionViewModel(PermissionType.Oper_SKD_PassCards_View),
+											//	new PermissionViewModel(PermissionType.Oper_SKD_PassCards_Etit),
+											//}),
 											new PermissionViewModel(CommonViewModels.Permissions_Organisations, new List<PermissionViewModel>
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_View),
