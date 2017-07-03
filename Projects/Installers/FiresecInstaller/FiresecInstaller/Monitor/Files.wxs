@@ -78,7 +78,7 @@
                 <File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
                 <File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
                 <File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
-                <File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />
+              <!--<File Id="Monitor.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Monitor.TargetDir)" />-->
 
                 <!-- Конвертер Description для локализации-->
                 <File Id="Monitor.Localization.Converters.dll" Name="Localization.Converters.dll" Source="$(var.Monitor.TargetDir)" />

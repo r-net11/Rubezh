@@ -45,7 +45,7 @@
 				<File Id="Administrator.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Administrator.TargetDir)" />
 
 				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Administrator.TargetDir)" />
+        <!--<File Id="Administrator.Integration.OPC.dll" Name="Integration.OPC.dll" Source="$(var.Administrator.TargetDir)" />-->
 
 				<File Id="Administrator.ReportSystem.Api.dll" Name="ReportSystem.Api.dll" Source="$(var.Administrator.TargetDir)" />
 

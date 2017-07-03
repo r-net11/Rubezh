@@ -93,7 +93,7 @@ namespace StrazhAPI
 				"JournalModule.dll",
 				"SoundsModule.dll",
 				"SettingsModule.dll",
-				"Integration.OPC.dll"
+				//"Integration.OPC.dll" закоментировал для релиза 1.0.3
 			};
 		}
 
