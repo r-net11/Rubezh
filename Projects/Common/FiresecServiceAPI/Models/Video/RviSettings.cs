@@ -39,13 +39,13 @@ namespace StrazhAPI.Models
 		/// <summary>
 		/// RVi Оператор
 		/// </summary>
-		[Description("RVi Оператор")]
+		[Description("RVi Operator 1.5")]
 		RviOperator,
 
 		/// <summary>
 		/// RVi Интегратор
 		/// </summary>
-		[Description("RVi Интегратор")]
+		[Description("RVi Operator 2")]
 		RviIntegrator
 	}
 }
