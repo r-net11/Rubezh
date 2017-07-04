@@ -35,6 +35,7 @@
 							ImageSource="Edit"
 							ToolTip="{Binding EditCommandToolTip}" />
 						<ToolBarButton
+							Visibility="Collapsed"
 							Command="{Binding PrintTemplatesCommand}"
 							ImageSource="Print"
 							ToolTip="Печать пропусков"/>

@@ -134,6 +134,7 @@
 								ImageSource="DropAllApb"
 								ToolTip="{x:Static langCommon:CommonResources.ResetAntiPassBack}" />
 							<ToolBarButton
+								Visibility="Collapsed"
 								Command="{Binding SelectedCard.OpenPrintPreviewWindowCommand}"
 								ImageSource="Preview"
 								ToolTip="Предварительный просмотр пропуска"/>
