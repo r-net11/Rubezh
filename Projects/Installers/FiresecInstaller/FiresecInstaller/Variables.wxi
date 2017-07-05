@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 	<?define ProductName="A.C.Tech" ?>
-	<?define ProductVersion="1.0.3.6" ?>
+	<?define ProductVersion="1.0.3.7" ?>
 	<?define ProductCode="D77AE01A-F4D9-4951-89D0-F473A7A463E0" ?>
 	<?define UpgradeCode="469AE7A5-E729-49E8-89B7-DF3AAD6E7D2F" ?>
 	<?define Manufacturer="Компания СТРАЖ" ?>
