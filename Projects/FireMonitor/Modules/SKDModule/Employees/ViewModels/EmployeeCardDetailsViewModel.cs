@@ -370,7 +370,7 @@ namespace SKDModule.ViewModels
 					{
 						var cardNoString = journalDetalisationItem.Value;
 						int cardNo;
-						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
+						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.Integer, null, out cardNo);
 						NumberFromControlReader = (uint)cardNo;
 					}
 				}
