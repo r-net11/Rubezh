@@ -282,6 +282,10 @@
 					</ComboBox>
 				</Grid>
 			</StackPanel>
+				<ToolBarButton
+							Command="{Binding AddCSVCommand}"
+							ImageSource="Kartoteka2W"
+							ToolTip="Добавить сотрудников из файла CSV" />
 		</StackPanel>
 		<TabControl Grid.Row="1">
 			<!-- Вкладка "Сотрудники/Посетители" -->

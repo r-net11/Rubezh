@@ -23,4 +23,8 @@
 		<Views:PositionsFilterView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ImportEmployeesFromCSVViewModel}">
+		<Views:ImportEmployeesFromCSVView />
+	</DataTemplate>
+
 </ResourceDictionary>

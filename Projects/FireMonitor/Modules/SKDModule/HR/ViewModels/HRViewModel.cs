@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 		CardFilter CardFilter;
 		AccessTemplateFilter AccessTemplateFilter;
 		PassCardTemplateFilter PassCardTemplateFilter;
+		ImportEmployeesFromCSVViewModel ImportEmployeesFromCSVViewModel;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
@@ -37,6 +38,8 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
+			AddCSVCommand = new RelayCommand(OnAddCSV);
+
 			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 
@@ -51,6 +54,7 @@ namespace SKDModule.ViewModels
 			PositionFilter = new PositionFilter();
 			CardFilter = new CardFilter();
 			IsEmployeesSelected = true;
+			ImportEmployeesFromCSVViewModel = new ImportEmployeesFromCSVViewModel();
 
 			PersonTypes = new ObservableCollection<PersonType>();
 			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
@@ -288,6 +292,13 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => CanSelectAccessTemplates);
 			OnPropertyChanged(() => CanSelectPassCardTemplates);
 			OnPropertyChanged(() => CanSelectOrganisations);
+		}
+
+		public RelayCommand AddCSVCommand { get; set; }
+
+		void OnAddCSV()
+		{
+			DialogService.ShowModalWindow(ImportEmployeesFromCSVViewModel);
 		}
 	}
 }

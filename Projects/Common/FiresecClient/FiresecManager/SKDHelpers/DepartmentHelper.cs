@@ -13,6 +13,16 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool Save(Department department, bool isNew, bool ignoreErrors)
+		{
+			var result = FiresecManager.FiresecService.SaveDepartment(department, isNew);
+			if (!ignoreErrors)
+			{
+				return Common.ShowErrorIfExists(result);
+			}
+			return true;
+		}
+
 		public static bool MarkDeleted(ShortDepartment item)
 		{
 			var result = FiresecManager.FiresecService.MarkDeletedDepartment(item);

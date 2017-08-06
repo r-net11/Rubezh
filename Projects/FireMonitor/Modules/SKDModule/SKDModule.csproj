@@ -262,6 +262,10 @@
     <Compile Include="Employees\Views\DialogWindows\ReportPreviewControlWrapper.xaml.cs">
       <DependentUpon>ReportPreviewControlWrapper.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HR\ViewModels\ImportEmployeesFromCSVViewModel.cs" />
+    <Compile Include="HR\Views\ImportEmployeesFromCSVView.xaml.cs">
+      <DependentUpon>ImportEmployeesFromCSVView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeTrack\Converters\DayIntervalPartTransitionTypeToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\DayIntervalPartTypeToBoolConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
@@ -933,6 +937,10 @@
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Common\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HR\Views\ImportEmployeesFromCSVView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
