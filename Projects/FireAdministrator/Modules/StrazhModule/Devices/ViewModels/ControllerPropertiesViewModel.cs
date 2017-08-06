@@ -152,10 +152,13 @@ namespace StrazhModule.ViewModels
 				else
 				{
 					var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
-					for (int i = 0; i < 10 && (deviceInfoResult.HasError || deviceInfoResult.Result.SoftwareBuildDate == new DateTime() || deviceInfoResult.Result.CurrentDateTime == new DateTime()); i++)
+					using (new WaitWrapper())
 					{
-						Thread.Sleep(1000);
-						deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+						for (int i = 0; i < 10 && (deviceInfoResult.HasError || deviceInfoResult.Result.SoftwareBuildDate == new DateTime() || deviceInfoResult.Result.CurrentDateTime == new DateTime()); i++)
+						{
+							Thread.Sleep(1000);
+							deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+						}
 					}
 					if (!deviceInfoResult.HasError)
 					{
@@ -168,8 +171,12 @@ namespace StrazhModule.ViewModels
 							MessageBoxService.ShowWarning(CommonViewModels.UpdateToObsoleteFirmware);
 							return;
 						}
+						MessageBoxService.ShowWarning(CommonViewModels.ControllerFirmwareUpdated);
 					}
-					MessageBoxService.ShowWarning(CommonViewModels.ControllerFirmwareUpdated);
+					else
+					{
+						MessageBoxService.ShowWarning("При обновлении прошивки произошла ошибка: " + deviceInfoResult.Error);
+					}
 				}
 			}
 		}
