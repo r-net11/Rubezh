@@ -16,13 +16,13 @@ namespace SKDModule.ViewModels
 {
 	public class ImportEmployeesFromCSVViewModel : DialogViewModel
 	{
-
 		public ImportEmployeesFromCSVViewModel()
 		{
 			SelectFileCommand = new RelayCommand(SelectFile);
 			ImportCommand = new RelayCommand(Import, CanImport);
 			AvailableOrganisations = new ObservableCollection<Organisation>(OrganisationHelper.Get(new OrganisationFilter()));
 			Title = "Добавление сотрудников из файла";
+			StatusText = "Выберите файл";
 		}
 
 		public RelayCommand SelectFileCommand { get; set; }
@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 
 		public bool ShowErrors { get; set; }
 
-		public string StatusText { get; set; } = "Выберите файл";
+		public string StatusText { get; set; }
 		DataTable ReadCSVFile(string pathToCsvFile)
 		{
 			DataTable dt = new DataTable("Employees");
